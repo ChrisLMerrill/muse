@@ -33,7 +33,7 @@ public class Launcher
             }
         catch (Exception e)
             {
-            new Help().run();
+            muse_parser.parse(new String[0]).run();
             }
         }
 
