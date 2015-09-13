@@ -1,0 +1,39 @@
+package org.musetest.core.execution;
+
+import org.musetest.core.*;
+import org.musetest.core.context.*;
+
+/**
+ * @author Christopher L Merrill (see LICENSE.txt for license details)
+ */
+public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
+    {
+    public ThreadedTestRunner(MuseProject project, MuseTest test, TestExecutionContext context)
+        {
+        super(project, test, context);
+        if (project == null)
+            _loader = getClass().getClassLoader();
+        else
+            _loader = project.getClassloader();
+        }
+
+    @Override
+    public void runTest()
+        {
+        Thread t = new Thread(this);
+        if (_loader != null)
+            t.setContextClassLoader(_loader);
+        t.start();
+        }
+
+
+    @Override
+    public void run()
+        {
+        super.runTest();
+        }
+
+    ClassLoader _loader;
+    }
+
+

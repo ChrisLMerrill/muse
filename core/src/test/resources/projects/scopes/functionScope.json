@@ -1,0 +1,117 @@
+{
+  "type" : "steppedtest",
+  "defaultVariables" : { },
+  "step" : {
+    "type" : "scope",
+    "metadata" : {
+      "description" : "test of variable scope when calling a function"
+    },
+    "children" : [ {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "X",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "type" : "null"
+            }
+          }
+        }
+      }
+    }, {
+      "type" : "callfunction",
+      "sources" : {
+        "id" : {
+          "value" : "func-setXto2",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "X",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "type" : "null"
+            }
+          }
+        }
+      }
+    }, {
+      "type" : "store-variable",
+      "sources" : {
+        "name" : {
+          "value" : "X",
+          "type" : "string"
+        },
+        "value" : {
+          "value" : 5,
+          "type" : "integer"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "X",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "value" : 5,
+              "type" : "integer"
+            }
+          }
+        }
+      }
+    }, {
+      "type" : "callfunction",
+      "sources" : {
+        "id" : {
+          "value" : "func-setXto2",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "X",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "value" : 5,
+              "type" : "integer"
+            }
+          }
+        }
+      }
+    } ]
+  }
+}

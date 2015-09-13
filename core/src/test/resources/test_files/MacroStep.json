@@ -1,0 +1,11 @@
+{
+"type" : "macro",
+"step" :
+  { "type":"compound",
+    "children":
+      [
+      { "type" : "log-message", "sources":{"message" : {"type":"string","value":"message from a macro step"}}},
+      { "type":"store-variable", "sources":{"name": {"type":"string", "value":"var1"}, "value" : {"type":"integer", "value":7}} }
+      ]
+  }
+}

@@ -1,0 +1,13 @@
+apply plugin: 'application'
+
+dependencies
+    {
+    compile project(':core')
+    compile project(':selenium')
+    compile project(':seleniumide')
+
+    compile 'io.airlift:airline:0.7+'  // command-line parsing
+    }
+
+mainClassName = 'org.musetest.commandline.Launcher'
+applicationName = 'muse'

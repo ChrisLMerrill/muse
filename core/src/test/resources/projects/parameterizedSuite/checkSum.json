@@ -1,0 +1,74 @@
+{
+  "type" : "steppedtest",
+  "defaultVariables" : {
+    "x1" : {
+      "value" : 11,
+      "type" : "integer"
+    },
+    "x2" : {
+      "value" : 24,
+      "type" : "integer"
+    },
+    "sum" : {
+      "value" : 35,
+      "type" : "integer"
+    }
+  },
+  "step" : {
+    "type" : "compound",
+    "children" : [ {
+      "type" : "store-variable",
+      "sources" : {
+        "name" : {
+          "value" : "total",
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "variable",
+          "source" : {
+            "value" : "x1",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "increment-variable",
+      "sources" : {
+        "amount" : {
+          "type" : "variable",
+          "source" : {
+            "value" : "x2",
+            "type" : "string"
+          }
+        },
+        "name" : {
+          "value" : "total",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "total",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "sum",
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    } ]
+  }
+}

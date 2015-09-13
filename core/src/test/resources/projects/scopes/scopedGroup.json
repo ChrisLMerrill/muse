@@ -1,0 +1,114 @@
+{
+  "type" : "steppedtest",
+  "step" : {
+    "type" : "scope",
+    "metadata" : {
+      "description" : "test of scoped steps and variable resolution"
+    },
+    "children" : [ {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "counter",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "value" : 1,
+              "type" : "integer"
+            }
+          }
+        }
+      }
+    }, {
+      "type" : "store-variable",
+      "sources" : {
+        "name" : {
+          "value" : "counter",
+          "type" : "string"
+        },
+        "value" : {
+          "value" : 2,
+          "type" : "integer"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "counter",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "value" : 2,
+              "type" : "integer"
+            }
+          }
+        }
+      }
+    }, {
+      "type" : "compound",
+      "children" : [ {
+        "type" : "verify",
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "variable",
+                "source" : {
+                  "value" : "counter",
+                  "type" : "string"
+                }
+              },
+              "right" : {
+                "value" : 2,
+                "type" : "integer"
+              }
+            }
+          }
+        }
+      } ]
+    }, {
+      "type" : "scope",
+      "children" : [ {
+        "type" : "verify",
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "variable",
+                "source" : {
+                  "value" : "counter",
+                  "type" : "string"
+                }
+              },
+              "right" : {
+                "value" : 1,
+                "type" : "integer"
+              }
+            }
+          }
+        }
+      } ]
+    } ]
+  },
+  "defaultVariables" : {
+    "counter" : {
+      "value" : 1,
+      "type" : "integer"
+    }
+  }
+}

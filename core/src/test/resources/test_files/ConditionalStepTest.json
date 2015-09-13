@@ -1,0 +1,9 @@
+{ "type": "steppedtest",
+  "step" :  { "type":"compound",
+    "children":
+          [ { "type": "if", "sources": {"condition":{ "type" : "equals", "sourceMap":{"left": {"type":"string","value":"abc"}, "right" : {"type":"string","value":"xyz"} } } },
+              "children":
+                  [ { "type": "store-variable", "sources": {"name":{"type":"string","value":"Y"}, "value":{"type":"integer","value":456} } }] }
+          ]
+  }
+}

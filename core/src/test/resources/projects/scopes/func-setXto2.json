@@ -1,0 +1,27 @@
+{
+  "type" : "function",
+  "step" : {
+    "type" : "compound",
+    "children" : [ {
+      "type" : "log-message",
+      "sources" : {
+        "message" : {
+          "value" : "func-setXto2 is running",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "store-variable",
+      "sources" : {
+        "name" : {
+          "value" : "X",
+          "type" : "string"
+        },
+        "value" : {
+          "value" : 2,
+          "type" : "integer"
+        }
+      }
+    } ]
+  }
+}

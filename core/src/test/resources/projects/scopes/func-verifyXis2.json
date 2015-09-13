@@ -1,0 +1,35 @@
+{
+  "type" : "function",
+  "step" : {
+    "type" : "compound",
+    "children" : [ {
+      "type" : "log-message",
+      "sources" : {
+        "message" : {
+          "value" : "func-verifyXis2 is running",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "X",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "value" : 2,
+              "type" : "integer"
+            }
+          }
+        }
+      }
+    } ]
+  }
+}

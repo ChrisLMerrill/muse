@@ -1,0 +1,15 @@
+apply plugin: 'java'
+
+repositories
+    {
+    mavenLocal()
+    mavenCentral()
+    }
+
+dependencies
+    {
+	compile('org.musetest:muse-core:0.1+')
+	compile('org.slf4j:slf4j-api:1.7+')
+
+    testCompile('junit:junit:4+')
+    }

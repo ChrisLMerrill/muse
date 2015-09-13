@@ -1,0 +1,6 @@
+.gradle
+/build
+/commandline/build
+/core/build
+/selenium/build
+/seleniumide/build

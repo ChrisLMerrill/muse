@@ -1,0 +1,9 @@
+{
+  "type":"selenium-capabilities",
+  "capabilities":
+  {
+    "browserName":"firefox",
+    "platform":"LINUX",
+    "version":"7.1"
+  }
+}

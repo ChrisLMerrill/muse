@@ -1,0 +1,10 @@
+include "commandline"
+include "core"
+include "selenium"
+include "seleniumide"
+
+def prefixProjectName(project, prefix)
+  {
+  project.name = prefix + project.name
+  project.children.each { prefixProjectName(it, prefix) }
+  }

@@ -1,0 +1,10 @@
+{
+"type" : "steppedtest",
+  "step" :  { "type":"compound",
+    "children":
+          [
+            { "type" : "callmacro", "sources":{"id" : {"type":"string", "value":"MacroStep"}}},
+            { "type":"verify", "sources":{"condition":{ "type" : "equals", "sourceMap":{"left": {"type":"variable", "name":"var1"}, "right" : {"type":"integer", "value":7} } } } }
+          ]
+  }
+}

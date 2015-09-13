@@ -1,0 +1,11 @@
+{ "type": "steppedtest",
+  "step" : {"type":"compound", "children":[
+            { "type":"store-variable", "sources":{"name":{"type":"string","value":"counter"}, "value":{"type":"integer", "value":0} } },
+            { "type":"while", "sources":{"condition":{ "type" : "lessthan", "sourceMap":{"left": {"type":"variable","source":{"type":"string", "value":"counter"}}, "right" : {"type":"integer", "value":3} } } },
+              "children": [
+                       { "type":"increment-variable", "sources":{"name":{"type":"string","value":"counter"} } },
+                       { "type":"log-message", "sources":{"message":{"type":"string","value":"log this message 3 times"}}}
+                       ]}
+            ]
+      }
+}

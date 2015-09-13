@@ -1,0 +1,10 @@
+{
+"type":"parameterized_test_suite",
+"testId": "checkSum",
+"parameters":
+    [
+    {"x1":2, "x2":5, "sum":7},
+    {"x1":1, "x2":3, "sum":4},
+    {"x1":1, "x2":0, "sum":9}
+    ]
+}

@@ -1,0 +1,5 @@
+{ "type": "steppedtest",
+  "step" :  { "type":"compound",
+    "children": [{ "type": "store-variable", "sources": {"name":{"type":"string", "value":"X"}, "value":{"type":"string", "value":"123"} } }]
+    }
+}

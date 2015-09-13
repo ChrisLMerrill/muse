@@ -1,0 +1,45 @@
+apply plugin: 'distribution'
+
+version 0.1
+
+subprojects
+    {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+
+    version = 0.1
+    group = 'org.musetest'
+    jar.baseName = rootProject.name + "-" + name
+
+    repositories
+        {
+        mavenCentral()
+        }
+
+    dependencies
+        {
+        testCompile 'junit:junit:4+'
+        }
+
+    task copyTestResources(type: Copy) {
+        from "${projectDir}/src/test/resources"
+        into "${buildDir}/classes/test"
+        }
+    processTestResources.dependsOn copyTestResources
+    }
+
+distributions
+    {
+    muse
+        {
+        baseName = 'muse';
+        contents
+            {
+            into 'lib'
+            from { subprojects.jar.outputs }
+            from { subprojects.configurations.runtime }
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            }
+        }
+    }
+

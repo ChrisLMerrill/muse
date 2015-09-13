@@ -1,0 +1,61 @@
+{
+  "type" : "steppedtest",
+  "step" : {
+    "type" : "scope",
+    "metadata" : {
+      "description" : "test of variable scope when calling a function"
+    },
+    "children" : [ {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "X",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "type" : "null"
+            }
+          }
+        }
+      }
+    }, {
+      "type" : "callfunction",
+      "sources" : {
+        "id" : {
+          "value" : "func-verifyXis2",
+          "type" : "string"
+        },
+        "X" : {
+          "value" : 2,
+          "type" : "integer"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "X",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "type" : "null"
+            }
+          }
+        }
+      }
+    } ]
+  },
+  "defaultVariables" : { }
+}

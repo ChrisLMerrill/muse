@@ -1,0 +1,10 @@
+{
+"type":"steppedtest",
+"step": {"type":"compound", "children":
+    [
+    { "type":"store-variable", "sources":{"name":{"type":"string","value":"abc"}, "value":{"type":"integer", "value":3} } },
+    { "type":"multiply-var-by-n", "sources":{"name":{"type":"string","value":"abc"}, "factor":{"type":"integer", "value":7} } },
+    { "type":"verify", "sources":{ "condition":{"type" : "equals", "sourceMap":{"left": {"type":"variable","source":{"type":"string", "value":"abc"}}, "right" : {"type":"integer", "value":21} } } } }
+    ]
+  }
+}

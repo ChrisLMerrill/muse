@@ -1,0 +1,9 @@
+{
+  "type":"selenium-capabilities",
+  "capabilities":
+  {
+    "browserName":"musemock",
+    "platform":"ANY",
+    "version":"1.0"
+  }
+}

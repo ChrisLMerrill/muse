@@ -1,0 +1,7 @@
+{
+  "type" : "webdriver-provider-list",
+  "providers" :
+          [
+            { "type" : "remote-provider", "url" : "http://url/of/driver/service"}
+          ]
+}

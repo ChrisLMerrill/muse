@@ -1,0 +1,86 @@
+package org.musetest.core.step;
+
+import org.musetest.core.*;
+import org.musetest.core.context.*;
+import org.musetest.core.step.descriptor.*;
+import org.musetest.core.steptest.*;
+
+import java.util.*;
+
+/**
+ * @author Christopher L Merrill (see LICENSE.txt for license details)
+ */
+@MuseTypeId("compound")
+@MuseStepName("Group")
+@MuseStepShortDescription("Group of steps")
+@MuseInlineEditString("group")
+@MuseStepIcon("glyph:FontAwesome:BARS")
+@MuseStepTypeGroup("Structure")
+public class BasicCompoundStep extends BaseStep implements CompoundStep
+    {
+    @SuppressWarnings("unused") // called via reflection
+    public BasicCompoundStep(StepConfiguration config, MuseProject project)
+        {
+        super(config);
+        _child_list = config.getChildren();
+        }
+
+    @Override
+    public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError
+        {
+        if (shouldEnter(context))
+            {
+            context.setStepVariable(EXECUTED_MARKER_VAR, true);
+            start(context);
+            return new BasicStepExecutionResult(StepExecutionStatus.INCOMPLETE);
+            }
+        else
+            {
+            finish(context);
+            return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
+            }
+        }
+
+    @Override
+    public StepConfigProvider getStepProvider(StepExecutionContext context, StepConfiguration config) throws StepConfigurationError
+        {
+        // run all the steps in order
+        return new LinearListStepConfigurationProvider(_child_list);
+        }
+
+    /**
+     * Override this to implement entry logic. The default implementation runs the children once.
+     * Subclasses can call this to ensure they only run once.
+     * Alternatively, subclasses may rely on their own implementation (along with the context and configuration)
+     * to run zero or multiple times (i.e. if and while implementations).
+     */
+    protected boolean shouldEnter(StepExecutionContext context) throws StepExecutionError
+        {
+        Boolean entered = (Boolean) context.getStepVariable(EXECUTED_MARKER_VAR);
+        if (entered != null && entered)
+            return false;
+        return true;
+        }
+
+    /**
+     * Subclasses override this to perform an action before the children are executed.
+     */
+    protected void start(StepExecutionContext context) throws StepExecutionError
+        {
+        }
+
+    /**
+     * Subclasses override this to perform an action after the children are executed.
+     */
+    protected void finish(StepExecutionContext context) throws StepExecutionError
+        {
+        }
+
+    private List<StepConfiguration> _child_list = null;
+
+    private final static String EXECUTED_MARKER_VAR = "executed";
+
+    public final static String TYPE_ID = BasicCompoundStep.class.getAnnotation(MuseTypeId.class).value();
+    }
+
+

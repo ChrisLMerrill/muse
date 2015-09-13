@@ -1,0 +1,11 @@
+{
+  "type" : "webdriver-provider-list",
+  "providers" :
+          [
+            { "type" : "muse-mock-provider" },
+            { "type" : "firefoxdriver-provider"},
+            { "type" : "safaridriver-provider"},
+            { "type" : "chromedriver-provider", "pathToExe" : "path-to\\chromedriver.exe"},
+            { "type" : "iexploredriver-provider", "pathToExe" : "path-to\\iexploredriver.exe"}
+          ]
+}
