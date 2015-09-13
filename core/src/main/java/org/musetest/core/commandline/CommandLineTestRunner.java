@@ -1,4 +1,4 @@
-package org.musetest.commandline;
+package org.musetest.core.commandline;
 
 import org.musetest.core.*;
 import org.musetest.core.events.*;

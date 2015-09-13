@@ -1,4 +1,4 @@
-package org.musetest.commandline;
+package org.musetest.core.commandline;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
@@ -95,14 +95,16 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
                 }
             catch (IOException e)
                 {
-                Launcher.LOG.error("Unable to write JUnit test report", e);
+                System.err.println("Unable to write JUnit test report");
+                e.printStackTrace(System.err);
                 }
             if (result.getErrorCount() > 0)
                 return false;
             }
         catch (Exception e)
             {
-            Launcher.LOG.error("Unable to run test suite " + suite.getMetadata().getId(), e);
+            System.err.println("Unable to run test suite " + suite.getMetadata().getId());
+            e.printStackTrace(System.err);
             return false;
             }
         return true;
