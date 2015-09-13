@@ -9,7 +9,7 @@ subprojects
 
     version = 0.1
     group = 'org.musetest'
-    jar.baseName = rootProject.name + "-" + name
+//    jar.baseName = rootProject.name + "-" + name
 
     repositories
         {
