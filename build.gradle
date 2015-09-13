@@ -9,13 +9,14 @@ subprojects
 
     version = 0.1
     group = 'org.musetest'
-//    jar.baseName = rootProject.name + "-" + name
+    //jar.baseName = rootProject.name + "-" + name         // This caused problems with the POM dependencies. Need to investigate and fix?
 
     repositories
         {
         mavenCentral()
         }
 
+    //noinspection GroovyAssignabilityCheck
     dependencies
         {
         testCompile 'junit:junit:4+'

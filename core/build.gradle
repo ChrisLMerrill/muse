@@ -1,3 +1,4 @@
+//noinspection GroovyAssignabilityCheck
 dependencies
     {
     compile 'org.reflections:reflections:0.9.9'   // finding classes at runtime
