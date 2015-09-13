@@ -3,7 +3,6 @@ package org.musetest.commandline;
 import io.airlift.airline.*;
 import org.musetest.core.commandline.*;
 import org.reflections.*;
-import org.slf4j.*;
 
 import javax.imageio.spi.*;
 import java.util.*;
@@ -37,8 +36,6 @@ public class Launcher
             new Help().run();
             }
         }
-
-    final static Logger LOG = LoggerFactory.getLogger(Launcher.class);
 
     static
         {
