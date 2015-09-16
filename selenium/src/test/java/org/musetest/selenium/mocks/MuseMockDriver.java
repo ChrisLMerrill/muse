@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.slf4j.*;
 
 import java.lang.reflect.*;
+import java.net.*;
 import java.util.*;
 
 /**
@@ -85,7 +86,38 @@ public class MuseMockDriver implements WebDriver
     @Override
     public Navigation navigate()
         {
-        return null;
+        return new Navigation()
+            {
+            @Override
+            public void back()
+                {
+
+                }
+
+            @Override
+            public void forward()
+                {
+
+                }
+
+            @Override
+            public void to(String url)
+                {
+                get(url);
+                }
+
+            @Override
+            public void to(URL url)
+                {
+                get(url.toString());
+                }
+
+            @Override
+            public void refresh()
+                {
+
+                }
+            };
         }
 
     @Override
