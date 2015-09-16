@@ -13,7 +13,8 @@ import org.musetest.selenium.values.*;
  */
 @MuseTypeId("page-element")
 @MuseValueSourceName("Element by page/element lookup")
-@MuseValueSourceDescription("<page:{source}>")
+@MuseValueSourceShortDescription("Locates a Selenium WebElement from the page/element specified by the subsource")
+@MuseValueSourceInstanceDescription("<page:{source}>")
 @MuseValueSourceTypeGroup("Element")
 public class PagesElementValueSource extends BrowserValueSource
     {
@@ -21,7 +22,7 @@ public class PagesElementValueSource extends BrowserValueSource
         {
         ValueSourceConfiguration locator_config = config.getSource();
         if (locator_config == null)
-            throw new MuseInstantiationException("XPathElementValueSource requires a source for the xpath.");
+            throw new MuseInstantiationException("PagesElementValueSource requires a sub-source to find the page/element in the project.");
         _locator_source = locator_config.createSource(project);
         }
 

@@ -16,6 +16,8 @@ import java.util.*;
 @MuseTypeId("concatenate")
 @MuseValueSourceName("Concatenate")
 @MuseSourceDescriptorImplementation(StringConcatenationDescriptor.class)
+@MuseValueSourceShortDescription("A concatention of the string value of multiple sub-sources.")
+@MuseValueSourceLongDescription("Returns a string constructed from the sub-source list. For sub-sources that resolve to a non-string value, they will be converted to their string form by calling toString() on the object.")
 public class StringConcatenationSource implements MuseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -42,7 +44,7 @@ public class StringConcatenationSource implements MuseValueSource
         for (MuseValueSource source : _sources)
             builder.append(source.resolveValue(context));
         String result = builder.toString();
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(_project.getValueSourceDescriptors().get(_config).getShortDescription(_config), result));
+        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(_project.getValueSourceDescriptors().get(_config).getInstanceDescription(_config), result));
         return result;
         }
 

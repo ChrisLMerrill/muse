@@ -21,10 +21,10 @@ import java.util.*;
  */
 @MuseTypeId("callmacro")
 @MuseStepName("Macro")
-@MuseStepShortDescription("Call a macro")
 @MuseInlineEditString("call macro {id}")
 @MuseStepIcon("glyph:FontAwesome:EXTERNAL_LINK")
 @MuseStepTypeGroup("Structure")
+@MuseStepLongDescription("The 'id' source is resolved to a string and used to find the macro in the project. The steps within the macro are then executed as children of the call-macro step, within the same variable scope as the parent. This means that steps within the macro have access to the same variables as the caller.")
 public class CallMacroStep extends ScopedGroup
     {
     @SuppressWarnings("unused") // called via reflection

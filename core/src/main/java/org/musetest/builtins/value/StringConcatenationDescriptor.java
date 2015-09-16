@@ -17,7 +17,7 @@ public class StringConcatenationDescriptor extends AnnotatedValueSourceDescripto
         }
 
     @Override
-    public String getShortDescription(ValueSourceConfiguration source)
+    public String getInstanceDescription(ValueSourceConfiguration source)
         {
         StringBuilder builder = new StringBuilder();
         boolean first = true;
@@ -28,7 +28,7 @@ public class StringConcatenationDescriptor extends AnnotatedValueSourceDescripto
             {
             if (!first)
                 builder.append("+");
-            builder.append(_project.getValueSourceDescriptors().get(config).getShortDescription(config));
+            builder.append(_project.getValueSourceDescriptors().get(config).getInstanceDescription(config));
             first = false;
             }
         return builder.toString();

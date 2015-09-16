@@ -13,8 +13,10 @@ import org.musetest.core.values.descriptor.*;
  */
 @MuseTypeId("equals")
 @MuseValueSourceName("Equals (=)")
-@MuseValueSourceDescription("{source(left)} = {source(right)}")
+@MuseValueSourceInstanceDescription("{source(left)} = {source(right)}")
 @MuseValueSourceTypeGroup("Math")
+@MuseValueSourceShortDescription("Compare two sources for equality")
+@MuseValueSourceLongDescription("Compare two sources, return true if equal. Object.equals() is used for the comparison.")
 public class EqualityCondition extends BinaryCondition
     {
     @SuppressWarnings("unused")  // used via reflection

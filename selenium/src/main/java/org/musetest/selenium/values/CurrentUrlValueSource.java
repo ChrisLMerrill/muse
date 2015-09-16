@@ -11,9 +11,11 @@ import org.musetest.core.values.descriptor.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("current-url")
-@MuseValueSourceName("URL of Current Page")
-@MuseValueSourceDescription("<url>")
+@MuseValueSourceName("Page URL")
+@MuseValueSourceInstanceDescription("<url>")
 @MuseValueSourceTypeGroup("Web Page")
+@MuseValueSourceShortDescription("URL of the current page")
+@MuseValueSourceLongDescription("Retrieves the URL of the current browser window by calling driver.getCurrentUrl().")
 public class CurrentUrlValueSource extends BrowserValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -33,6 +35,6 @@ public class CurrentUrlValueSource extends BrowserValueSource
         return NAME;
         }
 
-    public final static String NAME = CurrentUrlValueSource.class.getAnnotation(MuseValueSourceDescription.class).value();
+    public final static String NAME = CurrentUrlValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = CurrentUrlValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

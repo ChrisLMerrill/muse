@@ -2,7 +2,6 @@ package org.musetest.core.step;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.resource.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
 
@@ -18,10 +17,11 @@ import org.musetest.core.steptest.*;
  */
 @MuseTypeId("scope")
 @MuseStepName("Group (scoped)")
-@MuseStepShortDescription("Group of steps (run in a new variable scope)")
 @MuseInlineEditString("group (scoped)")
 @MuseStepIcon("glyph:FontAwesome:CLONE")
 @MuseStepTypeGroup("Structure")
+@MuseStepShortDescription("Group of steps (run in a new variable scope)")
+@MuseStepLongDescription("Group of steps that are executed in a new variable scope. This is not generally expected to be used directly by the tester, but rather as a basis for other compound steps that need a new variable scope (such as a function call).")
 @SuppressWarnings("unused")  // instantiated via reflection
 public class ScopedGroup extends BasicCompoundStep
     {

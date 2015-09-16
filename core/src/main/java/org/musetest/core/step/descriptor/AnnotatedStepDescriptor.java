@@ -46,6 +46,15 @@ public class AnnotatedStepDescriptor extends DefaultStepDescriptor
         }
 
     @Override
+    public String getLongDescription()
+        {
+        MuseStepLongDescription description = (MuseStepLongDescription) _step_class.getAnnotation(MuseStepLongDescription.class);
+        if (description != null)
+            return description.value();
+        return super.getShortDescription();
+        }
+
+    @Override
     public String getShortDescription(StepConfiguration step)
         {
         String custom_description = (String) step.getMetadataField(StepConfiguration.META_DESCRIPTION);
@@ -59,25 +68,21 @@ public class AnnotatedStepDescriptor extends DefaultStepDescriptor
 
         if (edit_string != null)
             {
-            DynamicMapFormat format = new DynamicMapFormat(new DynamicMapProvider()
+            DynamicMapFormat format = new DynamicMapFormat(key ->
                 {
-                @Override
-                public Object get(String key)
+                if (key.startsWith(NAMED_SOURCE_KEY_START) && key.endsWith(NAMED_SOURCE_KEY_END))
                     {
-                    if (key.startsWith(NAMED_SOURCE_KEY_START) && key.endsWith(NAMED_SOURCE_KEY_END))
-                        {
-                        String name = key.substring(NAMED_SOURCE_KEY_START.length(), key.length() - 1);
-                        ValueSourceConfiguration source = step.getSources().get(name);
-                        if (source != null)
-                            return _project.getValueSourceDescriptors().get(source).getShortDescription(source);
-                        }
-                    else if (step.getSource(key) != null)
-                        {
-                        ValueSourceConfiguration source = step.getSources().get(key);
-                        return _project.getValueSourceDescriptors().get(source).getShortDescription(source);
-                        }
-                    return "?" + key + "?";
+                    String name = key.substring(NAMED_SOURCE_KEY_START.length(), key.length() - 1);
+                    ValueSourceConfiguration source = step.getSources().get(name);
+                    if (source != null)
+                        return _project.getValueSourceDescriptors().get(source).getInstanceDescription(source);
                     }
+                else if (step.getSource(key) != null)
+                    {
+                    ValueSourceConfiguration source = step.getSources().get(key);
+                    return _project.getValueSourceDescriptors().get(source).getInstanceDescription(source);
+                    }
+                return "?" + key + "?";
                 });
             return format.format(edit_string);
             }

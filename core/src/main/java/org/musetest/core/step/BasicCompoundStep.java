@@ -12,10 +12,11 @@ import java.util.*;
  */
 @MuseTypeId("compound")
 @MuseStepName("Group")
-@MuseStepShortDescription("Group of steps")
 @MuseInlineEditString("group")
 @MuseStepIcon("glyph:FontAwesome:BARS")
 @MuseStepTypeGroup("Structure")
+@MuseStepShortDescription("Group of steps")
+@MuseStepLongDescription("Visually group a collection of steps together under a single parent. The grouping has no effect on execution - they are exceuted in same scope as the siblings to their parent. It is intended as an aid to visual maintenance of the tests.")
 public class BasicCompoundStep extends BaseStep implements CompoundStep
     {
     @SuppressWarnings("unused") // called via reflection

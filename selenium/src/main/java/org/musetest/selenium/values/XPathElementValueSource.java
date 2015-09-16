@@ -13,8 +13,10 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("element-xpath")
 @MuseValueSourceName("Element by XPath")
-@MuseValueSourceDescription("<xpath:{source}>")
+@MuseValueSourceInstanceDescription("<xpath:{source}>")
 @MuseValueSourceTypeGroup("Element")
+@MuseValueSourceShortDescription("Locate an element by XPath")
+@MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByXPath locator.")
 public class XPathElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -34,6 +36,6 @@ public class XPathElementValueSource extends ElementByLocatorValueSource
         return NAME.substring(0, NAME.indexOf(":")) + _locator_source.getDescription();
         }
 
-    public final static String NAME = XPathElementValueSource.class.getAnnotation(MuseValueSourceDescription.class).value();
+    public final static String NAME = XPathElementValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = XPathElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

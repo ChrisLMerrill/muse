@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  *  @author Christopher L Merrill (see LICENSE.txt for license details) .
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MuseValueSourceDescription
+public @interface MuseValueSourceLongDescription
     {
     String value();
     }

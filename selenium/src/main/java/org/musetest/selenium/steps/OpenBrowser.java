@@ -14,10 +14,11 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("open-browser")
 @MuseStepName("Open a browser")
-@MuseStepShortDescription("Open a new browser session")
 @MuseInlineEditString("open {browser} using {provider}")
 @MuseStepIcon("glyph:FontAwesome:GLOBE")
 @MuseStepTypeGroup("Selenium")
+@MuseStepShortDescription("Open a new browser session")
+@MuseStepLongDescription("Opens a browser using the browser and provider configured in the project, as identified by the 'browser' and 'provider' sources. The 'browser' should resolve to the id of a SeleniumBrowserCapabilities project resource, which will be converted to a Selenium DesiredCapabilities object. Likewise, the 'provider' should resolve to the id of a to a WebDriverProviderConfiguration resource in the project, which is used to instantiate a WebDriver.")
 public class OpenBrowser extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection

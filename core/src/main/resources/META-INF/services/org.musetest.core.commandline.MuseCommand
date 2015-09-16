@@ -1,1 +1,3 @@
 org.musetest.core.commandline.RunCommand
+org.musetest.core.commandline.ListCommand
+org.musetest.core.commandline.DescribeCommand

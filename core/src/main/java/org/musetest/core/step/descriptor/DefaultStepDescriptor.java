@@ -77,6 +77,22 @@ public class DefaultStepDescriptor extends UnknownStepDescriptor
         return UnknownStepDescriptor.ICON;
         }
 
+    @Override
+    public String getDocumentationDescription()
+        {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getName()).append(" - ").append(getShortDescription()).append("\n");
+        builder.append("type id: ").append(getType()).append("\n");
+        if (getGroupName() != null)
+            builder.append("UI group: ").append(getGroupName()).append("\n");
+        if (getLongDescription() != null)
+            {
+            builder.append("\n");
+            builder.append(getLongDescription());
+            }
+        return builder.toString();
+        }
+
     protected String _type;
     protected Class<? extends MuseStep> _step_class;
     }

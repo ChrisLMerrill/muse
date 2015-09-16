@@ -53,6 +53,18 @@ public class TestStepDescriptor implements StepDescriptor
         return null;
         }
 
+    @Override
+    public String getDocumentationDescription()
+        {
+        return null;
+        }
+
+    @Override
+    public String getLongDescription()
+        {
+        return null;
+        }
+
     @SuppressWarnings("unused")
     public TestStepDescriptor(MuseProject project) { }
     public boolean isCompound() { return false; }

@@ -14,10 +14,11 @@ import java.util.*;
  */
 @MuseTypeId("if")
 @MuseStepName("If")
-@MuseStepShortDescription("If (condition) is true...")
 @MuseInlineEditString("if {condition}")
 @MuseStepIcon("glyph:FontAwesome:QUESTION_CIRCLE")
 @MuseStepTypeGroup("Conditionals & Looping")
+@MuseStepShortDescription("If (condition) is true...")
+@MuseStepLongDescription("The 'condition' source is resolved evaluated as a boolean. If true, the child steps will be executed.")
 public class IfStep extends BasicCompoundStep
     {
     public IfStep(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException

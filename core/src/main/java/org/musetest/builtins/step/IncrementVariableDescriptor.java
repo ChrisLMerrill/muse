@@ -23,12 +23,12 @@ public class IncrementVariableDescriptor extends AnnotatedStepDescriptor
             {
             ValueSourceConfiguration name_source = step.getSources().get(IncrementVariable.NAME_PARAM);
             if (name_source != null)
-                builder.append(_project.getValueSourceDescriptors().get(name_source).getShortDescription(name_source));
+                builder.append(_project.getValueSourceDescriptors().get(name_source).getInstanceDescription(name_source));
             ValueSourceConfiguration amount_source = step.getSources().get(IncrementVariable.AMOUNT_PARAM);
             if (amount_source != null)
                 {
                 builder.append(" by ");
-                builder.append(_project.getValueSourceDescriptors().get(amount_source).getShortDescription(amount_source));
+                builder.append(_project.getValueSourceDescriptors().get(amount_source).getInstanceDescription(amount_source));
                 }
             }
         return builder.toString();

@@ -13,10 +13,11 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("send-keys")
 @MuseStepName("Send keys")
-@MuseStepShortDescription("Send keystrokes to an element")
 @MuseInlineEditString("send {keys} to {element}")
 @MuseStepIcon("glyph:FontAwesome:KEYBOARD")
 @MuseStepTypeGroup("Selenium")
+@MuseStepShortDescription("Send keystrokes to an element")
+@MuseStepLongDescription("Resolves the 'keys' source to a String and the 'element' source to a WebElement. If both succeed, then sendKeys() method of WebElement is called with the keys string. Control keys are not yet supported.")
 public class SendKeys extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection

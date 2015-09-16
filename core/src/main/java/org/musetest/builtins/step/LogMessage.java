@@ -15,8 +15,9 @@ import org.slf4j.*;
 @MuseTypeId("log-message")
 @MuseInlineEditString("write to log: {message}")
 @MuseStepName("Log a message")
-@MuseStepShortDescription("Write a message to the test event log")
 @MuseStepIcon("glyph:FontAwesome:COMMENTING_O")
+@MuseStepShortDescription("Write a message to the test event log")
+@MuseStepLongDescription("The 'message' source will be resolved and converted to a string. The result is added to a MessageEvent and sent to the event log for the test. It is also sent to the logging output (by default, standard out) at INFO level.")
 public class LogMessage extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection

@@ -14,7 +14,9 @@ import org.slf4j.*;
  */
 @MuseTypeId("variable")
 @MuseValueSourceName("Variable")
-@MuseValueSourceDescription("${source}")
+@MuseValueSourceInstanceDescription("${source}")
+@MuseValueSourceShortDescription("get the value assigned to a variable (by variable name)")
+@MuseValueSourceLongDescription("Returns the value assigned to a variable in the step execution context. If not found in the local context, it will attempt to find the variable (by name) in higher-level contexts (e.g. the test context).")
 public class VariableValueSource implements MuseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -43,7 +45,7 @@ public class VariableValueSource implements MuseValueSource
     public Object resolveValue(StepExecutionContext context) throws StepConfigurationError
         {
         Object value = context.getTestExecutionContext().getVariable(_name.resolveValue(context).toString());
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(_configuration).getShortDescription(_configuration), value));
+        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(_configuration).getInstanceDescription(_configuration), value));
         return value;
         }
 

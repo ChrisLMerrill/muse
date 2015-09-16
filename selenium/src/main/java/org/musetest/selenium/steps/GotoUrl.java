@@ -12,10 +12,11 @@ import org.musetest.core.steptest.*;
  */
 @MuseTypeId("goto-url")
 @MuseStepName("Goto URL")
-@MuseStepShortDescription("Goto a new URL in the browser")
 @MuseInlineEditString("goto {URL}")
 @MuseStepIcon("glyph:FontAwesome:PLANE")
 @MuseStepTypeGroup("Selenium")
+@MuseStepShortDescription("Goto a URL in the browser")
+@MuseStepLongDescription("Resolve the URL source to a string. Then go to that URL in the browser by calling driver.navigate.to() with the URL string.")
 public class GotoUrl extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
@@ -29,7 +30,7 @@ public class GotoUrl extends BrowserStep
     public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError
         {
         String url = getValue(_url, context, false, String.class);
-        getDriver(context).get(url);
+        getDriver(context).navigate().to(url);
 
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }

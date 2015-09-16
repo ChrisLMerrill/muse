@@ -11,10 +11,11 @@ import org.musetest.core.steptest.*;
  */
 @MuseTypeId("store-variable")
 @MuseStepName("Set variable")
-@MuseStepShortDescription("Set variable to a value")
 @MuseInlineEditString("set ${name} = {value}")
 @MuseStepIcon("glyph:FontAwesome:USD")
 @MuseStepTypeGroup("Variables")
+@MuseStepShortDescription("Set variable to a value")
+@MuseStepLongDescription("First, the 'value' source is resolved. Then the 'name' source is resolved to a string and used the store the 'value' result as a variable in the local execution context. Note that variables set this way are scoped such that they may only be visible to subsequent steps, but not steps higher or lower in the call chain (execution stack).")
 public class StoreVariable extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection

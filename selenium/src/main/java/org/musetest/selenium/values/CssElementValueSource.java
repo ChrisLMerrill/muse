@@ -13,8 +13,10 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("css-selector")
 @MuseValueSourceName("Element by CSS Selector")
-@MuseValueSourceDescription("<css:{source}>")
+@MuseValueSourceInstanceDescription("<css:{source}>")
 @MuseValueSourceTypeGroup("Element")
+@MuseValueSourceShortDescription("Locate a element by CSS Selector")
+@MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByCssSelector locator.")
 public class CssElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -34,6 +36,6 @@ public class CssElementValueSource extends ElementByLocatorValueSource
         return NAME.substring(0, NAME.indexOf(":")) + _locator_source.getDescription();
         }
 
-    public final static String NAME = CssElementValueSource.class.getAnnotation(MuseValueSourceDescription.class).value();
+    public final static String NAME = CssElementValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = CssElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

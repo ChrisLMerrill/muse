@@ -12,8 +12,10 @@ public interface ValueSourceDescriptor
     String getType();
     String getName();
     String getShortDescription();
-    String getShortDescription(ValueSourceConfiguration source);
+    String getInstanceDescription(ValueSourceConfiguration source);
     String getGroupName();
+    String getLongDescription();
+    String getDocumentationDescription();
     }
 
 

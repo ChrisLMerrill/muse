@@ -33,7 +33,7 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
         }
 
     @Override
-    public String getShortDescription(ValueSourceConfiguration source)
+    public String getInstanceDescription(ValueSourceConfiguration source)
         {
         StringBuilder builder = new StringBuilder(getName());
         builder.append(": ");
@@ -71,7 +71,19 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
         {
         if (!first)
             builder.append(", ");
-        builder.append(_project.getValueSourceDescriptors().get(source).getShortDescription(source));
+        builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source));
+        }
+
+    @Override
+    public String getLongDescription()
+        {
+        return null;
+        }
+
+    @Override
+    public String getDocumentationDescription()
+        {
+        return null;
         }
 
     @Override

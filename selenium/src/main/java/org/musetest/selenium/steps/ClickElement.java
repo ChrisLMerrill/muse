@@ -12,10 +12,11 @@ import org.musetest.core.steptest.*;
  */
 @MuseTypeId("click-element")
 @MuseStepName("Click")
-@MuseStepShortDescription("Click an element")
 @MuseInlineEditString("click {element}")
 @MuseStepIcon("glyph:FontAwesome:HAND")
 @MuseStepTypeGroup("Selenium")
+@MuseStepShortDescription("Click an element")
+@MuseStepLongDescription("Resolves the 'element' source to a WebElement and then calls the click() method.")
 public class ClickElement extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection

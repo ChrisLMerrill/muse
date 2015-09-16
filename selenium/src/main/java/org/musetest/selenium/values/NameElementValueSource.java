@@ -13,8 +13,10 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("element-name")
 @MuseValueSourceName("Element by Field Name")
-@MuseValueSourceDescription("<name:{source}>")
+@MuseValueSourceInstanceDescription("<name:{source}>")
 @MuseValueSourceTypeGroup("Element")
+@MuseValueSourceShortDescription("Locates an element by field name")
+@MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByName locator.")
 public class NameElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -34,6 +36,6 @@ public class NameElementValueSource extends ElementByLocatorValueSource
         return NAME.substring(0, NAME.indexOf(":")) + _locator_source.getDescription();
         }
 
-    public final static String NAME = NameElementValueSource.class.getAnnotation(MuseValueSourceDescription.class).value();
+    public final static String NAME = NameElementValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = NameElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

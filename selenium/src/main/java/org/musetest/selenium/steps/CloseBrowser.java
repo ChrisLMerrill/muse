@@ -13,10 +13,11 @@ import org.musetest.selenium.*;
  */
 @MuseTypeId("close-browser")
 @MuseStepName("Close Browser")
-@MuseStepShortDescription("Close a browser and all associated windows")
 @MuseInlineEditString("close browser")
 @MuseStepIcon("glyph:FontAwesome:GLOBE")
 @MuseStepTypeGroup("Selenium")
+@MuseStepShortDescription("Close a browser and all associated windows")
+@MuseStepLongDescription("Closes the currently-selected browser by calling driver.quit(). This will close all browser windows associated with that driver and shutdown the driver.")
 public class CloseBrowser extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection

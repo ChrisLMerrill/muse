@@ -50,7 +50,7 @@ public class UnknownStepDescriptor implements StepDescriptor
                 ValueSourceConfiguration source = step.getSources().get(source_name);
                 builder.append(source_name);
                 builder.append("=");
-                builder.append(_project.getValueSourceDescriptors().get(source).getShortDescription(source));
+                builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source));
                 first = false;
                 }
             }
@@ -77,6 +77,18 @@ public class UnknownStepDescriptor implements StepDescriptor
 
     @Override
     public String getGroupName()
+        {
+        return null;
+        }
+
+    @Override
+    public String getDocumentationDescription()
+        {
+        return null;
+        }
+
+    @Override
+    public String getLongDescription()
         {
         return null;
         }

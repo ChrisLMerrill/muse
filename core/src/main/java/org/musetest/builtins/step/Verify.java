@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -14,6 +15,8 @@ import org.musetest.core.steptest.*;
 @MuseStepName("Verify")
 @MuseInlineEditString("verify {condition}")
 @MuseStepIcon("glyph:FontAwesome:CHECK")
+@MuseValueSourceShortDescription("Check the supplied condition")
+@MuseValueSourceLongDescription("The 'condition' sub-source is resolved and evaluated as a boolean. If false, a VerifyFailureEvent is added to the test event log.")
 public class Verify extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection

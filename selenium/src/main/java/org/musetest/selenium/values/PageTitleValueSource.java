@@ -11,9 +11,11 @@ import org.musetest.core.values.descriptor.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("page-title")
-@MuseValueSourceName("Title of Current Page")
-@MuseValueSourceDescription("<title>")
+@MuseValueSourceName("Page Title")
+@MuseValueSourceInstanceDescription("<title>")
 @MuseValueSourceTypeGroup("Web Page")
+@MuseValueSourceShortDescription("Title of the current page")
+@MuseValueSourceLongDescription("Retrieves the page title of the current browser window by calling driver.getTitle().")
 public class PageTitleValueSource extends BrowserValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -33,6 +35,6 @@ public class PageTitleValueSource extends BrowserValueSource
         return NAME;
         }
 
-    public final static String NAME = PageTitleValueSource.class.getAnnotation(MuseValueSourceDescription.class).value();
+    public final static String NAME = PageTitleValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = PageTitleValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

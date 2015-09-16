@@ -20,11 +20,13 @@ public interface StepDescriptor
     String getName();
     String getShortDescription(StepConfiguration step);
     String getShortDescription();
+    String getLongDescription();
     String getIconDescriptor();
     boolean isCompound();
     String getInlineEditString();
     String getType();
     String getGroupName();
+    String getDocumentationDescription();
 
     Logger LOG = LoggerFactory.getLogger(StepDescriptor.class);
     }

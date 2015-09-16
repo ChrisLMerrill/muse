@@ -12,10 +12,11 @@ import org.musetest.core.steptest.*;
  */
 @MuseTypeId("while")
 @MuseStepName("While")
-@MuseStepShortDescription("While (condition) is true...")
 @MuseInlineEditString("while {condition}")
 @MuseStepIcon("glyph:FontAwesome:REPEAT")
 @MuseStepTypeGroup("Conditionals & Looping")
+@MuseStepShortDescription("While (condition) is true...")
+@MuseStepLongDescription("The 'condition' source is resolved evaluated as a boolean. If true, the child steps will be executed. After they are executed, the source will be evaluated again. This repeats until the 'condition' source resolves to false.")
 public class WhileStep extends BasicCompoundStep
     {
     public WhileStep(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException

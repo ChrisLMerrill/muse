@@ -12,8 +12,10 @@ import org.slf4j.*;
  */
 @MuseTypeId("boolean")
 @MuseValueSourceName("Boolean")
-@MuseValueSourceDescription("{value}")
+@MuseValueSourceInstanceDescription("{value}")
 @MuseValueSourceTypeGroup("Primitives")
+@MuseValueSourceShortDescription("true or false")
+@MuseValueSourceLongDescription("A primitive value source that returns true or false.")
 public class BooleanValueSource implements MuseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

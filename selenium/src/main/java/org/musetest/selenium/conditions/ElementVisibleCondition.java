@@ -15,8 +15,10 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("visible")
 @MuseValueSourceName("Element is visible")
-@MuseValueSourceDescription("visible({source})")
+@MuseValueSourceInstanceDescription("visible({source})")
 @MuseValueSourceTypeGroup("Element")
+@MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is visible")
+@MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")
 public class ElementVisibleCondition extends BrowserValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -35,8 +37,10 @@ public class ElementVisibleCondition extends BrowserValueSource
         Object element = _element_source.resolveValue(context);
         if (element == null)
             throw new ValueSourceResolutionError("Cannot determine visibility of element: element not found");
-        boolean visible = (element instanceof WebElement) && ((WebElement) element).isDisplayed();
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(_configuration).getShortDescription(_configuration), visible));
+        if (!(element instanceof WebElement))
+            throw new ValueSourceResolutionError("The specificed object is not a WebElement.");
+        boolean visible = ((WebElement) element).isDisplayed();
+        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(_configuration).getInstanceDescription(_configuration), visible));
         return visible;
         }
 
@@ -49,6 +53,6 @@ public class ElementVisibleCondition extends BrowserValueSource
     private ValueSourceConfiguration _configuration;
     private MuseValueSource _element_source;
 
-    public final static String NAME = ElementVisibleCondition.class.getAnnotation(MuseValueSourceDescription.class).value();
+    public final static String NAME = ElementVisibleCondition.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = ElementVisibleCondition.class.getAnnotation(MuseTypeId.class).value();
     }
