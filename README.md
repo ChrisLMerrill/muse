@@ -1,4 +1,5 @@
-# muse
-Muse testing framework for Selenium WebDriver
+# Muse test framework
 
-Just getting started.
+Muse is a framework for modeling and running tests, with support for Selenium web tests.
+
+See the Muse wiki for more: https://github.com/ChrisLMerrill/muse/wiki
