@@ -16,7 +16,7 @@ public class ConversionResult
         }
 
     public boolean _success = true;
-    public String _output_path;
+    public int _total_steps = 0;
     public List<String> _errors = new ArrayList<>();
     public SteppedTest _test;
     }

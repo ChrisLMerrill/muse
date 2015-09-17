@@ -67,6 +67,7 @@ public class TestConverter
 
     private void generateStepForCommand(String command, String param1, String param2) throws UnsupportedError
         {
+        _result._total_steps++;
         StepConverter converter = _converters.getConverter(command);
         String failure_message;
         if (converter == null)

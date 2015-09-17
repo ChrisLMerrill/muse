@@ -78,10 +78,11 @@ public class ImportSeleniumIdeTestCommand extends MuseCommand
             System.out.println(String.format("Conversion %s: %s ==> %s", result_description, file.getPath(), outfile.getPath()));
             if (!result._success)
                 {
-                System.out.println(result._errors.size() + " steps could not be converted:");
+                int successes = result._total_steps - result._errors.size();
+                System.out.println(String.format("%d of %d steps successfully converted (%d%%):", successes, result._total_steps, (int) (100 * (float) successes / (float) result._total_steps)));
                 for (String error : result._errors)
                     System.out.println("  " + error);
-                System.out.println("Unsupported commands are converted to steps, but the steps will fail. These must be converted manually.");
+                System.out.println("Unsupported commands were converted to steps, but the steps are likely to fail. These must be converted manually.");
                 }
             }
         catch (Exception e)
