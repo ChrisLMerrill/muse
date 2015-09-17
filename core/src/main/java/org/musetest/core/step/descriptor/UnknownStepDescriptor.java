@@ -95,7 +95,7 @@ public class UnknownStepDescriptor implements StepDescriptor
 
     protected MuseProject _project;
 
-    public final static String ICON = "glyph:FontAwesome:SQUARE_ALT";
+    public final static String ICON = "glyph:FontAwesome:EXCLAMATION_TRIANGLE";
     }
 
 

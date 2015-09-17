@@ -15,21 +15,20 @@ public class SendKeysConverter implements StepConverter
     @Override
     public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
         {
-        if (command.equals(getCommand()))
-            {
-            StepConfiguration step = new StepConfiguration(SendKeys.TYPE_ID);
-            step.addSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
-            step.addSource(SendKeys.KEYS_PARAM, ValueSourceConfiguration.forValue(param2));
-            return step;
-            }
-        return null;
+        StepConfiguration step = new StepConfiguration(SendKeys.TYPE_ID);
+        step.addSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
+        step.addSource(SendKeys.KEYS_PARAM, ValueSourceConfiguration.forValue(param2));
+        return step;
         }
 
     @Override
-    public String getCommand()
+    public String[] getCommands()
         {
-        return "sendKeys";
+        return new String[] {SENDKEYS,TYPE};
         }
+
+    private final static String TYPE = "type";
+    private final static String SENDKEYS = "sendKeys";
     }
 
 

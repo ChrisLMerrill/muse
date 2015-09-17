@@ -16,7 +16,7 @@ import org.slf4j.*;
 @MuseValueSourceName("Variable")
 @MuseValueSourceInstanceDescription("${source}")
 @MuseValueSourceShortDescription("get the value assigned to a variable (by variable name)")
-@MuseValueSourceLongDescription("Returns the value assigned to a variable in the step execution context. If not found in the local context, it will attempt to find the variable (by name) in higher-level contexts (e.g. the test context).")
+@MuseValueSourceLongDescription("Returns the value assigned to a variable in the step execution context. The variable is located by resolving the sub-source to a string and using that as the name of the variable to return. If not found in the local context, it will attempt to find the variable (by name) in higher-level contexts (e.g. the test context).")
 public class VariableValueSource implements MuseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

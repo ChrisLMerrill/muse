@@ -14,7 +14,7 @@ public class GotoUrlConverter implements StepConverter
     @Override
     public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2)
         {
-        if (command.equals(getCommand()))
+        if (command.equals(OPEN))
             {
             String path = param1;
             if (path.startsWith("/"))
@@ -27,10 +27,12 @@ public class GotoUrlConverter implements StepConverter
         }
 
     @Override
-    public String getCommand()
+    public String[] getCommands()
         {
-        return "open";
+        return new String[] { OPEN };
         }
+
+    private static final String OPEN = "open";
     }
 
 

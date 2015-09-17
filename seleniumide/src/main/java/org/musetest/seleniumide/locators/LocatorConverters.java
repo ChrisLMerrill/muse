@@ -1,6 +1,5 @@
 package org.musetest.seleniumide.locators;
 
-import org.musetest.core.*;
 import org.musetest.core.values.*;
 import org.musetest.seleniumide.*;
 import org.reflections.*;
@@ -28,7 +27,7 @@ public class LocatorConverters
             if (source != null)
                 return source;
             }
-        throw new UnsupportedError("Unable to produce value source for element locator parameter: " + param);
+        throw new UnsupportedError(String.format("Unable to produce value source for element locator parameter '%s'", param));
         }
 
     private LocatorConverters()

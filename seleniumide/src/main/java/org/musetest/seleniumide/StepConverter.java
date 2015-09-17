@@ -8,6 +8,6 @@ import org.musetest.core.step.*;
 public interface StepConverter
     {
     StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError;
-    String getCommand();
+    String[] getCommands();
     }
 

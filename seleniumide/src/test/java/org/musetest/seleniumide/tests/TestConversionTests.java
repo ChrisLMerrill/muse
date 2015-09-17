@@ -19,7 +19,7 @@ public class TestConversionTests
     public void convertExample() throws IOException, UnsupportedError
         {
         TestConverter converter = new TestConverter(getClass().getResourceAsStream("/example.html"));
-        SteppedTest test = converter.convert();
+        SteppedTest test = converter.convert()._test;
 
         List<StepConfiguration> steps = test.getStep().getChildren();
 

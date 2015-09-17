@@ -5,7 +5,6 @@ import io.airlift.airline.*;
 import org.musetest.core.*;
 import org.musetest.core.commandline.*;
 import org.musetest.core.resource.json.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.util.*;
 import org.musetest.seleniumide.*;
 
@@ -24,6 +23,9 @@ public class ImportSeleniumIdeTestCommand extends MuseCommand
     @Arguments(description = "Name of SeleniumIDE file to convert", required = true)
     public String filename;
 
+    @Option(name = "-o", description = "Overwrite existing file")
+    public boolean overwrite;
+
     @Override
     public void run()
         {
@@ -37,7 +39,7 @@ public class ImportSeleniumIdeTestCommand extends MuseCommand
             if (type == SeleniumIdeFileType.Test)
                 convert(file);
             else
-                System.out.println("coversion of type " + type.name() + " is not yet supported");
+                System.out.println("coversion of command '" + type.name() + "' is not yet supported");
             }
         else
             System.out.println("Unexpected return from SeleniumIdeFileIdentifier: " + result);
@@ -52,12 +54,13 @@ public class ImportSeleniumIdeTestCommand extends MuseCommand
             {
             instream = new FileInputStream(file);
             TestConverter converter = new TestConverter(instream);
-            SteppedTest test = converter.convert();
+
+            ConversionResult result = converter.convert();
 
             String new_filename = file.getAbsolutePath();
             new_filename = new_filename.substring(0, new_filename.lastIndexOf(".")) + ".json";
             File outfile = new File(new_filename);
-            if (outfile.exists())
+            if (outfile.exists() && !overwrite)
                 {
                 System.out.println("Destination file already exists: " + outfile.getPath());
                 return;
@@ -65,9 +68,21 @@ public class ImportSeleniumIdeTestCommand extends MuseCommand
 
             ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
             outstream = new FileOutputStream(outfile);
-            mapper.writeValue(outstream, test);
+            mapper.writeValue(outstream, result._test);
 
-            System.out.println("Conversion complete. Written to: " + outfile.getPath());
+            String result_description;
+            if (result._success)
+                result_description = "successful";
+            else
+                result_description = "incomplete";
+            System.out.println(String.format("Conversion %s: %s ==> %s", result_description, file.getPath(), outfile.getPath()));
+            if (!result._success)
+                {
+                System.out.println(result._errors.size() + " steps could not be converted:");
+                for (String error : result._errors)
+                    System.out.println("  " + error);
+                System.out.println("Unsupported commands are converted to steps, but the steps will fail. These must be converted manually.");
+                }
             }
         catch (Exception e)
             {

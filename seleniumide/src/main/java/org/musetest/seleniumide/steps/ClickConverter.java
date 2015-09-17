@@ -14,7 +14,7 @@ public class ClickConverter implements StepConverter
     @Override
     public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
         {
-        if (command.equals(getCommand()))
+        if (command.equals(CLICK) || command.equals(CLICK_AND_WAIT))
             {
             StepConfiguration step = new StepConfiguration(ClickElement.TYPE_ID);
             step.addSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
@@ -24,10 +24,13 @@ public class ClickConverter implements StepConverter
         }
 
     @Override
-    public String getCommand()
+    public String[] getCommands()
         {
-        return "clickAndWait";
-        }
+        return new String[] { CLICK, CLICK_AND_WAIT };
+        }     // not calling this, anyway
+
+    public static final String CLICK = "click";
+    public static final String CLICK_AND_WAIT = "clickAndWait";
     }
 
 

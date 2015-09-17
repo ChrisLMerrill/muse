@@ -40,7 +40,8 @@ public class StepConverters
 
     private void addConverter(StepConverter converter)
         {
-        _converters.put(converter.getCommand(), converter);
+        for (String command : converter.getCommands())
+            _converters.put(command, converter);
         }
 
     private Map<String, StepConverter> _converters = new HashMap<>();
