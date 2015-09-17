@@ -1,4 +1,4 @@
-package org.musetest.selenium.values;
+package org.musetest.selenium.locators;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
 @MuseTypeId("element-id")
 @MuseValueSourceName("Element by ID")
 @MuseValueSourceInstanceDescription("<id:{source}>")
-@MuseValueSourceTypeGroup("Element")
+@MuseValueSourceTypeGroup("Element.Locate")
 @MuseValueSourceShortDescription("Locate an element by id")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ById locator.")
 public class IdElementValueSource extends ElementByLocatorValueSource

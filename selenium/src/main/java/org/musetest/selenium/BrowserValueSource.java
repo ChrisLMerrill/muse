@@ -1,4 +1,4 @@
-package org.musetest.selenium.values;
+package org.musetest.selenium;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;

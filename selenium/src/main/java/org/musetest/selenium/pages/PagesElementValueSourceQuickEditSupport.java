@@ -1,6 +1,6 @@
 package org.musetest.selenium.pages;
 
-import org.musetest.selenium.values.*;
+import org.musetest.selenium.locators.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)

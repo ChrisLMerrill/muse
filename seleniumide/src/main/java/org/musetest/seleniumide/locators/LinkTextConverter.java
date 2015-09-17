@@ -1,7 +1,7 @@
 package org.musetest.seleniumide.locators;
 
 import org.musetest.core.values.*;
-import org.musetest.selenium.values.*;
+import org.musetest.selenium.locators.*;
 import org.musetest.seleniumide.*;
 
 /**

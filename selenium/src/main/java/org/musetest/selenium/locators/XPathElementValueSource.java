@@ -1,4 +1,4 @@
-package org.musetest.selenium.values;
+package org.musetest.selenium.locators;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
 @MuseTypeId("element-xpath")
 @MuseValueSourceName("Element by XPath")
 @MuseValueSourceInstanceDescription("<xpath:{source}>")
-@MuseValueSourceTypeGroup("Element")
+@MuseValueSourceTypeGroup("Element.Locate")
 @MuseValueSourceShortDescription("Locate an element by XPath")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByXPath locator.")
 public class XPathElementValueSource extends ElementByLocatorValueSource

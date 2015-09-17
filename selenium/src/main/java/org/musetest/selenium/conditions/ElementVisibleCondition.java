@@ -7,7 +7,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
-import org.musetest.selenium.values.*;
+import org.musetest.selenium.*;
 import org.openqa.selenium.*;
 
 /**
@@ -16,7 +16,7 @@ import org.openqa.selenium.*;
 @MuseTypeId("visible")
 @MuseValueSourceName("Element is visible")
 @MuseValueSourceInstanceDescription("visible({source})")
-@MuseValueSourceTypeGroup("Element")
+@MuseValueSourceTypeGroup("Element.Condition")
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is visible")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")
 public class ElementVisibleCondition extends BrowserValueSource

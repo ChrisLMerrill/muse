@@ -10,10 +10,10 @@ import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.*;
+import org.musetest.selenium.locators.*;
 import org.musetest.selenium.mocks.*;
 import org.musetest.selenium.pages.*;
 import org.musetest.selenium.steps.*;
-import org.musetest.selenium.values.*;
 
 import java.io.*;
 import java.net.*;

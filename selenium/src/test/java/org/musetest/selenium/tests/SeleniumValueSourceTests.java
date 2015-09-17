@@ -8,6 +8,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.*;
+import org.musetest.selenium.locators.*;
 import org.musetest.selenium.mocks.*;
 import org.musetest.selenium.values.*;
 

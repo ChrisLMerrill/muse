@@ -6,7 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
-import org.musetest.selenium.values.*;
+import org.musetest.selenium.*;
 
 /**
  * @author ©2015 Web Performance, Inc
@@ -15,7 +15,7 @@ import org.musetest.selenium.values.*;
 @MuseValueSourceName("Element by page/element lookup")
 @MuseValueSourceShortDescription("Locates a Selenium WebElement from the page/element specified by the subsource")
 @MuseValueSourceInstanceDescription("<page:{source}>")
-@MuseValueSourceTypeGroup("Element")
+@MuseValueSourceTypeGroup("Element.Locate")
 public class PagesElementValueSource extends BrowserValueSource
     {
     public PagesElementValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException

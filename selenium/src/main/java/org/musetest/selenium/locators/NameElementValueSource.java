@@ -1,4 +1,4 @@
-package org.musetest.selenium.values;
+package org.musetest.selenium.locators;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
 @MuseTypeId("element-name")
 @MuseValueSourceName("Element by Field Name")
 @MuseValueSourceInstanceDescription("<name:{source}>")
-@MuseValueSourceTypeGroup("Element")
+@MuseValueSourceTypeGroup("Element.Locate")
 @MuseValueSourceShortDescription("Locates an element by field name")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByName locator.")
 public class NameElementValueSource extends ElementByLocatorValueSource

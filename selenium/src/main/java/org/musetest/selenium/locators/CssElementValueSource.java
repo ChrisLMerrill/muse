@@ -1,4 +1,4 @@
-package org.musetest.selenium.values;
+package org.musetest.selenium.locators;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
 @MuseTypeId("css-selector")
 @MuseValueSourceName("Element by CSS Selector")
 @MuseValueSourceInstanceDescription("<css:{source}>")
-@MuseValueSourceTypeGroup("Element")
+@MuseValueSourceTypeGroup("Element.Locate")
 @MuseValueSourceShortDescription("Locate a element by CSS Selector")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByCssSelector locator.")
 public class CssElementValueSource extends ElementByLocatorValueSource

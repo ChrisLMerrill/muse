@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
+import org.musetest.selenium.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
