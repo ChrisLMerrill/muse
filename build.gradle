@@ -27,6 +27,23 @@ subprojects
         into "${buildDir}/classes/test"
         }
     processTestResources.dependsOn copyTestResources
+
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+
+
     }
 
 distributions
