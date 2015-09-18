@@ -93,6 +93,11 @@ public class UnknownStepDescriptor implements StepDescriptor
         return null;
         }
 
+    public MuseProject getProject()
+        {
+        return _project;
+        }
+
     protected MuseProject _project;
 
     public final static String ICON = "glyph:FontAwesome:EXCLAMATION_TRIANGLE";

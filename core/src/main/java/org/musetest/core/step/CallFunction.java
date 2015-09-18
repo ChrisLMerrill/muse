@@ -1,10 +1,12 @@
 package org.musetest.core.step;
 
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.descriptor.*;
 
 import java.util.*;
 
@@ -25,6 +27,7 @@ import java.util.*;
 @MuseStepIcon("glyph:FontAwesome:EXTERNAL_LINK")
 @MuseStepTypeGroup("Structure")
 @MuseStepLongDescription("The 'id' source is resolved to a string and used to find the function in the project. The steps within the function are then executed as children of the call-function step, but within a new variable scope. Other sources of the call-function step are passed into this new variable scope and will be available to steps within the function. Other local variables that were accessible to the call-function step will not be visible in the new scope, but higher-level scope variables will be (e.g. test parameters).")
+@MuseStepDescriptorImplementation(CallFunctionDescriptor.class)
 public class CallFunction extends CallMacroStep
     {
     @SuppressWarnings("unused") // called via reflection

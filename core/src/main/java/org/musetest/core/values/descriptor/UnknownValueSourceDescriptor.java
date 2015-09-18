@@ -92,6 +92,11 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
         return null;
         }
 
+    public MuseProject getProject()
+        {
+        return _project;
+        }
+
     protected String _type;
     protected MuseProject _project;
     }

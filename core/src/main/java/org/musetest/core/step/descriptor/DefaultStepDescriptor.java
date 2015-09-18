@@ -12,7 +12,6 @@ public class DefaultStepDescriptor extends UnknownStepDescriptor
         {
         super("?" + step_class.getSimpleName() + "?", project);
         _step_class = step_class;
-        _project = project;
 
         MuseTypeId type_annotation = step_class.getAnnotation(MuseTypeId.class);
         if (type_annotation != null && type_annotation.value() != null)
