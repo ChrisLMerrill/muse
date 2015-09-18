@@ -16,6 +16,8 @@ public class DynamicMapFormat extends Format
     {
     /**
      * Create the format with a provider that will be consulted for the named parameters in the pattern.
+     *
+     * @param value_map A provider of values for names in the format
      */
     public DynamicMapFormat(DynamicMapProvider value_map)
         {
@@ -26,9 +28,9 @@ public class DynamicMapFormat extends Format
      * Scans the pattern and prepares internal variables.
      *
      * @param new_pattern String to be parsed.
+     * @return the pattern
      * @throws IllegalArgumentException if number of arguments exceeds BUFSIZE or
-     *                                  parser found unmatched brackets (this exception should be switched off
-     *                                  using setExactMatch(false)).
+     * parser found unmatched brackets (this exception should be switched off using setExactMatch(false)).
      */
     public String processPattern(String new_pattern) throws IllegalArgumentException
         {

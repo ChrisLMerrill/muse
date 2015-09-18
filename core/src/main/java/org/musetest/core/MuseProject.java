@@ -20,17 +20,25 @@ public interface MuseProject
 
     /*
      * A convenience method for finding a resource that has only a single match.
+     *
+     * @param filter Filters to apply to the search
+     * @return A resource matching the filters or null if no matches found
      */
     MuseResource findResource(ResourceMetadata filter);
 
     /*
      * A convenience method for finding a resource matching and id and resource type
+     *
+     * @param id The id of the resource
+     * @param interface_class The class of the resource.
+     * @return A resource matching the provided id and interface_class
      */
     <T> T findResource(String id, Class<T> interface_class);
 
     /**
      * Saves changes to a resource via the ResourceStore.
      *
+     * @param resource The resource to save
      * @return null if success, else an error message
      */
     String saveResource(MuseResource resource);
@@ -42,6 +50,8 @@ public interface MuseProject
 
     /**
      * Get a classloader that includes classes declared in the project
+     *
+     * @return a classloader
      */
     ClassLoader getClassloader();
 

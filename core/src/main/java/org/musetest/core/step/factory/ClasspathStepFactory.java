@@ -18,6 +18,7 @@ public class ClasspathStepFactory implements StepFactory
         }
 
     @Override
+    @SuppressWarnings("unchecked")
     public MuseStep createStep(StepConfiguration configuration, MuseProject project) throws MuseInstantiationException
         {
         String type = configuration.getType();

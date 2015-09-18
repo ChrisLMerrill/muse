@@ -11,6 +11,13 @@ public class TestRunnerFactory
     {
     /**
      * Creates a TestRunner that meets the requested criteria.
+     *
+     * @param project The project to run in
+     * @param test The test to run
+     * @param synchronous Should the test be run on the current thread?
+     * @param interactive True for an interactive runner that can be controlled (i.e. a debugger). False to run it to completion unattended.
+     *
+     * @return The runner
      */
     public static TestRunner create(MuseProject project, MuseTest test, boolean synchronous, boolean interactive)
         {
@@ -46,6 +53,12 @@ public class TestRunnerFactory
 
     /**
      * Used by the TestSuiteRunner
+     *
+     * @param project The project to run in
+     * @param test The test to run
+     * @param context The context to run the test in
+     *
+     * @return the test result
      */
     public static MuseTestResult runTest(MuseProject project, MuseTest test, TestExecutionContext context)
         {
@@ -57,6 +70,11 @@ public class TestRunnerFactory
     /**
      * Convenience method for the simplest method of running a test and getting the result. This is useful for unit
      * tests and some command-line operations.
+     *
+     * @param project The project to run in
+     * @param test The test to run
+     *
+     * @return the test result
      */
     public static MuseTestResult runTest(MuseProject project, MuseTest test)
         {

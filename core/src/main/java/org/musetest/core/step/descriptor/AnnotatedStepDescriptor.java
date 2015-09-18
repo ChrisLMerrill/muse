@@ -8,6 +8,7 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("unchecked")
 public class AnnotatedStepDescriptor extends DefaultStepDescriptor
     {
     public AnnotatedStepDescriptor(Class step_class, MuseProject project)

@@ -12,6 +12,11 @@ public class ValueSourceQuickEditSupporters
     {
     /**
      * Utility method for parsing a string with all available implementations.
+     *
+     * @param string A string to parse a ValueSourceConfiguration from
+     * @param project Provides lookup of other value source types as the source is read
+     *
+     * @return A list of ValueSourceConfigurations parsed from the input
      */
     public static List<ValueSourceConfiguration> parseWithAll(String string, MuseProject project)
         {
@@ -35,6 +40,11 @@ public class ValueSourceQuickEditSupporters
 
     /**
      * Utility method for creating a string with all available implementations.
+     *
+     * @param source A ValueSourceConfiguration to turn into a string (for editing)
+     * @param project Provides lookup of other value source types as the source is read
+     *
+     * @return A list of Strings that could represent the source
      */
     public static List<String> asStringFromAll(ValueSourceConfiguration source, MuseProject project)
         {

@@ -54,6 +54,10 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep
      * Subclasses can call this to ensure they only run once.
      * Alternatively, subclasses may rely on their own implementation (along with the context and configuration)
      * to run zero or multiple times (i.e. if and while implementations).
+     *
+     * @param context The context of the current execution
+     * @return True if this step should be asked for a StepProvider to execute child steps.
+     * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
     protected boolean shouldEnter(StepExecutionContext context) throws StepExecutionError
         {
@@ -65,6 +69,9 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep
 
     /**
      * Subclasses override this to perform an action before the children are executed.
+     *
+     * @param context The context of the current execution
+     * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
     protected void start(StepExecutionContext context) throws StepExecutionError
         {
@@ -72,6 +79,9 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep
 
     /**
      * Subclasses override this to perform an action after the children are executed.
+     *
+     * @param context The context of the current execution
+     * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
     protected void finish(StepExecutionContext context) throws StepExecutionError
         {

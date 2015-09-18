@@ -18,6 +18,9 @@ public interface ResourceStore
 
     /**
      * Save the resources to persist changes
+     *
+     * @param resource The resource to save
+     * @return null on success, else a string indicating the error to show to the user.
      */
     String saveResource(MuseResource resource);
     }

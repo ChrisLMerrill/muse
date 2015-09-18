@@ -24,7 +24,14 @@ public abstract class BrowserStep extends BaseStep
         }
 
     /**
-     * Convenience method to get an element and handle error conditions.
+     * Convenience method for subclasses to get an element and automatically handle not-found and wrong-type errors.
+     *
+     * @param locator_source The value source that will locate the element
+     * @param context The context in which to resolve the source and find the element - the browser is acquired from the context.
+     *
+     * @return The desired element
+     *
+     * @throws StepExecutionError If the source resolves to null or the wrong type
      */
     protected WebElement getElement(MuseValueSource locator_source, StepExecutionContext context) throws StepExecutionError
         {

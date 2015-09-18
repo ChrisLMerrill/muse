@@ -15,6 +15,10 @@ public class ResourceFactory
     {
     /**
      * Convenience method for unit tests.  Use the other createResources() to load with the correct classpaths for project-defined resources.
+     *
+     * @param origin Where to load the resources from
+     * @return A list of resources loaded from the origin
+     * @throws IOException If the resource cannot be read
      */
     public static List<MuseResource> createResources(ResourceOrigin origin) throws IOException
         {

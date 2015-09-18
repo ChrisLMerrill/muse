@@ -7,6 +7,7 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("unchecked")
 public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
     {
     public AnnotatedValueSourceDescriptor(String type, Class<? extends MuseValueSource> source_class, MuseProject project)

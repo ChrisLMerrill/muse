@@ -12,6 +12,7 @@ import java.util.*;
  */
 public class Launcher
     {
+    @SuppressWarnings("unchecked")
     public static void main(String[] args)
         {
         // dynamically lookup the commands using Java's ServiceRegistry. This looks at the META-INF/service files in jars on the classpath.

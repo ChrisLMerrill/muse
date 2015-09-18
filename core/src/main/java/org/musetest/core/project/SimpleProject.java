@@ -50,6 +50,7 @@ public class SimpleProject implements MuseProject
         }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T findResource(String id, Class<T> interface_class)
         {
         ResourceMetadata filter = new ResourceMetadata();

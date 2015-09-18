@@ -72,6 +72,7 @@ public class CallMacroStep extends ScopedGroup
         }
 
     @Override
+    @SuppressWarnings("unchecked")
     public StepConfigProvider getStepProvider(StepExecutionContext context, StepConfiguration config) throws StepConfigurationError
         {
         List<StepConfiguration> steps = (List<StepConfiguration>) context.getStepVariable(STEPS_VAR);

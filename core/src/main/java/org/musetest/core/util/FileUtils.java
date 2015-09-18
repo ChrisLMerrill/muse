@@ -47,6 +47,10 @@ public class FileUtils
      * check for a BOM, we must do it ourselves.
      * <P>
      * See http://www.unicode.org/faq/utf_bom.html#BOM
+     *
+     * @param f The file to read
+     * @return A reader for the file
+     * @throws IOException If the file cannot be opened
      */
     public static Reader openText(File f) throws IOException
 	    {

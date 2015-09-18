@@ -24,7 +24,14 @@ public abstract class BaseStep implements MuseStep
         }
 
     /**
-     * Get a specific value source from the configuration parameter list
+     * A convenience method to get a specific value source from the configuration parameter list
+     *
+     * @param config The step configuration from which to get the value source
+     * @param name The name of the value config to get
+     * @param required True if this value source is required for correct configuration
+     * @param project The project the step is being instantiated in
+     *
+     * @return Return a configured instance, ready to execute
      *
      * @throws RequiredParameterMissingError if required=true and the parameter is not present
      * @throws MuseInstantiationException if sub-sources cannot be instantiated
@@ -43,12 +50,21 @@ public abstract class BaseStep implements MuseStep
         }
 
     /**
-     * Resolves a value source to the desired type
+     * A convenience method to resolves a value source to the desired type
+     *
+     * @param source The value source to be resolved
+     * @param context The context the step is executed in
+     * @param null_allowed True if null is allowed
+     * @param type The type that the source should resolve to
+     * @param <T> The type of object the source should provide
+     *
+     * @return A value of the supplied type, resolved by the provided source and not null (if null_allowed = false).
      *
      * @throws NullNotAllowedError if the source resolves to null and null_allowed=false
      * @throws WrongTypeError if the source resolves to an incompatible type
      * @throws ValueSourceResolutionError if the source is null (this is likely caused by an implementation defect)
      */
+    @SuppressWarnings("unchecked")
     protected <T> T getValue(MuseValueSource source, StepExecutionContext context, boolean null_allowed, Class<T> type) throws StepConfigurationError
         {
         if (source == null)

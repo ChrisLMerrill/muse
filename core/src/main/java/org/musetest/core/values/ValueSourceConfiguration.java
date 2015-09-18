@@ -71,6 +71,8 @@ public class ValueSourceConfiguration implements Serializable
 
     /**
      * required for serialization. Should not be used externally
+     *
+     * @return A map of named value sources contained in this source.
      */
     public Map<String, ValueSourceConfiguration> getSourceMap()
         {

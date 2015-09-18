@@ -12,12 +12,14 @@ import org.musetest.core.steptest.*;
 public interface MuseStep
     {
     /**
-     * Execute the step within the supplied context.
+     * @param context The context in which to execute this step.
+     * @return The result of the step execution.
+     * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
     StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError;
 
     /**
-     * Get the configuration that produced this step.
+     * @return The configuration that produced this step.
      */
     StepConfiguration getConfiguration();
     }

@@ -27,6 +27,12 @@ public class FactoryLocator
      *
      * WARNING: The class lookups are cached to improve performance and thus will only be performed
      *          once per JVM instance.
+     *
+     * @param T The type of factory to find
+     * @param <T> They type of factory
+     * @param reflections The Reflections object to use in the search
+     *
+     * @return A list of factories classes of type T.
      */
     public static <T> List<T> findFactories(Class T, Reflections reflections)
         {

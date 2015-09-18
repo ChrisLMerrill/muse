@@ -31,6 +31,7 @@ public class TypeLocator
         return _locator.getAnnotationValueToClassMap(MuseTypeId.class).get(type_id);
         }
 
+    @SuppressWarnings("unchecked")
     public <T> List<Class<? extends T>> getImplementors(Class superclass)
         {
         Map<String, Class> type_map = _locator.getAnnotationValueToClassMap(MuseTypeId.class);

@@ -13,6 +13,7 @@ import java.lang.reflect.*;
 public class ClasspathSourceFactory implements ValueSourceFactory
     {
     @Override
+    @SuppressWarnings("unchecked")
     public MuseValueSource createSource(ValueSourceConfiguration configuration, MuseProject project) throws MuseInstantiationException
         {
         String type = configuration.getType();

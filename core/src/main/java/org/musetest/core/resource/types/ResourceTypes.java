@@ -44,6 +44,7 @@ public class ResourceTypes
         return null;
         }
 
+    @SuppressWarnings("unchecked")
     public ResourceType forObject(Object obj)
         {
         for (ResourceType type : _types.values())
