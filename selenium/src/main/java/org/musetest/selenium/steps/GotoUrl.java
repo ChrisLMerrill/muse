@@ -16,7 +16,7 @@ import org.musetest.core.steptest.*;
 @MuseStepIcon("glyph:FontAwesome:PLANE")
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Goto a URL in the browser")
-@MuseStepLongDescription("Resolve the URL source to a string. Then go to that URL in the browser by calling driver.navigate.to() with the URL string.")
+@MuseStepLongDescription("Resolve the URL source to a string. Then go to that URL in the browser by calling driver.navigate.to(URL).")
 public class GotoUrl extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
