@@ -3,8 +3,15 @@ include "core"
 include "selenium"
 include "seleniumide"
 
+rootProject.name = "muse"
+project(":commandline").name = "muse-commandline"
+project(":core").name = "muse-core"
+project(":selenium").name = "muse-selenium"
+project(":seleniumide").name = "muse-seleniumide"
+
+/*
 def prefixProjectName(project, prefix)
   {
   project.name = prefix + project.name
   project.children.each { prefixProjectName(it, prefix) }
-  }
+  }*/

@@ -2,7 +2,7 @@ apply plugin: 'java'
 
 dependencies
     {
-    compile project(':core')
-    compile project(':selenium')
+    compile project(':muse-core')
+    compile project(':muse-selenium')
     compile 'org.jsoup:jsoup:1.8.3'
     }

@@ -3,9 +3,9 @@ apply plugin: 'application'
 //noinspection GroovyAssignabilityCheck
 dependencies
     {
-    compile project(':core')
-    compile project(':selenium')
-    compile project(':seleniumide')
+    compile project(':muse-core')
+    compile project(':muse-selenium')
+    compile project(':muse-seleniumide')
 
     compile 'io.airlift:airline:0.7+'  // command-line parsing
     }
