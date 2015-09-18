@@ -278,7 +278,12 @@ public class ValueSourceConfiguration implements Serializable
         {
         ValueSourceConfiguration config = new ValueSourceConfiguration();
         config.setType(type);
-        config.setSource(ValueSourceConfiguration.forValue(value));
+        ValueSourceConfiguration subsource;
+        if (value instanceof  ValueSourceConfiguration)
+            subsource = (ValueSourceConfiguration) value;
+        else
+            subsource = ValueSourceConfiguration.forValue(value);
+        config.setSource(subsource);
         return config;
         }
 

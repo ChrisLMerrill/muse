@@ -1,6 +1,7 @@
 package org.musetest.selenium.tests;
 
 import org.junit.*;
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.project.*;
@@ -146,8 +147,10 @@ public class SeleniumStepTests
     public static StepConfiguration createOpenBrowserStep()
         {
         StepConfiguration open_browser_step = new StepConfiguration(OpenBrowser.TYPE_ID);
-        open_browser_step.addSource(OpenBrowser.PROVIDER_PARAM, ValueSourceConfiguration.forValue("driver-providers"));
-        open_browser_step.addSource(OpenBrowser.BROWSER_PARAM, ValueSourceConfiguration.forValue("capabilities-musemock"));
+        ValueSourceConfiguration provider_source = ValueSourceConfiguration.forTypeWithSource(ProjectResourceValueSource.TYPE_ID, ValueSourceConfiguration.forValue("driver-providers"));
+        open_browser_step.addSource(OpenBrowser.PROVIDER_PARAM, provider_source);
+        ValueSourceConfiguration browser_source = ValueSourceConfiguration.forTypeWithSource(ProjectResourceValueSource.TYPE_ID, ValueSourceConfiguration.forValue("capabilities-musemock"));
+        open_browser_step.addSource(OpenBrowser.BROWSER_PARAM, browser_source);
         return open_browser_step;
         }
     }

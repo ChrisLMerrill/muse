@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.openqa.selenium.*;
 
@@ -18,7 +19,7 @@ import org.openqa.selenium.*;
 @MuseStepIcon("glyph:FontAwesome:GLOBE")
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Open a new browser session")
-@MuseStepLongDescription("Opens a browser using the browser and provider configured in the project, as identified by the 'browser' and 'provider' sources. The 'browser' should resolve to the id of a SeleniumBrowserCapabilities project resource, which will be converted to a Selenium DesiredCapabilities object. Likewise, the 'provider' should resolve to the id of a to a WebDriverProviderConfiguration resource in the project, which is used to instantiate a WebDriver.")
+@MuseStepLongDescription("Opens a browser using the 'browser' and 'provider' sources. The 'browser' should resolve to the a SeleniumBrowserCapabilities, which will be converted to a Selenium DesiredCapabilities object. Likewise, the 'provider' should resolve to a WebDriverProviderConfiguration, which is used to instantiate a WebDriver.")
 public class OpenBrowser extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection
@@ -33,19 +34,26 @@ public class OpenBrowser extends BaseStep
     public StepExecutionResult execute(StepExecutionContext context) throws StepConfigurationError
         {
         // find the provider
-        String provider_id = getValue(_provider, context, false, String.class);
-        WebDriverProviderConfiguration provider = context.getTestExecutionContext().getProject().findResource(provider_id, WebDriverProviderConfiguration.class);
+        WebDriverProviderConfiguration provider = getValue(_provider, context, false, WebDriverProviderConfiguration.class);
         if (provider == null)
-            throw new StepConfigurationError("Unable to locate WebdriverProvider " + provider_id);
+            {
+            ValueSourceConfiguration provider_config = getConfiguration().getSource(PROVIDER_PARAM);
+            throw new StepConfigurationError("Unable to locate WebdriverProvider from source: " + context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(provider_config).getInstanceDescription(provider_config));
+            }
 
-        String capabilities_id = getValue(_browser, context, false, String.class);
-        SeleniumBrowserCapabilities capabilities = context.getTestExecutionContext().getProject().findResource(capabilities_id, SeleniumBrowserCapabilities.class);
+        SeleniumBrowserCapabilities capabilities = getValue(_browser, context, false, SeleniumBrowserCapabilities.class);
         if (capabilities == null)
-            throw new StepConfigurationError("Unable to locate SeleniumBrowserCapabilities " + capabilities_id);
+            {
+            ValueSourceConfiguration browser_config = getConfiguration().getSource(PROVIDER_PARAM);
+            throw new StepConfigurationError("Unable to locate SeleniumBrowserCapabilities from source: " + context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(browser_config).getInstanceDescription(browser_config));
+            }
 
         WebDriver driver = provider.getDriver(capabilities);
         if (driver == null)
-            throw new StepConfigurationError(String.format("The WebdriverProvider (%s) was not able to provide a browser matching the specified capabilities (%s).", provider_id, capabilities.toDesiredCapabilities().toString()));
+            {
+            ValueSourceConfiguration provider_config = getConfiguration().getSource(PROVIDER_PARAM);
+            throw new StepConfigurationError(String.format("The WebdriverProvider (%s) was not able to provide a browser matching the specified capabilities (%s).", context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(provider_config).getInstanceDescription(provider_config), capabilities.toDesiredCapabilities().toString()));
+            }
 
         BrowserStepExecutionContext.putDriver(driver, context);
 
