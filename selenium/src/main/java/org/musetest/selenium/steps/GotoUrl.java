@@ -11,8 +11,8 @@ import org.musetest.core.steptest.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("goto-url")
-@MuseStepName("Goto URL")
-@MuseInlineEditString("goto {URL}")
+@MuseStepName("Go to URL")
+@MuseInlineEditString("Go to {URL}")
 @MuseStepIcon("glyph:FontAwesome:PLANE")
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Goto a URL in the browser")
