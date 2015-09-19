@@ -35,7 +35,7 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory, MuseRes
                 }
             catch (Exception e)
                 {
-                LOG.warn("Cannot load resource from origin: " + origin.getDescription(), e);
+                LOG.warn("Cannot load resource from origin: " + origin.getDescription() + " - " + e.getMessage());
                 }
             finally
                 {
@@ -72,7 +72,7 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory, MuseRes
             }
         catch (Exception e)
             {
-            LOG.error("Unable to read a resource from " + origin.getDescription(), e);
+            LOG.error("Unable to read a resource from " + origin.getDescription() + " - " + e.getMessage());
             }
         }
 
@@ -93,7 +93,7 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory, MuseRes
                 }
             catch (Exception e)
                 {
-                LOG.error("Unable to save the resource to " + target_file.getPath(), e);
+                LOG.error("Unable to save the resource to " + target_file.getPath() + " - " + e.getMessage());
                 return false;
                 }
             }
