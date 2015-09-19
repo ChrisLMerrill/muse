@@ -8,6 +8,8 @@ import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -30,16 +32,7 @@ public class EqualityCondition extends BinaryCondition
         {
         Object value1 = _left.resolveValue(context);
         Object value2 = _right.resolveValue(context);
-        boolean result;
-        if (value1 == null)
-            {
-            if (value2 == null)
-                result = true;
-            else
-                result = false;
-            }
-        else
-            result = value1.equals(value2);
+        boolean result = Objects.equals(value1, value2);
 
         context.getTestExecutionContext().raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s=%s) is %b", value1, value2, result)));
         return result;
