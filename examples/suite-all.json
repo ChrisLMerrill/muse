@@ -1,0 +1,10 @@
+{ "type":"suite_of_ids",
+  "testIds": 
+  	[
+  	"ex1-GetAndSetVariable-Verify-Equals",
+  	"ex2-If-LessThan-LogMessage",
+  	"ex3-Increment-While",
+  	"ex4-callMacro",
+  	"ex5-FunctionCantSeeCallerVariables"
+  	]
+}

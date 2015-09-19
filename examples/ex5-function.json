@@ -1,0 +1,29 @@
+{
+  "type" : "function",
+  "step" : {
+    "type" : "compound",
+    "metadata" : {
+      "description" : null
+    },
+    "children" : [ {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "counter",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "type" : "null"
+            }
+          }
+        }
+      }
+    } ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type" : "steppedtest",
+  "step" : {
+    "type" : "scope",
+    "metadata" : {
+      "description" : null
+    },
+    "children" : [ {
+      "type" : "store-variable",
+      "sources" : {
+        "name" : {
+          "value" : "counter",
+          "type" : "string"
+        },
+        "value" : {
+          "value" : "anything",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "callfunction",
+      "sources" : {
+        "id" : {
+          "value" : "ex5-function",
+          "type" : "string"
+        }
+      }
+    } ]
+  }
+}

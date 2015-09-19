@@ -1,0 +1,22 @@
+{
+  "type" : "macro",
+  "step" : {
+    "type" : "compound",
+    "metadata" : {
+      "description" : null
+    },
+    "children" : [ {
+      "type" : "increment-variable",
+      "sources" : {
+        "amount" : {
+          "value" : 5,
+          "type" : "integer"
+        },
+        "name" : {
+          "value" : "counter",
+          "type" : "string"
+        }
+      }
+    } ]
+  }
+}
