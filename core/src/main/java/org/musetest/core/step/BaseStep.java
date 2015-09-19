@@ -15,12 +15,13 @@ public abstract class BaseStep implements MuseStep
     {
     public BaseStep(StepConfiguration configuration)
         {
+        _config = configuration;
         }
 
     @Override
     public StepConfiguration getConfiguration()
         {
-        return null;
+        return _config;
         }
 
     /**
@@ -84,6 +85,8 @@ public abstract class BaseStep implements MuseStep
             return (T) value;
         throw new WrongTypeError(source, value);
         }
+
+    private StepConfiguration _config;
     }
 
 

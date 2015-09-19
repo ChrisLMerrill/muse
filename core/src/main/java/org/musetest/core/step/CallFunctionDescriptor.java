@@ -24,7 +24,18 @@ public class CallFunctionDescriptor extends AnnotatedStepDescriptor
         if (sources == null || sources.size() == 1)
             return start;
 
-        StringBuilder builder = new StringBuilder(start);
+        StringBuilder builder = new StringBuilder();
+        ValueSourceConfiguration return_source = step.getSource(CallFunction.RETURN_PARAM);
+        if (return_source != null)
+            {
+            builder.append(getProject().getValueSourceDescriptors().get(return_source).getInstanceDescription(return_source));
+            builder.append(" = ");
+            }
+
+        builder.append(super.getShortDescription(step));
+        if (sources.keySet().size() == 0)
+            return builder.toString();
+
         builder.append(" with ");
 
         boolean first = true;

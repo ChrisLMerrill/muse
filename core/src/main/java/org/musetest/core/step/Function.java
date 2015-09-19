@@ -2,6 +2,7 @@ package org.musetest.core.step;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.types.*;
 
 
 /**
@@ -16,6 +17,7 @@ public class Function implements MuseResource, ContainsStep
     @SuppressWarnings("unused")   // required for Jackson serialization
     public Function()
         {
+        getMetadata().setType(ResourceTypes.Function);
         }
 
     @Override

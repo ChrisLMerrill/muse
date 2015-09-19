@@ -8,5 +8,6 @@ public enum StepExecutionStatus
     COMPLETE,
     INCOMPLETE,
     FAILURE,
+    RETURN,
     ERROR
     }

@@ -1,12 +1,10 @@
 package org.musetest.core.step;
 
-import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
-import org.musetest.core.values.descriptor.*;
 
 import java.util.*;
 
@@ -45,7 +43,7 @@ public class CallFunction extends CallMacroStep
         Map<String, Object> values = new HashMap<>();
         for (String name : sources.keySet())
             {
-            if (name.equals(CallMacroStep.ID_PARAM))
+            if (name.equals(ID_PARAM) || name.equals(RETURN_PARAM))
                 continue;
             Object value = sources.get(name).createSource(_project).resolveValue(context);
             values.put(name, value);
@@ -59,12 +57,44 @@ public class CallFunction extends CallMacroStep
         }
 
     @Override
+    protected void finish(StepExecutionContext context) throws StepConfigurationError
+        {
+        String return_variable_into = null;
+        if (_config.getSource(RETURN_PARAM) != null)
+            {
+            try
+                {
+                MuseValueSource source = getValueSource(_config, RETURN_PARAM, false, _project);
+                return_variable_into = getValue(source, context, true, String.class);
+                }
+            catch (RequiredParameterMissingError requiredParameterMissingError)
+                {
+                // this param isn't required
+                }
+            }
+
+        // get the return value from the function scope
+        Object return_value = null;
+        if (return_variable_into != null)
+            return_value = context.getTestExecutionContext().getVariable(INTERNAL_RETURN_PARAM);
+
+        super.finish(context);
+
+        // store the return value in the caller scope
+        if (return_variable_into != null)
+            context.getTestExecutionContext().setVariable(return_variable_into, return_value);
+        }
+
+    @Override
     protected boolean isCreateNewVariableScope()
         {
         return true;
         }
 
     private StepConfiguration _config;
+
+    public final static String RETURN_PARAM = "return";
+    public final static String INTERNAL_RETURN_PARAM = "_return";
 
     public final static String TYPE_ID = CallFunction.class.getAnnotation(MuseTypeId.class).value();
     }

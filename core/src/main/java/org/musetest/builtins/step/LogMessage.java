@@ -38,7 +38,7 @@ public class LogMessage extends BaseStep
             message = value.toString();
         context.getTestExecutionContext().raiseEvent(new MessageEvent(message));
         LOG.info(message);
-        return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, message);
+        return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }
 
     private MuseValueSource _message;

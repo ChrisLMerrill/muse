@@ -38,7 +38,7 @@ public class ScopedGroup extends BasicCompoundStep
         }
 
     @Override
-    protected void finish(StepExecutionContext context)
+    protected void finish(StepExecutionContext context) throws StepConfigurationError
         {
         if (isCreateNewVariableScope())
             context.getTestExecutionContext().popVariableScope();

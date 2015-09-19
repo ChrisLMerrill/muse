@@ -92,8 +92,10 @@ public class SteppedTestExecutor
                 _test_status = MuseTestResultStatus.Error;
                 finishStep(step_config, step_config, step_context, step_result);
                 }
-            else if (step_result.getStatus() == StepExecutionStatus.COMPLETE)
+            else if (step_result.getStatus() == StepExecutionStatus.COMPLETE || step_result.getStatus() == StepExecutionStatus.RETURN)
                 {
+                if (step_result.getStatus() == StepExecutionStatus.RETURN)
+                    LOG.info("info");
                 finishStep(step_config, step_config, step_context, step_result);
                 }
             else if (step_result.getStatus() == StepExecutionStatus.INCOMPLETE)

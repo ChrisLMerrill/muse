@@ -3,6 +3,7 @@ package org.musetest.builtins.tests;
 import org.junit.*;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
@@ -159,7 +160,7 @@ public class StepTests
         }
 
     @Test
-    public void testCallStep()
+    public void testCallMacro()
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
 
@@ -187,6 +188,85 @@ public class StepTests
         MuseTestResult result = runner.getResult();
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
         Assert.assertEquals(123L, runner.getTestContext().getVariable("abc"));
+        }
+
+    /**
+     * Ensure parameters are passed to a function and the return value is passed back.
+     */
+    @Test
+    public void testCallFunction()
+        {
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+
+        // create a function to call -- it will increment the parameter value and return it
+        String function_id = "TestFunction";
+        Function function = new Function();
+        StepConfiguration main = new StepConfiguration(BasicCompoundStep.TYPE_ID);
+        StepConfiguration store_step = new StepConfiguration(IncrementVariable.TYPE_ID);
+        String param_name = "param1";
+        store_step.addSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue(param_name));
+        main.addChild(store_step);
+        StepConfiguration return_step = new StepConfiguration(ReturnStep.TYPE_ID);
+        return_step.addSource(ReturnStep.VALUE_PARAM, ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, param_name));
+        main.addChild(return_step);
+        function.getMetadata().setId(function_id);
+        function.getMetadata().setType(ResourceTypes.Function);
+        function.setStep(main);
+        project.addResource(function);
+
+        // create a step and test that calls the function above
+        StepConfiguration test_step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
+        StepConfiguration call_function = new StepConfiguration(CallFunction.TYPE_ID);
+        call_function.addSource(CallFunction.ID_PARAM, ValueSourceConfiguration.forValue(function_id));
+        call_function.addSource(param_name, ValueSourceConfiguration.forValue(6L));
+        String return_var_id = "returned";
+        call_function.addSource(CallFunction.RETURN_PARAM, ValueSourceConfiguration.forValue(return_var_id));
+        test_step.addChild(call_function);
+        SteppedTest test = new SteppedTest(test_step);
+
+        // verify that the return value is correct in the context (the function should have incremented by one
+        TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        runner.runTest();
+        MuseTestResult result = runner.getResult();
+        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertEquals(7L, runner.getTestContext().getVariable(return_var_id));
+        }
+
+    /**
+     * Ensure that return exits the function immediately and following steps are not executed.
+     */
+    @Test
+    public void testReturnEarlyFromFunction()
+        {
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+
+        // create a function to call -- it will increment the parameter value and return it
+        String function_id = "TestFunction";
+        Function function = new Function();
+        StepConfiguration main = new StepConfiguration(BasicCompoundStep.TYPE_ID);
+        StepConfiguration return_step = new StepConfiguration(ReturnStep.TYPE_ID);
+        main.addChild(return_step);
+        StepConfiguration log_step = new StepConfiguration(LogMessage.TYPE_ID);
+        String logged_message = "logged";
+        log_step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(logged_message));
+        main.addChild(log_step);
+        function.getMetadata().setId(function_id);
+        function.setStep(main);
+        project.addResource(function);
+
+        // create a step and test that calls the function above
+        StepConfiguration test_step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
+        StepConfiguration call_function = new StepConfiguration(CallFunction.TYPE_ID);
+        call_function.addSource(CallFunction.ID_PARAM, ValueSourceConfiguration.forValue(function_id));
+        test_step.addChild(call_function);
+        SteppedTest test = new SteppedTest(test_step);
+
+        // verify that the return value is correct in the context (the function should have incremented by one
+        TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        runner.runTest();
+        MuseTestResult result = runner.getResult();
+        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.getLog().findEvents(MuseEventType.Message).size() == 0);
         }
     }
 
