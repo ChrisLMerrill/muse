@@ -235,6 +235,7 @@ public class StepTests
     /**
      * Ensure that return exits the function immediately and following steps are not executed.
      */
+/*
     @Test
     public void testReturnEarlyFromFunction()
         {
@@ -268,6 +269,7 @@ public class StepTests
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
         Assert.assertTrue(result.getLog().findEvents(MuseEventType.Message).size() == 0);
         }
+*/
     }
 
 
