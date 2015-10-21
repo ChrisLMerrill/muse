@@ -7,8 +7,6 @@ import org.musetest.core.step.*;
 import org.musetest.core.test.*;
 import org.slf4j.*;
 
-import java.util.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -19,7 +17,6 @@ public class SteppedTestExecutor
         _context = context;
         _test = test;
         _context.addEventListener(_log);
-        context.pushProvider(new SimpleStepConfigProvider(_test.getStep()));
         }
 
     public MuseTestResult executeAll()
@@ -44,6 +41,9 @@ public class SteppedTestExecutor
             _test_status = MuseTestResultStatus.Error;
             return false;
             }
+
+        _context.getExecutionStack().push(new SingleStepExecutionContext(_context, _test.getStep(), true));
+
         return true;
         }
 
@@ -65,47 +65,22 @@ public class SteppedTestExecutor
      */
     public boolean executeNextStep()
         {
-        StepConfiguration step_config = getNextStep();
-        if (step_config == null)
+        if (!_context.getExecutionStack().hasMoreSteps())
             return false;
 
-        StepExecutionContext step_context = null;
-        String error_message;
+        StepExecutionContext step_context = _context.getExecutionStack().peek();
+        String error_message = null;
+        StepExecutionResult step_result = null;
+        MuseStep step = null;
         try
             {
-            error_message = null;
-            step_context = _step_contexts.get(step_config);
-            if (step_context == null)
-                step_context = createStepExecutionContext(step_config);
-            _context.raiseEvent(new StepEvent(MuseEventType.StartStep, step_config, step_context));
+            step = step_context.getCurrentStep();
+            step_result = step.execute(step_context);
 
-            MuseStep step = step_config.createStep(_context.getProject());
-
-            StepExecutionResult step_result = step.execute(step_context);
-            if (step_result.getStatus() == StepExecutionStatus.FAILURE)
-                {
+            if (step_result.getStatus() == StepExecutionStatus.FAILURE && _test_status == MuseTestResultStatus.Success)
                 _test_status = MuseTestResultStatus.Failure;
-                finishStep(step_config, step_config, step_context, step_result);
-                }
             else if (step_result.getStatus() == StepExecutionStatus.ERROR)
-                {
                 _test_status = MuseTestResultStatus.Error;
-                finishStep(step_config, step_config, step_context, step_result);
-                }
-            else if (step_result.getStatus() == StepExecutionStatus.COMPLETE || step_result.getStatus() == StepExecutionStatus.RETURN)
-                {
-                if (step_result.getStatus() == StepExecutionStatus.RETURN)
-                    LOG.info("info");
-                finishStep(step_config, step_config, step_context, step_result);
-                }
-            else if (step_result.getStatus() == StepExecutionStatus.INCOMPLETE)
-                {
-                _context.raiseEvent(new StepEvent(MuseEventType.EndStep, step_config, step_context, step_result));
-                if (step instanceof CompoundStep)
-                    _context.pushProvider(((CompoundStep)step).getStepProvider(step_context, step_config));
-                else
-                    throw new StepConfigurationError("A step returned an INCOMPLETE status, but does not implement the CompoundStep interface: " + step.getClass().getName());
-                }
             }
         catch (StepConfigurationError error)
             {
@@ -117,47 +92,28 @@ public class SteppedTestExecutor
             }
         catch (Throwable t)
             {
-            LOG.error("Unexpected error caught while executing step " + step_config.toString(), t);
+            LOG.error("Unexpected error caught while executing step", t);
             error_message = "cannot execute the step due to an unexpected error: " + t.getMessage();
             }
 
         if (error_message != null)
             {
-            StepExecutionResult result = new BasicStepExecutionResult(StepExecutionStatus.ERROR, error_message);
-            if (step_context != null) // if the step was started
-                finishStep(step_config, step_config, step_context, result);
+//            step_result = new BasicStepExecutionResult(StepExecutionStatus.ERROR, error_message);
             _context.raiseEvent(new TestErrorEvent(error_message));
             _test_status = MuseTestResultStatus.Error;
+            return false;
             }
+        if (step != null && !step_result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
+            step_context.stepComplete(step, step_result);
 
         return true;
         }
 
     public StepConfiguration getNextStep()
         {
-        return _context.getStepConfigProvider().queryCurrentStep();
+        return _context.getExecutionStack().peek().getCurrentStepConfiguration();
         }
 
-    private void finishStep(StepConfiguration step_config, StepConfiguration config, StepExecutionContext context, StepExecutionResult step_result)
-        {
-        _context.raiseEvent(new StepEvent(MuseEventType.EndStep, config, context, step_result));
-        removeStepExecutionContext(step_config);
-        _context.getStepConfigProvider().popCurrentStep();
-        }
-
-    private StepExecutionContext createStepExecutionContext(StepConfiguration configuration)
-        {
-        StepExecutionContext context = new SimpleStepExecutionContext(_context);
-        _step_contexts.put(configuration, context);
-        return context;
-        }
-
-    private void removeStepExecutionContext(StepConfiguration configuration)
-        {
-        _step_contexts.remove(configuration);
-        }
-
-    private Map<StepConfiguration, StepExecutionContext> _step_contexts = new HashMap<>();
     private SteppedTestExecutionContext _context;
     private SteppedTest _test;
     private final EventLog _log = new EventLog();

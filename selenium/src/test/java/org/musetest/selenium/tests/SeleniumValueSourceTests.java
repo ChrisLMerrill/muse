@@ -3,6 +3,7 @@ package org.musetest.selenium.tests;
 import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
@@ -22,7 +23,7 @@ public class SeleniumValueSourceTests
         {
         final String THE_URL = "http://the.url/is/this";
         MuseMockDriver driver = new MuseMockDriver();
-        StepExecutionContext context = SimpleStepExecutionContext.create();
+        StepExecutionContext context = new DummyStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         driver.get(THE_URL);
         CurrentUrlValueSource source = new CurrentUrlValueSource(null, null);
@@ -34,7 +35,7 @@ public class SeleniumValueSourceTests
         {
         final String THE_URL = "http://the.url/is/this";
         MuseMockDriver driver = new MuseMockDriver();
-        StepExecutionContext context = SimpleStepExecutionContext.create();
+        StepExecutionContext context = new DummyStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         driver.get(THE_URL);
         PageTitleValueSource source = new PageTitleValueSource(null, null);
@@ -53,7 +54,7 @@ public class SeleniumValueSourceTests
         MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(XPathElementValueSource.TYPE_ID, xpath).createSource(null);
         Assert.assertTrue(source instanceof XPathElementValueSource);
 
-        StepExecutionContext context = SimpleStepExecutionContext.create();
+        StepExecutionContext context = new DummyStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         Object value = source.resolveValue(context);
         Assert.assertEquals(element1, value);
@@ -78,7 +79,7 @@ public class SeleniumValueSourceTests
         MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(IdElementValueSource.TYPE_ID, id).createSource(null);
         Assert.assertTrue(source instanceof IdElementValueSource);
 
-        StepExecutionContext context = SimpleStepExecutionContext.create();
+        StepExecutionContext context = new DummyStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         Object value = source.resolveValue(context);
         Assert.assertEquals(element1, value);

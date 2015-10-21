@@ -17,7 +17,7 @@ import java.util.*;
 @MuseStepTypeGroup("Structure")
 @MuseStepShortDescription("Group of steps")
 @MuseStepLongDescription("Visually group a collection of steps together under a single parent. The grouping has no effect on execution - they are exceuted in same scope as the siblings to their parent. It is intended as an aid to visual maintenance of the tests.")
-public class BasicCompoundStep extends BaseStep implements CompoundStep
+public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfStepsCompletionListener
     {
     @SuppressWarnings("unused") // called via reflection
     public BasicCompoundStep(StepConfiguration config, MuseProject project)
@@ -27,26 +27,39 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
         {
+        _context = context;
         if (shouldEnter(context))
             {
-            context.setStepVariable(EXECUTED_MARKER_VAR, true);
-            start(context);
+            StepExecutionContext new_context = createStepExecutionContextForChildren(context);
+            context.getTestExecutionContext().getExecutionStack().push(new_context);
+            beforeChildrenExecuted(new_context);
+
             return new BasicStepExecutionResult(StepExecutionStatus.INCOMPLETE);
             }
         else
             {
-            finish(context);
+            afterChildrenExecuted(context);
             return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
             }
         }
 
-    @Override
-    public StepConfigProvider getStepProvider(StepExecutionContext context, StepConfiguration config) throws StepConfigurationError
+    protected StepExecutionContext createStepExecutionContextForChildren(StepExecutionContext context) throws StepExecutionError
         {
-        // run all the steps in order
-        return new LinearListStepConfigurationProvider(_child_list);
+        return new ListOfStepsExecutionContext(context.getTestExecutionContext(), _child_list, isCreateNewVariableScope(), this);
+        }
+
+    protected boolean isCreateNewVariableScope()
+        {
+        return false;
+        }
+
+    @Override
+    public void stepsComplete()
+        {
+        _context.getTestExecutionContext().getExecutionStack().pop();
+        _should_enter = false;
         }
 
     /**
@@ -61,19 +74,17 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep
      */
     protected boolean shouldEnter(StepExecutionContext context) throws StepExecutionError
         {
-        Boolean entered = (Boolean) context.getStepVariable(EXECUTED_MARKER_VAR);
-        if (entered != null && entered)
-            return false;
-        return true;
+        return _should_enter;
         }
 
     /**
      * Subclasses override this to perform an action before the children are executed.
      *
-     * @param context The context of the current execution
+     * @param new_context
+     * @param old_context The context of the current execution
      * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
-    protected void start(StepExecutionContext context) throws StepExecutionError
+    protected void beforeChildrenExecuted(StepExecutionContext old_context) throws StepExecutionError
         {
         }
 
@@ -83,13 +94,13 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep
      * @param context The context of the current execution
      * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
-    protected void finish(StepExecutionContext context) throws StepExecutionError
+    protected void afterChildrenExecuted(StepExecutionContext context) throws StepExecutionError
         {
         }
 
+    private boolean _should_enter = true;
     private List<StepConfiguration> _child_list = null;
-
-    private final static String EXECUTED_MARKER_VAR = "executed";
+    private StepExecutionContext _context;
 
     public final static String TYPE_ID = BasicCompoundStep.class.getAnnotation(MuseTypeId.class).value();
     }

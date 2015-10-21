@@ -7,10 +7,7 @@ import org.musetest.core.steptest.*;
  */
 public interface SteppedTestExecutionContext extends TestExecutionContext
     {
-    StepConfigProvider getStepConfigProvider();
-    void pushProvider(StepConfigProvider provider);
-
-    void pushNewVariableScope();
-    void popVariableScope();
+    void setExecutionStack(StepExecutionContextStack stack);
+    StepExecutionContextStack getExecutionStack();
     }
 

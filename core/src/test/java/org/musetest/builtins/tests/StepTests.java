@@ -38,7 +38,7 @@ public class StepTests
             MuseStep step = config.createStep();
             Assert.assertTrue("createStep() should have thrown an error due to a missing parameter", false);
 
-            step.execute(new DummyStepExecutionContext() {});
+            step.execute(new DummyStepExecutionContext());
             }
         catch (MuseInstantiationException e)
             {
@@ -59,7 +59,7 @@ public class StepTests
 
         // this should log a message
         config.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("this is the message"));
-        config.createStep().execute(new DummyStepExecutionContext() { });
+        config.createStep().execute(new DummyStepExecutionContext());
         }
 
     @Test
@@ -72,7 +72,7 @@ public class StepTests
         StepExecutionContext context = new DummyStepExecutionContext();
         MuseStep step = config.createStep();
         step.execute(context);
-        Assert.assertEquals("abc", context.getTestExecutionContext().getVariable("var1"));
+        Assert.assertEquals("abc", context.getVariable("var1"));
         }
 
     @Test
@@ -85,7 +85,7 @@ public class StepTests
         MuseStep step = config.createStep();
         StepExecutionContext context = new DummyStepExecutionContext();
         step.execute(context);
-        Assert.assertEquals(191L, context.getTestExecutionContext().getVariable("var_int"));
+        Assert.assertEquals(191L, context.getVariable("var_int"));
         }
 
     @Test
@@ -96,9 +96,9 @@ public class StepTests
 
         MuseStep step = config.createStep();
         StepExecutionContext context = new DummyStepExecutionContext();
-        context.getTestExecutionContext().setVariable("var1", 3L);
+        context.setVariable("var1", 3L);
         step.execute(context);
-        Assert.assertEquals(4L, context.getTestExecutionContext().getVariable("var1"));
+        Assert.assertEquals(4L, context.getVariable("var1"));
         }
 
     @Test
@@ -113,9 +113,9 @@ public class StepTests
 
         MuseStep step = config.createStep();
         StepExecutionContext context = new DummyStepExecutionContext();
-        context.getTestExecutionContext().setVariable("var1", start_value);
+        context.setVariable("var1", start_value);
         step.execute(context);
-        Assert.assertEquals(start_value + amount, context.getTestExecutionContext().getVariable("var1"));
+        Assert.assertEquals(start_value + amount, context.getVariable("var1"));
         }
 
     @Test
@@ -142,10 +142,6 @@ public class StepTests
     @Test
     public void testVerifyFailed() throws StepExecutionError
         {
-        EventLog log = new EventLog();
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
-        test_context.addEventListener(log);
-
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue("abc");
         ValueSourceConfiguration right = ValueSourceConfiguration.forValue("def");
         ValueSourceConfiguration condition = ValueSourceConfiguration.forType(EqualityCondition.TYPE_ID);
@@ -155,7 +151,7 @@ public class StepTests
         config.addSource(Verify.CONDITION_PARAM, condition);
         MuseStep step = config.createStep();
 
-        StepExecutionResult result = step.execute(new SimpleStepExecutionContext(new DefaultSteppedTestExecutionContext(test_context)));
+        StepExecutionResult result = step.execute(new DummyStepExecutionContext());
         Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
         }
 
@@ -168,10 +164,11 @@ public class StepTests
         String macro_id = "TestMacro";
         Macro macro = new Macro();
         StepConfiguration main = new StepConfiguration(BasicCompoundStep.TYPE_ID);
-        StepConfiguration store_step = new StepConfiguration(StoreVariable.TYPE_ID);
-        store_step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("abc"));
-        store_step.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(123L));
-        main.addChild(store_step);
+
+        final String message = "the message";
+        StepConfiguration message_step = new StepConfiguration(LogMessage.TYPE_ID);
+        message_step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message));
+        main.addChild(message_step);
         macro.getMetadata().setId(macro_id);
         macro.getMetadata().setType(ResourceTypes.Macro);
         macro.setStep(main);
@@ -184,10 +181,12 @@ public class StepTests
 
         // verify that the macro runs when the test is executed
         TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        EventLog log = new EventLog();
+        runner.getTestContext().addEventListener(log);
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
-        Assert.assertEquals(123L, runner.getTestContext().getVariable("abc"));
+        Assert.assertTrue("message step didn't run", log.hasEventWithDescriptionContaining(message));
         }
 
     /**
@@ -222,6 +221,12 @@ public class StepTests
         String return_var_id = "returned";
         call_function.addSource(CallFunction.RETURN_PARAM, ValueSourceConfiguration.forValue(return_var_id));
         test_step.addChild(call_function);
+
+        // create a step to verify the return value
+        StepConfiguration verify_step = new StepConfiguration(Verify.TYPE_ID);
+        verify_step.addSource(Verify.CONDITION_PARAM, EqualityCondition.forSources(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue(7L), ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, return_var_id)));
+        test_step.addChild(verify_step);
+
         SteppedTest test = new SteppedTest(test_step);
 
         // verify that the return value is correct in the context (the function should have incremented by one
@@ -229,13 +234,11 @@ public class StepTests
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
-        Assert.assertEquals(7L, runner.getTestContext().getVariable(return_var_id));
         }
 
     /**
      * Ensure that return exits the function immediately and following steps are not executed.
      */
-/*
     @Test
     public void testReturnEarlyFromFunction()
         {
@@ -262,14 +265,13 @@ public class StepTests
         test_step.addChild(call_function);
         SteppedTest test = new SteppedTest(test_step);
 
-        // verify that the return value is correct in the context (the function should have incremented by one
         TestRunner runner = TestRunnerFactory.create(project, test, true, false);
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        // verify that the message step (which comes after the return) did not run
         Assert.assertTrue(result.getLog().findEvents(MuseEventType.Message).size() == 0);
         }
-*/
     }
 
 

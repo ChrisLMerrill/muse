@@ -4,6 +4,7 @@ import org.junit.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
@@ -59,7 +60,7 @@ public class SeleniumStepTests
         final MuseMockElement element1 = new MuseMockElement();
         driver.addIdElement(id, element1);
 
-        StepExecutionContext context = SimpleStepExecutionContext.create();
+        StepExecutionContext context = new DummyStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);
@@ -90,7 +91,7 @@ public class SeleniumStepTests
         final MuseMockElement mock_element1 = new MuseMockElement();
         driver.addIdElement(element_id, mock_element1);
 
-        StepExecutionContext context = SimpleStepExecutionContext.create(project);
+        StepExecutionContext context = new DummyStepExecutionContext(project);
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);

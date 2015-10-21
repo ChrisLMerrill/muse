@@ -28,7 +28,7 @@ public class ClearElement extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
         {
         getElement(_element_source, context).clear();
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

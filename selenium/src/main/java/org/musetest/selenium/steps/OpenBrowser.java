@@ -31,7 +31,7 @@ public class OpenBrowser extends BaseStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
         {
         // find the provider
         WebDriverProviderConfiguration provider = getValue(_provider, context, false, WebDriverProviderConfiguration.class);

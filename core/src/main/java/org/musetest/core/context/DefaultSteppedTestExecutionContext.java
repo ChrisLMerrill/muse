@@ -37,45 +37,42 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
     @Override
     public Object getVariable(String name)
         {
-        if (!_variable_scopes.isEmpty())
+        // iterate the execution stack for the first variable scope and look for the variable there.
+        Iterator<StepExecutionContext> iterator = _stack.iterator();
+        while (iterator.hasNext())
             {
-            Object value = _variable_scopes.peek().get(name);
-            if (value != null)
-                return value;
+            StepExecutionContext context = iterator.next();
+            Map<String, Object> variables = context.getVariables();
+            if (variables != null)
+                {
+                Object value = variables.get(name);
+                if (value != null)
+                    return value;
+                break;
+                }
             }
+
+        // if the local scope has not defined the variable, look at the test scope
         return _parent_context.getVariable(name);
         }
 
     @Override
     public void setVariable(String name, Object value)
         {
-        if (_variable_scopes.isEmpty())
-            _parent_context.setVariable(name, value);
-        else
-            _variable_scopes.peek().put(name, value);
-        }
+        // iterate the execution stack for the first variable scope and set the variable there.
+        Iterator<StepExecutionContext> iterator = _stack.iterator();
+        while (iterator.hasNext())
+            {
+            StepExecutionContext context = iterator.next();
+            Map<String, Object> variables = context.getVariables();
+            if (variables != null)
+                {
+                variables.put(name,value);
+                return;
+                }
+            }
 
-    @Override
-    public StepConfigProvider getStepConfigProvider()
-        {
-        return _provider;
-        }
-
-    public void pushProvider(StepConfigProvider provider)
-        {
-        _provider.pushProvider(provider);
-        }
-
-    @Override
-    public void pushNewVariableScope()
-        {
-        _variable_scopes.push(new HashMap<>());
-        }
-
-    @Override
-    public void popVariableScope()
-        {
-        _variable_scopes.pop();
+        _parent_context.setVariable(name, value);
         }
 
     @Override
@@ -96,9 +93,20 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         _parent_context.cleanup();
         }
 
-    private StepProviderStack _provider = new StepProviderStack();
-    private Stack<Map<String, Object>> _variable_scopes = new Stack<>();
+    @Override
+    public StepExecutionContextStack getExecutionStack()
+        {
+        return _stack;
+        }
+
+    @Override
+    public void setExecutionStack(StepExecutionContextStack stack)
+        {
+        _stack = stack;
+        }
+
     private TestExecutionContext _parent_context;
+    private StepExecutionContextStack _stack = new StepExecutionContextStack();
     }
 
 

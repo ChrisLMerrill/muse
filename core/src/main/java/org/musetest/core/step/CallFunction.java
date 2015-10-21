@@ -2,6 +2,7 @@ package org.musetest.core.step;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
@@ -36,29 +37,36 @@ public class CallFunction extends CallMacroStep
         }
 
     @Override
-    protected void start(StepExecutionContext context) throws StepConfigurationError
+    protected boolean shouldEnter(StepExecutionContext context) throws StepExecutionError
         {
-        // resolve the parameters (sources) to be passed to the function BEFORE the new variable scope is created.
         Map<String, ValueSourceConfiguration> sources = _config.getSources();
-        Map<String, Object> values = new HashMap<>();
+        // resolve the parameters (sources) to be passed to the function BEFORE the new variable scope is created.
+        _values_to_pass = new HashMap<>();
         for (String name : sources.keySet())
             {
             if (name.equals(ID_PARAM) || name.equals(RETURN_PARAM))
                 continue;
             Object value = sources.get(name).createSource(_project).resolveValue(context);
-            values.put(name, value);
+            _values_to_pass.put(name, value);
             }
 
-        super.start(context);
-
-        // store the values in the new variable scope
-        for (String name : values.keySet())
-            context.getTestExecutionContext().setVariable(name, values.get(name));
+        return super.shouldEnter(context);
         }
 
     @Override
-    protected void finish(StepExecutionContext context) throws StepConfigurationError
+    protected void beforeChildrenExecuted(StepExecutionContext context) throws StepExecutionError
         {
+        super.beforeChildrenExecuted(context);
+
+        // store the values in the new variable scope
+        for (String name : _values_to_pass.keySet())
+            context.setVariable(name, _values_to_pass.get(name));
+        }
+
+    @Override
+    protected void afterChildrenExecuted(StepExecutionContext context) throws StepExecutionError
+        {
+/*
         String return_variable_into = null;
         if (_config.getSource(RETURN_PARAM) != null)
             {
@@ -78,11 +86,12 @@ public class CallFunction extends CallMacroStep
         if (return_variable_into != null)
             return_value = context.getTestExecutionContext().getVariable(INTERNAL_RETURN_PARAM);
 
-        super.finish(context);
+        super.afterChildrenExecuted(context);
 
         // store the return value in the caller scope
         if (return_variable_into != null)
             context.getTestExecutionContext().setVariable(return_variable_into, return_value);
+*/
         }
 
     @Override
@@ -91,10 +100,23 @@ public class CallFunction extends CallMacroStep
         return true;
         }
 
+    public void returned(StepExecutionContext context, Object return_value) throws StepConfigurationError
+        {
+        MuseValueSource return_var_name_source = getValueSource(_config, RETURN_PARAM, false, context.getTestExecutionContext().getProject());
+        if (return_var_name_source != null)
+            {
+            String return_var_name = getValue(return_var_name_source, context, false, String.class);
+            context.setVariable(return_var_name, return_value);
+            }
+
+        context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context));
+        context.stepComplete(this, new BasicStepExecutionResult(StepExecutionStatus.COMPLETE));
+        }
+
     private StepConfiguration _config;
+    private Map<String, Object> _values_to_pass;
 
     public final static String RETURN_PARAM = "return";
-    public final static String INTERNAL_RETURN_PARAM = "_return";
 
     public final static String TYPE_ID = CallFunction.class.getAnnotation(MuseTypeId.class).value();
     }

@@ -28,7 +28,7 @@ public class LogMessage extends BaseStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
         {
         Object value = getValue(_message, context, true, Object.class);
         String message;

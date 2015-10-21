@@ -3,6 +3,7 @@ package org.musetest.javascript.tests;
 import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
@@ -70,7 +71,7 @@ public class JavascriptTests
         project.addResource(step_resource);
 
         MuseStep step = config.createStep(project);
-        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(new SimpleStepExecutionContext(new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext()))).getStatus());
+        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(new DummyStepExecutionContext()).getStatus());
         }
 
     }

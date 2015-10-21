@@ -1,7 +1,6 @@
-package org.musetest.core.mocks;
+package org.musetest.core.context;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 
@@ -10,15 +9,13 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class DummyStepExecutionContext implements StepExecutionContext
+public abstract class BaseStepExecutionContext implements StepExecutionContext
     {
-    public DummyStepExecutionContext()
+    public BaseStepExecutionContext(SteppedTestExecutionContext test_context, boolean new_variable_scope)
         {
-        }
-
-    public DummyStepExecutionContext(MuseProject project)
-        {
-        _test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project));
+        _test_context = test_context;
+        if (new_variable_scope)
+            _step_vars = new HashMap<>();
         }
 
     @Override
@@ -26,8 +23,6 @@ public class DummyStepExecutionContext implements StepExecutionContext
         {
         return _test_context;
         }
-
-    private SteppedTestExecutionContext _test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext());
 
     @Override
     public StepConfiguration getCurrentStepConfiguration()
@@ -44,6 +39,7 @@ public class DummyStepExecutionContext implements StepExecutionContext
     @Override
     public void stepComplete(MuseStep step, StepExecutionResult result)
         {
+
         }
 
     @Override
@@ -55,22 +51,23 @@ public class DummyStepExecutionContext implements StepExecutionContext
     @Override
     public Object getVariable(String name)
         {
-        return _variables.get(name);
+        return _test_context.getVariable(name);
         }
 
     @Override
     public void setVariable(String name, Object value)
         {
-        _variables.put(name, value);
+        _test_context.setVariable(name, value);
         }
 
     @Override
     public Map<String, Object> getVariables()
         {
-        return _variables;
+        return _step_vars;
         }
 
-    private Map<String, Object> _variables = new HashMap<>();
+    private SteppedTestExecutionContext _test_context;
+    private Map<String, Object> _step_vars = null;
     }
 
 

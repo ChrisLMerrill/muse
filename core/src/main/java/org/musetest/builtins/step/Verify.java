@@ -28,7 +28,7 @@ public class Verify extends BaseStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
         {
         Object value = _source.resolveValue(context);
         if (!(value instanceof Boolean))

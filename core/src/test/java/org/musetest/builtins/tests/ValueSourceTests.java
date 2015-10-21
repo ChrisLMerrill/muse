@@ -43,9 +43,9 @@ public class ValueSourceTests
     public void variableValueSource() throws StepExecutionError
         {
         MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("abc")).createSource(null);
-        DefaultTestExecutionContext context = new DefaultTestExecutionContext();
+        StepExecutionContext context = new DummyStepExecutionContext();
         context.setVariable("abc", 123L);
-        Assert.assertEquals(123L, source.resolveValue(new SimpleStepExecutionContext(new DefaultSteppedTestExecutionContext(context))));
+        Assert.assertEquals(123L, source.resolveValue(context));
         }
 
     @Test
@@ -53,10 +53,10 @@ public class ValueSourceTests
         {
         ValueSourceConfiguration varname_holding_the_varname = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("varname"));
         MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, varname_holding_the_varname).createSource(null);
-        DefaultTestExecutionContext context = new DefaultTestExecutionContext();
+        StepExecutionContext context = new DummyStepExecutionContext();
         context.setVariable("abc", 123L);
         context.setVariable("varname", "abc");
-        Assert.assertEquals(123L, source.resolveValue(new SimpleStepExecutionContext(new DefaultSteppedTestExecutionContext(context))));
+        Assert.assertEquals(123L, source.resolveValue(context));
         }
 
     @Test
@@ -66,7 +66,7 @@ public class ValueSourceTests
         config.addSource(ValueSourceConfiguration.forValue("abc"));
         config.addSource(ValueSourceConfiguration.forValue(8L));
         MuseValueSource source = config.createSource(new SimpleProject());
-        Assert.assertEquals("abc8", source.resolveValue(new SimpleStepExecutionContext(new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext()))));
+        Assert.assertEquals("abc8", source.resolveValue(new DummyStepExecutionContext()));
         }
 
     @Test

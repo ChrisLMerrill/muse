@@ -26,17 +26,11 @@ public class WhileStep extends BasicCompoundStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepConfigurationError
+    protected boolean shouldEnter(StepExecutionContext context) throws StepExecutionError
         {
         Object object = _condition.resolveValue(context);
         if (object instanceof Boolean)
-            {
-            Boolean result = (Boolean) object;
-            if (result)
-                return new BasicStepExecutionResult(StepExecutionStatus.INCOMPLETE);
-            else
-                return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
-            }
+            return (Boolean) object;
         else
             throw new IllegalArgumentException("The source of an WhileStep must resolve to a boolean value. The source (" + _condition + ") resolved to " + object);
         }

@@ -19,6 +19,5 @@ import org.musetest.core.steptest.*;
  */
 public interface CompoundStep extends MuseStep
     {
-    StepConfigProvider getStepProvider(StepExecutionContext context, StepConfiguration config) throws StepConfigurationError;
     }
 

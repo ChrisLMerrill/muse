@@ -44,7 +44,7 @@ public class VariableValueSource implements MuseValueSource
     @Override
     public Object resolveValue(StepExecutionContext context) throws StepConfigurationError
         {
-        Object value = context.getTestExecutionContext().getVariable(_name.resolveValue(context).toString());
+        Object value = context.getVariable(_name.resolveValue(context).toString());
         context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(_configuration).getInstanceDescription(_configuration), value));
         return value;
         }

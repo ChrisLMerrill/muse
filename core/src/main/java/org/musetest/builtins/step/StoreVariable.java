@@ -27,12 +27,12 @@ public class StoreVariable extends BaseStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
         {
         String name = getValue(_name, context, false, String.class);
         Object value = getValue(_value, context, true, Object.class);
 
-        context.getTestExecutionContext().setVariable(name, value);
+        context.setVariable(name, value);
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, String.format("%s = %s", name, value));
         }
 

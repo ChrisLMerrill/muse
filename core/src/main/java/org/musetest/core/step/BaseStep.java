@@ -2,12 +2,15 @@ package org.musetest.core.step;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 
 /**
  * Abstract base step implementation with some convenience methods for using value sources.
+ * Also implements execute() to raise start and end events. Subclasses should override executeStep()
+ * instead of execute() unless they take responsibility for raising those events.
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -23,6 +26,29 @@ public abstract class BaseStep implements MuseStep
         {
         return _config;
         }
+
+    @Override
+    public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError
+        {
+        if (!_started)
+            {
+            _started = true;
+            context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.StartStep, _config, context));
+            }
+        StepExecutionResult result = executeImplementation(context);
+        if (!result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
+            context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
+        return result;
+        }
+
+    /**
+     * Called by BaseStep.execute(). Subclasses should override this instead of execute()... or else take
+     * responsibility for raising the start/end step events
+     *
+     * @param context The context in which the step is executed
+     * @throws StepExecutionError If the step cannot be executed.
+     */
+    protected abstract StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError;
 
     /**
      * A convenience method to get a specific value source from the configuration parameter list
@@ -87,6 +113,7 @@ public abstract class BaseStep implements MuseStep
         }
 
     private StepConfiguration _config;
+    private boolean _started = false;
     }
 
 

@@ -6,6 +6,7 @@ import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
@@ -25,10 +26,10 @@ public class ConditionalAndLoopingTests
         condition.addSource(EqualityCondition.LEFT_PARAM, ValueSourceConfiguration.forValue("ABC"));
         condition.addSource(EqualityCondition.RIGHT_PARAM, ValueSourceConfiguration.forValue("ABC"));
         will_run.addSource("condition", condition);
-        StepConfiguration store_ran1 = new StepConfiguration(StoreVariable.TYPE_ID);
-        store_ran1.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("ran1"));
-        store_ran1.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(true));
-        will_run.addChild(store_ran1);
+        StepConfiguration should_run_step = new StepConfiguration(LogMessage.TYPE_ID);
+        final String should_run_message = "it ran";
+        should_run_step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(should_run_message));
+        will_run.addChild(should_run_step);
         main.addChild(will_run);
 
         StepConfiguration wontrun = new StepConfiguration(IfStep.TYPE_ID);
@@ -36,37 +37,47 @@ public class ConditionalAndLoopingTests
         condition.addSource(EqualityCondition.LEFT_PARAM, ValueSourceConfiguration.forValue("ABC"));
         condition.addSource(EqualityCondition.RIGHT_PARAM, ValueSourceConfiguration.forValue("XYZ"));
         wontrun.addSource("condition", condition);
-        StepConfiguration store_ran2 = new StepConfiguration(StoreVariable.TYPE_ID);
-        store_ran2.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("ran2"));
-        store_ran2.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(true));
-        wontrun.addChild(store_ran2);
+        StepConfiguration should_not_run_step = new StepConfiguration(LogMessage.TYPE_ID);
+        final String should_not_run_message = "should not run";
+        should_not_run_step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(should_not_run_message));
+        wontrun.addChild(should_not_run_step);
         main.addChild(wontrun);
 
         TestExecutionContext context = new DefaultTestExecutionContext();
         SteppedTest test = new SteppedTest(main);
+        EventLog log = new EventLog();
+        context.addEventListener(log);
         MuseTestResult result = test.execute(context);
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
-        Assert.assertEquals(true, context.getVariable("ran1"));
+        Assert.assertTrue("The conditional that should have run, did not", log.hasEventWithDescriptionContaining(should_run_message));
+        Assert.assertFalse("The conditional that should not have run, did run", log.hasEventWithDescriptionContaining(should_not_run_message));
         Assert.assertEquals(null, context.getVariable("ran2"));
         }
 
     @Test
     public void testWhileStepX3()
         {
-        String counter_var_name = "counter";
-
-        SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX);
+        SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 0L);
 
         TestExecutionContext context = new DefaultTestExecutionContext();
-        context.setVariable(counter_var_name, 0L);
+        EventLog log = new EventLog();
+        context.addEventListener(log);
         MuseTestResult result = test.execute(context);
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
-        Assert.assertEquals(3L, context.getVariable(counter_var_name));
+        Assert.assertTrue("first message is missing", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 1));
+        Assert.assertTrue("second message is missing", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 2));
+        Assert.assertTrue("third message is missing", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 3));
+        Assert.assertFalse("this should not be found", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 4));
         }
 
-    private SteppedTest createLoopTest(String counter_var_name, String message_prefix)
+    private SteppedTest createLoopTest(String counter_var_name, String message_prefix, Object initial_value)
         {
         StepConfiguration main = new StepConfiguration("compound");
+
+        StepConfiguration store_step = new StepConfiguration(StoreVariable.TYPE_ID);
+        store_step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue(counter_var_name));
+        store_step.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(initial_value));
+        main.addChild(store_step);
 
         StepConfiguration while_step = new StepConfiguration(WhileStep.TYPE_ID);
         ValueSourceConfiguration condition = ValueSourceConfiguration.forType(LessThanCondition.TYPE_ID);
@@ -92,29 +103,27 @@ public class ConditionalAndLoopingTests
     @Test
     public void testWhileStepX1()
         {
-        String counter_var_name = "counter";
-
-        SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX);
+        SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 2L);
 
         TestExecutionContext context = new DefaultTestExecutionContext();
-        context.setVariable(counter_var_name, 2L);
+        EventLog log = new EventLog();
+        context.addEventListener(log);
         MuseTestResult result = test.execute(context);
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
-        Assert.assertEquals(3L, context.getVariable(counter_var_name));
+        Assert.assertFalse("this should not be found", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 2));
+        Assert.assertTrue("first message is missing", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 3));
         }
 
     @Test
     public void testWhileStepX0()
         {
-        String counter_var_name = "counter";
-
-        SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX);
-
+        SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 3L);
         TestExecutionContext context = new DefaultTestExecutionContext();
-        context.setVariable(counter_var_name, 3L);
+        EventLog log = new EventLog();
+        context.addEventListener(log);
         MuseTestResult result = test.execute(context);
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
-        Assert.assertEquals(3L, context.getVariable(counter_var_name));
+        Assert.assertFalse("this should not be found", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 1));
         }
 
     private final static String COUNTER_NAME = "counter";

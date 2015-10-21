@@ -26,14 +26,14 @@ public class IncrementVariable extends BaseStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
         {
         String name = getValue(_name, context, false, String.class);
         Long amount = getValue(_amount, context, true, Long.class);
         if (amount == null)
             amount = 1L;
 
-        Object variable = context.getTestExecutionContext().getVariable(name);
+        Object variable = context.getVariable(name);
         if (variable == null)
             return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, String.format("IncrementVariable unable to proceed: the variable (%s) has not been set.", _name.getDescription()));
         if (!(variable instanceof Long))
@@ -41,7 +41,7 @@ public class IncrementVariable extends BaseStep
         else
             {
             long result = (Long) variable + amount;
-            context.getTestExecutionContext().setVariable(name, result);
+            context.setVariable(name, result);
             return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, String.format("%s = %d", _name.toString(), result));
             }
         }

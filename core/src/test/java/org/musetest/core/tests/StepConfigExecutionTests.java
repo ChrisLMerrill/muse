@@ -4,9 +4,9 @@ import org.junit.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.steptest.SteppedTestExecutor;
 import org.musetest.core.values.*;
 
 /**
@@ -17,18 +17,20 @@ public class StepConfigExecutionTests
     @Test
     public void singleStep()
         {
-        StepConfiguration step_a = new StepConfiguration(StoreVariable.TYPE_ID);
-        step_a.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("X"));
-        step_a.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(123L));
+        final String message = "this is the message";
+        StepConfiguration step_a = new StepConfiguration(LogMessage.TYPE_ID);
+        step_a.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message));
 
         SteppedTest test = new SteppedTest(step_a);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
+        EventLog log = new EventLog();
+        test_context.addEventListener(log);
         SteppedTestExecutor executor = new SteppedTestExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
 
         MuseTestResult result = executor.executeAll();
 
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
-        Assert.assertEquals(123L, test_context.getVariable("X"));
+        Assert.assertTrue("message step did not run", log.hasEventWithDescriptionContaining(message));
         }
 
     @Test
@@ -37,20 +39,21 @@ public class StepConfigExecutionTests
         StepConfiguration parent = new StepConfiguration();
         parent.setType("compound");
 
-        StepConfiguration child = new StepConfiguration();
-        child.setType("store-variable");
-        child.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("X"));
-        child.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(123L));
+        final String message = "the message";
+        StepConfiguration child = new StepConfiguration(LogMessage.TYPE_ID);
+        child.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message));
         parent.addChild(child);
 
         SteppedTest test = new SteppedTest(parent);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
+        EventLog log = new EventLog();
+        test_context.addEventListener(log);
         SteppedTestExecutor executor = new SteppedTestExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
 
         MuseTestResult result = executor.executeAll();
 
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
-        Assert.assertEquals(123L, test_context.getVariable("X"));
+        Assert.assertTrue("step didn't run", log.hasEventWithDescriptionContaining(message));
         }
 
     @Test
@@ -59,27 +62,27 @@ public class StepConfigExecutionTests
         StepConfiguration parent = new StepConfiguration();
         parent.setType("compound");
 
-        StepConfiguration child1 = new StepConfiguration();
-        child1.setType("store-variable");
-        child1.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("X"));
-        child1.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(123L));
+        final String message1 = "message1";
+        StepConfiguration child1 = new StepConfiguration(LogMessage.TYPE_ID);
+        child1.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message1));
         parent.addChild(child1);
 
-        StepConfiguration child2 = new StepConfiguration();
-        child2.setType("store-variable");
-        child2.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("Y"));
-        child2.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(456L));
+        final String message2 = "message2";
+        StepConfiguration child2 = new StepConfiguration(LogMessage.TYPE_ID);
+        child2.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message2));
         parent.addChild(child2);
 
         SteppedTest test = new SteppedTest(parent);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
+        EventLog log = new EventLog();
+        test_context.addEventListener(log);
         SteppedTestExecutor executor = new SteppedTestExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
 
         MuseTestResult result = executor.executeAll();
 
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
-        Assert.assertEquals(123L, test_context.getVariable("X"));
-        Assert.assertEquals(456L, test_context.getVariable("Y"));
+        Assert.assertTrue("first step didn't run", log.hasEventWithDescriptionContaining(message1));
+        Assert.assertTrue("second step didn't run", log.hasEventWithDescriptionContaining(message2));
         }
 
     // TODO test doubly-nested compound steps

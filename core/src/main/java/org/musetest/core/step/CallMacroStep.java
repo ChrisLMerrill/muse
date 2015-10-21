@@ -37,24 +37,16 @@ public class CallMacroStep extends ScopedGroup
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError
+    protected StepExecutionContext createStepExecutionContextForChildren(StepExecutionContext context) throws StepExecutionError
         {
-        if (context.getStepVariable(STEPS_VAR) != null)
-            {
-            finish(context);
-            return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
-            }
-
-        start(context);
-
         Object id_obj = _id.resolveValue(context);
         if (id_obj == null)
-            return new BasicStepExecutionResult(StepExecutionStatus.ERROR, "id source resolved to null");
+            throw new StepExecutionError("id source resolved to null");
         else if (!(id_obj instanceof String))
             LOG.warn("id source did not resolve to a string. using toString() = " + id_obj.toString());
         ContainsStep resource = _project.findResource(id_obj.toString(), ContainsStep.class);
         if (resource == null)
-            return new BasicStepExecutionResult(StepExecutionStatus.ERROR, "unable to locate id " + id_obj.toString());
+            throw new StepExecutionError("unable to locate id " + id_obj.toString());
 
         StepConfiguration step = resource.getStep();
         List<StepConfiguration> steps;
@@ -66,17 +58,8 @@ public class CallMacroStep extends ScopedGroup
             steps.add(step);
             }
 
-        context.setStepVariable(STEPS_VAR, steps);
         context.getTestExecutionContext().raiseEvent(new DynamicStepLoadingEvent(_config, context, steps));
-        return new BasicStepExecutionResult(StepExecutionStatus.INCOMPLETE);
-        }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public StepConfigProvider getStepProvider(StepExecutionContext context, StepConfiguration config) throws StepConfigurationError
-        {
-        List<StepConfiguration> steps = (List<StepConfiguration>) context.getStepVariable(STEPS_VAR);
-        return new LinearListStepConfigurationProvider(steps);
+        return new ListOfStepsExecutionContext(context.getTestExecutionContext(), steps, isCreateNewVariableScope(), this);
         }
 
     @Override
@@ -88,7 +71,6 @@ public class CallMacroStep extends ScopedGroup
     protected MuseProject _project;
     private StepConfiguration _config;
     private MuseValueSource _id;
-    private static String STEPS_VAR = "STEPS";
 
     public final static String ID_PARAM = "id";
     public final static String TYPE_ID = CallMacroStep.class.getAnnotation(MuseTypeId.class).value();

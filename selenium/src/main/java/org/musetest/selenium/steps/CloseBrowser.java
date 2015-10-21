@@ -27,7 +27,7 @@ public class CloseBrowser extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
         {
         getDriver(context).quit();
         BrowserStepExecutionContext.putDriver(null, context);

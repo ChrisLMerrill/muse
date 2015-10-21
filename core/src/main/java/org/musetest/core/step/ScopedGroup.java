@@ -30,20 +30,6 @@ public class ScopedGroup extends BasicCompoundStep
         super(config, project);
         }
 
-    @Override
-    protected void start(StepExecutionContext context) throws StepConfigurationError
-        {
-        if (isCreateNewVariableScope())
-            context.getTestExecutionContext().pushNewVariableScope();
-        }
-
-    @Override
-    protected void finish(StepExecutionContext context) throws StepConfigurationError
-        {
-        if (isCreateNewVariableScope())
-            context.getTestExecutionContext().popVariableScope();
-        }
-
     protected boolean isCreateNewVariableScope()
         {
         return true;

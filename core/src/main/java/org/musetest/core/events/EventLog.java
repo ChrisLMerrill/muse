@@ -59,6 +59,16 @@ public class EventLog implements MuseEventListener
         return found;
         }
 
+    public boolean hasEventWithDescriptionContaining(String text)
+        {
+        for (MuseEvent event : _events)
+            {
+            if (event.getDescription().contains(text))
+                return true;
+            }
+        return false;
+        }
+
     private List<MuseEvent> _events = new ArrayList<>();
     private long _start_time;
     }

@@ -1,4 +1,7 @@
-package org.musetest.core.execution;
+package org.musetest.core.tests.utils;
+
+import org.junit.*;
+import org.musetest.core.execution.*;
 
 /**
  * Blocks until the test achieves the desired state
@@ -21,11 +24,11 @@ public  class TestStateBlocker implements InteractiveTestStateListener
         _state = state;
         try
             {
-            wait();
+            wait(2000);
             }
         catch (InterruptedException e)
             {
-            // ok
+            Assert.assertTrue("gave up waiting after 2 sec...it probably failed if this was used (as intended) for a should-finish-more-or-less-instantly operation in a unit test.", false);
             }
 
         }

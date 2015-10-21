@@ -23,7 +23,7 @@ public class JavascriptStep extends BaseStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context)
+    public StepExecutionResult executeImplementation(StepExecutionContext context)
         {
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
         engine.put("STEP_COMPLETE", new BasicStepExecutionResult(StepExecutionStatus.COMPLETE));

@@ -2,9 +2,12 @@ package org.musetest.core.step;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -25,16 +28,47 @@ public class ReturnStep extends BaseStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext current_context) throws StepExecutionError
         {
         Object return_value = null;
         if (_source != null)
+            return_value = getValue(_source, current_context, true, Object.class);
+
+        // find the CallFunction step we are returning to
+        StepExecutionContextStack stack = current_context.getTestExecutionContext().getExecutionStack();
+        Iterator<StepExecutionContext> iterator = stack.iterator();
+        StepConfiguration call_step_config = null;
+        CallFunction call_step = null;
+        while (iterator.hasNext())
             {
-            return_value = getValue(_source, context, true, Object.class);
-            context.getTestExecutionContext().setVariable(CallFunction.INTERNAL_RETURN_PARAM, return_value);
+            StepExecutionContext context = iterator.next();
+            if (context.getCurrentStepConfiguration().getType().equals(CallFunction.TYPE_ID))
+                {
+                call_step_config = context.getCurrentStepConfiguration();
+                call_step = (CallFunction) context.getCurrentStep();
+                break;
+                }
             }
 
-        return new BasicStepExecutionResult(StepExecutionStatus.RETURN, String.format("returning %s", return_value));
+        if (call_step_config == null)
+            return new BasicStepExecutionResult(StepExecutionStatus.ERROR, "Return may only be executed within a CallFunction step.");
+
+
+        // complete intermediate contexts and then pop from stack
+        while (stack.peek().getCurrentStepConfiguration() != call_step_config)
+            {
+            StepExecutionContext popped_context = stack.peek();
+            current_context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, popped_context.getCurrentStepConfiguration(), popped_context));
+            popped_context.stepComplete(popped_context.getCurrentStep(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE));
+            if (stack.peek() == popped_context)
+                stack.pop();  // ensure the context was popped, if completing the step wasn't enough
+            }
+
+        // complete the CallFunction method and set the return value
+        StepExecutionContext caller_context = stack.peek();
+        call_step.returned(caller_context, return_value);
+
+        return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, String.format("returning %s", return_value));
         }
 
     private MuseValueSource _source;
