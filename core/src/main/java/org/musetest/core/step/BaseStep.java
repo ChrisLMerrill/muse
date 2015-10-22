@@ -36,8 +36,7 @@ public abstract class BaseStep implements MuseStep
             context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.StartStep, _config, context));
             }
         StepExecutionResult result = executeImplementation(context);
-        if (!result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
-            context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
+        context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
         return result;
         }
 

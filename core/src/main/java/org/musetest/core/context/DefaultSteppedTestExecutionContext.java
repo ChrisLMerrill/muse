@@ -37,6 +37,18 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
     @Override
     public Object getVariable(String name)
         {
+        return _parent_context.getVariable(name);
+        }
+
+    @Override
+    public void setVariable(String name, Object value)
+        {
+        _parent_context.setVariable(name, value);
+        }
+
+    @Override
+    public Object getLocalVariable(String name)
+        {
         // iterate the execution stack for the first variable scope and look for the variable there.
         Iterator<StepExecutionContext> iterator = _stack.iterator();
         while (iterator.hasNext())
@@ -57,7 +69,7 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         }
 
     @Override
-    public void setVariable(String name, Object value)
+    public void setLocalVariable(String name, Object value)
         {
         // iterate the execution stack for the first variable scope and set the variable there.
         Iterator<StepExecutionContext> iterator = _stack.iterator();

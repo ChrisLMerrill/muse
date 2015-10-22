@@ -32,7 +32,7 @@ public class StoreVariable extends BaseStep
         String name = getValue(_name, context, false, String.class);
         Object value = getValue(_value, context, true, Object.class);
 
-        context.setVariable(name, value);
+        context.setLocalVariable(name, value);
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, String.format("%s = %s", name, value));
         }
 

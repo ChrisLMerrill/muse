@@ -37,14 +37,16 @@ public interface StepExecutionContext
     boolean hasStepToExecute();
 
     /**
-     * Get the value of a variable in the current variable scope.
+     * Get the value of a variable in the current variable scope.  If not found in the current scope, the
+     * value from the test-wide scope will be returned (if it exists).
      */
-    Object getVariable(String name);
+    Object getLocalVariable(String name);
 
     /**
-     * Set the value of a variable in the current variable scope.
+     * Set the value of a variable in the current variable scope. This will hide test-wide variables of
+     * the same name from access within this scope.
      */
-    void setVariable(String name, Object value);
+    void setLocalVariable(String name, Object value);
 
     /**
      * Get the map of all variables. May be null if this context does not define a new variable scope.

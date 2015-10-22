@@ -49,15 +49,15 @@ public abstract class BaseStepExecutionContext implements StepExecutionContext
         }
 
     @Override
-    public Object getVariable(String name)
+    public Object getLocalVariable(String name)
         {
-        return _test_context.getVariable(name);
+        return _test_context.getLocalVariable(name);
         }
 
     @Override
-    public void setVariable(String name, Object value)
+    public void setLocalVariable(String name, Object value)
         {
-        _test_context.setVariable(name, value);
+        _test_context.setLocalVariable(name, value);
         }
 
     @Override

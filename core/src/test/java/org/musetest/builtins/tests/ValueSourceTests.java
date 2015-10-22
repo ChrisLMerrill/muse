@@ -44,7 +44,7 @@ public class ValueSourceTests
         {
         MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("abc")).createSource(null);
         StepExecutionContext context = new DummyStepExecutionContext();
-        context.setVariable("abc", 123L);
+        context.setLocalVariable("abc", 123L);
         Assert.assertEquals(123L, source.resolveValue(context));
         }
 
@@ -54,8 +54,8 @@ public class ValueSourceTests
         ValueSourceConfiguration varname_holding_the_varname = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("varname"));
         MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, varname_holding_the_varname).createSource(null);
         StepExecutionContext context = new DummyStepExecutionContext();
-        context.setVariable("abc", 123L);
-        context.setVariable("varname", "abc");
+        context.setLocalVariable("abc", 123L);
+        context.setLocalVariable("varname", "abc");
         Assert.assertEquals(123L, source.resolveValue(context));
         }
 

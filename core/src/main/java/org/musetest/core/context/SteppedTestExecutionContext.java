@@ -7,6 +7,16 @@ import org.musetest.core.steptest.*;
  */
 public interface SteppedTestExecutionContext extends TestExecutionContext
     {
+    /**
+     * Get the value of the named test variable.
+     */
+    Object getLocalVariable(String name);
+
+    /**
+     * Set a variable that is visible only to the local variable scope.
+     */
+    void setLocalVariable(String name, Object value);
+
     void setExecutionStack(StepExecutionContextStack stack);
     StepExecutionContextStack getExecutionStack();
     }

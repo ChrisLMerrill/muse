@@ -98,7 +98,7 @@ public class SteppedTestExecutor
 
         if (error_message != null)
             {
-//            step_result = new BasicStepExecutionResult(StepExecutionStatus.ERROR, error_message);
+            step_result = new BasicStepExecutionResult(StepExecutionStatus.ERROR, error_message);
             _context.raiseEvent(new TestErrorEvent(error_message));
             _test_status = MuseTestResultStatus.Error;
             return false;
@@ -111,7 +111,9 @@ public class SteppedTestExecutor
 
     public StepConfiguration getNextStep()
         {
-        return _context.getExecutionStack().peek().getCurrentStepConfiguration();
+        if (_context.getExecutionStack().hasMoreSteps())
+            return _context.getExecutionStack().peek().getCurrentStepConfiguration();
+        return null;
         }
 
     private SteppedTestExecutionContext _context;

@@ -13,7 +13,15 @@ public interface TestExecutionContext
     void addEventListener(MuseEventListener listener);
     void removeEventListener(MuseEventListener listener);
 
+    /**
+     * Get the named variable from the local variable scope.
+     */
     Object getVariable(String name);
+
+    /**
+     * Set a variable in the local variable scope. The variable will only be visible to steps running
+     * in the same scope. Function calls, for example, declare a new variable scope.
+     */
     void setVariable(String name, Object value);
 
     void registerShuttable(Shuttable shuttable);  // shuttables should be shut down during cleanup

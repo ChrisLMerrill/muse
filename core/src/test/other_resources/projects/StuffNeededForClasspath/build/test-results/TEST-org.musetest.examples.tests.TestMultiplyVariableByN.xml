@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.musetest.examples.tests.TestMultiplyVariableByN" tests="1" skipped="0" failures="0" errors="0" timestamp="2015-09-13T00:39:02" hostname="GreyFlame" time="0.006">
+<testsuite name="org.musetest.examples.tests.TestMultiplyVariableByN" tests="1" skipped="0" failures="0" errors="0" timestamp="2015-10-21T22:56:12" hostname="GreyFlame" time="0.005">
   <properties/>
-  <testcase name="testLoadingFromJSON" classname="org.musetest.examples.tests.TestMultiplyVariableByN" time="0.006"/>
+  <testcase name="testLoadingFromJSON" classname="org.musetest.examples.tests.TestMultiplyVariableByN" time="0.005"/>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[[Test worker] INFO org.musetest.core.resource.ResourceFactory - Loaded resource 256474082 from Streamed resource
+  <system-err><![CDATA[[Test worker] INFO org.musetest.core.resource.ResourceFactory - Loaded resource 841831173 from Streamed resource
 ]]></system-err>
 </testsuite>

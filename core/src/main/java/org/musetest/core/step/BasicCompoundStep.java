@@ -80,11 +80,10 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
     /**
      * Subclasses override this to perform an action before the children are executed.
      *
-     * @param new_context
-     * @param old_context The context of the current execution
+     * @param context The context of the current execution
      * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
-    protected void beforeChildrenExecuted(StepExecutionContext old_context) throws StepExecutionError
+    protected void beforeChildrenExecuted(StepExecutionContext context) throws StepExecutionError
         {
         }
 

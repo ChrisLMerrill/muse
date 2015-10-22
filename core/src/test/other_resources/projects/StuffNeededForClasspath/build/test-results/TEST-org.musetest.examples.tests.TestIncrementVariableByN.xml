@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.musetest.examples.tests.TestIncrementVariableByN" tests="1" skipped="0" failures="0" errors="0" timestamp="2015-09-13T00:39:01" hostname="GreyFlame" time="0.688">
+<testsuite name="org.musetest.examples.tests.TestIncrementVariableByN" tests="1" skipped="0" failures="0" errors="0" timestamp="2015-10-21T22:56:12" hostname="GreyFlame" time="0.732">
   <properties/>
-  <testcase name="testLoadingFromJSON" classname="org.musetest.examples.tests.TestIncrementVariableByN" time="0.688"/>
+  <testcase name="testLoadingFromJSON" classname="org.musetest.examples.tests.TestIncrementVariableByN" time="0.732"/>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 127 ms to scan 3 urls, producing 82 keys and 283 values 
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=callfunction (for class CallFunction)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=suite_of_ids (for class IdListTestSuite)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=steppedtest (for class SteppedTest)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=scope (for class ScopedGroup)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=log-message (for class LogMessage)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=function (for class Function)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=parameter (for class ParameterDeclaration)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=null (for class NullValueSource)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=while (for class WhileStep)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=verify (for class Verify)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=wait (for class Wait)
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 139 ms to scan 3 urls, producing 86 keys and 335 values 
 [Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=equals (for class EqualityCondition)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=variable (for class VariableValueSource)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=store-variable (for class StoreVariable)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=lessthan (for class LessThanCondition)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=increment-variable (for class IncrementVariable)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=string (for class StringValueSource)
 [Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=greaterthan (for class GreaterThanCondition)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=macro (for class Macro)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=if (for class IfStep)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=parameterized_test_suite (for class ParameterListTestSuite)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=callmacro (for class CallMacroStep)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=resource (for class ProjectResourceValueSource)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=multiply-var-by-n (for class MultiplyVariableByN)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=compound (for class BasicCompoundStep)
-[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=increment-var-by-n (for class IncrementVariableByN)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=increment-variable (for class IncrementVariable)
 [Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=integer (for class IntegerValueSource)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=scope (for class ScopedGroup)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=string (for class StringValueSource)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=parameterized_test_suite (for class ParameterListTestSuite)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=variable (for class VariableValueSource)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=increment-var-by-n (for class IncrementVariableByN)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=while (for class WhileStep)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=resource (for class ProjectResourceValueSource)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=compound (for class BasicCompoundStep)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=verify (for class Verify)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=multiply-var-by-n (for class MultiplyVariableByN)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=function (for class Function)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=lessthan (for class LessThanCondition)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=suite_of_ids (for class IdListTestSuite)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=parameter (for class ParameterDeclaration)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=macro (for class Macro)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=null (for class NullValueSource)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=steppedtest (for class SteppedTest)
 [Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=concatenate (for class StringConcatenationSource)
 [Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=boolean (for class BooleanValueSource)
-[Test worker] INFO org.musetest.core.resource.ResourceFactory - Loaded resource 1037084458 from Streamed resource
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=log-message (for class LogMessage)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=store-variable (for class StoreVariable)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=callmacro (for class CallMacroStep)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=wait (for class Wait)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=return (for class ReturnStep)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=callfunction (for class CallFunction)
+[Test worker] INFO org.musetest.core.resource.DefaultClassLocator - Registering annotation value MuseTypeId=if (for class IfStep)
+[Test worker] INFO org.musetest.core.resource.ResourceFactory - Loaded resource 1108897485 from Streamed resource
 ]]></system-err>
 </testsuite>

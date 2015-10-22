@@ -33,7 +33,7 @@ public class IncrementVariable extends BaseStep
         if (amount == null)
             amount = 1L;
 
-        Object variable = context.getVariable(name);
+        Object variable = context.getLocalVariable(name);
         if (variable == null)
             return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, String.format("IncrementVariable unable to proceed: the variable (%s) has not been set.", _name.getDescription()));
         if (!(variable instanceof Long))
@@ -41,7 +41,7 @@ public class IncrementVariable extends BaseStep
         else
             {
             long result = (Long) variable + amount;
-            context.setVariable(name, result);
+            context.setLocalVariable(name, result);
             return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, String.format("%s = %d", _name.toString(), result));
             }
         }

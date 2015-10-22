@@ -53,13 +53,13 @@ public class DummyStepExecutionContext implements StepExecutionContext
         }
 
     @Override
-    public Object getVariable(String name)
+    public Object getLocalVariable(String name)
         {
         return _variables.get(name);
         }
 
     @Override
-    public void setVariable(String name, Object value)
+    public void setLocalVariable(String name, Object value)
         {
         _variables.put(name, value);
         }
