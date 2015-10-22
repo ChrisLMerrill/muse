@@ -13,7 +13,7 @@ import org.musetest.core.steptest.*;
 @MuseTypeId("click-element")
 @MuseStepName("Click")
 @MuseInlineEditString("click {element}")
-@MuseStepIcon("glyph:FontAwesome:HAND")
+@MuseStepIcon("glyph:FontAwesome:HAND_ALT_UP")
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Click an element")
 @MuseStepLongDescription("Resolves the 'element' source to a WebElement and then calls the click() method.")

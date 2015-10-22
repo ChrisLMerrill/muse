@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
 @MuseTypeId("send-keys")
 @MuseStepName("Send keys")
 @MuseInlineEditString("send {keys} to {element}")
-@MuseStepIcon("glyph:FontAwesome:KEYBOARD")
+@MuseStepIcon("glyph:FontAwesome:KEYBOARD_ALT")
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Send keystrokes to an element")
 @MuseStepLongDescription("Resolves the 'keys' source to a String and the 'element' source to a WebElement. If both succeed, then sendKeys() method of WebElement is called with the keys string. Control keys are not yet supported.")
