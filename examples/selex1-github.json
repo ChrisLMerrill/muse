@@ -1,0 +1,183 @@
+{
+  "type" : "steppedtest",
+  "step" : {
+    "type" : "compound",
+    "metadata" : {
+      "description" : "Find the Muse site on GitHub and read the wiki"
+    },
+    "children" : [ {
+      "type" : "open-browser",
+      "sources" : {
+        "provider" : {
+          "type" : "resource",
+          "source" : {
+            "value" : "local-provider",
+            "type" : "string"
+          }
+        },
+        "browser" : {
+          "type" : "resource",
+          "source" : {
+            "value" : "firefox",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "goto-url",
+      "sources" : {
+        "URL" : {
+          "value" : "http://github.com/",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "store-variable",
+      "sources" : {
+        "name" : {
+          "value" : "counter",
+          "type" : "string"
+        },
+        "value" : {
+          "value" : 1,
+          "type" : "integer"
+        }
+      }
+    }, {
+      "type" : "while",
+      "children" : [ {
+        "type" : "store-variable",
+        "sources" : {
+          "name" : {
+            "value" : "element",
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "element-name",
+            "source" : {
+              "value" : "q",
+              "type" : "string"
+            }
+          }
+        }
+      }, {
+        "type" : "clear-element",
+        "sources" : {
+          "element" : {
+            "type" : "variable",
+            "source" : {
+              "value" : "element",
+              "type" : "string"
+            }
+          }
+        }
+      }, {
+        "type" : "send-keys",
+        "sources" : {
+          "keys" : {
+            "type" : "variable",
+            "source" : {
+              "type" : "concatenate",
+              "sourceList" : [ {
+                "value" : "search",
+                "type" : "string"
+              }, {
+                "type" : "variable",
+                "source" : {
+                  "value" : "counter",
+                  "type" : "string"
+                }
+              } ]
+            }
+          },
+          "element" : {
+            "type" : "variable",
+            "source" : {
+              "value" : "element",
+              "type" : "string"
+            }
+          }
+        }
+      }, {
+        "type" : "submit-element",
+        "sources" : {
+          "element" : {
+            "type" : "variable",
+            "source" : {
+              "value" : "element",
+              "type" : "string"
+            }
+          }
+        }
+      }, {
+        "type" : "increment-variable",
+        "sources" : {
+          "amount" : {
+            "value" : 1,
+            "type" : "integer"
+          },
+          "name" : {
+            "value" : "counter",
+            "type" : "string"
+          }
+        }
+      } ],
+      "sources" : {
+        "condition" : {
+          "type" : "lessthan",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "counter",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "value" : 4,
+              "type" : "integer"
+            }
+          }
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "sources" : {
+        "element" : {
+          "type" : "element-xpath",
+          "source" : {
+            "value" : "//h3[contains(@class, 'repo-list-name')]/a",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "sources" : {
+        "element" : {
+          "type" : "element-linktext",
+          "source" : {
+            "value" : "Wiki",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "close-browser"
+    } ]
+  },
+  "defaultVariables" : {
+    "search1" : {
+      "value" : "selenium",
+      "type" : "string"
+    },
+    "search2" : {
+      "value" : "muse",
+      "type" : "string"
+    },
+    "search3" : {
+      "value" : "muse framework",
+      "type" : "string"
+    }
+  }
+}
