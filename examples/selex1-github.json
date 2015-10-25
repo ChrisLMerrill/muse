@@ -1,5 +1,19 @@
 {
   "type" : "steppedtest",
+  "defaultVariables" : {
+    "search1" : {
+      "value" : "selenium",
+      "type" : "string"
+    },
+    "search2" : {
+      "value" : "muse",
+      "type" : "string"
+    },
+    "search3" : {
+      "value" : "muse framework",
+      "type" : "string"
+    }
+  },
   "step" : {
     "type" : "compound",
     "metadata" : {
@@ -165,19 +179,5 @@
     }, {
       "type" : "close-browser"
     } ]
-  },
-  "defaultVariables" : {
-    "search1" : {
-      "value" : "selenium",
-      "type" : "string"
-    },
-    "search2" : {
-      "value" : "muse",
-      "type" : "string"
-    },
-    "search3" : {
-      "value" : "muse framework",
-      "type" : "string"
-    }
   }
 }
