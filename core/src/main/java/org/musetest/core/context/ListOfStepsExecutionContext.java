@@ -35,7 +35,9 @@ public class ListOfStepsExecutionContext extends BaseStepExecutionContext
     @Override
     public void stepComplete(MuseStep step, StepExecutionResult result)
         {
-        if (!result.getStatus().equals(StepExecutionStatus.ERROR) && _current_step != null)
+        if (result.getStatus().equals(StepExecutionStatus.ERROR))
+            _current_step = null;  // re-create the step next time (for interactive debugging)
+        else if (!result.getStatus().equals(StepExecutionStatus.ERROR) && _current_step != null)
             {
             _current_step = null;
             _current_index++;

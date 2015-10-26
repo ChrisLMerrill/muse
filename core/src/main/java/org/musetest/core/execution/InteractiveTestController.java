@@ -72,12 +72,14 @@ public class InteractiveTestController implements MuseEventListener
                 break;
             case EndStep:
                 StepEvent step_event = (StepEvent) event;
-                if (_pause_after_any_step)
+                if (step_event.getResult().getStatus().equals(StepExecutionStatus.ERROR))
+                    _runner.requestPause();
+                else if (_pause_after_any_step)
                     {
                     _runner.requestPause();
                     _pause_after_any_step = false;
                     }
-                if (step_event.getConfig() == _pause_after_step)
+                else if (step_event.getConfig() == _pause_after_step)
                     {
                     _runner.requestPause();
                     _pause_after_step = null;

@@ -32,7 +32,9 @@ public class SingleStepExecutionContext extends BaseStepExecutionContext
     @Override
     public void stepComplete(MuseStep step, StepExecutionResult result)
         {
-        if (!result.getStatus().equals(StepExecutionStatus.ERROR))
+        if (result.getStatus().equals(StepExecutionStatus.ERROR))
+            _current_step = null;   // re-create next time (for interactive debugging)
+        else
             getTestExecutionContext().getExecutionStack().pop();
         }
 

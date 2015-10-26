@@ -99,9 +99,13 @@ public class SteppedTestExecutor
         if (error_message != null)
             {
             step_result = new BasicStepExecutionResult(StepExecutionStatus.ERROR, error_message);
-            _context.raiseEvent(new TestErrorEvent(error_message));
+            StepConfiguration config = null;
+            if (step != null)
+                {
+                config = step.getConfiguration();
+                _context.raiseEvent(new StepEvent(MuseEventType.EndStep, config, step_context, step_result));
+                }
             _test_status = MuseTestResultStatus.Error;
-            return false;
             }
         if (step != null && !step_result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
             step_context.stepComplete(step, step_result);
