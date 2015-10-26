@@ -1,0 +1,79 @@
+{
+  "type" : "function",
+  "step" : {
+    "type" : "compound",
+    "metadata" : {
+      "description" : null
+    },
+    "children" : [ {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "counter",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "type" : "null"
+            }
+          }
+        }
+      }
+    }, {
+      "type" : "store-variable",
+      "sources" : {
+        "name" : {
+          "value" : "var1",
+          "type" : "string"
+        },
+        "value" : {
+          "value" : 1,
+          "type" : "integer"
+        }
+      }
+    }, {
+      "type" : "store-variable",
+      "sources" : {
+        "name" : {
+          "value" : "result",
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "variable",
+          "source" : {
+            "value" : "param1",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "increment-variable",
+      "sources" : {
+        "amount" : {
+          "value" : 7,
+          "type" : "integer"
+        },
+        "name" : {
+          "value" : "result",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "return",
+      "sources" : {
+        "value" : {
+          "type" : "variable",
+          "source" : {
+            "value" : "result",
+            "type" : "string"
+          }
+        }
+      }
+    } ]
+  }
+}

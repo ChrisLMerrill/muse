@@ -36,13 +36,13 @@ public class CallFunctionDescriptor extends AnnotatedStepDescriptor
         if (sources.keySet().size() == 0)
             return builder.toString();
 
-        builder.append(" with ");
-
         boolean first = true;
         for (String name : sources.keySet())
-            if (!name.equals(CallFunction.ID_PARAM))
+            if (!name.equals(CallFunction.ID_PARAM) && !name.equals(CallFunction.RETURN_PARAM))
                 {
-                if (!first)
+                if (first)
+                    builder.append(" with ");
+                else
                     builder.append(", ");
                 builder.append(name);
                 builder.append("=");

@@ -14,7 +14,7 @@ import java.util.*;
  */
 @MuseTypeId("return")
 @MuseStepName("Return")
-@MuseInlineEditString("return ${value}")
+@MuseInlineEditString("return {value}")
 @MuseStepIcon("glyph:FontAwesome:\uf08b")
 @MuseStepTypeGroup("Structure")
 @MuseStepShortDescription("Return from a function")
@@ -58,8 +58,9 @@ public class ReturnStep extends BaseStep
         while (stack.peek().getCurrentStepConfiguration() != call_step_config)
             {
             StepExecutionContext popped_context = stack.peek();
-            current_context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, popped_context.getCurrentStepConfiguration(), popped_context));
-            popped_context.stepComplete(popped_context.getCurrentStep(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE));
+            BasicStepExecutionResult result = new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
+            current_context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, popped_context.getCurrentStepConfiguration(), popped_context, result));
+            popped_context.stepComplete(popped_context.getCurrentStep(), result);
             if (stack.peek() == popped_context)
                 stack.pop();  // ensure the context was popped, if completing the step wasn't enough
             }

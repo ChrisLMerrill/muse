@@ -13,16 +13,24 @@
           "type" : "string"
         },
         "value" : {
-          "value" : 0,
-          "type" : "integer"
+          "value" : "anything",
+          "type" : "string"
         }
       }
     }, {
-      "type" : "callmacro",
+      "type" : "callfunction",
       "sources" : {
         "id" : {
-          "value" : "add5Macro",
+          "value" : "variableScopingFunction",
           "type" : "string"
+        },
+        "return" : {
+          "value" : "result",
+          "type" : "string"
+        },
+        "param1" : {
+          "value" : 7,
+          "type" : "integer"
         }
       }
     }, {
@@ -34,18 +42,36 @@
             "left" : {
               "type" : "variable",
               "source" : {
-                "value" : "counter",
+                "value" : "result",
                 "type" : "string"
               }
             },
             "right" : {
-              "value" : 5,
+              "value" : 14,
               "type" : "integer"
             }
           }
         }
       }
+    }, {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "right" : {
+              "type" : "null"
+            },
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "var1",
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
     } ]
-  },
-  "defaultVariables" : { }
+  }
 }

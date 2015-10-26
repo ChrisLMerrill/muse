@@ -64,37 +64,6 @@ public class CallFunction extends CallMacroStep
         }
 
     @Override
-    protected void afterChildrenExecuted(StepExecutionContext context) throws StepExecutionError
-        {
-/*
-        String return_variable_into = null;
-        if (_config.getSource(RETURN_PARAM) != null)
-            {
-            try
-                {
-                MuseValueSource source = getValueSource(_config, RETURN_PARAM, false, _project);
-                return_variable_into = getValue(source, context, true, String.class);
-                }
-            catch (RequiredParameterMissingError requiredParameterMissingError)
-                {
-                // this param isn't required
-                }
-            }
-
-        // get the return value from the function scope
-        Object return_value = null;
-        if (return_variable_into != null)
-            return_value = context.getTestExecutionContext().getVariable(INTERNAL_RETURN_PARAM);
-
-        super.afterChildrenExecuted(context);
-
-        // store the return value in the caller scope
-        if (return_variable_into != null)
-            context.getTestExecutionContext().setVariable(return_variable_into, return_value);
-*/
-        }
-
-    @Override
     protected boolean isCreateNewVariableScope()
         {
         return true;
@@ -109,8 +78,9 @@ public class CallFunction extends CallMacroStep
             context.setLocalVariable(return_var_name, return_value);
             }
 
-        context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context));
-        context.stepComplete(this, new BasicStepExecutionResult(StepExecutionStatus.COMPLETE));
+        BasicStepExecutionResult result = new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
+        context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
+        context.stepComplete(this, result);
         }
 
     private StepConfiguration _config;
