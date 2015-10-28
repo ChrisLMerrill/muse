@@ -1,5 +1,19 @@
 {
   "type" : "steppedtest",
+  "defaultVariables" : {
+    "search1" : {
+      "value" : "selenium",
+      "type" : "string"
+    },
+    "search2" : {
+      "value" : "muse",
+      "type" : "string"
+    },
+    "search3" : {
+      "value" : "muse test framework",
+      "type" : "string"
+    }
+  },
   "step" : {
     "type" : "compound",
     "metadata" : {
@@ -47,14 +61,16 @@
       "type" : "while",
       "children" : [ {
         "type" : "callfunction",
+        "children" : [ ],
         "sources" : {
           "id" : {
-            "value" : "github2-search",
+            "value" : "github-search-function",
             "type" : "string"
           },
           "search_term" : {
             "type" : "variable",
             "source" : {
+              "value" : "string value",
               "type" : "concatenate",
               "sourceList" : [ {
                 "value" : "search",
@@ -125,19 +141,5 @@
     }, {
       "type" : "close-browser"
     } ]
-  },
-  "defaultVariables" : {
-    "search1" : {
-      "value" : "selenium",
-      "type" : "string"
-    },
-    "search2" : {
-      "value" : "muse",
-      "type" : "string"
-    },
-    "search3" : {
-      "value" : "muse selenium",
-      "type" : "string"
-    }
   }
 }

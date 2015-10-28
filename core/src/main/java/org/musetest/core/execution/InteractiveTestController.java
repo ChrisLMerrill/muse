@@ -65,6 +65,7 @@ public class InteractiveTestController implements MuseEventListener
                 setState(InteractiveTestState.STOPPING);
                 _runner.getTestContext().removeEventListener(this);
                 _runner = null;
+                _result = ((EndTestEvent) event).getResult();
                 setState(InteractiveTestState.IDLE);
                 break;
             case Pause:
@@ -137,12 +138,18 @@ public class InteractiveTestController implements MuseEventListener
         run(provider);
         }
 
+    public MuseTestResult getResult()
+        {
+        return _result;
+        }
+
     List<InteractiveTestStateListener> _listeners = new ArrayList<>();
 
     private InteractiveTestState _state = InteractiveTestState.IDLE;
     private InteractiveTestRunner _runner;
     private boolean _pause_after_any_step = false;
     private StepConfiguration _pause_after_step = null;
+    private MuseTestResult _result = null;
 
     private static InteractiveTestController CONTROLLER = new InteractiveTestController();
     }
