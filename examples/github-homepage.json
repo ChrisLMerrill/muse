@@ -1,0 +1,14 @@
+{
+  "type" : "page",
+  "elements" : {
+    "explore" : {
+      "locator" : {
+        "type" : "element-linktext",
+        "source" : {
+            "value" : "Explore",
+            "type" : "string"
+        }
+      }
+    }
+  }
+}

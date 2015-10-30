@@ -1,0 +1,79 @@
+{
+  "type" : "steppedtest",
+  "step" : {
+    "type" : "compound",
+    "metadata" : {
+      "description" : "Find the Muse site on GitHub and read the wiki"
+    },
+    "children" : [ {
+      "type" : "open-browser",
+      "sources" : {
+        "provider" : {
+          "type" : "resource",
+          "source" : {
+            "value" : "local-provider",
+            "type" : "string"
+          }
+        },
+        "browser" : {
+          "type" : "resource",
+          "source" : {
+            "value" : "firefox",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "goto-url",
+      "sources" : {
+        "URL" : {
+          "value" : "http://github.com/",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "sources" : {
+        "element" : {
+          "type" : "page-element",
+          "source" : {
+            "value" : "github-homepage.explore",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "page-title"
+            },
+            "right" : {
+              "value" : "Explore · GitHub",
+              "type" : "string"
+            }
+          }
+        }
+      }
+    }, {
+      "type" : "close-browser"
+    } ]
+  },
+  "defaultVariables" : {
+    "search1" : {
+      "value" : "selenium",
+      "type" : "string"
+    },
+    "search2" : {
+      "value" : "muse",
+      "type" : "string"
+    },
+    "search3" : {
+      "value" : "muse test framework",
+      "type" : "string"
+    }
+  }
+}
