@@ -11,7 +11,7 @@ import org.musetest.core.util.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@Command(name = "describe", description = "Run a project resource (test, test suite, ...)")
+@Command(name = "describe", description = "Describe a type of step or source")
 public class DescribeCommand extends MuseCommand
     {
     @Arguments(description = "The id of the thing to describe (type id of step or source)", required = true)

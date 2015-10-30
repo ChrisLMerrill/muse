@@ -14,7 +14,7 @@ import java.util.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@Command(name = "list", description = "Run a project resource (test, test suite, ...)")
+@Command(name = "list", description = "List available types (steps, sources)")
 public class ListCommand extends MuseCommand
     {
     @Arguments(description = "The kind of thing to list (steps or sources)", required = true)
