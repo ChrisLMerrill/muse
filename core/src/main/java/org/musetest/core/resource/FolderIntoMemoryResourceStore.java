@@ -68,11 +68,16 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
     private void locateClasspaths()
         {
         List<File> class_locations = new ArrayList<>();
-        File classes = new File(_folder, "classes");
-        if (classes.exists())
+
+        String[] paths = {"classes", "build/classes/main"};
+        for (String path : paths)
             {
-            LOG.debug("Adding to project classpath: " + classes.getAbsolutePath());
-            class_locations.add(classes);
+            File classes = new File(_folder, path);
+            if (classes.exists())
+                {
+                LOG.debug("Adding to project classpath: " + classes.getAbsolutePath());
+                class_locations.add(classes);
+                }
             }
 
         File[] jars = new File[0];
