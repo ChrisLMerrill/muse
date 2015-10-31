@@ -1,0 +1,12 @@
+apply plugin: 'java'
+
+repositories
+    {
+    mavenLocal()
+    mavenCentral()
+    }
+
+dependencies
+    {
+	compile('org.musetest:muse-core:0.1+')
+    }

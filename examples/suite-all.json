@@ -7,6 +7,7 @@
   	"ex4-callMacro",
   	"ex5-FunctionVariableScope",
   	"ex6-webdriver-github-search",
-  	"ex7-webdriver-locator-reuse"
+  	"ex7-webdriver-locator-reuse",
+  	"ex8-use-custom-step"
   	]
 }
