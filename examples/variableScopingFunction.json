@@ -40,7 +40,7 @@
       "type" : "store-variable",
       "sources" : {
         "name" : {
-          "value" : "result",
+          "value" : "sum",
           "type" : "string"
         },
         "value" : {
@@ -59,7 +59,7 @@
           "type" : "integer"
         },
         "name" : {
-          "value" : "result",
+          "value" : "sum",
           "type" : "string"
         }
       }
@@ -69,7 +69,7 @@
         "value" : {
           "type" : "variable",
           "source" : {
-            "value" : "result",
+            "value" : "sum",
             "type" : "string"
           }
         }
