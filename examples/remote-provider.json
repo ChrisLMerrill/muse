@@ -1,3 +1,0 @@
-    { "type" : "webdriver-provider-list",
-      "providers" : [
-            { "type" : "remote-provider", "url" : "http://YOUR_USERNAME:YOUR_ACCESS_KEY@ondemand.saucelabs.com:80/wd/hub" } ] }
