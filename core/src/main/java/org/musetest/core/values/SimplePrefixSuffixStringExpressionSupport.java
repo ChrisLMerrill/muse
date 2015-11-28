@@ -7,9 +7,9 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class SimplePrefixSuffixQuickEditSupport implements ValueSourceQuickEditSupport
+public abstract class SimplePrefixSuffixStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
-    public SimplePrefixSuffixQuickEditSupport(String type, String prefix, String suffix)
+    public SimplePrefixSuffixStringExpressionSupport(String type, String prefix, String suffix)
         {
         _type = type;
         _prefix = prefix;

@@ -9,7 +9,7 @@ import org.musetest.core.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public interface ValueSourceQuickEditSupport
+public interface ValueSourceStringExpressionSupport
     {
     ValueSourceConfiguration parse(String string, MuseProject project);
     String asString(ValueSourceConfiguration config, MuseProject project);

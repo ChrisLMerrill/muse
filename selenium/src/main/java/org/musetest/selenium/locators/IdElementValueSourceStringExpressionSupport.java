@@ -4,9 +4,9 @@ package org.musetest.selenium.locators;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class IdElementValueSourceQuickEditSupport extends ElementByLocatorValueSourceQuickEditSupport
+public class IdElementValueSourceStringExpressionSupport extends ElementByLocatorValueSourceStringExpressionSupport
     {
-    public IdElementValueSourceQuickEditSupport()
+    public IdElementValueSourceStringExpressionSupport()
         {
         super(IdElementValueSource.TYPE_ID, "id");
         }

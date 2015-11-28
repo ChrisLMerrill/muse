@@ -7,7 +7,7 @@ import org.musetest.core.values.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class StringValueSourceQuickEditSupport implements ValueSourceQuickEditSupport
+public class StringValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
     public ValueSourceConfiguration parse(String string, MuseProject project)

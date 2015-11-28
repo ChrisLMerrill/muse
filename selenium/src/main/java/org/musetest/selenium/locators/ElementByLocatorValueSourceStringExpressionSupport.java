@@ -8,9 +8,9 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class ElementByLocatorValueSourceQuickEditSupport implements ValueSourceQuickEditSupport
+public abstract class ElementByLocatorValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
-    protected ElementByLocatorValueSourceQuickEditSupport(String type_id, String text_prefix)
+    protected ElementByLocatorValueSourceStringExpressionSupport(String type_id, String text_prefix)
         {
         _type_id = type_id;
         _prefix = "<" + text_prefix + ":";

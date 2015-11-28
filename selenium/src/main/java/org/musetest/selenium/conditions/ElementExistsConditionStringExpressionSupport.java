@@ -6,9 +6,9 @@ import org.musetest.core.values.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class ElementExistsConditionQuickEditSupport extends SimplePrefixSuffixQuickEditSupport
+public class ElementExistsConditionStringExpressionSupport extends SimplePrefixSuffixStringExpressionSupport
     {
-    public ElementExistsConditionQuickEditSupport()
+    public ElementExistsConditionStringExpressionSupport()
         {
         super(ElementExistsCondition.TYPE_ID, "exists(", ")");
         }

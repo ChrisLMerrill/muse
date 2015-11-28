@@ -9,7 +9,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public abstract class BinaryConditionQuickEditSupport implements ValueSourceQuickEditSupport
+public abstract class BinaryConditionStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
     public ValueSourceConfiguration parse(String string, MuseProject project)

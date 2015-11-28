@@ -9,7 +9,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class VariableValueSourceQuickEditSupport implements ValueSourceQuickEditSupport
+public class VariableValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
     public ValueSourceConfiguration parse(String string, MuseProject project)

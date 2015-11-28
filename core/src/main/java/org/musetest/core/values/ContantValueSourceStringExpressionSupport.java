@@ -8,9 +8,9 @@ import org.musetest.core.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class ContantValueSourceQuickEditSupport implements ValueSourceQuickEditSupport
+public abstract class ContantValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
-    public ContantValueSourceQuickEditSupport(String constant, String type_id)
+    public ContantValueSourceStringExpressionSupport(String constant, String type_id)
         {
         _constant = constant;
         _type_id = type_id;

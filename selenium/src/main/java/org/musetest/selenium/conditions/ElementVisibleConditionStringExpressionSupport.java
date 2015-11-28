@@ -6,9 +6,9 @@ import org.musetest.core.values.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class ElementVisibleConditionQuickEditSupport extends SimplePrefixSuffixQuickEditSupport
+public class ElementVisibleConditionStringExpressionSupport extends SimplePrefixSuffixStringExpressionSupport
     {
-    public ElementVisibleConditionQuickEditSupport()
+    public ElementVisibleConditionStringExpressionSupport()
         {
         super(ElementVisibleCondition.TYPE_ID, "visible(", ")");
         }

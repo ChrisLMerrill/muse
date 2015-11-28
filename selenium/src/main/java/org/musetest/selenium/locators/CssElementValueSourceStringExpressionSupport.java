@@ -4,9 +4,9 @@ package org.musetest.selenium.locators;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class CssElementValueSourceQuickEditSupport extends ElementByLocatorValueSourceQuickEditSupport
+public class CssElementValueSourceStringExpressionSupport extends ElementByLocatorValueSourceStringExpressionSupport
     {
-    public CssElementValueSourceQuickEditSupport()
+    public CssElementValueSourceStringExpressionSupport()
         {
         super(CssElementValueSource.TYPE_ID, "css");
         }

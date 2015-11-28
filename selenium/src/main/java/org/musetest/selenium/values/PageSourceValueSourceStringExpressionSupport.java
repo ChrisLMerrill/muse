@@ -6,11 +6,11 @@ import org.musetest.core.values.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class PageTitleValueSourceQuickEditSupport extends ContantValueSourceQuickEditSupport
+public class PageSourceValueSourceStringExpressionSupport extends ContantValueSourceStringExpressionSupport
     {
-    public PageTitleValueSourceQuickEditSupport()
+    public PageSourceValueSourceStringExpressionSupport()
         {
-        super(PageTitleValueSource.NAME, PageTitleValueSource.TYPE_ID);
+        super(PageSourceValueSource.NAME, PageSourceValueSource.TYPE_ID);
         }
     }
 

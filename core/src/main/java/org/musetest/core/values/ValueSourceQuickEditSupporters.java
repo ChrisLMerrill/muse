@@ -24,7 +24,7 @@ public class ValueSourceQuickEditSupporters
         int priority = 1;
         while (priority <= 2)
             {
-            for (ValueSourceQuickEditSupport parser : getParsers(project))
+            for (ValueSourceStringExpressionSupport parser : getParsers(project))
                 {
                 if (parser.getPriority() == priority)
                     {
@@ -49,7 +49,7 @@ public class ValueSourceQuickEditSupporters
     public static List<String> asStringFromAll(ValueSourceConfiguration source, MuseProject project)
         {
         List<String> strings = new ArrayList<>();
-        for (ValueSourceQuickEditSupport parser : getParsers(project))
+        for (ValueSourceStringExpressionSupport parser : getParsers(project))
             {
             try
                 {
@@ -65,14 +65,14 @@ public class ValueSourceQuickEditSupporters
         return strings;
         }
 
-    private static List<ValueSourceQuickEditSupport> getParsers(MuseProject project)
+    private static List<ValueSourceStringExpressionSupport> getParsers(MuseProject project)
         {
         if (PARSERS == null)
-            PARSERS = new FactoryLocator(project.getClassLocator()).findFactories(ValueSourceQuickEditSupport.class);
+            PARSERS = new FactoryLocator(project.getClassLocator()).findFactories(ValueSourceStringExpressionSupport.class);
         return PARSERS;
         }
 
-    private static List<ValueSourceQuickEditSupport> PARSERS;
+    private static List<ValueSourceStringExpressionSupport> PARSERS;
     }
 
 
