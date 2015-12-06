@@ -1,6 +1,7 @@
 package org.musetest.builtins.tests;
 
 import org.junit.*;
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
@@ -11,50 +12,69 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ValueSourceQuickEditSupportTests
+public class ValueSourceStringExpressionSupportTests
     {
     @Test
     public void emptyStringSource()
         {
-        List<ValueSourceConfiguration> config_list = ValueSourceQuickEditSupporters.parseWithAll("\"\"", TEST_PROJECT);
-        Assert.assertEquals(1, config_list.size());
-        ValueSourceConfiguration config = config_list.get(0);
-        Assert.assertNotNull(config);
-        Assert.assertEquals("string", config.getType());
-        Assert.assertNotNull(config.getValue());
-        Assert.assertTrue(config.getValue() instanceof String);
-        Assert.assertEquals(0, ((String)config.getValue()).length());
+        String s = "";
+        testParseFromAndToString(new StringValueSourceStringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
         }
 
     @Test
     public void stringSource()
         {
-        List<ValueSourceConfiguration> config_list = ValueSourceQuickEditSupporters.parseWithAll("\"abc\"", TEST_PROJECT);
-        Assert.assertEquals(1, config_list.size());
-        ValueSourceConfiguration config = config_list.get(0);
-        Assert.assertNotNull(config);
-        Assert.assertEquals("string", config.getType());
-        Assert.assertNotNull(config.getValue());
-        Assert.assertTrue(config.getValue() instanceof String);
-        Assert.assertEquals("abc", config.getValue());
+        String s = "abc";
+        testParseFromAndToString(new StringValueSourceStringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
         }
 
     @Test
-    public void toFromString()
+    public void stringSourceWithEscapedQuotes()
         {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType("string");
-        config.setValue("abc123");
-        stringifyAndParse(config);
+        String s = "string \\\" has \\\" quotes";
+        testParseFromAndToString(new StringValueSourceStringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
         }
 
     @Test
-    public void stringWithQuote()
+    public void stringSourceWithInvalidQuotes()
         {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType("string");
-        config.setValue("the var = \"abc\"");
-        stringifyAndParse(config);
+        String s = "string \" quote";
+        testParseFromAndToString(new StringValueSourceStringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
+        }
+
+    @Test
+    public void integerSource()
+        {
+        Long value = 123L;
+        testParseFromAndToString(new IntegerValueSourceStringExpressionSupport(), value.toString(), IntegerValueSource.TYPE_ID, value);
+        }
+
+    @Test
+    public void booleanSourceTrue()
+        {
+        testParseFromAndToString(new BooleanValueSourceStringExpressionSupport(), Boolean.TRUE.toString(), BooleanValueSource.TYPE_ID, true);
+        }
+
+    @Test
+    public void booleanSourceFalse()
+        {
+        testParseFromAndToString(new BooleanValueSourceStringExpressionSupport(), Boolean.FALSE.toString(), BooleanValueSource.TYPE_ID, false);
+        }
+
+    @Test
+    public void nullSource()
+        {
+        testParseFromAndToString(new NullValueSourceStringExpressionSupport(), "null", NullValueSource.TYPE_ID, null);
+        }
+
+    private void testParseFromAndToString(ValueSourceStringExpressionSupport support, String string_content, String type, Object content)
+        {
+        ValueSourceConfiguration parsed = support.fromLiteral(string_content, null);
+        Assert.assertEquals(type, parsed.getType());
+        Assert.assertEquals(content, parsed.getValue());
+
+        String stringified = support.toString(parsed, null);
+        Assert.assertEquals(string_content, stringified);
         }
 
     @Test
@@ -81,50 +101,6 @@ public class ValueSourceQuickEditSupportTests
         source.addSource(ValueSourceConfiguration.forValue("abc"));
         source.addSource(ValueSourceConfiguration.forValue(123L));
         stringifyAndParse(source);
-        }
-
-    @Test
-    public void booleanSource()
-        {
-        List<ValueSourceConfiguration> config_list = ValueSourceQuickEditSupporters.parseWithAll("true", TEST_PROJECT);
-        Assert.assertEquals(1, config_list.size());
-        ValueSourceConfiguration config = config_list.get(0);
-        Assert.assertNotNull(config);
-        Assert.assertEquals("boolean", config.getType());
-        Assert.assertNotNull(config.getValue());
-        Assert.assertTrue(config.getValue() instanceof Boolean);
-        Assert.assertEquals(true, config.getValue());
-        }
-
-    @Test
-    public void toFromBooleam()
-        {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType("boolean");
-        config.setValue(true);
-        stringifyAndParse(config);
-        }
-
-    @Test
-    public void integerSource()
-        {
-        List<ValueSourceConfiguration> config_list = ValueSourceQuickEditSupporters.parseWithAll("123", TEST_PROJECT);
-        Assert.assertEquals(1, config_list.size());
-        ValueSourceConfiguration config = config_list.get(0);
-        Assert.assertNotNull(config);
-        Assert.assertEquals("integer", config.getType());
-        Assert.assertNotNull(config.getValue());
-        Assert.assertTrue(config.getValue() instanceof Long);
-        Assert.assertEquals(123L, config.getValue());
-        }
-
-    @Test
-    public void toFromInteger()
-        {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType("integer");
-        config.setValue(77L);
-        stringifyAndParse(config);
         }
 
     @Test
