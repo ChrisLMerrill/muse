@@ -10,7 +10,7 @@ import org.musetest.core.values.*;
 public class StringValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration parse(String string, MuseProject project)
+    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
         if (string.length() > 1 && string.startsWith("\"") && string.endsWith("\""))
             {
@@ -23,7 +23,7 @@ public class StringValueSourceStringExpressionSupport implements ValueSourceStri
         }
 
     @Override
-    public String asString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(StringValueSource.TYPE_ID))
             return "\"" + config.getValue() + "\"";

@@ -12,7 +12,7 @@ import java.util.*;
 public abstract class BinaryConditionStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration parse(String string, MuseProject project)
+    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
         if (string.contains(getSeparator()))
             {
@@ -55,7 +55,7 @@ public abstract class BinaryConditionStringExpressionSupport implements ValueSou
     protected abstract String getSourceType();
 
     @Override
-    public String asString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(getSourceType()))
             {

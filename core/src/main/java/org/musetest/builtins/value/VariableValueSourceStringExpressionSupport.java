@@ -12,7 +12,7 @@ import java.util.*;
 public class VariableValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration parse(String string, MuseProject project)
+    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
         if (string.startsWith("$"))
             {
@@ -29,7 +29,7 @@ public class VariableValueSourceStringExpressionSupport implements ValueSourceSt
         }
 
     @Override
-    public String asString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(VariableValueSource.TYPE_ID))
             {

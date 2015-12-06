@@ -12,7 +12,7 @@ import java.util.*;
 public class StringConcatenationSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration parse(String string, MuseProject project)
+    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
         if (string.contains("+"))
             {
@@ -37,7 +37,7 @@ public class StringConcatenationSourceStringExpressionSupport implements ValueSo
         }
 
     @Override
-    public String asString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(StringConcatenationSource.TYPE_ID))
             {

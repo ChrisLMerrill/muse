@@ -10,7 +10,7 @@ import org.musetest.core.values.*;
 public class IntegerValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration parse(String string, MuseProject project)
+    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
         try
             {
@@ -27,7 +27,7 @@ public class IntegerValueSourceStringExpressionSupport implements ValueSourceStr
         }
 
     @Override
-    public String asString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(IntegerValueSource.TYPE_ID))
             return config.getValue().toString();

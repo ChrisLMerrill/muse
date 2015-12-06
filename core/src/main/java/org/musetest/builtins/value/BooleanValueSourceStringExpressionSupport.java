@@ -10,7 +10,7 @@ import org.musetest.core.values.*;
 public class BooleanValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration parse(String string, MuseProject project)
+    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
         Boolean value = null;
         if (string.toLowerCase().equals("true"))
@@ -28,7 +28,7 @@ public class BooleanValueSourceStringExpressionSupport implements ValueSourceStr
         }
 
     @Override
-    public String asString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(BooleanValueSource.TYPE_ID))
             return config.getValue().toString();

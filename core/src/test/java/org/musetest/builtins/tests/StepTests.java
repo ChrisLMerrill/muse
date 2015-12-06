@@ -45,18 +45,6 @@ public class StepTests
             // ok!
             }
 
-        // this should log a message indicating that the value source returned null
-        try
-            {
-            config.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(null));
-            config.createStep();
-            Assert.assertTrue("execute() should have thrown an error due to a null value", false);
-            }
-        catch (MuseInstantiationException e)
-            {
-            // ok!
-            }
-
         // this should log a message
         config.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("this is the message"));
         config.createStep().execute(new DummyStepExecutionContext());

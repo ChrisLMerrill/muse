@@ -300,7 +300,9 @@ public class ValueSourceConfiguration implements Serializable
     public static ValueSourceConfiguration forValue(Object value)
         {
         ValueSourceConfiguration config = new ValueSourceConfiguration();
-        if (value instanceof Boolean)
+        if (value == null)
+            config.setType(NullValueSource.TYPE_ID);
+        else if (value instanceof Boolean)
             config.setType(BooleanValueSource.TYPE_ID);
         else if (value instanceof Long)
             config.setType(IntegerValueSource.TYPE_ID);

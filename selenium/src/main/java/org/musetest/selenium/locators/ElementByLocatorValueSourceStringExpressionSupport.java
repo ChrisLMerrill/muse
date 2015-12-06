@@ -17,7 +17,7 @@ public abstract class ElementByLocatorValueSourceStringExpressionSupport impleme
         }
 
     @Override
-    public ValueSourceConfiguration parse(String string, MuseProject project)
+    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
         if (string.startsWith(_prefix) && string.endsWith(">"))
             {
@@ -29,7 +29,7 @@ public abstract class ElementByLocatorValueSourceStringExpressionSupport impleme
         }
 
     @Override
-    public String asString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(_type_id))
             {

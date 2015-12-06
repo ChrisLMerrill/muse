@@ -28,7 +28,7 @@ public class ValueSourceQuickEditSupporters
                 {
                 if (parser.getPriority() == priority)
                     {
-                    ValueSourceConfiguration config = parser.parse(string, project);
+                    ValueSourceConfiguration config = parser.fromLiteral(string, project);
                     if (config != null)
                         configurations.add(config);
                     }
@@ -53,7 +53,7 @@ public class ValueSourceQuickEditSupporters
             {
             try
                 {
-                String stringified = parser.asString(source, project);
+                String stringified = parser.toString(source, project);
                 if (stringified != null)
                     strings.add(stringified);
                 }

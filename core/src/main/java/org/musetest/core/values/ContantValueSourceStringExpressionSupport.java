@@ -16,7 +16,7 @@ public abstract class ContantValueSourceStringExpressionSupport implements Value
         _type_id = type_id;
         }
 
-    public ValueSourceConfiguration parse(String string, MuseProject project)
+    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
         if (string.equals(_constant))
             {
@@ -28,7 +28,7 @@ public abstract class ContantValueSourceStringExpressionSupport implements Value
         }
 
     @Override
-    public String asString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(_type_id))
             return _constant;

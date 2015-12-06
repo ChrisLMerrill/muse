@@ -12,7 +12,7 @@ import java.util.*;
 public class ProjectResourceValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration parse(String string, MuseProject project)
+    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
         if (string.startsWith("#"))
             {
@@ -29,7 +29,7 @@ public class ProjectResourceValueSourceStringExpressionSupport implements ValueS
         }
 
     @Override
-    public String asString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(ProjectResourceValueSource.TYPE_ID))
             {

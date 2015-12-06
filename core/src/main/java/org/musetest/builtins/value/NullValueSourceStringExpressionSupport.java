@@ -10,7 +10,7 @@ import org.musetest.core.values.*;
 public class NullValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration parse(String string, MuseProject project)
+    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
         if (string.equals("null"))
             return ValueSourceConfiguration.forType("null");
@@ -18,7 +18,7 @@ public class NullValueSourceStringExpressionSupport implements ValueSourceString
         }
 
     @Override
-    public String asString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (NullValueSource.TYPE_ID.equals(config.getType()))
             return "null";
