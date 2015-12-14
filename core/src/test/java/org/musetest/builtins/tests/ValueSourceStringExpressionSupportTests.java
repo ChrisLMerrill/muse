@@ -106,27 +106,14 @@ public class ValueSourceStringExpressionSupportTests
     @Test
     public void variableSource()
         {
-        List<ValueSourceConfiguration> config_list = ValueSourceQuickEditSupporters.parseWithAll("$\"var1\"", TEST_PROJECT);
-        Assert.assertEquals(1, config_list.size());
-        ValueSourceConfiguration config = config_list.get(0);
+        ValueSourceConfiguration string_source = ValueSourceConfiguration.forValue("var1");
+        ValueSourceConfiguration config = new VariableValueSourceStringExpressionSupport().fromPrefixedExpression("$", string_source, TEST_PROJECT);
         Assert.assertNotNull(config);
+
         Assert.assertEquals("variable", config.getType());
         Assert.assertNotNull(config.getSource());
         Assert.assertEquals("string", config.getSource().getType());
         Assert.assertEquals("var1", config.getSource().getValue());
-        }
-
-    @Test
-    public void toFromVariable()
-        {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType("variable");
-
-        ValueSourceConfiguration source_config = new ValueSourceConfiguration();
-        source_config.setType("string");
-        source_config.setValue("var1");
-        config.setSource(source_config);
-        stringifyAndParse(config);
         }
 
     @Test

@@ -9,7 +9,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class StringConcatenationSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
+public class StringConcatenationSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     @Override
     public ValueSourceConfiguration fromLiteral(String string, MuseProject project)

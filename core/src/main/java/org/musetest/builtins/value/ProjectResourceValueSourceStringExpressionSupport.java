@@ -9,7 +9,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class ProjectResourceValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
+public class ProjectResourceValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     @Override
     public ValueSourceConfiguration fromLiteral(String string, MuseProject project)

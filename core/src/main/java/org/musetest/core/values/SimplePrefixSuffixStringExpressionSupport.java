@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class SimplePrefixSuffixStringExpressionSupport implements ValueSourceStringExpressionSupport
+public abstract class SimplePrefixSuffixStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     public SimplePrefixSuffixStringExpressionSupport(String type, String prefix, String suffix)
         {

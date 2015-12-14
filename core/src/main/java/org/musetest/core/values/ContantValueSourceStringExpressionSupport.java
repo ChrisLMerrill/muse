@@ -8,7 +8,7 @@ import org.musetest.core.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class ContantValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
+public abstract class ContantValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     public ContantValueSourceStringExpressionSupport(String constant, String type_id)
         {

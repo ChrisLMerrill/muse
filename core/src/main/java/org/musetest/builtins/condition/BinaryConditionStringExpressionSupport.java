@@ -9,7 +9,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public abstract class BinaryConditionStringExpressionSupport implements ValueSourceStringExpressionSupport
+public abstract class BinaryConditionStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     @Override
     public ValueSourceConfiguration fromLiteral(String string, MuseProject project)

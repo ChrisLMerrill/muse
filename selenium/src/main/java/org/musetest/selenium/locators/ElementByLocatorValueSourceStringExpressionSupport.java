@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class ElementByLocatorValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
+public abstract class ElementByLocatorValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     protected ElementByLocatorValueSourceStringExpressionSupport(String type_id, String text_prefix)
         {

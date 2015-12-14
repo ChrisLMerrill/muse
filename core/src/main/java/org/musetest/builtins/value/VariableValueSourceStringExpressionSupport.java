@@ -9,21 +9,17 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class VariableValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
+public class VariableValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
+    public ValueSourceConfiguration fromPrefixedExpression(String prefix, ValueSourceConfiguration expression, MuseProject project)
         {
-        if (string.startsWith("$"))
+        if (prefix.equals("$"))
             {
-            List<ValueSourceConfiguration> configurations = ValueSourceQuickEditSupporters.parseWithAll(string.substring(1), project);
-            if (configurations.size() > 0)
-                {
-                ValueSourceConfiguration config = new ValueSourceConfiguration();
-                config.setType(VariableValueSource.TYPE_ID);
-                config.setSource(configurations.get(0));
-                return config;
-                }
+            ValueSourceConfiguration config = new ValueSourceConfiguration();
+            config.setType(VariableValueSource.TYPE_ID);
+            config.setSource(expression);
+            return config;
             }
         return null;
         }

@@ -7,7 +7,7 @@ import org.musetest.core.values.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class IntegerValueSourceStringExpressionSupport implements ValueSourceStringExpressionSupport
+public class IntegerValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     @Override
     public ValueSourceConfiguration fromLiteral(String string, MuseProject project)

@@ -12,6 +12,7 @@ import org.musetest.core.*;
 public interface ValueSourceStringExpressionSupport
     {
     ValueSourceConfiguration fromLiteral(String string, MuseProject project);
+    ValueSourceConfiguration fromPrefixedExpression(String prefix, ValueSourceConfiguration expression, MuseProject project);
     String toString(ValueSourceConfiguration config, MuseProject project);
     int getPriority();
     }
