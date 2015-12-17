@@ -59,12 +59,9 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory, MuseRes
 
     private void createResources(ResourceOrigin origin, List<MuseResource> resources, InputStream instream, TypeLocator type_locator) throws IOException
         {
-        if (_mapper == null)
-            _mapper = JsonMapperFactory.createMapper(type_locator);
-
         try
             {
-            MuseResource resource = _mapper.readValue(instream, MuseResource.class);
+            MuseResource resource = getMapper(type_locator).readValue(instream, MuseResource.class);
             resource.getMetadata().setSaver(this);
 
             resources.add(resource);
@@ -77,7 +74,7 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory, MuseRes
         }
 
     @Override
-    public Boolean saveResource(MuseResource resource)
+    public Boolean saveResource(MuseResource resource, TypeLocator type_locator)
         {
         ResourceOrigin origin = resource.getMetadata().getOrigin();
         String error_message = null;  // factories only return an error
@@ -87,17 +84,35 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory, MuseRes
             try
                 {
                 FileOutputStream outstream = new FileOutputStream(target_file);
-                _mapper.writerWithDefaultPrettyPrinter().writeValue(outstream, resource);
+                getMapper(type_locator).writerWithDefaultPrettyPrinter().writeValue(outstream, resource);
                 outstream.close();
                 return true;
                 }
             catch (Exception e)
                 {
-                LOG.error("Unable to save the resource to " + target_file.getPath() + " - " + e.getMessage());
+                LOG.error("Unable to save the resource to " + target_file.getPath() + " - " + e.getMessage(), e);
+
                 return false;
                 }
             }
-        return null;
+        else
+            {
+            LOG.error("null or unrecognized file origin. Don't know where to save the resource");
+            return false;
+            }
+        }
+
+    private ObjectMapper getMapper(TypeLocator type_locator)
+        {
+        if (_mapper == null)
+            _mapper = JsonMapperFactory.createMapper(type_locator);
+        return _mapper;
+        }
+
+    @Override
+    public String getDefaultFileExtension()
+        {
+        return "json";
         }
 
     private ObjectMapper _mapper = null;

@@ -1,9 +1,7 @@
 package org.musetest.core.step;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
 
 /**
  * A compound step that creates a new variable scope for it's children (and descendents). Variables declared in
@@ -34,6 +32,8 @@ public class ScopedGroup extends BasicCompoundStep
         {
         return true;
         }
+
+    public final static String TYPE_ID = ScopedGroup.class.getAnnotation(MuseTypeId.class).value();
     }
 
 

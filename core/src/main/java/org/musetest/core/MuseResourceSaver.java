@@ -1,5 +1,7 @@
 package org.musetest.core;
 
+import org.musetest.core.util.*;
+
 /**
  * Saves a resource in a project (typically one loaded from a MuseResourceFactory).
  *
@@ -7,6 +9,7 @@ package org.musetest.core;
  */
 public interface MuseResourceSaver
     {
-    Boolean saveResource(MuseResource resource);
+    Boolean saveResource(MuseResource resource, TypeLocator type_locator);
+    String getDefaultFileExtension();
     }
 

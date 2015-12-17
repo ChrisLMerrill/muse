@@ -9,7 +9,7 @@ import java.io.*;
  */
 public class FileResourceOrigin implements ResourceOrigin
     {
-    public FileResourceOrigin(File source) throws FileNotFoundException
+    public FileResourceOrigin(File source)
         {
         super();
         _file = source;

@@ -1,5 +1,7 @@
 package org.musetest.core.resource.types;
 
+import org.musetest.core.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -25,6 +27,11 @@ public abstract class ResourceType
     public String getTypeId()
         {
         return _type_id;
+        }
+
+    public MuseResource create()
+        {
+        return null;
         }
 
     @Override

@@ -39,16 +39,7 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
                     });
                 for (File file : files)
                     {
-                    FileResourceOrigin origin;
-                    try
-                        {
-                        origin = new FileResourceOrigin(file);
-                        }
-                    catch (FileNotFoundException e)
-                        {
-                        LOG.error("FolderIntoMemoryResourceStore.loadAllResources() - where did the file go? It was here just a millisecond ago....  " + file.getAbsolutePath(), e);
-                        continue;
-                        }
+                    FileResourceOrigin origin = new FileResourceOrigin(file);
                     try
                         {
                         List<MuseResource> resources = ResourceFactory.createResources(origin, getFactoryLocator(), getClassLocator());
@@ -128,11 +119,15 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
     @Override
     public String saveResource(MuseResource resource)
         {
+        // for a new resource, we need to setup the origin
+        if (resource.getMetadata().getOrigin() == null)
+            resource.getMetadata().setOrigin(new FileResourceOrigin(new File(_folder, resource.getMetadata().getId() + "." + resource.getMetadata().getSaver().getDefaultFileExtension())));
+
         MuseResourceSaver saver = resource.getMetadata().getSaver();
         if (saver == null)
             return "No saver configured for the resource :(";
 
-        if (!saver.saveResource(resource))
+        if (!saver.saveResource(resource, new TypeLocator(getClassLocator())))
             return "Saving resource failed. Consult the diagnostic log";
 
         return null;

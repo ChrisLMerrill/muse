@@ -1,7 +1,11 @@
 package org.musetest.core.resource.types;
 
+import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.step.*;
+import org.musetest.core.steptest.*;
+import org.musetest.core.values.*;
 import org.musetest.javascript.factory.*;
 import org.slf4j.*;
 
@@ -66,6 +70,12 @@ public class ResourceTypes
             {
             super("test", "Test", MuseTest.class);
             }
+
+        @Override
+        public MuseResource create()
+            {
+            return new SteppedTest(createStarterStep());
+            }
         }
     static class MacroResourceType extends ResourceType
         {
@@ -73,12 +83,29 @@ public class ResourceTypes
             {
             super("macro", "Macro", org.musetest.core.step.Macro.class);
             }
+
+        @Override
+        public MuseResource create()
+            {
+            Macro macro = new Macro();
+            macro.setStep(createStarterStep());
+            return macro;
+            }
+
         }
     static class FunctionResourceType extends ResourceType
         {
         public FunctionResourceType()
             {
             super("function", "Function", org.musetest.core.step.Function.class);
+            }
+
+        @Override
+        public MuseResource create()
+            {
+            org.musetest.core.step.Function function = new org.musetest.core.step.Function();
+            function.setStep(createStarterStep());
+            return function;
             }
         }
     static class SuiteResourceType extends ResourceType
@@ -94,6 +121,17 @@ public class ResourceTypes
             {
             super("jsstep", "Javascript Step", JavascriptStepResource.class);
             }
+        }
+
+    private static StepConfiguration createStarterStep()
+        {
+        StepConfiguration step = new StepConfiguration();
+        step.setType(ScopedGroup.TYPE_ID);
+        StepConfiguration step1 = new StepConfiguration();
+        step1.setType(LogMessage.TYPE_ID);
+        step1.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("replace this with some useful steps"));
+        step.addChild(step1);
+        return step;
         }
 
     public final static ResourceType Test = new TestResourceType();
