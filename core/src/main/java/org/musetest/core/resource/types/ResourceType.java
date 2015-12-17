@@ -31,7 +31,14 @@ public abstract class ResourceType
 
     public MuseResource create()
         {
-        return null;
+        try
+            {
+            return (MuseResource) _class.newInstance();
+            }
+        catch (Exception e)
+            {
+            return null;
+            }
         }
 
     @Override

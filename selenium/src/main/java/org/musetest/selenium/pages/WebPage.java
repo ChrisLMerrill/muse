@@ -44,7 +44,7 @@ public class WebPage implements MuseResource
         {
         public WebPageType()
             {
-            super("page", "Web Page", WebPage.class);
+            super(WebPage.class.getAnnotation(MuseTypeId.class).value(), "Web Page", WebPage.class);
             }
         }
     }
