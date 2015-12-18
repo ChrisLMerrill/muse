@@ -8,8 +8,10 @@ public class IdElementValueSourceStringExpressionSupport extends ElementByLocato
     {
     public IdElementValueSourceStringExpressionSupport()
         {
-        super(IdElementValueSource.TYPE_ID, "id");
+        super(IdElementValueSource.TYPE_ID, STRING_EXPRESSION_ID);
         }
+
+    public static final String STRING_EXPRESSION_ID = "id";
     }
 
 

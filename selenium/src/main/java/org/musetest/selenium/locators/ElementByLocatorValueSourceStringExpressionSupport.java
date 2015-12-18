@@ -10,32 +10,28 @@ import java.util.*;
  */
 public abstract class ElementByLocatorValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
-    protected ElementByLocatorValueSourceStringExpressionSupport(String type_id, String text_prefix)
+    protected ElementByLocatorValueSourceStringExpressionSupport(String muse_type_id, String string_expression_type_id)
         {
-        _type_id = type_id;
-        _prefix = "<" + text_prefix + ":";
+        _muse_type_id = muse_type_id;
+        _string_expression_type_id = string_expression_type_id;
         }
 
     @Override
-    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
+    public ValueSourceConfiguration fromElementExpression(String type, ValueSourceConfiguration qualifier, MuseProject project)
         {
-        if (string.startsWith(_prefix) && string.endsWith(">"))
-            {
-            List<ValueSourceConfiguration> configurations = ValueSourceQuickEditSupporters.parseWithAll(string.substring(_prefix.length(), string.length() - 1), project);
-            if (configurations.size() > 0)
-                return ValueSourceConfiguration.forSource(_type_id, configurations.get(0));
-            }
+        if (type.equals(_string_expression_type_id))
+            return ValueSourceConfiguration.forSource(_muse_type_id, qualifier);
         return null;
         }
 
     @Override
     public String toString(ValueSourceConfiguration config, MuseProject project)
         {
-        if (config.getType().equals(_type_id))
+        if (config.getType().equals(_muse_type_id))
             {
             List<String> strings = ValueSourceQuickEditSupporters.asStringFromAll(config.getSource(), project);
             if (strings.size() > 0)
-                return _prefix + strings.get(0) + ">";
+                return String.format("<%s:%s>", _string_expression_type_id, strings.get(0));
             }
         return null;
         }
@@ -46,8 +42,8 @@ public abstract class ElementByLocatorValueSourceStringExpressionSupport extends
         return 2;
         }
 
-    private String _prefix;
-    private String _type_id;
+    private String _string_expression_type_id;
+    private String _muse_type_id;
     }
 
 

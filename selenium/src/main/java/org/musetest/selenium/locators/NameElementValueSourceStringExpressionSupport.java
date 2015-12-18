@@ -8,8 +8,10 @@ public class NameElementValueSourceStringExpressionSupport extends ElementByLoca
     {
     public NameElementValueSourceStringExpressionSupport()
         {
-        super(NameElementValueSource.TYPE_ID, "name");
+        super(NameElementValueSource.TYPE_ID, STRING_EXPRESSION_ID);
         }
+
+    public static final String STRING_EXPRESSION_ID = "name";
     }
 
 

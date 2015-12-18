@@ -8,8 +8,10 @@ public class XPathElementValueSourceStringExpressionSupport extends ElementByLoc
     {
     public XPathElementValueSourceStringExpressionSupport()
         {
-        super(XPathElementValueSource.TYPE_ID, "xpath");
+        super(XPathElementValueSource.TYPE_ID, STRING_EXPRESSION_ID);
         }
+
+    public static final String STRING_EXPRESSION_ID = "xpath";
     }
 
 

@@ -8,8 +8,8 @@ public class CssElementValueSourceStringExpressionSupport extends ElementByLocat
     {
     public CssElementValueSourceStringExpressionSupport()
         {
-        super(CssElementValueSource.TYPE_ID, "css");
+        super(CssElementValueSource.TYPE_ID, STRING_EXPRESSION_ID);
         }
+
+    public static final String STRING_EXPRESSION_ID = "css";
     }
-
-

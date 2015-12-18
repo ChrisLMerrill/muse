@@ -13,6 +13,8 @@ import org.musetest.selenium.locators.*;
 import org.musetest.selenium.mocks.*;
 import org.musetest.selenium.values.*;
 
+import java.io.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -61,11 +63,9 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementByXpathQuickEditSupport() throws ValueSourceResolutionError, MuseInstantiationException
+    public void elementByXPathStringExpressionSupport() throws IOException
         {
-        ValueSourceConfiguration config = ValueSourceQuickEditSupporters.parseWithAll("<xpath:\"//123/123/123\">", TEST_PROJECT).get(0);
-        Assert.assertEquals(XPathElementValueSource.TYPE_ID, config.getType());
-        Assert.assertEquals("//123/123/123", config.getSource().getValue());
+        checkCreationFromStringExpression(new XPathElementValueSourceStringExpressionSupport(), XPathElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID, XPathElementValueSource.TYPE_ID);
         }
 
     @Test
@@ -86,11 +86,35 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementByIdQuickEditSupport() throws ValueSourceResolutionError, MuseInstantiationException
+    public void elementByIdStringExpressionSupport() throws IOException
         {
-        ValueSourceConfiguration config = ValueSourceQuickEditSupporters.parseWithAll("<id:\"abc\">", TEST_PROJECT).get(0);
-        Assert.assertEquals(IdElementValueSource.TYPE_ID, config.getType());
-        Assert.assertEquals("abc", config.getSource().getValue());
+        checkCreationFromStringExpression(new IdElementValueSourceStringExpressionSupport(), IdElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID, IdElementValueSource.TYPE_ID);
+        }
+
+    @Test
+    public void elementByNameStringExpressionSupport() throws IOException
+        {
+        checkCreationFromStringExpression(new NameElementValueSourceStringExpressionSupport(), NameElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID, NameElementValueSource.TYPE_ID);
+        }
+
+    @Test
+    public void elementByCssStringExpressionSupport() throws IOException
+        {
+        checkCreationFromStringExpression(new CssElementValueSourceStringExpressionSupport(), CssElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID, CssElementValueSource.TYPE_ID);
+        }
+
+    @Test
+    public void elementByLinkTextExpressionSupport() throws IOException
+        {
+        checkCreationFromStringExpression(new LinkTextElementValueSourceStringExpressionSupport(), LinkTextElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID, LinkTextElementValueSource.TYPE_ID);
+        }
+
+    private void checkCreationFromStringExpression(ValueSourceStringExpressionSupport parser, String expression_id, String muse_type_id)
+        {
+        ValueSourceConfiguration qualifier = ValueSourceConfiguration.forValue("qualifier");
+        ValueSourceConfiguration config = parser.fromElementExpression(expression_id, qualifier, null);
+        Assert.assertEquals(muse_type_id, config.getType());
+        Assert.assertEquals(qualifier, config.getSource());
         }
 
     static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStore());

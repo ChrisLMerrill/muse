@@ -8,8 +8,10 @@ public class LinkTextElementValueSourceStringExpressionSupport extends ElementBy
     {
     public LinkTextElementValueSourceStringExpressionSupport()
         {
-        super(LinkTextElementValueSource.TYPE_ID, "linktext");
+        super(LinkTextElementValueSource.TYPE_ID, STRING_EXPRESSION_ID);
         }
+
+    public static final String STRING_EXPRESSION_ID = "linktext";
     }
 
 
