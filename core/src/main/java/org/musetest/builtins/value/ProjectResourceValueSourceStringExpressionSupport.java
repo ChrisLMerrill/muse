@@ -12,18 +12,14 @@ import java.util.*;
 public class ProjectResourceValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
+    public ValueSourceConfiguration fromPrefixedExpression(String prefix, ValueSourceConfiguration expression, MuseProject project)
         {
-        if (string.startsWith("#"))
+        if (prefix.equals("#"))
             {
             ValueSourceConfiguration config = new ValueSourceConfiguration();
             config.setType(ProjectResourceValueSource.TYPE_ID);
-            List<ValueSourceConfiguration> configurations = ValueSourceQuickEditSupporters.parseWithAll(string.substring(1), project);
-            if (configurations.size() > 0)
-                {
-                config.setSource(configurations.get(0));
-                return config;
-                }
+            config.setSource(expression);
+            return config;
             }
         return null;
         }

@@ -110,10 +110,23 @@ public class ValueSourceStringExpressionSupportTests
         ValueSourceConfiguration config = new VariableValueSourceStringExpressionSupport().fromPrefixedExpression("$", string_source, TEST_PROJECT);
         Assert.assertNotNull(config);
 
-        Assert.assertEquals("variable", config.getType());
+        Assert.assertEquals(VariableValueSource.TYPE_ID, config.getType());
         Assert.assertNotNull(config.getSource());
-        Assert.assertEquals("string", config.getSource().getType());
+        Assert.assertEquals(StringValueSource.TYPE_ID, config.getSource().getType());
         Assert.assertEquals("var1", config.getSource().getValue());
+        }
+
+    @Test
+    public void projectResourceSource()
+        {
+        ValueSourceConfiguration string_source = ValueSourceConfiguration.forValue("res1");
+        ValueSourceConfiguration config = new ProjectResourceValueSourceStringExpressionSupport().fromPrefixedExpression("#", string_source, TEST_PROJECT);
+        Assert.assertNotNull(config);
+
+        Assert.assertEquals(ProjectResourceValueSource.TYPE_ID, config.getType());
+        Assert.assertNotNull(config.getSource());
+        Assert.assertEquals(StringValueSource.TYPE_ID, config.getSource().getType());
+        Assert.assertEquals("res1", config.getSource().getValue());
         }
 
     @Test
