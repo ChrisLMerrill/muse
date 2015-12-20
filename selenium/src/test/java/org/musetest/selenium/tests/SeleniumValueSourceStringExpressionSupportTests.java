@@ -76,10 +76,12 @@ public class SeleniumValueSourceStringExpressionSupportTests
 
     private void checkCreationFromStringExpression(ValueSourceStringExpressionSupport parser, String expression_id, String muse_type_id)
         {
-        ValueSourceConfiguration qualifier = ValueSourceConfiguration.forValue("qualifier");
-        ValueSourceConfiguration config = parser.fromElementExpression(expression_id, qualifier, null);
+        ValueSourceConfiguration argument = ValueSourceConfiguration.forValue("qualifier");
+        List<ValueSourceConfiguration> arguments = new ArrayList<>();
+        arguments.add(argument);
+        ValueSourceConfiguration config = parser.fromElementExpression(expression_id, arguments, null);
         Assert.assertEquals(muse_type_id, config.getType());
-        Assert.assertEquals(qualifier, config.getSource());
+        Assert.assertEquals(argument, config.getSource());
         }
     }
 

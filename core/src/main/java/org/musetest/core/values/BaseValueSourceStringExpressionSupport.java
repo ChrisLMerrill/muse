@@ -22,7 +22,7 @@ public abstract class BaseValueSourceStringExpressionSupport implements ValueSou
         }
 
     @Override
-    public ValueSourceConfiguration fromElementExpression(String type, ValueSourceConfiguration qualifier, MuseProject project)
+    public ValueSourceConfiguration fromElementExpression(String type, List<ValueSourceConfiguration> arguments, MuseProject project)
         {
         return null;
         }

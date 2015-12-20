@@ -17,10 +17,10 @@ public abstract class ElementByLocatorValueSourceStringExpressionSupport extends
         }
 
     @Override
-    public ValueSourceConfiguration fromElementExpression(String type, ValueSourceConfiguration qualifier, MuseProject project)
+    public ValueSourceConfiguration fromElementExpression(String type, List<ValueSourceConfiguration> arguments, MuseProject project)
         {
-        if (type.equals(_string_expression_type_id))
-            return ValueSourceConfiguration.forSource(_muse_type_id, qualifier);
+        if (type.equals(_string_expression_type_id) && arguments.size() == 1)
+            return ValueSourceConfiguration.forSource(_muse_type_id, arguments.get(0));
         return null;
         }
 
