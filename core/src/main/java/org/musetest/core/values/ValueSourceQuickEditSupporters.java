@@ -8,6 +8,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@Deprecated
 public class ValueSourceQuickEditSupporters
     {
     @Deprecated

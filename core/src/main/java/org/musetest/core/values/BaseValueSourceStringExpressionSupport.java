@@ -2,6 +2,8 @@ package org.musetest.core.values;
 
 import org.musetest.core.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -21,6 +23,12 @@ public abstract class BaseValueSourceStringExpressionSupport implements ValueSou
 
     @Override
     public ValueSourceConfiguration fromElementExpression(String type, ValueSourceConfiguration qualifier, MuseProject project)
+        {
+        return null;
+        }
+
+    @Override
+    public ValueSourceConfiguration fromArgumentedExpression(String name, List<ValueSourceConfiguration> arguments, MuseProject project)
         {
         return null;
         }

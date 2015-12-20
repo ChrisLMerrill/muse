@@ -15,7 +15,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("exists")
 @MuseValueSourceName("Element exists")
-@MuseValueSourceInstanceDescription("exists({source})")
+@MuseValueSourceInstanceDescription("elementExists({source})")
 @MuseValueSourceTypeGroup("Element.Condition")
 @MuseValueSourceShortDescription("True if the element exists")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")

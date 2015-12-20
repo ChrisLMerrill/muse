@@ -63,12 +63,6 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementByXPathStringExpressionSupport() throws IOException
-        {
-        checkCreationFromStringExpression(new XPathElementValueSourceStringExpressionSupport(), XPathElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID, XPathElementValueSource.TYPE_ID);
-        }
-
-    @Test
     public void elementById() throws StepConfigurationError
         {
         MuseMockDriver driver = new MuseMockDriver();
@@ -84,40 +78,6 @@ public class SeleniumValueSourceTests
         Object value = source.resolveValue(context);
         Assert.assertEquals(element1, value);
         }
-
-    @Test
-    public void elementByIdStringExpressionSupport() throws IOException
-        {
-        checkCreationFromStringExpression(new IdElementValueSourceStringExpressionSupport(), IdElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID, IdElementValueSource.TYPE_ID);
-        }
-
-    @Test
-    public void elementByNameStringExpressionSupport() throws IOException
-        {
-        checkCreationFromStringExpression(new NameElementValueSourceStringExpressionSupport(), NameElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID, NameElementValueSource.TYPE_ID);
-        }
-
-    @Test
-    public void elementByCssStringExpressionSupport() throws IOException
-        {
-        checkCreationFromStringExpression(new CssElementValueSourceStringExpressionSupport(), CssElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID, CssElementValueSource.TYPE_ID);
-        }
-
-    @Test
-    public void elementByLinkTextExpressionSupport() throws IOException
-        {
-        checkCreationFromStringExpression(new LinkTextElementValueSourceStringExpressionSupport(), LinkTextElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID, LinkTextElementValueSource.TYPE_ID);
-        }
-
-    private void checkCreationFromStringExpression(ValueSourceStringExpressionSupport parser, String expression_id, String muse_type_id)
-        {
-        ValueSourceConfiguration qualifier = ValueSourceConfiguration.forValue("qualifier");
-        ValueSourceConfiguration config = parser.fromElementExpression(expression_id, qualifier, null);
-        Assert.assertEquals(muse_type_id, config.getType());
-        Assert.assertEquals(qualifier, config.getSource());
-        }
-
-    static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStore());
     }
 
 
