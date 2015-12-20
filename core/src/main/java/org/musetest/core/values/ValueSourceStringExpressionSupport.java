@@ -15,7 +15,7 @@ public interface ValueSourceStringExpressionSupport
     {
     ValueSourceConfiguration fromLiteral(String string, MuseProject project);
     ValueSourceConfiguration fromPrefixedExpression(String prefix, ValueSourceConfiguration expression, MuseProject project);
-    ValueSourceConfiguration fromElementExpression(String type, ValueSourceConfiguration qualifier, MuseProject project);
+    ValueSourceConfiguration fromElementExpression(String type, List<ValueSourceConfiguration> arguments, MuseProject project);
     ValueSourceConfiguration fromArgumentedExpression(String name, List<ValueSourceConfiguration> arguments, MuseProject project);
     String toString(ValueSourceConfiguration config, MuseProject project);
     int getPriority();
