@@ -14,8 +14,8 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("equals")
-@MuseValueSourceName("Equals (=)")
-@MuseValueSourceInstanceDescription("{source(left)} = {source(right)}")
+@MuseValueSourceName("Equals (==)")
+@MuseValueSourceInstanceDescription("{source(left)} == {source(right)}")
 @MuseValueSourceTypeGroup("Math")
 @MuseValueSourceShortDescription("Compare two sources for equality")
 @MuseValueSourceLongDescription("Compare two sources, return true if equal. Object.equals() is used for the comparison.")
@@ -34,14 +34,14 @@ public class EqualityCondition extends BinaryCondition
         Object value2 = _right.resolveValue(context);
         boolean result = Objects.equals(value1, value2);
 
-        context.getTestExecutionContext().raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s=%s) is %b", value1, value2, result)));
+        context.getTestExecutionContext().raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s == %s) is %b", value1, value2, result)));
         return result;
         }
 
     @Override
     public String getDescription()
         {
-        return String.format("%s = %s", _left.getDescription(), _right.getDescription());
+        return String.format("%s == %s", _left.getDescription(), _right.getDescription());
         }
 
     public final static String TYPE_ID = EqualityCondition.class.getAnnotation(MuseTypeId.class).value();
