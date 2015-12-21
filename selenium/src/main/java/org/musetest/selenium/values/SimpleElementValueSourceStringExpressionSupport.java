@@ -9,7 +9,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class SimpleElementValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
+public abstract class SimpleElementValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     public SimpleElementValueSourceStringExpressionSupport(String expression_name, String muse_type)
         {
