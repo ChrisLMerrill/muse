@@ -3,8 +3,6 @@ package org.musetest.builtins.condition;
 import org.musetest.core.*;
 import org.musetest.core.values.*;
 
-import java.util.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -12,35 +10,15 @@ import java.util.*;
 public abstract class BinaryConditionStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
+    public ValueSourceConfiguration fromBinaryExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project)
         {
-        if (string.contains(getSeparator()))
+        if (operator.equals(getOperator()))
             {
-            StringTokenizer tokenizer = new StringTokenizer(string, getSeparator());
-            if (!tokenizer.hasMoreTokens())
-                return null;
-
-            // parse the left side
-            ValueSourceConfiguration left = null;
-            List<ValueSourceConfiguration> configurations = ValueSourceQuickEditSupporters.parseWithAll(tokenizer.nextToken().trim(), project);
-            if (configurations.size() > 0)
-                left = configurations.get(0);
-
-            ValueSourceConfiguration right = null;
-            if (!tokenizer.hasMoreTokens())
-                return null;
-            configurations = ValueSourceQuickEditSupporters.parseWithAll(tokenizer.nextToken().trim(), project);
-            if (configurations.size() > 0)
-                right = configurations.get(0);
-
-            if (left != null && right != null)
-                {
-                ValueSourceConfiguration config = new ValueSourceConfiguration();
-                config.setType(getSourceType());
-                config.addSource("left", left);
-                config.addSource("right", right);
-                return config;
-                }
+            ValueSourceConfiguration config = new ValueSourceConfiguration();
+            config.setType(getSourceType());
+            config.addSource(BinaryCondition.LEFT_PARAM, left);
+            config.addSource(BinaryCondition.RIGHT_PARAM, right);
+            return config;
             }
         return null;
         }
@@ -51,24 +29,17 @@ public abstract class BinaryConditionStringExpressionSupport extends BaseValueSo
         return 1;
         }
 
-    protected abstract String getSeparator();
-    protected abstract String getSourceType();
+    public abstract String getOperator();
+    public abstract String getSourceType();
 
     @Override
     public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(getSourceType()))
             {
-            try
-                {
-                String left = ValueSourceQuickEditSupporters.asStringFromAll(config.getSourceMap().get("left"), project).get(0);
-                String right = ValueSourceQuickEditSupporters.asStringFromAll(config.getSourceMap().get("right"), project).get(0);
-                return left + " " + getSeparator() + " " + right;
-                }
-            catch (Exception e)
-                {
-                // none
-                }
+            String left = ValueSourceStringExpressionSupporters.toString(config.getSourceMap().get(BinaryCondition.LEFT_PARAM), project);
+            String right = ValueSourceStringExpressionSupporters.toString(config.getSourceMap().get(BinaryCondition.RIGHT_PARAM), project);
+            return String.format("%s %s %s", left, getOperator(), right);
             }
         return null;
         }

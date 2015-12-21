@@ -34,6 +34,18 @@ public abstract class BaseValueSourceStringExpressionSupport implements ValueSou
         }
 
     @Override
+    public ValueSourceConfiguration fromBinaryExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project)
+        {
+        return null;
+        }
+
+    @Override
+    public ValueSourceConfiguration fromVariadicExpression(String operator, List<ValueSourceConfiguration> arguments, MuseProject project)
+        {
+        return null;
+        }
+
+    @Override
     public int getPriority()
         {
         return 0;

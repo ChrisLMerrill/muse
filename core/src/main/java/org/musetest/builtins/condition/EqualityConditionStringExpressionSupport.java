@@ -7,15 +7,15 @@ package org.musetest.builtins.condition;
 public class EqualityConditionStringExpressionSupport extends BinaryConditionStringExpressionSupport
     {
     @Override
-    protected String getSeparator()
+    public String getOperator()
         {
-        return "=";
+        return "==";
         }
 
     @Override
-    protected String getSourceType()
+    public String getSourceType()
         {
-        return "equals";
+        return EqualityCondition.TYPE_ID;
         }
     }
 

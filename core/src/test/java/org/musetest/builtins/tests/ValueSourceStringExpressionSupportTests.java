@@ -1,6 +1,7 @@
 package org.musetest.builtins.tests;
 
 import org.junit.*;
+import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
@@ -130,95 +131,36 @@ public class ValueSourceStringExpressionSupportTests
         }
 
     @Test
-    public void equalsCondition()
+    public void equals()
         {
-        List<ValueSourceConfiguration> config_list = ValueSourceQuickEditSupporters.parseWithAll("\"abc\" = \"123\"", TEST_PROJECT);
-        ValueSourceConfiguration config = config_list.get(0);
-        Assert.assertNotNull(config);
-        Assert.assertEquals("equals", config.getType());
-
-        ValueSourceConfiguration left = config.getSourceMap().get("left");
-        Assert.assertNotNull(left);
-        Assert.assertEquals("string", left.getType());
-        Assert.assertEquals("abc", left.getValue());
-
-        ValueSourceConfiguration right = config.getSourceMap().get("right");
-        Assert.assertNotNull(right);
-        Assert.assertEquals("string", right.getType());
-        Assert.assertEquals("123", right.getValue());
+        testBinaryCondition(new EqualityConditionStringExpressionSupport());
         }
 
     @Test
-    public void toFromEquals()
+    public void greaterThan()
         {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType("equals");
-        config.addSource("left", ValueSourceConfiguration.forValue(2L));
-        config.addSource("right", ValueSourceConfiguration.forValue(1L));
-
-        stringifyAndParse(config);
+        testBinaryCondition(new GreaterThanConditionStringExpressionSupport());
         }
 
     @Test
-    public void greaterCondition()
+    public void lessThan()
         {
-        List<ValueSourceConfiguration> config_list = ValueSourceQuickEditSupporters.parseWithAll("12 > 10", TEST_PROJECT);
-        Assert.assertEquals(1, config_list.size());
-        ValueSourceConfiguration config = config_list.get(0);
-        Assert.assertNotNull(config);
-        Assert.assertEquals("greaterthan", config.getType());
-
-        ValueSourceConfiguration left = config.getSourceMap().get("left");
-        Assert.assertNotNull(left);
-        Assert.assertEquals("integer", left.getType());
-        Assert.assertEquals(12L, left.getValue());
-
-        ValueSourceConfiguration right = config.getSourceMap().get("right");
-        Assert.assertNotNull(right);
-        Assert.assertEquals("integer", right.getType());
-        Assert.assertEquals(10L, right.getValue());
+        testBinaryCondition(new LessThanConditionStringExpressionSupport());
         }
 
-    @Test
-    public void toFromGreater()
+    private void testBinaryCondition(BinaryConditionStringExpressionSupport supporter)
         {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType("greaterthan");
-        config.addSource("left", ValueSourceConfiguration.forValue(2L));
-        config.addSource("right", ValueSourceConfiguration.forValue(1L));
+        String left = "abc";
+        String right = "xyz";
+        String to_parse = String.format("\"%s\" %s \"%s\"", left, supporter.getOperator(), right);
+        ValueSourceConfiguration parsed = supporter.fromBinaryExpression(ValueSourceConfiguration.forValue(left), supporter.getOperator(), ValueSourceConfiguration.forValue(right), TEST_PROJECT);
 
-        stringifyAndParse(config);
-        }
+        Assert.assertEquals(supporter.getSourceType(), parsed.getType());
+        Assert.assertEquals(left, parsed.getSource(BinaryCondition.LEFT_PARAM).getValue());
+        Assert.assertEquals(right, parsed.getSource(BinaryCondition.RIGHT_PARAM).getValue());
 
-    @Test
-    public void lesserCondition()
-        {
-        List<ValueSourceConfiguration> config_list = ValueSourceQuickEditSupporters.parseWithAll("12 < 10", TEST_PROJECT);
-        Assert.assertEquals(1, config_list.size());
-        ValueSourceConfiguration config = config_list.get(0);
-        Assert.assertNotNull(config);
-        Assert.assertEquals("lessthan", config.getType());
-
-        ValueSourceConfiguration left = config.getSourceMap().get("left");
-        Assert.assertNotNull(left);
-        Assert.assertEquals("integer", left.getType());
-        Assert.assertEquals(12L, left.getValue());
-
-        ValueSourceConfiguration right = config.getSourceMap().get("right");
-        Assert.assertNotNull(right);
-        Assert.assertEquals("integer", right.getType());
-        Assert.assertEquals(10L, right.getValue());
-        }
-
-    @Test
-    public void toFromLesser()
-        {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType("lessthan");
-        config.addSource("left", ValueSourceConfiguration.forValue(2L));
-        config.addSource("right", ValueSourceConfiguration.forValue(1L));
-
-        stringifyAndParse(config);
+        String stringified = supporter.toString(parsed, TEST_PROJECT);
+        Assert.assertEquals(to_parse, stringified);
         }
 
     private void stringifyAndParse(ValueSourceConfiguration source)

@@ -7,15 +7,15 @@ package org.musetest.builtins.condition;
 public class GreaterThanConditionStringExpressionSupport extends BinaryConditionStringExpressionSupport
     {
     @Override
-    protected String getSeparator()
+    public String getOperator()
         {
         return ">";
         }
 
     @Override
-    protected String getSourceType()
+    public String getSourceType()
         {
-        return "greaterthan";
+        return GreaterThanCondition.TYPE_ID;
         }
     }
 
