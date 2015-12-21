@@ -5,6 +5,7 @@ import org.musetest.core.project.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.conditions.*;
 import org.musetest.selenium.locators.*;
+import org.musetest.selenium.values.*;
 
 import java.io.*;
 import java.util.*;
@@ -43,6 +44,26 @@ public class SeleniumValueSourceStringExpressionSupportTests
         Assert.assertEquals(config, parsed_config);
         }
 
+    @Test
+    public void pageTitleStringExpressionSupport()
+        {
+        ValueSourceConfiguration config = new PageTitleValueSourceStringExpressionSupport().fromElementExpression(PageTitleValueSourceStringExpressionSupport.NAME, new ArrayList<>(), null);
+        Assert.assertEquals(PageTitleValueSource.TYPE_ID, config.getType());
+        }
+
+    @Test
+    public void pageSourceStringExpressionSupport()
+        {
+        ValueSourceConfiguration config = new PageSourceValueSourceStringExpressionSupport().fromElementExpression(PageSourceValueSourceStringExpressionSupport.NAME, new ArrayList<>(), null);
+        Assert.assertEquals(PageSourceValueSource.TYPE_ID, config.getType());
+        }
+
+    @Test
+    public void currentUrlStringExpressionSupport()
+        {
+        ValueSourceConfiguration config = new CurrentUrlValueSourceStringExpressionSupport().fromElementExpression(CurrentUrlValueSourceStringExpressionSupport.NAME, new ArrayList<>(), null);
+        Assert.assertEquals(CurrentUrlValueSource.TYPE_ID, config.getType());
+        }
 
     @Test
     public void elementByIdStringExpressionSupport() throws IOException

@@ -1,17 +1,17 @@
 package org.musetest.selenium.values;
 
-import org.musetest.core.values.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class PageTitleValueSourceStringExpressionSupport extends ContantValueSourceStringExpressionSupport
+public class PageTitleValueSourceStringExpressionSupport extends SimpleElementValueSourceStringExpressionSupport
     {
     public PageTitleValueSourceStringExpressionSupport()
         {
-        super(PageTitleValueSource.NAME, PageTitleValueSource.TYPE_ID);
+        super(NAME, PageTitleValueSource.TYPE_ID);
         }
+
+    public final static String NAME = "title";
     }
 
 

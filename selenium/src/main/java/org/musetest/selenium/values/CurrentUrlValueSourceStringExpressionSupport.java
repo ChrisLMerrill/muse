@@ -1,17 +1,17 @@
 package org.musetest.selenium.values;
 
-import org.musetest.core.values.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class CurrentUrlValueSourceStringExpressionSupport extends ContantValueSourceStringExpressionSupport
+public class CurrentUrlValueSourceStringExpressionSupport extends SimpleElementValueSourceStringExpressionSupport
     {
     public CurrentUrlValueSourceStringExpressionSupport()
         {
-        super(CurrentUrlValueSource.NAME, CurrentUrlValueSource.TYPE_ID);
+        super(NAME, CurrentUrlValueSource.TYPE_ID);
         }
+
+    public final static String NAME = "url";
     }
 
 
