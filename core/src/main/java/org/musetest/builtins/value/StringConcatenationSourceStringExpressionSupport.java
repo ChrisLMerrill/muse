@@ -12,28 +12,43 @@ import java.util.*;
 public class StringConcatenationSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
+    public ValueSourceConfiguration fromVariadicExpression(String operator, List<ValueSourceConfiguration> arguments, MuseProject project)
         {
-        if (string.contains("+"))
+        if (operator.equals("+"))
             {
             ValueSourceConfiguration config = new ValueSourceConfiguration();
             config.setType(StringConcatenationSource.TYPE_ID);
-
-            int index = 0;
-            StringTokenizer tokenizer = new StringTokenizer(string, "+");
-            while (tokenizer.hasMoreTokens())
-                {
-                List<ValueSourceConfiguration> configurations = ValueSourceQuickEditSupporters.parseWithAll(tokenizer.nextToken().trim(), project);
-                if (configurations.size() == 0)
-                    return null;
-
-                ValueSourceConfiguration source = configurations.get(0);
-                config.addSource(index, source);
-                index++;
-                }
+            for (ValueSourceConfiguration argument : arguments)
+                config.addSource(argument);
             return config;
             }
         return null;
+        }
+
+    @Override
+    public ValueSourceConfiguration fromBinaryExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project)
+        {
+        if (!operator.equals("+"))
+            return null;
+
+        ValueSourceConfiguration new_config = new ValueSourceConfiguration();
+        new_config.setType(StringConcatenationSource.TYPE_ID);
+
+        // add everything on the left
+        if (left.getType().equals(StringConcatenationSource.TYPE_ID))
+            for (ValueSourceConfiguration left_subsource : left.getSourceList())
+                new_config.addSource(left_subsource);
+        else
+            new_config.addSource(left);
+
+        // add everything on the right
+        if (right.getType().equals(StringConcatenationSource.TYPE_ID))
+            for (ValueSourceConfiguration right_subsource : right.getSourceList())
+                new_config.addSource(right_subsource);
+        else
+            new_config.addSource(right);
+
+        return new_config;
         }
 
     @Override
@@ -48,22 +63,15 @@ public class StringConcatenationSourceStringExpressionSupport extends BaseValueS
                 if (!first)
                     builder.append(" + ");
 
-                List<String> strings = ValueSourceQuickEditSupporters.asStringFromAll(sub_source, project);
-                if (strings.size() == 0)
+                String stringified = ValueSourceStringExpressionSupporters.toString(sub_source, project);
+                if (stringified == null)
                     return null;
-
-                builder.append(strings.get(0));
+                builder.append(stringified);
                 first = false;
                 }
             return builder.toString();
             }
         return null;
-        }
-
-    @Override
-    public int getPriority()
-        {
-        return 1;
         }
     }
 

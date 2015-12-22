@@ -79,29 +79,63 @@ public class ValueSourceStringExpressionSupportTests
         }
 
     @Test
-    public void stringConcatenationSource()
+    public void stringConcatenation2Sources()
         {
-        List<ValueSourceConfiguration> config_list = ValueSourceQuickEditSupporters.parseWithAll("\"abc=\" + 123", TEST_PROJECT);
-        Assert.assertEquals(1, config_list.size());
-        ValueSourceConfiguration source = config_list.get(0);
-        Assert.assertNotNull(source);
-        Assert.assertEquals("concatenate", source.getType());
+        ValueSourceConfiguration left = ValueSourceConfiguration.forValue(123L);
+        ValueSourceConfiguration right = ValueSourceConfiguration.forValue(456L);
+        StringConcatenationSourceStringExpressionSupport supporter = new StringConcatenationSourceStringExpressionSupport();
+        ValueSourceConfiguration config = supporter.fromBinaryExpression(left, "+", right, TEST_PROJECT);
 
-        Assert.assertNotNull(source.getSourceList());
-        Assert.assertEquals(2, source.getSourceList().size());
+        Assert.assertNotNull(config);
+        Assert.assertEquals(StringConcatenationSource.TYPE_ID, config.getType());
+        Assert.assertEquals(left, config.getSourceList().get(0));
+        Assert.assertEquals(right, config.getSourceList().get(1));
 
-        Assert.assertEquals("abc=", source.getSourceList().get(0).getValue());
-        Assert.assertEquals(123L, source.getSourceList().get(1).getValue());
+        String stringified = supporter.toString(config, TEST_PROJECT);
+        Assert.assertEquals("123 + 456", stringified);
         }
 
     @Test
-    public void toFromStringConcatenation()
+    public void stringConcatenation3Sources()
         {
-        ValueSourceConfiguration source = new ValueSourceConfiguration();
-        source.setType("concatenate");
-        source.addSource(ValueSourceConfiguration.forValue("abc"));
-        source.addSource(ValueSourceConfiguration.forValue(123L));
-        stringifyAndParse(source);
+        ValueSourceConfiguration left = ValueSourceConfiguration.forValue(123L);
+        ValueSourceConfiguration right = ValueSourceConfiguration.forValue(456L);
+        ValueSourceConfiguration far_right = ValueSourceConfiguration.forValue(789L);
+        StringConcatenationSourceStringExpressionSupport supporter = new StringConcatenationSourceStringExpressionSupport();
+        ValueSourceConfiguration config = supporter.fromBinaryExpression(left, "+", right, TEST_PROJECT);
+        config = supporter.fromBinaryExpression(config, "+", far_right, TEST_PROJECT);
+
+        Assert.assertNotNull(config);
+        Assert.assertEquals(StringConcatenationSource.TYPE_ID, config.getType());
+        Assert.assertEquals(left, config.getSourceList().get(0));
+        Assert.assertEquals(right, config.getSourceList().get(1));
+        Assert.assertEquals(far_right, config.getSourceList().get(2));
+
+        String stringified = supporter.toString(config, TEST_PROJECT);
+        Assert.assertEquals("123 + 456 + 789", stringified);
+        }
+
+    @Test
+    public void stringConcatenation4Sources()
+        {
+        ValueSourceConfiguration far_left = ValueSourceConfiguration.forValue(11L);
+        ValueSourceConfiguration left = ValueSourceConfiguration.forValue(22L);
+        ValueSourceConfiguration right = ValueSourceConfiguration.forValue(33L);
+        ValueSourceConfiguration far_right = ValueSourceConfiguration.forValue(44L);
+        StringConcatenationSourceStringExpressionSupport supporter = new StringConcatenationSourceStringExpressionSupport();
+        ValueSourceConfiguration config = supporter.fromBinaryExpression(far_left, "+", left, TEST_PROJECT);
+        config = supporter.fromBinaryExpression(config, "+", right, TEST_PROJECT);
+        config = supporter.fromBinaryExpression(config, "+", far_right, TEST_PROJECT);
+
+        Assert.assertNotNull(config);
+        Assert.assertEquals(StringConcatenationSource.TYPE_ID, config.getType());
+        Assert.assertEquals(far_left, config.getSourceList().get(0));
+        Assert.assertEquals(left, config.getSourceList().get(1));
+        Assert.assertEquals(right, config.getSourceList().get(2));
+        Assert.assertEquals(far_right, config.getSourceList().get(3));
+
+        String stringified = supporter.toString(config, TEST_PROJECT);
+        Assert.assertEquals("11 + 22 + 33 + 44", stringified);
         }
 
     @Test
