@@ -32,11 +32,7 @@ public class VariableValueSourceStringExpressionSupport extends BaseValueSourceS
             if (config.getValue() != null)
                 return "$\"" + config.getValue().toString() + "\"";
             else
-                {
-                List<String> strings = ValueSourceQuickEditSupporters.asStringFromAll(config.getSource(), project);
-                if (strings.size() > 0)
-                    return "$" + strings.get(0);
-                }
+                return ValueSourceStringExpressionSupporters.toString(config.getSource(), project);
             }
         return null;
         }

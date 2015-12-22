@@ -12,20 +12,6 @@ import java.util.*;
 public class StringConcatenationSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration fromVariadicExpression(String operator, List<ValueSourceConfiguration> arguments, MuseProject project)
-        {
-        if (operator.equals("+"))
-            {
-            ValueSourceConfiguration config = new ValueSourceConfiguration();
-            config.setType(StringConcatenationSource.TYPE_ID);
-            for (ValueSourceConfiguration argument : arguments)
-                config.addSource(argument);
-            return config;
-            }
-        return null;
-        }
-
-    @Override
     public ValueSourceConfiguration fromBinaryExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project)
         {
         if (!operator.equals("+"))

@@ -197,15 +197,6 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(to_parse, stringified);
         }
 
-    private void stringifyAndParse(ValueSourceConfiguration source)
-        {
-        List<String> stringified = ValueSourceQuickEditSupporters.asStringFromAll(source, TEST_PROJECT);
-        Assert.assertEquals(1, stringified.size());
-        List<ValueSourceConfiguration> parsed = ValueSourceQuickEditSupporters.parseWithAll(stringified.get(0), TEST_PROJECT);
-        Assert.assertEquals(1, parsed.size());
-        Assert.assertEquals(parsed.get(0), source);
-        }
-
     static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStore());
     }
 

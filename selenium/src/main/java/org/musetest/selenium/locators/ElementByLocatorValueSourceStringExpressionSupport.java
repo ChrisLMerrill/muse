@@ -28,11 +28,7 @@ public abstract class ElementByLocatorValueSourceStringExpressionSupport extends
     public String toString(ValueSourceConfiguration config, MuseProject project)
         {
         if (config.getType().equals(_muse_type_id))
-            {
-            List<String> strings = ValueSourceQuickEditSupporters.asStringFromAll(config.getSource(), project);
-            if (strings.size() > 0)
-                return String.format("<%s:%s>", _string_expression_type_id, strings.get(0));
-            }
+            return String.format("<%s:%s>", _string_expression_type_id, ValueSourceStringExpressionSupporters.toString(config.getSource(), project));
         return null;
         }
 
