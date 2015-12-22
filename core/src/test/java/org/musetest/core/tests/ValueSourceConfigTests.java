@@ -120,19 +120,19 @@ public class ValueSourceConfigTests
     @Test
     public void concatenation() throws IOException, MuseInstantiationException
         {
-        MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"concatenate\", \"sourceList\":[{ \"type\":\"string\", \"value\":\"abc\" },{ \"type\":\"integer\", \"value\":1 },{ \"type\":\"boolean\", \"value\":true }]}").createSource(null);
-        Assert.assertTrue(source instanceof StringConcatenationSource);
-        Assert.assertEquals(3, ((StringConcatenationSource)source).getSources().length);
+        MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"add\", \"sourceList\":[{ \"type\":\"string\", \"value\":\"abc\" },{ \"type\":\"integer\", \"value\":1 },{ \"type\":\"boolean\", \"value\":true }]}").createSource(null);
+        Assert.assertTrue(source instanceof AdditionSource);
+        Assert.assertEquals(3, ((AdditionSource)source).getSources().length);
 
-        MuseValueSource first = ((StringConcatenationSource) source).getSources()[0];
+        MuseValueSource first = ((AdditionSource) source).getSources()[0];
         Assert.assertTrue(first instanceof StringValueSource);
         Assert.assertEquals("abc", ((StringValueSource)first).getValue());
 
-        MuseValueSource second = ((StringConcatenationSource) source).getSources()[1];
+        MuseValueSource second = ((AdditionSource) source).getSources()[1];
         Assert.assertTrue(second instanceof IntegerValueSource);
         Assert.assertEquals(new Long(1L), ((IntegerValueSource)second).getValue());
 
-        MuseValueSource third = ((StringConcatenationSource) source).getSources()[2];
+        MuseValueSource third = ((AdditionSource) source).getSources()[2];
         Assert.assertTrue(third instanceof BooleanValueSource);
         Assert.assertEquals(true, ((BooleanValueSource)third).getValue());
         }

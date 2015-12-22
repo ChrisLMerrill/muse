@@ -90,7 +90,7 @@ public class ConditionalAndLoopingTests
         while_step.addChild(increment_step);
 
         StepConfiguration log_step = new StepConfiguration(LogMessage.TYPE_ID);
-        ValueSourceConfiguration config = ValueSourceConfiguration.forType(StringConcatenationSource.TYPE_ID);
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
         config.addSource(ValueSourceConfiguration.forValue(message_prefix));
         config.addSource(ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(counter_var_name)));
         log_step.addSource(LogMessage.MESSAGE_PARAM, config);

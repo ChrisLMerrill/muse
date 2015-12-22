@@ -9,11 +9,11 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StringConcatenationDescriptor extends AnnotatedValueSourceDescriptor
+public class AdditionDescriptor extends AnnotatedValueSourceDescriptor
     {
-    public StringConcatenationDescriptor(MuseProject project)
+    public AdditionDescriptor(MuseProject project)
         {
-        super(StringConcatenationSource.TYPE_ID, StringConcatenationSource.class, project);
+        super(AdditionSource.TYPE_ID, AdditionSource.class, project);
         }
 
     @Override

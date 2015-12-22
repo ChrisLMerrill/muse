@@ -8,8 +8,6 @@ import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 
-import java.util.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -83,11 +81,11 @@ public class ValueSourceStringExpressionSupportTests
         {
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue(123L);
         ValueSourceConfiguration right = ValueSourceConfiguration.forValue(456L);
-        StringConcatenationSourceStringExpressionSupport supporter = new StringConcatenationSourceStringExpressionSupport();
+        AdditionSourceStringExpressionSupport supporter = new AdditionSourceStringExpressionSupport();
         ValueSourceConfiguration config = supporter.fromBinaryExpression(left, "+", right, TEST_PROJECT);
 
         Assert.assertNotNull(config);
-        Assert.assertEquals(StringConcatenationSource.TYPE_ID, config.getType());
+        Assert.assertEquals(AdditionSource.TYPE_ID, config.getType());
         Assert.assertEquals(left, config.getSourceList().get(0));
         Assert.assertEquals(right, config.getSourceList().get(1));
 
@@ -101,12 +99,12 @@ public class ValueSourceStringExpressionSupportTests
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue(123L);
         ValueSourceConfiguration right = ValueSourceConfiguration.forValue(456L);
         ValueSourceConfiguration far_right = ValueSourceConfiguration.forValue(789L);
-        StringConcatenationSourceStringExpressionSupport supporter = new StringConcatenationSourceStringExpressionSupport();
+        AdditionSourceStringExpressionSupport supporter = new AdditionSourceStringExpressionSupport();
         ValueSourceConfiguration config = supporter.fromBinaryExpression(left, "+", right, TEST_PROJECT);
         config = supporter.fromBinaryExpression(config, "+", far_right, TEST_PROJECT);
 
         Assert.assertNotNull(config);
-        Assert.assertEquals(StringConcatenationSource.TYPE_ID, config.getType());
+        Assert.assertEquals(AdditionSource.TYPE_ID, config.getType());
         Assert.assertEquals(left, config.getSourceList().get(0));
         Assert.assertEquals(right, config.getSourceList().get(1));
         Assert.assertEquals(far_right, config.getSourceList().get(2));
@@ -122,13 +120,13 @@ public class ValueSourceStringExpressionSupportTests
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue(22L);
         ValueSourceConfiguration right = ValueSourceConfiguration.forValue(33L);
         ValueSourceConfiguration far_right = ValueSourceConfiguration.forValue(44L);
-        StringConcatenationSourceStringExpressionSupport supporter = new StringConcatenationSourceStringExpressionSupport();
+        AdditionSourceStringExpressionSupport supporter = new AdditionSourceStringExpressionSupport();
         ValueSourceConfiguration config = supporter.fromBinaryExpression(far_left, "+", left, TEST_PROJECT);
         config = supporter.fromBinaryExpression(config, "+", right, TEST_PROJECT);
         config = supporter.fromBinaryExpression(config, "+", far_right, TEST_PROJECT);
 
         Assert.assertNotNull(config);
-        Assert.assertEquals(StringConcatenationSource.TYPE_ID, config.getType());
+        Assert.assertEquals(AdditionSource.TYPE_ID, config.getType());
         Assert.assertEquals(far_left, config.getSourceList().get(0));
         Assert.assertEquals(left, config.getSourceList().get(1));
         Assert.assertEquals(right, config.getSourceList().get(2));

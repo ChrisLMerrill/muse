@@ -60,13 +60,34 @@ public class ValueSourceTests
         }
 
     @Test
-    public void stringConcatenationValueSource() throws StepExecutionError
+    public void stringConcatenation() throws StepExecutionError
         {
-        ValueSourceConfiguration config = ValueSourceConfiguration.forType(StringConcatenationSource.TYPE_ID);
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
+        config.addSource(ValueSourceConfiguration.forValue("abc"));
+        config.addSource(ValueSourceConfiguration.forValue("lmnop"));
+        config.addSource(ValueSourceConfiguration.forValue("xyz"));
+        MuseValueSource source = config.createSource(new SimpleProject());
+        Assert.assertEquals("abclmnopxyz", source.resolveValue(new DummyStepExecutionContext()));
+        }
+
+    @Test
+    public void mixedConcatenation() throws StepExecutionError
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
         config.addSource(ValueSourceConfiguration.forValue("abc"));
         config.addSource(ValueSourceConfiguration.forValue(8L));
         MuseValueSource source = config.createSource(new SimpleProject());
         Assert.assertEquals("abc8", source.resolveValue(new DummyStepExecutionContext()));
+        }
+
+    @Test
+    public void additionOfNumbers() throws StepExecutionError
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
+        config.addSource(ValueSourceConfiguration.forValue(1L));
+        config.addSource(ValueSourceConfiguration.forValue(8L));
+        MuseValueSource source = config.createSource(new SimpleProject());
+        Assert.assertEquals(9L, source.resolveValue(new DummyStepExecutionContext()));
         }
 
     @Test
