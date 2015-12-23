@@ -26,7 +26,7 @@ public abstract class SimpleElementValueSourceStringExpressionSupport extends Ba
         }
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (_muse_type.equals(config.getType()))
             return "<" + _name + ">";

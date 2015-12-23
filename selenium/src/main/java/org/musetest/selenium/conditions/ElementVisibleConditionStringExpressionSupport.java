@@ -24,10 +24,10 @@ public class ElementVisibleConditionStringExpressionSupport extends BaseValueSou
         }
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (ElementVisibleCondition.TYPE_ID.equals(config.getType()))
-            return String.format("%s(%s)", NAME, ValueSourceStringExpressionSupporters.toString(config.getSource(), project));
+            return String.format("%s(%s)", NAME, ValueSourceStringExpressionSupporters.toString(config.getSource(), project, depth+1));
         else
             return null;
         }

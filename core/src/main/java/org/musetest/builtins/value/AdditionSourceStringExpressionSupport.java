@@ -36,23 +36,27 @@ public class AdditionSourceStringExpressionSupport extends BaseValueSourceString
         }
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (config.getType().equals(AdditionSource.TYPE_ID))
             {
             StringBuilder builder = new StringBuilder();
+            if (depth > 0)
+                builder.append("(");
             boolean first = true;
             for (ValueSourceConfiguration sub_source : config.getSourceList())
                 {
                 if (!first)
                     builder.append(" + ");
 
-                String stringified = ValueSourceStringExpressionSupporters.toString(sub_source, project);
+                String stringified = ValueSourceStringExpressionSupporters.toString(sub_source, project, depth + 1);
                 if (stringified == null)
                     return null;
                 builder.append(stringified);
                 first = false;
                 }
+            if (depth > 0)
+                builder.append(")");
             return builder.toString();
             }
         return null;

@@ -23,16 +23,10 @@ public class StringValueSourceStringExpressionSupport extends BaseValueSourceStr
         }
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (config.getType().equals(StringValueSource.TYPE_ID))
             return "\"" + config.getValue() + "\"";
         return null;
-        }
-
-    @Override
-    public int getPriority()
-        {
-        return 2;
         }
     }

@@ -40,9 +40,9 @@ public abstract class BaseValueSourceStringExpressionSupport implements ValueSou
         }
 
     @Override
-    public int getPriority()
+    public String toString(ValueSourceConfiguration config, MuseProject project)
         {
-        return 0;
+        return toString(config, project, 0);
         }
     }
 

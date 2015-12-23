@@ -28,17 +28,11 @@ public class BooleanValueSourceStringExpressionSupport extends BaseValueSourceSt
         }
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (config.getType().equals(BooleanValueSource.TYPE_ID))
             return config.getValue().toString();
         return null;
-        }
-
-    @Override
-    public int getPriority()
-        {
-        return 2;
         }
     }
 

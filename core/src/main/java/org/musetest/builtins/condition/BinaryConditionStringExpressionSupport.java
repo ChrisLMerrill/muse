@@ -23,23 +23,21 @@ public abstract class BinaryConditionStringExpressionSupport extends BaseValueSo
         return null;
         }
 
-    @Override
-    public int getPriority()
-        {
-        return 1;
-        }
-
     public abstract String getOperator();
     public abstract String getSourceType();
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project)
+    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (config.getType().equals(getSourceType()))
             {
-            String left = ValueSourceStringExpressionSupporters.toString(config.getSourceMap().get(BinaryCondition.LEFT_PARAM), project);
-            String right = ValueSourceStringExpressionSupporters.toString(config.getSourceMap().get(BinaryCondition.RIGHT_PARAM), project);
-            return String.format("%s %s %s", left, getOperator(), right);
+            String left = ValueSourceStringExpressionSupporters.toString(config.getSourceMap().get(BinaryCondition.LEFT_PARAM), project, depth+1);
+            String right = ValueSourceStringExpressionSupporters.toString(config.getSourceMap().get(BinaryCondition.RIGHT_PARAM), project, depth+1);
+            String expression = String.format("%s %s %s", left, getOperator(), right);
+            if (depth == 0)
+                return expression;
+            else
+                return "(" + expression + ")";
             }
         return null;
         }

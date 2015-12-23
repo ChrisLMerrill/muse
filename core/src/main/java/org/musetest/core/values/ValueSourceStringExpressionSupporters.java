@@ -12,11 +12,16 @@ public class ValueSourceStringExpressionSupporters
     {
     public static String toString(ValueSourceConfiguration source, MuseProject project)
         {
+        return toString(source, project, 0);
+        }
+
+    public static String toString(ValueSourceConfiguration source, MuseProject project, int depth)
+        {
         for (ValueSourceStringExpressionSupport support : getSupporters(project))
             {
             try
                 {
-                String stringified = support.toString(source, project);
+                String stringified = support.toString(source, project, depth);
                 if (stringified != null)
                     return stringified;
                 }
