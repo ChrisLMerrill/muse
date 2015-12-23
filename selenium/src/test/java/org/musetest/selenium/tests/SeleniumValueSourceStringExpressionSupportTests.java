@@ -34,7 +34,7 @@ public class SeleniumValueSourceStringExpressionSupportTests
         config.setSource(sub_source);
 
         SimpleProject project = new SimpleProject();
-        String stringified = ValueSourceStringExpressionSupporters.toString(config, project);
+        String stringified = project.getValueSourceStringExpressionSupporters().toString(config);
         Assert.assertEquals(String.format("%s(\"%s\")", function_name, argument), stringified);
 
         ArrayList<ValueSourceConfiguration> arguments = new ArrayList<>();

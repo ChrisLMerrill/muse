@@ -10,18 +10,24 @@ import java.util.*;
  */
 public class ValueSourceStringExpressionSupporters
     {
-    public static String toString(ValueSourceConfiguration source, MuseProject project)
+    public ValueSourceStringExpressionSupporters(MuseProject project)
         {
-        return toString(source, project, 0);
+        _project = project;
+        _supporters = new FactoryLocator(project.getClassLocator()).findFactories(ValueSourceStringExpressionSupport.class);
         }
 
-    public static String toString(ValueSourceConfiguration source, MuseProject project, int depth)
+    public String toString(ValueSourceConfiguration source)
         {
-        for (ValueSourceStringExpressionSupport support : getSupporters(project))
+        return toString(source, 0);
+        }
+
+    public String toString(ValueSourceConfiguration source, int depth)
+        {
+        for (ValueSourceStringExpressionSupport support : _supporters)
             {
             try
                 {
-                String stringified = support.toString(source, project, depth);
+                String stringified = support.toString(source, _project, depth);
                 if (stringified != null)
                     return stringified;
                 }
@@ -33,14 +39,8 @@ public class ValueSourceStringExpressionSupporters
         return null;
         }
 
-    private static List<ValueSourceStringExpressionSupport> getSupporters(MuseProject project)
-        {
-        if (SUPPORTERS == null)
-            SUPPORTERS = new FactoryLocator(project.getClassLocator()).findFactories(ValueSourceStringExpressionSupport.class);
-        return SUPPORTERS;
-        }
-
-    private static List<ValueSourceStringExpressionSupport> SUPPORTERS;
+    private List<ValueSourceStringExpressionSupport> _supporters;
+    private MuseProject _project;
     }
 
 

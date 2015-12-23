@@ -31,7 +31,7 @@ public class ProjectResourceValueSourceStringExpressionSupport extends BaseValue
             if (config.getValue() != null)
                 return "#\"" + config.getValue().toString() + "\"";
             else
-                return ValueSourceStringExpressionSupporters.toString(config.getSource(), project, depth+1);
+                return project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1);
             }
         return null;
         }

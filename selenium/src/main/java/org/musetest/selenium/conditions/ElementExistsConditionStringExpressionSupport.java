@@ -27,7 +27,7 @@ public class ElementExistsConditionStringExpressionSupport extends BaseValueSour
     public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (ElementExistsCondition.TYPE_ID.equals(config.getType()))
-            return String.format("%s(%s)", NAME, ValueSourceStringExpressionSupporters.toString(config.getSource(), project, depth+1));
+            return String.format("%s(%s)", NAME, project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1));
         else
             return null;
         }

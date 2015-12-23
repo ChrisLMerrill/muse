@@ -31,8 +31,8 @@ public abstract class BinaryConditionStringExpressionSupport extends BaseValueSo
         {
         if (config.getType().equals(getSourceType()))
             {
-            String left = ValueSourceStringExpressionSupporters.toString(config.getSourceMap().get(BinaryCondition.LEFT_PARAM), project, depth+1);
-            String right = ValueSourceStringExpressionSupporters.toString(config.getSourceMap().get(BinaryCondition.RIGHT_PARAM), project, depth+1);
+            String left = project.getValueSourceStringExpressionSupporters().toString(config.getSourceMap().get(BinaryCondition.LEFT_PARAM), depth + 1);
+            String right = project.getValueSourceStringExpressionSupporters().toString(config.getSourceMap().get(BinaryCondition.RIGHT_PARAM), depth + 1);
             String expression = String.format("%s %s %s", left, getOperator(), right);
             if (depth == 0)
                 return expression;

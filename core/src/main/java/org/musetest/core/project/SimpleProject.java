@@ -6,6 +6,7 @@ import org.musetest.core.resource.types.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;
 import org.musetest.core.util.*;
+import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.slf4j.*;
 
@@ -113,10 +114,19 @@ public class SimpleProject implements MuseProject
         return _source_descriptors;
         }
 
+    @Override
+    public ValueSourceStringExpressionSupporters getValueSourceStringExpressionSupporters()
+        {
+        if (_supporters == null)
+            _supporters = new ValueSourceStringExpressionSupporters(this);
+        return _supporters;
+        }
+
     private ResourceStore _resources;
     private StepFactory _step_factory;
     private StepDescriptors _step_descriptors;
     private ValueSourceDescriptors _source_descriptors;
+    private ValueSourceStringExpressionSupporters _supporters;
 
     final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);
     }

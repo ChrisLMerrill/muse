@@ -3,6 +3,7 @@ package org.musetest.core;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;
+import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
 import java.util.*;
@@ -59,4 +60,5 @@ public interface MuseProject
     ClassLocator getClassLocator();
     StepDescriptors getStepDescriptors();
     ValueSourceDescriptors getValueSourceDescriptors();
+    ValueSourceStringExpressionSupporters getValueSourceStringExpressionSupporters();
     }

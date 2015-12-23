@@ -49,7 +49,7 @@ public class AdditionSourceStringExpressionSupport extends BaseValueSourceString
                 if (!first)
                     builder.append(" + ");
 
-                String stringified = ValueSourceStringExpressionSupporters.toString(sub_source, project, depth + 1);
+                String stringified = project.getValueSourceStringExpressionSupporters().toString(sub_source, depth + 1);
                 if (stringified == null)
                     return null;
                 builder.append(stringified);
