@@ -13,10 +13,10 @@ import org.musetest.selenium.*;
  */
 @MuseTypeId("page-source")
 @MuseValueSourceName("Page Source")
-@MuseValueSourceInstanceDescription("<source>")
 @MuseValueSourceTypeGroup("Web Page")
 @MuseValueSourceShortDescription("Full source of the current page")
 @MuseValueSourceLongDescription("Retrieves the page source of the current browser window by calling driver.getPageSource().")
+@MuseStringExpressionSupportImplementation(PageSourceValueSource.class)
 public class PageSourceValueSource extends BrowserValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -36,6 +36,6 @@ public class PageSourceValueSource extends BrowserValueSource
         return NAME;
         }
 
-    public final static String NAME = PageSourceValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
+    public final static String NAME = PageSourceValueSourceStringExpressionSupport.NAME;
     public final static String TYPE_ID = PageSourceValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

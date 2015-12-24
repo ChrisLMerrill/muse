@@ -15,10 +15,10 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("exists")
 @MuseValueSourceName("Element exists")
-@MuseValueSourceInstanceDescription("elementExists({source})")
 @MuseValueSourceTypeGroup("Element.Condition")
 @MuseValueSourceShortDescription("True if the element exists")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")
+@MuseStringExpressionSupportImplementation(ElementExistsConditionStringExpressionSupport.class)
 public class ElementExistsCondition extends BrowserValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -50,6 +50,5 @@ public class ElementExistsCondition extends BrowserValueSource
     private ValueSourceConfiguration _configuration;
     private MuseValueSource _element_source;
 
-    public final static String NAME = ElementExistsCondition.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = ElementExistsCondition.class.getAnnotation(MuseTypeId.class).value();
     }

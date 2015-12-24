@@ -15,10 +15,10 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("visible")
 @MuseValueSourceName("Element is visible")
-@MuseValueSourceInstanceDescription("visible({source})")
 @MuseValueSourceTypeGroup("Element.Condition")
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is visible")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")
+@MuseStringExpressionSupportImplementation(ElementVisibleConditionStringExpressionSupport.class)
 public class ElementVisibleCondition extends BrowserValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -53,6 +53,5 @@ public class ElementVisibleCondition extends BrowserValueSource
     private ValueSourceConfiguration _configuration;
     private MuseValueSource _element_source;
 
-    public final static String NAME = ElementVisibleCondition.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = ElementVisibleCondition.class.getAnnotation(MuseTypeId.class).value();
     }

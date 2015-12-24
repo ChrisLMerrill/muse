@@ -13,10 +13,10 @@ import org.musetest.core.values.descriptor.*;
  */
 @MuseTypeId("lessthan")
 @MuseValueSourceName("Less Than (<)")
-@MuseValueSourceInstanceDescription("{source(left)} < {source(right)}")
 @MuseValueSourceTypeGroup("Math")
 @MuseValueSourceShortDescription("True if the left is less than the right")
 @MuseValueSourceLongDescription("Compare the result of comparing two sources (left and right). Returns true if left operand is less than the right. Integer and String comparisons are supported - other operand types will result in an error.")
+@MuseStringExpressionSupportImplementation(LessThanConditionStringExpressionSupport.class)
 public class LessThanCondition extends BinaryCondition
     {
     @SuppressWarnings("unused")  // used via reflection

@@ -13,10 +13,10 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("element-linktext")
 @MuseValueSourceName("Element by Link Text")
-@MuseValueSourceInstanceDescription("<linktext:{source}>")
 @MuseValueSourceTypeGroup("Element.Locate")
 @MuseValueSourceShortDescription("Locates an element by link text")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByLinkText locator.")
+@MuseStringExpressionSupportImplementation(LinkTextElementValueSourceStringExpressionSupport.class)
 public class LinkTextElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -33,9 +33,8 @@ public class LinkTextElementValueSource extends ElementByLocatorValueSource
     @Override
     public String getDescription()
         {
-        return NAME;
+        return LinkTextElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID;
         }
 
-    public final static String NAME = LinkTextElementValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = LinkTextElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

@@ -11,10 +11,10 @@ import org.musetest.core.values.descriptor.*;
  */
 @MuseTypeId("null")
 @MuseValueSourceName("Null")
-@MuseValueSourceInstanceDescription("null")
 @MuseValueSourceTypeGroup("Primitives")
 @MuseValueSourceShortDescription("a null reference")
 @MuseValueSourceLongDescription("A primitive value source that returns a null reference")
+@MuseStringExpressionSupportImplementation(NullValueSourceStringExpressionSupport.class)
 public class NullValueSource implements MuseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

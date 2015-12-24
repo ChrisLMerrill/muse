@@ -13,10 +13,10 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("element-id")
 @MuseValueSourceName("Element by ID")
-@MuseValueSourceInstanceDescription("<id:{source}>")
 @MuseValueSourceTypeGroup("Element.Locate")
 @MuseValueSourceShortDescription("Locate an element by id")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ById locator.")
+@MuseStringExpressionSupportImplementation(IdElementValueSourceStringExpressionSupport.class)
 public class IdElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -33,9 +33,8 @@ public class IdElementValueSource extends ElementByLocatorValueSource
     @Override
     public String getDescription()
         {
-        return NAME;
+        return IdElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID;
         }
 
-    public final static String NAME = IdElementValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = IdElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

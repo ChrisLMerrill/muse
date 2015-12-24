@@ -12,9 +12,9 @@ import org.musetest.core.values.descriptor.*;
  */
 @MuseTypeId("resource")
 @MuseValueSourceName("Project Resource")
-@MuseValueSourceInstanceDescription("#{source}")
 @MuseValueSourceShortDescription("Get a project resource by resource id")
 @MuseValueSourceLongDescription("Resolves the sub-source and converts it to a string, which is used to lookup the resource in the project. If multiple project resources match the id, the first found will be returned (this behavior may not be consistent from one call to the next).")
+@MuseStringExpressionSupportImplementation(ProjectResourceValueSourceStringExpressionSupport.class)
 public class ProjectResourceValueSource implements MuseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

@@ -12,10 +12,10 @@ import org.slf4j.*;
  */
 @MuseTypeId("integer")
 @MuseValueSourceName("Integer")
-@MuseValueSourceInstanceDescription("{value}")
 @MuseValueSourceTypeGroup("Primitives")
 @MuseValueSourceShortDescription("an integer value")
 @MuseValueSourceLongDescription("A primitive value source that returns an integer value")
+@MuseStringExpressionSupportImplementation(IntegerValueSourceStringExpressionSupport.class)
 public class IntegerValueSource implements MuseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

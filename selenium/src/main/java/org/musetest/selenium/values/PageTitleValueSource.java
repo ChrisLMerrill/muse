@@ -13,10 +13,10 @@ import org.musetest.selenium.*;
  */
 @MuseTypeId("page-title")
 @MuseValueSourceName("Page Title")
-@MuseValueSourceInstanceDescription("<title>")
 @MuseValueSourceTypeGroup("Web Page")
 @MuseValueSourceShortDescription("Title of the current page")
 @MuseValueSourceLongDescription("Retrieves the page title of the current browser window by calling driver.getTitle().")
+@MuseStringExpressionSupportImplementation(PageTitleValueSource.class)
 public class PageTitleValueSource extends BrowserValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -36,6 +36,6 @@ public class PageTitleValueSource extends BrowserValueSource
         return NAME;
         }
 
-    public final static String NAME = PageTitleValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
+    public final static String NAME = PageTitleValueSourceStringExpressionSupport.NAME;
     public final static String TYPE_ID = PageTitleValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

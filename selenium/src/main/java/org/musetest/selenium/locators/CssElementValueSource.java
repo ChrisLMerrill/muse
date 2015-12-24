@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
+import org.musetest.selenium.conditions.*;
 import org.openqa.selenium.*;
 
 /**
@@ -13,10 +14,10 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("css-selector")
 @MuseValueSourceName("Element by CSS Selector")
-@MuseValueSourceInstanceDescription("<css:{source}>")
 @MuseValueSourceTypeGroup("Element.Locate")
 @MuseValueSourceShortDescription("Locate a element by CSS Selector")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByCssSelector locator.")
+@MuseStringExpressionSupportImplementation(CssElementValueSourceStringExpressionSupport.class)
 public class CssElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -33,9 +34,8 @@ public class CssElementValueSource extends ElementByLocatorValueSource
     @Override
     public String getDescription()
         {
-        return NAME.substring(0, NAME.indexOf(":")) + _locator_source.getDescription();
+        return CssElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID;
         }
 
-    public final static String NAME = CssElementValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
     public final static String TYPE_ID = CssElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

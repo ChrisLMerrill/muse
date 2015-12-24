@@ -15,10 +15,10 @@ import java.util.*;
  */
 @MuseTypeId("equals")
 @MuseValueSourceName("Equals (==)")
-@MuseValueSourceInstanceDescription("{source(left)} == {source(right)}")
 @MuseValueSourceTypeGroup("Math")
 @MuseValueSourceShortDescription("Compare two sources for equality")
 @MuseValueSourceLongDescription("Compare two sources, return true if equal. Object.equals() is used for the comparison.")
+@MuseStringExpressionSupportImplementation(EqualityConditionStringExpressionSupport.class)
 public class EqualityCondition extends BinaryCondition
     {
     @SuppressWarnings("unused")  // used via reflection

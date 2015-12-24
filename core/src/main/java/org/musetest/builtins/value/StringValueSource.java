@@ -12,10 +12,10 @@ import org.slf4j.*;
  */
 @MuseTypeId("string")
 @MuseValueSourceName("String")
-@MuseValueSourceInstanceDescription("\"{value}\"")
 @MuseValueSourceTypeGroup("Primitives")
 @MuseValueSourceShortDescription("a string of characters")
 @MuseValueSourceLongDescription("A primitive value source that returns string of characters")
+@MuseStringExpressionSupportImplementation(StringValueSourceStringExpressionSupport.class)
 public class StringValueSource implements MuseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

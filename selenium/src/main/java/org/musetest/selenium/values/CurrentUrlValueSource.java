@@ -13,10 +13,10 @@ import org.musetest.selenium.*;
  */
 @MuseTypeId("current-url")
 @MuseValueSourceName("Page URL")
-@MuseValueSourceInstanceDescription("<url>")
 @MuseValueSourceTypeGroup("Web Page")
 @MuseValueSourceShortDescription("URL of the current page")
 @MuseValueSourceLongDescription("Retrieves the URL of the current browser window by calling driver.getCurrentUrl().")
+@MuseStringExpressionSupportImplementation(CurrentUrlValueSourceStringExpressionSupport.class)
 public class CurrentUrlValueSource extends BrowserValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -36,6 +36,6 @@ public class CurrentUrlValueSource extends BrowserValueSource
         return NAME;
         }
 
-    public final static String NAME = CurrentUrlValueSource.class.getAnnotation(MuseValueSourceInstanceDescription.class).value();
+    public final static String NAME = CurrentUrlValueSourceStringExpressionSupport.NAME;
     public final static String TYPE_ID = CurrentUrlValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

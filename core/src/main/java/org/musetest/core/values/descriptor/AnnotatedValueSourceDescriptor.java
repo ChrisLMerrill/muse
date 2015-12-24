@@ -3,6 +3,7 @@ package org.musetest.core.values.descriptor;
 import org.musetest.core.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
+import org.slf4j.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -45,60 +46,17 @@ public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
     @Override
     public String getInstanceDescription(ValueSourceConfiguration config)
         {
-        MuseValueSourceInstanceDescription description_annotation = (MuseValueSourceInstanceDescription) _source_class.getAnnotation(MuseValueSourceInstanceDescription.class);
-        if (description_annotation != null)
-            {
-            String description = description_annotation.value();
-            DynamicMapFormat format = new DynamicMapFormat(key ->
+        MuseStringExpressionSupportImplementation supporter_annotation = (MuseStringExpressionSupportImplementation) _source_class.getAnnotation(MuseStringExpressionSupportImplementation.class);
+        if (supporter_annotation != null)
+            try
                 {
-                if (key.equals(VALUE_KEY))
-                    return config.getValue();
-                else if (key.equals(SOURCE_KEY))
-                    {
-                    ValueSourceConfiguration source = config.getSource();
-                    if (source != null)
-                        return _project.getValueSourceDescriptors().get(source).getInstanceDescription(source);
-                    }
-                else if (key.startsWith(NAMED_SOURCE_KEY_START) && key.endsWith(NAMED_SOURCE_KEY_END))
-                    {
-                    String name = key.substring(NAMED_SOURCE_KEY_START.length(), key.length() - NAMED_SOURCE_KEY_END.length());
-                    ValueSourceConfiguration source = config.getSourceMap().get(name);
-                    if (source != null)
-                        return _project.getValueSourceDescriptors().get(source).getInstanceDescription(source);
-                    }
-                else if (key.startsWith(INDEXED_SOURCE_KEY_START) && key.endsWith(INDEXED_SOURCE_KEY_END))
-                    {
-                    String index_str = key.substring(INDEXED_SOURCE_KEY_START.length(), key.length() - INDEXED_SOURCE_KEY_END.length());
-                    if (index_str.toLowerCase().startsWith("n"))
-                        {
-                        StringBuilder builder = new StringBuilder();
-                        String separator = index_str.substring(1);
-                        boolean first = true;
-                        for (ValueSourceConfiguration source : config.getSourceList())
-                            {
-                            if (!first)
-                                builder.append(separator);
-                            builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source));
-                            first = false;
-                            }
-                        return builder.toString();
-                        }
-                    try
-                        {
-                        int index = Integer.parseInt(index_str);
-                        ValueSourceConfiguration source = config.getSourceList().get(index);
-                        if (source != null)
-                            return _project.getValueSourceDescriptors().get(source).getInstanceDescription(source);
-                        }
-                    catch (Exception e)
-                        {
-                        return "? " + key + " not exist ?";
-                        }
-                    }
-                return "?" + key + "?";
-                });
-            return format.format(description);
-            }
+                return ((ValueSourceStringExpressionSupport) supporter_annotation.value().newInstance()).toString(config, _project);
+                }
+            catch (InstantiationException | IllegalAccessException e)
+                {
+                LOG.error("Unable to use expression supporter for generating instance description", e);
+                // ok, use the alternative
+                }
 
         return super.getShortDescription();
         }
@@ -119,6 +77,8 @@ public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
     public final static String NAMED_SOURCE_KEY_END = ")";
     public final static String INDEXED_SOURCE_KEY_START = "source[";
     public final static String INDEXED_SOURCE_KEY_END = "]";
+
+    final static Logger LOG = LoggerFactory.getLogger(AnnotatedValueSourceDescriptor.class);
     }
 
 

@@ -3,12 +3,12 @@ package org.musetest.core.values.descriptor;
 import java.lang.annotation.*;
 
 /**
- * Define the one-line description of the value source.
+ * Indicates the class that provides arValueSourceStringExpressionSupport for the annotated class.
  *
  *  @author Christopher L Merrill (see LICENSE.txt for license details) .
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MuseValueSourceInstanceDescription
+public @interface MuseStringExpressionSupportImplementation
     {
-    String value();
+    Class value();
     }
