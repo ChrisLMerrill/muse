@@ -66,9 +66,44 @@ public class SeleniumStepTests
         StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);
         click.addSource(ClickElement.ELEMENT_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
         MuseStep step = click.createStep(null);
-        step.execute(context);
-
+        StepExecutionResult result = step.execute(context);
+        Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
         Assert.assertTrue(element1.isClicked());
+        }
+
+    @Test
+    public void switchToFrame() throws StepExecutionError
+        {
+        MuseMockDriver driver = new MuseMockDriver();
+        final String id = "frame#1";
+        final MuseMockElement element1 = new MuseMockElement();
+        driver.addIdElement(id, element1);
+
+        StepExecutionContext context = new DummyStepExecutionContext();
+        BrowserStepExecutionContext.putDriver(driver, context);
+
+        StepConfiguration switch_to = new StepConfiguration(SwitchTo.TYPE_ID);
+        switch_to.addSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
+        MuseStep step = switch_to.createStep(null);
+        StepExecutionResult result = step.execute(context);
+        Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
+
+        Assert.assertEquals(element1, driver.getTarget());
+        }
+
+    @Test
+    public void switchToUnknownType() throws StepExecutionError
+        {
+        MuseMockDriver driver = new MuseMockDriver();
+
+        StepExecutionContext context = new DummyStepExecutionContext();
+        BrowserStepExecutionContext.putDriver(driver, context);
+
+        StepConfiguration switch_to = new StepConfiguration(SwitchTo.TYPE_ID);
+        switch_to.addSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forValue(true)); // not a valid type
+        MuseStep step = switch_to.createStep(null);
+        StepExecutionResult result = step.execute(context);
+        Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
         }
 
     @Test

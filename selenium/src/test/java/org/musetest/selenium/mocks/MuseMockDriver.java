@@ -80,7 +80,57 @@ public class MuseMockDriver implements WebDriver
     @Override
     public TargetLocator switchTo()
         {
-        return null;
+        return new TargetLocator()
+            {
+            @Override
+            public WebDriver frame(int index)
+                {
+                return null;
+                }
+
+            @Override
+            public WebDriver frame(String nameOrId)
+                {
+                return null;
+                }
+
+            @Override
+            public WebDriver frame(WebElement frameElement)
+                {
+                _target = frameElement;
+                return MuseMockDriver.this;
+                }
+
+            @Override
+            public WebDriver parentFrame()
+                {
+                return null;
+                }
+
+            @Override
+            public WebDriver window(String nameOrHandle)
+                {
+                return null;
+                }
+
+            @Override
+            public WebDriver defaultContent()
+                {
+                return null;
+                }
+
+            @Override
+            public WebElement activeElement()
+                {
+                return null;
+                }
+
+            @Override
+            public Alert alert()
+                {
+                return null;
+                }
+            };
         }
 
     @Override
@@ -136,6 +186,11 @@ public class MuseMockDriver implements WebDriver
         _id_elements.put(id, element);
         }
 
+    public Object getTarget()
+        {
+        return _target;
+        }
+
     private String extractPrivateMember(String name, Object target)
         {
         try
@@ -159,6 +214,7 @@ public class MuseMockDriver implements WebDriver
     public boolean _is_quitted = false;
     private String _current_url = null;
     private String _title = null;
+    private Object _target = null;
 
     private Map<String, WebElement> _xpath_elements = new HashMap<>();
     private Map<String, WebElement> _id_elements = new HashMap<>();
