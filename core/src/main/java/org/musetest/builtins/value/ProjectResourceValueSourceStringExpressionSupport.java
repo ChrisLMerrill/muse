@@ -12,7 +12,7 @@ public class ProjectResourceValueSourceStringExpressionSupport extends BaseValue
     @Override
     public ValueSourceConfiguration fromPrefixedExpression(String prefix, ValueSourceConfiguration expression, MuseProject project)
         {
-        if (prefix.equals("#"))
+        if (prefix.equals(OPERATOR))
             {
             ValueSourceConfiguration config = new ValueSourceConfiguration();
             config.setType(ProjectResourceValueSource.TYPE_ID);
@@ -28,13 +28,15 @@ public class ProjectResourceValueSourceStringExpressionSupport extends BaseValue
         if (config.getType().equals(ProjectResourceValueSource.TYPE_ID))
             {
             ValueSourceConfiguration id_source = config.getSource();
-            if (config.getValue() != null)
-                return "#\"" + config.getValue().toString() + "\"";
+            if (config.getValue() instanceof String)
+                return OPERATOR + "\"" + config.getValue().toString() + "\"";
             else
-                return project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1);
+                return OPERATOR + project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1);
             }
         return null;
         }
+
+    private final static String OPERATOR = "#";
     }
 
 
