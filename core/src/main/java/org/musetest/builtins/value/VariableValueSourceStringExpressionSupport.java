@@ -12,7 +12,7 @@ public class VariableValueSourceStringExpressionSupport extends BaseValueSourceS
     @Override
     public ValueSourceConfiguration fromPrefixedExpression(String prefix, ValueSourceConfiguration expression, MuseProject project)
         {
-        if (prefix.equals("$"))
+        if (prefix.equals(OPERATOR))
             {
             ValueSourceConfiguration config = new ValueSourceConfiguration();
             config.setType(VariableValueSource.TYPE_ID);
@@ -26,9 +26,14 @@ public class VariableValueSourceStringExpressionSupport extends BaseValueSourceS
     public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (config.getType().equals(VariableValueSource.TYPE_ID))
-            return "$" + project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1);
+            if (config.getValue() instanceof String)
+                return OPERATOR + "\"" + config.getValue().toString() + "\"";
+            else
+                return OPERATOR + project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1);
         return null;
         }
+
+    private final static String OPERATOR = "$";
     }
 
 
