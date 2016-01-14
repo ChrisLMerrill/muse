@@ -3,6 +3,8 @@ package org.musetest.builtins.value;
 import org.musetest.core.*;
 import org.musetest.core.values.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -12,27 +14,25 @@ public class AdditionSourceStringExpressionSupport extends BaseValueSourceString
     @Override
     public ValueSourceConfiguration fromBinaryExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project)
         {
-        if (!operator.equals("+"))
+        if (!"+".equals(operator))
             return null;
 
-        ValueSourceConfiguration new_config = new ValueSourceConfiguration();
-        new_config.setType(AdditionSource.TYPE_ID);
+        List<ValueSourceConfiguration> sources = new ArrayList<>();
+        addSources(sources, left);
+        addSources(sources, right);
 
-        // add everything on the left
-        if (left.getType().equals(AdditionSource.TYPE_ID))
-            for (ValueSourceConfiguration left_subsource : left.getSourceList())
-                new_config.addSource(left_subsource);
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
+        config.setSourceList(sources);
+        return config;
+        }
+
+    private void addSources(List<ValueSourceConfiguration> list, ValueSourceConfiguration source)
+        {
+        if (AdditionSource.TYPE_ID.equals(source.getType()))
+            for (ValueSourceConfiguration subsource : source.getSourceList())
+                list.add(subsource);
         else
-            new_config.addSource(left);
-
-        // add everything on the right
-        if (right.getType().equals(AdditionSource.TYPE_ID))
-            for (ValueSourceConfiguration right_subsource : right.getSourceList())
-                new_config.addSource(right_subsource);
-        else
-            new_config.addSource(right);
-
-        return new_config;
+            list.add(source);
         }
 
     @Override
