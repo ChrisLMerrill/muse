@@ -30,11 +30,5 @@ public class IdElementValueSource extends ElementByLocatorValueSource
         return By.id(locator_string);
         }
 
-    @Override
-    public String getDescription()
-        {
-        return IdElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID;
-        }
-
     public final static String TYPE_ID = IdElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

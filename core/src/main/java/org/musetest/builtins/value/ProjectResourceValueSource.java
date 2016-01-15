@@ -15,11 +15,12 @@ import org.musetest.core.values.descriptor.*;
 @MuseValueSourceShortDescription("Get a project resource by resource id")
 @MuseValueSourceLongDescription("Resolves the sub-source and converts it to a string, which is used to lookup the resource in the project. If multiple project resources match the id, the first found will be returned (this behavior may not be consistent from one call to the next).")
 @MuseStringExpressionSupportImplementation(ProjectResourceValueSourceStringExpressionSupport.class)
-public class ProjectResourceValueSource implements MuseValueSource
+public class ProjectResourceValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public ProjectResourceValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
+        super(config, project);
         _id_source = config.getSource().createSource(project);
         if (_id_source == null)
             throw new MuseInstantiationException("Missing required value parameter");
@@ -40,15 +41,8 @@ public class ProjectResourceValueSource implements MuseValueSource
         return resource;
         }
 
-    @Override
-    public String getDescription()
-        {
-        return "#" + _id_source;
-        }
-
     private MuseProject _project;
     private final MuseValueSource _id_source;
 
-//    public final static String ID_PARAM = "id";
     public final static String TYPE_ID = ProjectResourceValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

@@ -16,11 +16,12 @@ import org.slf4j.*;
 @MuseValueSourceShortDescription("true or false")
 @MuseValueSourceLongDescription("A primitive value source that returns true or false.")
 @MuseStringExpressionSupportImplementation(BooleanValueSource.class)
-public class BooleanValueSource implements MuseValueSource
+public class BooleanValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public BooleanValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
+        super(config, project);
         Object value = config.getValue();
         if (value == null)
             throw new MuseInstantiationException("Missing required value parameter");
@@ -47,12 +48,6 @@ public class BooleanValueSource implements MuseValueSource
     public Boolean resolveValue(StepExecutionContext context)
         {
         return _value;
-        }
-
-    @Override
-    public String getDescription()
-        {
-        return _value.toString();
         }
 
     public Boolean getValue()

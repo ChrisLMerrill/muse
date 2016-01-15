@@ -9,11 +9,12 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class BinaryCondition implements MuseValueSource
+public abstract class BinaryCondition extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public BinaryCondition(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
+        super(config, project);
         ValueSourceConfiguration left = config.getSourceMap().get(LEFT_PARAM);
         ValueSourceConfiguration right = config.getSourceMap().get(RIGHT_PARAM);
         if (left == null || right == null)

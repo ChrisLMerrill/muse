@@ -30,11 +30,5 @@ public class LinkTextElementValueSource extends ElementByLocatorValueSource
         return By.linkText(locator_string);
         }
 
-    @Override
-    public String getDescription()
-        {
-        return LinkTextElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID;
-        }
-
     public final static String TYPE_ID = LinkTextElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

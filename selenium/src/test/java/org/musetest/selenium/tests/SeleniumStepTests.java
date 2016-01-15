@@ -65,7 +65,7 @@ public class SeleniumStepTests
 
         StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);
         click.addSource(ClickElement.ELEMENT_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
-        MuseStep step = click.createStep(null);
+        MuseStep step = click.createStep();
         StepExecutionResult result = step.execute(context);
         Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
         Assert.assertTrue(element1.isClicked());
@@ -84,7 +84,7 @@ public class SeleniumStepTests
 
         StepConfiguration switch_to = new StepConfiguration(SwitchTo.TYPE_ID);
         switch_to.addSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
-        MuseStep step = switch_to.createStep(null);
+        MuseStep step = switch_to.createStep();
         StepExecutionResult result = step.execute(context);
         Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
 

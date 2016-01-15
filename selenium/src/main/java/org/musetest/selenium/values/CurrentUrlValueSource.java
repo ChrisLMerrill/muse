@@ -22,18 +22,13 @@ public class CurrentUrlValueSource extends BrowserValueSource
     @SuppressWarnings("unused")  // used via reflection
     public CurrentUrlValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
+        super(config, project);
         }
 
     @Override
     public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
         return getDriver(context).getCurrentUrl();
-        }
-
-    @Override
-    public String getDescription()
-        {
-        return NAME;
         }
 
     public final static String NAME = CurrentUrlValueSourceStringExpressionSupport.NAME;

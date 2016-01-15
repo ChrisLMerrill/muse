@@ -31,11 +31,5 @@ public class CssElementValueSource extends ElementByLocatorValueSource
         return By.cssSelector(locator_string);
         }
 
-    @Override
-    public String getDescription()
-        {
-        return CssElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID;
-        }
-
     public final static String TYPE_ID = CssElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

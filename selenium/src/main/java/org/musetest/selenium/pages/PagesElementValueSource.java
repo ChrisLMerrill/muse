@@ -20,6 +20,7 @@ public class PagesElementValueSource extends BrowserValueSource
     {
     public PagesElementValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
+        super(config, project);
         ValueSourceConfiguration locator_config = config.getSource();
         if (locator_config == null)
             throw new MuseInstantiationException("PagesElementValueSource requires a sub-source to find the page/element in the project.");
@@ -45,12 +46,6 @@ public class PagesElementValueSource extends BrowserValueSource
             throw new ValueSourceResolutionError(String.format("No locator configured for element '%s'", page_element_key));
 
         return element_locator_config.createSource(project).resolveValue(context);
-        }
-
-    @Override
-    public String getDescription()
-        {
-        return "to do ";
         }
 
     MuseValueSource _locator_source;

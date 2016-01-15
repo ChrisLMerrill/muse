@@ -18,13 +18,12 @@ import java.util.*;
 @MuseValueSourceShortDescription("Add numeric sub-sources. Concatenates string sub-sources.")
 @MuseValueSourceLongDescription("Adds the sources in the sub-source list. If any sub-sources resolve to a numeric value, it will attempt to convert the remainder to numbers, by parsing the string values. If they cannot all be parsed as numbers, they will all be converted to their string form by calling toString() on the object and then concatenated.")
 @MuseStringExpressionSupportImplementation(AdditionSourceStringExpressionSupport.class)
-public class AdditionSource implements MuseValueSource
+public class AdditionSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public AdditionSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
-        _config = config;
-        _project = project;
+        super(config, project);
 
         List<ValueSourceConfiguration> configs = config.getSourceList();
         if (configs == null || configs.size() == 0)
@@ -78,7 +77,7 @@ public class AdditionSource implements MuseValueSource
         for (Object value : values)
             builder.append(value);
         String result = builder.toString();
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(_project.getValueSourceDescriptors().get(_config).getInstanceDescription(_config), result));
+        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
         return result;
         }
 
@@ -94,8 +93,6 @@ public class AdditionSource implements MuseValueSource
         }
 
     MuseValueSource[] _sources;
-    ValueSourceConfiguration _config;
-    MuseProject _project;
 
     public final static String TYPE_ID = AdditionSource.class.getAnnotation(MuseTypeId.class).value();
     }

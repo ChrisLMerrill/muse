@@ -19,14 +19,14 @@ public class ValueSourceTests
     public void stringConstantSource() throws StepExecutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forValue("abc");
-        MuseValueSource source = config.createSource(null);
+        MuseValueSource source = config.createSource();
         Assert.assertEquals("abc", source.resolveValue(null).toString());
         }
 
     @Test
     public void integerConstantSource() throws StepExecutionError
         {
-        MuseValueSource source = ValueSourceConfiguration.forValue(456L).createSource(null);
+        MuseValueSource source = ValueSourceConfiguration.forValue(456L).createSource();
         Object value = source.resolveValue(null);
         Assert.assertTrue(value instanceof Long);
         Assert.assertEquals(456L, value);
@@ -35,14 +35,14 @@ public class ValueSourceTests
     @Test
     public void booleanConstantSource() throws StepExecutionError
         {
-        Assert.assertTrue((Boolean) ValueSourceConfiguration.forValue(true).createSource(null).resolveValue(null));
-        Assert.assertFalse((Boolean) ValueSourceConfiguration.forValue(false).createSource(null).resolveValue(null));
+        Assert.assertTrue((Boolean) ValueSourceConfiguration.forValue(true).createSource().resolveValue(null));
+        Assert.assertFalse((Boolean) ValueSourceConfiguration.forValue(false).createSource().resolveValue(null));
         }
 
     @Test
     public void variableValueSource() throws StepExecutionError
         {
-        MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("abc")).createSource(null);
+        MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("abc")).createSource();
         StepExecutionContext context = new DummyStepExecutionContext();
         context.setLocalVariable("abc", 123L);
         Assert.assertEquals(123L, source.resolveValue(context));
@@ -52,7 +52,7 @@ public class ValueSourceTests
     public void variableValueSourceWithVariableName() throws StepExecutionError
         {
         ValueSourceConfiguration varname_holding_the_varname = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("varname"));
-        MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, varname_holding_the_varname).createSource(null);
+        MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, varname_holding_the_varname).createSource();
         StepExecutionContext context = new DummyStepExecutionContext();
         context.setLocalVariable("abc", 123L);
         context.setLocalVariable("varname", "abc");

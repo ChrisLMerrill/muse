@@ -22,6 +22,7 @@ public class PageSourceValueSource extends BrowserValueSource
     @SuppressWarnings("unused")  // used via reflection
     public PageSourceValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
+        super(config, project);
         }
 
     @Override
@@ -30,12 +31,5 @@ public class PageSourceValueSource extends BrowserValueSource
         return getDriver(context).getPageSource();
         }
 
-    @Override
-    public String getDescription()
-        {
-        return NAME;
-        }
-
-    public final static String NAME = PageSourceValueSourceStringExpressionSupport.NAME;
     public final static String TYPE_ID = PageSourceValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

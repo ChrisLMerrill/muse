@@ -15,8 +15,13 @@ import org.slf4j.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class BrowserValueSource implements MuseValueSource
+public abstract class BrowserValueSource extends BaseValueSource
     {
+    public BrowserValueSource(ValueSourceConfiguration config, MuseProject project)
+        {
+        super(config, project);
+        }
+
     protected WebDriver getDriver(StepExecutionContext context) throws ValueSourceResolutionError
         {
         return BrowserStepExecutionContext.getDriver(context);

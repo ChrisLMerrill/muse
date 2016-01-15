@@ -17,12 +17,12 @@ import org.slf4j.*;
 @MuseValueSourceShortDescription("get the value assigned to a variable (by variable name)")
 @MuseValueSourceLongDescription("Returns the value assigned to a variable in the step execution context. The variable is located by resolving the sub-source to a string and using that as the name of the variable to return. If not found in the local context, it will attempt to find the variable (by name) in higher-level contexts (e.g. the test context).")
 @MuseStringExpressionSupportImplementation(VariableValueSourceStringExpressionSupport.class)
-public class VariableValueSource implements MuseValueSource
+public class VariableValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public VariableValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
-        _configuration = config;
+        super(config, project);
         if (config.getValue() != null)
             {
             Object value = config.getValue();
@@ -45,18 +45,11 @@ public class VariableValueSource implements MuseValueSource
     public Object resolveValue(StepExecutionContext context) throws StepConfigurationError
         {
         Object value = context.getLocalVariable(_name.resolveValue(context).toString());
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(_configuration).getInstanceDescription(_configuration), value));
+        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), value));
         return value;
         }
 
-    @Override
-    public String getDescription()
-        {
-        return "$" + _name;
-        }
-
     private MuseValueSource _name;
-    private ValueSourceConfiguration _configuration;
 
     final static Logger LOG = LoggerFactory.getLogger(VariableValueSource.class);
 

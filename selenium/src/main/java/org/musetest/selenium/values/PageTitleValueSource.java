@@ -22,6 +22,7 @@ public class PageTitleValueSource extends BrowserValueSource
     @SuppressWarnings("unused")  // used via reflection
     public PageTitleValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
+        super(config, project);
         }
 
     @Override
@@ -30,12 +31,5 @@ public class PageTitleValueSource extends BrowserValueSource
         return getDriver(context).getTitle();
         }
 
-    @Override
-    public String getDescription()
-        {
-        return NAME;
-        }
-
-    public final static String NAME = PageTitleValueSourceStringExpressionSupport.NAME;
     public final static String TYPE_ID = PageTitleValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

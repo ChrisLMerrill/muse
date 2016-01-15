@@ -2,6 +2,7 @@ package org.musetest.core.step;
 
 import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.*;
+import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.factory.*;
 import org.musetest.core.util.*;
@@ -78,7 +79,7 @@ public class StepConfiguration implements Serializable
 
     public MuseStep createStep() throws MuseInstantiationException
         {
-        return createStep(null);
+        return createStep(new SimpleProject());
         }
 
     public MuseStep createStep(MuseProject project) throws MuseInstantiationException

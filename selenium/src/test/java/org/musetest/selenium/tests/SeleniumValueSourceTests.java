@@ -53,7 +53,7 @@ public class SeleniumValueSourceTests
         final MuseMockElement element1 = new MuseMockElement();
         driver.addXpathElement(xpath, element1);
 
-        MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(XPathElementValueSource.TYPE_ID, xpath).createSource(null);
+        MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(XPathElementValueSource.TYPE_ID, xpath).createSource();
         Assert.assertTrue(source instanceof XPathElementValueSource);
 
         StepExecutionContext context = new DummyStepExecutionContext();
@@ -70,7 +70,7 @@ public class SeleniumValueSourceTests
         final MuseMockElement element1 = new MuseMockElement();
         driver.addIdElement(id, element1);
 
-        MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(IdElementValueSource.TYPE_ID, id).createSource(null);
+        MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(IdElementValueSource.TYPE_ID, id).createSource();
         Assert.assertTrue(source instanceof IdElementValueSource);
 
         StepExecutionContext context = new DummyStepExecutionContext();

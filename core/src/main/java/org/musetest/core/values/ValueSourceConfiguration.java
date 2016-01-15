@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
+import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.factory.*;
 
@@ -17,6 +18,14 @@ public class ValueSourceConfiguration implements Serializable
     {
     public ValueSourceConfiguration()
         {
+        }
+
+    /**
+     * This methods should be used only for unit tests - as it will create the MuseValueSource as a part of a SimpleProject.
+     */
+    public MuseValueSource createSource() throws MuseInstantiationException
+        {
+        return createSource(new SimpleProject());
         }
 
     public MuseValueSource createSource(MuseProject project) throws MuseInstantiationException

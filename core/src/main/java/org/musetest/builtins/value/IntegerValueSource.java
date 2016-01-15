@@ -16,11 +16,12 @@ import org.slf4j.*;
 @MuseValueSourceShortDescription("an integer value")
 @MuseValueSourceLongDescription("A primitive value source that returns an integer value")
 @MuseStringExpressionSupportImplementation(IntegerValueSourceStringExpressionSupport.class)
-public class IntegerValueSource implements MuseValueSource
+public class IntegerValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public IntegerValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
+        super(config, project);
         Object value = config.getValue();
         if (value == null)
             throw new MuseInstantiationException("Missing required value parameter");
@@ -47,12 +48,6 @@ public class IntegerValueSource implements MuseValueSource
     public Object resolveValue(StepExecutionContext context)
         {
         return _value;
-        }
-
-    @Override
-    public String getDescription()
-        {
-        return "#" + Long.toString(_value);
         }
 
     public Long getValue()

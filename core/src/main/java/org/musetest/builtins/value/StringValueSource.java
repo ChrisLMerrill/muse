@@ -16,11 +16,12 @@ import org.slf4j.*;
 @MuseValueSourceShortDescription("a string of characters")
 @MuseValueSourceLongDescription("A primitive value source that returns string of characters")
 @MuseStringExpressionSupportImplementation(StringValueSourceStringExpressionSupport.class)
-public class StringValueSource implements MuseValueSource
+public class StringValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public StringValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
+        super(config, project);
         Object value = config.getValue();
         if (value == null)
             throw new MuseInstantiationException("Missing required value parameter");
@@ -42,12 +43,6 @@ public class StringValueSource implements MuseValueSource
 
     @Override
     public Object resolveValue(StepExecutionContext context)
-        {
-        return _value;
-        }
-
-    @Override
-    public String getDescription()
         {
         return _value;
         }

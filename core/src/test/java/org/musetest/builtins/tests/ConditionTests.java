@@ -3,8 +3,10 @@ package org.musetest.builtins.tests;
 import org.junit.*;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
+import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
+import org.musetest.core.project.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 
@@ -19,10 +21,10 @@ public class ConditionTests
         StepExecutionContext context = new DummyStepExecutionContext();
 
         ValueSourceConfiguration condition = createCondition(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue("abc"), ValueSourceConfiguration.forValue("abc"));
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue("abc"), ValueSourceConfiguration.forValue("xyz"));
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
         }
 
     @Test
@@ -35,20 +37,20 @@ public class ConditionTests
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue("abc");
         ValueSourceConfiguration right = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var1"));
         ValueSourceConfiguration condition = createCondition(EqualityCondition.TYPE_ID, left, right);
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         left = ValueSourceConfiguration.forValue("xyz");
         condition = createCondition(EqualityCondition.TYPE_ID, left, right);
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         context.setLocalVariable("var2", "abc");
         left = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var1"));
         right = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var2"));
         condition = createCondition(EqualityCondition.TYPE_ID, left, right);
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         context.setLocalVariable("var2", "xyz");
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
         }
 
     @Test
@@ -59,13 +61,13 @@ public class ConditionTests
 
         // compare two constants
         condition = createCondition(GreaterThanCondition.TYPE_ID, ValueSourceConfiguration.forValue(1L), ValueSourceConfiguration.forValue(0L));
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(GreaterThanCondition.TYPE_ID, ValueSourceConfiguration.forValue(0L), ValueSourceConfiguration.forValue(1L));
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(GreaterThanCondition.TYPE_ID, ValueSourceConfiguration.forValue(0L), ValueSourceConfiguration.forValue(0L));
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         // compare variables
         context.setLocalVariable("var1", 1L);
@@ -75,13 +77,13 @@ public class ConditionTests
         ValueSourceConfiguration var2 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var2"));
 
         condition = createCondition(GreaterThanCondition.TYPE_ID, var1, var2);
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(GreaterThanCondition.TYPE_ID, var2, var1);
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(GreaterThanCondition.TYPE_ID, var2, var2);
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
         }
 
     @Test
@@ -93,13 +95,13 @@ public class ConditionTests
         // compare two constants
         // compare two constants
         condition = createCondition(GreaterThanCondition.TYPE_ID, ValueSourceConfiguration.forValue("aab"), ValueSourceConfiguration.forValue("aaa"));
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(GreaterThanCondition.TYPE_ID, ValueSourceConfiguration.forValue("aaa"), ValueSourceConfiguration.forValue("aab"));
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(GreaterThanCondition.TYPE_ID, ValueSourceConfiguration.forValue("x"), ValueSourceConfiguration.forValue("x"));
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         // compare variables
         context.setLocalVariable("var1", "aab");
@@ -109,13 +111,13 @@ public class ConditionTests
         ValueSourceConfiguration var2 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var2"));
 
         condition = createCondition(GreaterThanCondition.TYPE_ID, var1, var2);
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(GreaterThanCondition.TYPE_ID, var2, var1);
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(GreaterThanCondition.TYPE_ID, var2, var2);
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
         }
 
     @Test
@@ -126,13 +128,13 @@ public class ConditionTests
 
         // compare two constants
         condition = createCondition(LessThanCondition.TYPE_ID, ValueSourceConfiguration.forValue(0L), ValueSourceConfiguration.forValue(1L));
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(LessThanCondition.TYPE_ID, ValueSourceConfiguration.forValue(1L), ValueSourceConfiguration.forValue(0L));
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(LessThanCondition.TYPE_ID, ValueSourceConfiguration.forValue(1L), ValueSourceConfiguration.forValue(1L));
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         // compare variables
         context.setLocalVariable("var1", 0L);
@@ -142,13 +144,13 @@ public class ConditionTests
         ValueSourceConfiguration var2 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var2"));
 
         condition = createCondition(LessThanCondition.TYPE_ID, var1, var2);
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(LessThanCondition.TYPE_ID, var2, var1);
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(LessThanCondition.TYPE_ID, var2, var2);
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
         }
 
     @Test
@@ -159,13 +161,13 @@ public class ConditionTests
 
         // compare two constants
         condition = createCondition(LessThanCondition.TYPE_ID, ValueSourceConfiguration.forValue("aaa"), ValueSourceConfiguration.forValue("aab"));
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(LessThanCondition.TYPE_ID, ValueSourceConfiguration.forValue("aab"), ValueSourceConfiguration.forValue("aaa"));
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(LessThanCondition.TYPE_ID, ValueSourceConfiguration.forValue("x"), ValueSourceConfiguration.forValue("x"));
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         // compare variables
         context.setLocalVariable("var1", "aaa");
@@ -175,13 +177,13 @@ public class ConditionTests
         ValueSourceConfiguration var2 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var2"));
 
         condition = createCondition(LessThanCondition.TYPE_ID, var1, var2);
-        Assert.assertTrue((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(LessThanCondition.TYPE_ID, var2, var1);
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         condition = createCondition(LessThanCondition.TYPE_ID, var2, var2);
-        Assert.assertFalse((Boolean) condition.createSource(null).resolveValue(context));
+        Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
         }
 
     private ValueSourceConfiguration createCondition(String type, ValueSourceConfiguration left, ValueSourceConfiguration right)
@@ -191,7 +193,6 @@ public class ConditionTests
         config.addSource(BinaryCondition.RIGHT_PARAM, right);
         return config;
         }
-
     }
 
 

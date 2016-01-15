@@ -30,11 +30,5 @@ public class XPathElementValueSource extends ElementByLocatorValueSource
         return By.xpath(locator_string);
         }
 
-    @Override
-    public String getDescription()
-        {
-        return XPathElementValueSourceStringExpressionSupport.STRING_EXPRESSION_ID;
-        }
-
     public final static String TYPE_ID = XPathElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

@@ -24,7 +24,7 @@ public class ElementExistsCondition extends BrowserValueSource
     @SuppressWarnings("unused")  // used via reflection
     public ElementExistsCondition(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
-        _configuration = config;
+        super(config, project);
         ValueSourceConfiguration source = config.getSource();
         if (source == null)
             throw new MuseInstantiationException("ElementExistsValueSource requires a source for the element.");
@@ -35,9 +35,8 @@ public class ElementExistsCondition extends BrowserValueSource
     public Boolean resolveValue(StepExecutionContext context) throws StepConfigurationError
         {
         Object element = _element_source.resolveValue(context);
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), element));
         boolean exists = element instanceof WebElement;
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(_configuration).getInstanceDescription(_configuration), exists));
+        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), exists));
         return exists;
         }
 
@@ -47,7 +46,6 @@ public class ElementExistsCondition extends BrowserValueSource
         return "exists(" + _element_source.getDescription() + ")";
         }
 
-    private ValueSourceConfiguration _configuration;
     private MuseValueSource _element_source;
 
     public final static String TYPE_ID = ElementExistsCondition.class.getAnnotation(MuseTypeId.class).value();

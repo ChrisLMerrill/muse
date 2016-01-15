@@ -38,12 +38,6 @@ public class EqualityCondition extends BinaryCondition
         return result;
         }
 
-    @Override
-    public String getDescription()
-        {
-        return String.format("%s == %s", _left.getDescription(), _right.getDescription());
-        }
-
     public final static String TYPE_ID = EqualityCondition.class.getAnnotation(MuseTypeId.class).value();
     }
 

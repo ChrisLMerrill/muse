@@ -24,7 +24,7 @@ public class ElementVisibleCondition extends BrowserValueSource
     @SuppressWarnings("unused")  // used via reflection
     public ElementVisibleCondition(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
-        _configuration = config;
+        super(config, project);
         ValueSourceConfiguration source = config.getSource();
         if (source == null)
             throw new MuseInstantiationException("ElementExistsValueSource requires a source for the element.");
@@ -40,7 +40,7 @@ public class ElementVisibleCondition extends BrowserValueSource
         if (!(element instanceof WebElement))
             throw new ValueSourceResolutionError("The specificed object is not a WebElement.");
         boolean visible = ((WebElement) element).isDisplayed();
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(_configuration).getInstanceDescription(_configuration), visible));
+        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), visible));
         return visible;
         }
 
@@ -50,7 +50,6 @@ public class ElementVisibleCondition extends BrowserValueSource
         return "visible(" + _element_source.getDescription() + ")";
         }
 
-    private ValueSourceConfiguration _configuration;
     private MuseValueSource _element_source;
 
     public final static String TYPE_ID = ElementVisibleCondition.class.getAnnotation(MuseTypeId.class).value();

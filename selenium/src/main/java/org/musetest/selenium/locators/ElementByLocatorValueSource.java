@@ -17,6 +17,7 @@ public abstract class ElementByLocatorValueSource extends BrowserValueSource
     @SuppressWarnings("unused")  // used via reflection
     protected ElementByLocatorValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
+        super(config, project);
         ValueSourceConfiguration locator_config = config.getSource();
         if (locator_config == null)
             throw new MuseInstantiationException("XPathElementValueSource requires a source for the xpath.");
