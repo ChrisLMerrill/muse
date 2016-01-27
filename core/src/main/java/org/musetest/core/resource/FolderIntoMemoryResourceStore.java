@@ -29,14 +29,7 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
             @Override
             public void run()
                 {
-                File[] files = _folder.listFiles(new FilenameFilter()
-                    {
-                    @Override
-                    public boolean accept(File dir, String name)
-                        {
-                        return name.endsWith(".json");
-                        }
-                    });
+                File[] files = _folder.listFiles();
                 for (File file : files)
                     {
                     FileResourceOrigin origin = new FileResourceOrigin(file);
