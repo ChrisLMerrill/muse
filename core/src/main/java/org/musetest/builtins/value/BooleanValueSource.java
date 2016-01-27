@@ -15,7 +15,7 @@ import org.slf4j.*;
 @MuseValueSourceTypeGroup("Primitives")
 @MuseValueSourceShortDescription("true or false")
 @MuseValueSourceLongDescription("A primitive value source that returns true or false.")
-@MuseStringExpressionSupportImplementation(BooleanValueSource.class)
+@MuseStringExpressionSupportImplementation(BooleanValueSourceStringExpressionSupport.class)
 public class BooleanValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
