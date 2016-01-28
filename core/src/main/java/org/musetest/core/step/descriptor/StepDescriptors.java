@@ -1,8 +1,11 @@
 package org.musetest.core.step.descriptor;
 
 import org.musetest.core.*;
+import org.musetest.core.resource.*;
+import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
 import org.musetest.core.util.*;
+import org.musetest.javascript.factory.*;
 import org.slf4j.*;
 
 import java.lang.reflect.*;
@@ -70,9 +73,20 @@ public class StepDescriptors
     public List<StepDescriptor> findAll()
         {
         List<StepDescriptor> descriptors = new ArrayList<>();
+
+        // find all descriptors for Java implementations
         List<Class<? extends MuseStep>> implementors = new TypeLocator(_project).getImplementors(MuseStep.class);
         for (Class step_class : implementors)
             descriptors.add(_project.getStepDescriptors().get(step_class));
+
+        // find descriptors for scripted steps
+        List<MuseResource> scripted_steps = _project.findResources(new ResourceMetadata(ResourceTypes.jsStep));
+        for (MuseResource step : scripted_steps)
+            {
+            JavascriptStepResource step_resource = (JavascriptStepResource) step;
+            descriptors.add(step_resource.getStepDescriptor());
+            }
+
         return descriptors;
         }
 

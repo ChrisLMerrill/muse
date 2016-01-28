@@ -71,12 +71,6 @@ public class DefaultStepDescriptor extends UnknownStepDescriptor
         }
 
     @Override
-    public String getIconDescriptor()
-        {
-        return UnknownStepDescriptor.ICON;
-        }
-
-    @Override
     public String getDocumentationDescription()
         {
         StringBuilder builder = new StringBuilder();

@@ -22,10 +22,6 @@ public class StepFromJavascriptResourceFactory implements FromJavascriptResource
         {
         List<MuseResource> resources = new ArrayList<>();
 
-        // Did the script declare it is a Test?
-//        if (!type.equals(ResourceType.Step))
-//            return resources;
-
         // Does the script implement the right method?
         Invocable inv = (Invocable) engine;
         try

@@ -45,7 +45,7 @@ public class ListCommand extends MuseCommand
                         System.out.println(step.getDocumentationDescription());
                         }
                     else
-                        System.out.println(String.format("%s (%s) %s", step.getName(), step.getType(), step.getShortDescription()));
+                        System.out.println(String.format("%s (%s): %s", step.getName(), step.getType(), step.getShortDescription()));
                 break;
             case "sources":
                 List<ValueSourceDescriptor> sources = project.getValueSourceDescriptors().findAll();
@@ -57,7 +57,7 @@ public class ListCommand extends MuseCommand
                         System.out.println(source.getDocumentationDescription());
                         }
                     else
-                        System.out.println(String.format("%s (%s) %s", source.getName(), source.getType(), source.getShortDescription()));
+                        System.out.println(String.format("%s (%s): %s", source.getName(), source.getType(), source.getShortDescription()));
                 if (verbose)
                     System.out.println(SEPARATOR);
                 break;

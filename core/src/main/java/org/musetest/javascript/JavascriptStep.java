@@ -57,7 +57,7 @@ public class JavascriptStep extends BaseStep
 
             String path = script_location.getAbsolutePath();
             path = path.replace("\\", "\\\\");  // needed only for Windows
-            return "load('" + path + "')"; // loading the script this way allows for interactive debugging in an IDE
+            return "load('" + path + "');"; // loading the script this way allows for interactive debugging in an IDE
             }
         else
             {

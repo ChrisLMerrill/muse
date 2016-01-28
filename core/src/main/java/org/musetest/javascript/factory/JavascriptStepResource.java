@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
+import org.musetest.core.step.descriptor.*;
 import org.musetest.javascript.*;
 
 /**
@@ -32,6 +33,66 @@ public class JavascriptStepResource implements MuseResource
     public MuseStep createStep(StepConfiguration configuration)
         {
         return new JavascriptStep(configuration, _origin, _script);
+        }
+
+    public StepDescriptor getStepDescriptor()
+        {
+        return new DefaultStepDescriptor(JavascriptStep.class, null)
+            {
+            @Override
+            public String getName()
+                {
+                return "Javascript step";
+                }
+
+            @Override
+            public String getShortDescription(StepConfiguration step)
+                {
+                return "Javascript step, type=" + step.getType();
+                }
+
+            @Override
+            public String getShortDescription()
+                {
+                return "A custom step developed in Javascript";
+                }
+
+            @Override
+            public String getLongDescription()
+                {
+                return "see the source code at: " + getMetadata().getOrigin().getDescription();
+                }
+
+            @Override
+            public String getIconDescriptor()
+                {
+                return null;
+                }
+
+            @Override
+            public boolean isCompound()
+                {
+                return false;
+                }
+
+            @Override
+            public String getInlineEditString()
+                {
+                return null;
+                }
+
+            @Override
+            public String getType()
+                {
+                return getMetadata().getId();
+                }
+
+            @Override
+            public String getGroupName()
+                {
+                return "javascript";
+                }
+            };
         }
 
     private String _script;
