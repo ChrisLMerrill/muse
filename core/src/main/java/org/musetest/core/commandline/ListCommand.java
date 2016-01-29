@@ -36,7 +36,8 @@ public class ListCommand extends MuseCommand
         switch (kind)
             {
             case "steps":
-                List<StepDescriptor> steps = project.getStepDescriptors().findAll();
+                List<StepDescriptor> steps = new ArrayList<>();
+                steps.addAll(project.getStepDescriptors().findAll());
                 Collections.sort(steps, (step1, step2) -> step1.getName().compareTo(step2.getName()));
                 for (StepDescriptor step : steps)
                     if (verbose)
@@ -48,7 +49,8 @@ public class ListCommand extends MuseCommand
                         System.out.println(String.format("%s (%s): %s", step.getName(), step.getType(), step.getShortDescription()));
                 break;
             case "sources":
-                List<ValueSourceDescriptor> sources = project.getValueSourceDescriptors().findAll();
+                List<ValueSourceDescriptor> sources = new ArrayList<>();
+                sources.addAll(project.getValueSourceDescriptors().findAll());
                 Collections.sort(sources, (source1, source2) -> source1.getName().compareTo(source2.getName()));
                 for (ValueSourceDescriptor source : sources)
                     if (verbose)

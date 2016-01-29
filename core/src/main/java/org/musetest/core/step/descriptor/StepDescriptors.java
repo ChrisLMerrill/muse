@@ -22,6 +22,7 @@ public class StepDescriptors
     public StepDescriptors(MuseProject project)
         {
         _project = project;
+        load();
         }
 
     public StepDescriptor get(StepConfiguration step)
@@ -31,20 +32,54 @@ public class StepDescriptors
 
     public StepDescriptor get(String type)
         {
-        try
-            {
-            Class step_class = new TypeLocator(_project).getClassForTypeId(type);
-            if (step_class != null)
-                return get(step_class);
-            }
-        catch (Exception e)
-            {
-            // handle below
-            }
+        StepDescriptor descriptor = _descriptors_by_type.get(type);
+        if (descriptor != null)
+            return descriptor;
         return new UnknownStepDescriptor(type, _project);
         }
 
     public StepDescriptor get(Class<? extends MuseStep> step_implementation)
+        {
+        StepDescriptor descriptor = _descriptors_by_class.get(step_implementation);
+        if (descriptor != null)
+            return descriptor;
+        descriptor = loadByClass(step_implementation);
+        if (descriptor != null)
+            {
+            _descriptors_by_class.put(step_implementation, descriptor);
+            _all_descriptors.add(descriptor);
+            }
+        return descriptor;
+        }
+
+    public Collection<StepDescriptor> findAll()
+        {
+        return _all_descriptors;
+        }
+
+    private void load()
+        {
+        List<Class<? extends MuseStep>> implementors = new TypeLocator(_project).getImplementors(MuseStep.class);
+        for (Class step_class : implementors)
+            {
+            StepDescriptor descriptor = loadByClass(step_class);
+            _descriptors_by_class.put(step_class, descriptor);
+            _descriptors_by_type.put(descriptor.getType(), descriptor);
+            _all_descriptors.add(descriptor);
+            }
+
+        // find descriptors for scripted steps
+        List<MuseResource> scripted_steps = _project.findResources(new ResourceMetadata(ResourceTypes.jsStep));
+        for (MuseResource step : scripted_steps)
+            {
+            JavascriptStepResource step_resource = (JavascriptStepResource) step;
+            StepDescriptor descriptor = step_resource.getStepDescriptor(_project);
+            _descriptors_by_type.put(descriptor.getType(), descriptor);
+            _all_descriptors.add(descriptor);
+            }
+        }
+
+    private StepDescriptor loadByClass(Class<? extends MuseStep> step_implementation)
         {
         MuseStepDescriptorImplementation descriptor_annotation = step_implementation.getAnnotation(MuseStepDescriptorImplementation.class);
         if (descriptor_annotation != null)
@@ -70,25 +105,7 @@ public class StepDescriptors
         return new AnnotatedStepDescriptor(step_implementation, _project);
         }
 
-    public List<StepDescriptor> findAll()
-        {
-        List<StepDescriptor> descriptors = new ArrayList<>();
 
-        // find all descriptors for Java implementations
-        List<Class<? extends MuseStep>> implementors = new TypeLocator(_project).getImplementors(MuseStep.class);
-        for (Class step_class : implementors)
-            descriptors.add(_project.getStepDescriptors().get(step_class));
-
-        // find descriptors for scripted steps
-        List<MuseResource> scripted_steps = _project.findResources(new ResourceMetadata(ResourceTypes.jsStep));
-        for (MuseResource step : scripted_steps)
-            {
-            JavascriptStepResource step_resource = (JavascriptStepResource) step;
-            descriptors.add(step_resource.getStepDescriptor());
-            }
-
-        return descriptors;
-        }
 
     public MuseProject getProject()
         {
@@ -96,6 +113,10 @@ public class StepDescriptors
         }
 
     private MuseProject _project;
+
+    private Map<String, StepDescriptor> _descriptors_by_type = new HashMap<>();
+    private Map<Class, StepDescriptor> _descriptors_by_class = new HashMap<>();
+    private Set<StepDescriptor> _all_descriptors = new HashSet<>();
 
     final static Logger LOG = LoggerFactory.getLogger(StepDescriptors.class);
     }

@@ -27,18 +27,17 @@ public class StepFromJavascriptResourceFactory implements FromJavascriptResource
         try
             {
             inv.invokeFunction(JavascriptStep.FUNCTION_NAME, new DefaultTestExecutionContext());
-            resources.add(new JavascriptStepResource(origin, script));
             }
         catch (ScriptException e)
             {
             // this is ok, we expect the script may be expecting certain environment to be present
-            resources.add(new JavascriptStepResource(origin, script));
             }
         catch (NoSuchMethodException e)
             {
             LOG.error("Script is declared as a Step, but does not provide the '" + JavascriptStep.FUNCTION_NAME + "()' function: " + origin.getDescription());
+            return resources;
             }
-
+        resources.add(new JavascriptStepResource(origin, script, inv));
         return resources;
         }
 

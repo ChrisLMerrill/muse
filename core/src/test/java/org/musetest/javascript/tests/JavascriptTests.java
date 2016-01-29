@@ -9,7 +9,9 @@ import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
+import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.*;
 import org.musetest.javascript.*;
 import org.musetest.javascript.factory.*;
 
@@ -66,12 +68,25 @@ public class JavascriptTests
         JavascriptStepResource step_resource = (JavascriptStepResource) resources.get(0);
 
         StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
+        config.addSource("param1", ValueSourceConfiguration.forValue("XYZ"));
 
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         project.addResource(step_resource);
 
         MuseStep step = config.createStep(project);
         Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(new DummyStepExecutionContext()).getStatus());
+
+        StepDescriptor descriptor = project.getStepDescriptors().get(config);
+        Assert.assertNotNull(descriptor);
+
+        Assert.assertEquals("javascriptStep", descriptor.getType());
+        Assert.assertEquals("JS Example", descriptor.getName());
+        Assert.assertEquals("javascript", descriptor.getGroupName());
+        Assert.assertEquals("glyph:FontAwesome:PAW", descriptor.getIconDescriptor());
+        Assert.assertEquals("A Javascript step", descriptor.getShortDescription());
+
+        // TODO this does not yet pass...need to convert the config to a JS object to pass into a function returned by the descriptor
+//        Assert.assertEquals("Do something with XYZ", descriptor.getShortDescription(config));
         }
 
     }
