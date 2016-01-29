@@ -2,6 +2,7 @@ package org.musetest.core.commandline;
 
 import io.airlift.airline.*;
 import org.musetest.core.*;
+import org.musetest.core.step.descriptor.*;
 import org.musetest.core.util.*;
 
 /**
@@ -22,17 +23,14 @@ public class DescribeCommand extends MuseCommand
         {
         MuseProject project = openProject();
 
-        Class class_for_type = new TypeLocator(project).getClassForTypeId(type_id);
-        if (class_for_type == null)
+        StepDescriptor descriptor = project.getStepDescriptors().get(type_id);
+        if (descriptor == null)
             {
             System.out.println(String.format("type %s is not recognized in the project", type_id));
             return;
             }
 
-        if (MuseStep.class.isAssignableFrom(class_for_type))
-            System.out.println(project.getStepDescriptors().get(type_id).getDocumentationDescription());
-        else if (MuseValueSource.class.isAssignableFrom(class_for_type))
-            System.out.println(project.getValueSourceDescriptors().get(type_id).getDocumentationDescription());
+        System.out.println(descriptor.getDocumentationDescription());
         }
     }
 

@@ -84,6 +84,7 @@ public class JavascriptTests
         Assert.assertEquals("javascript", descriptor.getGroupName());
         Assert.assertEquals("glyph:FontAwesome:PAW", descriptor.getIconDescriptor());
         Assert.assertEquals("A Javascript step", descriptor.getShortDescription());
+        Assert.assertEquals("The long description of the javascript step", descriptor.getLongDescription());
 
         // TODO this does not yet pass...need to convert the config to a JS object to pass into a function returned by the descriptor
 //        Assert.assertEquals("Do something with XYZ", descriptor.getShortDescription(config));

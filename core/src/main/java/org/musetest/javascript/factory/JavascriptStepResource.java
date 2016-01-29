@@ -77,25 +77,41 @@ public class JavascriptStepResource implements MuseResource
             @Override
             public String getName()
                 {
-                return result.getMember("name").toString();
+                if (result.containsKey("name"))
+                    return result.getMember("name").toString();
+                return super.getName();
                 }
 
             @Override
             public String getGroupName()
                 {
-                return result.getMember("group").toString();
+                if (result.containsKey("group"))
+                    return result.getMember("group").toString();
+                return super.getGroupName();
                 }
 
             @Override
             public String getIconDescriptor()
                 {
-                return result.getMember("icon").toString();
+                if (result.containsKey("icon"))
+                    return result.getMember("icon").toString();
+                return super.getIconDescriptor();
                 }
 
             @Override
             public String getShortDescription()
                 {
-                return result.getMember("shortDescription").toString();
+                if (result.containsKey("shortDescription"))
+                    return result.getMember("shortDescription").toString();
+                return super.getShortDescription();
+                }
+
+            @Override
+            public String getLongDescription()
+                {
+                if (result.containsKey("longDescription"))
+                    return result.getMember("longDescription").toString();
+                return super.getLongDescription();
                 }
             };
         }
