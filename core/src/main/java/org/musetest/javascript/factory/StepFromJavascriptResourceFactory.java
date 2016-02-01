@@ -26,7 +26,7 @@ public class StepFromJavascriptResourceFactory implements FromJavascriptResource
         Invocable inv = (Invocable) engine;
         try
             {
-            inv.invokeFunction(JavascriptStep.FUNCTION_NAME, new DefaultTestExecutionContext());
+            inv.invokeFunction(JavascriptStep.EXECUTE_FUNCTION, new DefaultTestExecutionContext());
             }
         catch (ScriptException e)
             {
@@ -34,7 +34,7 @@ public class StepFromJavascriptResourceFactory implements FromJavascriptResource
             }
         catch (NoSuchMethodException e)
             {
-            LOG.error("Script is declared as a Step, but does not provide the '" + JavascriptStep.FUNCTION_NAME + "()' function: " + origin.getDescription());
+            LOG.error("Script is declared as a Step, but does not provide the '" + JavascriptStep.EXECUTE_FUNCTION + "()' function: " + origin.getDescription());
             return resources;
             }
         resources.add(new JavascriptStepResource(origin, inv));

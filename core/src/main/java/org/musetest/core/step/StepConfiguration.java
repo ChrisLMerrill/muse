@@ -183,7 +183,7 @@ public class StepConfiguration implements Serializable
         }
 
     private String _step_type;
-    private Map<String, ValueSourceConfiguration> _sources = null;
+    private Map<String, ValueSourceConfiguration> _sources = new HashMap<>();
     private List<StepConfiguration> _children = null;
     private Map<String, Object> _metadata = null;
 

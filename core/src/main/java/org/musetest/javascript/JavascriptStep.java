@@ -9,6 +9,7 @@ import org.musetest.core.test.*;
 import org.musetest.javascript.support.*;
 import org.slf4j.*;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -35,13 +36,10 @@ public class JavascriptStep extends BaseStep
 
         try
             {
-            JavascriptRunner runner = new JavascriptRunner();
-            runner.setVariable("RESULT_COMPLETE", new BasicStepExecutionResult(StepExecutionStatus.COMPLETE));
-            runner.setVariable("RESULT_FAILURE", new BasicStepExecutionResult(StepExecutionStatus.FAILURE));
-            runner.setVariable("RESULT_INCOMPLETE", new BasicStepExecutionResult(StepExecutionStatus.INCOMPLETE));
+            JavascriptRunner runner = new JavascriptStepRunner();
             runner.evalScript(_origin);
 
-            Object result = runner.invokeFunction(FUNCTION_NAME, context, values);
+            Object result = runner.invokeFunction(EXECUTE_FUNCTION, context, values);
             if (result instanceof StepExecutionResult)
                 return (StepExecutionResult) result;
             else
@@ -57,7 +55,7 @@ public class JavascriptStep extends BaseStep
 
     private ResourceOrigin _origin;
 
-    public final static String FUNCTION_NAME = "executeStep";
+    public final static String EXECUTE_FUNCTION = "executeStep";
     final static Logger LOG = LoggerFactory.getLogger(JavascriptStep.class);
     }
 

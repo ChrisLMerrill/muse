@@ -31,7 +31,7 @@ public class FromJsFileResourceFactory implements MuseResourceFactory
                 try
                     {
                     // evaluate the script
-                    JavascriptRunner runner = new JavascriptRunner();
+                    JavascriptRunner runner = new JavascriptStepRunner();
                     runner.evalScript(origin);
 
                     // look for the variable that declares the resource type for this script

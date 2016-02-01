@@ -3,6 +3,7 @@ package org.musetest.javascript.tests;
 import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
@@ -25,7 +26,7 @@ import java.util.*;
 public class JavascriptTests
     {
     @Test
-    public void testJavascriptTest()
+    public void javascriptTest()
         {
         TestExecutionContext context = new DefaultTestExecutionContext();
 
@@ -39,7 +40,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void testJavascriptNotATest() throws ScriptException, IOException
+    public void javascriptNotATest() throws ScriptException, IOException
         {
         TestFromJavascriptResourceFactory factory = new TestFromJavascriptResourceFactory();
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
@@ -50,7 +51,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void testJavascriptTestLoadFromFile() throws IOException
+    public void loadJavascriptTestFromFile() throws IOException
         {
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(org.musetest.core.helpers.TestUtils.getTestResource("javascriptTest.js", this.getClass())));
         Assert.assertEquals(1, resources.size());
@@ -59,19 +60,13 @@ public class JavascriptTests
         }
 
     @Test
-    public void testJavascriptStepLoadFromFile() throws IOException, StepExecutionError
+    public void loadJavascriptStepFromFile() throws IOException, StepExecutionError
         {
-        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(org.musetest.core.helpers.TestUtils.getTestResource("javascriptStep.js", this.getClass())));
-        Assert.assertEquals(1, resources.size());
-        Assert.assertTrue(resources.get(0) instanceof JavascriptStepResource);
-
-        JavascriptStepResource step_resource = (JavascriptStepResource) resources.get(0);
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "javascriptStep.js");
 
         StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
         config.addSource("param1", ValueSourceConfiguration.forValue("XYZ"));
-
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
-        project.addResource(step_resource);
 
         MuseStep step = config.createStep(project);
         Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(new DummyStepExecutionContext()).getStatus());
@@ -90,6 +85,71 @@ public class JavascriptTests
 //        Assert.assertEquals("Do something with XYZ", descriptor.getShortDescription(config));
         }
 
+    private JavascriptStepResource loadJavascriptStepFromFileIntoProject(MuseProject project, String filename) throws IOException
+        {
+        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(org.musetest.core.helpers.TestUtils.getTestResource(filename, this.getClass())));
+        Assert.assertEquals(1, resources.size());
+        Assert.assertTrue(resources.get(0) instanceof JavascriptStepResource);
+
+        JavascriptStepResource step_resource = (JavascriptStepResource) resources.get(0);
+        project.addResource(step_resource);
+
+        return step_resource;
+        }
+
+    @Test
+    public void getAndSetVariablesInJavascriptStep() throws IOException, StepExecutionError
+        {
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "getSetVariables.js");
+
+        StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
+        MuseStep step = config.createStep(project);
+        DummyStepExecutionContext context = new DummyStepExecutionContext();
+        context.setLocalVariable("var_in", "input");
+        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
+
+        Assert.assertEquals("output", context.getLocalVariable("var_out"));
+        }
+
+    @Test
+    public void accessValueSourcesInJavascriptStep() throws IOException, StepExecutionError
+        {
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "AccessSources.js");
+
+        StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
+        config.addSource("named_source", ValueSourceConfiguration.forValue("named_value"));
+        MuseStep step = config.createStep(project);
+        DummyStepExecutionContext context = new DummyStepExecutionContext();
+        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
+        }
+
+    @Test
+    public void logMessageInJavascriptStep() throws IOException, StepExecutionError
+        {
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "LogMessage.js");
+
+        StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
+        MuseStep step = config.createStep(project);
+
+        final List<MessageEvent> events = new ArrayList<>();
+        StepExecutionContext context = new SingleStepExecutionContext(new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext()), config, true);
+        context.getTestExecutionContext().addEventListener(new MuseEventListener()
+            {
+            @Override
+            public void eventRaised(MuseEvent event)
+                {
+                if (event instanceof MessageEvent)
+                    events.add((MessageEvent) event);
+                }
+            });
+
+        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
+        Assert.assertEquals(1, events.size());
+        Assert.assertTrue(events.get(0).getDescription().contains("test message"));
+        }
     }
 
 

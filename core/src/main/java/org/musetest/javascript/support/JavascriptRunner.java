@@ -3,6 +3,7 @@ package org.musetest.javascript.support;
 import org.apache.commons.io.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.origin.*;
 
 import javax.script.*;
 import java.io.*;
@@ -20,16 +21,36 @@ public class JavascriptRunner
 
     public Object evalScript(ResourceOrigin origin) throws ScriptException, IOException
         {
+        if (origin instanceof FileResourceOrigin)
+            return evalScript(((FileResourceOrigin)origin).getFile());
+
         try (InputStream input = origin.asStream())
             {
-            String script = IOUtils.toString(input);
-            return _engine.eval(script);
+            return evalScript(input);
             }
+        }
+
+    public Object evalScript(InputStream input) throws ScriptException, IOException
+        {
+        String script = IOUtils.toString(input);
+        return _engine.eval(script);
+        }
+
+    public Object evalScript(File file) throws ScriptException
+        {
+        String location = file.getAbsolutePath().replaceAll("\\\\", "\\\\\\\\");
+        String to_eval = String.format("load('%s');", location);
+        return _engine.eval(to_eval);
+        }
+
+    public Object evalScript(String script) throws ScriptException
+        {
+        return _engine.eval(script);
         }
 
     public Object invokeFunction(String name, StepExecutionContext context, HashMap<String, Object> values) throws ScriptException, NoSuchMethodException
         {
-        return ((Invocable)_engine).invokeFunction(name, values);
+        return ((Invocable)_engine).invokeFunction(name, context, values);
         }
 
     public ScriptEngine getScriptEngine()
