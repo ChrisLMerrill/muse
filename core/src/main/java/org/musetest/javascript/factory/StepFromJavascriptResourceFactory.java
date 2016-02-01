@@ -18,7 +18,7 @@ import java.util.*;
 public class StepFromJavascriptResourceFactory implements FromJavascriptResourceFactory
     {
     @Override
-    public List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine, String script) throws IOException
+    public List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine) throws IOException
         {
         List<MuseResource> resources = new ArrayList<>();
 
@@ -37,7 +37,7 @@ public class StepFromJavascriptResourceFactory implements FromJavascriptResource
             LOG.error("Script is declared as a Step, but does not provide the '" + JavascriptStep.FUNCTION_NAME + "()' function: " + origin.getDescription());
             return resources;
             }
-        resources.add(new JavascriptStepResource(origin, script, inv));
+        resources.add(new JavascriptStepResource(origin, inv));
         return resources;
         }
 

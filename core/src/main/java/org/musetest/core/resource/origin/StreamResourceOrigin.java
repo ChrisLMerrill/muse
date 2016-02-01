@@ -41,6 +41,12 @@ public class StreamResourceOrigin implements ResourceOrigin
             }
         }
 
+    @Override
+    public InputStream asStream()
+        {
+        return _stream;
+        }
+
     public InputStream getStream()
         {
         return _stream;

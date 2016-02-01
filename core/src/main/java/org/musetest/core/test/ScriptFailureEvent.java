@@ -7,11 +7,10 @@ import org.musetest.core.*;
  */
 public class ScriptFailureEvent extends MuseEvent
     {
-    public ScriptFailureEvent(String message, String script, Throwable exception)
+    public ScriptFailureEvent(String message, Throwable exception)
         {
         super(MuseEventType.ScriptError);
         _message = message;
-        _script = script;
         _exception = exception;
         }
 

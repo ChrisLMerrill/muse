@@ -1,10 +1,8 @@
 var MuseResourceType = 'jsStep';   // required for a Javascript step.
 
-var System = Java.type('java.lang.System');
-
 function executeStep(context)
     {
-    return STEP_COMPLETE;
+    return RESULT_COMPLETE;
     }
 
 function getStepDescriptor()

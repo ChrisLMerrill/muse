@@ -17,7 +17,7 @@ import java.util.*;
 public class TestFromJavascriptResourceFactory implements FromJavascriptResourceFactory
     {
     @Override
-    public List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine, String script) throws IOException
+    public List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine) throws IOException
         {
         List<MuseResource> resources = new ArrayList<>();
 
@@ -30,12 +30,12 @@ public class TestFromJavascriptResourceFactory implements FromJavascriptResource
         try
             {
             inv.invokeFunction(JavascriptTest.FUNCTION_NAME, new DefaultTestExecutionContext());
-            resources.add(new JavascriptTest(origin, script));
+            resources.add(new JavascriptTest(origin));
             }
         catch (ScriptException e)
             {
             // this is ok, we expect the script may be expecting certain environment to be present
-            resources.add(new JavascriptTest(origin, script));
+            resources.add(new JavascriptTest(origin));
             }
         catch (NoSuchMethodException e)
             {

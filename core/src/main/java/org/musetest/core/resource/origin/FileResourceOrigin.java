@@ -30,6 +30,12 @@ public class FileResourceOrigin implements ResourceOrigin
         return name;
         }
 
+    @Override
+    public InputStream asStream() throws IOException
+        {
+        return new FileInputStream(_file);
+        }
+
     public File getFile()
         {
         return _file;

@@ -30,7 +30,7 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory, MuseRes
                 if (file.getName().endsWith(".json"))
                     {
                     instream = new FileInputStream(file);
-                    createResources(origin, resources, instream, type_locator);
+                    createResources(origin, resources, type_locator);
                     }
                 }
             catch (Exception e)
@@ -47,7 +47,7 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory, MuseRes
             {
             try
                 {
-                createResources(origin, resources, ((StreamResourceOrigin)origin).getStream(), type_locator);
+                createResources(origin, resources, type_locator);
                 }
             catch (Exception e)
                 {
@@ -57,11 +57,11 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory, MuseRes
         return resources;
         }
 
-    private void createResources(ResourceOrigin origin, List<MuseResource> resources, InputStream instream, TypeLocator type_locator) throws IOException
+    private void createResources(ResourceOrigin origin, List<MuseResource> resources, TypeLocator type_locator) throws IOException
         {
         try
             {
-            MuseResource resource = getMapper(type_locator).readValue(instream, MuseResource.class);
+            MuseResource resource = getMapper(type_locator).readValue(origin.asStream(), MuseResource.class);
             resource.getMetadata().setSaver(this);
 
             resources.add(resource);

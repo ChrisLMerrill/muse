@@ -6,6 +6,7 @@ dependencies
     compile 'org.slf4j:slf4j-simple:1.7+'  // logging implementation for the Launcher
     compile 'io.airlift:airline:0.7+'  // command-line parsing
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.4'  // JSON de/serialization
+    compile 'commons-io:commons-io:2.4'
 
     // Force use of these specific versions to prevent conflicts from multiple transitive dependencies on different versions.
     compile('com.google.guava:guava:18.0') { force = true }

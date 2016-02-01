@@ -29,11 +29,11 @@ public class JavascriptTests
         {
         TestExecutionContext context = new DefaultTestExecutionContext();
 
-        MuseTest test = new JavascriptTest(new StringResourceOrigin(), "function executeTest(test_context) { return TEST_SUCCESS; } ");
+        MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_SUCCESS; } "));
         MuseTestResult result = test.execute(context);
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
 
-        test = new JavascriptTest(new StringResourceOrigin(), "function executeTest(test_context) { return TEST_FAILURE; } ");
+        test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_FAILURE; } "));
         result = test.execute(context);
         Assert.assertEquals(MuseTestResultStatus.Failure, result.getStatus());
         }
@@ -45,7 +45,7 @@ public class JavascriptTests
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
         String script = "function not_the_right_method(test_context) { return TEST_SUCCESS; } ";
         engine.eval(script);
-        List<MuseResource> resources = factory.createResources(new StringResourceOrigin(), ResourceTypes.Test, engine, script);
+        List<MuseResource> resources = factory.createResources(new StringResourceOrigin("abc"), ResourceTypes.Test, engine);
         Assert.assertEquals(0, resources.size());
         }
 

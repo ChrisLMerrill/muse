@@ -13,6 +13,6 @@ import java.util.*;
  */
 public interface FromJavascriptResourceFactory extends MuseDynamicLoadable
     {
-    List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine, String script) throws IOException;
+    List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine) throws IOException;
     }
 

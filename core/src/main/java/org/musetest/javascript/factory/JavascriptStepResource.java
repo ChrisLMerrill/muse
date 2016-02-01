@@ -15,11 +15,10 @@ import javax.script.*;
  */
 public class JavascriptStepResource implements MuseResource
     {
-    public JavascriptStepResource(ResourceOrigin origin, String script, Invocable script_runner)
+    public JavascriptStepResource(ResourceOrigin origin, Invocable script_runner)
         {
         _origin = origin;
         _metadata.setId(origin.suggestId());
-        _script = script;
         try
             {
             _get_descriptor_result = (ScriptObjectMirror) script_runner.invokeFunction("getStepDescriptor");
@@ -40,14 +39,9 @@ public class JavascriptStepResource implements MuseResource
         return _metadata;
         }
 
-    public String getScript()
-        {
-        return _script;
-        }
-
     public MuseStep createStep(StepConfiguration configuration)
         {
-        return new JavascriptStep(configuration, _origin, _script);
+        return new JavascriptStep(configuration, _origin);
         }
 
     public StepDescriptor getStepDescriptor(MuseProject project)
@@ -236,7 +230,6 @@ public class JavascriptStepResource implements MuseResource
             };
         }
 
-    private String _script;
     private ResourceOrigin _origin;
     private ResourceMetadata _metadata = new ResourceMetadata(ResourceTypes.jsStep);
     private ScriptObjectMirror _get_descriptor_result;
