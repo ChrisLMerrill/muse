@@ -2,7 +2,7 @@ var MuseResourceType = 'jsStep';   // required for a Javascript step.
 
 function executeStep(context)
     {
-    return RESULT_COMPLETE;
+    return successResult();
     }
 
 function getStepDescriptor()

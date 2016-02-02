@@ -8,21 +8,33 @@ var StepExecutionStatus = Java.type("org.musetest.core.step.StepExecutionStatus"
 var BasicStepExecutionResult = Java.type("org.musetest.core.step.BasicStepExecutionResult");
 var StepExecutionContext = Java.type("org.musetest.core.context.StepExecutionContext");
 var MessageEvent = Java.type("org.musetest.core.events.MessageEvent");
-
-var RESULT_COMPLETE = new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
-var RESULT_FAILURE = new BasicStepExecutionResult(StepExecutionStatus.FAILURE);
+var System = Java.type('java.lang.System');
 
 function successResult(message)
     {
-    return new BasicStepExecutionResult(RESULT_COMPLETE, message);
+    return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, message);
     }
 
 function failureResult(message)
     {
-    return new BasicStepExecutionResult(RESULT_FAILURE, message);
+    return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, message);
     }
 
-function logMessage(context, message)
+function getLocalVariable(name)
     {
-    context.getTestExecutionContext().raiseEvent(new MessageEvent(message));
+    var value = __context.getLocalVariable(name);
+    logMessage("script: getting " + name + "=" + value + " (" + typeof value + ")");
+    return value;
+    }
+
+function setLocalVariable(name, value)
+    {
+    logMessage("script: setting " + name + "=" + value + " (" + typeof value + ")");
+    __context.setLocalVariable(name, value);
+    }
+
+function logMessage(message)
+    {
+    System.out.println(message);
+    __context.getTestExecutionContext().raiseEvent(new MessageEvent(message));
     }

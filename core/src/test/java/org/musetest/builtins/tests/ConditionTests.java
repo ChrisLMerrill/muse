@@ -7,6 +7,7 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
+import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 
@@ -16,7 +17,7 @@ import org.musetest.core.values.*;
 public class ConditionTests
     {
     @Test
-    public void testStringEquality() throws StepExecutionError
+    public void stringEquality() throws StepExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
 
@@ -28,7 +29,7 @@ public class ConditionTests
         }
 
     @Test
-    public void testVariableEquality() throws StepExecutionError
+    public void variableEquality() throws StepExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
 
@@ -54,7 +55,7 @@ public class ConditionTests
         }
 
     @Test
-    public void testIntegerGreaterThan() throws StepExecutionError
+    public void integerGreaterThan() throws StepExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration condition;
@@ -121,7 +122,7 @@ public class ConditionTests
         }
 
     @Test
-    public void testIntegerLessThan() throws StepExecutionError
+    public void integerLessThan() throws StepExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration condition;
@@ -154,7 +155,7 @@ public class ConditionTests
         }
 
     @Test
-    public void testStringLessThan() throws StepExecutionError
+    public void stringLessThan() throws StepExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration condition;
@@ -184,6 +185,14 @@ public class ConditionTests
 
         condition = createCondition(LessThanCondition.TYPE_ID, var2, var2);
         Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
+        }
+
+    @Test
+    public void integerDoubleEquality() throws StepConfigurationError
+        {
+        StepExecutionContext context = new DummyStepExecutionContext();
+        ValueSourceConfiguration condition = createCondition(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue(123L), ValueSourceConfiguration.forValue(123.0d));
+        Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
         }
 
     private ValueSourceConfiguration createCondition(String type, ValueSourceConfiguration left, ValueSourceConfiguration right)
