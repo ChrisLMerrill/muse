@@ -1,5 +1,3 @@
-apply plugin: 'distribution'
-
 version 0.1
 
 subprojects
@@ -7,9 +5,7 @@ subprojects
     apply plugin: 'java'
     apply plugin: 'maven'
 
-    version = 0.1
     group = 'org.musetest'
-    //jar.baseName = rootProject.name + "-" + name         // This caused problems with the POM dependencies. Need to investigate and fix?
 
     repositories
         {
@@ -43,22 +39,6 @@ subprojects
         archives javadocJar
     }
 
-
-    }
-
-distributions
-    {
-    muse
-        {
-        baseName = 'muse';
-        contents
-            {
-            into 'lib'
-            from { subprojects.jar.outputs }
-            from { subprojects.configurations.runtime }
-            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-            }
-        }
     }
 
 if (JavaVersion.current().isJava8Compatible()) {
