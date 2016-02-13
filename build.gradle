@@ -1,7 +1,7 @@
-version 0.1
-
 subprojects
     {
+    version 0.1
+
     apply plugin: 'java'
     apply plugin: 'maven'
 
