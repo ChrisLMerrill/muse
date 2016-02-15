@@ -8,4 +8,6 @@ There is a project containing example tests you can try running with the framewo
 
 Binary distribution of this project, the examples and the MuseIDE are available from: http://ide4selenium.com/#/download
 
+For Q&A, visit our group: https://groups.google.com/forum/#!forum/museide
+
 
