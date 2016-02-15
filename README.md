@@ -1,6 +1,10 @@
 # Muse test framework
 
-Muse is a framework for building and running automated tests. It supports, but is not limited to, Selenium 2 / WebDriver testing in browsers.
+
+
+Muse is a framework for building and running automated website tests in a browser, without requiring testers to write code. Test scripts are specified in data (rather than code) that can be easily manipulated by other tools, such as the MuseIDE. It is designed to provide the flexibility, extensibility and maintainability that is frequently missing from high-level test development tools.
+
+The MuseIDE provides an intuitive and productive UI for building, debugging and updating tests built for the Muse Test Framework
 
 See the Muse wiki for more documentation: https://github.com/ChrisLMerrill/muse/wiki
 
