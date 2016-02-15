@@ -35,6 +35,5 @@ function setLocalVariable(name, value)
 
 function logMessage(message)
     {
-    System.out.println(message);
     __context.getTestExecutionContext().raiseEvent(new MessageEvent(message));
     }
