@@ -3,6 +3,7 @@ package org.musetest.core.suite;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.test.*;
 
 import java.util.*;
 
@@ -23,7 +24,10 @@ public class ParameterListTestSuite implements MuseTestSuite
             TestExecutionContext context = new DefaultTestExecutionContext(project);
             for (String name : param_set.keySet())
                 context.setVariable(name, param_set.get(name));
-            tests.add(new TestConfiguration(project.findResource(_testid, MuseTest.class), context));
+            MuseTest test = project.findResource(_testid, MuseTest.class);
+            if (test == null)
+                test = new MissingTest(_testid);
+            tests.add(new TestConfiguration(test, context));
             }
         return tests;
         }
