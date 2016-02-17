@@ -36,7 +36,7 @@ public class WebPage implements MuseResource
         return _metadata;
         }
 
-    private Map<String, PageElement> _elements;
+    private Map<String, PageElement> _elements = new HashMap<>();
     private ResourceMetadata _metadata = new ResourceMetadata();
 
     @SuppressWarnings("unused")  // discovered via reflection
