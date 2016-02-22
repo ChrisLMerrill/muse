@@ -2,7 +2,7 @@
 
 
 
-Muse is a framework for building and running automated website tests in a browser, without requiring testers to write code. Test scripts are specified in data (rather than code) that can be easily manipulated by other tools, such as the MuseIDE. It is designed to provide the flexibility, extensibility and maintainability that is frequently missing from high-level test development tools.
+Muse is a framework for visually building and running automated website tests with the goal of maximizing productivity and maintainability while minizing coding requirements. Test scripts are created as data (rather than code) that can be easily manipulated by other tools, such as the MuseIDE. It is designed to provide the flexibility, extensibility and maintainability that is frequently missing from high-level test development tools.
 
 The MuseIDE provides an intuitive and productive UI for building, debugging and updating tests built for the Muse Test Framework
 
