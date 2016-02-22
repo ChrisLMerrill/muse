@@ -6,9 +6,11 @@ import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.core.variables.*;
 
 import java.util.*;
 
@@ -18,14 +20,14 @@ import java.util.*;
 public class TestVariableTests
     {
     @Test
-    public void testTestVariableNotSet()
+    public void testVariableNotSet()
         {
         MuseTestResult result = getTest().execute(new DefaultTestExecutionContext());
         Assert.assertEquals(MuseTestResultStatus.Failure, result.getStatus());
         }
 
     @Test
-    public void testTestVariableSetManually()
+    public void testVariableSetManually()
         {
         TestExecutionContext context = new DefaultTestExecutionContext();
         context.setVariable(VAR_NAME, VAR_VALUE);
@@ -35,7 +37,7 @@ public class TestVariableTests
         }
 
     @Test
-    public void testTestVariableSetAutomatically()
+    public void testVariableSetAutomatically()
         {
         Map<String, ValueSourceConfiguration> default_vars = new HashMap<>();
         default_vars.put(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
@@ -44,6 +46,21 @@ public class TestVariableTests
         test.setDefaultVariables(default_vars);
 
         MuseTestResult result = test.execute(new DefaultTestExecutionContext());
+        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        }
+
+    @Test
+    public void projectDefaultVaraibles()
+        {
+        SteppedTest test = getTest();
+        MuseProject project = new SimpleProject();
+
+        VariableList list = new VariableList();
+        project.addResource(list);
+        list.addVariable(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
+
+        DefaultTestExecutionContext context = new DefaultTestExecutionContext(project);
+        MuseTestResult result = test.execute(context);
         Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
         }
 

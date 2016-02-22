@@ -71,6 +71,7 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
     public boolean initializeContext(SteppedTestExecutionContext context)
         {
         MuseProject project = context.getProject();
+        project.initializeTestContext(context);
         if (_default_variables != null)
             for (String name : _default_variables.keySet())
                 if (context.getVariable(name) == null)

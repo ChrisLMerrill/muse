@@ -1,5 +1,6 @@
 package org.musetest.core;
 
+import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;
@@ -18,6 +19,8 @@ public interface MuseProject
     void addResource(MuseResource resource);
 
     List<MuseResource> findResources(ResourceMetadata filter);
+
+    <T extends MuseResource> List<T> findResources(ResourceMetadata filter, Class T);
 
     /*
      * A convenience method for finding a resource that has only a single match.
@@ -43,6 +46,8 @@ public interface MuseProject
      * @return null if success, else an error message
      */
     String saveResource(MuseResource resource);
+
+    void initializeTestContext(TestExecutionContext context);
 
     /**
      * Open and initialize the project

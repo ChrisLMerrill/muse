@@ -1,13 +1,16 @@
 package org.musetest.core.project;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;
+import org.musetest.core.steptest.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
+import org.musetest.core.variables.*;
 import org.slf4j.*;
 
 import java.util.*;
@@ -37,6 +40,17 @@ public class SimpleProject implements MuseProject
     public List<MuseResource> findResources(ResourceMetadata filter)
         {
         return _resources.findResources(filter);
+        }
+
+    @Override
+    public <T extends MuseResource> List<T> findResources(ResourceMetadata filter, Class type)
+        {
+        List<MuseResource> resources = findResources(filter);
+        List<T> found = new ArrayList<>();
+        for (MuseResource resource : resources)
+            if (type.isInstance(resource))
+                found.add((T)resource);
+        return found;
         }
 
     @Override
@@ -120,6 +134,33 @@ public class SimpleProject implements MuseProject
         if (_supporters == null)
             _supporters = new ValueSourceStringExpressionSupporters(this);
         return _supporters;
+        }
+
+    @Override
+    public void initializeTestContext(TestExecutionContext context)
+        {
+        List<VariableList> lists = findResources(new ResourceMetadata(new VariableList.VariableListType()), VariableList.class);
+        for (VariableList list : lists)
+            {
+            for (String name : list.getVariables().keySet())
+                {
+                ValueSourceConfiguration config = list.getVariables().get(name);
+                try
+                    {
+                    SteppedTestExecutionContext test_context;
+                    if (context instanceof SteppedTestExecutionContext)
+                        test_context = (SteppedTestExecutionContext) context;
+                    else
+                        test_context = new DefaultSteppedTestExecutionContext(context);
+                    Object value = config.createSource(this).resolveValue(new SingleStepExecutionContext(test_context, null, false));
+                    context.setVariable(name, value);
+                    }
+                catch (StepConfigurationError e)
+                    {
+                    LOG.error("This default variable cannot be initialized: " + name + ". Perhaps later, when deferred-evaluation is implemented.");
+                    }
+                }
+            }
         }
 
     private ResourceStore _resources;
