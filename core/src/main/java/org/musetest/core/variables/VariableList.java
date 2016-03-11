@@ -31,6 +31,11 @@ public class VariableList implements MuseResource
         _variables.put(id, element);
         }
 
+    public void removeAll()
+        {
+        _variables.clear();
+        }
+
     @Override
     public ResourceMetadata getMetadata()
         {
