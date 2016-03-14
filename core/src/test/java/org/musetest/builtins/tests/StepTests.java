@@ -29,7 +29,7 @@ public class StepTests
      * see if this worked. My apologies :(
      */
     @Test
-    public void testLogMessage() throws StepExecutionError
+    public void logMessage() throws StepExecutionError
         {
         // this should log a message indicating there was no message parameter
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
@@ -51,7 +51,7 @@ public class StepTests
         }
 
     @Test
-    public void testStoreStringVariable() throws StepExecutionError
+    public void storeStringVariable() throws StepExecutionError
         {
         StepConfiguration config = new StepConfiguration(StoreVariable.TYPE_ID);
         config.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
@@ -64,7 +64,7 @@ public class StepTests
         }
 
     @Test
-    public void testStoreIntegerVariable() throws StepExecutionError
+    public void storeIntegerVariable() throws StepExecutionError
         {
         StepConfiguration config = new StepConfiguration(StoreVariable.TYPE_ID);
         config.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var_int"));
@@ -77,7 +77,7 @@ public class StepTests
         }
 
     @Test
-    public void testIncrementVariableBy1() throws StepExecutionError
+    public void incrementVariableBy1() throws StepExecutionError
         {
         StepConfiguration config = new StepConfiguration(IncrementVariable.TYPE_ID);
         config.addSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
@@ -90,7 +90,7 @@ public class StepTests
         }
 
     @Test
-    public void testIncrementVariableByN() throws StepExecutionError
+    public void incrementVariableByN() throws StepExecutionError
         {
         Long start_value = 101L;
         Long amount = 7L;
@@ -107,7 +107,7 @@ public class StepTests
         }
 
     @Test
-    public void testVerifySuccess() throws StepExecutionError
+    public void verifySuccess() throws StepExecutionError
         {
         EventLog log = new EventLog();
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
@@ -128,7 +128,7 @@ public class StepTests
         }
 
     @Test
-    public void testVerifyFailed() throws StepExecutionError
+    public void verifyFailed() throws StepExecutionError
         {
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue("abc");
         ValueSourceConfiguration right = ValueSourceConfiguration.forValue("def");
@@ -144,7 +144,7 @@ public class StepTests
         }
 
     @Test
-    public void testCallMacro()
+    public void callMacro()
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
 
@@ -181,7 +181,7 @@ public class StepTests
      * Ensure parameters are passed to a function and the return value is passed back.
      */
     @Test
-    public void testCallFunction()
+    public void callFunction()
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
 
@@ -228,7 +228,7 @@ public class StepTests
      * Ensure that return exits the function immediately and following steps are not executed.
      */
     @Test
-    public void testReturnEarlyFromFunction()
+    public void returnEarlyFromFunction()
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
 
@@ -262,7 +262,7 @@ public class StepTests
         }
 
     @Test
-    public void testEmptyCompoundStep() throws StepExecutionError
+    public void emptyCompoundStep() throws StepExecutionError
         {
         StepConfiguration step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
         step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
@@ -277,7 +277,7 @@ public class StepTests
         }
 
     @Test
-    public void testSimpleCompoundStep() throws StepExecutionError
+    public void simpleCompoundStep() throws StepExecutionError
         {
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
         ValueSourceConfiguration condition = ValueSourceConfiguration.forType(EqualityCondition.TYPE_ID);
