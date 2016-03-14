@@ -107,4 +107,67 @@ public class ValueSourceTests
         Object resolved = source.resolveValue(context);
         Assert.assertEquals(test, resolved);
         }
+
+    @Test
+    public void missingSubsourceProjectResourceValueSource() throws StepConfigurationError
+        {
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
+
+        StepExecutionError error = null;
+        try
+            {
+            MuseValueSource source = config.createSource(project);
+            Assert.assertTrue(source instanceof ProjectResourceValueSource);
+            }
+        catch (MuseInstantiationException e)
+            {
+            error = e;
+            }
+        Assert.assertNotNull(error);
+        }
+
+    @Test
+    public void misconfiguredProjectResourceValueSource() throws StepConfigurationError
+        {
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
+        config.setSource(ValueSourceConfiguration.forValue(null));
+        MuseValueSource source = config.createSource(project);
+        Assert.assertTrue(source instanceof ProjectResourceValueSource);
+
+        DummyStepExecutionContext context = new DummyStepExecutionContext(project);
+        StepExecutionError error = null;
+        try
+            {
+            source.resolveValue(context);
+            }
+        catch (StepConfigurationError e)
+            {
+            error = e;
+            }
+        Assert.assertNotNull(error);
+        }
+
+    @Test
+    public void missingProjectResourceValueSource() throws StepConfigurationError
+        {
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
+        config.setSource(ValueSourceConfiguration.forValue("nonexistent"));
+        MuseValueSource source = config.createSource(project);
+        Assert.assertTrue(source instanceof ProjectResourceValueSource);
+
+        DummyStepExecutionContext context = new DummyStepExecutionContext(project);
+        StepExecutionError error = null;
+        try
+            {
+            source.resolveValue(context);
+            }
+        catch (StepConfigurationError e)
+            {
+            error = e;
+            }
+        Assert.assertNotNull(error);
+        }
     }

@@ -33,11 +33,11 @@ public class ProjectResourceValueSource extends BaseValueSource
         {
         Object resolved = _id_source.resolveValue(context);
         if (resolved == null)
-            throw new IllegalArgumentException(String.format("Unable to resolve the project resource (id=%s). id value source resolved to null.", _id_source));
+            throw new StepConfigurationError(String.format("Unable to resolve the project resource (id=%s). id value source resolved to null.", _id_source));
         String id = resolved.toString();
         MuseResource resource = _project.findResource(id, MuseResource.class);
         if (resource == null)
-            throw new IllegalArgumentException(String.format("Unable to resolve the project resource (id=%s). Search returned null.", id));
+            throw new StepConfigurationError(String.format("Unable to resolve the project resource (id=%s). Search returned null.", id));
         return resource;
         }
 
