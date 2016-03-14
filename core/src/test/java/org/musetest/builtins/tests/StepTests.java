@@ -260,6 +260,43 @@ public class StepTests
         // verify that the message step (which comes after the return) did not run
         Assert.assertTrue(result.getLog().findEvents(MuseEventType.Message).size() == 0);
         }
+
+    @Test
+    public void testEmptyCompoundStep() throws StepExecutionError
+        {
+        StepConfiguration step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
+        step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
+        step.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
+
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        SteppedTest test = new SteppedTest(step);
+        TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        runner.runTest();
+        MuseTestResult result = runner.getResult();
+        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        }
+
+    @Test
+    public void testSimpleCompoundStep() throws StepExecutionError
+        {
+        StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
+        ValueSourceConfiguration condition = ValueSourceConfiguration.forType(EqualityCondition.TYPE_ID);
+        condition.addSource(BinaryCondition.LEFT_PARAM, ValueSourceConfiguration.forValue(true));
+        condition.addSource(BinaryCondition.RIGHT_PARAM, ValueSourceConfiguration.forValue(false));
+        config.addSource(Verify.CONDITION_PARAM, condition);
+
+        StepConfiguration main = new StepConfiguration(BasicCompoundStep.TYPE_ID);
+        main.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
+        main.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
+        main.addChild(config);
+
+        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        SteppedTest test = new SteppedTest(main);
+        TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        runner.runTest();
+        MuseTestResult result = runner.getResult();
+        Assert.assertEquals(MuseTestResultStatus.Failure, result.getStatus());
+        }
     }
 
 

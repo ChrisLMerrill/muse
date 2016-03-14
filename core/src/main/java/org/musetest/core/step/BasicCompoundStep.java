@@ -33,6 +33,8 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
         if (shouldEnter(context))
             {
             StepExecutionContext new_context = createStepExecutionContextForChildren(context);
+            if (new_context == null) // no children configured
+                return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
             context.getTestExecutionContext().getExecutionStack().push(new_context);
             beforeChildrenExecuted(new_context);
 
@@ -45,8 +47,15 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
             }
         }
 
+    /**
+     * Override this method to create a context that handles something other than a basic list of child steps.
+     *
+     * @return null if there are no child steps to execute.
+     */
     protected StepExecutionContext createStepExecutionContextForChildren(StepExecutionContext context) throws StepExecutionError
         {
+        if (_child_list == null || _child_list.size() < 1)
+            return null;
         return new ListOfStepsExecutionContext(context.getTestExecutionContext(), _child_list, isCreateNewVariableScope(), this);
         }
 
