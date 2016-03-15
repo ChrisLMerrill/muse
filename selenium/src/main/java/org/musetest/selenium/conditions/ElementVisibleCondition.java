@@ -19,7 +19,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is visible")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")
 @MuseStringExpressionSupportImplementation(ElementVisibleConditionStringExpressionSupport.class)
-public class ElementVisibleCondition extends BrowserValueSource
+public class ElementVisibleCondition extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public ElementVisibleCondition(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
@@ -38,7 +38,7 @@ public class ElementVisibleCondition extends BrowserValueSource
         if (element == null)
             throw new ValueSourceResolutionError("Cannot determine visibility of element: element not found");
         if (!(element instanceof WebElement))
-            throw new ValueSourceResolutionError("The specificed object is not a WebElement.");
+            throw new ValueSourceResolutionError("The sub-source result should be a WebElement. Did not expect a " + element.getClass().getSimpleName());
         boolean visible = ((WebElement) element).isDisplayed();
         context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), visible));
         return visible;

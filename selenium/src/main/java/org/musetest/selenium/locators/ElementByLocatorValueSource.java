@@ -12,7 +12,7 @@ import org.openqa.selenium.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class ElementByLocatorValueSource extends BrowserValueSource
+public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     protected ElementByLocatorValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException

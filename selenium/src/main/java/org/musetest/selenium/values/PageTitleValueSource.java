@@ -17,7 +17,7 @@ import org.musetest.selenium.*;
 @MuseValueSourceShortDescription("Title of the current page")
 @MuseValueSourceLongDescription("Retrieves the page title of the current browser window by calling driver.getTitle().")
 @MuseStringExpressionSupportImplementation(PageTitleValueSource.class)
-public class PageTitleValueSource extends BrowserValueSource
+public class PageTitleValueSource extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public PageTitleValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException

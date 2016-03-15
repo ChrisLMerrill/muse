@@ -15,9 +15,9 @@ import org.slf4j.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class BrowserValueSource extends BaseValueSource
+public abstract class BaseSeleniumValueSource extends BaseValueSource
     {
-    public BrowserValueSource(ValueSourceConfiguration config, MuseProject project)
+    public BaseSeleniumValueSource(ValueSourceConfiguration config, MuseProject project)
         {
         super(config, project);
         }

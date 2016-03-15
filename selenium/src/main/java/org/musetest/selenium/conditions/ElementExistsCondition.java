@@ -19,7 +19,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("True if the element exists")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")
 @MuseStringExpressionSupportImplementation(ElementExistsConditionStringExpressionSupport.class)
-public class ElementExistsCondition extends BrowserValueSource
+public class ElementExistsCondition extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public ElementExistsCondition(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException

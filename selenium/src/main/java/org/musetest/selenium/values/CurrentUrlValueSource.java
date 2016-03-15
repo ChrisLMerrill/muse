@@ -17,7 +17,7 @@ import org.musetest.selenium.*;
 @MuseValueSourceShortDescription("URL of the current page")
 @MuseValueSourceLongDescription("Retrieves the URL of the current browser window by calling driver.getCurrentUrl().")
 @MuseStringExpressionSupportImplementation(CurrentUrlValueSourceStringExpressionSupport.class)
-public class CurrentUrlValueSource extends BrowserValueSource
+public class CurrentUrlValueSource extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public CurrentUrlValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
