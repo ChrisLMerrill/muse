@@ -34,7 +34,7 @@ public class WebDriverProviderTests
         }
 
     @Test
-    public void closeShuttables() throws URISyntaxException
+    public void closeShuttables() throws URISyntaxException, InterruptedException
         {
         MuseProject project = SeleniumStepTests.createSeleniumTestProject();
         StepConfiguration open_step = SeleniumStepTests.createOpenBrowserStep();
@@ -49,6 +49,7 @@ public class WebDriverProviderTests
         controller.resume();
         new TestStateBlocker(controller).blockUntil(InteractiveTestState.IDLE);
 
+        Thread.sleep(50); // allow time for the test executor thread to finish and driver to stop.
         Assert.assertTrue(driver._is_quitted);
         }
 
