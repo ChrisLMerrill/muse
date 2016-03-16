@@ -2,6 +2,7 @@
 
 ## 0.2
 
+- add: elementEnabledValueSource and elementEnabled() VS expression 
 - fix: ProjectResourceValueSource referencing a non-existent step fails with IllegalArgumentException (instead of the correct type)
 - fix: empty compound step fails (but should simply no-op)
 
