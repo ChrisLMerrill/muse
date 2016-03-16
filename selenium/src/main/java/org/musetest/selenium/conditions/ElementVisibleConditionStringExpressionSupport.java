@@ -1,38 +1,28 @@
 package org.musetest.selenium.conditions;
 
-import org.musetest.core.*;
-import org.musetest.core.values.*;
-
-import java.util.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class ElementVisibleConditionStringExpressionSupport extends BaseValueSourceStringExpressionSupport
+public class ElementVisibleConditionStringExpressionSupport extends BaseElementConditionStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration fromArgumentedExpression(String name, List<ValueSourceConfiguration> arguments, MuseProject project)
+    public String getName()
         {
-        if (NAME.equals(name) && arguments.size() == 1)
-            {
-            ValueSourceConfiguration config = ValueSourceConfiguration.forType(ElementVisibleCondition.TYPE_ID);
-            config.setSource(arguments.get(0));
-            return config;
-            }
-        return null;
+        return "elementVisible";
         }
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+    protected int getNumberArguments()
         {
-        if (ElementVisibleCondition.TYPE_ID.equals(config.getType()))
-            return String.format("%s(%s)", NAME, project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1));
-        else
-            return null;
+        return 1;
         }
 
-    public final static String NAME = "elementVisible";
+    @Override
+    protected String getTypeId()
+        {
+        return ElementVisibleCondition.TYPE_ID;
+        }
     }
 
 

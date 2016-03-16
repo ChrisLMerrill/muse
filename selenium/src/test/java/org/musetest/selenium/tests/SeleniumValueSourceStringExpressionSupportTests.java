@@ -18,13 +18,19 @@ public class SeleniumValueSourceStringExpressionSupportTests
     @Test
     public void elementExists() throws InstantiationException, IllegalAccessException
         {
-        checkValueSourceFunction(ElementExistsCondition.TYPE_ID, ElementExistsConditionStringExpressionSupport.NAME, ElementExistsConditionStringExpressionSupport.class, "abc");
+        checkValueSourceFunction(ElementExistsCondition.TYPE_ID, new ElementExistsConditionStringExpressionSupport().getName(), ElementExistsConditionStringExpressionSupport.class, "abc");
         }
 
     @Test
     public void elementVisible() throws InstantiationException, IllegalAccessException
         {
-        checkValueSourceFunction(ElementExistsCondition.TYPE_ID, ElementExistsConditionStringExpressionSupport.NAME, ElementExistsConditionStringExpressionSupport.class, "abc");
+        checkValueSourceFunction(ElementExistsCondition.TYPE_ID, new ElementExistsConditionStringExpressionSupport().getName(), ElementExistsConditionStringExpressionSupport.class, "abc");
+        }
+
+    @Test
+    public void elementEnabled() throws InstantiationException, IllegalAccessException
+        {
+        checkValueSourceFunction(ElementEnabledCondition.TYPE_ID, new ElementEnabledConditionStringExpressionSupport().getName(), ElementEnabledConditionStringExpressionSupport.class, "abc");
         }
 
     private void checkValueSourceFunction(String muse_type_id, String function_name, Class<? extends BaseValueSourceStringExpressionSupport> support_class, String argument) throws IllegalAccessException, InstantiationException

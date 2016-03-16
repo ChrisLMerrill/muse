@@ -9,30 +9,25 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class ElementExistsConditionStringExpressionSupport extends BaseValueSourceStringExpressionSupport
+public class ElementExistsConditionStringExpressionSupport extends BaseElementConditionStringExpressionSupport
     {
     @Override
-    public ValueSourceConfiguration fromArgumentedExpression(String name, List<ValueSourceConfiguration> arguments, MuseProject project)
+    public String getName()
         {
-        if (NAME.equals(name) && arguments.size() == 1)
-            {
-            ValueSourceConfiguration config = ValueSourceConfiguration.forType(ElementExistsCondition.TYPE_ID);
-            config.setSource(arguments.get(0));
-            return config;
-            }
-        return null;
+        return "elementEnabled";
         }
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+    protected int getNumberArguments()
         {
-        if (ElementExistsCondition.TYPE_ID.equals(config.getType()))
-            return String.format("%s(%s)", NAME, project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1));
-        else
-            return null;
+        return 1;
         }
 
-    public final static String NAME = "elementExists";
+    @Override
+    protected String getTypeId()
+        {
+        return ElementExistsCondition.TYPE_ID;
+        }
     }
 
 
