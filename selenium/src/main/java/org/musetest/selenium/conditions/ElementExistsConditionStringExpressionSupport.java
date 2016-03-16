@@ -14,7 +14,7 @@ public class ElementExistsConditionStringExpressionSupport extends BaseElementCo
     @Override
     public String getName()
         {
-        return "elementEnabled";
+        return "elementExists";
         }
 
     @Override
