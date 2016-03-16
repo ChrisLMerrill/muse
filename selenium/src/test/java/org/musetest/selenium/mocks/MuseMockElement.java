@@ -12,7 +12,7 @@ public class MuseMockElement implements WebElement
     @Override
     public void click()
         {
-        _is_clicked = true;
+        _clicked = true;
         }
 
     @Override
@@ -54,7 +54,7 @@ public class MuseMockElement implements WebElement
     @Override
     public boolean isEnabled()
         {
-        return false;
+        return _enabled;
         }
 
     @Override
@@ -78,7 +78,7 @@ public class MuseMockElement implements WebElement
     @Override
     public boolean isDisplayed()
         {
-        return false;
+        return _displayed;
         }
 
     @Override
@@ -107,10 +107,22 @@ public class MuseMockElement implements WebElement
 
     public boolean isClicked()
         {
-        return _is_clicked;
+        return _clicked;
         }
 
-    private boolean _is_clicked = false;
+    public void setDisplayed(boolean displayed)
+        {
+        this._displayed = displayed;
+        }
+
+    public void setEnabled(boolean enabled)
+        {
+        _enabled = enabled;
+        }
+
+    private boolean _clicked = false;
+    private boolean _displayed = false;
+    private boolean _enabled = false;
     }
 
 

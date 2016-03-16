@@ -17,29 +17,21 @@ import org.openqa.selenium.*;
 @MuseValueSourceName("Element is visible")
 @MuseValueSourceTypeGroup("Element.Condition")
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is visible")
-@MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")
+@MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement and it is visible.")
 @MuseStringExpressionSupportImplementation(ElementVisibleConditionStringExpressionSupport.class)
-public class ElementVisibleCondition extends BaseSeleniumValueSource
+public class ElementVisibleCondition extends BaseElementValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public ElementVisibleCondition(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
-        ValueSourceConfiguration source = config.getSource();
-        if (source == null)
-            throw new MuseInstantiationException("ElementExistsValueSource requires a source for the element.");
-        _element_source = source.createSource(project);
         }
 
     @Override
     public Boolean resolveValue(StepExecutionContext context) throws StepConfigurationError
         {
-        Object element = _element_source.resolveValue(context);
-        if (element == null)
-            throw new ValueSourceResolutionError("Cannot determine visibility of element: element not found");
-        if (!(element instanceof WebElement))
-            throw new ValueSourceResolutionError("The sub-source result should be a WebElement. Did not expect a " + element.getClass().getSimpleName());
-        boolean visible = ((WebElement) element).isDisplayed();
+        WebElement element = resolveElementSource(context, true);
+        boolean visible = element.isDisplayed();
         context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), visible));
         return visible;
         }
@@ -47,10 +39,8 @@ public class ElementVisibleCondition extends BaseSeleniumValueSource
     @Override
     public String getDescription()
         {
-        return "visible(" + _element_source.getDescription() + ")";
+        return "visible(" + getElementSource().getDescription() + ")";
         }
-
-    private MuseValueSource _element_source;
 
     public final static String TYPE_ID = ElementVisibleCondition.class.getAnnotation(MuseTypeId.class).value();
     }

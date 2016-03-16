@@ -19,23 +19,19 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("True if the element exists")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")
 @MuseStringExpressionSupportImplementation(ElementExistsConditionStringExpressionSupport.class)
-public class ElementExistsCondition extends BaseSeleniumValueSource
+public class ElementExistsCondition extends BaseElementValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
     public ElementExistsCondition(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
-        ValueSourceConfiguration source = config.getSource();
-        if (source == null)
-            throw new MuseInstantiationException("ElementExistsValueSource requires a source for the element.");
-        _element_source = source.createSource(project);
         }
 
     @Override
     public Boolean resolveValue(StepExecutionContext context) throws StepConfigurationError
         {
-        Object element = _element_source.resolveValue(context);
-        boolean exists = element instanceof WebElement;
+        WebElement element = resolveElementSource(context, false);
+        boolean exists = element != null;
         context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), exists));
         return exists;
         }
@@ -43,10 +39,8 @@ public class ElementExistsCondition extends BaseSeleniumValueSource
     @Override
     public String getDescription()
         {
-        return "exists(" + _element_source.getDescription() + ")";
+        return "exists(" + getElementSource().getDescription() + ")";
         }
-
-    private MuseValueSource _element_source;
 
     public final static String TYPE_ID = ElementExistsCondition.class.getAnnotation(MuseTypeId.class).value();
     }

@@ -9,9 +9,9 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public abstract class SimpleElementValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
+public abstract class SimpleWebdriverValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
-    public SimpleElementValueSourceStringExpressionSupport(String expression_name, String muse_type)
+    public SimpleWebdriverValueSourceStringExpressionSupport(String expression_name, String muse_type)
         {
         _name = expression_name;
         _muse_type = muse_type;

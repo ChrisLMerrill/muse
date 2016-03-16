@@ -4,7 +4,7 @@ package org.musetest.selenium.values;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class PageSourceValueSourceStringExpressionSupport extends SimpleElementValueSourceStringExpressionSupport
+public class PageSourceValueSourceStringExpressionSupport extends SimpleWebdriverValueSourceStringExpressionSupport
     {
     public PageSourceValueSourceStringExpressionSupport()
         {
