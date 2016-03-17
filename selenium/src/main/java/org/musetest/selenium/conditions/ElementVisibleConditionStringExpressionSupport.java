@@ -1,10 +1,12 @@
 package org.musetest.selenium.conditions;
 
+import org.musetest.builtins.value.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")  // used via reflection
-public class ElementVisibleConditionStringExpressionSupport extends BaseElementConditionStringExpressionSupport
+public class ElementVisibleConditionStringExpressionSupport extends BaseArgumentedValueSourceStringSupport
     {
     @Override
     public String getName()
@@ -22,6 +24,12 @@ public class ElementVisibleConditionStringExpressionSupport extends BaseElementC
     protected String getTypeId()
         {
         return ElementVisibleCondition.TYPE_ID;
+        }
+
+    @Override
+    protected boolean storeSingleArgumentAsSingleSubsource()
+        {
+        return true;
         }
     }
 

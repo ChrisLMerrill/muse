@@ -8,6 +8,8 @@ import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -193,6 +195,22 @@ public class ValueSourceStringExpressionSupportTests
 
         String stringified = supporter.toString(parsed, TEST_PROJECT);
         Assert.assertEquals(to_parse, stringified);
+        }
+
+    @Test
+    public void notFromString()
+        {
+        NotValueSourceStringExpressionSupport supporter = new NotValueSourceStringExpressionSupport();
+        List<ValueSourceConfiguration> arguments = new ArrayList<>();
+        ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue(true);
+        arguments.add(subsource);
+        ValueSourceConfiguration parsed = supporter.fromArgumentedExpression(supporter.getName(), arguments, TEST_PROJECT);
+
+        Assert.assertEquals(NotValueSource.TYPE_ID, parsed.getType());
+        Assert.assertEquals(subsource, parsed.getSourceList().get(0));
+
+        String stringified = supporter.toString(parsed, TEST_PROJECT);
+        Assert.assertEquals("not(true)", stringified);
         }
 
     static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStore());

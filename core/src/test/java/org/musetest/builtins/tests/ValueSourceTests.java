@@ -170,4 +170,64 @@ public class ValueSourceTests
             }
         Assert.assertNotNull(error);
         }
+
+    @Test
+    public void notTrue() throws StepConfigurationError
+        {
+        StepExecutionContext context = new DummyStepExecutionContext();
+        ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(true);
+        MuseValueSource source = ValueSourceConfiguration.forTypeWithIndexedSource(NotValueSource.TYPE_ID, source_value).createSource();
+        Assert.assertEquals(false, source.resolveValue(context));
+        }
+
+    @Test
+    public void notFalse() throws StepConfigurationError
+        {
+        StepExecutionContext context = new DummyStepExecutionContext();
+        ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(false);
+        MuseValueSource source = ValueSourceConfiguration.forTypeWithIndexedSource(NotValueSource.TYPE_ID, source_value).createSource();
+        Assert.assertEquals(true, source.resolveValue(context));
+        }
+
+    @Test
+    public void notNull() throws StepConfigurationError
+        {
+        StepExecutionContext context = new DummyStepExecutionContext();
+        ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(null);
+        MuseValueSource source = ValueSourceConfiguration.forTypeWithIndexedSource(NotValueSource.TYPE_ID, source_value).createSource();
+        try
+            {
+            source.resolveValue(context);
+            Assert.assertTrue("an exception should have been thrown", false);
+            }
+        catch (StepExecutionError e)
+            {
+            // all good!
+            }
+        catch (Throwable e)
+            {
+            Assert.assertTrue("wrong exception was thrown", false);
+            }
+        }
+
+    @Test
+    public void notString() throws StepConfigurationError
+        {
+        StepExecutionContext context = new DummyStepExecutionContext();
+        ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue("string");
+        MuseValueSource source = ValueSourceConfiguration.forTypeWithIndexedSource(NotValueSource.TYPE_ID, source_value).createSource();
+        try
+            {
+            source.resolveValue(context);
+            Assert.assertTrue("an exception should have been thrown", false);
+            }
+        catch (StepExecutionError e)
+            {
+            // all good!
+            }
+        catch (Throwable e)
+            {
+            Assert.assertTrue("wrong exception was thrown", false);
+            }
+        }
     }

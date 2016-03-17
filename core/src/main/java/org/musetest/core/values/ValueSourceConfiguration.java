@@ -298,6 +298,19 @@ public class ValueSourceConfiguration implements Serializable
         return config;
         }
 
+    public static ValueSourceConfiguration forTypeWithIndexedSource(String type, Object value)
+        {
+        ValueSourceConfiguration config = new ValueSourceConfiguration();
+        config.setType(type);
+        ValueSourceConfiguration subsource;
+        if (value instanceof  ValueSourceConfiguration)
+            subsource = (ValueSourceConfiguration) value;
+        else
+            subsource = ValueSourceConfiguration.forValue(value);
+        config.addSource(0, subsource);
+        return config;
+        }
+
     public static ValueSourceConfiguration forSource(String type, ValueSourceConfiguration source)
         {
         ValueSourceConfiguration config = new ValueSourceConfiguration();

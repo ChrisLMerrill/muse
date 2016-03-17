@@ -41,6 +41,8 @@ public class ClasspathSourceFactory implements ValueSourceFactory
             }
         catch (Exception e)
             {
+            if (e instanceof InvocationTargetException && ((InvocationTargetException) e).getTargetException() instanceof MuseInstantiationException)
+                throw (MuseInstantiationException) ((InvocationTargetException) e).getTargetException();
             throw new MuseInstantiationException(String.format("Failed to instantiate ValueSource type '%s'. Does the configuration provide all required parameters?", type));
             }
         }
