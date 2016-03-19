@@ -105,6 +105,12 @@ public class MuseMockElement implements WebElement
         return null;
         }
 
+    @Override
+    public Rectangle getRect()
+        {
+        return null;
+        }
+
     public boolean isClicked()
         {
         return _clicked;
