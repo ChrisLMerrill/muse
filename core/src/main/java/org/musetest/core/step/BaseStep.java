@@ -108,6 +108,8 @@ public abstract class BaseStep implements MuseStep
             }
         if (type.isAssignableFrom(value.getClass()))
             return (T) value;
+        if (type.equals(String.class))
+            return (T) value.toString();
         throw new WrongTypeError(source, value);
         }
 

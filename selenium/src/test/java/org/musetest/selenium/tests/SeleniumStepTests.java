@@ -16,6 +16,7 @@ import org.musetest.selenium.locators.*;
 import org.musetest.selenium.mocks.*;
 import org.musetest.selenium.pages.*;
 import org.musetest.selenium.steps.*;
+import org.openqa.selenium.*;
 
 import java.io.*;
 import java.net.*;
@@ -89,6 +90,55 @@ public class SeleniumStepTests
         Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
 
         Assert.assertEquals(element1, driver.getTarget());
+        }
+
+    /**
+     * Note that this test doesnt actually execute a script - just signals the mock driver to not fail
+     */
+    @Test
+    public void executeScript() throws StepExecutionError
+        {
+        StepExecutionResult result = executeScriptStep(new ScriptableMockDriver(), "a valid script");
+        Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
+        }
+
+    /**
+     * Note that this test doesnt actually execute a script - just signals the mock browser to throw an exception so we can test that it is handled
+     */
+    @Test
+    public void executeScriptThrowsExeception() throws StepExecutionError
+        {
+        StepExecutionResult result = executeScriptStep(new ScriptableMockDriver(), ScriptableMockDriver.THROW_EXCEPTION);
+        Assert.assertEquals(StepExecutionStatus.ERROR, result.getStatus());
+        }
+
+    /**
+     * Note that this test doesnt actually execute a script - just ensures we handle the condition correctly
+     */
+    @Test
+    public void executeScriptOnNonscriptableBrowser() throws StepExecutionError
+        {
+        StepExecutionError error = null;
+        try
+            {
+            executeScriptStep(new MuseMockDriver(), "this would be the script");
+            }
+        catch (StepExecutionError stepExecutionError)
+            {
+            error = stepExecutionError;
+            }
+        Assert.assertNotNull(error);
+        }
+
+    private StepExecutionResult executeScriptStep(WebDriver driver, String script) throws StepExecutionError
+        {
+        StepExecutionContext context = new DummyStepExecutionContext();
+        BrowserStepExecutionContext.putDriver(driver, context);
+
+        StepConfiguration execute = new StepConfiguration(ExecuteJavascript.TYPE_ID);
+        execute.addSource(ExecuteJavascript.SCRIPT_PARAM, ValueSourceConfiguration.forValue(script));
+        MuseStep step = execute.createStep();
+        return step.execute(context);
         }
 
     @Test
