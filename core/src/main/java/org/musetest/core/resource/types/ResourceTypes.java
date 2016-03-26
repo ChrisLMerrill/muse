@@ -5,6 +5,7 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.suite.*;
 import org.musetest.core.values.*;
 import org.musetest.javascript.factory.*;
 import org.slf4j.*;
@@ -113,6 +114,13 @@ public class ResourceTypes
         public SuiteResourceType()
             {
             super("suite", "Test Suite", MuseTestSuite.class);
+            }
+        }
+    static class IdListSuiteResourceType extends ResourceType
+        {
+        public IdListSuiteResourceType()
+            {
+            super("suite_of_ids", "Test Suite", IdListTestSuite.class);
             }
         }
     static class jsStepResourceType extends ResourceType
