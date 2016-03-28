@@ -2,6 +2,7 @@ package org.musetest.builtins.value;
 
 import org.musetest.core.*;
 import org.musetest.core.values.*;
+import org.slf4j.*;
 
 import java.util.*;
 
@@ -19,6 +20,12 @@ public abstract class BaseArgumentedValueSourceStringSupport extends BaseValueSo
 
             if (arguments.size() == 1 && storeSingleArgumentAsSingleSubsource())
                 config.setSource(arguments.get(0));
+            else if (storeArgumentsNamed())
+                {
+                String[] names = getArgumentNamesChecked();
+                for (int i = 0; i < arguments.size(); i++)
+                    config.addSource(names[i], arguments.get(i));
+                }
             else
                 {
                 for (int i = 0; i < arguments.size(); i++)
@@ -41,6 +48,16 @@ public abstract class BaseArgumentedValueSourceStringSupport extends BaseValueSo
 
             if (getNumberArguments() == 1 && storeSingleArgumentAsSingleSubsource())
                 builder.append(project.getValueSourceStringExpressionSupporters().toString(config.getSource()));
+            else if (storeArgumentsNamed())
+                {
+                String[] names = getArgumentNamesChecked();
+                for (int i = 0; i < getNumberArguments(); i++)
+                    {
+                    if (i > 0)
+                        builder.append(',');
+                    builder.append(project.getValueSourceStringExpressionSupporters().toString(config.getSource(names[i])));
+                    }
+                }
             else
                 {
                 int arguments = 0;
@@ -63,7 +80,6 @@ public abstract class BaseArgumentedValueSourceStringSupport extends BaseValueSo
     public abstract String getName();
     protected abstract int getNumberArguments();
     protected abstract String getTypeId();
-
     /**
      * Override and return true to store a single argument as the singular subsource (accessed via getSource()) instead of
      * a list of one (accessed via getSourceList()).
@@ -71,6 +87,31 @@ public abstract class BaseArgumentedValueSourceStringSupport extends BaseValueSo
     protected boolean storeSingleArgumentAsSingleSubsource()
         {
         return false;
+        }
+
+    /**
+     * Override and return true to store arguments as named subsources (accessed via getSource(name)) instead of a list.
+     * Must also override #getArgumentNames().
+     */
+    protected boolean storeArgumentsNamed()
+        {
+        return false;
+        }
+
+    /**
+     * Override to provide names for the arguments. Must also override #storeArgumentsNamed().
+     */
+    protected String[] getArgumentNames()
+        {
+        return null;
+        }
+
+    private String[] getArgumentNamesChecked()
+        {
+        String[] names = getArgumentNames();
+        if (names == null)
+            throw new UnsupportedOperationException("class " + getClass().getSimpleName() + " implemented storeArgumentsNamed() but returned null from getArgmentNames(). This is not allowed.");
+        return names;
         }
     }
 

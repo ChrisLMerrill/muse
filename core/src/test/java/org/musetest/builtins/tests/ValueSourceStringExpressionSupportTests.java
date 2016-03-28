@@ -8,6 +8,7 @@ import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 
+import java.text.*;
 import java.util.*;
 
 /**
@@ -211,6 +212,26 @@ public class ValueSourceStringExpressionSupportTests
 
         String stringified = supporter.toString(parsed, TEST_PROJECT);
         Assert.assertEquals("not(true)", stringified);
+        }
+
+    @Test
+    public void dateFormat() throws ParseException
+        {
+        DateFormatValueSourceStringExpressionSupport supporter = new DateFormatValueSourceStringExpressionSupport();
+        ValueSourceConfiguration date_config = ValueSourceConfiguration.forValue("date");
+        ValueSourceConfiguration format_config = ValueSourceConfiguration.forValue("format");
+        List<ValueSourceConfiguration> arguments = new ArrayList<>();
+        arguments.add(date_config);
+        arguments.add(format_config);
+
+        ValueSourceConfiguration parsed = supporter.fromArgumentedExpression(supporter.getName(), arguments, TEST_PROJECT);
+
+        Assert.assertEquals(DateFormatValueSource.TYPE_ID, parsed.getType());
+        Assert.assertEquals(date_config, parsed.getSource(DateFormatValueSource.DATE_PARAM));
+        Assert.assertEquals(format_config, parsed.getSource(DateFormatValueSource.FORMAT_PARAM));
+
+        String stringified = supporter.toString(parsed, TEST_PROJECT);
+        Assert.assertEquals("formatDate(\"date\",\"format\")", stringified);
         }
 
     static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStore());

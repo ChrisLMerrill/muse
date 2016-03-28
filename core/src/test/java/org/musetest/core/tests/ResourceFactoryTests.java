@@ -2,6 +2,7 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.core.*;
+import org.musetest.core.helpers.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
@@ -33,6 +34,13 @@ public class ResourceFactoryTests
         Assert.assertEquals("test1", resources.get(0).getMetadata().getId());
         }
 
+    @Test
+    public void testOpenProjectWithFileResource()
+        {
+        FolderIntoMemoryResourceStore store = new FolderIntoMemoryResourceStore(TestUtils.getTestResource("projects/files", getClass()));
+        MuseProject project = new SimpleProject(store);
+        MockMuseResource resource = project.findResource("not_done_yet", MockMuseResource.class);
+        }
     }
 
 

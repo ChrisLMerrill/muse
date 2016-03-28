@@ -10,6 +10,9 @@ import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 
+import java.text.*;
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -229,5 +232,58 @@ public class ValueSourceTests
             {
             Assert.assertTrue("wrong exception was thrown", false);
             }
+        }
+
+    @Test
+    public void formatNullDateParamAndFormatParams() throws StepConfigurationError
+        {
+        Object result = resolveDateFormatSource(null, null, null);
+        Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
+        }
+
+    @Test
+    public void formatNullDateAndFormatParam() throws StepConfigurationError
+        {
+        Object result = resolveDateFormatSource(ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null, null);
+        Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
+        }
+
+    @Test
+    public void formatNullDateParamAndFormat() throws StepConfigurationError
+        {
+        Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null);
+        Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
+        }
+
+    @Test public void formatNow() throws StepConfigurationError
+        {
+        String expected = new SimpleDateFormat(NOW_DATE_FORMAT).format(new Date());
+        Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forValue(NOW_DATE_FORMAT), null);
+        Assert.assertEquals(expected, result);
+        }
+
+    @Test public void formatDate() throws StepConfigurationError, ParseException
+        {
+        String expected = "05291998123456";
+        Date parsed = new SimpleDateFormat(NOW_DATE_FORMAT).parse(expected);
+        DummyStepExecutionContext context = new DummyStepExecutionContext();
+        final String var_name = "date";
+        context.setLocalVariable(var_name, parsed);
+        Object result = resolveDateFormatSource(ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(var_name)), ValueSourceConfiguration.forValue(NOW_DATE_FORMAT), context);
+        Assert.assertEquals(expected, result);
+        }
+
+    private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";
+
+    private Object resolveDateFormatSource(ValueSourceConfiguration date_param, ValueSourceConfiguration format_param, StepExecutionContext context) throws StepConfigurationError
+        {
+        StepExecutionContext step_context = new DummyStepExecutionContext();
+        if (context != null)
+            step_context = context;
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(DateFormatValueSource.TYPE_ID);
+        config.addSource(DateFormatValueSource.DATE_PARAM, date_param);
+        config.addSource(DateFormatValueSource.FORMAT_PARAM, format_param);
+        MuseValueSource source = config.createSource();
+        return source.resolveValue(step_context);
         }
     }
