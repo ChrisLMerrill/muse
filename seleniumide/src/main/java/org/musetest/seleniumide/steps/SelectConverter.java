@@ -1,0 +1,51 @@
+package org.musetest.seleniumide.steps;
+
+import org.musetest.core.step.*;
+import org.musetest.core.values.*;
+import org.musetest.selenium.steps.*;
+import org.musetest.seleniumide.*;
+import org.musetest.seleniumide.locators.*;
+
+/**
+ * @author Christopher L Merrill (see LICENSE.txt for license details)
+ */
+@SuppressWarnings("unused")  // invoked via reflection from StepConverters
+public class SelectConverter implements StepConverter
+    {
+    @Override
+    public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
+        {
+        if (command.equals(SELECT))
+            {
+            StepConfiguration step;
+            if (param2.startsWith(BY_LABEL))
+                {
+                step = new StepConfiguration(SelectOptionByText.TYPE_ID);
+                step.addSource(SelectOptionByText.TEXT_PARAM, ValueSourceConfiguration.forValue(param2.substring(BY_LABEL.length())));
+                step.addSource(SelectOptionByText.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
+                return step;
+                }
+            else if (param2.startsWith(BY_INDEX))
+                {
+                step = new StepConfiguration(SelectOptionByIndex.TYPE_ID);
+                step.addSource(SelectOptionByIndex.INDEX_PARAM, ValueSourceConfiguration.forValue(param2.substring(BY_INDEX.length())));
+                step.addSource(SelectOptionByIndex.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
+                return step;
+                }
+            }
+        return null;
+        }
+
+    @Override
+    public String[] getCommands()
+        {
+        return new String[] {SELECT };
+        }
+
+    public static final String SELECT = "select";
+
+    public static final String BY_LABEL = "label=";
+    public static final String BY_INDEX = "index=";
+    }
+
+

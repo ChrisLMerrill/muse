@@ -46,6 +46,29 @@ public class TestConversionTests
         Assert.assertEquals(CssElementValueSource.TYPE_ID, steps.get(5).getSource(SendKeys.ELEMENT_PARAM).getType());
         Assert.assertEquals("a.login > span", steps.get(5).getSource(SendKeys.ELEMENT_PARAM).getSource().getValue());
         }
+
+    @Test
+    public void convertSelect() throws IOException, UnsupportedError
+        {
+        TestConverter converter = new TestConverter(getClass().getResourceAsStream("/select.html"));
+        SteppedTest test = converter.convert()._test;
+
+        List<StepConfiguration> steps = test.getStep().getChildren();
+
+        // select by label
+        StepConfiguration step = steps.get(2);
+        Assert.assertEquals(SelectOptionByText.TYPE_ID, step.getType());
+        Assert.assertEquals("04", step.getSource(SelectOptionByText.TEXT_PARAM).getValue());
+        Assert.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(SelectOptionByText.ELEMENT_PARAM).getType());
+        Assert.assertEquals("InputMonth", step.getSource(SelectOptionByText.ELEMENT_PARAM).getSource().getValue());
+
+        // select by index
+        step = steps.get(3);
+        Assert.assertEquals(SelectOptionByIndex.TYPE_ID, step.getType());
+        Assert.assertEquals("2", step.getSource(SelectOptionByIndex.INDEX_PARAM).getValue());
+        Assert.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(SelectOptionByIndex.ELEMENT_PARAM).getType());
+        Assert.assertEquals("InputDay", step.getSource(SelectOptionByIndex.ELEMENT_PARAM).getSource().getValue());
+        }
     }
 
 

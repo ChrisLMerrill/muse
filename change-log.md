@@ -1,5 +1,9 @@
 # Muse Change Log
 
+## 0.3
+
+- add: Import Select by name and Select by label steps from SeleniumIDE
+
 ## 0.2
 
 - add: ElementEnabledValueSource and elementEnabled() expression
