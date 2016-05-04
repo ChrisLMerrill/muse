@@ -236,6 +236,8 @@ public class ValueSourceChangeListenerTests
         source.setType(StringValueSource.TYPE_ID);
         Assert.assertFalse(notified.get());
         }
+
+    // TODO test for changes to sub sources
     }
 
 

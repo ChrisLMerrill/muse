@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.step.events.*;
 import org.musetest.core.step.factory.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
@@ -32,7 +33,12 @@ public class StepConfiguration implements Serializable
 
     public void setType(String step_type)
         {
+        if (step_type.equals(_step_type))
+            return;
+
+        String old_type = _step_type;
         _step_type = step_type;
+        notifyListeners(new TypeChangeEvent(this, old_type, step_type));
         }
 
     public List<StepConfiguration> getChildren()
@@ -113,7 +119,9 @@ public class StepConfiguration implements Serializable
         {
         if (_sources == null)
             _sources = new HashMap<>();
+        ValueSourceConfiguration old_source = _sources.get(name);
         _sources.put(name, source);
+        notifyListeners(new SourceChangeEvent(this, name, old_source, source));
         }
 
     public boolean hasChildren()
@@ -137,9 +145,12 @@ public class StepConfiguration implements Serializable
         {
         if (_metadata == null)
             _metadata = new HashMap<>();
+        Object old_value = _metadata.get(name);
         _metadata.put(name, value);
         if (_metadata.size() == 0)
             _metadata = null;
+
+        notifyListeners(new MetadataChangeEvent(this, name, old_value, value));
         }
 
     @JsonIgnore
@@ -182,10 +193,35 @@ public class StepConfiguration implements Serializable
         return builder.toString();
         }
 
+    protected synchronized Set<StepConfigurationChangeListener> getListeners()
+        {
+        if (_listeners == null)
+            _listeners = new HashSet<>();
+        return _listeners;
+        }
+
+    protected void notifyListeners(StepChangeEvent event)
+        {
+        for (StepConfigurationChangeListener listener : getListeners())
+            listener.changed(event);
+        }
+
+    public void addChangeListener(StepConfigurationChangeListener listener)
+        {
+        getListeners().add(listener);
+        }
+
+    public void removeChangeListener(StepConfigurationChangeListener listener)
+        {
+        getListeners().remove(listener);
+        }
+
     private String _step_type;
     private Map<String, ValueSourceConfiguration> _sources = new HashMap<>();
     private List<StepConfiguration> _children = null;
     private Map<String, Object> _metadata = null;
+
+    private transient Set<StepConfigurationChangeListener> _listeners;
 
     public final static String META_DESCRIPTION = "description";
 
