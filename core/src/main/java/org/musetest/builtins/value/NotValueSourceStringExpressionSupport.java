@@ -12,6 +12,12 @@ public class NotValueSourceStringExpressionSupport extends BaseArgumentedValueSo
         }
 
     @Override
+    protected boolean storeSingleArgumentAsSingleSubsource()
+        {
+        return true;
+        }
+
+    @Override
     protected int getNumberArguments()
         {
         return 1;

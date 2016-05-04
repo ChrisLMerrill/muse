@@ -6,6 +6,7 @@ import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.values.events.*;
 import org.musetest.core.values.factory.*;
 
 import java.io.*;
@@ -40,12 +41,12 @@ public class ValueSourceConfiguration implements Serializable
 
     public void setType(String type)
         {
-        String old_type = _type;
-        _type = type;
-
-        if (!Objects.equals(type, old_type))
-            for (VSCObserver observer : getObservers())
-                observer.typeChanged(old_type, type);
+        if (!Objects.equals(type, _type))
+            {
+            String old_type = _type;
+            _type = type;
+            notifyListeners(new TypeChangeEvent(this, _type, old_type));
+            }
         }
 
     public Object getValue()
@@ -55,12 +56,12 @@ public class ValueSourceConfiguration implements Serializable
 
     public void setValue(Object value)
         {
-        Object old_value = _value;
-        _value = value;
-
-        if (!Objects.equals(old_value, value))
-            for (VSCObserver observer : getObservers())
-                observer.valueChanged(old_value, value);
+        if (!Objects.equals(value, _value))
+            {
+            Object old_value = _value;
+            _value = value;
+            notifyListeners(new ValueChangeEvent(this, value, old_value));
+            }
         }
 
     public ValueSourceConfiguration getSource()
@@ -70,12 +71,12 @@ public class ValueSourceConfiguration implements Serializable
 
     public void setSource(ValueSourceConfiguration source)
         {
-        ValueSourceConfiguration old_source = _source;
-        _source = source;
-
-        if (!Objects.equals(old_source, source))
-            for (VSCObserver observer : getObservers())
-                observer.sourceChanged(old_source, source);
+        if (!Objects.equals(_source, source))
+            {
+            ValueSourceConfiguration old_source = _source;
+            _source = source;
+            notifyListeners(new SingularSubsourceChangeEvent(this, source, old_source));
+            }
         }
 
     /**
@@ -89,6 +90,7 @@ public class ValueSourceConfiguration implements Serializable
         }
 
     @JsonIgnore
+    @SuppressWarnings("unused") // used by GUI
     public Set<String> getSourceNames()
         {
         if (_source_map == null)
@@ -98,12 +100,7 @@ public class ValueSourceConfiguration implements Serializable
 
     public void setSourceMap(Map<String, ValueSourceConfiguration> source_map)
         {
-        Map<String, ValueSourceConfiguration> old_map = _source_map;
         _source_map = source_map;
-
-        if (!Objects.equals(old_map, source_map))
-            for (VSCObserver observer : getObservers())
-                observer.mapChanged(old_map, source_map);
         }
 
     public List<ValueSourceConfiguration> getSourceList()
@@ -113,12 +110,7 @@ public class ValueSourceConfiguration implements Serializable
 
     public void setSourceList(List<ValueSourceConfiguration> source_list)
         {
-        List<ValueSourceConfiguration> old_list = _source_list;
         _source_list = source_list;
-
-        if (!Objects.equals(old_list, source_list))
-            for (VSCObserver observer : getObservers())
-                observer.listChanged(old_list, source_list);
         }
 
     public static ValueSourceConfiguration fromString(String string) throws IOException
@@ -127,23 +119,23 @@ public class ValueSourceConfiguration implements Serializable
         return mapper.readValue(new ByteArrayInputStream(string.getBytes()), ValueSourceConfiguration.class);
         }
 
-    public void addSource(ValueSourceConfiguration configuration)
+    public void addSource(ValueSourceConfiguration source)
         {
         if (_source_list == null)
             _source_list = new ArrayList<>();
         int index = _source_list.size();
-        _source_list.add(configuration);
-        for (VSCObserver observer : getObservers())
-            observer.sourceAddedToList(index, configuration);
+        addSource(index, source);
         }
 
     public void addSource(String name, ValueSourceConfiguration source)
         {
         if (_source_map == null)
             _source_map = new HashMap<>();
-        _source_map.put(name, source);
-        for (VSCObserver observer : getObservers())
-            observer.sourceAddedToMap(name, source);
+        if (!(Objects.equals(source, _source_map.get(name))))
+            {
+            _source_map.put(name, source);
+            notifyListeners(new NamedSourceAddedEvent(this, name, source));
+            }
         }
 
     public void addSource(int index, ValueSourceConfiguration source)
@@ -151,8 +143,7 @@ public class ValueSourceConfiguration implements Serializable
         if (_source_list == null)
             _source_list = new ArrayList<>();
         _source_list.add(index, source);
-        for (VSCObserver observer : getObservers())
-            observer.sourceAddedToList(index, source);
+        notifyListeners(new IndexedSourceAddedEvent(this, index, source));
         }
 
     public ValueSourceConfiguration getSource(String name)
@@ -176,8 +167,7 @@ public class ValueSourceConfiguration implements Serializable
 
         ValueSourceConfiguration removed = _source_map.remove(name);
         if (removed != null)
-            for (VSCObserver observer : getObservers())
-                observer.sourceRemoved(name, removed);
+            notifyListeners(new NamedSourceRemovedEvent(this, name, removed));
         return removed;
         }
 
@@ -191,8 +181,7 @@ public class ValueSourceConfiguration implements Serializable
             _source_list = null;
 
         if (removed != null)
-            for (VSCObserver observer : getObservers())
-                observer.sourceRemoved(index, removed);
+            notifyListeners(new IndexedSourceRemovedEvent(this, index, removed));
 
         return removed;
         }
@@ -203,8 +192,7 @@ public class ValueSourceConfiguration implements Serializable
         if (old_source == null)
             throw new IllegalArgumentException(String.format("Cannot replace sub-source %s, it does not exist.", name));
         _source_map.put(name, new_source);
-        for (VSCObserver observer : getObservers())
-            observer.sourceReplaced(name, old_source, new_source);
+        notifyListeners(new NamedSourceReplacedEvent(this, name, old_source, new_source));
         return old_source;
         }
 
@@ -213,8 +201,7 @@ public class ValueSourceConfiguration implements Serializable
         ValueSourceConfiguration old_source = _source_list.set(index, new_source);
         if (old_source == null)
             throw new IllegalArgumentException(String.format("Cannot replace sub-source %d, it does not exist.", index));
-        for (VSCObserver observer : getObservers())
-            observer.sourceReplaced(index, old_source, new_source);
+        notifyListeners(new IndexedSourceReplacedEvent(this, index, old_source, new_source));
         return old_source;
         }
 
@@ -224,8 +211,7 @@ public class ValueSourceConfiguration implements Serializable
         if (source == null)
             return false;
         _source_map.put(new_name, source);
-        for (VSCObserver observer : getObservers())
-            observer.sourceRenamed(old_name, new_name);
+        notifyListeners(new NamedSourceRenamedEvent(this, new_name, old_name, source));
         return true;
         }
 
@@ -268,90 +254,27 @@ public class ValueSourceConfiguration implements Serializable
         return true;
         }
 
-    Object _value;
-    ValueSourceConfiguration _source;
-    String _type;
-    Map<String, ValueSourceConfiguration> _source_map;
-    List<ValueSourceConfiguration> _source_list;
-
-    //
-    // convenient factory methods for unit tests
-    //
-
-    public static ValueSourceConfiguration forType(String type)
+    public void addChangeListener(ValueSourceChangeListener listener)
         {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType(type);
-        return config;
+        getListeners().add(listener);
         }
 
-    public static ValueSourceConfiguration forTypeWithSource(String type, Object value)
+    public boolean removeChangeListener(ValueSourceChangeListener listener)
         {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType(type);
-        ValueSourceConfiguration subsource;
-        if (value instanceof  ValueSourceConfiguration)
-            subsource = (ValueSourceConfiguration) value;
-        else
-            subsource = ValueSourceConfiguration.forValue(value);
-        config.setSource(subsource);
-        return config;
+        return getListeners().remove(listener);
         }
 
-    public static ValueSourceConfiguration forTypeWithIndexedSource(String type, Object value)
+    private void notifyListeners(ValueSourceChangeEvent event)
         {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType(type);
-        ValueSourceConfiguration subsource;
-        if (value instanceof  ValueSourceConfiguration)
-            subsource = (ValueSourceConfiguration) value;
-        else
-            subsource = ValueSourceConfiguration.forValue(value);
-        config.addSource(0, subsource);
-        return config;
+        for (ValueSourceChangeListener listener : getListeners())
+            listener.changed(event);
         }
 
-    public static ValueSourceConfiguration forSource(String type, ValueSourceConfiguration source)
+    private Set<ValueSourceChangeListener> getListeners()
         {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType(type);
-        config.setSource(source);
-        return config;
-        }
-
-    public static ValueSourceConfiguration forValue(Object value)
-        {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        if (value == null)
-            config.setType(NullValueSource.TYPE_ID);
-        else if (value instanceof Boolean)
-            config.setType(BooleanValueSource.TYPE_ID);
-        else if (value instanceof Long)
-            config.setType(IntegerValueSource.TYPE_ID);
-        else
-            config.setType(StringValueSource.TYPE_ID);
-        config.setValue(value);
-        return config;
-        }
-
-    public void addVSCObserver(VSCObserver observer)
-        {
-        if (_observers == null)
-            _observers = new ArrayList<>();
-        _observers.add(observer);
-        }
-
-    public void removeVSCObserver(VSCObserver observer)
-        {
-        if (_observers != null)
-            _observers.remove(observer);
-        }
-
-    private List<VSCObserver> getObservers()
-        {
-        if (_observers == null)
-            _observers = new ArrayList<>();
-        return _observers;
+        if (_listeners == null)
+            _listeners = new LinkedHashSet<>();
+        return _listeners;
         }
 
     @Override
@@ -412,7 +335,71 @@ public class ValueSourceConfiguration implements Serializable
         return builder.toString();
         }
 
-    private transient List<VSCObserver> _observers;
+    Object _value;
+    ValueSourceConfiguration _source;
+    String _type;
+    Map<String, ValueSourceConfiguration> _source_map;
+    List<ValueSourceConfiguration> _source_list;
+
+    private transient Set<ValueSourceChangeListener> _listeners;
+
+    //
+    // convenient factory methods for unit tests
+    //
+
+    public static ValueSourceConfiguration forType(String type)
+        {
+        ValueSourceConfiguration config = new ValueSourceConfiguration();
+        config.setType(type);
+        return config;
+        }
+
+    public static ValueSourceConfiguration forTypeWithSource(String type, Object value)
+        {
+        ValueSourceConfiguration config = new ValueSourceConfiguration();
+        config.setType(type);
+        ValueSourceConfiguration subsource;
+        if (value instanceof  ValueSourceConfiguration)
+            subsource = (ValueSourceConfiguration) value;
+        else
+            subsource = ValueSourceConfiguration.forValue(value);
+        config.setSource(subsource);
+        return config;
+        }
+
+    public static ValueSourceConfiguration forTypeWithIndexedSource(String type, Object value)
+        {
+        ValueSourceConfiguration config = new ValueSourceConfiguration();
+        config.setType(type);
+        ValueSourceConfiguration subsource;
+        if (value instanceof  ValueSourceConfiguration)
+            subsource = (ValueSourceConfiguration) value;
+        else
+            subsource = ValueSourceConfiguration.forValue(value);
+        config.addSource(0, subsource);
+        return config;
+        }
+
+    public static ValueSourceConfiguration forSource(String type, ValueSourceConfiguration source)
+        {
+        ValueSourceConfiguration config = new ValueSourceConfiguration();
+        config.setType(type);
+        config.setSource(source);
+        return config;
+        }
+
+    public static ValueSourceConfiguration forValue(Object value)
+        {
+        ValueSourceConfiguration config = new ValueSourceConfiguration();
+        if (value == null)
+            config.setType(NullValueSource.TYPE_ID);
+        else if (value instanceof Boolean)
+            config.setType(BooleanValueSource.TYPE_ID);
+        else if (value instanceof Long)
+            config.setType(IntegerValueSource.TYPE_ID);
+        else
+            config.setType(StringValueSource.TYPE_ID);
+        config.setValue(value);
+        return config;
+        }
     }
-
-

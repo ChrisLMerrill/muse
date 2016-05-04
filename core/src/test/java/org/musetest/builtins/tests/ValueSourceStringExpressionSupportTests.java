@@ -208,7 +208,7 @@ public class ValueSourceStringExpressionSupportTests
         ValueSourceConfiguration parsed = supporter.fromArgumentedExpression(supporter.getName(), arguments, TEST_PROJECT);
 
         Assert.assertEquals(NotValueSource.TYPE_ID, parsed.getType());
-        Assert.assertEquals(subsource, parsed.getSourceList().get(0));
+        Assert.assertEquals(subsource, parsed.getSource());
 
         String stringified = supporter.toString(parsed, TEST_PROJECT);
         Assert.assertEquals("not(true)", stringified);

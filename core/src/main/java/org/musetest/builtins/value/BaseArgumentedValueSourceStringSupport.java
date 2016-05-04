@@ -2,7 +2,6 @@ package org.musetest.builtins.value;
 
 import org.musetest.core.*;
 import org.musetest.core.values.*;
-import org.slf4j.*;
 
 import java.util.*;
 
@@ -61,13 +60,15 @@ public abstract class BaseArgumentedValueSourceStringSupport extends BaseValueSo
             else
                 {
                 int arguments = 0;
-                for (ValueSourceConfiguration argument : config.getSourceList())
-                    {
-                    if (arguments > 0)
-                        builder.append(',');
-                    builder.append(project.getValueSourceStringExpressionSupporters().toString(argument));
-                    arguments++;
-                    }
+                List<ValueSourceConfiguration> list = config.getSourceList();
+                if (list != null)
+                    for (ValueSourceConfiguration argument : list)
+                        {
+                        if (arguments > 0)
+                            builder.append(',');
+                        builder.append(project.getValueSourceStringExpressionSupporters().toString(argument));
+                        arguments++;
+                        }
                 }
 
             builder.append(')');
