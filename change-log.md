@@ -3,7 +3,7 @@
 ## 0.3
 
 - add: Import Select by name and Select by label steps from SeleniumIDE
-- add: ValueSourceChangeListener interface and ValueSourceChangeObserver convenience class 
+- add: ValueSourceChangeListener interface and ValueSourceChangeObserver convenience class
 
 ## 0.2
 

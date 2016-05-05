@@ -25,6 +25,7 @@ public class ValueSourceChangeObserver implements ValueSourceChangeListener
     public void indexedSubsourceAdded(IndexedSourceAddedEvent event, int index, ValueSourceConfiguration source) {}
     public void indexedSubsourceRemoved(IndexedSourceRemovedEvent event, int index, ValueSourceConfiguration source) {}
     public void indexedSubsourceReplaced(IndexedSourceReplacedEvent event, int index, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source) {}
+    public void subsourceModified(SubsourceModificationEvent event) {};
     }
 
 

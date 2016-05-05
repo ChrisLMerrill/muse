@@ -8,6 +8,7 @@ import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.events.*;
 import org.musetest.core.values.factory.*;
+import org.slf4j.*;
 
 import java.io.*;
 import java.util.*;
@@ -75,6 +76,11 @@ public class ValueSourceConfiguration implements Serializable
             {
             ValueSourceConfiguration old_source = _source;
             _source = source;
+
+            if (old_source != null)
+                old_source.removeChangeListener(_listener);
+            if (source != null)
+                source.addChangeListener(_listener);
             notifyListeners(new SingularSubsourceChangeEvent(this, source, old_source));
             }
         }
@@ -131,9 +137,13 @@ public class ValueSourceConfiguration implements Serializable
         {
         if (_source_map == null)
             _source_map = new HashMap<>();
-        if (!(Objects.equals(source, _source_map.get(name))))
+        ValueSourceConfiguration old_source = _source_map.get(name);
+        if (!(Objects.equals(source, old_source)))
             {
             _source_map.put(name, source);
+            if (old_source != null)
+                old_source.removeChangeListener(_listener);
+            source.addChangeListener(_listener);
             notifyListeners(new NamedSourceAddedEvent(this, name, source));
             }
         }
@@ -142,7 +152,9 @@ public class ValueSourceConfiguration implements Serializable
         {
         if (_source_list == null)
             _source_list = new ArrayList<>();
+
         _source_list.add(index, source);
+        source.addChangeListener(_listener);
         notifyListeners(new IndexedSourceAddedEvent(this, index, source));
         }
 
@@ -167,7 +179,10 @@ public class ValueSourceConfiguration implements Serializable
 
         ValueSourceConfiguration removed = _source_map.remove(name);
         if (removed != null)
+            {
+            removed.removeChangeListener(_listener);
             notifyListeners(new NamedSourceRemovedEvent(this, name, removed));
+            }
         return removed;
         }
 
@@ -181,7 +196,10 @@ public class ValueSourceConfiguration implements Serializable
             _source_list = null;
 
         if (removed != null)
+            {
+            removed.removeChangeListener(_listener);
             notifyListeners(new IndexedSourceRemovedEvent(this, index, removed));
+            }
 
         return removed;
         }
@@ -192,6 +210,8 @@ public class ValueSourceConfiguration implements Serializable
         if (old_source == null)
             throw new IllegalArgumentException(String.format("Cannot replace sub-source %s, it does not exist.", name));
         _source_map.put(name, new_source);
+        old_source.removeChangeListener(_listener);
+        new_source.addChangeListener(_listener);
         notifyListeners(new NamedSourceReplacedEvent(this, name, old_source, new_source));
         return old_source;
         }
@@ -201,6 +221,8 @@ public class ValueSourceConfiguration implements Serializable
         ValueSourceConfiguration old_source = _source_list.set(index, new_source);
         if (old_source == null)
             throw new IllegalArgumentException(String.format("Cannot replace sub-source %d, it does not exist.", index));
+        old_source.removeChangeListener(_listener);
+        new_source.addChangeListener(_listener);
         notifyListeners(new IndexedSourceReplacedEvent(this, index, old_source, new_source));
         return old_source;
         }
@@ -273,7 +295,33 @@ public class ValueSourceConfiguration implements Serializable
     private Set<ValueSourceChangeListener> getListeners()
         {
         if (_listeners == null)
+            {
             _listeners = new LinkedHashSet<>();
+            _listener = event ->
+                {
+                SubsourceModificationEvent mod_event = null;
+                ValueSourceConfiguration modified = event.getSource();
+                if (modified == _source)
+                    mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, event);
+                else if (_source_list != null && _source_list.contains(modified))
+                    mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, _source_list.indexOf(modified), event);
+                else if (_source_map != null)
+                    {
+                    for (String key : _source_map.keySet())
+                        {
+                        if (_source_map.get(key) == modified)
+                            mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, key, event);
+                        }
+                    }
+                if (mod_event == null)
+                    LOG.error("Received an event for an unknown subsource -- somebody forget to de-register the listener!");
+                else
+                    notifyListeners(mod_event);
+                };
+
+            if (_source != null)
+                _source.addChangeListener(_listener);
+            }
         return _listeners;
         }
 
@@ -342,6 +390,7 @@ public class ValueSourceConfiguration implements Serializable
     List<ValueSourceConfiguration> _source_list;
 
     private transient Set<ValueSourceChangeListener> _listeners;
+    private transient ValueSourceChangeListener _listener;
 
     //
     // convenient factory methods for unit tests
@@ -402,4 +451,6 @@ public class ValueSourceConfiguration implements Serializable
         config.setValue(value);
         return config;
         }
+
+    final static Logger LOG = LoggerFactory.getLogger(ValueSourceConfiguration.class);
     }
