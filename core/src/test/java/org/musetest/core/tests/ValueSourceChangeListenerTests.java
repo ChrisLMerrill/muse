@@ -238,7 +238,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void chainedEventFromSingleSubsource()
+    public void oropagateEventFromSingleSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("var1");
@@ -280,7 +280,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void chainedEventFromIndexedSubsource()
+    public void oropagateEventFromIndexedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("var1");
@@ -322,7 +322,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void chainedEventFromNamedSubsource()
+    public void propagateEventFromNamedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("var1");
