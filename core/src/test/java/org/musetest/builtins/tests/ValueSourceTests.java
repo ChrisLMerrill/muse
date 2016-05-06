@@ -1,6 +1,7 @@
 package org.musetest.builtins.tests;
 
 import org.junit.*;
+import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -271,6 +272,23 @@ public class ValueSourceTests
         context.setLocalVariable(var_name, parsed);
         Object result = resolveDateFormatSource(ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(var_name)), ValueSourceConfiguration.forValue(NOW_DATE_FORMAT), context);
         Assert.assertEquals(expected, result);
+        }
+
+    @Test
+    public void toStringFormatting()
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(LogMessage.TYPE_ID);
+        config.setValue("value");
+        config.setSource(ValueSourceConfiguration.forValue("subsource"));
+        config.addSource("nameA", ValueSourceConfiguration.forValue("valA"));
+        config.addSource(0, ValueSourceConfiguration.forValue("first"));
+
+        String stringified = config.toString();
+        Assert.assertTrue(stringified.contains("value"));
+        Assert.assertTrue(stringified.contains("subsource"));
+        Assert.assertTrue(stringified.contains("nameA"));
+        Assert.assertTrue(stringified.contains("valA"));
+        Assert.assertTrue(stringified.contains("first"));
         }
 
     private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";
