@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("unused")
 public class StepConfigurationChangeListenerTests
     {
     @Test
@@ -86,7 +87,7 @@ public class StepConfigurationChangeListenerTests
         }
 
     @Test
-    public void changeSource()
+    public void addRemoveSource()
         {
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
         final ValueSourceConfiguration old_source = ValueSourceConfiguration.forValue("old message");
@@ -99,7 +100,7 @@ public class StepConfigurationChangeListenerTests
 
         config.addChangeListener(new StepChangeObserver()
             {
-            public void sourceChanged(SourceChangeEvent event, String name, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
+            public void sourceAddedOrRemoved(SourceAddedOrRemovedEvent event, String name, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
                 {
                 changed_name.set(name);
                 changed_old_source.set(old_source);
@@ -107,15 +108,60 @@ public class StepConfigurationChangeListenerTests
                 }
             });
 
-
         config.addSource(LogMessage.MESSAGE_PARAM, new_source);
 
         Assert.assertEquals(LogMessage.MESSAGE_PARAM, changed_name.get());
         Assert.assertEquals(old_source, changed_old_source.get());
         Assert.assertEquals(new_source, changed_new_source.get());
+
+        // remove the source and ensure we get notified
+        changed_name.set(null);
+        config.addSource(LogMessage.MESSAGE_PARAM, null);
+        Assert.assertEquals(LogMessage.MESSAGE_PARAM, changed_name.get());
+        Assert.assertEquals(new_source, changed_old_source.get());
+        Assert.assertEquals(null, changed_new_source.get());
         }
 
-    // TODO test change events for changes to the underlying sub-sources of the main sources
+    @Test
+    public void changeSource()
+        {
+        StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
+        final ValueSourceConfiguration source = ValueSourceConfiguration.forValue("old message");
+        step.addSource(LogMessage.MESSAGE_PARAM, source);
+
+        AtomicReference<SourceChangedEvent> notified_event = new AtomicReference<>(null);
+        AtomicReference<String> notified_name = new AtomicReference<>(null);
+        AtomicReference<ValueSourceConfiguration> notified_source = new AtomicReference<>(null);
+        step.addChangeListener(new StepChangeObserver()
+            {
+            @Override
+            public void sourceChanged(SourceChangedEvent event, String name, ValueSourceConfiguration source)
+                {
+                notified_event.set(event);
+                notified_name.set(name);
+                notified_source.set(source);
+                }
+            });
+
+        source.setValue("value1");
+
+        Assert.assertNotNull(notified_event.get());
+        Assert.assertEquals(LogMessage.MESSAGE_PARAM, notified_name.get());
+        Assert.assertEquals(source, notified_source.get());
+
+
+        // now remove the source and ensure future notifications do not arrive
+        notified_event.set(null);
+        step.addSource(LogMessage.MESSAGE_PARAM, null);
+        source.setValue("value2");
+        Assert.assertNull(notified_event.get());
+
+        // add the source back...and get notified.
+        notified_event.set(null);
+        step.addSource(LogMessage.MESSAGE_PARAM, source);
+        source.setValue("value3");
+        Assert.assertNotNull(notified_event.get());
+        }
     }
 
 

@@ -1,7 +1,6 @@
 package org.musetest.core.step.events;
 
 import org.musetest.core.step.*;
-import org.musetest.core.values.events.*;
 
 /**
  * Describes a change to a ValueSourceConfiguration.
@@ -10,19 +9,19 @@ import org.musetest.core.values.events.*;
  */
 public abstract class StepChangeEvent
     {
-    public StepChangeEvent(StepConfiguration source)
+    public StepChangeEvent(StepConfiguration step)
         {
-        _source = source;
+        _step = step;
         }
 
-    public StepConfiguration getSource()
+    public StepConfiguration getStep()
         {
-        return _source;
+        return _step;
         }
 
     protected abstract void observe(StepChangeObserver observer);
 
-    private StepConfiguration _source;
+    private StepConfiguration _step;
     }
 
 

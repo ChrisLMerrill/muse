@@ -7,9 +7,9 @@ import org.musetest.core.step.*;
  */
 public class TypeChangeEvent extends StepChangeEvent
     {
-    public TypeChangeEvent(StepConfiguration source, String old_type, String new_type)
+    public TypeChangeEvent(StepConfiguration step, String old_type, String new_type)
         {
-        super(source);
+        super(step);
         _old_type = old_type;
         _new_type = new_type;
         }

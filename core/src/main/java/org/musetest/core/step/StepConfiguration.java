@@ -5,9 +5,12 @@ import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.events.*;
+import org.musetest.core.step.events.TypeChangeEvent;
 import org.musetest.core.step.factory.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.events.*;
+import org.slf4j.*;
 
 import java.io.*;
 import java.util.*;
@@ -120,8 +123,12 @@ public class StepConfiguration implements Serializable
         if (_sources == null)
             _sources = new HashMap<>();
         ValueSourceConfiguration old_source = _sources.get(name);
+        if (old_source != null)
+            old_source.removeChangeListener(_source_listener);
         _sources.put(name, source);
-        notifyListeners(new SourceChangeEvent(this, name, old_source, source));
+        if (source != null)
+            source.addChangeListener(_source_listener);
+        notifyListeners(new SourceAddedOrRemovedEvent(this, name, old_source, source));
         }
 
     public boolean hasChildren()
@@ -223,6 +230,26 @@ public class StepConfiguration implements Serializable
 
     private transient Set<StepConfigurationChangeListener> _listeners;
 
+    private transient ValueSourceChangeListener _source_listener = new ValueSourceChangeObserver()
+        {
+        @Override
+        public void changed(ValueSourceChangeEvent event)
+            {
+            ValueSourceConfiguration source = event.getSource();
+            String source_name = null;
+            for (String name : _sources.keySet())
+                if (source == _sources.get(name))
+                    {
+                    source_name = name;
+                    break;
+                    }
+            if (source_name == null)
+                LOG.error("A change event for a value source received, but this step does not contain this source. Someone forget to de-register a listener?");
+            else
+                notifyListeners(new SourceChangedEvent(StepConfiguration.this, event, source_name));
+            }
+        };
+
     public final static String META_DESCRIPTION = "description";
 
     static StepFactory getDefaultStepFactory()
@@ -236,4 +263,6 @@ public class StepConfiguration implements Serializable
         }
 
     private static StepFactory DEFAULT = null;
+
+    final static Logger LOG = LoggerFactory.getLogger(StepConfiguration.class);
     }

@@ -6,11 +6,11 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class SourceChangeEvent extends StepChangeEvent
+public class SourceAddedOrRemovedEvent extends StepChangeEvent
     {
-    public SourceChangeEvent(StepConfiguration source, String name, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
+    public SourceAddedOrRemovedEvent(StepConfiguration step, String name, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
         {
-        super(source);
+        super(step);
         _name = name;
         _old_source = old_source;
         _new_source = new_source;
@@ -19,7 +19,7 @@ public class SourceChangeEvent extends StepChangeEvent
     @Override
     protected void observe(StepChangeObserver observer)
         {
-        observer.sourceChanged(this, _name, _old_source, _new_source);
+        observer.sourceAddedOrRemoved(this, _name, _old_source, _new_source);
         }
 
     private final String _name;

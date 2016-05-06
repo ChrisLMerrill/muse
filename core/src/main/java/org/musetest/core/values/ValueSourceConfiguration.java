@@ -297,28 +297,6 @@ public class ValueSourceConfiguration implements Serializable
         if (_listeners == null)
             {
             _listeners = new LinkedHashSet<>();
-            _listener = event ->
-                {
-                SubsourceModificationEvent mod_event = null;
-                ValueSourceConfiguration modified = event.getSource();
-                if (modified == _source)
-                    mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, event);
-                else if (_source_list != null && _source_list.contains(modified))
-                    mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, _source_list.indexOf(modified), event);
-                else if (_source_map != null)
-                    {
-                    for (String key : _source_map.keySet())
-                        {
-                        if (_source_map.get(key) == modified)
-                            mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, key, event);
-                        }
-                    }
-                if (mod_event == null)
-                    LOG.error("Received an event for an unknown subsource -- somebody forget to de-register the listener!");
-                else
-                    notifyListeners(mod_event);
-                };
-
             if (_source != null)
                 _source.addChangeListener(_listener);
             }
@@ -390,7 +368,31 @@ public class ValueSourceConfiguration implements Serializable
     List<ValueSourceConfiguration> _source_list;
 
     private transient Set<ValueSourceChangeListener> _listeners;
-    private transient ValueSourceChangeListener _listener;
+    private transient ValueSourceChangeListener _listener = new ValueSourceChangeObserver()
+        {
+        @Override
+        public void changed(ValueSourceChangeEvent event)
+            {
+            SubsourceModificationEvent mod_event = null;
+            ValueSourceConfiguration modified = event.getSource();
+            if (modified == _source)
+                mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, event);
+            else if (_source_list != null && _source_list.contains(modified))
+                mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, _source_list.indexOf(modified), event);
+            else if (_source_map != null)
+                {
+                for (String key : _source_map.keySet())
+                    {
+                    if (_source_map.get(key) == modified)
+                        mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, key, event);
+                    }
+                }
+            if (mod_event == null)
+                LOG.error("Received an event for an unknown subsource -- somebody forget to de-register the listener!");
+            else
+                notifyListeners(mod_event);
+            }
+        };
 
     //
     // convenient factory methods for unit tests

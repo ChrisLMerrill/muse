@@ -12,6 +12,7 @@ import java.io.*;
 /**
  * @author Christopher L Merrill, Copyright 2015 (see LICENSE.txt for license details)
  */
+@SuppressWarnings("unused")
 public class ValueSourceConfigTests
     {
     @Test

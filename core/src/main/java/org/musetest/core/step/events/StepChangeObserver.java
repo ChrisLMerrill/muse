@@ -16,7 +16,8 @@ public class StepChangeObserver implements StepConfigurationChangeListener
 
     public void typeChanged(TypeChangeEvent event, String old_type, String new_type) {}
     public void metadataChanged(MetadataChangeEvent event, String name, Object old_value, Object new_value) {}
-    public void sourceChanged(SourceChangeEvent event, String name, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source) {}
+    public void sourceAddedOrRemoved(SourceAddedOrRemovedEvent event, String name, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source) {}
+    public void sourceChanged(SourceChangedEvent event, String name, ValueSourceConfiguration source) {}
     }
 
 

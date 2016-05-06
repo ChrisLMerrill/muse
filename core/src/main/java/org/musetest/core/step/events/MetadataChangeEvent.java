@@ -7,9 +7,9 @@ import org.musetest.core.step.*;
  */
 public class MetadataChangeEvent extends StepChangeEvent
     {
-    public MetadataChangeEvent(StepConfiguration source, String name, Object old_value, Object new_value)
+    public MetadataChangeEvent(StepConfiguration step, String name, Object old_value, Object new_value)
         {
-        super(source);
+        super(step);
         _name = name;
         _old_value = old_value;
         _new_value = new_value;
