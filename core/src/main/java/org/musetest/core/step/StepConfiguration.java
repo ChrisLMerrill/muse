@@ -124,10 +124,10 @@ public class StepConfiguration implements Serializable
             _sources = new HashMap<>();
         ValueSourceConfiguration old_source = _sources.get(name);
         if (old_source != null)
-            old_source.removeChangeListener(_source_listener);
+            old_source.removeChangeListener(getSourceListener());
         _sources.put(name, source);
         if (source != null)
-            source.addChangeListener(_source_listener);
+            source.addChangeListener(getSourceListener());
         notifyListeners(new SourceAddedOrRemovedEvent(this, name, old_source, source));
         }
 
@@ -203,8 +203,19 @@ public class StepConfiguration implements Serializable
     protected synchronized Set<StepConfigurationChangeListener> getListeners()
         {
         if (_listeners == null)
+            {
             _listeners = new HashSet<>();
+            for (ValueSourceConfiguration source : _sources.values())
+                source.addChangeListener(getSourceListener());
+            }
         return _listeners;
+        }
+
+    private synchronized ValueSourceChangeListener getSourceListener()
+        {
+        if (_source_listener == null)
+            _source_listener = new SourceChangeListener();
+        return _source_listener;
         }
 
     protected void notifyListeners(StepChangeEvent event)
@@ -230,7 +241,21 @@ public class StepConfiguration implements Serializable
 
     private transient Set<StepConfigurationChangeListener> _listeners;
 
-    private transient ValueSourceChangeListener _source_listener = new ValueSourceChangeObserver()
+    private transient ValueSourceChangeListener _source_listener;
+
+    public final static String META_DESCRIPTION = "description";
+
+    static StepFactory getDefaultStepFactory()
+        {
+        if (DEFAULT == null)
+            {
+            TypeLocator locator = new TypeLocator((MuseProject)null);
+            DEFAULT = new CompoundStepFactory(new ClasspathStepFactory(locator));
+            }
+        return DEFAULT;
+        }
+
+    class SourceChangeListener extends ValueSourceChangeObserver
         {
         @Override
         public void changed(ValueSourceChangeEvent event)
@@ -248,18 +273,6 @@ public class StepConfiguration implements Serializable
             else
                 notifyListeners(new SourceChangedEvent(StepConfiguration.this, event, source_name));
             }
-        };
-
-    public final static String META_DESCRIPTION = "description";
-
-    static StepFactory getDefaultStepFactory()
-        {
-        if (DEFAULT == null)
-            {
-            TypeLocator locator = new TypeLocator((MuseProject)null);
-            DEFAULT = new CompoundStepFactory(new ClasspathStepFactory(locator));
-            }
-        return DEFAULT;
         }
 
     private static StepFactory DEFAULT = null;

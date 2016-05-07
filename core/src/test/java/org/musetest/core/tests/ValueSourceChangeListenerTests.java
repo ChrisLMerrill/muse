@@ -2,6 +2,7 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.builtins.value.*;
+import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.events.*;
 
@@ -10,6 +11,7 @@ import java.util.concurrent.atomic.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("unused")
 public class ValueSourceChangeListenerTests
     {
     @Test
@@ -368,6 +370,37 @@ public class ValueSourceChangeListenerTests
         notification.set(null);
         source.removeSource(name);
         Assert.assertNull(notification.get());
+        }
+
+    /**
+     * does registration of listeners happen correctly when the source is not directly modified (simply comes into being via serialization)
+     */
+    @Test
+    public void changeEventFromDeserializedStepConfig()
+        {
+        ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("sub1");
+        ValueSourceConfiguration source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, subsource);
+        source = Copy.thisObject(source);
+        subsource = source.getSource();
+
+        AtomicBoolean notified = new AtomicBoolean(false);
+        source.addChangeListener(new ValueSourceChangeObserver()
+            {
+            @Override
+            public void changed(ValueSourceChangeEvent event)
+                {
+                notified.set(true);
+                }
+
+            @Override
+            public void subsourceChanged(SingularSubsourceChangeEvent event, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
+                {
+                notified.set(true);
+                }
+            });
+
+        subsource.setValue("value2");
+        Assert.assertTrue(notified.get());
         }
     }
 

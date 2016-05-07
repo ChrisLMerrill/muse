@@ -12,8 +12,8 @@ public class NullValueSourceStringExpressionSupport extends BaseValueSourceStrin
     @Override
     public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
         {
-        if (string.equals("null"))
-            return ValueSourceConfiguration.forType("null");
+        if (string.equals(NULL))
+            return ValueSourceConfiguration.forType(NULL);
         return null;
         }
 
@@ -21,9 +21,11 @@ public class NullValueSourceStringExpressionSupport extends BaseValueSourceStrin
     public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (NullValueSource.TYPE_ID.equals(config.getType()))
-            return "null";
+            return NULL;
         return null;
         }
+
+    public final static String NULL = "null";
     }
 
 

@@ -4,6 +4,7 @@ import org.junit.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.events.*;
+import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 
 import java.util.concurrent.atomic.*;
@@ -149,7 +150,6 @@ public class StepConfigurationChangeListenerTests
         Assert.assertEquals(LogMessage.MESSAGE_PARAM, notified_name.get());
         Assert.assertEquals(source, notified_source.get());
 
-
         // now remove the source and ensure future notifications do not arrive
         notified_event.set(null);
         step.addSource(LogMessage.MESSAGE_PARAM, null);
@@ -161,6 +161,33 @@ public class StepConfigurationChangeListenerTests
         step.addSource(LogMessage.MESSAGE_PARAM, source);
         source.setValue("value3");
         Assert.assertNotNull(notified_event.get());
+        }
+
+    /**
+     * does registration of listeners happen correctly when the step is not directly modified (simply comes into being via serialization)
+     */
+    @Test
+    public void changeEventFromDeserializedStepConfig()
+        {
+        StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
+        ValueSourceConfiguration source = ValueSourceConfiguration.forValue("old message");
+        step.addSource(LogMessage.MESSAGE_PARAM, source);
+
+        step = Copy.thisObject(step);
+        source = step.getSource(LogMessage.MESSAGE_PARAM);
+
+        AtomicBoolean notified = new AtomicBoolean(false);
+        step.addChangeListener(new StepChangeObserver()
+            {
+            @Override
+            public void sourceChanged(SourceChangedEvent event, String name, ValueSourceConfiguration source)
+                {
+                notified.set(true);
+                }
+            });
+
+        source.setValue("value2");
+        Assert.assertTrue(notified.get());
         }
     }
 

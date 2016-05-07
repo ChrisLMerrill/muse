@@ -78,9 +78,9 @@ public class ValueSourceConfiguration implements Serializable
             _source = source;
 
             if (old_source != null)
-                old_source.removeChangeListener(_listener);
+                old_source.removeChangeListener(getSubsourceListener());
             if (source != null)
-                source.addChangeListener(_listener);
+                source.addChangeListener(getSubsourceListener());
             notifyListeners(new SingularSubsourceChangeEvent(this, source, old_source));
             }
         }
@@ -142,8 +142,8 @@ public class ValueSourceConfiguration implements Serializable
             {
             _source_map.put(name, source);
             if (old_source != null)
-                old_source.removeChangeListener(_listener);
-            source.addChangeListener(_listener);
+                old_source.removeChangeListener(getSubsourceListener());
+            source.addChangeListener(getSubsourceListener());
             notifyListeners(new NamedSourceAddedEvent(this, name, source));
             }
         }
@@ -154,7 +154,7 @@ public class ValueSourceConfiguration implements Serializable
             _source_list = new ArrayList<>();
 
         _source_list.add(index, source);
-        source.addChangeListener(_listener);
+        source.addChangeListener(getSubsourceListener());
         notifyListeners(new IndexedSourceAddedEvent(this, index, source));
         }
 
@@ -180,7 +180,7 @@ public class ValueSourceConfiguration implements Serializable
         ValueSourceConfiguration removed = _source_map.remove(name);
         if (removed != null)
             {
-            removed.removeChangeListener(_listener);
+            removed.removeChangeListener(getSubsourceListener());
             notifyListeners(new NamedSourceRemovedEvent(this, name, removed));
             }
         return removed;
@@ -197,7 +197,7 @@ public class ValueSourceConfiguration implements Serializable
 
         if (removed != null)
             {
-            removed.removeChangeListener(_listener);
+            removed.removeChangeListener(getSubsourceListener());
             notifyListeners(new IndexedSourceRemovedEvent(this, index, removed));
             }
 
@@ -210,8 +210,8 @@ public class ValueSourceConfiguration implements Serializable
         if (old_source == null)
             throw new IllegalArgumentException(String.format("Cannot replace sub-source %s, it does not exist.", name));
         _source_map.put(name, new_source);
-        old_source.removeChangeListener(_listener);
-        new_source.addChangeListener(_listener);
+        old_source.removeChangeListener(getSubsourceListener());
+        new_source.addChangeListener(getSubsourceListener());
         notifyListeners(new NamedSourceReplacedEvent(this, name, old_source, new_source));
         return old_source;
         }
@@ -221,8 +221,8 @@ public class ValueSourceConfiguration implements Serializable
         ValueSourceConfiguration old_source = _source_list.set(index, new_source);
         if (old_source == null)
             throw new IllegalArgumentException(String.format("Cannot replace sub-source %d, it does not exist.", index));
-        old_source.removeChangeListener(_listener);
-        new_source.addChangeListener(_listener);
+        old_source.removeChangeListener(getSubsourceListener());
+        new_source.addChangeListener(getSubsourceListener());
         notifyListeners(new IndexedSourceReplacedEvent(this, index, old_source, new_source));
         return old_source;
         }
@@ -278,6 +278,8 @@ public class ValueSourceConfiguration implements Serializable
 
     public void addChangeListener(ValueSourceChangeListener listener)
         {
+if (listener == null)
+    System.out.println("aahhhh!");
         getListeners().add(listener);
         }
 
@@ -298,9 +300,22 @@ public class ValueSourceConfiguration implements Serializable
             {
             _listeners = new LinkedHashSet<>();
             if (_source != null)
-                _source.addChangeListener(_listener);
+                _source.addChangeListener(getSubsourceListener());
+            if (_source_list != null)
+                for (ValueSourceConfiguration subsource : _source_list)
+                    subsource.addChangeListener(getSubsourceListener());
+            if (_source_map != null)
+                for (ValueSourceConfiguration subsource : _source_map.values())
+                    subsource.addChangeListener(getSubsourceListener());
             }
         return _listeners;
+        }
+
+    private synchronized ValueSourceChangeListener getSubsourceListener()
+        {
+        if (_listener == null)
+            _listener = new SubsourceChangeListener();
+        return _listener;
         }
 
     @Override
@@ -368,7 +383,9 @@ public class ValueSourceConfiguration implements Serializable
     List<ValueSourceConfiguration> _source_list;
 
     private transient Set<ValueSourceChangeListener> _listeners;
-    private transient ValueSourceChangeListener _listener = new ValueSourceChangeObserver()
+    private transient ValueSourceChangeListener _listener;
+
+    class SubsourceChangeListener extends ValueSourceChangeObserver
         {
         @Override
         public void changed(ValueSourceChangeEvent event)
