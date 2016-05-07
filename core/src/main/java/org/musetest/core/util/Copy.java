@@ -1,5 +1,7 @@
 package org.musetest.core.util;
 
+import com.fasterxml.jackson.databind.*;
+
 import java.io.*;
 
 /**
@@ -7,7 +9,7 @@ import java.io.*;
  */
 public class Copy
     {
-    public static <T extends Serializable> T thisObject(T original)
+    public static <T extends Serializable> T withJavaSerialization(T original)
         {
         try
             {
@@ -17,6 +19,23 @@ public class Copy
 
             ObjectInputStream instream = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()));
             return (T) instream.readObject();
+            }
+        catch (Exception e)
+            {
+            throw new RuntimeException("Unable to copy the object - does it reference unserializable classes?", e);
+            }
+        }
+
+    public static <T> T withJsonSerialization(T original)
+        {
+        try
+            {
+            ByteArrayOutputStream outstream = new ByteArrayOutputStream();
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(outstream, original);
+
+            ByteArrayInputStream instream = new ByteArrayInputStream(outstream.toByteArray());
+            return (T) mapper.readValue(instream, original.getClass());
             }
         catch (Exception e)
             {

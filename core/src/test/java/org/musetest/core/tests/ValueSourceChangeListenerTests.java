@@ -1,6 +1,7 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
@@ -379,9 +380,10 @@ public class ValueSourceChangeListenerTests
     public void changeEventFromDeserializedStepConfig()
         {
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("sub1");
-        ValueSourceConfiguration source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, subsource);
-        source = Copy.thisObject(source);
-        subsource = source.getSource();
+        ValueSourceConfiguration source = ValueSourceConfiguration.forType(LogMessage.TYPE_ID);
+        source.addSource(LogMessage.MESSAGE_PARAM, subsource);
+        source = Copy.withJsonSerialization(source);
+        subsource = source.getSource(LogMessage.MESSAGE_PARAM);
 
         AtomicBoolean notified = new AtomicBoolean(false);
         source.addChangeListener(new ValueSourceChangeObserver()

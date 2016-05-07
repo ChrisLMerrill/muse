@@ -106,7 +106,13 @@ public class ValueSourceConfiguration implements Serializable
 
     public void setSourceMap(Map<String, ValueSourceConfiguration> source_map)
         {
+        if (_source_map != null)
+            for (ValueSourceConfiguration source : _source_map.values())
+                source.removeChangeListener(getSubsourceListener());
         _source_map = source_map;
+        if (_source_map != null)
+            for (ValueSourceConfiguration source : _source_map.values())
+                source.addChangeListener(getSubsourceListener());
         }
 
     public List<ValueSourceConfiguration> getSourceList()
@@ -116,7 +122,13 @@ public class ValueSourceConfiguration implements Serializable
 
     public void setSourceList(List<ValueSourceConfiguration> source_list)
         {
+        if (_source_list != null)
+            for (ValueSourceConfiguration source : _source_list)
+                source.removeChangeListener(getSubsourceListener());
         _source_list = source_list;
+        if (_source_list != null)
+            for (ValueSourceConfiguration source : _source_list)
+                source.addChangeListener(getSubsourceListener());
         }
 
     public static ValueSourceConfiguration fromString(String string) throws IOException
@@ -143,7 +155,8 @@ public class ValueSourceConfiguration implements Serializable
             _source_map.put(name, source);
             if (old_source != null)
                 old_source.removeChangeListener(getSubsourceListener());
-            source.addChangeListener(getSubsourceListener());
+            if (source != null)
+                source.addChangeListener(getSubsourceListener());
             notifyListeners(new NamedSourceAddedEvent(this, name, source));
             }
         }
@@ -211,7 +224,8 @@ public class ValueSourceConfiguration implements Serializable
             throw new IllegalArgumentException(String.format("Cannot replace sub-source %s, it does not exist.", name));
         _source_map.put(name, new_source);
         old_source.removeChangeListener(getSubsourceListener());
-        new_source.addChangeListener(getSubsourceListener());
+        if (new_source != null)
+            new_source.addChangeListener(getSubsourceListener());
         notifyListeners(new NamedSourceReplacedEvent(this, name, old_source, new_source));
         return old_source;
         }
@@ -222,7 +236,8 @@ public class ValueSourceConfiguration implements Serializable
         if (old_source == null)
             throw new IllegalArgumentException(String.format("Cannot replace sub-source %d, it does not exist.", index));
         old_source.removeChangeListener(getSubsourceListener());
-        new_source.addChangeListener(getSubsourceListener());
+        if (new_source != null)
+            new_source.addChangeListener(getSubsourceListener());
         notifyListeners(new IndexedSourceReplacedEvent(this, index, old_source, new_source));
         return old_source;
         }
@@ -278,8 +293,6 @@ public class ValueSourceConfiguration implements Serializable
 
     public void addChangeListener(ValueSourceChangeListener listener)
         {
-if (listener == null)
-    System.out.println("aahhhh!");
         getListeners().add(listener);
         }
 
@@ -297,17 +310,7 @@ if (listener == null)
     private Set<ValueSourceChangeListener> getListeners()
         {
         if (_listeners == null)
-            {
             _listeners = new LinkedHashSet<>();
-            if (_source != null)
-                _source.addChangeListener(getSubsourceListener());
-            if (_source_list != null)
-                for (ValueSourceConfiguration subsource : _source_list)
-                    subsource.addChangeListener(getSubsourceListener());
-            if (_source_map != null)
-                for (ValueSourceConfiguration subsource : _source_map.values())
-                    subsource.addChangeListener(getSubsourceListener());
-            }
         return _listeners;
         }
 
@@ -405,7 +408,7 @@ if (listener == null)
                     }
                 }
             if (mod_event == null)
-                LOG.error("Received an event for an unknown subsource -- somebody forget to de-register the listener!");
+                LOG.error("Received an event for an unknown subsource -- somebody forget to de-register a listener!");
             else
                 notifyListeners(mod_event);
             }

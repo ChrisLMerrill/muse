@@ -61,7 +61,13 @@ public class StepConfiguration implements Serializable
 
     public void setSources(Map<String, ValueSourceConfiguration> sources)
         {
+        if (_sources != null)
+            for (ValueSourceConfiguration source : _sources.values())
+                source.removeChangeListener(getSourceListener());
         _sources = sources;
+        if (_sources != null)
+            for (ValueSourceConfiguration source : _sources.values())
+                source.addChangeListener(getSourceListener());
         }
 
     @JsonIgnore
@@ -123,12 +129,15 @@ public class StepConfiguration implements Serializable
         if (_sources == null)
             _sources = new HashMap<>();
         ValueSourceConfiguration old_source = _sources.get(name);
-        if (old_source != null)
-            old_source.removeChangeListener(getSourceListener());
-        _sources.put(name, source);
-        if (source != null)
-            source.addChangeListener(getSourceListener());
-        notifyListeners(new SourceAddedOrRemovedEvent(this, name, old_source, source));
+        if (!Objects.equals(source, old_source))
+            {
+            if (old_source != null)
+                old_source.removeChangeListener(getSourceListener());
+            _sources.put(name, source);
+            if (source != null)
+                source.addChangeListener(getSourceListener());
+            notifyListeners(new SourceAddedOrRemovedEvent(this, name, old_source, source));
+            }
         }
 
     public boolean hasChildren()

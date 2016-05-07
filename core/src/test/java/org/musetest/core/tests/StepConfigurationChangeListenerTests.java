@@ -173,7 +173,7 @@ public class StepConfigurationChangeListenerTests
         ValueSourceConfiguration source = ValueSourceConfiguration.forValue("old message");
         step.addSource(LogMessage.MESSAGE_PARAM, source);
 
-        step = Copy.thisObject(step);
+        step = Copy.withJsonSerialization(step);
         source = step.getSource(LogMessage.MESSAGE_PARAM);
 
         AtomicBoolean notified = new AtomicBoolean(false);
