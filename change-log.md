@@ -2,8 +2,10 @@
 
 ## 0.3
 
+- add: Import Back and Refresh steps from SeleniumIDE
 - add: Import Select by name and Select by label steps from SeleniumIDE
 - add: ValueSourceChangeListener interface and ValueSourceChangeObserver convenience class
+- refactor: MuseValueSource.resolveValue() throws ValueSourceResolutionError instead of StepConfigurationError
 
 ## 0.2
 
