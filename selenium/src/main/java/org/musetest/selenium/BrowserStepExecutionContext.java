@@ -1,7 +1,7 @@
 package org.musetest.selenium;
 
 import org.musetest.core.context.*;
-import org.musetest.core.steptest.*;
+import org.musetest.core.values.*;
 import org.openqa.selenium.*;
 
 /**

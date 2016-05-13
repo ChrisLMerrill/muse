@@ -4,7 +4,6 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -37,7 +36,7 @@ public class AdditionSource extends BaseValueSource
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context) throws StepConfigurationError
+    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
         List<Object> values = new ArrayList<>();
         for (MuseValueSource source : _sources)
@@ -92,7 +91,7 @@ public class AdditionSource extends BaseValueSource
         return _sources;
         }
 
-    MuseValueSource[] _sources;
+    private MuseValueSource[] _sources;
 
     public final static String TYPE_ID = AdditionSource.class.getAnnotation(MuseTypeId.class).value();
     }

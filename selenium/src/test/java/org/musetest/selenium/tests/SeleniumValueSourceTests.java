@@ -45,7 +45,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementByXpath() throws StepConfigurationError
+    public void elementByXpath() throws StepExecutionError
         {
         MuseMockDriver driver = new MuseMockDriver();
         final String xpath = "//abc123";
@@ -62,7 +62,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementById() throws StepConfigurationError
+    public void elementById() throws StepExecutionError
         {
         final String id = "element#1";
         final MuseMockElement element1 = new MuseMockElement();
@@ -75,7 +75,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementVisible() throws StepConfigurationError
+    public void elementVisible() throws StepExecutionError
         {
         final String id = "visible";
         final MuseMockElement element1 = new MuseMockElement();
@@ -94,7 +94,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementExists() throws StepConfigurationError
+    public void elementExists() throws StepExecutionError
         {
         final String id = "exists";
         final MuseMockElement element1 = new MuseMockElement();
@@ -111,7 +111,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementEnabled() throws StepConfigurationError
+    public void elementEnabled() throws StepExecutionError
         {
         final String id = "enabled";
         final MuseMockElement element1 = new MuseMockElement();
@@ -129,7 +129,7 @@ public class SeleniumValueSourceTests
         Assert.assertEquals(Boolean.FALSE, value);
         }
 
-    private Object resolveSource(WebElement element, String element_id, MuseValueSource source) throws StepConfigurationError
+    private Object resolveSource(WebElement element, String element_id, MuseValueSource source) throws ValueSourceResolutionError
         {
         MuseMockDriver driver = new MuseMockDriver();
         if (element != null)

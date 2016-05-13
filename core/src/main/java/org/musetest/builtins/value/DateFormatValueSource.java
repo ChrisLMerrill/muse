@@ -3,7 +3,6 @@ package org.musetest.builtins.value;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -33,7 +32,7 @@ public class DateFormatValueSource extends BaseValueSource
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context) throws StepConfigurationError
+    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
         DateFormat formatter = null;
         if (_format != null)
@@ -48,7 +47,7 @@ public class DateFormatValueSource extends BaseValueSource
                     }
                 catch (Exception e)
                     {
-                    throw new StepConfigurationError("The format parameter is not a valid format string: " + format);
+                    throw new ValueSourceResolutionError("The format parameter is not a valid format string: " + format);
                     }
                 }
             }
@@ -71,7 +70,7 @@ public class DateFormatValueSource extends BaseValueSource
                         }
                     catch (ParseException e)
                         {
-                        throw new StepConfigurationError("The date parameter did not resolve to a date or a string that could be parsed using the supplied formatter: " + value.toString());
+                        throw new ValueSourceResolutionError("The date parameter did not resolve to a date or a string that could be parsed using the supplied formatter: " + value.toString());
                         }
                     }
                 }

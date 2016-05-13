@@ -26,7 +26,7 @@ public class IncrementVariable extends BaseStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
         {
         String name = getValue(_name, context, false, String.class);
         Long amount = getValue(_amount, context, true, Long.class);

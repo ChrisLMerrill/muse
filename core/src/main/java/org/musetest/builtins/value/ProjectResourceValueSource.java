@@ -3,7 +3,6 @@ package org.musetest.builtins.value;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -29,15 +28,15 @@ public class ProjectResourceValueSource extends BaseValueSource
         }
 
     @Override
-    public MuseResource resolveValue(StepExecutionContext context) throws StepConfigurationError
+    public MuseResource resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
         Object resolved = _id_source.resolveValue(context);
         if (resolved == null)
-            throw new StepConfigurationError(String.format("Unable to resolve the project resource (id=%s). id value source resolved to null.", _id_source));
+            throw new ValueSourceResolutionError(String.format("Unable to resolve the project resource (id=%s). id value source resolved to null.", _id_source));
         String id = resolved.toString();
         MuseResource resource = _project.findResource(id, MuseResource.class);
         if (resource == null)
-            throw new StepConfigurationError(String.format("Unable to resolve the project resource (id=%s). Search returned null.", id));
+            throw new ValueSourceResolutionError(String.format("Unable to resolve the project resource (id=%s). Search returned null.", id));
         return resource;
         }
 

@@ -27,7 +27,7 @@ public class RefreshPage extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
         {
         getDriver(context).navigate().refresh();
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

@@ -25,7 +25,7 @@ public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSourc
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context) throws StepConfigurationError
+    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
         String locator_string = _locator_source.resolveValue(context).toString();
         try

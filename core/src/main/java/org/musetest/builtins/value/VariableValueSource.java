@@ -4,7 +4,6 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.slf4j.*;
@@ -42,7 +41,7 @@ public class VariableValueSource extends BaseValueSource
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context) throws StepConfigurationError
+    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
         Object value = context.getLocalVariable(_name.resolveValue(context).toString());
         context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), value));
@@ -51,7 +50,7 @@ public class VariableValueSource extends BaseValueSource
 
     private MuseValueSource _name;
 
-    final static Logger LOG = LoggerFactory.getLogger(VariableValueSource.class);
+    private final static Logger LOG = LoggerFactory.getLogger(VariableValueSource.class);
 
     public final static String TYPE_ID = VariableValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

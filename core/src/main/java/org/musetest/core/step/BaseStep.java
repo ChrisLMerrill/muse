@@ -91,7 +91,7 @@ public abstract class BaseStep implements MuseStep
      * @throws ValueSourceResolutionError if the source is null (this is likely caused by an implementation defect)
      */
     @SuppressWarnings("unchecked")
-    protected <T> T getValue(MuseValueSource source, StepExecutionContext context, boolean null_allowed, Class<T> type) throws StepConfigurationError
+    protected <T> T getValue(MuseValueSource source, StepExecutionContext context, boolean null_allowed, Class<T> type) throws ValueSourceResolutionError
         {
         if (source == null)
             {

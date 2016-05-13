@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
 /**
@@ -28,7 +29,7 @@ public class Verify extends BaseStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws ValueSourceResolutionError
         {
         Object value = _source.resolveValue(context);
         if (!(value instanceof Boolean))

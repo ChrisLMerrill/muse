@@ -1,6 +1,7 @@
 package org.musetest.core.steptest;
 
 import org.musetest.core.*;
+import org.musetest.core.values.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)

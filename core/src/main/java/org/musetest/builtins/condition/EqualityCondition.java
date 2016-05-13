@@ -4,7 +4,6 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -28,7 +27,7 @@ public class EqualityCondition extends BinaryCondition
         }
 
     @Override
-    public Boolean resolveValue(StepExecutionContext context) throws StepConfigurationError
+    public Boolean resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
         Object value1 = _left.resolveValue(context);
         Object value2 = _right.resolveValue(context);

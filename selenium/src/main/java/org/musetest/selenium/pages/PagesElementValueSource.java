@@ -3,7 +3,6 @@ package org.musetest.selenium.pages;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.musetest.selenium.*;
@@ -28,7 +27,7 @@ public class PagesElementValueSource extends BaseSeleniumValueSource
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context) throws StepConfigurationError
+    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
         String page_element_key = _locator_source.resolveValue(context).toString();
 
@@ -45,10 +44,17 @@ public class PagesElementValueSource extends BaseSeleniumValueSource
         if (element_locator_config == null)
             throw new ValueSourceResolutionError(String.format("No locator configured for element '%s'", page_element_key));
 
-        return element_locator_config.createSource(project).resolveValue(context);
+        try
+            {
+            return element_locator_config.createSource(project).resolveValue(context);
+            }
+        catch (MuseInstantiationException e)
+            {
+            throw new ValueSourceResolutionError("Unable to resolve page element source - unable to instantiate the specified locator due to: " + e.getMessage(), e);
+            }
         }
 
-    MuseValueSource _locator_source;
+    private MuseValueSource _locator_source;
 
     public final static String TYPE_ID = PagesElementValueSource.class.getAnnotation(MuseTypeId.class).value();
 

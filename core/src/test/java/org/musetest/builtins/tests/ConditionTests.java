@@ -3,11 +3,8 @@ package org.musetest.builtins.tests;
 import org.junit.*;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
-import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
-import org.musetest.core.project.*;
-import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 
@@ -188,7 +185,7 @@ public class ConditionTests
         }
 
     @Test
-    public void integerDoubleEquality() throws StepConfigurationError
+    public void integerDoubleEquality() throws StepExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration condition = createCondition(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue(123L), ValueSourceConfiguration.forValue(123.0d));

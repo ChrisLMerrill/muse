@@ -4,7 +4,6 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -29,7 +28,7 @@ public class NotValueSource extends BaseValueSource
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context) throws StepConfigurationError
+    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
         Object value = _subsource.resolveValue(context);
         Boolean result;
@@ -42,12 +41,12 @@ public class NotValueSource extends BaseValueSource
         else
             {
             if (value == null)
-                throw new StepConfigurationError("Expected the sub-source to resolve to a boolean. Instead, it is null");
-            throw new StepConfigurationError(String.format("Expected the sub-source to resolve to a boolean. Instead, got: %s (which is a %s)", value.toString(), value.getClass().getSimpleName()));
+                throw new ValueSourceResolutionError("Expected the sub-source to resolve to a boolean. Instead, it is null");
+            throw new ValueSourceResolutionError(String.format("Expected the sub-source to resolve to a boolean. Instead, got: %s (which is a %s)", value.toString(), value.getClass().getSimpleName()));
             }
         }
 
-    MuseValueSource _subsource;
+    private MuseValueSource _subsource;
 
     public final static String TYPE_ID = NotValueSource.class.getAnnotation(MuseTypeId.class).value();
     }

@@ -146,7 +146,7 @@ public class ValueSourceTests
             {
             source.resolveValue(context);
             }
-        catch (StepConfigurationError e)
+        catch (StepExecutionError e)
             {
             error = e;
             }
@@ -168,7 +168,7 @@ public class ValueSourceTests
             {
             source.resolveValue(context);
             }
-        catch (StepConfigurationError e)
+        catch (StepExecutionError e)
             {
             error = e;
             }
@@ -176,7 +176,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void notTrue() throws StepConfigurationError
+    public void notTrue() throws StepExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(true);
@@ -185,7 +185,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void notFalse() throws StepConfigurationError
+    public void notFalse() throws StepExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(false);
@@ -236,34 +236,34 @@ public class ValueSourceTests
         }
 
     @Test
-    public void formatNullDateParamAndFormatParams() throws StepConfigurationError
+    public void formatNullDateParamAndFormatParams() throws StepExecutionError
         {
         Object result = resolveDateFormatSource(null, null, null);
         Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
         }
 
     @Test
-    public void formatNullDateAndFormatParam() throws StepConfigurationError
+    public void formatNullDateAndFormatParam() throws StepExecutionError
         {
         Object result = resolveDateFormatSource(ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null, null);
         Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
         }
 
     @Test
-    public void formatNullDateParamAndFormat() throws StepConfigurationError
+    public void formatNullDateParamAndFormat() throws StepExecutionError
         {
         Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null);
         Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
         }
 
-    @Test public void formatNow() throws StepConfigurationError
+    @Test public void formatNow() throws StepExecutionError
         {
         String expected = new SimpleDateFormat(NOW_DATE_FORMAT).format(new Date());
         Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forValue(NOW_DATE_FORMAT), null);
         Assert.assertEquals(expected, result);
         }
 
-    @Test public void formatDate() throws StepConfigurationError, ParseException
+    @Test public void formatDate() throws StepExecutionError, ParseException
         {
         String expected = "05291998123456";
         Date parsed = new SimpleDateFormat(NOW_DATE_FORMAT).parse(expected);
@@ -293,7 +293,7 @@ public class ValueSourceTests
 
     private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";
 
-    private Object resolveDateFormatSource(ValueSourceConfiguration date_param, ValueSourceConfiguration format_param, StepExecutionContext context) throws StepConfigurationError
+    private Object resolveDateFormatSource(ValueSourceConfiguration date_param, ValueSourceConfiguration format_param, StepExecutionContext context) throws StepExecutionError
         {
         StepExecutionContext step_context = new DummyStepExecutionContext();
         if (context != null)

@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 
 /**
@@ -27,7 +28,7 @@ public class CloseBrowser extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws ValueSourceResolutionError
         {
         getDriver(context).quit();
         BrowserStepExecutionContext.putDriver(null, context);

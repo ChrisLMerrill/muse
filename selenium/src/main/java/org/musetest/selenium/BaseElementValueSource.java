@@ -3,7 +3,6 @@ package org.musetest.selenium;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.openqa.selenium.*;
 
@@ -26,7 +25,7 @@ public abstract class BaseElementValueSource extends BaseSeleniumValueSource
         return _element_source;
         }
 
-    public WebElement resolveElementSource(StepExecutionContext context, boolean required) throws StepConfigurationError
+    public WebElement resolveElementSource(StepExecutionContext context, boolean required) throws ValueSourceResolutionError
         {
         Object element = _element_source.resolveValue(context);
         if (element == null)

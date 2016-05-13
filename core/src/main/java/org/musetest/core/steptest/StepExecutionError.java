@@ -9,6 +9,11 @@ public class StepExecutionError extends Exception
         {
         super(message);
         }
+
+    public StepExecutionError(String message, Throwable cause)
+        {
+        super(message, cause);
+        }
     }
 
 

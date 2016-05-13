@@ -7,6 +7,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.*;
 import org.slf4j.*;
 
 /**
@@ -28,7 +29,7 @@ public class LogMessage extends BaseStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws ValueSourceResolutionError
         {
         Object value = getValue(_message, context, true, Object.class);
         String message;
@@ -47,7 +48,7 @@ public class LogMessage extends BaseStep
 
     public final static String TYPE_ID = LogMessage.class.getAnnotation(MuseTypeId.class).value();
 
-    final static Logger LOG = LoggerFactory.getLogger(LogMessage.class);
+    private final static Logger LOG = LoggerFactory.getLogger(LogMessage.class);
     }
 
 

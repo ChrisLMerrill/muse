@@ -5,6 +5,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -27,7 +28,7 @@ public class StoreVariable extends BaseStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws ValueSourceResolutionError
         {
         String name = getValue(_name, context, false, String.class);
         Object value = getValue(_value, context, true, Object.class);

@@ -155,7 +155,7 @@ public class SimpleProject implements MuseProject
                     Object value = config.createSource(this).resolveValue(new SingleStepExecutionContext(test_context, null, false));
                     context.setVariable(name, value);
                     }
-                catch (StepConfigurationError e)
+                catch (StepExecutionError e)
                     {
                     LOG.error("This default variable cannot be initialized: " + name + ". Perhaps later, when deferred-evaluation is implemented.");
                     }
@@ -169,7 +169,7 @@ public class SimpleProject implements MuseProject
     private ValueSourceDescriptors _source_descriptors;
     private ValueSourceStringExpressionSupporters _supporters;
 
-    final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);
+    private final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);
     }
 
 
