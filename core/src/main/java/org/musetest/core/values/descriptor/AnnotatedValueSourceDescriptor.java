@@ -1,7 +1,6 @@
 package org.musetest.core.values.descriptor;
 
 import org.musetest.core.*;
-import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.slf4j.*;
 
@@ -11,7 +10,7 @@ import org.slf4j.*;
 @SuppressWarnings("unchecked")
 public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
     {
-    public AnnotatedValueSourceDescriptor(String type, Class<? extends MuseValueSource> source_class, MuseProject project)
+    AnnotatedValueSourceDescriptor(String type, Class<? extends MuseValueSource> source_class, MuseProject project)
         {
         super(type, source_class, project);
         }
@@ -71,14 +70,7 @@ public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
         return super.getGroupName();
         }
 
-    public final static String VALUE_KEY = "value";
-    public final static String SOURCE_KEY = "source";
-    public final static String NAMED_SOURCE_KEY_START = "source(";
-    public final static String NAMED_SOURCE_KEY_END = ")";
-    public final static String INDEXED_SOURCE_KEY_START = "source[";
-    public final static String INDEXED_SOURCE_KEY_END = "]";
-
-    final static Logger LOG = LoggerFactory.getLogger(AnnotatedValueSourceDescriptor.class);
+    private final static Logger LOG = LoggerFactory.getLogger(AnnotatedValueSourceDescriptor.class);
     }
 
 
