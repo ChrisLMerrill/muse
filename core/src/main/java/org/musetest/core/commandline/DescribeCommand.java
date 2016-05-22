@@ -4,6 +4,7 @@ import io.airlift.airline.*;
 import org.musetest.core.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.util.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * Extension to the Muse command-line launcher to describe type of step or value source
@@ -23,14 +24,21 @@ public class DescribeCommand extends MuseCommand
         {
         MuseProject project = openProject();
 
-        StepDescriptor descriptor = project.getStepDescriptors().get(type_id);
-        if (descriptor == null)
+        StepDescriptor step = project.getStepDescriptors().get(type_id, true);
+        if (step != null)
             {
-            System.out.println(String.format("type %s is not recognized in the project", type_id));
+            System.out.println(step.getDocumentationDescription());
             return;
             }
 
-        System.out.println(descriptor.getDocumentationDescription());
+        ValueSourceDescriptor source = project.getValueSourceDescriptors().get(type_id, true);
+        if (source != null)
+            {
+            System.out.println(source.getDocumentationDescription());
+            return;
+            }
+
+        System.out.println(String.format("type '%s' was not found in the project", type_id));
         }
     }
 

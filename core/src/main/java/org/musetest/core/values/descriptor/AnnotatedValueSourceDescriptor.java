@@ -70,6 +70,15 @@ public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
         return super.getGroupName();
         }
 
+    @Override
+    public SubsourceDescriptor[] getSubsourceDescriptors()
+        {
+        SubsourceDescriptor[] descriptors = SubsourceDescriptor.getSubsourceDescriptors(_source_class);
+        if (descriptors == null)
+            return super.getSubsourceDescriptors();
+        return descriptors;
+        }
+
     private final static Logger LOG = LoggerFactory.getLogger(AnnotatedValueSourceDescriptor.class);
     }
 

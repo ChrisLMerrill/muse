@@ -26,13 +26,25 @@ public class ValueSourceDescriptors
 
     public ValueSourceDescriptor get(String type_id)
         {
+        return get(type_id, false);
+        }
+
+    /**
+     * @param allow_null Return null if no descriptor found (instead of an UnknownValueSourceDescriptor).
+     */
+    public ValueSourceDescriptor get(String type_id, boolean allow_null)
+        {
         for (Class implementing_class : _project.getClassLocator().getImplementors(MuseValueSource.class))
             {
             MuseTypeId type_annotation = (MuseTypeId) implementing_class.getAnnotation(MuseTypeId.class);
             if (type_annotation != null && type_id.equals(type_annotation.value()))
                 return get(implementing_class);
             }
-        return new UnknownValueSourceDescriptor(type_id, _project);
+
+        if (allow_null)
+            return null;
+        else
+            return new UnknownValueSourceDescriptor(type_id, _project);
         }
 
     public ValueSourceDescriptor get(Class<? extends MuseValueSource> step_class)

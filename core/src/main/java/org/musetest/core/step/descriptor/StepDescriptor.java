@@ -1,6 +1,7 @@
 package org.musetest.core.step.descriptor;
 
 import org.musetest.core.step.*;
+import org.musetest.core.values.descriptor.*;
 import org.slf4j.*;
 
 /**
@@ -27,6 +28,7 @@ public interface StepDescriptor
     String getType();
     String getGroupName();
     String getDocumentationDescription();
+    SubsourceDescriptor[] getSubsourceDescriptors();
 
     Logger LOG = LoggerFactory.getLogger(StepDescriptor.class);
     }

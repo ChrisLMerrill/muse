@@ -3,6 +3,7 @@ package org.musetest.core.tests.mocks.unknownresource;
 import org.musetest.core.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -63,6 +64,12 @@ public class TestStepDescriptor implements StepDescriptor
     public String getLongDescription()
         {
         return null;
+        }
+
+    @Override
+    public SubsourceDescriptor[] getSubsourceDescriptors()
+        {
+        return new SubsourceDescriptor[0];
         }
 
     @SuppressWarnings("unused")

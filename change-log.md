@@ -5,7 +5,9 @@
 - add: Import Back and Refresh steps from SeleniumIDE
 - add: Import Select by name and Select by label steps from SeleniumIDE
 - add: ValueSourceChangeListener interface and ValueSourceChangeObserver convenience class
+- add: @MuseSubsourceDescriptor annotation (and SubsourceDescriptor class) for describing the expected parameters of a Value Source or Step 
 - refactor: MuseValueSource.resolveValue() throws ValueSourceResolutionError instead of StepConfigurationError
+- upgrade to Gradle 2.13
 
 ## 0.2
 

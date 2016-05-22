@@ -32,10 +32,21 @@ public class StepDescriptors
 
     public StepDescriptor get(String type)
         {
+        return get(type, false);
+        }
+
+    /**
+     * @param allow_null Return null if no descriptor found (instead of an UnknownStepDescriptor).
+     */
+    public StepDescriptor get(String type, boolean allow_null)
+        {
         StepDescriptor descriptor = _descriptors_by_type.get(type);
         if (descriptor != null)
             return descriptor;
-        return new UnknownStepDescriptor(type, _project);
+        if (allow_null)
+            return null;
+        else
+            return new UnknownStepDescriptor(type, _project);
         }
 
     public StepDescriptor get(Class<? extends MuseStep> step_implementation)

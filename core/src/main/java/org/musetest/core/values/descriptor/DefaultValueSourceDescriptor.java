@@ -29,14 +29,30 @@ public class DefaultValueSourceDescriptor extends UnknownValueSourceDescriptor
     public String getDocumentationDescription()
         {
         StringBuilder builder = new StringBuilder();
-        builder.append(getName()).append(" - ").append(getShortDescription()).append("\n");
-        builder.append("type id: ").append(getType()).append("\n");
+        builder.append(getName()).append(" (").append(getType()).append(") - ").append(getShortDescription()).append("\n");
         if (getGroupName() != null)
             builder.append("UI group: ").append(getGroupName()).append("\n");
         if (getLongDescription() != null)
             {
-            builder.append("\n");
             builder.append(getLongDescription());
+            builder.append("\n");
+            }
+        SubsourceDescriptor[] parameters = getSubsourceDescriptors();
+        if (parameters.length > 0)
+            {
+            builder.append("Sub-sources:\n");
+            for (SubsourceDescriptor param : parameters)
+                {
+                builder.append("  ");
+                builder.append(param.getDisplayName());
+                builder.append(" (");
+                builder.append(param.getResolutionType().getSimpleName());
+                if (param.isOptional())
+                    builder.append(", optional");
+                builder.append(") - ");
+                builder.append(param.getDescription());
+                builder.append("\n");
+                }
             }
         return builder.toString();
         }

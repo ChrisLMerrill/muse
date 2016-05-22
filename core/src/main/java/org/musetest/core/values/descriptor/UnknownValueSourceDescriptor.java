@@ -97,6 +97,12 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
         return _project;
         }
 
+    @Override
+    public SubsourceDescriptor[] getSubsourceDescriptors()
+        {
+        return new SubsourceDescriptor[0];
+        }
+
     protected String _type;
     protected MuseProject _project;
     }

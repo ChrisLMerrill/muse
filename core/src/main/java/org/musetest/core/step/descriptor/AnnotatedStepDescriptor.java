@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.step.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -117,6 +118,15 @@ public class AnnotatedStepDescriptor extends DefaultStepDescriptor
             return group_name.value();
 
         return super.getGroupName();
+        }
+
+    @Override
+    public SubsourceDescriptor[] getSubsourceDescriptors()
+        {
+        SubsourceDescriptor[] descriptors = SubsourceDescriptor.getSubsourceDescriptors(_step_class);
+        if (descriptors == null)
+            return super.getSubsourceDescriptors();
+        return descriptors;
         }
 
     final private Class _step_class;

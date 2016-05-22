@@ -3,6 +3,7 @@ package org.musetest.core.step.descriptor;
 import org.musetest.core.*;
 import org.musetest.core.step.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -91,6 +92,12 @@ public class UnknownStepDescriptor implements StepDescriptor
     public String getLongDescription()
         {
         return null;
+        }
+
+    @Override
+    public SubsourceDescriptor[] getSubsourceDescriptors()
+        {
+        return new SubsourceDescriptor[0];
         }
 
     public MuseProject getProject()

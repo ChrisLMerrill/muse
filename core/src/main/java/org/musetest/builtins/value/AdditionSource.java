@@ -14,9 +14,10 @@ import java.util.*;
  */
 @MuseTypeId("add")
 @MuseValueSourceName("Add")
-@MuseValueSourceShortDescription("Add numeric sub-sources. Concatenates string sub-sources.")
+@MuseValueSourceShortDescription("Add numeric sub-sources. Concatenate string sub-sources.")
 @MuseValueSourceLongDescription("Adds the sources in the sub-source list. If any sub-sources resolve to a numeric value, it will attempt to convert the remainder to numbers, by parsing the string values. If they cannot all be parsed as numbers, they will all be converted to their string form by calling toString() on the object and then concatenated.")
 @MuseStringExpressionSupportImplementation(AdditionSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Addends", description = "The sub-sources to add", type = SubsourceDescriptor.Type.List)
 public class AdditionSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
