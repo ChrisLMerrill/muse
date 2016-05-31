@@ -2,6 +2,7 @@ package org.musetest.core.values;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+import com.sun.javafx.collections.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
@@ -293,21 +294,30 @@ public class ValueSourceConfiguration implements Serializable
 
     public void addChangeListener(ValueSourceChangeListener listener)
         {
-        getListeners().add(listener);
+        getListenersInternal().add(listener);
         }
 
     public boolean removeChangeListener(ValueSourceChangeListener listener)
         {
-        return getListeners().remove(listener);
+        return getListenersInternal().remove(listener);
         }
 
     private void notifyListeners(ValueSourceChangeEvent event)
         {
-        for (ValueSourceChangeListener listener : getListeners())
+        for (ValueSourceChangeListener listener : getListeners()) // use the public method - to be sure the set isn't modified while we're working (and get ConcurrentModificationException)
             listener.changed(event);
         }
 
-    private Set<ValueSourceChangeListener> getListeners()
+    @JsonIgnore
+    @SuppressWarnings("unused")  // used by GUI
+    public Set<ValueSourceChangeListener> getListeners()
+        {
+        HashSet<ValueSourceChangeListener> new_set = new HashSet<>();
+        new_set.addAll(getListenersInternal());
+        return new_set;
+        }
+
+    private Set<ValueSourceChangeListener> getListenersInternal()
         {
         if (_listeners == null)
             _listeners = new LinkedHashSet<>();
