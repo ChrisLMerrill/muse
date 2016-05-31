@@ -19,7 +19,7 @@ import org.openqa.selenium.*;
 @MuseStepIcon("glyph:FontAwesome:GLOBE")
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Open a new browser session")
-@MuseStepLongDescription("Opens a browser using the 'browser' and 'provider' sources. The 'browser' should resolve to the a SeleniumBrowserCapabilities, which will be converted to a Selenium DesiredCapabilities object. Likewise, the 'provider' should resolve to a WebDriverProviderConfiguration, which is used to instantiate a WebDriver.")
+@MuseStepLongDescription("Opens a browser using the 'browser' and 'provider' sources. The 'browser' should resolve to a SeleniumBrowserCapabilities object. Likewise, the 'provider' should resolve to a WebDriverProviderConfiguration, which is used to instantiate a WebDriver using the supplied capabilities.")
 public class OpenBrowser extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection
