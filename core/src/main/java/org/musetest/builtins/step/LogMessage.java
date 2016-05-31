@@ -8,6 +8,7 @@ import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.descriptor.*;
 import org.slf4j.*;
 
 /**
@@ -19,6 +20,7 @@ import org.slf4j.*;
 @MuseStepIcon("glyph:FontAwesome:COMMENTING_ALT")
 @MuseStepShortDescription("Write a message to the test event log")
 @MuseStepLongDescription("The 'message' source will be resolved and converted to a string. The result is added to a MessageEvent and sent to the event log for the test. It is also sent to the logging output (by default, standard out) at INFO level.")
+@MuseSubsourceDescriptor(displayName = "Message", description = "The message to log", type = SubsourceDescriptor.Type.Named, name = LogMessage.MESSAGE_PARAM)
 public class LogMessage extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection
@@ -45,7 +47,6 @@ public class LogMessage extends BaseStep
     private MuseValueSource _message;
 
     public final static String MESSAGE_PARAM = "message";
-
     public final static String TYPE_ID = LogMessage.class.getAnnotation(MuseTypeId.class).value();
 
     private final static Logger LOG = LoggerFactory.getLogger(LogMessage.class);
