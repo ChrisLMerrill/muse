@@ -1,7 +1,9 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
+import org.musetest.builtins.value.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.events.*;
 import org.musetest.core.util.*;
@@ -187,6 +189,28 @@ public class StepConfigurationChangeListenerTests
             });
 
         source.setValue("value2");
+        Assert.assertTrue(notified.get());
+        }
+
+    @Test
+    public void changeSubsource()
+        {
+        StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
+        ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("value #1");
+        ValueSourceConfiguration main_source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, subsource);
+        step.addSource(LogMessage.MESSAGE_PARAM, main_source );
+
+        AtomicBoolean notified = new AtomicBoolean(false);
+        step.addChangeListener(new StepChangeObserver()
+            {
+            @Override
+            public void sourceChanged(SourceChangedEvent event, String name, ValueSourceConfiguration source)
+                {
+                notified.set(true);
+                }
+            });
+
+        subsource.setValue("value #2");
         Assert.assertTrue(notified.get());
         }
     }
