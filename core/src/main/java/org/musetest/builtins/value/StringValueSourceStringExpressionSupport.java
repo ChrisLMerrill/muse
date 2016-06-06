@@ -26,7 +26,8 @@ public class StringValueSourceStringExpressionSupport extends BaseValueSourceStr
     public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (config.getType().equals(StringValueSource.TYPE_ID))
-            return "\"" + config.getValue() + "\"";
+            if (config.getValue() != null)
+                return "\"" + config.getValue() + "\"";
         return null;
         }
     }

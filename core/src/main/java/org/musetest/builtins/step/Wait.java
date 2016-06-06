@@ -7,6 +7,7 @@ import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -17,6 +18,7 @@ import org.musetest.core.values.*;
 @MuseStepIcon("glyph:FontAwesome:HOURGLASS_ALT")
 @MuseStepShortDescription("Wait for (condition)...")
 @MuseStepLongDescription("The 'condition' source is resolved and evaluated as a boolean. If it is false, the step will pause for 500ms and then re-resolve and evaluate the source, repeating the behavior up to 60 times (30 seconds). No action is taken if the condition is still false at the end (but it should generate an error or fail the test!).")
+@MuseSubsourceDescriptor(displayName = "Condition", description = "Condition to evaluate", type = SubsourceDescriptor.Type.Named, name = Wait.CONDITION_PARAM)
 @SuppressWarnings("unused")  // instantiated via reflection  TODO - this needs some unit tests
 public class Wait extends BaseStep
     {

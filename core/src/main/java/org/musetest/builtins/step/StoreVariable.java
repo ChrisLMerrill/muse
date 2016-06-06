@@ -6,6 +6,7 @@ import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -17,6 +18,8 @@ import org.musetest.core.values.*;
 @MuseStepTypeGroup("Variables")
 @MuseStepShortDescription("Set variable to a value")
 @MuseStepLongDescription("First, the 'value' source is resolved. Then the 'name' source is resolved to a string and used the store the 'value' result as a variable in the local execution context. Note that variables set this way are scoped such that they may only be visible to subsequent steps, but not steps higher or lower in the call chain (execution stack).")
+@MuseSubsourceDescriptor(displayName = "Name", description = "Name of the variable", type = SubsourceDescriptor.Type.Named, name = StoreVariable.NAME_PARAM)
+@MuseSubsourceDescriptor(displayName = "Value", description = "Value to store", type = SubsourceDescriptor.Type.Named, name = StoreVariable.VALUE_PARAM)
 public class StoreVariable extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection

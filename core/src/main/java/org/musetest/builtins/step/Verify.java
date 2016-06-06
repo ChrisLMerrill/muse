@@ -18,6 +18,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseStepIcon("glyph:FontAwesome:CHECK")
 @MuseValueSourceShortDescription("Check the supplied condition")
 @MuseValueSourceLongDescription("The 'condition' sub-source is resolved and evaluated as a boolean. If false, a VerifyFailureEvent is added to the test event log.")
+@MuseSubsourceDescriptor(displayName = "Condition", description = "Condition to evaluate", type = SubsourceDescriptor.Type.Named, name = Verify.CONDITION_PARAM)
 public class Verify extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection

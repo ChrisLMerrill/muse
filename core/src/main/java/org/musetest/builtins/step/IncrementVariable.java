@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -13,9 +14,12 @@ import org.musetest.core.steptest.*;
 @MuseTypeId("increment-variable")
 @MuseStepName("Increment")
 @MuseStepShortDescription("Increment a variable")
+@MuseStepLongDescription("Increments the value of a variable by one (or, optionally, by another value)")
 @MuseStepDescriptorImplementation(IncrementVariableDescriptor.class)
 @MuseStepIcon("glyph:FontAwesome:PLUS")
 @MuseStepTypeGroup("Variables")
+@MuseSubsourceDescriptor(displayName = "Name", description = "Name of the variable", type = SubsourceDescriptor.Type.Named, name = IncrementVariable.NAME_PARAM)
+@MuseSubsourceDescriptor(displayName = "Amount", description = "Amount to increment by", type = SubsourceDescriptor.Type.Named, name = IncrementVariable.AMOUNT_PARAM, optional = true)
 public class IncrementVariable extends BaseStep
     {
     public IncrementVariable(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
