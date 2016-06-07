@@ -1,7 +1,6 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
-import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.step.*;
