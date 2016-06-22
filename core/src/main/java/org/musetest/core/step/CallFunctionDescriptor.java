@@ -28,6 +28,7 @@ public class CallFunctionDescriptor extends AnnotatedStepDescriptor
         ValueSourceConfiguration return_source = step.getSource(CallFunction.RETURN_PARAM);
         if (return_source != null)
             {
+            builder.append("$");
             builder.append(getProject().getValueSourceDescriptors().get(return_source).getInstanceDescription(return_source));
             builder.append(" = ");
             }
