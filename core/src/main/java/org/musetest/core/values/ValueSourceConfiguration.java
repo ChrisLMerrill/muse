@@ -2,7 +2,6 @@ package org.musetest.core.values;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
-import com.sun.javafx.collections.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
@@ -309,7 +308,7 @@ public class ValueSourceConfiguration implements Serializable
         }
 
     @JsonIgnore
-    @SuppressWarnings("unused")  // used by GUI
+    @SuppressWarnings({"unused", "WeakerAccess"})  // used by GUI
     public Set<ValueSourceChangeListener> getListeners()
         {
         HashSet<ValueSourceChangeListener> new_set = new HashSet<>();
@@ -389,16 +388,16 @@ public class ValueSourceConfiguration implements Serializable
         return builder.toString();
         }
 
-    Object _value;
-    ValueSourceConfiguration _source;
-    String _type;
-    Map<String, ValueSourceConfiguration> _source_map;
-    List<ValueSourceConfiguration> _source_list;
+    private Object _value;
+    private ValueSourceConfiguration _source;
+    private String _type;
+    private Map<String, ValueSourceConfiguration> _source_map;
+    private List<ValueSourceConfiguration> _source_list;
 
     private transient Set<ValueSourceChangeListener> _listeners;
     private transient ValueSourceChangeListener _listener;
 
-    class SubsourceChangeListener extends ValueSourceChangeObserver
+    private class SubsourceChangeListener extends ValueSourceChangeObserver
         {
         @Override
         public void changed(ValueSourceChangeEvent event)
@@ -422,7 +421,7 @@ public class ValueSourceConfiguration implements Serializable
             else
                 notifyListeners(mod_event);
             }
-        };
+        }
 
     //
     // convenient factory methods for unit tests
@@ -461,6 +460,19 @@ public class ValueSourceConfiguration implements Serializable
         return config;
         }
 
+    @SuppressWarnings("unused")  // used in GUI
+    public static ValueSourceConfiguration forTypeWithNamedSource(String type, String name, Object value)
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(type);
+        ValueSourceConfiguration subsource;
+        if (value instanceof ValueSourceConfiguration)
+            subsource = (ValueSourceConfiguration) value;
+        else
+            subsource = ValueSourceConfiguration.forValue(value);
+        config.addSource(name, subsource);
+        return config;
+        }
+
     public static ValueSourceConfiguration forSource(String type, ValueSourceConfiguration source)
         {
         ValueSourceConfiguration config = new ValueSourceConfiguration();
@@ -484,5 +496,5 @@ public class ValueSourceConfiguration implements Serializable
         return config;
         }
 
-    final static Logger LOG = LoggerFactory.getLogger(ValueSourceConfiguration.class);
+    private final static Logger LOG = LoggerFactory.getLogger(ValueSourceConfiguration.class);
     }

@@ -64,7 +64,7 @@ public abstract class BaseStep implements MuseStep
      */
     protected MuseValueSource getValueSource(StepConfiguration config, String name, boolean required, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
         {
-        ValueSourceConfiguration source_config = config.getSourceConfiguration(name);
+        ValueSourceConfiguration source_config = config.getSource(name);
         if (source_config == null)
             {
             if (required)

@@ -1,14 +1,17 @@
 package org.musetest.core.step;
 
 import com.fasterxml.jackson.annotation.*;
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.events.*;
 import org.musetest.core.step.events.TypeChangeEvent;
 import org.musetest.core.step.factory.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.descriptor.*;
 import org.musetest.core.values.events.*;
 import org.slf4j.*;
 
@@ -27,6 +30,14 @@ public class StepConfiguration implements Serializable
     public StepConfiguration(String step_type)
         {
         _step_type = step_type;
+        }
+
+    public StepConfiguration(StepDescriptor descriptor)
+        {
+        _step_type = descriptor.getType();
+        for (SubsourceDescriptor source_descriptor : descriptor.getSubsourceDescriptors())
+            if (!source_descriptor.isOptional())
+                addSource(source_descriptor.getName(), ValueSourceConfiguration.forType(StringValueSource.TYPE_ID));
         }
 
     public String getType()
@@ -85,6 +96,7 @@ public class StepConfiguration implements Serializable
         _children.add(child);
         }
 
+    @SuppressWarnings("unused") // used by GUI
     public void addChild(int index, StepConfiguration child)
         {
         if (_children == null)
@@ -117,13 +129,6 @@ public class StepConfiguration implements Serializable
             && Objects.equals(_sources, other.getSources());
         }
 
-    public ValueSourceConfiguration getSourceConfiguration(String name)
-        {
-        if (_sources == null)
-            return null;
-        return _sources.get(name);
-        }
-
     public void addSource(String name, ValueSourceConfiguration source)
         {
         if (_sources == null)
@@ -140,11 +145,13 @@ public class StepConfiguration implements Serializable
             }
         }
 
+    @SuppressWarnings("unused") // used by GUI
     public boolean hasChildren()
         {
         return _children != null && _children.size() > 0;
         }
 
+    @SuppressWarnings("unused") // used by GUI
     public void removeChild(StepConfiguration child)
         {
         // note that we remove using object identity rather than equivalence, since a list can contain multiple identical StepConfigurations
@@ -209,7 +216,7 @@ public class StepConfiguration implements Serializable
         return builder.toString();
         }
 
-    protected synchronized Set<StepConfigurationChangeListener> getListeners()
+    private synchronized Set<StepConfigurationChangeListener> getListeners()
         {
         if (_listeners == null)
             {
@@ -227,7 +234,7 @@ public class StepConfiguration implements Serializable
         return _source_listener;
         }
 
-    protected void notifyListeners(StepChangeEvent event)
+    private void notifyListeners(StepChangeEvent event)
         {
         for (StepConfigurationChangeListener listener : getListeners())
             listener.changed(event);
@@ -254,7 +261,7 @@ public class StepConfiguration implements Serializable
 
     public final static String META_DESCRIPTION = "description";
 
-    static StepFactory getDefaultStepFactory()
+    private static StepFactory getDefaultStepFactory()
         {
         if (DEFAULT == null)
             {
@@ -264,7 +271,7 @@ public class StepConfiguration implements Serializable
         return DEFAULT;
         }
 
-    class SourceChangeListener extends ValueSourceChangeObserver
+    private class SourceChangeListener extends ValueSourceChangeObserver
         {
         @Override
         public void changed(ValueSourceChangeEvent event)
@@ -286,5 +293,5 @@ public class StepConfiguration implements Serializable
 
     private static StepFactory DEFAULT = null;
 
-    final static Logger LOG = LoggerFactory.getLogger(StepConfiguration.class);
+    private final static Logger LOG = LoggerFactory.getLogger(StepConfiguration.class);
     }
