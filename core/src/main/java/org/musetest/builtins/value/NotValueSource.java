@@ -15,16 +15,17 @@ import org.musetest.core.values.descriptor.*;
 @MuseValueSourceShortDescription("Returns the boolean complement of the sub-source.")
 @MuseValueSourceLongDescription("Resolves the sub-source. If it is a boolean, return the complement. Else error.")
 @MuseStringExpressionSupportImplementation(NotValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Value", description = "subsource to invert (expects a boolean value)", type = SubsourceDescriptor.Type.Single)
 public class NotValueSource extends BaseValueSource
     {
 //    @SuppressWarnings("unused")  // used via reflection
     public NotValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
-        if (config.getSourceList() != null && config.getSourceList().size() == 1)
-            _subsource = config.getSource(0).createSource(project);
+        if (config.getSource() != null)
+            _subsource = config.getSource().createSource(project);
         else
-            throw new MuseInstantiationException("Missing required parameter (source list [0])");
+            throw new MuseInstantiationException("Missing required parameter (subsource)");
         }
 
     @Override

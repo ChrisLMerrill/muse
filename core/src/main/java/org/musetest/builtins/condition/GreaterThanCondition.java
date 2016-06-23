@@ -16,6 +16,8 @@ import org.musetest.core.values.descriptor.*;
 @MuseValueSourceShortDescription("True if the left is greater than the right")
 @MuseValueSourceLongDescription("Compare the result of resolving two sources (left and right). Returns true if left operand is greater than the right. Integer and String comparisons are supported - other operand types will result in an error.")
 @MuseStringExpressionSupportImplementation(GreaterThanConditionStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Left", description = "Left operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.LEFT_PARAM)
+@MuseSubsourceDescriptor(displayName = "Right", description = "Right operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.RIGHT_PARAM)
 public class GreaterThanCondition extends BinaryCondition
     {
     @SuppressWarnings("unused")  // used via reflection

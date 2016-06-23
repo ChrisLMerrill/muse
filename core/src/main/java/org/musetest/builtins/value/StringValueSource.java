@@ -16,7 +16,7 @@ import org.slf4j.*;
 @MuseValueSourceShortDescription("a string of characters")
 @MuseValueSourceLongDescription("A primitive value source that returns string of characters")
 @MuseStringExpressionSupportImplementation(StringValueSourceStringExpressionSupport.class)
-@MuseSubsourceDescriptor(displayName = "Text", description = "text of the string", type = SubsourceDescriptor.Type.Value)
+@MuseSubsourceDescriptor(displayName = "Text", description = "text of the string, surrounded by quotes", type = SubsourceDescriptor.Type.Value)
 public class StringValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

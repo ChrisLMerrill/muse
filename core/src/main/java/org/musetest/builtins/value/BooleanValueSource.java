@@ -16,6 +16,7 @@ import org.slf4j.*;
 @MuseValueSourceShortDescription("true or false")
 @MuseValueSourceLongDescription("A primitive value source that returns true or false.")
 @MuseStringExpressionSupportImplementation(BooleanValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Value", description = "true or false", type = SubsourceDescriptor.Type.Value)
 public class BooleanValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

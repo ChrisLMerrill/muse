@@ -16,6 +16,7 @@ import org.slf4j.*;
 @MuseValueSourceShortDescription("an integer value")
 @MuseValueSourceLongDescription("A primitive value source that returns an integer value")
 @MuseStringExpressionSupportImplementation(IntegerValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Value", description = "an integer number", type = SubsourceDescriptor.Type.Value)
 public class IntegerValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

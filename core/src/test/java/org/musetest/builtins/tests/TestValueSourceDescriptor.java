@@ -60,6 +60,12 @@ public class TestValueSourceDescriptor extends DefaultValueSourceDescriptor
                 {
                 return null;
                 }
+
+            @Override
+            public String getOneLineSummary()
+                {
+                return null;
+                }
             };
         return null;  // TODO
         }

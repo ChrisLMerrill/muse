@@ -14,6 +14,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseValueSourceShortDescription("Get a project resource by resource id")
 @MuseValueSourceLongDescription("Resolves the sub-source and converts it to a string, which is used to lookup the resource in the project. If multiple project resources match the id, the first found will be returned (this behavior may not be consistent from one call to the next).")
 @MuseStringExpressionSupportImplementation(ProjectResourceValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Id", description = "Id of the project resource", type = SubsourceDescriptor.Type.Single)
 public class ProjectResourceValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
