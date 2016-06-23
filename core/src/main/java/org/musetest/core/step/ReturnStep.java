@@ -6,6 +6,7 @@ import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 
 import java.util.*;
 
@@ -19,6 +20,7 @@ import java.util.*;
 @MuseStepTypeGroup("Structure")
 @MuseStepShortDescription("Return from a function")
 @MuseStepLongDescription("Return a value to the caller and exit the current function. If the 'value' subsource is set, it will resolve that source and return it to the caller. This step only has meaning within the context of a function.")
+@MuseSubsourceDescriptor(displayName = "Return value", description = "The source to resolve and return to the caller", type = SubsourceDescriptor.Type.Named, name = ReturnStep.VALUE_PARAM)
 public class ReturnStep extends BaseStep
     {
     public ReturnStep(StepConfiguration configuration, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException

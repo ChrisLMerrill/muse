@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 import org.slf4j.*;
 
 import java.util.*;
@@ -25,6 +26,7 @@ import java.util.*;
 @MuseStepIcon("glyph:FontAwesome:EXTERNAL_LINK")
 @MuseStepTypeGroup("Structure")
 @MuseStepLongDescription("The 'id' source is resolved to a string and used to find the macro in the project. The steps within the macro are then executed as children of the call-macro step, within the same variable scope as the parent. This means that steps within the macro have access to the same variables as the caller.")
+@MuseSubsourceDescriptor(displayName = "Macro name", description = "The name (resource id) of the macro to call", type = SubsourceDescriptor.Type.Named, name = CallMacroStep.ID_PARAM)
 public class CallMacroStep extends ScopedGroup
     {
     @SuppressWarnings("unused") // called via reflection

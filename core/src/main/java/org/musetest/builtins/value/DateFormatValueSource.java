@@ -17,6 +17,8 @@ import java.util.*;
 @MuseValueSourceShortDescription("Format a date as a string")
 @MuseValueSourceLongDescription("Formats the 'date' param according the the 'format' string (see Javadocs for SimpleDateFormat). If date is not provided, the current date/time is used. If the format is not provided, the output is milliseconds since 1970.")
 @MuseStringExpressionSupportImplementation(DateFormatValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Date", description = "Date object", type = SubsourceDescriptor.Type.Named, name = DateFormatValueSource.DATE_PARAM)
+@MuseSubsourceDescriptor(displayName = "Format", description = "format descriptor", type = SubsourceDescriptor.Type.Named, name = DateFormatValueSource.FORMAT_PARAM)
 public class DateFormatValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

@@ -1,5 +1,6 @@
 package org.musetest.builtins.condition;
 
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
@@ -18,6 +19,8 @@ import java.util.*;
 @MuseValueSourceShortDescription("Compare two sources for equality")
 @MuseValueSourceLongDescription("Compare two sources, return true if equal. Object.equals() is used for the comparison.")
 @MuseStringExpressionSupportImplementation(EqualityConditionStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Left", description = "Left operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.LEFT_PARAM)
+@MuseSubsourceDescriptor(displayName = "Right", description = "Right operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.RIGHT_PARAM)
 public class EqualityCondition extends BinaryCondition
     {
     @SuppressWarnings("unused")  // used via reflection
