@@ -2,6 +2,7 @@ package org.musetest.core.step.descriptor;
 
 import org.musetest.core.*;
 import org.musetest.core.step.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -78,6 +79,15 @@ public class DefaultStepDescriptor extends UnknownStepDescriptor
         builder.append("type id: ").append(getType()).append("\n");
         if (getGroupName() != null)
             builder.append("UI group: ").append(getGroupName()).append("\n");
+
+        SubsourceDescriptor[] subsources = getSubsourceDescriptors();
+        if (subsources != null && subsources.length > 0)
+            {
+            builder.append("\nParameters:\n");
+            for (SubsourceDescriptor subsource : subsources)
+                            builder.append(subsource.getOneLineSummary()).append("\n");
+            }
+
         if (getLongDescription() != null)
             {
             builder.append("\n");

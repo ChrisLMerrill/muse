@@ -14,6 +14,7 @@ public interface SubsourceDescriptor
     boolean isOptional();
     Type getType();
     Class getResolutionType();
+    String getOneLineSummary();
 
     enum Type
         {

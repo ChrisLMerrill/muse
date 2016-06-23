@@ -69,6 +69,24 @@ public class SimpleSubsourceDescriptor implements SubsourceDescriptor
         return _resolution_type;
         }
 
+    @Override
+    public String getOneLineSummary()
+        {
+        StringBuilder builder = new StringBuilder();
+        switch (_type)
+            {
+            case Named:
+                builder.append(String.format("%s (%s) - %s", _display_name, _name, _description));
+                break;
+            case Value:
+                builder.append(String.format("%s - %s", _display_name, _description));
+                break;
+            }
+        if (_optional)
+            builder.append(" (optional)");
+        return builder.toString();
+        }
+
     private String _display_name;
     private String _name;
     private String _description;
