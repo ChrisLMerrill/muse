@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -17,6 +18,7 @@ import org.musetest.core.steptest.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Goto a URL in the browser")
 @MuseStepLongDescription("Resolve the URL source to a string. Then go to that URL in the browser by calling driver.navigate.to(URL).")
+@MuseSubsourceDescriptor(displayName = "URL", description = "URL to navigate to", type = SubsourceDescriptor.Type.Named, name = GotoUrl.URL_PARAM)
 public class GotoUrl extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection

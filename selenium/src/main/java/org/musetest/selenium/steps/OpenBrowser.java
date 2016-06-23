@@ -7,6 +7,7 @@ import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.descriptor.*;
 import org.musetest.selenium.*;
 import org.openqa.selenium.*;
 
@@ -20,6 +21,8 @@ import org.openqa.selenium.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Open a new browser session")
 @MuseStepLongDescription("Opens a browser using the 'browser' and 'provider' sources. The 'browser' should resolve to a SeleniumBrowserCapabilities object. Likewise, the 'provider' should resolve to a WebDriverProviderConfiguration, which is used to instantiate a WebDriver using the supplied capabilities.")
+@MuseSubsourceDescriptor(displayName = "Browser", description = "The capabilities of browser to open (expects a project resource of type SeleniumBrowserCapabilities)", type = SubsourceDescriptor.Type.Named, name = OpenBrowser.BROWSER_PARAM)
+@MuseSubsourceDescriptor(displayName = "Provider", description = "The browser provider to use (expects a project resource of type WebDriverProviderConfiguration)", type = SubsourceDescriptor.Type.Named, name = OpenBrowser.PROVIDER_PARAM)
 public class OpenBrowser extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection

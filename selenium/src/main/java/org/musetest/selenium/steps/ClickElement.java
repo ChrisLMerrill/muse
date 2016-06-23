@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -17,6 +18,7 @@ import org.musetest.core.steptest.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Click an element")
 @MuseStepLongDescription("Resolves the 'element' source to a WebElement and then calls the click() method.")
+@MuseSubsourceDescriptor(displayName = "Element", description = "Locator for the element to click", type = SubsourceDescriptor.Type.Named, name = ClickElement.ELEMENT_PARAM)
 public class ClickElement extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection

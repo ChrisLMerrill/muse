@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -17,6 +18,7 @@ import org.musetest.core.steptest.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Submit a form")
 @MuseStepLongDescription("Resolves the 'element' source to a WebElement and then calls the submit() method. If the element is a form or an input element within the form, the form will be submitted.")
+@MuseSubsourceDescriptor(displayName = "Element", description = "Locator for the element to submit", type = SubsourceDescriptor.Type.Named, name = SubmitElement.ELEMENT_PARAM)
 @SuppressWarnings("unused")  // invoked via reflection
 public class SubmitElement extends BrowserStep
     {

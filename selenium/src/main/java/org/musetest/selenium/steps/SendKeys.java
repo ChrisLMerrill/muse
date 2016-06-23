@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 import org.openqa.selenium.*;
 
 /**
@@ -18,6 +19,8 @@ import org.openqa.selenium.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Send keystrokes to an element")
 @MuseStepLongDescription("Resolves the 'keys' source to a String and the 'element' source to a WebElement. If both succeed, then sendKeys() method of WebElement is called with the keys string. Control keys are not yet supported.")
+@MuseSubsourceDescriptor(displayName = "Element", description = "Locator for the element to send the keys to", type = SubsourceDescriptor.Type.Named, name = SendKeys.ELEMENT_PARAM)
+@MuseSubsourceDescriptor(displayName = "Keys", description = "Text string containing the keys to send to the element", type = SubsourceDescriptor.Type.Named, name = SendKeys.KEYS_PARAM)
 public class SendKeys extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection

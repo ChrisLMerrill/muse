@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -17,6 +18,7 @@ import org.musetest.core.steptest.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Clear an element")
 @MuseStepLongDescription("Resolves the 'element' source to a WebElement and then calls the clear() method. If the element has text entry, it will clear the value.")
+@MuseSubsourceDescriptor(displayName = "Element", description = "Locator for the element to clear", type = SubsourceDescriptor.Type.Named, name = ClearElement.ELEMENT_PARAM)
 @SuppressWarnings("unused") // discovered and invoked via reflection
 public class ClearElement extends BrowserStep
     {

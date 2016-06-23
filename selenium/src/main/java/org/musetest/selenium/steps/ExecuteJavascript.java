@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 import org.openqa.selenium.*;
 
 /**
@@ -18,6 +19,7 @@ import org.openqa.selenium.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Run a script in the browser")
 @MuseStepLongDescription("Resolve the script source to a string. Inject that into the browser and run it.")
+@MuseSubsourceDescriptor(displayName = "Script", description = "The script to execute (as a text string)", type = SubsourceDescriptor.Type.Named, name = ExecuteJavascript.SCRIPT_PARAM)
 public class ExecuteJavascript extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
