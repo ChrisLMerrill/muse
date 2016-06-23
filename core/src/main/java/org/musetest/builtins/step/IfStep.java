@@ -18,7 +18,7 @@ import java.util.*;
 @MuseInlineEditString("if {condition}")
 @MuseStepIcon("glyph:FontAwesome:QUESTION_CIRCLE")
 @MuseStepTypeGroup("Conditionals & Looping")
-@MuseStepShortDescription("If (condition) is true...")
+@MuseStepShortDescription("If (condition) is true, execute the child steps")
 @MuseStepLongDescription("The 'condition' source is resolved evaluated as a boolean. If true, the child steps will be executed.")
 @MuseSubsourceDescriptor(displayName = "Condition", description = "Condition to evaluate", type = SubsourceDescriptor.Type.Named, name = IfStep.CONDITION_PARAM)
 public class IfStep extends BasicCompoundStep
