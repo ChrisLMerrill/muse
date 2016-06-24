@@ -180,7 +180,7 @@ public class ValueSourceTests
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(true);
-        MuseValueSource source = ValueSourceConfiguration.forTypeWithIndexedSource(NotValueSource.TYPE_ID, source_value).createSource();
+        MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
         Assert.assertEquals(false, source.resolveValue(context));
         }
 
@@ -189,7 +189,7 @@ public class ValueSourceTests
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(false);
-        MuseValueSource source = ValueSourceConfiguration.forTypeWithIndexedSource(NotValueSource.TYPE_ID, source_value).createSource();
+        MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
         Assert.assertEquals(true, source.resolveValue(context));
         }
 
@@ -198,7 +198,7 @@ public class ValueSourceTests
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(null);
-        MuseValueSource source = ValueSourceConfiguration.forTypeWithIndexedSource(NotValueSource.TYPE_ID, source_value).createSource();
+        MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
         try
             {
             source.resolveValue(context);
@@ -219,7 +219,7 @@ public class ValueSourceTests
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue("string");
-        MuseValueSource source = ValueSourceConfiguration.forTypeWithIndexedSource(NotValueSource.TYPE_ID, source_value).createSource();
+        MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
         try
             {
             source.resolveValue(context);
