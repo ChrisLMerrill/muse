@@ -20,7 +20,7 @@ import java.util.*;
 @MuseStepTypeGroup("Conditionals & Looping")
 @MuseStepShortDescription("If (condition) is true, execute the child steps")
 @MuseStepLongDescription("The 'condition' source is resolved evaluated as a boolean. If true, the child steps will be executed.")
-@MuseSubsourceDescriptor(displayName = "Condition", description = "Condition to evaluate", type = SubsourceDescriptor.Type.Named, name = IfStep.CONDITION_PARAM)
+@MuseSubsourceDescriptor(displayName = "Condition", description = "Source to evaluate (expects a boolean)", type = SubsourceDescriptor.Type.Named, name = IfStep.CONDITION_PARAM)
 public class IfStep extends BasicCompoundStep
     {
     public IfStep(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
