@@ -18,6 +18,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("Locate a element by CSS Selector")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByCssSelector locator.")
 @MuseStringExpressionSupportImplementation(CssElementValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Selector", description = "A CSS selector string", type = SubsourceDescriptor.Type.Single)
 public class CssElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

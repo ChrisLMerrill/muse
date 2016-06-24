@@ -18,6 +18,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is visible")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement and it is visible.")
 @MuseStringExpressionSupportImplementation(ElementVisibleConditionStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Element", description = "The element to inspect", type = SubsourceDescriptor.Type.Single)
 public class ElementVisibleCondition extends BaseElementValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

@@ -18,6 +18,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("True if the element exists")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")
 @MuseStringExpressionSupportImplementation(ElementExistsConditionStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Element", description = "The element to inspect", type = SubsourceDescriptor.Type.Single)
 public class ElementExistsCondition extends BaseElementValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

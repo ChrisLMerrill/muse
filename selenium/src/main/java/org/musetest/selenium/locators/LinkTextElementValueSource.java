@@ -17,6 +17,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("Locates an element by link text")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByLinkText locator.")
 @MuseStringExpressionSupportImplementation(LinkTextElementValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Text", description = "The text of the link", type = SubsourceDescriptor.Type.Single)
 public class LinkTextElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

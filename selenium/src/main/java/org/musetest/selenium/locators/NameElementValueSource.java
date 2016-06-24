@@ -17,6 +17,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("Locates an element by field name")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByName locator.")
 @MuseStringExpressionSupportImplementation(NameElementValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Name", description = "Name of the element", type = SubsourceDescriptor.Type.Single)
 public class NameElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

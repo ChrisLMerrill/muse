@@ -17,6 +17,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("Locate an element by id")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ById locator.")
 @MuseStringExpressionSupportImplementation(IdElementValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Id", description = "Id of the element", type = SubsourceDescriptor.Type.Single)
 public class IdElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

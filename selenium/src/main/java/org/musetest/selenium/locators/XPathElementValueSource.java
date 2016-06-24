@@ -17,6 +17,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("Locate an element by XPath")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByXPath locator.")
 @MuseStringExpressionSupportImplementation(XPathElementValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "XPath", description = "An XPath string", type = SubsourceDescriptor.Type.Single)
 public class XPathElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
