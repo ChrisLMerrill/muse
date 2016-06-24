@@ -18,7 +18,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Click an element")
 @MuseStepLongDescription("Resolves the 'element' source to a WebElement and then calls the click() method.")
-@MuseSubsourceDescriptor(displayName = "Element", description = "Locator for the element to click", type = SubsourceDescriptor.Type.Named, name = ClickElement.ELEMENT_PARAM)
+@MuseSubsourceDescriptor(displayName = "Element", description = "The element to click", type = SubsourceDescriptor.Type.Named, name = ClickElement.ELEMENT_PARAM)
 public class ClickElement extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection

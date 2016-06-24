@@ -20,7 +20,7 @@ import org.openqa.selenium.support.ui.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Select an option by index")
 @MuseStepLongDescription("Resolves the 'element' source to a Select WebElement and then selects the option with index = 'index'.")
-@MuseSubsourceDescriptor(displayName = "Element", description = "Locator for the element to select from", type = SubsourceDescriptor.Type.Named, name = SelectOptionByIndex.ELEMENT_PARAM)
+@MuseSubsourceDescriptor(displayName = "Element", description = "The element to select from", type = SubsourceDescriptor.Type.Named, name = SelectOptionByIndex.ELEMENT_PARAM)
 @MuseSubsourceDescriptor(displayName = "Index", description = "Index of the entry to select (expects an integer)", type = SubsourceDescriptor.Type.Named, name = SelectOptionByIndex.INDEX_PARAM)
 public class SelectOptionByIndex extends BrowserStep
     {

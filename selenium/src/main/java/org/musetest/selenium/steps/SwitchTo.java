@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.descriptor.*;
 import org.openqa.selenium.*;
 
 /**
@@ -18,6 +19,7 @@ import org.openqa.selenium.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Switch the current driver target")
 @MuseStepLongDescription("Resolves the 'target' source and calls the driver's switchTo() method with it. The parameter can be an element (name, window and alerts not yet supported).")
+@MuseSubsourceDescriptor(displayName = "Target", description = "Locator for the element to switch to", type = SubsourceDescriptor.Type.Named, name = SwitchTo.TARTGET_PARAM)
 public class SwitchTo extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection

@@ -20,7 +20,7 @@ import org.openqa.selenium.support.ui.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Select an option by visible text")
 @MuseStepLongDescription("Resolves the 'element' source to a Select WebElement and then selects the option with visible text = 'text'.")
-@MuseSubsourceDescriptor(displayName = "Element", description = "Locator for the element to select from", type = SubsourceDescriptor.Type.Named, name = SelectOptionByText.ELEMENT_PARAM)
+@MuseSubsourceDescriptor(displayName = "Element", description = "The element to select from", type = SubsourceDescriptor.Type.Named, name = SelectOptionByText.ELEMENT_PARAM)
 @MuseSubsourceDescriptor(displayName = "Text", description = "Text of the entry to select", type = SubsourceDescriptor.Type.Named, name = SelectOptionByText.TEXT_PARAM)
 public class SelectOptionByText extends BrowserStep
     {
