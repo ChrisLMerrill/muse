@@ -20,7 +20,7 @@ public class GotoUrlConverter implements StepConverter
             if (path.startsWith("/"))
                 path = path.substring(1);
             StepConfiguration step = new StepConfiguration(GotoUrl.TYPE_ID);
-            step.addSource(GotoUrl.URL_PARAM, ValueSourceConfiguration.forValue(converter.getBaseUrl() + path));
+            step.setSource(GotoUrl.URL_PARAM, ValueSourceConfiguration.forValue(converter.getBaseUrl() + path));
             return step;
             }
         return null;

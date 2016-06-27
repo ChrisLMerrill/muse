@@ -94,7 +94,7 @@ public class StepConfigurationChangeListenerTests
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
         final ValueSourceConfiguration old_source = ValueSourceConfiguration.forValue("old message");
         final ValueSourceConfiguration new_source = ValueSourceConfiguration.forValue("new message");
-        config.addSource(LogMessage.MESSAGE_PARAM, old_source);
+        config.setSource(LogMessage.MESSAGE_PARAM, old_source);
 
         AtomicReference<String> changed_name = new AtomicReference(null);
         AtomicReference<ValueSourceConfiguration> changed_old_source = new AtomicReference(null);
@@ -110,7 +110,7 @@ public class StepConfigurationChangeListenerTests
                 }
             });
 
-        config.addSource(LogMessage.MESSAGE_PARAM, new_source);
+        config.setSource(LogMessage.MESSAGE_PARAM, new_source);
 
         Assert.assertEquals(LogMessage.MESSAGE_PARAM, changed_name.get());
         Assert.assertEquals(old_source, changed_old_source.get());
@@ -118,7 +118,7 @@ public class StepConfigurationChangeListenerTests
 
         // remove the source and ensure we get notified
         changed_name.set(null);
-        config.addSource(LogMessage.MESSAGE_PARAM, null);
+        config.setSource(LogMessage.MESSAGE_PARAM, null);
         Assert.assertEquals(LogMessage.MESSAGE_PARAM, changed_name.get());
         Assert.assertEquals(new_source, changed_old_source.get());
         Assert.assertEquals(null, changed_new_source.get());
@@ -129,7 +129,7 @@ public class StepConfigurationChangeListenerTests
         {
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
         final ValueSourceConfiguration source = ValueSourceConfiguration.forValue("old message");
-        step.addSource(LogMessage.MESSAGE_PARAM, source);
+        step.setSource(LogMessage.MESSAGE_PARAM, source);
 
         AtomicReference<SourceChangedEvent> notified_event = new AtomicReference<>(null);
         AtomicReference<String> notified_name = new AtomicReference<>(null);
@@ -153,13 +153,13 @@ public class StepConfigurationChangeListenerTests
 
         // now remove the source and ensure future notifications do not arrive
         notified_event.set(null);
-        step.addSource(LogMessage.MESSAGE_PARAM, null);
+        step.setSource(LogMessage.MESSAGE_PARAM, null);
         source.setValue("value2");
         Assert.assertNull(notified_event.get());
 
         // add the source back...and get notified.
         notified_event.set(null);
-        step.addSource(LogMessage.MESSAGE_PARAM, source);
+        step.setSource(LogMessage.MESSAGE_PARAM, source);
         source.setValue("value3");
         Assert.assertNotNull(notified_event.get());
         }
@@ -172,7 +172,7 @@ public class StepConfigurationChangeListenerTests
         {
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
         ValueSourceConfiguration source = ValueSourceConfiguration.forValue("old message");
-        step.addSource(LogMessage.MESSAGE_PARAM, source);
+        step.setSource(LogMessage.MESSAGE_PARAM, source);
 
         step = Copy.withJsonSerialization(step);
         source = step.getSource(LogMessage.MESSAGE_PARAM);
@@ -197,7 +197,7 @@ public class StepConfigurationChangeListenerTests
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("value #1");
         ValueSourceConfiguration main_source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, subsource);
-        step.addSource(LogMessage.MESSAGE_PARAM, main_source );
+        step.setSource(LogMessage.MESSAGE_PARAM, main_source );
 
         AtomicBoolean notified = new AtomicBoolean(false);
         step.addChangeListener(new StepChangeObserver()

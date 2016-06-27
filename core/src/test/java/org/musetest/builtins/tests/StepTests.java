@@ -46,7 +46,7 @@ public class StepTests
             }
 
         // this should log a message
-        config.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("this is the message"));
+        config.setSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("this is the message"));
         config.createStep().execute(new DummyStepExecutionContext());
         }
 
@@ -54,8 +54,8 @@ public class StepTests
     public void storeStringVariable() throws StepExecutionError
         {
         StepConfiguration config = new StepConfiguration(StoreVariable.TYPE_ID);
-        config.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
-        config.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
+        config.setSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
+        config.setSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
 
         StepExecutionContext context = new DummyStepExecutionContext();
         MuseStep step = config.createStep();
@@ -67,8 +67,8 @@ public class StepTests
     public void storeIntegerVariable() throws StepExecutionError
         {
         StepConfiguration config = new StepConfiguration(StoreVariable.TYPE_ID);
-        config.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var_int"));
-        config.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(191L));
+        config.setSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var_int"));
+        config.setSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(191L));
 
         MuseStep step = config.createStep();
         StepExecutionContext context = new DummyStepExecutionContext();
@@ -80,7 +80,7 @@ public class StepTests
     public void incrementVariableBy1() throws StepExecutionError
         {
         StepConfiguration config = new StepConfiguration(IncrementVariable.TYPE_ID);
-        config.addSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
+        config.setSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
 
         MuseStep step = config.createStep();
         StepExecutionContext context = new DummyStepExecutionContext();
@@ -96,8 +96,8 @@ public class StepTests
         Long amount = 7L;
 
         StepConfiguration config = new StepConfiguration(IncrementVariable.TYPE_ID);
-        config.addSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
-        config.addSource(IncrementVariable.AMOUNT_PARAM, ValueSourceConfiguration.forValue(amount));
+        config.setSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
+        config.setSource(IncrementVariable.AMOUNT_PARAM, ValueSourceConfiguration.forValue(amount));
 
         MuseStep step = config.createStep();
         StepExecutionContext context = new DummyStepExecutionContext();
@@ -119,7 +119,7 @@ public class StepTests
         condition.addSource(EqualityCondition.LEFT_PARAM, left);
         condition.addSource(EqualityCondition.RIGHT_PARAM, right);
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
-        config.addSource(Verify.CONDITION_PARAM, condition);
+        config.setSource(Verify.CONDITION_PARAM, condition);
         MuseStep step = config.createStep();
 
         StepExecutionContext context = new DummyStepExecutionContext();
@@ -136,7 +136,7 @@ public class StepTests
         condition.addSource(EqualityCondition.LEFT_PARAM, left);
         condition.addSource(EqualityCondition.RIGHT_PARAM, right);
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
-        config.addSource(Verify.CONDITION_PARAM, condition);
+        config.setSource(Verify.CONDITION_PARAM, condition);
         MuseStep step = config.createStep();
 
         StepExecutionResult result = step.execute(new DummyStepExecutionContext());
@@ -155,7 +155,7 @@ public class StepTests
 
         final String message = "the message";
         StepConfiguration message_step = new StepConfiguration(LogMessage.TYPE_ID);
-        message_step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message));
+        message_step.setSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message));
         main.addChild(message_step);
         macro.getMetadata().setId(macro_id);
         macro.getMetadata().setType(ResourceTypes.Macro);
@@ -164,7 +164,7 @@ public class StepTests
 
         // create a step and test that calls the macro above
         StepConfiguration call_macro = new StepConfiguration(CallMacroStep.TYPE_ID);
-        call_macro.addSource(CallMacroStep.ID_PARAM, ValueSourceConfiguration.forValue(macro_id));
+        call_macro.setSource(CallMacroStep.ID_PARAM, ValueSourceConfiguration.forValue(macro_id));
         SteppedTest test = new SteppedTest(call_macro);
 
         // verify that the macro runs when the test is executed
@@ -191,10 +191,10 @@ public class StepTests
         StepConfiguration main = new StepConfiguration(BasicCompoundStep.TYPE_ID);
         StepConfiguration store_step = new StepConfiguration(IncrementVariable.TYPE_ID);
         String param_name = "param1";
-        store_step.addSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue(param_name));
+        store_step.setSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue(param_name));
         main.addChild(store_step);
         StepConfiguration return_step = new StepConfiguration(ReturnStep.TYPE_ID);
-        return_step.addSource(ReturnStep.VALUE_PARAM, ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, param_name));
+        return_step.setSource(ReturnStep.VALUE_PARAM, ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, param_name));
         main.addChild(return_step);
         function.getMetadata().setId(function_id);
         function.getMetadata().setType(ResourceTypes.Function);
@@ -204,15 +204,15 @@ public class StepTests
         // create a step and test that calls the function above
         StepConfiguration test_step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
         StepConfiguration call_function = new StepConfiguration(CallFunction.TYPE_ID);
-        call_function.addSource(CallFunction.ID_PARAM, ValueSourceConfiguration.forValue(function_id));
-        call_function.addSource(param_name, ValueSourceConfiguration.forValue(6L));
+        call_function.setSource(CallFunction.ID_PARAM, ValueSourceConfiguration.forValue(function_id));
+        call_function.setSource(param_name, ValueSourceConfiguration.forValue(6L));
         String return_var_id = "returned";
-        call_function.addSource(CallFunction.RETURN_PARAM, ValueSourceConfiguration.forValue(return_var_id));
+        call_function.setSource(CallFunction.RETURN_PARAM, ValueSourceConfiguration.forValue(return_var_id));
         test_step.addChild(call_function);
 
         // create a step to verify the return value
         StepConfiguration verify_step = new StepConfiguration(Verify.TYPE_ID);
-        verify_step.addSource(Verify.CONDITION_PARAM, EqualityCondition.forSources(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue(7L), ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, return_var_id)));
+        verify_step.setSource(Verify.CONDITION_PARAM, EqualityCondition.forSources(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue(7L), ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, return_var_id)));
         test_step.addChild(verify_step);
 
         SteppedTest test = new SteppedTest(test_step);
@@ -240,7 +240,7 @@ public class StepTests
         main.addChild(return_step);
         StepConfiguration log_step = new StepConfiguration(LogMessage.TYPE_ID);
         String logged_message = "logged";
-        log_step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(logged_message));
+        log_step.setSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(logged_message));
         main.addChild(log_step);
         function.getMetadata().setId(function_id);
         function.setStep(main);
@@ -249,7 +249,7 @@ public class StepTests
         // create a step and test that calls the function above
         StepConfiguration test_step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
         StepConfiguration call_function = new StepConfiguration(CallFunction.TYPE_ID);
-        call_function.addSource(CallFunction.ID_PARAM, ValueSourceConfiguration.forValue(function_id));
+        call_function.setSource(CallFunction.ID_PARAM, ValueSourceConfiguration.forValue(function_id));
         test_step.addChild(call_function);
         SteppedTest test = new SteppedTest(test_step);
 
@@ -265,8 +265,8 @@ public class StepTests
     public void emptyCompoundStep() throws StepExecutionError
         {
         StepConfiguration step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
-        step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
-        step.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
+        step.setSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
+        step.setSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
 
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         SteppedTest test = new SteppedTest(step);
@@ -283,11 +283,11 @@ public class StepTests
         ValueSourceConfiguration condition = ValueSourceConfiguration.forType(EqualityCondition.TYPE_ID);
         condition.addSource(BinaryCondition.LEFT_PARAM, ValueSourceConfiguration.forValue(true));
         condition.addSource(BinaryCondition.RIGHT_PARAM, ValueSourceConfiguration.forValue(false));
-        config.addSource(Verify.CONDITION_PARAM, condition);
+        config.setSource(Verify.CONDITION_PARAM, condition);
 
         StepConfiguration main = new StepConfiguration(BasicCompoundStep.TYPE_ID);
-        main.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
-        main.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
+        main.setSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
+        main.setSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
         main.addChild(config);
 
         MuseProject project = new SimpleProject(new InMemoryResourceStore());

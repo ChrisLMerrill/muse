@@ -37,7 +37,7 @@ public class StepConfiguration implements Serializable
         _step_type = descriptor.getType();
         for (SubsourceDescriptor source_descriptor : descriptor.getSubsourceDescriptors())
             if (!source_descriptor.isOptional())
-                addSource(source_descriptor.getName(), ValueSourceConfiguration.forType(StringValueSource.TYPE_ID));
+                setSource(source_descriptor.getName(), ValueSourceConfiguration.forType(StringValueSource.TYPE_ID));
         }
 
     public String getType()
@@ -74,11 +74,13 @@ public class StepConfiguration implements Serializable
         {
         if (_sources != null)
             for (ValueSourceConfiguration source : _sources.values())
-                source.removeChangeListener(getSourceListener());
+                if (source != null)
+                    source.removeChangeListener(getSourceListener());
         _sources = sources;
         if (_sources != null)
             for (ValueSourceConfiguration source : _sources.values())
-                source.addChangeListener(getSourceListener());
+                if (source != null)
+                    source.addChangeListener(getSourceListener());
         }
 
     @JsonIgnore
@@ -129,7 +131,7 @@ public class StepConfiguration implements Serializable
             && Objects.equals(_sources, other.getSources());
         }
 
-    public void addSource(String name, ValueSourceConfiguration source)
+    public void setSource(String name, ValueSourceConfiguration source)
         {
         if (_sources == null)
             _sources = new HashMap<>();

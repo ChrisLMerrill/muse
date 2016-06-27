@@ -44,8 +44,8 @@ public class TestConverter
     private void generateOpenBrowserStep()
         {
         StepConfiguration step = new StepConfiguration(OpenBrowser.TYPE_ID);
-        step.addSource(OpenBrowser.PROVIDER_PARAM, ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, DEFAULT_PROVIDER_NAME));
-        step.addSource(OpenBrowser.BROWSER_PARAM, ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, DEFAULT_BROWSER_NAME));
+        step.setSource(OpenBrowser.PROVIDER_PARAM, ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, DEFAULT_PROVIDER_NAME));
+        step.setSource(OpenBrowser.BROWSER_PARAM, ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, DEFAULT_BROWSER_NAME));
         _test.getStep().addChild(step);
 
         _test.setDefaultVariable(DEFAULT_PROVIDER_NAME, ValueSourceConfiguration.forValue(DEFAULT_PROVIDER_VALUE));
@@ -92,8 +92,8 @@ public class TestConverter
         String error = String.format("%s: %s, %s, %s", failure_message, command, param1, param2);
         _result.recordFailure(error);
         StepConfiguration comment = new StepConfiguration(command);
-        comment.addSource("param1", ValueSourceConfiguration.forValue(param1));
-        comment.addSource("param2", ValueSourceConfiguration.forValue(param2));
+        comment.setSource("param1", ValueSourceConfiguration.forValue(param1));
+        comment.setSource("param2", ValueSourceConfiguration.forValue(param2));
         comment.setMetadataField(StepConfiguration.META_DESCRIPTION, String.format("%s(%s,%s)", command, param1, param2));
         _test.getStep().addChild(comment);
         }

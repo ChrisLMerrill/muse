@@ -17,7 +17,7 @@ public class TestTests
     public void testEventGeneration()
         {
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
-        config.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("abc"));
+        config.setSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("abc"));
         SteppedTest test = new SteppedTest(config);
         MuseTestResult result = test.execute(new DefaultTestExecutionContext());
 

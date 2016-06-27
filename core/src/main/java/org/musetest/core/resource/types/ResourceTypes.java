@@ -137,7 +137,7 @@ public class ResourceTypes
         step.setType(ScopedGroup.TYPE_ID);
         StepConfiguration step1 = new StepConfiguration();
         step1.setType(LogMessage.TYPE_ID);
-        step1.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("replace this with some useful steps"));
+        step1.setSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("replace this with some useful steps"));
         step.addChild(step1);
         return step;
         }

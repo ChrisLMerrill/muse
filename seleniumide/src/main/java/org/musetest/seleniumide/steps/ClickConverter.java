@@ -17,7 +17,7 @@ public class ClickConverter implements StepConverter
         if (command.equals(CLICK) || command.equals(CLICK_AND_WAIT))
             {
             StepConfiguration step = new StepConfiguration(ClickElement.TYPE_ID);
-            step.addSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
+            step.setSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
             return step;
             }
         return null;

@@ -47,7 +47,7 @@ public class SeleniumStepTests
         {
         final String URL = "thetesturl";
         StepConfiguration goto_url = new StepConfiguration(GotoUrl.TYPE_ID);
-        goto_url.addSource(GotoUrl.URL_PARAM, ValueSourceConfiguration.forValue(URL));
+        goto_url.setSource(GotoUrl.URL_PARAM, ValueSourceConfiguration.forValue(URL));
         TestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), goto_url);
         MuseMockDriver driver = (MuseMockDriver) context.getVariable(BrowserStepExecutionContext.DEFAULT_DRIVER_VARIABLE_NAME);
         Assert.assertEquals(URL, driver.getCurrentUrl());
@@ -65,7 +65,7 @@ public class SeleniumStepTests
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);
-        click.addSource(ClickElement.ELEMENT_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
+        click.setSource(ClickElement.ELEMENT_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
         MuseStep step = click.createStep();
         StepExecutionResult result = step.execute(context);
         Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
@@ -84,7 +84,7 @@ public class SeleniumStepTests
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration switch_to = new StepConfiguration(SwitchTo.TYPE_ID);
-        switch_to.addSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
+        switch_to.setSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
         MuseStep step = switch_to.createStep();
         StepExecutionResult result = step.execute(context);
         Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
@@ -136,7 +136,7 @@ public class SeleniumStepTests
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration execute = new StepConfiguration(ExecuteJavascript.TYPE_ID);
-        execute.addSource(ExecuteJavascript.SCRIPT_PARAM, ValueSourceConfiguration.forValue(script));
+        execute.setSource(ExecuteJavascript.SCRIPT_PARAM, ValueSourceConfiguration.forValue(script));
         MuseStep step = execute.createStep();
         return step.execute(context);
         }
@@ -150,7 +150,7 @@ public class SeleniumStepTests
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration switch_to = new StepConfiguration(SwitchTo.TYPE_ID);
-        switch_to.addSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forValue(true)); // not a valid type
+        switch_to.setSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forValue(true)); // not a valid type
         MuseStep step = switch_to.createStep(null);
         StepExecutionResult result = step.execute(context);
         Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
@@ -180,7 +180,7 @@ public class SeleniumStepTests
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);
-        click.addSource(ClickElement.ELEMENT_PARAM, ValueSourceConfiguration.forSource(PagesElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(page_element_path)));
+        click.setSource(ClickElement.ELEMENT_PARAM, ValueSourceConfiguration.forSource(PagesElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(page_element_path)));
         MuseStep step = click.createStep(null);
         step.execute(context);
 
@@ -234,9 +234,9 @@ public class SeleniumStepTests
         {
         StepConfiguration open_browser_step = new StepConfiguration(OpenBrowser.TYPE_ID);
         ValueSourceConfiguration provider_source = ValueSourceConfiguration.forTypeWithSource(ProjectResourceValueSource.TYPE_ID, ValueSourceConfiguration.forValue("driver-providers"));
-        open_browser_step.addSource(OpenBrowser.PROVIDER_PARAM, provider_source);
+        open_browser_step.setSource(OpenBrowser.PROVIDER_PARAM, provider_source);
         ValueSourceConfiguration browser_source = ValueSourceConfiguration.forTypeWithSource(ProjectResourceValueSource.TYPE_ID, ValueSourceConfiguration.forValue("capabilities-musemock"));
-        open_browser_step.addSource(OpenBrowser.BROWSER_PARAM, browser_source);
+        open_browser_step.setSource(OpenBrowser.BROWSER_PARAM, browser_source);
         return open_browser_step;
         }
     }
