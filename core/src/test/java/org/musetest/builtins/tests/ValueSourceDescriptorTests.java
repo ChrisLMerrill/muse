@@ -54,9 +54,8 @@ public class ValueSourceDescriptorTests
         sub = sub_descriptors[1];
         Assert.assertEquals("display-name2", sub.getDisplayName());
         Assert.assertEquals("sub-description2", sub.getDescription());
-        Assert.assertEquals(SubsourceDescriptor.Type.Indexed, sub.getType());
+        Assert.assertEquals(SubsourceDescriptor.Type.Value, sub.getType());
         Assert.assertEquals("", sub.getName());
-        Assert.assertEquals(2, sub.getIndex());
         Assert.assertEquals(true, sub.isOptional());
         Assert.assertEquals(String.class, sub.getResolutionType());
 

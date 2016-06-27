@@ -21,9 +21,10 @@ public interface SubsourceDescriptor
         Value,
         Single,
         Named,
+        List,
+// No GUI support implemented for these yet...is there a usecase for them?
         Indexed,
         Map,
-        List
         }
 
     static SubsourceDescriptor[] getSubsourceDescriptors(Class target)

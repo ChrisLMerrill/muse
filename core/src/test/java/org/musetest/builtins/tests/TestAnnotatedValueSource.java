@@ -16,7 +16,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseValueSourceTypeGroup("test-group")
 @MuseInlineEditString("edit-string")
 @MuseSubsourceDescriptor(displayName = "display-name1", description = "sub-description1", type = SubsourceDescriptor.Type.Named, name = "name1")
-@MuseSubsourceDescriptor(displayName = "display-name2", description = "sub-description2", type = SubsourceDescriptor.Type.Indexed, index = 2, optional = true, resolutionType = String.class)
+@MuseSubsourceDescriptor(displayName = "display-name2", description = "sub-description2", type = SubsourceDescriptor.Type.Value, optional = true, resolutionType = String.class)
 public class TestAnnotatedValueSource implements MuseValueSource
     {
     @Override
