@@ -16,7 +16,7 @@ import org.musetest.selenium.*;
 @MuseValueSourceTypeGroup("Web Page")
 @MuseValueSourceShortDescription("Full source of the current page")
 @MuseValueSourceLongDescription("Retrieves the page source of the current browser window by calling driver.getPageSource().")
-@MuseStringExpressionSupportImplementation(PageSourceValueSource.class)
+@MuseStringExpressionSupportImplementation(PageSourceValueSourceStringExpressionSupport.class)
 public class PageSourceValueSource extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
