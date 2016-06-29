@@ -8,13 +8,14 @@ import org.musetest.core.values.descriptor.*;
 import org.musetest.selenium.*;
 
 /**
- * @author ©2015 Web Performance, Inc
+ * Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("page-element")
 @MuseValueSourceName("Element by page/element lookup")
 @MuseValueSourceShortDescription("Locates a Selenium WebElement from the page/element specified by the subsource")
 @MuseValueSourceTypeGroup("Element.Locate")
 @MuseStringExpressionSupportImplementation(PagesElementValueSourceStringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "Page & element", description = "The id of the page and element in this format: pageid.elementid", type = SubsourceDescriptor.Type.Single)
 public class PagesElementValueSource extends BaseSeleniumValueSource
     {
     public PagesElementValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException

@@ -4,7 +4,7 @@ import org.musetest.core.*;
 import org.slf4j.*;
 
 /**
- * @author ©2015 Web Performance, Inc
+ * Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class PageElementLocator
     {

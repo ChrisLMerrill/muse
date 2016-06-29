@@ -3,7 +3,7 @@ package org.musetest.selenium.pages;
 import org.musetest.core.*;
 
 /**
- * @author ©2015 Web Performance, Inc
+ * Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class PageLocator
     {
