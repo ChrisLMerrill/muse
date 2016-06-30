@@ -30,7 +30,11 @@ public class IntegerValueSourceStringExpressionSupport extends BaseValueSourceSt
     public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
         {
         if (config.getType().equals(IntegerValueSource.TYPE_ID))
-            return config.getValue().toString();
+            {
+            if (config.getValue() != null)
+                return config.getValue().toString();
+            return "???";
+            }
         return null;
         }
     }
