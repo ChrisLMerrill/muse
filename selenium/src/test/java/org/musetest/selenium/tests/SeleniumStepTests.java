@@ -169,7 +169,6 @@ public class SeleniumStepTests
         element1.setLocator(ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(element_id)));
         String page_element_id = "element1";
         page1.addElement(page_element_id, element1);
-        String page_element_path = page1.getMetadata().getId() + "." + page_element_id;
         project.addResource(page1);
 
         MuseMockDriver driver = new MuseMockDriver();
@@ -180,7 +179,10 @@ public class SeleniumStepTests
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);
-        click.setSource(ClickElement.ELEMENT_PARAM, ValueSourceConfiguration.forSource(PagesElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(page_element_path)));
+        ValueSourceConfiguration element_source = ValueSourceConfiguration.forType(PagesElementValueSource.TYPE_ID);
+        element_source.addSource(PagesElementValueSource.PAGE_PARAM_ID, ValueSourceConfiguration.forValue(page1.getMetadata().getId()));
+        element_source.addSource(PagesElementValueSource.ELEMENT_PARAM_ID, ValueSourceConfiguration.forValue(page_element_id));
+        click.setSource(ClickElement.ELEMENT_PARAM, element_source);
         MuseStep step = click.createStep(null);
         step.execute(context);
 
