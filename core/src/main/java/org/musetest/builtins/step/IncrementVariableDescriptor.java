@@ -33,12 +33,6 @@ public class IncrementVariableDescriptor extends AnnotatedStepDescriptor
             }
         return builder.toString();
         }
-
-    @Override
-    public String getInlineEditString()
-        {
-        return "increment ${name} by {amount}";
-        }
     }
 
 

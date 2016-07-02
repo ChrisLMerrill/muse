@@ -13,6 +13,7 @@ import org.musetest.core.values.descriptor.*;
  */
 @MuseTypeId("increment-variable")
 @MuseStepName("Increment")
+@MuseInlineEditString("increment ${name}")
 @MuseStepShortDescription("Increment a variable")
 @MuseStepLongDescription("Increments the value of a variable by one (or, optionally, by another value)")
 @MuseStepDescriptorImplementation(IncrementVariableDescriptor.class)
