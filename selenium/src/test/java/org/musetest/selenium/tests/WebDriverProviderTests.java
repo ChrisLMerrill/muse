@@ -78,6 +78,27 @@ public class WebDriverProviderTests
      * Ensure the serialization format remains compatible
      */
     @Test
+    public void firefoxMarionetteDriverProvider() throws IOException
+        {
+        ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
+        WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
+
+        Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
+        WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
+        for (WebDriverProvider provider : provider_list.getProviders())
+            if (provider instanceof FirefoxMarionetteDriverProvider)
+                {
+                Assert.assertEquals("path-to\\geckodriver.exe", ((FirefoxMarionetteDriverProvider) provider).getPathToExe());
+                return;
+                }
+
+        Assert.assertTrue("no provider found for Chrome", false);
+        }
+
+    /**
+     * Ensure the serialization format remains compatible
+     */
+    @Test
     public void iexploreDriverProvider() throws IOException
         {
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
@@ -107,7 +128,7 @@ public class WebDriverProviderTests
         Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
         for (WebDriverProvider provider : provider_list.getProviders())
-            if (provider instanceof FirefoxDriverProvider)
+            if (provider instanceof FirefoxDriverProvider || provider instanceof FirefoxMarionetteDriverProvider)
                 return;
 
         Assert.assertTrue("no provider found for Firefox", false);
