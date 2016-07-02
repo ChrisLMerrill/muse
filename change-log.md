@@ -9,6 +9,7 @@
 - add: add annotations with source descriptions for the builtin steps (for both UI and command-line help) 
 - refactor: MuseValueSource.resolveValue() throws ValueSourceResolutionError instead of StepConfigurationError
 - upgrade to Gradle 2.13
+- upgrade to Selenium 2.53.1
 
 ## 0.2
 
