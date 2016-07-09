@@ -1,5 +1,8 @@
 # Muse Change Log
 
+## 0.4
+- IncrementVariable step: remove "amount" parameter from inline quick editor. 
+
 ## 0.3
 
 - add: Import Back and Refresh steps from SeleniumIDE
