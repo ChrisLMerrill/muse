@@ -129,6 +129,25 @@ public class SeleniumValueSourceTests
         Assert.assertEquals(Boolean.FALSE, value);
         }
 
+    @Test
+    public void elementSelected() throws StepExecutionError
+        {
+        final String id = "selected";
+        final MuseMockElement element1 = new MuseMockElement();
+        element1.setSelected(true);
+
+        ValueSourceConfiguration locator = ValueSourceConfiguration.forTypeWithSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id));
+        MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(ElementSelectedCondition.TYPE_ID, locator).createSource();
+        Assert.assertTrue(source instanceof ElementSelectedCondition);
+
+        Object value = resolveSource(element1, id, source);
+        Assert.assertEquals(Boolean.TRUE, value);
+
+        element1.setSelected(false);
+        value = resolveSource(element1, id, source);
+        Assert.assertEquals(Boolean.FALSE, value);
+        }
+
     private Object resolveSource(WebElement element, String element_id, MuseValueSource source) throws ValueSourceResolutionError
         {
         MuseMockDriver driver = new MuseMockDriver();

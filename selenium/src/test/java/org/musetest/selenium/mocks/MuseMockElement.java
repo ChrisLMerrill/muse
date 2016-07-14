@@ -48,7 +48,7 @@ public class MuseMockElement implements WebElement
     @Override
     public boolean isSelected()
         {
-        return false;
+        return _selected;
         }
 
     @Override
@@ -126,9 +126,15 @@ public class MuseMockElement implements WebElement
         _enabled = enabled;
         }
 
+    public void setSelected(boolean selected)
+        {
+        _selected = selected;
+        }
+
     private boolean _clicked = false;
     private boolean _displayed = false;
     private boolean _enabled = false;
+    private boolean _selected = false;
     }
 
 

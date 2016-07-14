@@ -1,8 +1,9 @@
 # Muse Change Log
 
 ## 0.4
-- Add 'Map' subsource type (and configure for CallFunction parameters)
-- IncrementVariable step: remove "amount" parameter from inline quick editor. 
+- add: 'Map' subsource type (and configure for CallFunction parameters)
+- add: ElementSelectedValueSource and elementSelected() expression
+- enhance: remove "amount" parameter from inline quick editor on IncrementVariable step
 
 ## 0.3
 
