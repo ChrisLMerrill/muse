@@ -1,6 +1,5 @@
 package org.musetest.core.step;
 
-import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
@@ -31,6 +30,7 @@ import java.util.*;
 @MuseStepDescriptorImplementation(CallFunctionDescriptor.class)
 @MuseSubsourceDescriptor(displayName = "Function name", description = "The name (resource id) of the function to call", type = SubsourceDescriptor.Type.Named, name = CallFunction.ID_PARAM)
 @MuseSubsourceDescriptor(displayName = "Return variable", description = "The name of the variable to store the return value in", type = SubsourceDescriptor.Type.Named, name = CallFunction.RETURN_PARAM, optional = true)
+@MuseSubsourceDescriptor(displayName = "Parameters", description = "Parameters to pass to the function", type = SubsourceDescriptor.Type.Map, optional = true)
 public class CallFunction extends CallMacroStep
     {
     @SuppressWarnings("unused") // called via reflection

@@ -1,6 +1,7 @@
 # Muse Change Log
 
 ## 0.4
+- Add 'Map' subsource type (and configure for CallFunction parameters)
 - IncrementVariable step: remove "amount" parameter from inline quick editor. 
 
 ## 0.3
