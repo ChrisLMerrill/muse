@@ -138,6 +138,20 @@ public class ValueSourceConfigTests
         Assert.assertEquals(true, ((BooleanValueSource)third).getValue());
         }
 
+    @Test
+    public void cantAddNullNamedSource()
+        {
+        ValueSourceConfiguration configuration = ValueSourceConfiguration.forType(StringValueSource.TYPE_ID);
+        try
+            {
+            configuration.addSource("name1", null);
+            Assert.assertTrue("allowed addition of null named source", false);
+            }
+        catch (IllegalArgumentException e)
+            {
+            // expected result
+            }
+        }
     }
 
 

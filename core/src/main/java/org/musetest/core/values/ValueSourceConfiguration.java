@@ -108,11 +108,13 @@ public class ValueSourceConfiguration implements Serializable
         {
         if (_source_map != null)
             for (ValueSourceConfiguration source : _source_map.values())
-                source.removeChangeListener(getSubsourceListener());
+                if (source != null)
+                    source.removeChangeListener(getSubsourceListener());
         _source_map = source_map;
         if (_source_map != null)
             for (ValueSourceConfiguration source : _source_map.values())
-                source.addChangeListener(getSubsourceListener());
+                if (source != null)
+                    source.addChangeListener(getSubsourceListener());
         }
 
     public List<ValueSourceConfiguration> getSourceList()
@@ -147,6 +149,9 @@ public class ValueSourceConfiguration implements Serializable
 
     public void addSource(String name, ValueSourceConfiguration source)
         {
+        if (source == null)
+            throw new IllegalArgumentException("Cannot add a named source with a null value");
+
         if (_source_map == null)
             _source_map = new HashMap<>();
         ValueSourceConfiguration old_source = _source_map.get(name);
@@ -155,8 +160,7 @@ public class ValueSourceConfiguration implements Serializable
             _source_map.put(name, source);
             if (old_source != null)
                 old_source.removeChangeListener(getSubsourceListener());
-            if (source != null)
-                source.addChangeListener(getSubsourceListener());
+            source.addChangeListener(getSubsourceListener());
             notifyListeners(new NamedSourceAddedEvent(this, name, source));
             }
         }
@@ -190,13 +194,15 @@ public class ValueSourceConfiguration implements Serializable
         if (_source_map == null)
             return null;
 
-        ValueSourceConfiguration removed = _source_map.remove(name);
-        if (removed != null)
+        if (_source_map.containsKey(name))
             {
-            removed.removeChangeListener(getSubsourceListener());
+            ValueSourceConfiguration removed = _source_map.remove(name);
+            if (removed != null)
+                removed.removeChangeListener(getSubsourceListener());
             notifyListeners(new NamedSourceRemovedEvent(this, name, removed));
+            return removed;
             }
-        return removed;
+        return null;
         }
 
     public ValueSourceConfiguration removeSource(int index)

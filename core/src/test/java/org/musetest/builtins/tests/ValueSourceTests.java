@@ -299,8 +299,10 @@ public class ValueSourceTests
         if (context != null)
             step_context = context;
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(DateFormatValueSource.TYPE_ID);
-        config.addSource(DateFormatValueSource.DATE_PARAM, date_param);
-        config.addSource(DateFormatValueSource.FORMAT_PARAM, format_param);
+        if (date_param != null)
+            config.addSource(DateFormatValueSource.DATE_PARAM, date_param);
+        if (format_param != null)
+            config.addSource(DateFormatValueSource.FORMAT_PARAM, format_param);
         MuseValueSource source = config.createSource();
         return source.resolveValue(step_context);
         }
