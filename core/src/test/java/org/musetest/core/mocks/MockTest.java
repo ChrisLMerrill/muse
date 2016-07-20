@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.test.*;
+import org.musetest.core.variables.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -12,17 +13,16 @@ public class MockTest extends BaseMuseTest
     {
     public MockTest()
         {
-        _result = MuseTestResultStatus.Success;
         }
 
-    public MockTest(MuseTestResultStatus result)
+    public MockTest(MuseTestFailureDescription failure)
         {
-        _result = result;
+        _failure = failure;
         }
 
-    public MockTest(MuseTestResultStatus result, String id)
+    public MockTest(MuseTestFailureDescription failure, String id)
         {
-        _result = result;
+        _failure = failure;
         getMetadata().setId(id);
         }
 
@@ -32,9 +32,21 @@ public class MockTest extends BaseMuseTest
         return new MuseTestResult()
             {
             @Override
-            public MuseTestResultStatus getStatus()
+            public boolean isPass()
                 {
-                return _result;
+                return _failure == null;
+                }
+
+            @Override
+            public MuseTestFailureDescription getFailureDescription()
+                {
+                return _failure;
+                }
+
+            @Override
+            public String getOneLineDescription()
+                {
+                return "mock test result";
                 }
 
             @Override
@@ -51,7 +63,7 @@ public class MockTest extends BaseMuseTest
             };
         }
 
-    private MuseTestResultStatus _result;
+    private MuseTestFailureDescription _failure;
     }
 
 

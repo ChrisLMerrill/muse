@@ -1,11 +1,11 @@
 package org.musetest.report.junit.tests;
 
 import org.junit.*;
-import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.suite.*;
 import org.musetest.core.test.*;
+import org.musetest.core.variables.*;
 import org.musetest.report.junit.*;
 
 import java.io.*;
@@ -21,12 +21,12 @@ public class JunitReportTests
     public void generateJunitXmlReport() throws IOException
         {
         BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult();
-        suite_result.addTestResult(new BaseMuseTestResult(MuseTestResultStatus.Error, new MockTest(MuseTestResultStatus.Error, "test 1"), new EventLog()));
-        suite_result.addTestResult(new BaseMuseTestResult(MuseTestResultStatus.Failure, new MockTest(MuseTestResultStatus.Failure, "test 2"), new EventLog()));
-        suite_result.addTestResult(new BaseMuseTestResult(MuseTestResultStatus.Failure, new MockTest(MuseTestResultStatus.Success, "test 3"), new EventLog()));
-        suite_result.addTestResult(new BaseMuseTestResult(MuseTestResultStatus.Success, new MockTest(MuseTestResultStatus.Success, "test 4"), new EventLog()));
-        suite_result.addTestResult(new BaseMuseTestResult(MuseTestResultStatus.Success, new MockTest(MuseTestResultStatus.Success, "test 5"), new EventLog()));
-        suite_result.addTestResult(new BaseMuseTestResult(MuseTestResultStatus.Success, new MockTest(MuseTestResultStatus.Success, "test 6"), new EventLog()));
+        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "error"), "test 1"), new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "error")));
+        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed"), "test 2"), new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed")));
+        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(null, "test 3"), new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed")));
+        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(null, "test 4"), new EventLog(), null));
+        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(null, "test 5"), new EventLog(), null));
+        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(null, "test 6"), new EventLog(), null));
         JunitReportRenderer suite = new JunitReportRenderer(suite_result);
 
         ByteArrayOutputStream outstream = new ByteArrayOutputStream();

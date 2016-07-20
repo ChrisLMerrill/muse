@@ -23,7 +23,7 @@ public class TestVariableTests
     public void testVariableNotSet()
         {
         MuseTestResult result = getTest().execute(new DefaultTestExecutionContext());
-        Assert.assertEquals(MuseTestResultStatus.Failure, result.getStatus());
+        Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
         }
 
     @Test
@@ -33,7 +33,7 @@ public class TestVariableTests
         context.setVariable(VAR_NAME, VAR_VALUE);
 
         MuseTestResult result = getTest().execute(context);
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         }
 
     @Test
@@ -46,7 +46,7 @@ public class TestVariableTests
         test.setDefaultVariables(default_vars);
 
         MuseTestResult result = test.execute(new DefaultTestExecutionContext());
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         }
 
     @Test
@@ -61,7 +61,7 @@ public class TestVariableTests
 
         DefaultTestExecutionContext context = new DefaultTestExecutionContext(project);
         MuseTestResult result = test.execute(context);
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         }
 
     private SteppedTest getTest()

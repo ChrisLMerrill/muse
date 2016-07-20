@@ -1,6 +1,7 @@
 package org.musetest.core.suite;
 
 import org.musetest.core.*;
+import org.musetest.core.variables.*;
 
 import java.util.*;
 
@@ -30,17 +31,16 @@ public class BaseMuseTestSuiteResult implements MuseTestSuiteResult
     public void addTestResult(MuseTestResult result)
         {
         _test_results.add(result);
-        switch (result.getStatus())
+        if (result.isPass())
+            _success++;
+        else
             {
-            case Success:
-                _success++;
-                break;
-            case Failure:
-                _fail++;
-                break;
-            case Error:
+            if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
                 _error++;
-                break;
+            else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Failure))
+                _fail++;
+            else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Interrupted))
+                _error++;
             }
         }
 

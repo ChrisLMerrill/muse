@@ -10,6 +10,7 @@ import org.musetest.core.resource.origin.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.suite.*;
 import org.musetest.core.util.*;
+import org.musetest.core.variables.*;
 
 import java.io.*;
 import java.util.*;
@@ -25,9 +26,9 @@ public class TestSuiteTests
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
 
         SimpleTestSuite suite = new SimpleTestSuite();
-        suite.add(new MockTest(MuseTestResultStatus.Success));
-        suite.add(new MockTest(MuseTestResultStatus.Failure));
-        suite.add(new MockTest(MuseTestResultStatus.Error));
+        suite.add(new MockTest());
+        suite.add(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed")));
+        suite.add(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "errored")));
 
         Assert.assertEquals(3, suite.generateTestList(project).size());
 

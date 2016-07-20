@@ -8,6 +8,7 @@ import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.core.variables.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -29,7 +30,7 @@ public class StepConfigExecutionTests
 
         MuseTestResult result = executor.executeAll();
 
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         Assert.assertTrue("message step did not run", log.hasEventWithDescriptionContaining(message));
         }
 
@@ -52,7 +53,7 @@ public class StepConfigExecutionTests
 
         MuseTestResult result = executor.executeAll();
 
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         Assert.assertTrue("step didn't run", log.hasEventWithDescriptionContaining(message));
         }
 
@@ -80,7 +81,7 @@ public class StepConfigExecutionTests
 
         MuseTestResult result = executor.executeAll();
 
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         Assert.assertTrue("first step didn't run", log.hasEventWithDescriptionContaining(message1));
         Assert.assertTrue("second step didn't run", log.hasEventWithDescriptionContaining(message2));
         }
@@ -99,7 +100,7 @@ public class StepConfigExecutionTests
         SteppedTestExecutor executor = new SteppedTestExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
 
         MuseTestResult result = executor.executeAll();
-        Assert.assertEquals(MuseTestResultStatus.Error, result.getStatus());
+        Assert.assertEquals(MuseTestFailureDescription.FailureType.Error, result.getFailureDescription().getFailureType());
         }
 
     @Test
@@ -114,7 +115,7 @@ public class StepConfigExecutionTests
         SteppedTestExecutor executor = new SteppedTestExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
 
         MuseTestResult result = executor.executeAll();
-        Assert.assertEquals(MuseTestResultStatus.Error, result.getStatus());
+        Assert.assertEquals(MuseTestFailureDescription.FailureType.Error, result.getFailureDescription().getFailureType());
         }
 
 

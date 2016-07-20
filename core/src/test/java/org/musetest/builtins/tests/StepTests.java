@@ -15,6 +15,7 @@ import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.core.variables.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -173,7 +174,7 @@ public class StepTests
         runner.getTestContext().addEventListener(log);
         runner.runTest();
         MuseTestResult result = runner.getResult();
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         Assert.assertTrue("message step didn't run", log.hasEventWithDescriptionContaining(message));
         }
 
@@ -221,7 +222,7 @@ public class StepTests
         TestRunner runner = TestRunnerFactory.create(project, test, true, false);
         runner.runTest();
         MuseTestResult result = runner.getResult();
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         }
 
     /**
@@ -256,7 +257,7 @@ public class StepTests
         TestRunner runner = TestRunnerFactory.create(project, test, true, false);
         runner.runTest();
         MuseTestResult result = runner.getResult();
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         // verify that the message step (which comes after the return) did not run
         Assert.assertTrue(result.getLog().findEvents(MuseEventType.Message).size() == 0);
         }
@@ -273,7 +274,7 @@ public class StepTests
         TestRunner runner = TestRunnerFactory.create(project, test, true, false);
         runner.runTest();
         MuseTestResult result = runner.getResult();
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         }
 
     @Test
@@ -295,7 +296,7 @@ public class StepTests
         TestRunner runner = TestRunnerFactory.create(project, test, true, false);
         runner.runTest();
         MuseTestResult result = runner.getResult();
-        Assert.assertEquals(MuseTestResultStatus.Failure, result.getStatus());
+        Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
         }
     }
 

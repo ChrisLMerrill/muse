@@ -21,7 +21,7 @@ public class TestTests
         SteppedTest test = new SteppedTest(config);
         MuseTestResult result = test.execute(new DefaultTestExecutionContext());
 
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         Assert.assertEquals(1, result.getLog().findEvents(MuseEventType.StartTest).size());
         Assert.assertEquals(1, result.getLog().findEvents(MuseEventType.EndTest).size());
         }

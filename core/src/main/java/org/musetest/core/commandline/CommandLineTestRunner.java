@@ -39,12 +39,10 @@ public class CommandLineTestRunner implements MuseResourceRunner
             System.out.println("--------------------------------------------------------------------------------");
         else
             {
-            if (result.getStatus().equals(MuseTestResultStatus.Success))
+            if (result.isPass())
                 System.out.println(String.format("SUCCESS: Test '%s' completed successfully.", result.getTest().getDescription()));
-            else if (result.getStatus().equals(MuseTestResultStatus.Failure))
-                System.out.println(String.format("FAIL: Test '%s' failed.", result.getTest().getDescription()));
             else
-                System.out.println(String.format("ERROR: Test '%s' was not completed due to an error.", result.getTest().getDescription()));
+                System.out.println(result.getFailureDescription());
             }
         return true;
         }

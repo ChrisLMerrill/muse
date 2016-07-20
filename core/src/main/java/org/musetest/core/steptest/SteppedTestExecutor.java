@@ -5,6 +5,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 import org.musetest.core.test.*;
+import org.musetest.core.variables.*;
 import org.slf4j.*;
 
 /**
@@ -25,7 +26,7 @@ public class SteppedTestExecutor
             finishTest();
 
         boolean had_a_step_to_run = true;
-        while (had_a_step_to_run && _test_status != MuseTestResultStatus.Error)
+        while (had_a_step_to_run && !_terminate)
             had_a_step_to_run = executeNextStep();
 
         return finishTest();
@@ -34,11 +35,12 @@ public class SteppedTestExecutor
     public boolean startTest()
         {
         _context.raiseEvent(new StartTestEvent(_test));
-        _test_status = MuseTestResultStatus.Success;
+        _terminate = false;
+        _failure = null;
 
         if (!_test.initializeContext(_context))
             {
-            _test_status = MuseTestResultStatus.Error;
+            setFailure(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "Unable to initialize the context"));
             return false;
             }
 
@@ -49,15 +51,17 @@ public class SteppedTestExecutor
 
     public MuseTestResult finishTest()
         {
-        MuseTestResult result = new BaseMuseTestResult(_test_status, _test, _log);
-        _context.raiseEvent(new EndTestEvent(_test, result));
+        MuseTestResult result = new BaseMuseTestResult(_test, _log, _failure);
+        _context.raiseEvent(new EndTestEvent(result));
         _context.cleanup();
         return result;
         }
 
-    public void setTestStatus(MuseTestResultStatus status)
+    public void setFailure(MuseTestFailureDescription failure)
         {
-        _test_status = status;
+        _failure = failure;
+        if (!failure.getFailureType().equals(MuseTestFailureDescription.FailureType.Failure))
+            _terminate = true;
         }
 
     /**
@@ -77,10 +81,10 @@ public class SteppedTestExecutor
             step = step_context.getCurrentStep();
             step_result = step.execute(step_context);
 
-            if (step_result.getStatus() == StepExecutionStatus.FAILURE && _test_status == MuseTestResultStatus.Success)
-                _test_status = MuseTestResultStatus.Failure;
+            if (step_result.getStatus() == StepExecutionStatus.FAILURE && _failure == null)
+                _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, step_result.getDescription());
             else if (step_result.getStatus() == StepExecutionStatus.ERROR)
-                _test_status = MuseTestResultStatus.Error;
+                _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, step_result.getDescription());
             }
         catch (StepConfigurationError error)
             {
@@ -101,7 +105,7 @@ public class SteppedTestExecutor
             step_result = new BasicStepExecutionResult(StepExecutionStatus.ERROR, error_message);
             if (step != null)
                 _context.raiseEvent(new StepEvent(MuseEventType.EndStep, step.getConfiguration(), step_context, step_result));
-            _test_status = MuseTestResultStatus.Error;
+            setFailure(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, error_message));
             }
         if (step != null && !step_result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
             step_context.stepComplete(step, step_result);
@@ -119,9 +123,10 @@ public class SteppedTestExecutor
     private SteppedTestExecutionContext _context;
     private SteppedTest _test;
     private final EventLog _log = new EventLog();
-    private MuseTestResultStatus _test_status;
+    private boolean _terminate = false;
+    private MuseTestFailureDescription _failure;
 
-    final static Logger LOG = LoggerFactory.getLogger(SteppedTestExecutor.class);
+    private final static Logger LOG = LoggerFactory.getLogger(SteppedTestExecutor.class);
     }
 
 

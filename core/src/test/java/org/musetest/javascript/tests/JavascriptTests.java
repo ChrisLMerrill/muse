@@ -13,6 +13,7 @@ import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.core.variables.*;
 import org.musetest.javascript.*;
 import org.musetest.javascript.factory.*;
 
@@ -32,11 +33,11 @@ public class JavascriptTests
 
         MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_SUCCESS; } "));
         MuseTestResult result = test.execute(context);
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
 
         test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_FAILURE; } "));
         result = test.execute(context);
-        Assert.assertEquals(MuseTestResultStatus.Failure, result.getStatus());
+        Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
         }
 
     @Test
@@ -56,7 +57,8 @@ public class JavascriptTests
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(org.musetest.core.helpers.TestUtils.getTestResource("javascriptTest.js", this.getClass())));
         Assert.assertEquals(1, resources.size());
         Assert.assertTrue(resources.get(0) instanceof MuseTest);
-        Assert.assertEquals(MuseTestResultStatus.Success, ((MuseTest) resources.get(0)).execute(new DefaultTestExecutionContext()).getStatus());
+        MuseTestResult result = ((MuseTest) resources.get(0)).execute(new DefaultTestExecutionContext());
+        Assert.assertTrue(result.isPass());
         }
 
     @Test
@@ -136,14 +138,10 @@ public class JavascriptTests
 
         final List<MessageEvent> events = new ArrayList<>();
         StepExecutionContext context = new SingleStepExecutionContext(new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext()), config, true);
-        context.getTestExecutionContext().addEventListener(new MuseEventListener()
+        context.getTestExecutionContext().addEventListener(event ->
             {
-            @Override
-            public void eventRaised(MuseEvent event)
-                {
-                if (event instanceof MessageEvent)
-                    events.add((MessageEvent) event);
-                }
+            if (event instanceof MessageEvent)
+                events.add((MessageEvent) event);
             });
 
         Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());

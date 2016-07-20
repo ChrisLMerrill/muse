@@ -2,6 +2,7 @@ package org.musetest.report.junit;
 
 import com.google.common.html.*;
 import org.musetest.core.*;
+import org.musetest.core.variables.*;
 
 import java.io.*;
 
@@ -23,20 +24,20 @@ public class JunitReportRenderer
 
         for (MuseTestResult result : _result.getTestResults())
             {
-            if (result.getStatus().equals(MuseTestResultStatus.Success))
+            if (result.isPass())
                 writer.println(String.format("    <testcase classname=\"tests\" name=\"%s\">", result.getTest().getDescription()));
-            else if (result.getStatus().equals(MuseTestResultStatus.Error))
+            else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
                 {
                 writer.println(String.format("    <testcase classname=\"tests\" name=\"%s\">", result.getTest().getDescription()));
-                writer.println(String.format("        <error message=\"%s\"/>", "Unable to execute test"));
+                writer.println(String.format("        <error message=\"%s\"/>", "Unable to complete test due to: ") + result.getFailureDescription().getReason());
                 writer.println("        <system-out>");
                 writer.println(HtmlEscapers.htmlEscaper().escape(result.getLog().toString()));
                 writer.println("        </system-out>");
                 }
-            else if (result.getStatus().equals(MuseTestResultStatus.Failure))
+            else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Failure))
                 {
                 writer.println(String.format("    <testcase classname=\"tests\" name=\"%s\">", result.getTest().getDescription()));
-                writer.println(String.format("        <failure message=\"%s\"/>", "test failed"));
+                writer.println(String.format("        <failure message=\"%s\"/>", "test failed due to: " + result.getFailureDescription().getReason()));
                 writer.println("        <system-out>");
                 writer.println(HtmlEscapers.htmlEscaper().escape(result.getLog().toString()));
                 writer.println("        </system-out>");

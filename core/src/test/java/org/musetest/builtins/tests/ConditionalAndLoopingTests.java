@@ -48,7 +48,7 @@ public class ConditionalAndLoopingTests
         EventLog log = new EventLog();
         context.addEventListener(log);
         MuseTestResult result = test.execute(context);
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         Assert.assertTrue("The conditional that should have run, did not", log.hasEventWithDescriptionContaining(should_run_message));
         Assert.assertFalse("The conditional that should not have run, did run", log.hasEventWithDescriptionContaining(should_not_run_message));
         Assert.assertEquals(null, context.getVariable("ran2"));
@@ -63,7 +63,7 @@ public class ConditionalAndLoopingTests
         EventLog log = new EventLog();
         context.addEventListener(log);
         MuseTestResult result = test.execute(context);
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         Assert.assertTrue("first message is missing", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 1));
         Assert.assertTrue("second message is missing", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 2));
         Assert.assertTrue("third message is missing", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 3));
@@ -109,7 +109,7 @@ public class ConditionalAndLoopingTests
         EventLog log = new EventLog();
         context.addEventListener(log);
         MuseTestResult result = test.execute(context);
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         Assert.assertFalse("this should not be found", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 2));
         Assert.assertTrue("first message is missing", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 3));
         }
@@ -122,7 +122,7 @@ public class ConditionalAndLoopingTests
         EventLog log = new EventLog();
         context.addEventListener(log);
         MuseTestResult result = test.execute(context);
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         Assert.assertFalse("this should not be found", log.hasEventWithDescriptionContaining(MESSAGE_PREFIX + 1));
         }
 

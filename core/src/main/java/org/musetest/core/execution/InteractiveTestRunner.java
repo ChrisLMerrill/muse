@@ -4,9 +4,8 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.variables.*;
 import org.slf4j.*;
-
-import java.util.*;
 
 /**
  * Provides management of exeuction of a SteppedTest on a separate thread, with the ability
@@ -53,7 +52,7 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
             }
 
         if (_interrupted)
-            _executor.setTestStatus(MuseTestResultStatus.Interrupted);
+            _executor.setFailure(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Interrupted, "interrupted by user"));
 
         setTestResult(_executor.finishTest());
         }

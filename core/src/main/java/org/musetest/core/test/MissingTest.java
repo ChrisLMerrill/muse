@@ -5,6 +5,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
+import org.musetest.core.variables.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -19,7 +20,7 @@ public class MissingTest implements MuseTest
     @Override
     public MuseTestResult execute(TestExecutionContext context)
         {
-        return new BaseMuseTestResult(MuseTestResultStatus.Error, this, new EventLog());
+        return new BaseMuseTestResult(this, new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "test is missing"));
         }
 
     @Override

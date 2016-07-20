@@ -3,6 +3,7 @@ package org.musetest.core.commandline;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.suite.*;
+import org.musetest.core.variables.*;
 import org.musetest.report.junit.*;
 
 import java.io.*;
@@ -45,7 +46,7 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
                 builder.append("Tests that could not be completed: ");
                 int counter = 0;
                 for (MuseTestResult test_result : result.getTestResults())
-                    if (test_result.getStatus().equals(MuseTestResultStatus.Error))
+                    if (test_result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
                         {
                         if (counter > 0)
                             builder.append(", ");
@@ -61,7 +62,7 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
                 builder.append("Failing tests: ");
                 int counter = 0;
                 for (MuseTestResult test_result : result.getTestResults())
-                    if (test_result.getStatus().equals(MuseTestResultStatus.Failure))
+                    if (test_result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Failure))
                         {
                         if (counter > 0)
                             builder.append(", ");
@@ -76,7 +77,7 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
                 {
                 System.out.println("Test Logs (for failing and errored tests):");
                 for (MuseTestResult test_result : result.getTestResults())
-                    if (!(test_result.getStatus().equals(MuseTestResultStatus.Success)))
+                    if (!(test_result.isPass()))
                         System.out.println(buildResultDetails(test_result));
                 }
 

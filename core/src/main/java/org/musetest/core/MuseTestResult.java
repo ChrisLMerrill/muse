@@ -1,6 +1,7 @@
 package org.musetest.core;
 
 import org.musetest.core.events.*;
+import org.musetest.core.variables.*;
 
 /**
  * The result of running a test.
@@ -9,11 +10,15 @@ import org.musetest.core.events.*;
  */
 public interface MuseTestResult
     {
-    MuseTestResultStatus getStatus();
+    boolean isPass();
+
+    MuseTestFailureDescription getFailureDescription();
 
     MuseTest getTest();
 
     EventLog getLog();
+
+    String getOneLineDescription();
     }
 
 

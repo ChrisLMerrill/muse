@@ -4,6 +4,7 @@
 - add: 'Map' subsource type (and configure for CallFunction parameters)
 - add: ElementSelectedValueSource and elementSelected() expression
 - enhance: remove "amount" parameter from inline quick editor on IncrementVariable step
+- refactor: MuseTestResult adds .isPassed() and .getFailureDescription(), looses .getTestResultStatus(). MuseTestResultStatus replaced with MuseTestFailureDescription.
 
 ## 0.3
 

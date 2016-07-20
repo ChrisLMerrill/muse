@@ -19,7 +19,7 @@ public class StartTestEvent extends MuseEvent
         return "Starting test: " + _test.getDescription();
         }
 
-    MuseTest _test;
+    private MuseTest _test;
     }
 
 

@@ -98,7 +98,7 @@ public class ValueSourceTests
     public void projectResourceValueSource() throws StepExecutionError
         {
         final String test_id = "test_id";
-        MuseTest test = new MockTest(MuseTestResultStatus.Success, test_id);
+        MuseTest test = new MockTest(null, test_id);
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         project.addResource(test);
 

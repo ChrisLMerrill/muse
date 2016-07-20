@@ -2,28 +2,20 @@ package org.musetest.core.test;
 
 import org.musetest.core.*;
 import org.musetest.core.events.*;
+import org.musetest.core.variables.*;
+
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class BaseMuseTestResult implements MuseTestResult
     {
-    public BaseMuseTestResult(MuseTestResultStatus status)
+    public BaseMuseTestResult(MuseTest test, EventLog log, MuseTestFailureDescription failure)
         {
-        _status = status;
-        }
-
-    public BaseMuseTestResult(MuseTestResultStatus status, MuseTest test, EventLog log)
-        {
-        _status = status;
         _test = test;
         _log = log;
-        }
-
-    @Override
-    public MuseTestResultStatus getStatus()
-        {
-        return _status;
+        _failure = failure;
         }
 
     @Override
@@ -43,9 +35,45 @@ public class BaseMuseTestResult implements MuseTestResult
         _log = log;
         }
 
-    private MuseTestResultStatus _status;
+    @Override
+    public boolean isPass()
+        {
+        return _failure == null;
+        }
+
+    @Override
+    public MuseTestFailureDescription getFailureDescription()
+        {
+        return _failure;
+        }
+
+    @Override
+    public String getOneLineDescription()
+        {
+        if (isPass())
+            return String.format("SUCCESS: Test '%s' completed successfully.", _test.getDescription());
+        else
+            {
+            String start = String.format(FAILURE_STRINGS.get(_failure.getFailureType()), _failure.getFailureType().name().toUpperCase(), _test.getDescription());
+            String reason = _failure.getReason();
+            if (reason == null)
+                reason = UNDESCRIBED;
+            return start + " Reason is: " + reason;
+            }
+        }
+
     private MuseTest _test;
     private EventLog _log;
+    private MuseTestFailureDescription _failure;
+
+    private static Map<MuseTestFailureDescription.FailureType, String> FAILURE_STRINGS = new HashMap<>();
+    static
+        {
+        FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Error, "%s: Test '%s' was not completed due to an error.");
+        FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Failure, "%s: Test '%s' failed.");
+        FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Interrupted, "%s: Test '%s' was not completed due to an error.");
+        }
+    private final static String UNDESCRIBED = "(no description provided)";
     }
 
 

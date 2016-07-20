@@ -26,7 +26,7 @@ public class ProjectClasspathTests
         // E.g. in a unit test scenario, it has probably already happened (unless this class is the only test run)
         // so it would fail. But running it through the project ensures it will have the correct classpath.
         MuseTestResult result = TestRunnerFactory.runTest(project, test);
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         }
 
     @Test
@@ -43,7 +43,7 @@ public class ProjectClasspathTests
         // E.g. in a unit test scenario, it has probably already happened (unless this class is the only test run)
         // so it would fail. But running it through the project ensures it will have the correct classpath.
         MuseTestResult result = TestRunnerFactory.runTest(project, test);
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         }
     }
 
