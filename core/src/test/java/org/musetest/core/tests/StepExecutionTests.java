@@ -13,7 +13,7 @@ import org.musetest.core.variables.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepConfigExecutionTests
+public class StepExecutionTests
     {
     @Test
     public void singleStep()

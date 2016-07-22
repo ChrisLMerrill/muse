@@ -35,7 +35,7 @@ public class SingleStepExecutionContext extends BaseStepExecutionContext
         if (result.getStatus().equals(StepExecutionStatus.ERROR))
             _current_step = null;   // re-create next time (for interactive debugging)
         else
-            getTestExecutionContext().getExecutionStack().pop();
+            getExecutionStack().pop();
         }
 
     @Override

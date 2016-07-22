@@ -3,6 +3,7 @@ package org.musetest.core.context;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
+import org.musetest.core.steptest.*;
 
 import java.util.*;
 
@@ -55,5 +56,7 @@ public interface StepExecutionContext
      * contexts and tooling to allow inspection of all variables.
      */
     Map<String,Object> getVariables();
+
+    StepExecutionContextStack getExecutionStack();
     }
 

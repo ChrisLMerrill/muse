@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
+import org.musetest.core.steptest.*;
 
 import java.util.*;
 
@@ -68,6 +69,12 @@ public class DummyStepExecutionContext implements StepExecutionContext
     public Map<String, Object> getVariables()
         {
         return _variables;
+        }
+
+    @Override
+    public StepExecutionContextStack getExecutionStack()
+        {
+        return _test_context.getExecutionStack();
         }
 
     private Map<String, Object> _variables = new HashMap<>();

@@ -37,7 +37,7 @@ public class ReturnStep extends BaseStep
             return_value = getValue(_source, current_context, true, Object.class);
 
         // find the CallFunction step we are returning to
-        StepExecutionContextStack stack = current_context.getTestExecutionContext().getExecutionStack();
+        StepExecutionContextStack stack = current_context.getExecutionStack();
         Iterator<StepExecutionContext> iterator = stack.iterator();
         StepConfiguration call_step_config = null;
         CallFunction call_step = null;

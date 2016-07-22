@@ -3,6 +3,7 @@ package org.musetest.core.context;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
+import org.musetest.core.steptest.*;
 
 import java.util.*;
 
@@ -64,6 +65,12 @@ public abstract class BaseStepExecutionContext implements StepExecutionContext
     public Map<String, Object> getVariables()
         {
         return _step_vars;
+        }
+
+    @Override
+    public StepExecutionContextStack getExecutionStack()
+        {
+        return _test_context.getExecutionStack();
         }
 
     private SteppedTestExecutionContext _test_context;

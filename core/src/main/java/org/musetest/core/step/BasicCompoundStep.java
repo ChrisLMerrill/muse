@@ -35,7 +35,7 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
             StepExecutionContext new_context = createStepExecutionContextForChildren(context);
             if (new_context == null) // no children configured
                 return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
-            context.getTestExecutionContext().getExecutionStack().push(new_context);
+            context.getExecutionStack().push(new_context);
             beforeChildrenExecuted(new_context);
 
             return new BasicStepExecutionResult(StepExecutionStatus.INCOMPLETE);
@@ -67,7 +67,7 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
     @Override
     public void stepsComplete()
         {
-        _context.getTestExecutionContext().getExecutionStack().pop();
+        _context.getExecutionStack().pop();
         _should_enter = false;
         }
 
