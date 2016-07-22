@@ -111,6 +111,12 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         return _stack;
         }
 
+    @Override
+    public MuseExecutionContext getParent()
+        {
+        return _parent_context;
+        }
+
     private TestExecutionContext _parent_context;
     private StepExecutionContextStack _stack = new StepExecutionContextStack();
     }

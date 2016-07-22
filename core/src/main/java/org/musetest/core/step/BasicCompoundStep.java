@@ -56,7 +56,7 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
         {
         if (_child_list == null || _child_list.size() < 1)
             return null;
-        return new ListOfStepsExecutionContext(context.getTestExecutionContext(), _child_list, isCreateNewVariableScope(), this);
+        return new ListOfStepsExecutionContext(context.getParent(), _child_list, isCreateNewVariableScope(), this);
         }
 
     protected boolean isCreateNewVariableScope()

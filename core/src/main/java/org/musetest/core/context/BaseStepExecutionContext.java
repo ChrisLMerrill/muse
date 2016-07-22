@@ -92,6 +92,24 @@ public abstract class BaseStepExecutionContext implements StepExecutionContext
         _test_context.registerShuttable(shuttable);
         }
 
+    @Override
+    public SteppedTestExecutionContext getParent()
+        {
+        return _test_context;
+        }
+
+    @Override
+    public void removeEventListener(MuseEventListener listener)
+        {
+        _test_context.removeEventListener(listener);
+        }
+
+    @Override
+    public void addEventListener(MuseEventListener listener)
+        {
+        _test_context.addEventListener(listener);
+        }
+
     private SteppedTestExecutionContext _test_context;
     private Map<String, Object> _step_vars = null;
     }

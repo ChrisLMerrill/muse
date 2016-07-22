@@ -4,27 +4,14 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.test.*;
 
 import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public interface StepExecutionContext
+public interface StepExecutionContext extends MuseExecutionContext
     {
-    /**
-     * Send an event to listeners (which typically includes the EventLog).
-     */
-    void raiseEvent(MuseEvent event);
-
-    /**
-     * If the step is executed within the context of a project, this provides access to the project.
-     *
-     * @return The project. null if not executed within a project context.
-     */
-    MuseProject getProject();
-
     /**
      * Get the context in which the entire test is being executed.
      */
@@ -76,10 +63,7 @@ public interface StepExecutionContext
      */
     StepExecutionContextStack getExecutionStack();
 
-    /**
-     * Register a resource that should be closed/shutdown when the highest-level context (that
-     * this StepExecutionContext lives in) ends.
-     */
-    void registerShuttable(Shuttable shuttable);  // shuttables should be shut down during cleanup
+    @Override
+    SteppedTestExecutionContext getParent();
     }
 

@@ -61,7 +61,7 @@ public class CallMacroStep extends ScopedGroup
             }
 
         context.raiseEvent(new DynamicStepLoadingEvent(_config, context, steps));
-        return new ListOfStepsExecutionContext(context.getTestExecutionContext(), steps, isCreateNewVariableScope(), this);
+        return new ListOfStepsExecutionContext(context.getParent(), steps, isCreateNewVariableScope(), this);
         }
 
     @Override

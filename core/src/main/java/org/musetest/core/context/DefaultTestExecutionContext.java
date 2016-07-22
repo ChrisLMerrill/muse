@@ -90,6 +90,12 @@ public class DefaultTestExecutionContext implements TestExecutionContext
         _listeners.clear();
         }
 
+    @Override
+    public MuseExecutionContext getParent()
+        {
+        return null;
+        }
+
     private Map<String, Object> _vars = new HashMap<>();
     private List<MuseEventListener> _listeners = new ArrayList<>();
     private MuseProject _project;

@@ -96,6 +96,24 @@ public class DummyStepExecutionContext implements StepExecutionContext
         _test_context.registerShuttable(shuttable);
         }
 
+    @Override
+    public SteppedTestExecutionContext getParent()
+        {
+        return _test_context;
+        }
+
+    @Override
+    public void addEventListener(MuseEventListener listener)
+        {
+        _test_context.addEventListener(listener);
+        }
+
+    @Override
+    public void removeEventListener(MuseEventListener listener)
+        {
+        _test_context.removeEventListener(listener);
+        }
+
     private Map<String, Object> _variables = new HashMap<>();
     }
 
