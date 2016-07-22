@@ -1,10 +1,10 @@
-package org.musetest.builtins.tests;
+package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.core.*;
-import org.musetest.core.helpers.*;
 import org.musetest.core.project.*;
 import org.musetest.core.suite.*;
+import org.musetest.core.tests.utils.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)

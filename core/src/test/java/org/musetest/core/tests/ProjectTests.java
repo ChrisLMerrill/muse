@@ -3,7 +3,7 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.core.*;
-import org.musetest.core.mocks.*;
+import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;

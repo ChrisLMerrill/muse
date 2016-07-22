@@ -1,4 +1,4 @@
-package org.musetest.builtins.tests;
+package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.core.*;

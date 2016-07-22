@@ -1,6 +1,7 @@
-package org.musetest.builtins.tests;
+package org.musetest.core.tests;
 
 import org.junit.*;
+import org.musetest.builtins.tests.mocks.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.values.descriptor.*;

@@ -5,7 +5,7 @@ import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.mocks.*;
+import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;

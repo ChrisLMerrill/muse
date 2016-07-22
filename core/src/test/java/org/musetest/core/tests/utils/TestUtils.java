@@ -1,4 +1,4 @@
-package org.musetest.core.helpers;
+package org.musetest.core.tests.utils;
 
 import java.io.*;
 import java.net.*;

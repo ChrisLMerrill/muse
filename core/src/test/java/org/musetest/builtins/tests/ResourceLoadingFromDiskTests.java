@@ -4,11 +4,11 @@ package org.musetest.builtins.tests;
 import org.junit.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
-import org.musetest.core.helpers.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
+import org.musetest.core.tests.utils.*;
 
 import java.io.*;
 import java.util.*;

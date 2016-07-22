@@ -3,7 +3,7 @@ package org.musetest.selenium.tests;
 import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.mocks.*;
+import org.musetest.core.tests.mocks.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
