@@ -33,7 +33,7 @@ public class PagesElementValueSource extends BaseSeleniumValueSource
     @Override
     public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
-        MuseProject project = context.getTestExecutionContext().getProject();
+        MuseProject project = context.getProject();
         Object value = _page_source.resolveValue(context);
         if (!(value instanceof String))
             throw new ValueSourceResolutionError(String.format("The 'page' parameter must resolve to a String. Instead, it was %s (a %s)", value, value.getClass().getSimpleName()));

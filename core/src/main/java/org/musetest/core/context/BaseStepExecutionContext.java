@@ -73,6 +73,18 @@ public abstract class BaseStepExecutionContext implements StepExecutionContext
         return _test_context.getExecutionStack();
         }
 
+    @Override
+    public void raiseEvent(MuseEvent event)
+        {
+        _test_context.raiseEvent(event);
+        }
+
+    @Override
+    public MuseProject getProject()
+        {
+        return _test_context.getProject();
+        }
+
     private SteppedTestExecutionContext _test_context;
     private Map<String, Object> _step_vars = null;
     }

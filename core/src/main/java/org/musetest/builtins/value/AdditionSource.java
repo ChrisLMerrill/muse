@@ -77,7 +77,7 @@ public class AdditionSource extends BaseValueSource
         for (Object value : values)
             builder.append(value);
         String result = builder.toString();
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
+        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
         return result;
         }
 

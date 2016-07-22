@@ -39,7 +39,7 @@ public class LogMessage extends BaseStep
             message = "null";
         else
             message = value.toString();
-        context.getTestExecutionContext().raiseEvent(new MessageEvent(message));
+        context.raiseEvent(new MessageEvent(message));
         LOG.info(message);
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }

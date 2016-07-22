@@ -25,7 +25,7 @@ public class SingleStepExecutionContext extends BaseStepExecutionContext
     public MuseStep getCurrentStep() throws MuseInstantiationException
         {
         if (_current_step == null)
-            _current_step = _config.createStep(getTestExecutionContext().getProject());
+            _current_step = _config.createStep(getProject());
         return _current_step;
         }
 

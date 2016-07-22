@@ -44,7 +44,7 @@ public class EqualityCondition extends BinaryCondition
         else
             result = Objects.equals(value1, value2);
 
-        context.getTestExecutionContext().raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s == %s) is %b", value1, value2, result)));
+        context.raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s == %s) is %b", value1, value2, result)));
         return result;
         }
 

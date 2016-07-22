@@ -32,7 +32,7 @@ public class ElementSelectedCondition extends BaseElementValueSource
         {
         WebElement element = resolveElementSource(context, true);
         boolean visible = element.isSelected();
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), visible));
+        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), visible));
         return visible;
         }
 

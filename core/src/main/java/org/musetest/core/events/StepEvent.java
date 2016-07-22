@@ -13,14 +13,14 @@ public class StepEvent extends MuseEvent
         {
         super(type);
         _config = config;
-        _step_description = context.getTestExecutionContext().getProject().getStepDescriptors().get(config).getShortDescription(config);
+        _step_description = context.getProject().getStepDescriptors().get(config).getShortDescription(config);
         }
 
     public StepEvent(MuseEventType type, StepConfiguration config, StepExecutionContext context, StepExecutionResult result)
         {
         super(type);
         _config = config;
-        _step_description = context.getTestExecutionContext().getProject().getStepDescriptors().get(config).getShortDescription(config);
+        _step_description = context.getProject().getStepDescriptors().get(config).getShortDescription(config);
         _result = result;
         }
 

@@ -45,7 +45,7 @@ public class VariableValueSource extends BaseValueSource
     public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
         Object value = context.getLocalVariable(_name.resolveValue(context).toString());
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), value));
+        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), value));
         return value;
         }
 

@@ -72,6 +72,18 @@ public class DummyStepExecutionContext implements StepExecutionContext
         }
 
     @Override
+    public void raiseEvent(MuseEvent event)
+        {
+        _test_context.raiseEvent(event);
+        }
+
+    @Override
+    public MuseProject getProject()
+        {
+        return _test_context.getProject();
+        }
+
+    @Override
     public StepExecutionContextStack getExecutionStack()
         {
         return _test_context.getExecutionStack();

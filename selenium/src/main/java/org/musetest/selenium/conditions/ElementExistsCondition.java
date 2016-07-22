@@ -32,7 +32,7 @@ public class ElementExistsCondition extends BaseElementValueSource
         {
         WebElement element = resolveElementSource(context, false);
         boolean exists = element != null;
-        context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), exists));
+        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), exists));
         return exists;
         }
 

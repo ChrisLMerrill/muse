@@ -36,7 +36,7 @@ public class NotValueSource extends BaseValueSource
         if (value instanceof Boolean)
             {
             result = !(Boolean) value;
-            context.getTestExecutionContext().raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
+            context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
             return result;
             }
         else

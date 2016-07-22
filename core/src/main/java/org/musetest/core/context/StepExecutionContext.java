@@ -13,6 +13,18 @@ import java.util.*;
 public interface StepExecutionContext
     {
     /**
+     * Send an event to listeners (which typically includes the EventLog).
+     */
+    void raiseEvent(MuseEvent event);
+
+    /**
+     * If the step is executed within the context of a project, this provides access to the project.
+     *
+     * @return The project. null if not executed within a project context.
+     */
+    MuseProject getProject();
+
+    /**
      * Get the context in which the entire test is being executed.
      */
     SteppedTestExecutionContext getTestExecutionContext();
@@ -57,6 +69,10 @@ public interface StepExecutionContext
      */
     Map<String,Object> getVariables();
 
+    /**
+     * The execution stack tracks hierarchical step context. Steps that affect that hierarchy (calling functions,
+     * returning, looping, etc) may use this to effect their changes.
+     */
     StepExecutionContextStack getExecutionStack();
     }
 

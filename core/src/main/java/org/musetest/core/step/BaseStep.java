@@ -33,10 +33,10 @@ public abstract class BaseStep implements MuseStep
         if (!_started)
             {
             _started = true;
-            context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.StartStep, _config, context));
+            context.raiseEvent(new StepEvent(MuseEventType.StartStep, _config, context));
             }
         StepExecutionResult result = executeImplementation(context);
-        context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
+        context.raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
         return result;
         }
 

@@ -83,7 +83,7 @@ public class CallFunction extends CallMacroStep
             }
 
         BasicStepExecutionResult result = new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
-        context.getTestExecutionContext().raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
+        context.raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
         context.stepComplete(this, result);
         }
 

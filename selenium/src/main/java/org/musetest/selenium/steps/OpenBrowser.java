@@ -41,21 +41,21 @@ public class OpenBrowser extends BaseStep
         if (provider == null)
             {
             ValueSourceConfiguration provider_config = getConfiguration().getSource(PROVIDER_PARAM);
-            throw new StepConfigurationError("Unable to locate WebdriverProvider from source: " + context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(provider_config).getInstanceDescription(provider_config));
+            throw new StepConfigurationError("Unable to locate WebdriverProvider from source: " + context.getProject().getValueSourceDescriptors().get(provider_config).getInstanceDescription(provider_config));
             }
 
         SeleniumBrowserCapabilities capabilities = getValue(_browser, context, false, SeleniumBrowserCapabilities.class);
         if (capabilities == null)
             {
             ValueSourceConfiguration browser_config = getConfiguration().getSource(PROVIDER_PARAM);
-            throw new StepConfigurationError("Unable to locate SeleniumBrowserCapabilities from source: " + context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(browser_config).getInstanceDescription(browser_config));
+            throw new StepConfigurationError("Unable to locate SeleniumBrowserCapabilities from source: " + context.getProject().getValueSourceDescriptors().get(browser_config).getInstanceDescription(browser_config));
             }
 
         WebDriver driver = provider.getDriver(capabilities);
         if (driver == null)
             {
             ValueSourceConfiguration provider_config = getConfiguration().getSource(PROVIDER_PARAM);
-            throw new StepConfigurationError(String.format("The WebdriverProvider (%s) was not able to provide a browser matching the specified capabilities (%s).", context.getTestExecutionContext().getProject().getValueSourceDescriptors().get(provider_config).getInstanceDescription(provider_config), capabilities.toDesiredCapabilities().toString()));
+            throw new StepConfigurationError(String.format("The WebdriverProvider (%s) was not able to provide a browser matching the specified capabilities (%s).", context.getProject().getValueSourceDescriptors().get(provider_config).getInstanceDescription(provider_config), capabilities.toDesiredCapabilities().toString()));
             }
 
         BrowserStepExecutionContext.putDriver(driver, context);

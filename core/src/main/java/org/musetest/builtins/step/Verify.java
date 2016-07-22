@@ -42,7 +42,7 @@ public class Verify extends BaseStep
             return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, "passed");
         else
             {
-            context.getTestExecutionContext().raiseEvent(new VerifyFailureEvent(_config, context, message));
+            context.raiseEvent(new VerifyFailureEvent(_config, context, message));
             return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "FAIL");
             }
         }

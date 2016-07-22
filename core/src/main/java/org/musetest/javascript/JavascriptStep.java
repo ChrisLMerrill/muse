@@ -30,7 +30,7 @@ public class JavascriptStep extends BaseStep
         HashMap<String, Object> values = new HashMap<>();
         for (String name : config.getSources().keySet())
             {
-            MuseValueSource source = getValueSource(config, name, false, context.getTestExecutionContext().getProject());
+            MuseValueSource source = getValueSource(config, name, false, context.getProject());
             values.put(name, getValue(source, context, true, Object.class));
             }
 
@@ -43,12 +43,12 @@ public class JavascriptStep extends BaseStep
             if (result instanceof StepExecutionResult)
                 return (StepExecutionResult) result;
             else
-                context.getTestExecutionContext().raiseEvent(new ScriptFailureEvent("Script did not return a StepExecutionResult. Instead, it returned: " + result, null));// TODO do something better than n/a
+                context.raiseEvent(new ScriptFailureEvent("Script did not return a StepExecutionResult. Instead, it returned: " + result, null));// TODO do something better than n/a
             }
         catch (Throwable t)
             {
             LOG.error("unable to execute script: ", t);
-            context.getTestExecutionContext().raiseEvent(new ScriptFailureEvent("Script threw an exception: " + t.getMessage(), t));  // TODO do something better than n/a
+            context.raiseEvent(new ScriptFailureEvent("Script threw an exception: " + t.getMessage(), t));  // TODO do something better than n/a
             }
         return new BasicStepExecutionResult(StepExecutionStatus.FAILURE);
         }

@@ -40,7 +40,7 @@ public class GreaterThanCondition extends BinaryCondition
         else
             throw new IllegalArgumentException("GreaterThanCondition can operate on 2 integers or 2 strings. Instead received: " + left + "(" + left.getClass().getSimpleName() + ") > " + right + "(" + right.getClass().getSimpleName() + ")");
 
-        context.getTestExecutionContext().raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s>%s) is %b", left, right, result)));
+        context.raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s>%s) is %b", left, right, result)));
         return result;
         }
 
