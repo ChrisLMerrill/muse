@@ -60,7 +60,7 @@ public class OpenBrowser extends BaseStep
 
         BrowserStepExecutionContext.putDriver(driver, context);
 
-        context.getTestExecutionContext().registerShuttable(driver::quit);
+        context.registerShuttable(driver::quit);
 
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }

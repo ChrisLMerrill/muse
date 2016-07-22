@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.test.*;
 
 import java.util.*;
 
@@ -74,5 +75,11 @@ public interface StepExecutionContext
      * returning, looping, etc) may use this to effect their changes.
      */
     StepExecutionContextStack getExecutionStack();
+
+    /**
+     * Register a resource that should be closed/shutdown when the highest-level context (that
+     * this StepExecutionContext lives in) ends.
+     */
+    void registerShuttable(Shuttable shuttable);  // shuttables should be shut down during cleanup
     }
 

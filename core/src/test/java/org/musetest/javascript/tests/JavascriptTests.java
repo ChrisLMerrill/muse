@@ -138,8 +138,9 @@ public class JavascriptTests
         MuseStep step = config.createStep(project);
 
         final List<MessageEvent> events = new ArrayList<>();
-        StepExecutionContext context = new SingleStepExecutionContext(new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext()), config, true);
-        context.getTestExecutionContext().addEventListener(event ->
+        DefaultSteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext());
+        StepExecutionContext context = new SingleStepExecutionContext(test_context, config, true);
+        test_context.addEventListener(event ->
             {
             if (event instanceof MessageEvent)
                 events.add((MessageEvent) event);

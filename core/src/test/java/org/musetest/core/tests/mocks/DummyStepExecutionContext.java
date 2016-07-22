@@ -5,6 +5,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.test.*;
 
 import java.util.*;
 
@@ -87,6 +88,12 @@ public class DummyStepExecutionContext implements StepExecutionContext
     public StepExecutionContextStack getExecutionStack()
         {
         return _test_context.getExecutionStack();
+        }
+
+    @Override
+    public void registerShuttable(Shuttable shuttable)
+        {
+        _test_context.registerShuttable(shuttable);
         }
 
     private Map<String, Object> _variables = new HashMap<>();

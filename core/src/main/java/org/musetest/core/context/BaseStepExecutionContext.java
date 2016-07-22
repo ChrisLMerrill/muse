@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.test.*;
 
 import java.util.*;
 
@@ -83,6 +84,12 @@ public abstract class BaseStepExecutionContext implements StepExecutionContext
     public MuseProject getProject()
         {
         return _test_context.getProject();
+        }
+
+    @Override
+    public void registerShuttable(Shuttable shuttable)
+        {
+        _test_context.registerShuttable(shuttable);
         }
 
     private SteppedTestExecutionContext _test_context;

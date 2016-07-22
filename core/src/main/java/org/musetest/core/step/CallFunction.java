@@ -75,7 +75,7 @@ public class CallFunction extends CallMacroStep
 
     public void returned(StepExecutionContext context, Object return_value) throws StepExecutionError
         {
-        MuseValueSource return_var_name_source = getValueSource(_config, RETURN_PARAM, false, context.getTestExecutionContext().getProject());
+        MuseValueSource return_var_name_source = getValueSource(_config, RETURN_PARAM, false, context.getProject());
         if (return_var_name_source != null)
             {
             String return_var_name = getValue(return_var_name_source, context, false, String.class);
