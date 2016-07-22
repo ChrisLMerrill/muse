@@ -17,7 +17,6 @@ public interface SteppedTestExecutionContext extends TestExecutionContext
      */
     void setLocalVariable(String name, Object value);
 
-    void setExecutionStack(StepExecutionContextStack stack);
     StepExecutionContextStack getExecutionStack();
     }
 

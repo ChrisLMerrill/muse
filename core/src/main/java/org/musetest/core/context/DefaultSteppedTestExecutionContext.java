@@ -111,12 +111,6 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         return _stack;
         }
 
-    @Override
-    public void setExecutionStack(StepExecutionContextStack stack)
-        {
-        _stack = stack;
-        }
-
     private TestExecutionContext _parent_context;
     private StepExecutionContextStack _stack = new StepExecutionContextStack();
     }
