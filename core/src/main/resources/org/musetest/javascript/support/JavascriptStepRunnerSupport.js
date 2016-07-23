@@ -20,20 +20,20 @@ function failureResult(message)
     return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, message);
     }
 
-function getLocalVariable(name)
+function getVariable(name)
     {
-    var value = __context.getLocalVariable(name);
+    var value = __context.getVariable(name);
     logMessage("script: getting " + name + "=" + value + " (" + typeof value + ")");
     return value;
     }
 
-function setLocalVariable(name, value)
+function setVariable(name, value)
     {
     logMessage("script: setting " + name + "=" + value + " (" + typeof value + ")");
-    __context.setLocalVariable(name, value);
+    __context.setVariable(name, value);
     }
 
 function logMessage(message)
     {
-    __context.getTestExecutionContext().raiseEvent(new MessageEvent(message));
+    __context.raiseEvent(new MessageEvent(message));
     }

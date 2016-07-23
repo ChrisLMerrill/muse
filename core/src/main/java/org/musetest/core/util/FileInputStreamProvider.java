@@ -1,7 +1,3 @@
-/**
- * @author Web Performance, Inc.
- *         <BR>Copyright 2006
- */
 package org.musetest.core.util;
 
 import java.io.*;

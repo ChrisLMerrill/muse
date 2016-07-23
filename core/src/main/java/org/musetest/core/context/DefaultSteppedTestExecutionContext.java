@@ -3,6 +3,7 @@ package org.musetest.core.context;
 import org.musetest.core.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
+import org.musetest.core.variables.*;
 
 import java.util.*;
 
@@ -34,20 +35,7 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         _parent_context.removeEventListener(listener);
         }
 
-    @Override
-    public Object getVariable(String name)
-        {
-        return _parent_context.getVariable(name);
-        }
-
-    @Override
-    public void setVariable(String name, Object value)
-        {
-        _parent_context.setVariable(name, value);
-        }
-
-    @Override
-    public Object getLocalVariable(String name)
+    private Object getLocalVariable(String name)
         {
         // iterate the execution stack for the first variable scope and look for the variable there.
         Iterator<StepExecutionContext> iterator = _stack.iterator();
@@ -63,13 +51,10 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
                 break;
                 }
             }
-
-        // if the local scope has not defined the variable, look at the test scope
-        return _parent_context.getVariable(name);
+        return null;
         }
 
-    @Override
-    public void setLocalVariable(String name, Object value)
+    private void setLocalVariable(String name, Object value)
         {
         // iterate the execution stack for the first variable scope and set the variable there.
         Iterator<StepExecutionContext> iterator = _stack.iterator();
@@ -83,8 +68,39 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
                 return;
                 }
             }
+        }
 
-        _parent_context.setVariable(name, value);
+    @Override
+    public Object getVariable(String name)
+        {
+        Object value = getLocalVariable(name);
+        if (value == null)
+            return _parent_context.getVariable(name);
+        return value;
+        }
+
+    @Override
+    public void setVariable(String name, Object value)
+        {
+        setLocalVariable(name, value);
+        }
+
+    @Override
+    public Object getVariable(String name, VariableScope scope)
+        {
+        if (scope.equals(VariableScope.Local))
+            return getLocalVariable(name);
+        else
+            return _parent_context.getVariable(name, scope);
+        }
+
+    @Override
+    public void setVariable(String name, Object value, VariableScope scope)
+        {
+        if (scope.equals(VariableScope.Local))
+            setLocalVariable(name, value);
+        else
+            _parent_context.setVariable(name, value, scope);
         }
 
     @Override

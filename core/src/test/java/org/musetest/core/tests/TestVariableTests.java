@@ -30,7 +30,7 @@ public class TestVariableTests
     public void testVariableSetManually()
         {
         TestExecutionContext context = new DefaultTestExecutionContext();
-        context.setVariable(VAR_NAME, VAR_VALUE);
+        context.setVariable(VAR_NAME, VAR_VALUE, VariableScope.Execution);
 
         MuseTestResult result = getTest().execute(context);
         Assert.assertTrue(result.isPass());

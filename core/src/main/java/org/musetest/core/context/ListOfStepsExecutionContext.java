@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ListOfStepsExecutionContext extends BaseStepExecutionContext
+public class  ListOfStepsExecutionContext extends BaseStepExecutionContext
     {
     public ListOfStepsExecutionContext(SteppedTestExecutionContext test_context, List<StepConfiguration> steps, boolean new_variable_scope, ListOfStepsCompletionListener listener)
         {

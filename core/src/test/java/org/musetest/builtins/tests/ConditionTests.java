@@ -30,7 +30,7 @@ public class ConditionTests
         {
         StepExecutionContext context = new DummyStepExecutionContext();
 
-        context.setLocalVariable("var1", "abc");
+        context.setVariable("var1", "abc");
 
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue("abc");
         ValueSourceConfiguration right = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var1"));
@@ -41,13 +41,13 @@ public class ConditionTests
         condition = createCondition(EqualityCondition.TYPE_ID, left, right);
         Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
-        context.setLocalVariable("var2", "abc");
+        context.setVariable("var2", "abc");
         left = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var1"));
         right = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var2"));
         condition = createCondition(EqualityCondition.TYPE_ID, left, right);
         Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
 
-        context.setLocalVariable("var2", "xyz");
+        context.setVariable("var2", "xyz");
         Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
         }
 
@@ -68,8 +68,8 @@ public class ConditionTests
         Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         // compare variables
-        context.setLocalVariable("var1", 1L);
-        context.setLocalVariable("var2", 0L);
+        context.setVariable("var1", 1L);
+        context.setVariable("var2", 0L);
 
         ValueSourceConfiguration var1 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var1"));
         ValueSourceConfiguration var2 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var2"));
@@ -102,8 +102,8 @@ public class ConditionTests
         Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         // compare variables
-        context.setLocalVariable("var1", "aab");
-        context.setLocalVariable("var2", "aaa");
+        context.setVariable("var1", "aab");
+        context.setVariable("var2", "aaa");
 
         ValueSourceConfiguration var1 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var1"));
         ValueSourceConfiguration var2 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var2"));
@@ -135,8 +135,8 @@ public class ConditionTests
         Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         // compare variables
-        context.setLocalVariable("var1", 0L);
-        context.setLocalVariable("var2", 1L);
+        context.setVariable("var1", 0L);
+        context.setVariable("var2", 1L);
 
         ValueSourceConfiguration var1 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var1"));
         ValueSourceConfiguration var2 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var2"));
@@ -168,8 +168,8 @@ public class ConditionTests
         Assert.assertFalse((Boolean) condition.createSource().resolveValue(context));
 
         // compare variables
-        context.setLocalVariable("var1", "aaa");
-        context.setLocalVariable("var2", "aab");
+        context.setVariable("var1", "aaa");
+        context.setVariable("var2", "aab");
 
         ValueSourceConfiguration var1 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var1"));
         ValueSourceConfiguration var2 = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("var2"));

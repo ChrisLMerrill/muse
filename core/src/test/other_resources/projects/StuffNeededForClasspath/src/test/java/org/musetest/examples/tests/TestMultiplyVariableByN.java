@@ -27,7 +27,7 @@ public class TestMultiplyVariableByN
 		SteppedTest test = (SteppedTest) resource;
         TestExecutionContext test_context = new DefaultTestExecutionContext();
         MuseTestResult result = test.execute(test_context);
-        Assert.assertEquals(MuseTestResultStatus.Success, result.getStatus());
+        Assert.assertTrue(result.isPass());
         }
     }
 

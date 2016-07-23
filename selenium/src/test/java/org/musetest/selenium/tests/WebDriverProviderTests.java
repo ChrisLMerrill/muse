@@ -9,6 +9,7 @@ import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.util.*;
+import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.musetest.selenium.mocks.*;
 import org.musetest.selenium.providers.*;
@@ -34,7 +35,7 @@ public class WebDriverProviderTests
         }
 
     @Test
-    public void closeShuttables() throws URISyntaxException, InterruptedException
+    public void closeShuttables() throws URISyntaxException, InterruptedException, ValueSourceResolutionError
         {
         MuseProject project = SeleniumStepTests.createSeleniumTestProject();
         StepConfiguration open_step = SeleniumStepTests.createOpenBrowserStep();
@@ -43,7 +44,7 @@ public class WebDriverProviderTests
         controller.runPastStep(new SteppedTestProviderImpl(project, test), open_step);
         new TestStateBlocker(controller).blockUntil(InteractiveTestState.PAUSED);
 
-        MuseMockDriver driver = (MuseMockDriver) controller.getTestRunner().getTestContext().getVariable(BrowserStepExecutionContext.DEFAULT_DRIVER_VARIABLE_NAME);
+        MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(controller.getTestRunner().getTestContext());
         Assert.assertNotNull(driver);
 
         controller.resume();

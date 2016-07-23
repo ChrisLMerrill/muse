@@ -7,6 +7,7 @@ import org.musetest.core.step.*;
 import org.musetest.core.test.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.factory.*;
+import org.musetest.core.variables.*;
 
 import java.util.*;
 
@@ -45,6 +46,7 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
         _step = step;
         }
 
+    @SuppressWarnings("WeakerAccess")  // used by the UI
     public Map<String, ValueSourceConfiguration> getDefaultVariables()
         {
         return _default_variables;
@@ -74,12 +76,12 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
         project.initializeTestContext(context);
         if (_default_variables != null)
             for (String name : _default_variables.keySet())
-                if (context.getVariable(name) == null)
+                if (context.getVariable(name, VariableScope.Execution) == null)
                     try
                         {
                         MuseValueSource source = ValueSourceFactory.getDefault(project).createSource(getDefaultVariables().get(name), project);
                         Object value = source.resolveValue(new SingleStepExecutionContext(context, null, false));
-                        context.setVariable(name, value);
+                        context.setVariable(name, value, VariableScope.Execution);
                         }
                     catch (StepExecutionError e)
                         {

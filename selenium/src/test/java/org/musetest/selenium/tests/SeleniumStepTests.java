@@ -27,29 +27,37 @@ import java.net.*;
 public class SeleniumStepTests
     {
     @Test
-    public void openBrowser()
+    public void openBrowser() throws ValueSourceResolutionError
         {
         TestExecutionContext context = runTestWithSteps(createOpenBrowserStep());
-        MuseMockDriver driver = (MuseMockDriver) context.getVariable(BrowserStepExecutionContext.DEFAULT_DRIVER_VARIABLE_NAME);
+        MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
         Assert.assertNotNull(driver);
         }
 
     @Test
-    public void openAndCloseBrowser()
+    public void openAndCloseBrowser() throws ValueSourceResolutionError
         {
         TestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), new StepConfiguration(CloseBrowser.TYPE_ID));
-        MuseMockDriver driver = (MuseMockDriver) context.getVariable(BrowserStepExecutionContext.DEFAULT_DRIVER_VARIABLE_NAME);
-        Assert.assertNull(driver);
+        MuseMockDriver driver;
+        try
+            {
+            driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
+            Assert.assertNull(driver);
+            }
+        catch (ValueSourceResolutionError valueSourceResolutionError)
+            {
+            // ok, this is what we expect.
+            }
         }
 
     @Test
-    public void gotoUrl()
+    public void gotoUrl() throws ValueSourceResolutionError
         {
         final String URL = "thetesturl";
         StepConfiguration goto_url = new StepConfiguration(GotoUrl.TYPE_ID);
         goto_url.setSource(GotoUrl.URL_PARAM, ValueSourceConfiguration.forValue(URL));
         TestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), goto_url);
-        MuseMockDriver driver = (MuseMockDriver) context.getVariable(BrowserStepExecutionContext.DEFAULT_DRIVER_VARIABLE_NAME);
+        MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
         Assert.assertEquals(URL, driver.getCurrentUrl());
         }
 
@@ -208,7 +216,7 @@ public class SeleniumStepTests
         return context;
         }
 
-    public static MuseProject createSeleniumTestProject()
+    static MuseProject createSeleniumTestProject()
         {
         if (PROJECT == null)
             {
@@ -232,7 +240,7 @@ public class SeleniumStepTests
     // until project loading is faster, only create this once
     private static MuseProject PROJECT = null;
 
-    public static StepConfiguration createOpenBrowserStep()
+    static StepConfiguration createOpenBrowserStep()
         {
         StepConfiguration open_browser_step = new StepConfiguration(OpenBrowser.TYPE_ID);
         ValueSourceConfiguration provider_source = ValueSourceConfiguration.forTypeWithSource(ProjectResourceValueSource.TYPE_ID, ValueSourceConfiguration.forValue("driver-providers"));

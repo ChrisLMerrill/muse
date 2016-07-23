@@ -23,10 +23,10 @@ public class MultiplyVariableByN extends BaseStep
         }
         
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepConfigurationError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
         {
 		String var_name = _name.resolveValue(context).toString();
-		Object var_value = context.getLocalVariable(var_name);
+		Object var_value = context.getVariable(var_name);
         if (!(var_value instanceof Number))
             {
             LOG.error(String.format("The variable value is not a number: %s=%s", var_name, var_value));
@@ -49,7 +49,7 @@ public class MultiplyVariableByN extends BaseStep
 
         Long new_value = value * ((Number)factor).longValue();
 
-        context.setLocalVariable(var_name, new_value);
+        context.setVariable(var_name, new_value);
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, String.format("multiply %s(%d) by %d = %d", var_name, value, ((Number) factor).longValue(), new_value));
         }
 

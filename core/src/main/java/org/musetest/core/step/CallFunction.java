@@ -64,7 +64,7 @@ public class CallFunction extends CallMacroStep
 
         // store the values in the new variable scope
         for (String name : _values_to_pass.keySet())
-            context.setLocalVariable(name, _values_to_pass.get(name));
+            context.setVariable(name, _values_to_pass.get(name));
         }
 
     @Override
@@ -79,7 +79,7 @@ public class CallFunction extends CallMacroStep
         if (return_var_name_source != null)
             {
             String return_var_name = getValue(return_var_name_source, context, false, String.class);
-            context.setLocalVariable(return_var_name, return_value);
+            context.setVariable(return_var_name, return_value);
             }
 
         BasicStepExecutionResult result = new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

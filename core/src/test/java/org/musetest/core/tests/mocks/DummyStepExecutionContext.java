@@ -6,6 +6,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
+import org.musetest.core.variables.*;
 
 import java.util.*;
 
@@ -21,12 +22,6 @@ public class DummyStepExecutionContext implements StepExecutionContext
     public DummyStepExecutionContext(MuseProject project)
         {
         _test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project));
-        }
-
-    @Override
-    public SteppedTestExecutionContext getTestExecutionContext()
-        {
-        return _test_context;
         }
 
     private SteppedTestExecutionContext _test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext());
@@ -55,21 +50,33 @@ public class DummyStepExecutionContext implements StepExecutionContext
         }
 
     @Override
-    public Object getLocalVariable(String name)
+    public Map<String, Object> getVariables()
+        {
+        return _variables;
+        }
+
+    @Override
+    public Object getVariable(String name)
         {
         return _variables.get(name);
         }
 
     @Override
-    public void setLocalVariable(String name, Object value)
+    public void setVariable(String name, Object value)
         {
         _variables.put(name, value);
         }
 
     @Override
-    public Map<String, Object> getVariables()
+    public Object getVariable(String name, VariableScope scope)
         {
-        return _variables;
+        return _variables.get(name);
+        }
+
+    @Override
+    public void setVariable(String name, Object value, VariableScope scope)
+        {
+        _variables.put(name, value);
         }
 
     @Override

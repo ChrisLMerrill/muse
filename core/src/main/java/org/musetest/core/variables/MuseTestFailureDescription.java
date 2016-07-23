@@ -1,7 +1,7 @@
 package org.musetest.core.variables;
 
 /**
- * @author ©2015 Web Performance, Inc
+ * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class MuseTestFailureDescription
     {

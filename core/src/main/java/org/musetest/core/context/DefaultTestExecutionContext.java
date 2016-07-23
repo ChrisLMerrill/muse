@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.project.*;
 import org.musetest.core.test.*;
+import org.musetest.core.variables.*;
 import org.slf4j.*;
 
 import java.util.*;
@@ -52,17 +53,44 @@ public class DefaultTestExecutionContext implements TestExecutionContext
         _listeners.remove(listener);
         }
 
+    private Object getTestVariable(String name)
+        {
+        return _vars.get(name);
+        }
+
+    private void setTestVariable(String name, Object value)
+        {
+        _vars.put(name, value);
+        raiseEvent(new SetVariableEvent(name, value));
+        }
+
     @Override
     public Object getVariable(String name)
         {
-        return _vars.get(name);
+        return getTestVariable(name);
         }
 
     @Override
     public void setVariable(String name, Object value)
         {
-        _vars.put(name, value);
-        raiseEvent(new SetVariableEvent(name, value));
+        setTestVariable(name, value);
+        }
+
+    @Override
+    public Object getVariable(String name, VariableScope scope)
+        {
+        if (scope.equals(VariableScope.Execution))
+            return getTestVariable(name);
+        return null;
+        }
+
+    @Override
+    public void setVariable(String name, Object value, VariableScope scope)
+        {
+        if (scope.equals(VariableScope.Execution))
+            setTestVariable(name, value);
+        else
+            LOG.error(String.format("Asked to set a variable in the '%s' scope: %s = %s", scope.name(), name, value));
         }
 
     @Override
@@ -85,8 +113,7 @@ public class DefaultTestExecutionContext implements TestExecutionContext
     @Override
     public void cleanup()
         {
-        for (Shuttable shuttable : _shuttables)
-            shuttable.shutdown();
+        _shuttables.forEach(Shuttable::shutdown);
         _listeners.clear();
         }
 
@@ -101,7 +128,7 @@ public class DefaultTestExecutionContext implements TestExecutionContext
     private MuseProject _project;
     private List<Shuttable> _shuttables = new ArrayList<>();
 
-    final static Logger LOG = LoggerFactory.getLogger(TestExecutionContext.class);
+    private final static Logger LOG = LoggerFactory.getLogger(TestExecutionContext.class);
     }
 
 

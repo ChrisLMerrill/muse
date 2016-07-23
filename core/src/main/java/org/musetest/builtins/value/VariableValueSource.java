@@ -44,7 +44,7 @@ public class VariableValueSource extends BaseValueSource
     @Override
     public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
         {
-        Object value = context.getLocalVariable(_name.resolveValue(context).toString());
+        Object value = context.getVariable(_name.resolveValue(context).toString());
         context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), value));
         return value;
         }

@@ -5,25 +5,20 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
+import org.musetest.core.variables.*;
 
 import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class BaseStepExecutionContext implements StepExecutionContext
+abstract class BaseStepExecutionContext implements StepExecutionContext
     {
-    public BaseStepExecutionContext(SteppedTestExecutionContext test_context, boolean new_variable_scope)
+    BaseStepExecutionContext(SteppedTestExecutionContext test_context, boolean new_variable_scope)
         {
         _test_context = test_context;
         if (new_variable_scope)
             _step_vars = new HashMap<>();
-        }
-
-    @Override
-    public SteppedTestExecutionContext getTestExecutionContext()
-        {
-        return _test_context;
         }
 
     @Override
@@ -51,15 +46,27 @@ public abstract class BaseStepExecutionContext implements StepExecutionContext
         }
 
     @Override
-    public Object getLocalVariable(String name)
+    public Object getVariable(String name)
         {
-        return _test_context.getLocalVariable(name);
+        return _test_context.getVariable(name);
         }
 
     @Override
-    public void setLocalVariable(String name, Object value)
+    public void setVariable(String name, Object value)
         {
-        _test_context.setLocalVariable(name, value);
+        _test_context.setVariable(name, value);
+        }
+
+    @Override
+    public Object getVariable(String name, VariableScope scope)
+        {
+        return _test_context.getVariable(name, scope);
+        }
+
+    @Override
+    public void setVariable(String name, Object value, VariableScope scope)
+        {
+        _test_context.setVariable(name, value, scope);
         }
 
     @Override

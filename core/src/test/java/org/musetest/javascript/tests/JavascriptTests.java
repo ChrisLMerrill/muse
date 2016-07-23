@@ -109,10 +109,10 @@ public class JavascriptTests
         StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
         MuseStep step = config.createStep(project);
         DummyStepExecutionContext context = new DummyStepExecutionContext();
-        context.setLocalVariable("var_in", "input");
+        context.setVariable("var_in", "input");
         Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
 
-        Assert.assertEquals("output", context.getLocalVariable("var_out"));
+        Assert.assertEquals("output", context.getVariable("var_out"));
         }
 
     @Test

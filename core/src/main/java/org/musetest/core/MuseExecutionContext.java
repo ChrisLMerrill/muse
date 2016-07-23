@@ -1,9 +1,10 @@
 package org.musetest.core;
 
 import org.musetest.core.test.*;
+import org.musetest.core.variables.*;
 
 /**
- * @author ©2015 Web Performance, Inc
+ * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public interface MuseExecutionContext
     {
@@ -36,5 +37,31 @@ public interface MuseExecutionContext
      * @return The parent context or null if none.
      */
     MuseExecutionContext getParent();
+
+    /**
+     * Get the value of a variable in the current variable scope.  If not found in the current scope, search
+     * for the value in higher-level scopes.
+     *
+     * @return the value assigned to the variable name. null if not found.
+     */
+    Object getVariable(String name);
+
+    /**
+     * Set the value of a variable in the current variable scope. This will hide test-wide variables of
+     * the same name from access within this scope.
+     */
+    void setVariable(String name, Object value);
+
+    /**
+     * Get the value of a variable only from the specified variable scope.
+     *
+     * @return the value assigned to the variable name. null if not found.
+     */
+    Object getVariable(String name, VariableScope scope);
+
+    /**
+     * Set the value of a variable in the specified variable scope.
+     */
+    void setVariable(String name, Object value, VariableScope scope);
     }
 

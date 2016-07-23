@@ -61,7 +61,7 @@ public class StepTests
         StepExecutionContext context = new DummyStepExecutionContext();
         MuseStep step = config.createStep();
         step.execute(context);
-        Assert.assertEquals("abc", context.getLocalVariable("var1"));
+        Assert.assertEquals("abc", context.getVariable("var1"));
         }
 
     @Test
@@ -74,7 +74,7 @@ public class StepTests
         MuseStep step = config.createStep();
         StepExecutionContext context = new DummyStepExecutionContext();
         step.execute(context);
-        Assert.assertEquals(191L, context.getLocalVariable("var_int"));
+        Assert.assertEquals(191L, context.getVariable("var_int"));
         }
 
     @Test
@@ -85,9 +85,9 @@ public class StepTests
 
         MuseStep step = config.createStep();
         StepExecutionContext context = new DummyStepExecutionContext();
-        context.setLocalVariable("var1", 3L);
+        context.setVariable("var1", 3L);
         step.execute(context);
-        Assert.assertEquals(4L, context.getLocalVariable("var1"));
+        Assert.assertEquals(4L, context.getVariable("var1"));
         }
 
     @Test
@@ -102,9 +102,9 @@ public class StepTests
 
         MuseStep step = config.createStep();
         StepExecutionContext context = new DummyStepExecutionContext();
-        context.setLocalVariable("var1", start_value);
+        context.setVariable("var1", start_value);
         step.execute(context);
-        Assert.assertEquals(start_value + amount, context.getLocalVariable("var1"));
+        Assert.assertEquals(start_value + amount, context.getVariable("var1"));
         }
 
     @Test

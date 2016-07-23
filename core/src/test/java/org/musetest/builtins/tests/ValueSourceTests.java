@@ -48,7 +48,7 @@ public class ValueSourceTests
         {
         MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("abc")).createSource();
         StepExecutionContext context = new DummyStepExecutionContext();
-        context.setLocalVariable("abc", 123L);
+        context.setVariable("abc", 123L);
         Assert.assertEquals(123L, source.resolveValue(context));
         }
 
@@ -58,8 +58,8 @@ public class ValueSourceTests
         ValueSourceConfiguration varname_holding_the_varname = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("varname"));
         MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, varname_holding_the_varname).createSource();
         StepExecutionContext context = new DummyStepExecutionContext();
-        context.setLocalVariable("abc", 123L);
-        context.setLocalVariable("varname", "abc");
+        context.setVariable("abc", 123L);
+        context.setVariable("varname", "abc");
         Assert.assertEquals(123L, source.resolveValue(context));
         }
 
@@ -269,7 +269,7 @@ public class ValueSourceTests
         Date parsed = new SimpleDateFormat(NOW_DATE_FORMAT).parse(expected);
         DummyStepExecutionContext context = new DummyStepExecutionContext();
         final String var_name = "date";
-        context.setLocalVariable(var_name, parsed);
+        context.setVariable(var_name, parsed);
         Object result = resolveDateFormatSource(ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(var_name)), ValueSourceConfiguration.forValue(NOW_DATE_FORMAT), context);
         Assert.assertEquals(expected, result);
         }

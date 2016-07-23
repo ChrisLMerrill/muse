@@ -153,7 +153,7 @@ public class SimpleProject implements MuseProject
                     else
                         test_context = new DefaultSteppedTestExecutionContext(context);
                     Object value = config.createSource(this).resolveValue(new SingleStepExecutionContext(test_context, null, false));
-                    context.setVariable(name, value);
+                    context.setVariable(name, value, VariableScope.Execution);
                     }
                 catch (StepExecutionError e)
                     {
