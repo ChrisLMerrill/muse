@@ -61,7 +61,7 @@ public class DefaultTestExecutionContext implements TestExecutionContext
     private void setTestVariable(String name, Object value)
         {
         _vars.put(name, value);
-        raiseEvent(new SetVariableEvent(name, value));
+        raiseEvent(new SetVariableEvent(name, value, VariableScope.Execution));
         }
 
     @Override

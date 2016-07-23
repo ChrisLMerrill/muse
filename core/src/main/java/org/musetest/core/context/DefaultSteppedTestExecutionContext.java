@@ -1,6 +1,7 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
+import org.musetest.core.events.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
 import org.musetest.core.variables.*;
@@ -65,6 +66,7 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
             if (variables != null)
                 {
                 variables.put(name,value);
+                raiseEvent(new SetVariableEvent(name, value, VariableScope.Local));
                 return;
                 }
             }
