@@ -106,11 +106,11 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
 
     public synchronized void requestStep()
         {
-//        if (!_pause_requested)
-//            {
-//            LOG.error("cannot step - runner is not paused");
-//            return;
-//            }
+        if (!_pause_requested)
+            {
+            LOG.error("cannot step - runner is not paused");
+            return;
+            }
 
         _step_requested = true;
         notify();
