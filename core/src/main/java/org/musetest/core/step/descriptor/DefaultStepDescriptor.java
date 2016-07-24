@@ -3,19 +3,20 @@ package org.musetest.core.step.descriptor;
 import org.musetest.core.*;
 import org.musetest.core.step.*;
 import org.musetest.core.values.descriptor.*;
+import org.slf4j.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class DefaultStepDescriptor extends UnknownStepDescriptor
     {
-    public DefaultStepDescriptor(Class<? extends MuseStep> step_class, MuseProject project)
+    protected DefaultStepDescriptor(Class<? extends MuseStep> step_class, MuseProject project)
         {
         super("?" + step_class.getSimpleName() + "?", project);
         _step_class = step_class;
 
         MuseTypeId type_annotation = step_class.getAnnotation(MuseTypeId.class);
-        if (type_annotation != null && type_annotation.value() != null)
+        if (type_annotation != null)
             _type = type_annotation.value();
         else
             {
@@ -96,6 +97,8 @@ public class DefaultStepDescriptor extends UnknownStepDescriptor
         return builder.toString();
         }
 
-    protected String _type;
-    protected Class<? extends MuseStep> _step_class;
+    private String _type;
+    private Class<? extends MuseStep> _step_class;
+
+    private final static Logger LOG = LoggerFactory.getLogger(DefaultStepDescriptor.class);
     }
