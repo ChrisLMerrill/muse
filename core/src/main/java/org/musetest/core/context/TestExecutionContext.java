@@ -8,5 +8,6 @@ import org.musetest.core.*;
 public interface TestExecutionContext extends MuseExecutionContext
     {
     void cleanup();  // cleanup test resources
+//    TestResultProducer getTestResultSource();
     }
 

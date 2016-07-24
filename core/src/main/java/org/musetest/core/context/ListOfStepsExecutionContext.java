@@ -21,7 +21,14 @@ public class  ListOfStepsExecutionContext extends BaseStepExecutionContext
     @Override
     public StepConfiguration getCurrentStepConfiguration()
         {
-        return _steps.get(_current_index);
+        try
+            {
+            return _steps.get(_current_index);
+            }
+        catch (IndexOutOfBoundsException e)
+            {
+            return null;
+            }
         }
 
     @Override

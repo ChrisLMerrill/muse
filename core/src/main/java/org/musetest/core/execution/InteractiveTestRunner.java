@@ -51,8 +51,9 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
             _step_requested = false;
             }
 
-        if (_interrupted)
-            _executor.setFailure(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Interrupted, "interrupted by user"));
+// TODO
+//        if (_interrupted)
+//            _executor.setFailure(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Interrupted, "interrupted by user"));
 
         setTestResult(_executor.finishTest());
         }
