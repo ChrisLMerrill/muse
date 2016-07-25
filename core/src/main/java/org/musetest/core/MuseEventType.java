@@ -18,5 +18,6 @@ public enum MuseEventType
     Pause,
     Resume,
     DynamicStepLoad,
-    Message
+    Message,
+    Interrupted
     }

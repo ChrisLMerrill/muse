@@ -29,9 +29,7 @@ public class DefaultTestResultProducer implements TestResultProducer
         if (event instanceof VerifyFailureEvent)
             _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, event.getDescription());
         else if (event instanceof TestErrorEvent)
-            {
             _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, event.getDescription());
-            }
         else if (event instanceof StepEvent && ((StepEvent)event).getResult() != null)
             {
             StepExecutionResult step_result = ((StepEvent)event).getResult();
@@ -40,6 +38,8 @@ public class DefaultTestResultProducer implements TestResultProducer
             else if (step_result.getStatus() == StepExecutionStatus.ERROR)
                 _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, step_result.getDescription());
             }
+        else if (event.getType().equals(MuseEventType.Interrupted))
+            _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Interrupted, "interrupted by user");
         }
 
     private MuseTest _test;

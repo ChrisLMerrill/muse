@@ -30,19 +30,30 @@ public class InteractiveTestController implements MuseEventListener
         {
         if (_state.equals(InteractiveTestState.IDLE))
             {
-            TestRunner runner = TestRunnerFactory.create(test_provider.getProject(), test_provider.getTest(), false, true);
-            if (! (runner instanceof InteractiveTestRunner))
-                throw new IllegalStateException("Something is wrong...asked for an an InteractiveTestRunner, but didn't get one!");
-            _runner = (InteractiveTestRunner) runner;
+            _provider = test_provider;
+            InteractiveTestRunner runner = getRunner();
             setState(InteractiveTestState.STARTING);
-            _runner.getTestContext().addEventListener(this);
 
             setState(InteractiveTestState.RUNNING);
-            _runner.runTest();
+            runner.runTest();
 
             return true;
             }
         return false;
+        }
+
+    private InteractiveTestRunner getRunner()
+        {
+        if (_runner == null)
+            {
+            TestRunner runner = TestRunnerFactory.create(_provider.getProject(), _provider.getTest(), false, true);
+            if (! (runner instanceof InteractiveTestRunner))
+                throw new IllegalStateException("Something is wrong...asked for an an InteractiveTestRunner, but didn't get one!");
+            _runner = (InteractiveTestRunner) runner;
+            runner.getTestContext().addEventListener(this);
+            runner.getTestContext().addEventListener(new PauseOnError(_runner));
+            }
+        return _runner;
         }
 
     public void addListener(InteractiveTestStateListener listener)
@@ -51,6 +62,7 @@ public class InteractiveTestController implements MuseEventListener
             _listeners.add(listener);
         }
 
+    @SuppressWarnings("unused") // used in GUI
     public void removeListener(InteractiveTestStateListener listener)
         {
         _listeners.remove(listener);
@@ -63,28 +75,13 @@ public class InteractiveTestController implements MuseEventListener
             {
             case EndTest:
                 setState(InteractiveTestState.STOPPING);
-                _runner.getTestContext().removeEventListener(this);
+                getRunner().getTestContext().removeEventListener(this);
                 _runner = null;
                 _result = ((EndTestEvent) event).getResult();
                 setState(InteractiveTestState.IDLE);
                 break;
             case Pause:
                 setState(InteractiveTestState.PAUSED);
-                break;
-            case EndStep:
-                StepEvent step_event = (StepEvent) event;
-                if (step_event.getResult().getStatus().equals(StepExecutionStatus.ERROR))
-                    _runner.requestPause();
-                else if (_pause_after_any_step)
-                    {
-                    _runner.requestPause();
-                    _pause_after_any_step = false;
-                    }
-                else if (step_event.getConfig() == _pause_after_step)
-                    {
-                    _runner.requestPause();
-                    _pause_after_step = null;
-                    }
                 break;
             default:
                 setState(InteractiveTestState.RUNNING);
@@ -103,38 +100,43 @@ public class InteractiveTestController implements MuseEventListener
 
     public TestRunner getTestRunner()
         {
-        return _runner;
+        return getRunner();
         }
 
+    @SuppressWarnings("unused") // used in GUI
     public void stop()
         {
-        _runner.requestStop();
+        getRunner().requestStop();
         }
 
+    @SuppressWarnings("unused") // used in GUI
     public void pause()
         {
-        _runner.requestPause();
+        getRunner().requestPause();
         }
 
     public void resume()
         {
-        _runner.requestResume();
+        getRunner().requestResume();
         }
 
     public void step()
         {
-        _runner.requestStep();
+        getRunner().requestStep();
         }
 
     public void runPastStep(SteppedTestProvider provider, StepConfiguration step)
         {
-        _pause_after_step = step;
+        _provider = provider;
+        getRunner().getTestContext().addEventListener(new PauseAfterStep(getRunner(), step));
         run(provider);
         }
 
+    @SuppressWarnings("unused") // used in GUI
     public void runOneStep(SteppedTestProvider provider)
         {
-        _pause_after_any_step = true;
+        _provider = provider;
+        getRunner().getTestContext().addEventListener(new PauseAfterStep(getRunner()));
         run(provider);
         }
 
@@ -143,12 +145,11 @@ public class InteractiveTestController implements MuseEventListener
         return _result;
         }
 
-    List<InteractiveTestStateListener> _listeners = new ArrayList<>();
+    private List<InteractiveTestStateListener> _listeners = new ArrayList<>();
 
     private InteractiveTestState _state = InteractiveTestState.IDLE;
+    private SteppedTestProvider _provider;
     private InteractiveTestRunner _runner;
-    private boolean _pause_after_any_step = false;
-    private StepConfiguration _pause_after_step = null;
     private MuseTestResult _result = null;
 
     private static InteractiveTestController CONTROLLER = new InteractiveTestController();

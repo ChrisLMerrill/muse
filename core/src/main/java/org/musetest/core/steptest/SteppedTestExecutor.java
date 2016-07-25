@@ -21,6 +21,7 @@ public class SteppedTestExecutor
 
         _context.addEventListener(_resulter);
         _context.addEventListener(log);
+        _context.addEventListener(new TerminateTestOnError(this));
         }
 
     public MuseTestResult executeAll()
@@ -38,8 +39,6 @@ public class SteppedTestExecutor
     public boolean startTest()
         {
         _context.raiseEvent(new StartTestEvent(_test));
-        _terminate = false;
-
         if (!_test.initializeContext(_context))
             {
             _context.raiseEvent(new TestErrorEvent("Unable to initialize the context"));
@@ -53,7 +52,6 @@ public class SteppedTestExecutor
 
     public MuseTestResult finishTest()
         {
-//        MuseTestResult result = new BaseMuseTestResult(_test, _log, _failure);
         MuseTestResult result = _resulter.getTestResult();
         _context.raiseEvent(new EndTestEvent(result));
         _context.cleanup();
@@ -101,13 +99,7 @@ public class SteppedTestExecutor
             {
             step_result = new BasicStepExecutionResult(StepExecutionStatus.ERROR, error_message);
             if (step_config != null)
-                {
                 _context.raiseEvent(new StepEvent(MuseEventType.EndStep, step_config, step_context, step_result));
-// TODO remove
-                _terminate = true;
-                }
-// TODO remove
-//setFailure(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, error_message));
             }
         if (step != null && !step_result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
             step_context.stepComplete(step, step_result);
@@ -120,6 +112,12 @@ public class SteppedTestExecutor
         if (_context.getExecutionStack().hasMoreSteps())
             return _context.getExecutionStack().peek().getCurrentStepConfiguration();
         return null;
+        }
+
+    @SuppressWarnings("WeakerAccess")  // used in GUI
+    public void requestTerminate()
+        {
+        _terminate = true;
         }
 
     private SteppedTestExecutionContext _context;
