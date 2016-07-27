@@ -7,6 +7,8 @@ import org.musetest.core.step.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+
+@SuppressWarnings("WeakerAccess")  // used by GUI
 public class PauseOnError implements MuseEventListener
     {
     public PauseOnError(InteractiveTestRunner runner)
