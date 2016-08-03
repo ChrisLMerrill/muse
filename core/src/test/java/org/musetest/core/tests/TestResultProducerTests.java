@@ -20,7 +20,7 @@ public class TestResultProducerTests
         {
         EventLog log = new EventLog();
         MuseTest test = new MockTest();
-        TestResultProducer producer = new DefaultTestResultProducer(test, log);
+        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, log);
 
         MuseTestResult result = producer.getTestResult();
         Assert.assertTrue(result.isPass());
@@ -35,7 +35,7 @@ public class TestResultProducerTests
         {
         EventLog log = new EventLog();
         MuseTest test = new MockTest();
-        TestResultProducer producer = new DefaultTestResultProducer(test, log);
+        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, log);
 
         String reason = "test123";
         producer.eventRaised(new StepEvent(MuseEventType.EndStep, new StepConfiguration(LogMessage.TYPE_ID), new DummyStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, reason)));
@@ -52,7 +52,7 @@ public class TestResultProducerTests
         {
         EventLog log = new EventLog();
         MuseTest test = new MockTest();
-        TestResultProducer producer = new DefaultTestResultProducer(test, log);
+        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, log);
 
         String reason = "test123";
         producer.eventRaised(new StepEvent(MuseEventType.EndStep, new StepConfiguration(LogMessage.TYPE_ID), new DummyStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.ERROR, reason)));
@@ -69,7 +69,7 @@ public class TestResultProducerTests
         {
         EventLog log = new EventLog();
         MuseTest test = new MockTest();
-        TestResultProducer producer = new DefaultTestResultProducer(test, log);
+        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, log);
 
         String reason = "verifyfail";
         producer.eventRaised(new VerifyFailureEvent(new StepConfiguration(LogMessage.TYPE_ID), new DummyStepExecutionContext(new SimpleProject()), reason));

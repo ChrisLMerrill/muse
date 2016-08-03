@@ -9,9 +9,9 @@ import org.musetest.core.variables.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class DefaultTestResultProducer implements TestResultProducer
+public class TestFailsOnErrorFailureOrInterrupt implements TestResultProducer
     {
-    public DefaultTestResultProducer(MuseTest test, EventLog log)
+    public TestFailsOnErrorFailureOrInterrupt(MuseTest test, EventLog log)
         {
         _test = test;
         _log = log;

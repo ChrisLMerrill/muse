@@ -17,7 +17,7 @@ public class SteppedTestExecutor
         _context = context;
         _test = test;
         EventLog log = new EventLog();
-        _resulter = new DefaultTestResultProducer(test, log);
+        _resulter = new TestFailsOnErrorFailureOrInterrupt(test, log);
 
         _context.addEventListener(_resulter);
         _context.addEventListener(log);
