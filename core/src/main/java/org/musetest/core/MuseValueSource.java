@@ -1,7 +1,6 @@
 package org.musetest.core;
 
 import com.fasterxml.jackson.annotation.*;
-import org.musetest.core.context.*;
 import org.musetest.core.values.*;
 
 /**
@@ -10,7 +9,7 @@ import org.musetest.core.values.*;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 public interface MuseValueSource
     {
-    Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError;
+    Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError;
 
     @JsonIgnore
     String getDescription();

@@ -1,7 +1,6 @@
 package org.musetest.selenium.conditions;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
@@ -28,7 +27,7 @@ public class ElementExistsCondition extends BaseElementValueSource
         }
 
     @Override
-    public Boolean resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
+    public Boolean resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         WebElement element = resolveElementSource(context, false);
         boolean exists = element != null;

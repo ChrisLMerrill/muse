@@ -1,7 +1,6 @@
 package org.musetest.builtins.condition;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
@@ -27,7 +26,7 @@ public class LessThanCondition extends BinaryCondition
         }
 
     @Override
-    public Boolean resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
+    public Boolean resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         Object value1 = _left.resolveValue(context);
         Object value2 = _right.resolveValue(context);

@@ -1,9 +1,7 @@
 package org.musetest.selenium.locators;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.openqa.selenium.*;
@@ -26,7 +24,7 @@ public class LinkTextElementValueSource extends ElementByLocatorValueSource
         super(config, project);
         }
 
-    protected By createBy(StepExecutionContext context, String locator_string) throws ValueSourceResolutionError
+    protected By createBy(MuseExecutionContext context, String locator_string) throws ValueSourceResolutionError
         {
         return By.linkText(locator_string);
         }

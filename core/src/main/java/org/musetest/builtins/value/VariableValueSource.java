@@ -1,7 +1,6 @@
 package org.musetest.builtins.value;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
@@ -42,7 +41,7 @@ public class VariableValueSource extends BaseValueSource
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
+    public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         Object value = context.getVariable(_name.resolveValue(context).toString());
         context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), value));

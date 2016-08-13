@@ -1,9 +1,7 @@
 package org.musetest.selenium.values;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.musetest.selenium.*;
@@ -26,7 +24,7 @@ public class CurrentUrlValueSource extends BaseSeleniumValueSource
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
+    public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         return getDriver(context).getCurrentUrl();
         }

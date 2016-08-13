@@ -1,7 +1,6 @@
 package org.musetest.builtins.tests.mocks;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -20,7 +19,7 @@ import org.musetest.core.values.descriptor.*;
 public class TestAnnotatedValueSource implements MuseValueSource
     {
     @Override
-    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
+    public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         return null;
         }

@@ -22,7 +22,7 @@ public abstract class BaseSeleniumValueSource extends BaseValueSource
         super(config, project);
         }
 
-    protected WebDriver getDriver(StepExecutionContext context) throws ValueSourceResolutionError
+    protected WebDriver getDriver(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         return BrowserStepExecutionContext.getDriver(context);
         }

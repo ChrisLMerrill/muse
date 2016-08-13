@@ -1,10 +1,8 @@
 package org.musetest.selenium.locators;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.openqa.selenium.*;
@@ -25,7 +23,7 @@ public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSourc
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
+    public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         String locator_string = _locator_source.resolveValue(context).toString();
         try
@@ -41,7 +39,7 @@ public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSourc
             }
         }
 
-    protected abstract By createBy(StepExecutionContext context, String locator_string) throws ValueSourceResolutionError;
+    protected abstract By createBy(MuseExecutionContext context, String locator_string) throws ValueSourceResolutionError;
 
     protected final MuseValueSource _locator_source;
     }

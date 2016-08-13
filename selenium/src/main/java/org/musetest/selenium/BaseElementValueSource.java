@@ -25,7 +25,7 @@ public abstract class BaseElementValueSource extends BaseSeleniumValueSource
         return _element_source;
         }
 
-    public WebElement resolveElementSource(StepExecutionContext context, boolean required) throws ValueSourceResolutionError
+    public WebElement resolveElementSource(MuseExecutionContext context, boolean required) throws ValueSourceResolutionError
         {
         Object element = _element_source.resolveValue(context);
         if (element == null)

@@ -1,7 +1,6 @@
 package org.musetest.builtins.value;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -34,7 +33,7 @@ public class DateFormatValueSource extends BaseValueSource
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
+    public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         DateFormat formatter = null;
         if (_format != null)

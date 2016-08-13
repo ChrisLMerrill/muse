@@ -1,7 +1,6 @@
 package org.musetest.builtins.value;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -46,7 +45,7 @@ public class IntegerValueSource extends BaseValueSource
         }
 
     @Override
-    public Object resolveValue(StepExecutionContext context)
+    public Object resolveValue(MuseExecutionContext context)
         {
         return _value;
         }

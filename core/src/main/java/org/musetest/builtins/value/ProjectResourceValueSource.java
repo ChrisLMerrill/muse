@@ -1,7 +1,6 @@
 package org.musetest.builtins.value;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -29,7 +28,7 @@ public class ProjectResourceValueSource extends BaseValueSource
         }
 
     @Override
-    public MuseResource resolveValue(StepExecutionContext context) throws ValueSourceResolutionError
+    public MuseResource resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         Object resolved = _id_source.resolveValue(context);
         if (resolved == null)
