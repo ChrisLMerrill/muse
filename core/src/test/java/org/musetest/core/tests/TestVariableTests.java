@@ -50,7 +50,7 @@ public class TestVariableTests
         }
 
     @Test
-    public void projectDefaultVaraibles()
+    public void projectDefaultVariables()
         {
         SteppedTest test = getTest();
         MuseProject project = new SimpleProject();
