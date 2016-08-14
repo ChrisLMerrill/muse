@@ -70,17 +70,17 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
         return (obj instanceof SteppedTest && _step.equals(((SteppedTest)obj)._step));
         }
 
-    public boolean initializeContext(SteppedTestExecutionContext context)
+    public boolean initializeContext(MuseExecutionContext context)
         {
         MuseProject project = context.getProject();
-        project.initializeTestContext(context);
+        project.initializeContext(context);
         if (_default_variables != null)
             for (String name : _default_variables.keySet())
                 if (context.getVariable(name, VariableScope.Execution) == null)
                     try
                         {
                         MuseValueSource source = ValueSourceFactory.getDefault(project).createSource(getDefaultVariables().get(name), project);
-                        Object value = source.resolveValue(new SingleStepExecutionContext(context, null, false));
+                        Object value = source.resolveValue(context);
                         context.setVariable(name, value, VariableScope.Execution);
                         }
                     catch (StepExecutionError e)

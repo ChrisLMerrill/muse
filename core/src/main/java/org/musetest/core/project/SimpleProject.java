@@ -1,12 +1,10 @@
 package org.musetest.core.project;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -137,7 +135,7 @@ public class SimpleProject implements MuseProject
         }
 
     @Override
-    public void initializeTestContext(TestExecutionContext context)
+    public void initializeContext(MuseExecutionContext context)
         {
         List<VariableList> lists = findResources(new ResourceMetadata(new VariableList.VariableListType()), VariableList.class);
         for (VariableList list : lists)
@@ -147,15 +145,10 @@ public class SimpleProject implements MuseProject
                 ValueSourceConfiguration config = list.getVariables().get(name);
                 try
                     {
-                    SteppedTestExecutionContext test_context;
-                    if (context instanceof SteppedTestExecutionContext)
-                        test_context = (SteppedTestExecutionContext) context;
-                    else
-                        test_context = new DefaultSteppedTestExecutionContext(context);
-                    Object value = config.createSource(this).resolveValue(new SingleStepExecutionContext(test_context, null, false));
+                    Object value = config.createSource(this).resolveValue(context);
                     context.setVariable(name, value, VariableScope.Execution);
                     }
-                catch (StepExecutionError e)
+                catch (Exception e)
                     {
                     LOG.error("This default variable cannot be initialized: " + name + ". Perhaps later, when deferred-evaluation is implemented.");
                     }

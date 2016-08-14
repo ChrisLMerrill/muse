@@ -2,7 +2,7 @@ package org.musetest.seleniumide.tests;
 
 import org.junit.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.*;
+import org.musetest.core.steptest.SteppedTest;
 import org.musetest.selenium.locators.*;
 import org.musetest.selenium.steps.*;
 import org.musetest.seleniumide.*;

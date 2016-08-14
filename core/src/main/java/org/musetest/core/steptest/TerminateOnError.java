@@ -7,9 +7,9 @@ import org.musetest.core.step.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TerminateTestOnError implements MuseEventListener
+public class TerminateOnError implements MuseEventListener
     {
-    public TerminateTestOnError(SteppedTestExecutor executor)
+    public TerminateOnError(StepExecutor executor)
         {
         _executor = executor;
         }
@@ -21,7 +21,7 @@ public class TerminateTestOnError implements MuseEventListener
             _executor.requestTerminate();
         }
 
-    private final SteppedTestExecutor _executor;
+    private final StepExecutor _executor;
     }
 
 

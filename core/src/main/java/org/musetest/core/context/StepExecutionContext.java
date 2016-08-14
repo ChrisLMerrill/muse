@@ -47,6 +47,6 @@ public interface StepExecutionContext extends MuseExecutionContext
     StepExecutionContextStack getExecutionStack();
 
     @Override
-    SteppedTestExecutionContext getParent();
+    StepsExecutionContext getParent();
     }
 

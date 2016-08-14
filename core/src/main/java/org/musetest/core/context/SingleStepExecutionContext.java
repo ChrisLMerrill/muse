@@ -9,7 +9,7 @@ import org.musetest.core.step.*;
  */
 public class SingleStepExecutionContext extends BaseStepExecutionContext
     {
-    public SingleStepExecutionContext(SteppedTestExecutionContext test_context, StepConfiguration config, boolean new_variable_scope)
+    public SingleStepExecutionContext(StepsExecutionContext test_context, StepConfiguration config, boolean new_variable_scope)
         {
         super(test_context, new_variable_scope);
         _config = config;

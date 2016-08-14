@@ -47,7 +47,7 @@ public interface MuseProject
      */
     String saveResource(MuseResource resource);
 
-    void initializeTestContext(TestExecutionContext context);
+    void initializeContext(MuseExecutionContext context);
 
     /**
      * Open and initialize the project

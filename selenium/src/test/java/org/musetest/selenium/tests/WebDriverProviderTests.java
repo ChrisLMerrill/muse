@@ -6,7 +6,7 @@ import org.musetest.core.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.resource.json.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.*;
+import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;

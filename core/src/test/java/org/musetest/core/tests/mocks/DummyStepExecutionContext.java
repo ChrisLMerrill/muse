@@ -121,6 +121,12 @@ public class DummyStepExecutionContext implements StepExecutionContext
         _test_context.removeEventListener(listener);
         }
 
+    @Override
+    public void cleanup()
+        {
+
+        }
+
     private Map<String, Object> _variables = new HashMap<>();
     }
 

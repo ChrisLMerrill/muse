@@ -5,7 +5,7 @@ import org.jsoup.nodes.*;
 import org.jsoup.select.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.*;
+import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.values.*;
 import org.musetest.selenium.steps.*;
 import org.musetest.seleniumide.steps.*;

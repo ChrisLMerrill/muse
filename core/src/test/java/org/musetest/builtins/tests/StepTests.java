@@ -8,6 +8,7 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
+import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;

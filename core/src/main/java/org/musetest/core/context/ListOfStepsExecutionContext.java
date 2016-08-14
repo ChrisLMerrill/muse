@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class  ListOfStepsExecutionContext extends BaseStepExecutionContext
     {
-    public ListOfStepsExecutionContext(SteppedTestExecutionContext test_context, List<StepConfiguration> steps, boolean new_variable_scope, ListOfStepsCompletionListener listener)
+    public ListOfStepsExecutionContext(StepsExecutionContext test_context, List<StepConfiguration> steps, boolean new_variable_scope, ListOfStepsCompletionListener listener)
         {
         super(test_context, new_variable_scope);
         _steps = steps;

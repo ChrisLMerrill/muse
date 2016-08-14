@@ -14,9 +14,9 @@ import java.util.*;
  */
 abstract class BaseStepExecutionContext implements StepExecutionContext
     {
-    BaseStepExecutionContext(SteppedTestExecutionContext test_context, boolean new_variable_scope)
+    BaseStepExecutionContext(StepsExecutionContext parent_context, boolean new_variable_scope)
         {
-        _test_context = test_context;
+        _parent_context = parent_context;
         if (new_variable_scope)
             _step_vars = new HashMap<>();
         }
@@ -48,25 +48,25 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
     @Override
     public Object getVariable(String name)
         {
-        return _test_context.getVariable(name);
+        return _parent_context.getVariable(name);
         }
 
     @Override
     public void setVariable(String name, Object value)
         {
-        _test_context.setVariable(name, value);
+        _parent_context.setVariable(name, value);
         }
 
     @Override
     public Object getVariable(String name, VariableScope scope)
         {
-        return _test_context.getVariable(name, scope);
+        return _parent_context.getVariable(name, scope);
         }
 
     @Override
     public void setVariable(String name, Object value, VariableScope scope)
         {
-        _test_context.setVariable(name, value, scope);
+        _parent_context.setVariable(name, value, scope);
         }
 
     @Override
@@ -78,46 +78,52 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
     @Override
     public StepExecutionContextStack getExecutionStack()
         {
-        return _test_context.getExecutionStack();
+        return _parent_context.getExecutionStack();
         }
 
     @Override
     public void raiseEvent(MuseEvent event)
         {
-        _test_context.raiseEvent(event);
+        _parent_context.raiseEvent(event);
         }
 
     @Override
     public MuseProject getProject()
         {
-        return _test_context.getProject();
+        return _parent_context.getProject();
         }
 
     @Override
     public void registerShuttable(Shuttable shuttable)
         {
-        _test_context.registerShuttable(shuttable);
+        _parent_context.registerShuttable(shuttable);
         }
 
     @Override
-    public SteppedTestExecutionContext getParent()
+    public StepsExecutionContext getParent()
         {
-        return _test_context;
+        return _parent_context;
         }
 
     @Override
     public void removeEventListener(MuseEventListener listener)
         {
-        _test_context.removeEventListener(listener);
+        _parent_context.removeEventListener(listener);
         }
 
     @Override
     public void addEventListener(MuseEventListener listener)
         {
-        _test_context.addEventListener(listener);
+        _parent_context.addEventListener(listener);
         }
 
-    private SteppedTestExecutionContext _test_context;
+    @Override
+    public void cleanup()
+        {
+        _parent_context.cleanup();
+        }
+
+    private StepsExecutionContext _parent_context;
     private Map<String, Object> _step_vars = null;
     }
 

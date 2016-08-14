@@ -4,7 +4,7 @@ import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.*;
+import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.suite.*;
 import org.musetest.core.values.*;
 import org.musetest.javascript.factory.*;

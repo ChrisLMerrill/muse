@@ -63,5 +63,10 @@ public interface MuseExecutionContext
      * Set the value of a variable in the specified variable scope.
      */
     void setVariable(String name, Object value, VariableScope scope);
+
+    /**
+     * Cleanup any test resources. E.g. Shuttable
+     */
+    void cleanup();
     }
 

@@ -7,6 +7,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
@@ -24,14 +25,11 @@ public class StepExecutionTests
 
         SteppedTest test = new SteppedTest(step_a);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
-        EventLog log = new EventLog();
-        test_context.addEventListener(log);
-        SteppedTestExecutor executor = new SteppedTestExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
 
-        MuseTestResult result = executor.executeAll();
+        StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+        executor.executeAll();
 
-        Assert.assertTrue(result.isPass());
-        Assert.assertTrue("message step did not run", log.hasEventWithDescriptionContaining(message));
+        Assert.assertTrue("message step did not run", executor.getEventLog().hasEventWithDescriptionContaining(message));
         }
 
     @Test
@@ -47,14 +45,11 @@ public class StepExecutionTests
 
         SteppedTest test = new SteppedTest(parent);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
-        EventLog log = new EventLog();
-        test_context.addEventListener(log);
-        SteppedTestExecutor executor = new SteppedTestExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
 
-        MuseTestResult result = executor.executeAll();
+        StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+        executor.executeAll();
 
-        Assert.assertTrue(result.isPass());
-        Assert.assertTrue("step didn't run", log.hasEventWithDescriptionContaining(message));
+        Assert.assertTrue("step didn't run", executor.getEventLog().hasEventWithDescriptionContaining(message));
         }
 
     @Test
@@ -75,15 +70,12 @@ public class StepExecutionTests
 
         SteppedTest test = new SteppedTest(parent);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
-        EventLog log = new EventLog();
-        test_context.addEventListener(log);
-        SteppedTestExecutor executor = new SteppedTestExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
 
-        MuseTestResult result = executor.executeAll();
+        StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+        executor.executeAll();
 
-        Assert.assertTrue(result.isPass());
-        Assert.assertTrue("first step didn't run", log.hasEventWithDescriptionContaining(message1));
-        Assert.assertTrue("second step didn't run", log.hasEventWithDescriptionContaining(message2));
+        Assert.assertTrue("first step didn't run", executor.getEventLog().hasEventWithDescriptionContaining(message1));
+        Assert.assertTrue("second step didn't run", executor.getEventLog().hasEventWithDescriptionContaining(message2));
         }
 
     // TODO test doubly-nested compound steps
@@ -97,10 +89,15 @@ public class StepExecutionTests
         step_a.setType("blahblah");
         SteppedTest test = new SteppedTest(step_a);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
-        SteppedTestExecutor executor = new SteppedTestExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
 
-        MuseTestResult result = executor.executeAll();
-        Assert.assertEquals(MuseTestFailureDescription.FailureType.Error, result.getFailureDescription().getFailureType());
+        StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+        executor.executeAll();
+
+        EventLog log = executor.getEventLog();
+        Assert.assertEquals("step didn't start", 1, log.findEvents(MuseEventType.StartStep).size());
+        StepEvent event = (StepEvent) log.findEvent(MuseEventType.EndStep);
+        Assert.assertNotNull(event);
+        Assert.assertEquals("step should have failed", StepExecutionStatus.ERROR, event.getResult().getStatus());
         }
 
     @Test
@@ -112,10 +109,15 @@ public class StepExecutionTests
 
         SteppedTest test = new SteppedTest(step_a);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
-        SteppedTestExecutor executor = new SteppedTestExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
 
-        MuseTestResult result = executor.executeAll();
-        Assert.assertEquals(MuseTestFailureDescription.FailureType.Error, result.getFailureDescription().getFailureType());
+        StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+        executor.executeAll();
+
+        EventLog log = executor.getEventLog();
+        Assert.assertEquals("step didn't start", 1, log.findEvents(MuseEventType.StartStep).size());
+        StepEvent event = (StepEvent) log.findEvent(MuseEventType.EndStep);
+        Assert.assertNotNull(event);
+        Assert.assertEquals("step should have failed", StepExecutionStatus.ERROR, event.getResult().getStatus());
         }
 
 
