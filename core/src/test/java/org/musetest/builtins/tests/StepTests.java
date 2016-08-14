@@ -7,6 +7,7 @@ import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
+import org.musetest.core.events.matching.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.tests.mocks.*;
@@ -176,7 +177,7 @@ public class StepTests
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
-        Assert.assertTrue("message step didn't run", log.hasEventWithDescriptionContaining(message));
+        Assert.assertNotNull("message step didn't run", log.findFirstEvent(new EventDescriptionMatcher(message)));
         }
 
     /**
@@ -260,7 +261,7 @@ public class StepTests
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
         // verify that the message step (which comes after the return) did not run
-        Assert.assertTrue(result.getLog().findEvents(MuseEventType.Message).size() == 0);
+        Assert.assertTrue(result.getLog().findEvents(new EventTypeMatcher(MuseEventType.Message)).size() == 0);
         }
 
     @Test

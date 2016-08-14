@@ -1,6 +1,7 @@
 package org.musetest.core.events;
 
 import org.musetest.core.*;
+import org.musetest.core.events.matching.*;
 
 import java.io.*;
 import java.text.*;
@@ -48,33 +49,23 @@ public class EventLog implements MuseEventListener
         return bytes.toString();
         }
 
-    public List<MuseEvent> findEvents(MuseEventType type)
+    public List<MuseEvent> findEvents(EventMatcher matcher)
         {
         List<MuseEvent> found = new ArrayList<>();
         for (MuseEvent event : _events)
             {
-            if (event.getType().equals(type))
+            if (matcher.matches(event))
                 found.add(event);
             }
         return found;
         }
 
-    public MuseEvent findEvent(MuseEventType type)
+    public MuseEvent findFirstEvent(EventMatcher matcher)
         {
         for (MuseEvent event : _events)
-            if (event.getType().equals(type))
+            if (matcher.matches(event))
                 return event;
         return null;
-        }
-
-    public boolean hasEventWithDescriptionContaining(String text)
-        {
-        for (MuseEvent event : _events)
-            {
-            if (event.getDescription().contains(text))
-                return true;
-            }
-        return false;
         }
 
     private List<MuseEvent> _events = new ArrayList<>();

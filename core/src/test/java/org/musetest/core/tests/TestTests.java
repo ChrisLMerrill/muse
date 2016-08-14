@@ -5,6 +5,7 @@ import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.matching.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.values.*;
@@ -21,8 +22,8 @@ public class TestTests
         MuseTestResult result = test.execute(new DefaultTestExecutionContext());
 
         Assert.assertTrue(result.isPass());
-        Assert.assertEquals(1, result.getLog().findEvents(MuseEventType.StartTest).size());
-        Assert.assertEquals(1, result.getLog().findEvents(MuseEventType.EndTest).size());
+        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(MuseEventType.StartTest)).size());
+        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(MuseEventType.EndTest)).size());
         }
 
     @Test

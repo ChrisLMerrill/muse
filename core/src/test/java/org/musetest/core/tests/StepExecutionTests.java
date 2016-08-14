@@ -5,11 +5,10 @@ import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
+import org.musetest.core.events.matching.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.values.*;
-import org.musetest.core.variables.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -29,7 +28,7 @@ public class StepExecutionTests
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
 
-        Assert.assertTrue("message step did not run", executor.getEventLog().hasEventWithDescriptionContaining(message));
+        Assert.assertNotNull("message step did not run", executor.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)));
         }
 
     @Test
@@ -49,7 +48,7 @@ public class StepExecutionTests
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
 
-        Assert.assertTrue("step didn't run", executor.getEventLog().hasEventWithDescriptionContaining(message));
+        Assert.assertNotNull("step didn't run", executor.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)));
         }
 
     @Test
@@ -74,8 +73,8 @@ public class StepExecutionTests
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
 
-        Assert.assertTrue("first step didn't run", executor.getEventLog().hasEventWithDescriptionContaining(message1));
-        Assert.assertTrue("second step didn't run", executor.getEventLog().hasEventWithDescriptionContaining(message2));
+        Assert.assertNotNull("first step didn't run", executor.getEventLog().findFirstEvent(new EventDescriptionMatcher(message1)));
+        Assert.assertNotNull("second step didn't run", executor.getEventLog().findFirstEvent(new EventDescriptionMatcher(message2)));
         }
 
     // TODO test doubly-nested compound steps
@@ -94,10 +93,8 @@ public class StepExecutionTests
         executor.executeAll();
 
         EventLog log = executor.getEventLog();
-        Assert.assertEquals("step didn't start", 1, log.findEvents(MuseEventType.StartStep).size());
-        StepEvent event = (StepEvent) log.findEvent(MuseEventType.EndStep);
-        Assert.assertNotNull(event);
-        Assert.assertEquals("step should have failed", StepExecutionStatus.ERROR, event.getResult().getStatus());
+        Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(MuseEventType.StartStep)));
+        Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));
         }
 
     @Test
@@ -114,10 +111,8 @@ public class StepExecutionTests
         executor.executeAll();
 
         EventLog log = executor.getEventLog();
-        Assert.assertEquals("step didn't start", 1, log.findEvents(MuseEventType.StartStep).size());
-        StepEvent event = (StepEvent) log.findEvent(MuseEventType.EndStep);
-        Assert.assertNotNull(event);
-        Assert.assertEquals("step should have failed", StepExecutionStatus.ERROR, event.getResult().getStatus());
+        Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(MuseEventType.StartStep)));
+        Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));
         }
 
 
