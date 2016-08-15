@@ -18,7 +18,7 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         {
         BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult();
         for (TestConfiguration config : _suite.generateTestList(project))
-            suite_result.addTestResult(TestRunnerFactory.runTest(project, config._test, config._context));
+            suite_result.addTestResult(TestRunnerFactory.runTest(project, config));
 
         return suite_result;
         }

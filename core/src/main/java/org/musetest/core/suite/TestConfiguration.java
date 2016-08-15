@@ -3,6 +3,8 @@ package org.musetest.core.suite;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 
+import java.util.*;
+
 /**
  * Everything needed to run a test.
  *
@@ -13,17 +15,26 @@ public class TestConfiguration
     public TestConfiguration(MuseTest test)
         {
         _test = test;
-        _context = null;
         }
 
-    public TestConfiguration(MuseTest test, TestExecutionContext context)
+    public TestConfiguration(MuseTest test, ContextInitializer initializer)
         {
         _test = test;
-        _context = context;
+        _initializers.add(initializer);
         }
 
-    public final MuseTest _test;
-    public final TestExecutionContext _context;
+    public MuseTest getTest()
+        {
+        return _test;
+        }
+
+    public List<ContextInitializer> getInitializers()
+        {
+        return Collections.unmodifiableList(_initializers);
+        }
+
+    private final MuseTest _test;
+    private final List<ContextInitializer> _initializers = new ArrayList<>();
     }
 
 

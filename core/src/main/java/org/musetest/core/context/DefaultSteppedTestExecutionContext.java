@@ -18,16 +18,8 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         {
         _parent_context = parent_context;
 
-        try
-            {
-            parent_context.addInitializer(new ProjectVariablesInitializer());
-            parent_context.addInitializer(new TestDefaultsInitializer(this));
-            }
-        catch (MuseExecutionError e)
-            {
-            // this is a pretty serious error - not sure I want to re-work a lot of hierarchy to declare an exception on this constructor.
-            throw new RuntimeException("Unable to create context with a parent that is already initialized.", e);
-            }
+        parent_context.addInitializer(new ProjectVariablesInitializer());
+        parent_context.addInitializer(new TestDefaultsInitializer(this));
         }
 
     @Override
@@ -148,7 +140,7 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         }
 
     @Override
-    public void addInitializer(ContextInitializer initializer) throws MuseExecutionError
+    public void addInitializer(ContextInitializer initializer)
         {
         _parent_context.addInitializer(initializer);
         }

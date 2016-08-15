@@ -121,10 +121,10 @@ public class DefaultTestExecutionContext implements TestExecutionContext
         }
 
     @Override
-    public void addInitializer(ContextInitializer initializer) throws MuseExecutionError
+    public void addInitializer(ContextInitializer initializer)
         {
         if (_initialized)
-            throw new MuseExecutionError("Context has been initialized...too late to add initializers.");
+            throw new IllegalStateException("Context has been initialized...too late to add initializers.");
         _initializers.add(initializer);
         }
 

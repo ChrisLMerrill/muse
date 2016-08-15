@@ -1,10 +1,9 @@
 package org.musetest.core.suite;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
+import org.musetest.core.context.initializers.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.test.*;
-import org.musetest.core.variables.*;
 
 import java.util.*;
 
@@ -19,17 +18,13 @@ public class ParameterListTestSuite implements MuseTestSuite
     @Override
     public List<TestConfiguration> generateTestList(MuseProject project)
         {
+        MuseTest test = project.findResource(_testid, MuseTest.class);
+        if (test == null)
+            test = new MissingTest(_testid);
+
         List<TestConfiguration> tests = new ArrayList<>();
         for (Map<String, Object> param_set : _parameters)
-            {
-            MuseTest test = project.findResource(_testid, MuseTest.class);
-            if (test == null)
-                test = new MissingTest(_testid);
-            TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-            for (String name : param_set.keySet())
-                context.setVariable(name, param_set.get(name), VariableScope.Execution);
-            tests.add(new TestConfiguration(test, context));
-            }
+            tests.add(new TestConfiguration(test, new VariablesInitializer(param_set)));
         return tests;
         }
 

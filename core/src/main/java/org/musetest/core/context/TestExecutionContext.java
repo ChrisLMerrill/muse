@@ -9,6 +9,6 @@ public interface TestExecutionContext extends MuseExecutionContext
     {
 //    TestResultProducer getTestResultSource();  // TODO
     MuseTest getTest();
-    void addInitializer(ContextInitializer initializer) throws MuseExecutionError;
+    void addInitializer(ContextInitializer initializer);
     }
 

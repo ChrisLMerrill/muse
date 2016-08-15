@@ -3,6 +3,7 @@ package org.musetest.core.execution;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.suite.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -52,8 +53,6 @@ public class TestRunnerFactory
         }
 
     /**
-     * Used by the TestSuiteRunner
-     *
      * @param project The project to run in
      * @param test The test to run
      * @param context The context to run the test in
@@ -63,6 +62,23 @@ public class TestRunnerFactory
     public static MuseTestResult runTest(MuseProject project, MuseTest test, TestExecutionContext context)
         {
         TestRunner runner = create(project, test, context, true, false);
+        runner.runTest();
+        return runner.getResult();
+        }
+
+    /**
+     * Used by the TestSuiteRunner
+     *
+     * @param project The project to run in
+     * @param configuration The test configuration to run
+     *
+     * @return the test result
+     */
+    public static MuseTestResult runTest(MuseProject project, TestConfiguration configuration)
+        {
+        TestRunner runner = create(project, configuration.getTest(), null, true, false);
+        for (ContextInitializer initializer : configuration.getInitializers())
+            runner.getTestContext().addInitializer(initializer);
         runner.runTest();
         return runner.getResult();
         }
