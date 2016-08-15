@@ -2,12 +2,9 @@ package org.musetest.core.steptest;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 import org.musetest.core.test.*;
 import org.musetest.core.values.*;
-import org.musetest.core.values.factory.*;
-import org.musetest.core.variables.*;
 
 import java.util.*;
 
@@ -72,22 +69,6 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
 
     public boolean initializeContext(MuseExecutionContext context)
         {
-        MuseProject project = context.getProject();
-        project.initializeContext(context);
-        if (_default_variables != null)
-            for (String name : _default_variables.keySet())
-                if (context.getVariable(name, VariableScope.Execution) == null)
-                    try
-                        {
-                        MuseValueSource source = ValueSourceFactory.getDefault(project).createSource(getDefaultVariables().get(name), project);
-                        Object value = source.resolveValue(context);
-                        context.setVariable(name, value, VariableScope.Execution);
-                        }
-                    catch (MuseExecutionError e)
-                        {
-                        context.raiseEvent(new TestErrorEvent("Unable to set initial test variables due to: " + e.getMessage()));
-                        return false;
-                        }
         return true;
         }
 

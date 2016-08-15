@@ -44,6 +44,12 @@ public class SingleStepExecutionContext extends BaseStepExecutionContext
         return true;
         }
 
+    @Override
+    public void runInitializers() throws MuseExecutionError
+        {
+        // no-op. no initializers in this context.
+        }
+
     private MuseStep _current_step;
     private StepConfiguration _config;
     }

@@ -6,6 +6,7 @@ import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.matching.*;
+import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.values.*;
@@ -19,7 +20,7 @@ public class TestTests
     public void eventGeneration()
         {
         SteppedTest test = setup();
-        MuseTestResult result = test.execute(new DefaultTestExecutionContext());
+        MuseTestResult result = test.execute(new DefaultTestExecutionContext(new SimpleProject(), test));
 
         Assert.assertTrue(result.isPass());
         Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(MuseEventType.StartTest)).size());
@@ -31,7 +32,7 @@ public class TestTests
         {
         SteppedTest test = setup();
         test.setDefaultVariable("default1", ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID));
-        MuseTestResult result = test.execute(new DefaultTestExecutionContext());
+        MuseTestResult result = test.execute(new DefaultTestExecutionContext(new SimpleProject(), test));
 
         Assert.assertFalse(result.isPass());
         }
@@ -41,7 +42,7 @@ public class TestTests
         {
         SteppedTest test = setup();
         test.getStep().setSource(LogMessage.MESSAGE_PARAM, null);
-        MuseTestResult result = test.execute(new DefaultTestExecutionContext());
+        MuseTestResult result = test.execute(new DefaultTestExecutionContext(new SimpleProject(), test));
 
         Assert.assertFalse(result.isPass());
         }

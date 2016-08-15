@@ -17,11 +17,13 @@ public class DefaultTestExecutionContext implements TestExecutionContext
     public DefaultTestExecutionContext()
         {
         _project = new SimpleProject();  // a context is useless without a project.
+        _test = null; // won't be able to do some things in this case TODO is this ok?
         }
 
-    public DefaultTestExecutionContext(MuseProject project)
+    public DefaultTestExecutionContext(MuseProject project, MuseTest test)
         {
         _project = project;
+        _test = test;
         }
 
     @Override
@@ -99,11 +101,6 @@ public class DefaultTestExecutionContext implements TestExecutionContext
         return _project;
         }
 
-    public void setProject(MuseProject project)
-        {
-        _project = project;
-        }
-
     @Override
     public void registerShuttable(Shuttable shuttable)
         {
@@ -123,10 +120,38 @@ public class DefaultTestExecutionContext implements TestExecutionContext
         return null;
         }
 
+    @Override
+    public void addInitializer(ContextInitializer initializer) throws MuseExecutionError
+        {
+        if (_initialized)
+            throw new MuseExecutionError("Context has been initialized...too late to add initializers.");
+        _initializers.add(initializer);
+        }
+
+    @Override
+    public void runInitializers() throws MuseExecutionError
+        {
+        if (_initialized)
+            throw new MuseExecutionError("Context has been initialized...can't run it again.");
+
+        for (ContextInitializer initializer : _initializers)
+            initializer.initialize(getProject(), this);
+        }
+
+    @Override
+    public MuseTest getTest()
+        {
+        return _test;
+        }
+
+    private final MuseProject _project;
+    private final MuseTest _test;
+
     private Map<String, Object> _vars = new HashMap<>();
     private List<MuseEventListener> _listeners = new ArrayList<>();
-    private MuseProject _project;
     private List<Shuttable> _shuttables = new ArrayList<>();
+    private List<ContextInitializer> _initializers = new ArrayList<>();
+    private boolean _initialized = false;
 
     private final static Logger LOG = LoggerFactory.getLogger(TestExecutionContext.class);
     }

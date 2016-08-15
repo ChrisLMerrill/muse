@@ -21,7 +21,8 @@ public class DummyStepExecutionContext implements StepExecutionContext
 
     public DummyStepExecutionContext(MuseProject project)
         {
-        _test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project));
+        DefaultTestExecutionContext parent_context = new DefaultTestExecutionContext(project, null);
+        _test_context = new DefaultSteppedTestExecutionContext(parent_context);
         }
 
     private SteppedTestExecutionContext _test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext());
@@ -122,10 +123,10 @@ public class DummyStepExecutionContext implements StepExecutionContext
         }
 
     @Override
-    public void cleanup()
-        {
+    public void cleanup() {}
 
-        }
+    @Override
+    public void runInitializers() throws MuseExecutionError {}
 
     private Map<String, Object> _variables = new HashMap<>();
     }

@@ -68,5 +68,11 @@ public interface MuseExecutionContext
      * Cleanup any test resources. E.g. Shuttable
      */
     void cleanup();
+
+    /**
+     * Run the configured ContextInitializers.
+     * @throws MuseExecutionError If an initalizer fails or if already initalized.
+     */
+    void runInitializers() throws MuseExecutionError;
     }
 

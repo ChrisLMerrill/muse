@@ -8,6 +8,7 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
+import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.values.*;
@@ -44,8 +45,8 @@ public class ConditionalAndLoopingTests
         wontrun.addChild(should_not_run_step);
         main.addChild(wontrun);
 
-        TestExecutionContext context = new DefaultTestExecutionContext();
         SteppedTest test = new SteppedTest(main);
+        TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
         EventLog log = new EventLog();
         context.addEventListener(log);
         MuseTestResult result = test.execute(context);
@@ -60,7 +61,7 @@ public class ConditionalAndLoopingTests
         {
         SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 0L);
 
-        TestExecutionContext context = new DefaultTestExecutionContext();
+        TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
         EventLog log = new EventLog();
         context.addEventListener(log);
         MuseTestResult result = test.execute(context);
@@ -106,7 +107,7 @@ public class ConditionalAndLoopingTests
         {
         SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 2L);
 
-        TestExecutionContext context = new DefaultTestExecutionContext();
+        TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
         EventLog log = new EventLog();
         context.addEventListener(log);
         MuseTestResult result = test.execute(context);
@@ -119,7 +120,7 @@ public class ConditionalAndLoopingTests
     public void testWhileStepX0()
         {
         SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 3L);
-        TestExecutionContext context = new DefaultTestExecutionContext();
+        TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
         EventLog log = new EventLog();
         context.addEventListener(log);
         MuseTestResult result = test.execute(context);

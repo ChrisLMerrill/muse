@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class  ListOfStepsExecutionContext extends BaseStepExecutionContext
+public class ListOfStepsExecutionContext extends BaseStepExecutionContext
     {
     public ListOfStepsExecutionContext(StepsExecutionContext test_context, List<StepConfiguration> steps, boolean new_variable_scope, ListOfStepsCompletionListener listener)
         {
@@ -60,6 +60,12 @@ public class  ListOfStepsExecutionContext extends BaseStepExecutionContext
     public boolean hasStepToExecute()
         {
         return !_finished;
+        }
+
+    @Override
+    public void runInitializers() throws MuseExecutionError
+        {
+        // no-op. no initializers in this context.
         }
 
     private boolean _finished = false;

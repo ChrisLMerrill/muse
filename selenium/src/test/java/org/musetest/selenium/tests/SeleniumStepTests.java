@@ -212,7 +212,7 @@ public class SeleniumStepTests
             test = new SteppedTest(root);
             }
 
-        DefaultTestExecutionContext context = new DefaultTestExecutionContext(project);
+        DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
         test.execute(context);
         return context;
         }

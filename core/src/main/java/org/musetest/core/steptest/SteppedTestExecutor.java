@@ -34,13 +34,17 @@ public class SteppedTestExecutor
 
     public boolean startTest()
         {
-        _context.raiseEvent(new StartTestEvent(_test));
-        if (!_test.initializeContext(_context))
+        try
+            {
+            _context.runInitializers();
+            }
+        catch (MuseExecutionError e)
             {
             _context.raiseEvent(new TestErrorEvent("Unable to initialize the context"));
             return false;
             }
 
+        _context.raiseEvent(new StartTestEvent(_test));
         return true;
         }
 

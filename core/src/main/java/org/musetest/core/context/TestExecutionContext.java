@@ -8,6 +8,7 @@ import org.musetest.core.*;
 public interface TestExecutionContext extends MuseExecutionContext
     {
 //    TestResultProducer getTestResultSource();  // TODO
-//    MuseTest getTest();  // TODO
+    MuseTest getTest();
+    void addInitializer(ContextInitializer initializer) throws MuseExecutionError;
     }
 

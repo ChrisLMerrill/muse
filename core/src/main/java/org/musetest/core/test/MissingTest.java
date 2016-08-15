@@ -5,7 +5,10 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
+import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
+
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -33,6 +36,24 @@ public class MissingTest implements MuseTest
     public ResourceMetadata getMetadata()
         {
         return new ResourceMetadata(ResourceTypes.Test);
+        }
+
+    @Override
+    public Map<String, ValueSourceConfiguration> getDefaultVariables()
+        {
+        return null;
+        }
+
+    @Override
+    public void setDefaultVariables(Map<String, ValueSourceConfiguration> default_variables)
+        {
+
+        }
+
+    @Override
+    public void setDefaultVariable(String name, ValueSourceConfiguration source)
+        {
+
         }
 
     private String _id;

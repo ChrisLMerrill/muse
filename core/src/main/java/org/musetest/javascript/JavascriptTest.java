@@ -5,11 +5,13 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.test.*;
+import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 import org.musetest.javascript.support.*;
 import org.slf4j.*;
 
 import javax.script.*;
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -43,6 +45,24 @@ public class JavascriptTest extends BaseMuseTest
             context.raiseEvent(new ScriptFailureEvent("Script threw an exception: " + t.getMessage(), t));
             }
         return new BaseMuseTestResult(this, new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "javascript implementation did not indicate success"));
+        }
+
+    @Override
+    public Map<String, ValueSourceConfiguration> getDefaultVariables()
+        {
+        return null;
+        }
+
+    @Override
+    public void setDefaultVariables(Map<String, ValueSourceConfiguration> default_variables)
+        {
+
+        }
+
+    @Override
+    public void setDefaultVariable(String name, ValueSourceConfiguration source)
+        {
+
         }
 
     private ResourceOrigin _origin;

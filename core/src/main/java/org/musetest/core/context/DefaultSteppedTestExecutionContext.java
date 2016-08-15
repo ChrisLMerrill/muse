@@ -1,6 +1,7 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
+import org.musetest.core.context.initializers.*;
 import org.musetest.core.events.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
@@ -16,6 +17,17 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
     public DefaultSteppedTestExecutionContext(TestExecutionContext parent_context)
         {
         _parent_context = parent_context;
+
+        try
+            {
+            parent_context.addInitializer(new ProjectVariablesInitializer());
+            parent_context.addInitializer(new TestDefaultsInitializer(this));
+            }
+        catch (MuseExecutionError e)
+            {
+            // this is a pretty serious error - not sure I want to re-work a lot of hierarchy to declare an exception on this constructor.
+            throw new RuntimeException("Unable to create context with a parent that is already initialized.", e);
+            }
         }
 
     @Override
@@ -133,6 +145,24 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
     public MuseExecutionContext getParent()
         {
         return _parent_context;
+        }
+
+    @Override
+    public void addInitializer(ContextInitializer initializer) throws MuseExecutionError
+        {
+        _parent_context.addInitializer(initializer);
+        }
+
+    @Override
+    public void runInitializers() throws MuseExecutionError
+        {
+        _parent_context.runInitializers();
+        }
+
+    @Override
+    public MuseTest getTest()
+        {
+        return _parent_context.getTest();
         }
 
     private TestExecutionContext _parent_context;

@@ -16,9 +16,9 @@ public class SimpleTestRunner extends BaseTestRunner
         if (context == null)
             {
             if (test instanceof SteppedTest)
-                _context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project));
+                _context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project, test));
             else
-                _context = new DefaultTestExecutionContext(project);
+                _context = new DefaultTestExecutionContext(project, test);
             }
         else
             _context = context;

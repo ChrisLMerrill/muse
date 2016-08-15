@@ -47,8 +47,6 @@ public interface MuseProject
      */
     String saveResource(MuseResource resource);
 
-    void initializeContext(MuseExecutionContext context);
-
     /**
      * Open and initialize the project
      */

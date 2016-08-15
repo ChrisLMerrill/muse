@@ -21,13 +21,13 @@ public class TestRunnerFactory
      */
     public static TestRunner create(MuseProject project, MuseTest test, boolean synchronous, boolean interactive)
         {
-        return create(project, test, new DefaultTestExecutionContext(project), synchronous, interactive);
+        return create(project, test, new DefaultTestExecutionContext(project, test), synchronous, interactive);
         }
 
     public static TestRunner create(MuseProject project, MuseTest test, TestExecutionContext context, boolean synchronous, boolean interactive)
         {
         if (context == null)
-            context = new DefaultTestExecutionContext(project);
+            context = new DefaultTestExecutionContext(project, test);
         if (test instanceof SteppedTest)
             context = new DefaultSteppedTestExecutionContext(context);
 

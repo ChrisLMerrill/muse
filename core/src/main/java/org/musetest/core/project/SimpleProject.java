@@ -134,28 +134,6 @@ public class SimpleProject implements MuseProject
         return _supporters;
         }
 
-    @Override
-    public void initializeContext(MuseExecutionContext context)
-        {
-        List<VariableList> lists = findResources(new ResourceMetadata(new VariableList.VariableListType()), VariableList.class);
-        for (VariableList list : lists)
-            {
-            for (String name : list.getVariables().keySet())
-                {
-                ValueSourceConfiguration config = list.getVariables().get(name);
-                try
-                    {
-                    Object value = config.createSource(this).resolveValue(context);
-                    context.setVariable(name, value, VariableScope.Execution);
-                    }
-                catch (Exception e)
-                    {
-                    LOG.error("This default variable cannot be initialized: " + name + ". Perhaps later, when deferred-evaluation is implemented.");
-                    }
-                }
-            }
-        }
-
     private ResourceStore _resources;
     private StepFactory _step_factory;
     private StepDescriptors _step_descriptors;

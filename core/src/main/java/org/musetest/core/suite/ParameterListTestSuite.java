@@ -22,12 +22,12 @@ public class ParameterListTestSuite implements MuseTestSuite
         List<TestConfiguration> tests = new ArrayList<>();
         for (Map<String, Object> param_set : _parameters)
             {
-            TestExecutionContext context = new DefaultTestExecutionContext(project);
-            for (String name : param_set.keySet())
-                context.setVariable(name, param_set.get(name), VariableScope.Execution);
             MuseTest test = project.findResource(_testid, MuseTest.class);
             if (test == null)
                 test = new MissingTest(_testid);
+            TestExecutionContext context = new DefaultTestExecutionContext(project, test);
+            for (String name : param_set.keySet())
+                context.setVariable(name, param_set.get(name), VariableScope.Execution);
             tests.add(new TestConfiguration(test, context));
             }
         return tests;

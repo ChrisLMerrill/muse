@@ -4,7 +4,10 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.test.*;
+import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
+
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -61,6 +64,24 @@ public class MockTest extends BaseMuseTest
                 return new EventLog();
                 }
             };
+        }
+
+    @Override
+    public Map<String, ValueSourceConfiguration> getDefaultVariables()
+        {
+        return null;
+        }
+
+    @Override
+    public void setDefaultVariables(Map<String, ValueSourceConfiguration> default_variables)
+        {
+
+        }
+
+    @Override
+    public void setDefaultVariable(String name, ValueSourceConfiguration source)
+        {
+
         }
 
     private MuseTestFailureDescription _failure;
