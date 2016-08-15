@@ -3,9 +3,9 @@ package org.musetest.builtins.tests;
 import org.junit.*;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
+import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.tests.mocks.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 
 /**
@@ -14,7 +14,7 @@ import org.musetest.core.values.*;
 public class ConditionTests
     {
     @Test
-    public void stringEquality() throws StepExecutionError
+    public void stringEquality() throws MuseExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
 
@@ -26,7 +26,7 @@ public class ConditionTests
         }
 
     @Test
-    public void variableEquality() throws StepExecutionError
+    public void variableEquality() throws MuseExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
 
@@ -52,7 +52,7 @@ public class ConditionTests
         }
 
     @Test
-    public void integerGreaterThan() throws StepExecutionError
+    public void integerGreaterThan() throws MuseExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration condition;
@@ -85,7 +85,7 @@ public class ConditionTests
         }
 
     @Test
-    public void testStringGreaterThan() throws StepExecutionError
+    public void testStringGreaterThan() throws MuseExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration condition;
@@ -119,7 +119,7 @@ public class ConditionTests
         }
 
     @Test
-    public void integerLessThan() throws StepExecutionError
+    public void integerLessThan() throws MuseExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration condition;
@@ -152,7 +152,7 @@ public class ConditionTests
         }
 
     @Test
-    public void stringLessThan() throws StepExecutionError
+    public void stringLessThan() throws MuseExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration condition;
@@ -185,7 +185,7 @@ public class ConditionTests
         }
 
     @Test
-    public void integerDoubleEquality() throws StepExecutionError
+    public void integerDoubleEquality() throws MuseExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration condition = createCondition(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue(123L), ValueSourceConfiguration.forValue(123.0d));

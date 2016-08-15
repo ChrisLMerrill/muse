@@ -32,7 +32,7 @@ public class SendKeys extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         WebElement element = getElement(_element_source, context);
 

@@ -30,13 +30,13 @@ public class SwitchTo extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         Object target = getValue(_target_source, context, false, Object.class);
         if (target instanceof WebElement)
             getDriver(context).switchTo().frame((WebElement)target);
         else
-            return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, String.format("Unable to switch to target because type of target is not recognized: %s = %s", target.getClass().getSimpleName(), target,toString()));
+            return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, String.format("Unable to switch to target because type of target is not recognized: %s = %s", target.getClass().getSimpleName(), target.toString()));
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }
 

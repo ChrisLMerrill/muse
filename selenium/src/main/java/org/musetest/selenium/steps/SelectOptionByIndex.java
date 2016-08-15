@@ -33,7 +33,7 @@ public class SelectOptionByIndex extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         Long index = getValue(_index_source, context, false, Long.class);
         WebElement element = getElement(_element_source, context);

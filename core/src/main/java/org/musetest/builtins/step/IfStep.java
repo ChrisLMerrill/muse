@@ -30,7 +30,7 @@ public class IfStep extends BasicCompoundStep
         }
 
     @Override
-    protected boolean shouldEnter(StepExecutionContext context) throws StepExecutionError
+    protected boolean shouldEnter(StepExecutionContext context) throws MuseExecutionError
         {
         boolean not_run_yet = super.shouldEnter(context);  // use the BasicCompoundStep's logic to only run once
         if (not_run_yet)

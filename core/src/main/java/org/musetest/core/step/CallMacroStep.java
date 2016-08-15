@@ -39,7 +39,7 @@ public class CallMacroStep extends ScopedGroup
         }
 
     @Override
-    protected StepExecutionContext createStepExecutionContextForChildren(StepExecutionContext context) throws StepExecutionError
+    protected StepExecutionContext createStepExecutionContextForChildren(StepExecutionContext context) throws MuseExecutionError
         {
         Object id_obj = _id.resolveValue(context);
         if (id_obj == null)
@@ -77,7 +77,7 @@ public class CallMacroStep extends ScopedGroup
     public final static String ID_PARAM = "id";
     public final static String TYPE_ID = CallMacroStep.class.getAnnotation(MuseTypeId.class).value();
 
-    final static Logger LOG = LoggerFactory.getLogger(CallMacroStep.class);
+    private final static Logger LOG = LoggerFactory.getLogger(CallMacroStep.class);
     }
 
 

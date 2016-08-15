@@ -20,7 +20,7 @@ import java.util.*;
 public class ValueSourceTests
     {
     @Test
-    public void stringConstantSource() throws StepExecutionError
+    public void stringConstantSource() throws MuseExecutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forValue("abc");
         MuseValueSource source = config.createSource();
@@ -28,7 +28,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void integerConstantSource() throws StepExecutionError
+    public void integerConstantSource() throws MuseExecutionError
         {
         MuseValueSource source = ValueSourceConfiguration.forValue(456L).createSource();
         Object value = source.resolveValue(null);
@@ -37,14 +37,14 @@ public class ValueSourceTests
         }
 
     @Test
-    public void booleanConstantSource() throws StepExecutionError
+    public void booleanConstantSource() throws MuseExecutionError
         {
         Assert.assertTrue((Boolean) ValueSourceConfiguration.forValue(true).createSource().resolveValue(null));
         Assert.assertFalse((Boolean) ValueSourceConfiguration.forValue(false).createSource().resolveValue(null));
         }
 
     @Test
-    public void variableValueSource() throws StepExecutionError
+    public void variableValueSource() throws MuseExecutionError
         {
         MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("abc")).createSource();
         StepExecutionContext context = new DummyStepExecutionContext();
@@ -53,7 +53,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void variableValueSourceWithVariableName() throws StepExecutionError
+    public void variableValueSourceWithVariableName() throws MuseExecutionError
         {
         ValueSourceConfiguration varname_holding_the_varname = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("varname"));
         MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, varname_holding_the_varname).createSource();
@@ -64,7 +64,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void stringConcatenation() throws StepExecutionError
+    public void stringConcatenation() throws MuseExecutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
         config.addSource(ValueSourceConfiguration.forValue("abc"));
@@ -75,7 +75,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void mixedConcatenation() throws StepExecutionError
+    public void mixedConcatenation() throws MuseExecutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
         config.addSource(ValueSourceConfiguration.forValue("abc"));
@@ -85,7 +85,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void additionOfNumbers() throws StepExecutionError
+    public void additionOfNumbers() throws MuseExecutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
         config.addSource(ValueSourceConfiguration.forValue(1L));
@@ -95,7 +95,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void projectResourceValueSource() throws StepExecutionError
+    public void projectResourceValueSource() throws MuseExecutionError
         {
         final String test_id = "test_id";
         MuseTest test = new MockTest(null, test_id);
@@ -141,12 +141,12 @@ public class ValueSourceTests
         Assert.assertTrue(source instanceof ProjectResourceValueSource);
 
         DummyStepExecutionContext context = new DummyStepExecutionContext(project);
-        StepExecutionError error = null;
+        MuseExecutionError error = null;
         try
             {
             source.resolveValue(context);
             }
-        catch (StepExecutionError e)
+        catch (MuseExecutionError e)
             {
             error = e;
             }
@@ -163,12 +163,12 @@ public class ValueSourceTests
         Assert.assertTrue(source instanceof ProjectResourceValueSource);
 
         DummyStepExecutionContext context = new DummyStepExecutionContext(project);
-        StepExecutionError error = null;
+        MuseExecutionError error = null;
         try
             {
             source.resolveValue(context);
             }
-        catch (StepExecutionError e)
+        catch (MuseExecutionError e)
             {
             error = e;
             }
@@ -176,7 +176,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void notTrue() throws StepExecutionError
+    public void notTrue() throws MuseExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(true);
@@ -185,7 +185,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void notFalse() throws StepExecutionError
+    public void notFalse() throws MuseExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(false);
@@ -204,7 +204,7 @@ public class ValueSourceTests
             source.resolveValue(context);
             Assert.assertTrue("an exception should have been thrown", false);
             }
-        catch (StepExecutionError e)
+        catch (MuseExecutionError e)
             {
             // all good!
             }
@@ -225,7 +225,7 @@ public class ValueSourceTests
             source.resolveValue(context);
             Assert.assertTrue("an exception should have been thrown", false);
             }
-        catch (StepExecutionError e)
+        catch (MuseExecutionError e)
             {
             // all good!
             }
@@ -236,34 +236,34 @@ public class ValueSourceTests
         }
 
     @Test
-    public void formatNullDateParamAndFormatParams() throws StepExecutionError
+    public void formatNullDateParamAndFormatParams() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(null, null, null);
         Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
         }
 
     @Test
-    public void formatNullDateAndFormatParam() throws StepExecutionError
+    public void formatNullDateAndFormatParam() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null, null);
         Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
         }
 
     @Test
-    public void formatNullDateParamAndFormat() throws StepExecutionError
+    public void formatNullDateParamAndFormat() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null);
         Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
         }
 
-    @Test public void formatNow() throws StepExecutionError
+    @Test public void formatNow() throws MuseExecutionError
         {
         String expected = new SimpleDateFormat(NOW_DATE_FORMAT).format(new Date());
         Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forValue(NOW_DATE_FORMAT), null);
         Assert.assertEquals(expected, result);
         }
 
-    @Test public void formatDate() throws StepExecutionError, ParseException
+    @Test public void formatDate() throws MuseExecutionError, ParseException
         {
         String expected = "05291998123456";
         Date parsed = new SimpleDateFormat(NOW_DATE_FORMAT).parse(expected);
@@ -293,7 +293,7 @@ public class ValueSourceTests
 
     private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";
 
-    private Object resolveDateFormatSource(ValueSourceConfiguration date_param, ValueSourceConfiguration format_param, StepExecutionContext context) throws StepExecutionError
+    private Object resolveDateFormatSource(ValueSourceConfiguration date_param, ValueSourceConfiguration format_param, StepExecutionContext context) throws MuseExecutionError
         {
         StepExecutionContext step_context = new DummyStepExecutionContext();
         if (context != null)

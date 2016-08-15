@@ -3,9 +3,8 @@ package org.musetest.selenium.tests;
 import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.tests.mocks.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
+import org.musetest.core.tests.mocks.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.musetest.selenium.conditions.*;
@@ -45,7 +44,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementByXpath() throws StepExecutionError
+    public void elementByXpath() throws MuseExecutionError
         {
         MuseMockDriver driver = new MuseMockDriver();
         final String xpath = "//abc123";
@@ -62,7 +61,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementById() throws StepExecutionError
+    public void elementById() throws MuseExecutionError
         {
         final String id = "element#1";
         final MuseMockElement element1 = new MuseMockElement();
@@ -75,7 +74,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementVisible() throws StepExecutionError
+    public void elementVisible() throws MuseExecutionError
         {
         final String id = "visible";
         final MuseMockElement element1 = new MuseMockElement();
@@ -94,7 +93,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementExists() throws StepExecutionError
+    public void elementExists() throws MuseExecutionError
         {
         final String id = "exists";
         final MuseMockElement element1 = new MuseMockElement();
@@ -111,7 +110,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementEnabled() throws StepExecutionError
+    public void elementEnabled() throws MuseExecutionError
         {
         final String id = "enabled";
         final MuseMockElement element1 = new MuseMockElement();
@@ -130,7 +129,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementSelected() throws StepExecutionError
+    public void elementSelected() throws MuseExecutionError
         {
         final String id = "selected";
         final MuseMockElement element1 = new MuseMockElement();

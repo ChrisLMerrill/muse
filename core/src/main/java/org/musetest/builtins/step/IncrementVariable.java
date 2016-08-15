@@ -31,7 +31,7 @@ public class IncrementVariable extends BaseStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         String name = getValue(_name, context, false, String.class);
         Long amount = getValue(_amount, context, true, Long.class);

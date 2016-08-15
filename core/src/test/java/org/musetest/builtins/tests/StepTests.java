@@ -32,7 +32,7 @@ public class StepTests
      * see if this worked. My apologies :(
      */
     @Test
-    public void logMessage() throws StepExecutionError
+    public void logMessage() throws MuseExecutionError
         {
         // this should log a message indicating there was no message parameter
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
@@ -54,7 +54,7 @@ public class StepTests
         }
 
     @Test
-    public void storeStringVariable() throws StepExecutionError
+    public void storeStringVariable() throws MuseExecutionError
         {
         StepConfiguration config = new StepConfiguration(StoreVariable.TYPE_ID);
         config.setSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
@@ -67,7 +67,7 @@ public class StepTests
         }
 
     @Test
-    public void storeIntegerVariable() throws StepExecutionError
+    public void storeIntegerVariable() throws MuseExecutionError
         {
         StepConfiguration config = new StepConfiguration(StoreVariable.TYPE_ID);
         config.setSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var_int"));
@@ -80,7 +80,7 @@ public class StepTests
         }
 
     @Test
-    public void incrementVariableBy1() throws StepExecutionError
+    public void incrementVariableBy1() throws MuseExecutionError
         {
         StepConfiguration config = new StepConfiguration(IncrementVariable.TYPE_ID);
         config.setSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
@@ -93,7 +93,7 @@ public class StepTests
         }
 
     @Test
-    public void incrementVariableByN() throws StepExecutionError
+    public void incrementVariableByN() throws MuseExecutionError
         {
         Long start_value = 101L;
         Long amount = 7L;
@@ -110,7 +110,7 @@ public class StepTests
         }
 
     @Test
-    public void verifySuccess() throws StepExecutionError
+    public void verifySuccess() throws MuseExecutionError
         {
         EventLog log = new EventLog();
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
@@ -131,7 +131,7 @@ public class StepTests
         }
 
     @Test
-    public void verifyFailed() throws StepExecutionError
+    public void verifyFailed() throws MuseExecutionError
         {
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue("abc");
         ValueSourceConfiguration right = ValueSourceConfiguration.forValue("def");

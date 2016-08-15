@@ -26,7 +26,7 @@ public class NavigateBack extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         getDriver(context).navigate().back();
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

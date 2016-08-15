@@ -28,7 +28,7 @@ public class WhileStep extends BasicCompoundStep
         }
 
     @Override
-    protected boolean shouldEnter(StepExecutionContext context) throws StepExecutionError
+    protected boolean shouldEnter(StepExecutionContext context) throws MuseExecutionError
         {
         Object object = _condition.resolveValue(context);
         if (object instanceof Boolean)

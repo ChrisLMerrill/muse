@@ -19,7 +19,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseStepShortDescription("Clear an element")
 @MuseStepLongDescription("Resolves the 'element' source to a WebElement and then calls the clear() method. If the element has text entry, it will clear the value.")
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to clear", type = SubsourceDescriptor.Type.Named, name = ClearElement.ELEMENT_PARAM)
-@SuppressWarnings("unused") // discovered and invoked via reflection
+@SuppressWarnings("WeakerAccess,unused") // discovered and invoked via reflection
 public class ClearElement extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
@@ -30,7 +30,7 @@ public class ClearElement extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         getElement(_element_source, context).clear();
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

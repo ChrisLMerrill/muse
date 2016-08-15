@@ -83,7 +83,7 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
                         Object value = source.resolveValue(context);
                         context.setVariable(name, value, VariableScope.Execution);
                         }
-                    catch (StepExecutionError e)
+                    catch (MuseExecutionError e)
                         {
                         context.raiseEvent(new TestErrorEvent("Unable to set initial test variables due to: " + e.getMessage()));
                         return false;

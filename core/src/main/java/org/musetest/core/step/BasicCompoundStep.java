@@ -27,7 +27,7 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         _context = context;
         if (shouldEnter(context))
@@ -52,7 +52,7 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
      *
      * @return null if there are no child steps to execute.
      */
-    protected StepExecutionContext createStepExecutionContextForChildren(StepExecutionContext context) throws StepExecutionError
+    protected StepExecutionContext createStepExecutionContextForChildren(StepExecutionContext context) throws MuseExecutionError
         {
         if (_child_list == null || _child_list.size() < 1)
             return null;
@@ -81,7 +81,7 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
      * @return True if this step should be asked for a StepProvider to execute child steps.
      * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
-    protected boolean shouldEnter(StepExecutionContext context) throws StepExecutionError
+    protected boolean shouldEnter(StepExecutionContext context) throws MuseExecutionError
         {
         return _should_enter;
         }

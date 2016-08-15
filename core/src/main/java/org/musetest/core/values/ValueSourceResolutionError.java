@@ -1,11 +1,11 @@
 package org.musetest.core.values;
 
-import org.musetest.core.steptest.*;
+import org.musetest.core.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ValueSourceResolutionError extends StepExecutionError
+public class ValueSourceResolutionError extends MuseExecutionError
     {
     public ValueSourceResolutionError(String message)
         {

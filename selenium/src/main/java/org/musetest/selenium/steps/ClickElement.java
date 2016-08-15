@@ -29,7 +29,7 @@ public class ClickElement extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         getElement(_element_source, context).click();
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

@@ -4,14 +4,13 @@ import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
-import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
+import org.musetest.core.tests.mocks.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
@@ -63,7 +62,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void loadJavascriptStepFromFile() throws IOException, StepExecutionError
+    public void loadJavascriptStepFromFile() throws IOException, MuseExecutionError
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "javascriptStep.js");
@@ -101,7 +100,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void getAndSetVariablesInJavascriptStep() throws IOException, StepExecutionError
+    public void getAndSetVariablesInJavascriptStep() throws IOException, MuseExecutionError
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "getSetVariables.js");
@@ -111,12 +110,11 @@ public class JavascriptTests
         DummyStepExecutionContext context = new DummyStepExecutionContext();
         context.setVariable("var_in", "input");
         Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
-
         Assert.assertEquals("output", context.getVariable("var_out"));
         }
 
     @Test
-    public void accessValueSourcesInJavascriptStep() throws IOException, StepExecutionError
+    public void accessValueSourcesInJavascriptStep() throws IOException, MuseExecutionError
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "AccessSources.js");
@@ -129,7 +127,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void logMessageInJavascriptStep() throws IOException, StepExecutionError
+    public void logMessageInJavascriptStep() throws IOException, MuseExecutionError
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "LogMessage.js");

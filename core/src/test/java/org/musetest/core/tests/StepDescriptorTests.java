@@ -6,7 +6,6 @@ import org.musetest.core.context.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.tests.mocks.unknownresource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -144,7 +143,8 @@ public class StepDescriptorTests
 
     private class DummyStepType implements MuseStep
         {
-        public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError { return null; }
+        public StepExecutionResult execute(StepExecutionContext context) throws MuseExecutionError
+            { return null; }
         public StepConfiguration getConfiguration() { return null; }
         }
 
@@ -156,7 +156,8 @@ public class StepDescriptorTests
     @MuseSubsourceDescriptor(displayName = "param1", description = "param1-description", type = SubsourceDescriptor.Type.Named, name = "p1")
     private class AnnotatedTestStep implements MuseStep
         {
-        public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError { return null; }
+        public StepExecutionResult execute(StepExecutionContext context) throws MuseExecutionError
+            { return null; }
         public StepConfiguration getConfiguration() { return null; }
         public final static String SOURCE_NAME = "source1";
         }
@@ -164,7 +165,8 @@ public class StepDescriptorTests
     @MuseStepDescriptorImplementation(TestStepDescriptor.class)
     private class WithCustomDescriptor implements MuseStep
         {
-        public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError { return null; }
+        public StepExecutionResult execute(StepExecutionContext context) throws MuseExecutionError
+            { return null; }
         public StepConfiguration getConfiguration() { return null; }
         }
 

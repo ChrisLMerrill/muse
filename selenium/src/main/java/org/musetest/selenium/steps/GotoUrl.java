@@ -29,7 +29,7 @@ public class GotoUrl extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         String url = getValue(_url, context, false, String.class);
         getDriver(context).navigate().to(url);

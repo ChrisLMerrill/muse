@@ -30,7 +30,7 @@ public class ExecuteJavascript extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         String script = getValue(_script, context, false, String.class);
 

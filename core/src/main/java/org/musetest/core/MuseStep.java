@@ -16,7 +16,7 @@ public interface MuseStep
      * @return The result of the step execution.
      * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
-    StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError;
+    StepExecutionResult execute(StepExecutionContext context) throws MuseExecutionError;
 
     /**
      * @return The configuration that produced this step.

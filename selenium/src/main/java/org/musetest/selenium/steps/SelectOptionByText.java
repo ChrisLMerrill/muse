@@ -33,7 +33,7 @@ public class SelectOptionByText extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         String text = getValue(_index_source, context, false, String.class);
         WebElement element = getElement(_element_source, context);

@@ -41,7 +41,7 @@ public class CallFunction extends CallMacroStep
         }
 
     @Override
-    protected boolean shouldEnter(StepExecutionContext context) throws StepExecutionError
+    protected boolean shouldEnter(StepExecutionContext context) throws MuseExecutionError
         {
         Map<String, ValueSourceConfiguration> sources = _config.getSources();
         // resolve the parameters (sources) to be passed to the function BEFORE the new variable scope is created.
@@ -73,7 +73,7 @@ public class CallFunction extends CallMacroStep
         return true;
         }
 
-    public void returned(StepExecutionContext context, Object return_value) throws StepExecutionError
+    public void returned(StepExecutionContext context, Object return_value) throws MuseExecutionError
         {
         MuseValueSource return_var_name_source = getValueSource(_config, RETURN_PARAM, false, context.getProject());
         if (return_var_name_source != null)

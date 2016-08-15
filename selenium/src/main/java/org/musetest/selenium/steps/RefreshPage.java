@@ -6,7 +6,6 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
-import org.musetest.selenium.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -27,7 +26,7 @@ public class RefreshPage extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         getDriver(context).navigate().refresh();
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

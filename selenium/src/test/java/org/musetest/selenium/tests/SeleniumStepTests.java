@@ -63,7 +63,7 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void clickElement() throws StepExecutionError
+    public void clickElement() throws MuseExecutionError
         {
         MuseMockDriver driver = new MuseMockDriver();
         final String id = "element#1";
@@ -82,7 +82,7 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void switchToFrame() throws StepExecutionError
+    public void switchToFrame() throws MuseExecutionError
         {
         MuseMockDriver driver = new MuseMockDriver();
         final String id = "frame#1";
@@ -105,7 +105,7 @@ public class SeleniumStepTests
      * Note that this test doesnt actually execute a script - just signals the mock driver to not fail
      */
     @Test
-    public void executeScript() throws StepExecutionError
+    public void executeScript() throws MuseExecutionError
         {
         StepExecutionResult result = executeScriptStep(new ScriptableMockDriver(), "a valid script");
         Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
@@ -115,7 +115,7 @@ public class SeleniumStepTests
      * Note that this test doesnt actually execute a script - just signals the mock browser to throw an exception so we can test that it is handled
      */
     @Test
-    public void executeScriptThrowsExeception() throws StepExecutionError
+    public void executeScriptThrowsExeception() throws MuseExecutionError
         {
         StepExecutionResult result = executeScriptStep(new ScriptableMockDriver(), ScriptableMockDriver.THROW_EXCEPTION);
         Assert.assertEquals(StepExecutionStatus.ERROR, result.getStatus());
@@ -125,7 +125,7 @@ public class SeleniumStepTests
      * Note that this test doesnt actually execute a script - just ensures we handle the condition correctly
      */
     @Test
-    public void executeScriptOnNonscriptableBrowser() throws StepExecutionError
+    public void executeScriptOnNonscriptableBrowser() throws MuseExecutionError
         {
         StepExecutionError error = null;
         try
@@ -139,7 +139,7 @@ public class SeleniumStepTests
         Assert.assertNotNull(error);
         }
 
-    private StepExecutionResult executeScriptStep(WebDriver driver, String script) throws StepExecutionError
+    private StepExecutionResult executeScriptStep(WebDriver driver, String script) throws MuseExecutionError
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
@@ -151,7 +151,7 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void switchToUnknownType() throws StepExecutionError
+    public void switchToUnknownType() throws MuseExecutionError
         {
         MuseMockDriver driver = new MuseMockDriver();
 
@@ -166,7 +166,7 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void locateElementWithPageMap() throws StepExecutionError
+    public void locateElementWithPageMap() throws MuseExecutionError
         {
         MuseProject project = new SimpleProject();
 

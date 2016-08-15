@@ -33,7 +33,8 @@ public abstract class BrowserStep extends BaseStep
      *
      * @throws StepExecutionError If the source resolves to null or the wrong type
      */
-    protected WebElement getElement(MuseValueSource locator_source, StepExecutionContext context) throws StepExecutionError
+    @SuppressWarnings("WeakerAccess")  // API available to external users
+    protected WebElement getElement(MuseValueSource locator_source, StepExecutionContext context) throws MuseExecutionError
         {
         Object element = locator_source.resolveValue(context);
         if (element == null)

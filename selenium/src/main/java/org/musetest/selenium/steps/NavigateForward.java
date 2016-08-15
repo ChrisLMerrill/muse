@@ -17,6 +17,7 @@ import org.musetest.core.steptest.*;
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Go forward one page.")
 @MuseStepLongDescription("Advance the browser to the next page (i.e. press the forward button). The browser must have previously navigated to a previous page using the back step. If not, this operation will probably do nothing (the behavior is browser dependent).")
+@SuppressWarnings("WeakerAccess,unused") // invoked via reflection
 public class NavigateForward extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
@@ -26,7 +27,7 @@ public class NavigateForward extends BrowserStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         getDriver(context).navigate().forward();
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

@@ -4,12 +4,10 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
 import org.musetest.javascript.support.*;
 import org.slf4j.*;
 
-import java.io.*;
 import java.util.*;
 
 /**
@@ -24,7 +22,7 @@ public class JavascriptStep extends BaseStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         StepConfiguration config = getConfiguration();
         HashMap<String, Object> values = new HashMap<>();
@@ -56,7 +54,7 @@ public class JavascriptStep extends BaseStep
     private ResourceOrigin _origin;
 
     public final static String EXECUTE_FUNCTION = "executeStep";
-    final static Logger LOG = LoggerFactory.getLogger(JavascriptStep.class);
+    private final static Logger LOG = LoggerFactory.getLogger(JavascriptStep.class);
     }
 
 

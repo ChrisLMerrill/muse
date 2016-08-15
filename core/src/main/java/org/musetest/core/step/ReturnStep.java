@@ -30,7 +30,7 @@ public class ReturnStep extends BaseStep
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext current_context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext current_context) throws MuseExecutionError
         {
         Object return_value = null;
         if (_source != null)

@@ -28,7 +28,7 @@ public abstract class BaseStep implements MuseStep
         }
 
     @Override
-    public StepExecutionResult execute(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult execute(StepExecutionContext context) throws MuseExecutionError
         {
         if (!_started)
             {
@@ -47,7 +47,7 @@ public abstract class BaseStep implements MuseStep
      * @param context The context in which the step is executed
      * @throws StepExecutionError If the step cannot be executed.
      */
-    protected abstract StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError;
+    protected abstract StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError;
 
     /**
      * A convenience method to get a specific value source from the configuration parameter list
