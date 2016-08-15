@@ -38,7 +38,7 @@ public class ProjectVariablesInitializer implements ContextInitializer
         Set<String> ids_of_lists_to_keep = new HashSet<>();
         for (ContextInitializerConfigurations configs : list_of_configs)
             {
-            for (VariableListContextInitializerConfiguration config : configs.getVariableLists())
+            for (VariableListContextInitializerConfiguration config : configs.getVariableListInitializers())
                 {
                 ValueSourceConfiguration condition_config = config.getIncludeCondition();
                 MuseValueSource condition = condition_config.createSource();

@@ -12,13 +12,13 @@ import java.util.*;
 @MuseTypeId("context-initializers")
 public class ContextInitializerConfigurations implements MuseResource
     {
-    public List<VariableListContextInitializerConfiguration> getVariableLists()
+    public List<VariableListContextInitializerConfiguration> getVariableListInitializers()
         {
         return _var_lists;
         }
 
     @SuppressWarnings("unused")  // required for Json de/serialization
-    public void setVariableLists(List<VariableListContextInitializerConfiguration> var_lists)
+    public void setVariableListInitializers(List<VariableListContextInitializerConfiguration> var_lists)
         {
         _var_lists = var_lists;
         }
