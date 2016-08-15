@@ -15,30 +15,15 @@ import org.musetest.core.variables.*;
 import java.util.*;
 
 /**
+ * These tests ensure the correct ContextInitializers are run by the test engine. Correctness of
+ * the initializers should be tested in ContextInitializerTests.
+ *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class TestVariableTests
     {
     @Test
-    public void testVariableNotSet()
-        {
-        SteppedTest test = getTest();
-        MuseTestResult result = test.execute(new DefaultTestExecutionContext(new SimpleProject(), test));
-        Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
-        }
-
-    @Test
-    public void testVariableSetManually()
-        {
-        SteppedTest test = getTest();
-        TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        context.setVariable(VAR_NAME, VAR_VALUE, VariableScope.Execution);
-        MuseTestResult result = test.execute(context);
-        Assert.assertTrue(result.isPass());
-        }
-
-    @Test
-    public void testVariableSetAutomatically()
+    public void variableSetFromDefaults()
         {
         Map<String, ValueSourceConfiguration> default_vars = new HashMap<>();
         default_vars.put(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
@@ -51,7 +36,7 @@ public class TestVariableTests
         }
 
     @Test
-    public void projectDefaultVariables()
+    public void variableSetFromProjectVariableList()
         {
         SteppedTest test = getTest();
         MuseProject project = new SimpleProject();
