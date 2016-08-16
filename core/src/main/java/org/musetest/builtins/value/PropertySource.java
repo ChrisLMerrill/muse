@@ -40,16 +40,22 @@ public class PropertySource extends BaseValueSource
         String name = getValue(_name, context, false, String.class);
         Object target = getValue(_target, context, false);
 
-        try
-            {
-            Object result = new ReflectionPropertyResolver().resolve(target, name);
-            context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
-            return result;
-            }
-        catch (PropertyResolutionError e)
-            {
-            throw new ValueSourceResolutionError(e.getMessage());
-            }
+        PropertyResolver[] resolvers = new PropertyResolver[] { new MapResolver(), new ReflectionPropertyResolver()};
+        for (PropertyResolver resolver : resolvers)
+            try
+                {
+                if (resolver.canResolve(target, name))
+                    {
+                    Object result = resolver.resolve(target, name);
+                    context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
+                    return result;
+                    }
+                }
+            catch (Exception e)
+                {
+                throw new ValueSourceResolutionError(e.getMessage());
+                }
+        return null;
         }
 
     private MuseValueSource _name = null;
@@ -57,8 +63,6 @@ public class PropertySource extends BaseValueSource
 
     public final static String NAME_PARAM = "name";
     public final static String TARGET_PARAM = "target";
-
-    private final static Logger LOG = LoggerFactory.getLogger(PropertySource.class);
 
     public final static String TYPE_ID = PropertySource.class.getAnnotation(MuseTypeId.class).value();
     }
