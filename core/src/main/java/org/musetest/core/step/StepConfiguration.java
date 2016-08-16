@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepConfiguration implements Serializable
+public class StepConfiguration implements Serializable, ContainsNamedSources
     {
     public StepConfiguration()
         {

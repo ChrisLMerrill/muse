@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill, Copyright 2015 (see LICENSE.txt for license details)
  */
-public class ValueSourceConfiguration implements Serializable
+public class ValueSourceConfiguration implements Serializable, ContainsNamedSources
     {
     public ValueSourceConfiguration()
         {

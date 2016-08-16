@@ -13,6 +13,7 @@
 - refactor: re-work how the test context is initialized. Separate into individual components (ContextInitializers)
 - add: ContextInitializerConfigurations for controlling which VariableLists are applied 
 - add: ListContainsSource
+- add PropertySource
 
 ## 0.3
 
