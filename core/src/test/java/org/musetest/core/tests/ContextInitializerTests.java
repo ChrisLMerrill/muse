@@ -12,7 +12,7 @@ import org.musetest.core.variables.*;
 import java.util.*;
 
 /**
- * @author ©2015 Web Performance, Inc
+ * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class ContextInitializerTests
     {
