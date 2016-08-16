@@ -5,6 +5,14 @@
 - add: ElementSelectedValueSource and elementSelected() expression
 - enhance: remove "amount" parameter from inline quick editor on IncrementVariable step
 - refactor: MuseTestResult adds .isPassed() and .getFailureDescription(), looses .getTestResultStatus(). MuseTestResultStatus replaced with MuseTestFailureDescription.
+- refactor: implement result evaluation logic as an event listener (pull out of executor)
+- refactor: implement stop-test-on-error logic as an event listener (pull out of executor logic)
+- refactor: pull step execution logic into StepExecutor, separate from SteppedTestExecutor
+- implement EventMatcher
+- refactor: MuseTestResult
+- refactor: re-work how the test context is initialized. Separate into individual components (ContextInitializers)
+- add: ContextInitializerConfigurations for controlling which VariableLists are applied 
+- add: ListContainsSource
 
 ## 0.3
 

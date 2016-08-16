@@ -445,11 +445,19 @@ public class ValueSourceConfiguration implements Serializable
         ValueSourceConfiguration config = new ValueSourceConfiguration();
         config.setType(type);
         ValueSourceConfiguration subsource;
-        if (value instanceof  ValueSourceConfiguration)
+        if (value instanceof ValueSourceConfiguration)
             subsource = (ValueSourceConfiguration) value;
         else
             subsource = ValueSourceConfiguration.forValue(value);
         config.setSource(subsource);
+        return config;
+        }
+
+    public static ValueSourceConfiguration forTypeWithValue(String type, Object value)
+        {
+        ValueSourceConfiguration config = new ValueSourceConfiguration();
+        config.setType(type);
+        config.setValue(value);
         return config;
         }
 

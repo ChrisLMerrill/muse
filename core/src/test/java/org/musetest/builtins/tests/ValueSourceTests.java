@@ -1,10 +1,13 @@
 package org.musetest.builtins.tests;
 
 import org.junit.*;
+import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
+import org.musetest.builtins.tests.mocks.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.step.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
@@ -289,6 +292,25 @@ public class ValueSourceTests
         Assert.assertTrue(stringified.contains("nameA"));
         Assert.assertTrue(stringified.contains("valA"));
         Assert.assertTrue(stringified.contains("first"));
+        }
+
+    @Test
+    public void listContainsSource() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(ListContainsSource.TYPE_ID);
+        List<String> list = new ArrayList<>();
+        list.add("abc");
+        list.add("def");
+        config.addSource(ListContainsSource.LIST_PARAM, ValueSourceConfiguration.forTypeWithValue(MockValueSource.TYPE_ID, list));
+        config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("xyz"));
+
+        SimpleProject project = new SimpleProject();
+        MuseValueSource source = config.createSource(project);
+        Assert.assertFalse((boolean) source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)))));
+
+        config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("abc"));
+        source = config.createSource(project);
+        Assert.assertTrue((boolean) source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)))));
         }
 
     private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";
