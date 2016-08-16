@@ -7,7 +7,6 @@ import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
-import org.slf4j.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -40,7 +39,7 @@ public class PropertySource extends BaseValueSource
         String name = getValue(_name, context, false, String.class);
         Object target = getValue(_target, context, false);
 
-        PropertyResolver[] resolvers = new PropertyResolver[] { new MapResolver(), new ReflectionPropertyResolver()};
+        PropertyResolver[] resolvers = new PropertyResolver[] { new MapResolver(), new MethodByReflectionResolver()};
         for (PropertyResolver resolver : resolvers)
             try
                 {

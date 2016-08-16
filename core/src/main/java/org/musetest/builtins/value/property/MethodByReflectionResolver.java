@@ -5,7 +5,7 @@ import java.lang.reflect.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ReflectionPropertyResolver implements PropertyResolver
+public class MethodByReflectionResolver implements PropertyResolver
     {
     @Override
     public boolean canResolve(Object target, String name)

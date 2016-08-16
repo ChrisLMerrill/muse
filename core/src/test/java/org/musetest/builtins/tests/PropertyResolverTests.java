@@ -19,7 +19,7 @@ public class PropertyResolverTests
         final String name = "length";
         final Object result = ((String)target).length();
 
-        PropertyResolver resolver = new ReflectionPropertyResolver();
+        PropertyResolver resolver = new MethodByReflectionResolver();
         Assert.assertTrue(resolver.canResolve(target, name));
         Assert.assertEquals(result, resolver.resolve(target, name));
         }
@@ -32,7 +32,7 @@ public class PropertyResolverTests
         final String name = "class";
         final Object result = target.getClass();
 
-        PropertyResolver resolver = new ReflectionPropertyResolver();
+        PropertyResolver resolver = new MethodByReflectionResolver();
         Assert.assertTrue(resolver.canResolve(target, name));
         Assert.assertEquals(result, resolver.resolve(target, name));
         }
