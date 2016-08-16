@@ -256,7 +256,7 @@ public class ValueSourceTests
     public void formatNullDateParamAndFormat() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null);
-        Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
+        Assert.assertTrue(System.currentTimeMillis() - 1 <= Long.parseLong(result.toString()) && Long.parseLong(result.toString()) <= System.currentTimeMillis() + 1);
         }
 
     @Test public void formatNow() throws MuseExecutionError
@@ -302,15 +302,30 @@ public class ValueSourceTests
         list.add("abc");
         list.add("def");
         config.addSource(ListContainsSource.LIST_PARAM, ValueSourceConfiguration.forTypeWithValue(MockValueSource.TYPE_ID, list));
-        config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("xyz"));
-
         SimpleProject project = new SimpleProject();
+
+        config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("xyz"));
         MuseValueSource source = config.createSource(project);
         Assert.assertFalse((boolean) source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)))));
 
         config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("abc"));
         source = config.createSource(project);
         Assert.assertTrue((boolean) source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)))));
+        }
+
+    @Test
+    public void propertySource() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
+        config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue("length"));
+        config.addSource(PropertySource.TARGET_PARAM, ValueSourceConfiguration.forValue("12345"));
+        SimpleProject project = new SimpleProject();
+
+        // resolve the source
+        MuseValueSource source = config.createSource(project);
+        Object value = source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID))));
+
+        Assert.assertEquals(5, value);
         }
 
     private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";
