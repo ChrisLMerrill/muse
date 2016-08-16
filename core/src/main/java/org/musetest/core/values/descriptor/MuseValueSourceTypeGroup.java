@@ -13,4 +13,7 @@ import java.lang.annotation.*;
 public @interface MuseValueSourceTypeGroup
     {
     String value();
+
+    @SuppressWarnings("unused")   // used externally (ValueSourceTypeList)
+    String DONT_SHOW = "!hide!";  // use this group name to not show the VS in the list
     }
