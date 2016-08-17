@@ -4,7 +4,7 @@ import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.suite.*;
-import org.musetest.core.tests.utils.*;
+import org.musetest.tests.utils.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)

@@ -1,4 +1,4 @@
-package org.musetest.core.steptest;
+package org.musetest.core.values;
 
 import org.musetest.core.*;
 import org.musetest.core.values.*;
@@ -10,7 +10,7 @@ public class NullNotAllowedError extends ValueSourceResolutionError
     {
     public NullNotAllowedError(MuseValueSource source)
         {
-        super("Step configuration requires a non-null parameter, but the value source (" + source.getDescription() + "), has a null value.");
+        super("configuration requires a non-null parameter, but the value source (" + source.getDescription() + "), has a null value.");
         }
     }
 

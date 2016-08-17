@@ -8,9 +8,9 @@ import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.suite.*;
-import org.musetest.core.tests.utils.*;
 import org.musetest.core.util.*;
 import org.musetest.core.variables.*;
+import org.musetest.tests.utils.*;
 
 import java.io.*;
 import java.util.*;

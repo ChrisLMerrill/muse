@@ -5,7 +5,7 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.tests.utils.*;
+import org.musetest.tests.utils.*;
 
 import java.io.*;
 

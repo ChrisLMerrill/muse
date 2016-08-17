@@ -14,6 +14,7 @@ import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.tests.utils.*;
 
 import java.text.*;
 import java.util.*;
@@ -244,7 +245,7 @@ public class ValueSourceTests
         {
         Object result = resolveDateFormatSource(null, null, null);
         long time = Long.parseLong(result.toString());
-        Assert.assertTrue(System.currentTimeMillis() - 1 <= time && time <= System.currentTimeMillis() + 1);
+        Assert.assertTrue(new TimeRange(System.currentTimeMillis(), 50).isInRange(time));
         }
 
     @Test
@@ -252,7 +253,7 @@ public class ValueSourceTests
         {
         Object result = resolveDateFormatSource(ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null, null);
         long time = Long.parseLong(result.toString());
-        Assert.assertTrue(System.currentTimeMillis() - 1 <= time && time <= System.currentTimeMillis() + 1);
+        Assert.assertTrue(new TimeRange(System.currentTimeMillis(), 50).isInRange(time));
         }
 
     @Test
@@ -260,7 +261,7 @@ public class ValueSourceTests
         {
         Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null);
         long time = Long.parseLong(result.toString());
-        Assert.assertTrue(System.currentTimeMillis() - 1 <= time && time <= System.currentTimeMillis() + 1);
+        Assert.assertTrue(new TimeRange(System.currentTimeMillis(), 50).isInRange(time));
         }
 
     @Test public void formatNow() throws MuseExecutionError
@@ -344,6 +345,58 @@ public class ValueSourceTests
         Object value = source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID))));
 
         Assert.assertEquals(MockSystemVariable.VALUE, value);
+        }
+
+    @Test
+    public void environmentProviderVariableAccess() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        MuseProject project = new SimpleProject();
+        MockEnvironment environment = new MockEnvironment();
+        final String var_name = "env-var1";
+        final String value = UUID.randomUUID().toString();
+        environment.setVariable(var_name, value);
+        EnvironmentProvider.overrideImplementation(project, environment);
+
+        ValueSourceConfiguration env_config = ValueSourceConfiguration.forType(SystemVariableSource.TYPE_ID);
+        env_config.setSource(ValueSourceConfiguration.forValue(EnvironmentProvider.VARNAME1));
+        ValueSourceConfiguration vars_config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
+        vars_config.addSource(PropertySource.TARGET_PARAM, env_config);
+        vars_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(EnvironmentProviderInterface.VARS_NAME));
+        ValueSourceConfiguration var_config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
+        var_config.addSource(PropertySource.TARGET_PARAM, vars_config);
+        var_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(var_name));
+
+        // resolve the source
+        MuseValueSource source = var_config.createSource(project);
+        Object resolved = source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID))));
+
+        Assert.assertEquals(value, resolved);
+        }
+
+    @Test
+    public void environmentProviderPropertyAccess() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        MuseProject project = new SimpleProject();
+        MockEnvironment environment = new MockEnvironment();
+        final String prop_name = "prop-var1";
+        final String value = UUID.randomUUID().toString();
+        environment.setProperty(prop_name, value);
+        EnvironmentProvider.overrideImplementation(project, environment);
+
+        ValueSourceConfiguration env_config = ValueSourceConfiguration.forType(SystemVariableSource.TYPE_ID);
+        env_config.setSource(ValueSourceConfiguration.forValue(EnvironmentProvider.VARNAME1));
+        ValueSourceConfiguration vars_config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
+        vars_config.addSource(PropertySource.TARGET_PARAM, env_config);
+        vars_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(EnvironmentProviderInterface.PROPS_NAME));
+        ValueSourceConfiguration var_config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
+        var_config.addSource(PropertySource.TARGET_PARAM, vars_config);
+        var_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(prop_name));
+
+        // resolve the source
+        MuseValueSource source = var_config.createSource(project);
+        Object resolved = source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID))));
+
+        Assert.assertEquals(value, resolved);
         }
 
     private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";

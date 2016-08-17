@@ -11,11 +11,11 @@ import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.tests.mocks.*;
-import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 import org.musetest.javascript.*;
 import org.musetest.javascript.factory.*;
+import org.musetest.tests.utils.*;
 
 import javax.script.*;
 import java.io.*;

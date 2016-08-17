@@ -6,7 +6,7 @@ import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
-import org.musetest.core.tests.utils.*;
+import org.musetest.tests.utils.*;
 
 import java.util.*;
 

@@ -8,7 +8,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
-import org.musetest.core.tests.utils.*;
+import org.musetest.tests.utils.*;
 
 import java.io.*;
 import java.util.*;

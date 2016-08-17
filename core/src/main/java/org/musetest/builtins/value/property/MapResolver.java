@@ -1,10 +1,13 @@
 package org.musetest.builtins.value.property;
 
 import org.musetest.core.*;
+import org.musetest.core.values.*;
 
 import java.util.*;
 
 /**
+ * Resolves properties on a Map (or Dictionary).
+ *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class MapResolver implements PropertyResolver
@@ -12,13 +15,18 @@ public class MapResolver implements PropertyResolver
     @Override
     public boolean canResolve(Object target, String name)
         {
-        return target instanceof Map;
+        return target instanceof Map || target instanceof Dictionary;
         }
 
     @Override
     public Object resolve(Object target, String name) throws MuseExecutionError
         {
-        return ((Map)target).get(name);
+        if (target instanceof Map)
+            return ((Map)target).get(name);
+        else if (target instanceof Dictionary)
+            return ((Dictionary)target).get(name);
+        else
+            throw new ValueSourceResolutionError("MapResolver unable to resolve target of type " + target.getClass().getSimpleName());
         }
     }
 
