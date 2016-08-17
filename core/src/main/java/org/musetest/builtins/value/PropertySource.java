@@ -39,7 +39,7 @@ public class PropertySource extends BaseValueSource
         String name = getValue(_name, context, false, String.class);
         Object target = getValue(_target, context, false);
 
-        PropertyResolver[] resolvers = new PropertyResolver[] { new MapResolver(), new MethodByReflectionResolver()};
+        PropertyResolver[] resolvers = new PropertyResolver[] { new MapResolver(), new MethodByReflectionResolver(), new FieldByReflectionResolver()};
         for (PropertyResolver resolver : resolvers)
             try
                 {

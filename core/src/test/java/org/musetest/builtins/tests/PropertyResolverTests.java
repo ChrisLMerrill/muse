@@ -38,6 +38,25 @@ public class PropertyResolverTests
         }
 
     @Test
+    public void reflectionResolverByField() throws MuseExecutionError
+        {
+        class ObjectWithField
+            {
+            @SuppressWarnings("WeakerAccess")
+            public Object field1;
+            }
+        final String name = "field1";
+        final Object result = UUID.randomUUID();
+
+        ObjectWithField target = new ObjectWithField();
+        target.field1 = result;
+
+        PropertyResolver resolver = new FieldByReflectionResolver();
+        Assert.assertTrue(resolver.canResolve(target, name));
+        Assert.assertEquals(result, resolver.resolve(target, name));
+        }
+
+    @Test
     public void mapResolver() throws MuseExecutionError
         {
         Map<String, Object> map = new HashMap<>();
