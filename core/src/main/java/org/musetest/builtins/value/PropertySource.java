@@ -8,6 +8,8 @@ import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -39,7 +41,7 @@ public class PropertySource extends BaseValueSource
         String name = getValue(_name, context, false, String.class);
         Object target = getValue(_target, context, false);
 
-        PropertyResolver[] resolvers = new PropertyResolver[] { new MapResolver(), new MethodByReflectionResolver(), new FieldByReflectionResolver()};
+        List<PropertyResolver> resolvers = getProject().getPropertyResolvers().getPropertyResolvers();
         for (PropertyResolver resolver : resolvers)
             try
                 {

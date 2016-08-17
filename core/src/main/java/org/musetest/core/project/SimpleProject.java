@@ -1,5 +1,6 @@
 package org.musetest.core.project;
 
+import org.musetest.builtins.value.property.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
@@ -134,11 +135,20 @@ public class SimpleProject implements MuseProject
         return _supporters;
         }
 
+    @Override
+    public PropertyResolvers getPropertyResolvers()
+        {
+        if (_resolvers == null)
+            _resolvers = new PropertyResolvers(this);
+        return _resolvers;
+        }
+
     private ResourceStore _resources;
     private StepFactory _step_factory;
     private StepDescriptors _step_descriptors;
     private ValueSourceDescriptors _source_descriptors;
     private ValueSourceStringExpressionSupporters _supporters;
+    private PropertyResolvers _resolvers;
 
     private final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);
     }
