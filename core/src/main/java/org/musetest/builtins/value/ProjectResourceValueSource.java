@@ -1,7 +1,6 @@
 package org.musetest.builtins.value;
 
 import org.musetest.core.*;
-import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -17,23 +16,17 @@ import org.musetest.core.values.descriptor.*;
 public class ProjectResourceValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
-    public ProjectResourceValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+    public ProjectResourceValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseExecutionError
         {
         super(config, project);
-        _id_source = config.getSource().createSource(project);
-        if (_id_source == null)
-            throw new MuseInstantiationException("Missing required value parameter");
-
+        _id_source = getValueSource(config, true, project);
         _project = project;
         }
 
     @Override
     public MuseResource resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
-        Object resolved = _id_source.resolveValue(context);
-        if (resolved == null)
-            throw new ValueSourceResolutionError(String.format("Unable to resolve the project resource (id=%s). id value source resolved to null.", _id_source));
-        String id = resolved.toString();
+        String id = getValue(_id_source, context, false, String.class);
         MuseResource resource = _project.findResource(id, MuseResource.class);
         if (resource == null)
             throw new ValueSourceResolutionError(String.format("Unable to resolve the project resource (id=%s). Search returned null.", id));

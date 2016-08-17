@@ -16,16 +16,13 @@ public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSourc
     protected ElementByLocatorValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
-        ValueSourceConfiguration locator_config = config.getSource();
-        if (locator_config == null)
-            throw new MuseInstantiationException("XPathElementValueSource requires a source for the xpath.");
-        _locator_source = locator_config.createSource(project);
+        _locator_source = getValueSource(config, true, project);
         }
 
     @Override
     public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
-        String locator_string = _locator_source.resolveValue(context).toString();
+        String locator_string = getValue(_locator_source, context, true, String.class);
         try
             {
             WebElement element = getDriver(context).findElement(createBy(context, locator_string));

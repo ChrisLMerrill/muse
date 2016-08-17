@@ -121,7 +121,7 @@ public class ValueSourceTests
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
 
-        StepExecutionError error = null;
+        MuseInstantiationException error = null;
         try
             {
             MuseValueSource source = config.createSource(project);
@@ -135,7 +135,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void misconfiguredProjectResourceValueSource() throws StepConfigurationError
+    public void misconfiguredProjectResourceValueSource() throws MuseInstantiationException
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
@@ -157,7 +157,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void missingProjectResourceValueSource() throws StepConfigurationError
+    public void missingProjectResourceValueSource() throws MuseInstantiationException
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
@@ -197,7 +197,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void notNull() throws StepConfigurationError
+    public void notNull() throws MuseInstantiationException
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(null);
@@ -218,7 +218,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void notString() throws StepConfigurationError
+    public void notString() throws MuseInstantiationException
         {
         StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue("string");
@@ -242,21 +242,24 @@ public class ValueSourceTests
     public void formatNullDateParamAndFormatParams() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(null, null, null);
-        Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
+        long time = Long.parseLong(result.toString());
+        Assert.assertTrue(System.currentTimeMillis() - 1 <= time && time <= System.currentTimeMillis() + 1);
         }
 
     @Test
     public void formatNullDateAndFormatParam() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null, null);
-        Assert.assertEquals(Long.toString(System.currentTimeMillis()), result);
+        long time = Long.parseLong(result.toString());
+        Assert.assertTrue(System.currentTimeMillis() - 1 <= time && time <= System.currentTimeMillis() + 1);
         }
 
     @Test
     public void formatNullDateParamAndFormat() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null);
-        Assert.assertTrue(System.currentTimeMillis() - 1 <= Long.parseLong(result.toString()) && Long.parseLong(result.toString()) <= System.currentTimeMillis() + 1);
+        long time = Long.parseLong(result.toString());
+        Assert.assertTrue(System.currentTimeMillis() - 1 <= time && time <= System.currentTimeMillis() + 1);
         }
 
     @Test public void formatNow() throws MuseExecutionError

@@ -4,7 +4,6 @@ import org.musetest.builtins.value.property.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -23,7 +22,7 @@ import java.util.*;
 public class PropertySource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
-    public PropertySource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException, RequiredParameterMissingError
+    public PropertySource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
         _name = getValueSource(config, NAME_PARAM, true, project);

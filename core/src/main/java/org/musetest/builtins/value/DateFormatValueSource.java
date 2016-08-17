@@ -1,7 +1,7 @@
 package org.musetest.builtins.value;
 
 import org.musetest.core.*;
-import org.musetest.core.resource.*;
+import org.musetest.core.events.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -21,15 +21,11 @@ import java.util.*;
 public class DateFormatValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
-    public DateFormatValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+    public DateFormatValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseExecutionError
         {
         super(config, project);
-        ValueSourceConfiguration date_source = config.getSource(DATE_PARAM);
-        if (date_source != null)
-            _date = date_source.createSource(project);
-        ValueSourceConfiguration format_source = config.getSource(FORMAT_PARAM);
-        if (format_source != null)
-            _format = format_source.createSource(project);
+        _date = getValueSource(config, DATE_PARAM, false, project);
+        _format = getValueSource(config, FORMAT_PARAM, false, project);
         }
 
     @Override
@@ -38,10 +34,8 @@ public class DateFormatValueSource extends BaseValueSource
         DateFormat formatter = null;
         if (_format != null)
             {
-            Object value = _format.resolveValue(context);
-            if (value != null)
-                {
-                String format = value.toString();
+            String format = getValue(_format, context, true, String.class);
+            if (format != null)
                 try
                     {
                     formatter = new SimpleDateFormat(format);
@@ -50,7 +44,6 @@ public class DateFormatValueSource extends BaseValueSource
                     {
                     throw new ValueSourceResolutionError("The format parameter is not a valid format string: " + format);
                     }
-                }
             }
 
         Date date = new Date();
@@ -77,10 +70,13 @@ public class DateFormatValueSource extends BaseValueSource
                 }
             }
 
+        String result;
         if (formatter == null)
-            return Long.toString(date.getTime());
+            result = Long.toString(date.getTime());
         else
-            return formatter.format(date);
+            result = formatter.format(date);
+        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
+        return result;
         }
 
     private MuseValueSource _date = null;

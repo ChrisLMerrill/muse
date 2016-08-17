@@ -2,6 +2,7 @@ package org.musetest.builtins.condition;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 
 import java.util.*;
@@ -12,16 +13,11 @@ import java.util.*;
 public abstract class BinaryCondition extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
-    public BinaryCondition(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+    public BinaryCondition(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException, RequiredParameterMissingError
         {
         super(config, project);
-        ValueSourceConfiguration left = config.getSourceMap().get(LEFT_PARAM);
-        ValueSourceConfiguration right = config.getSourceMap().get(RIGHT_PARAM);
-        if (left == null || right == null)
-            throw new MuseInstantiationException("Missing required parameter (sourceMap.left or sourceMap.right)");
-
-        _left = left.createSource(project);
-        _right = right.createSource(project);
+        _left = getValueSource(config, LEFT_PARAM, true, project);
+        _right = getValueSource(config, RIGHT_PARAM, true, project);
         }
 
     public void setLeft(MuseValueSource left)

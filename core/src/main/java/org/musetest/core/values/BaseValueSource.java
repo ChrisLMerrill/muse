@@ -32,7 +32,7 @@ public abstract class BaseValueSource implements MuseValueSource
         }
 
     /**
-     * A convenience method to get a specific value source from the configuration parameter list
+     * A convenience method to get create a value source from the named source configuration
      *
      * @param config The step configuration from which to get the value source
      * @param name The name of the value config to get
@@ -51,6 +51,31 @@ public abstract class BaseValueSource implements MuseValueSource
             {
             if (required)
                 throw new RequiredParameterMissingError(name);
+            else
+                return null;
+            }
+        return source_config.createSource(project);
+        }
+
+    /**
+     * A convenience method to get create a value source from the single sub-source configuration
+     *
+     * @param config The step configuration from which to get the value source
+     * @param required True if this value source is required for correct configuration
+     * @param project The project the step is being instantiated in
+     *
+     * @return Return a configured instance, ready to execute
+     *
+     * @throws RequiredParameterMissingError if required=true and the parameter is not present
+     * @throws MuseInstantiationException if sub-sources cannot be instantiated
+     */
+    public static MuseValueSource getValueSource(ValueSourceConfiguration config, boolean required, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+        {
+        ValueSourceConfiguration source_config = config.getSource();
+        if (source_config == null)
+            {
+            if (required)
+                throw new RequiredParameterMissingError("(single sub-source)");
             else
                 return null;
             }

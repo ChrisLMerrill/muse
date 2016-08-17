@@ -14,10 +14,7 @@ public abstract class BaseElementValueSource extends BaseSeleniumValueSource
     public BaseElementValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
-        ValueSourceConfiguration source = config.getSource();
-        if (source == null)
-            throw new MuseInstantiationException("BaseElementValueSource requires a source for the element.");
-        _element_source = source.createSource(project);
+        _element_source = getValueSource(config, true, project);
         }
 
     public MuseValueSource getElementSource()

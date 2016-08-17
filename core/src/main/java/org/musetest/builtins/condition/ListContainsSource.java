@@ -1,6 +1,7 @@
 package org.musetest.builtins.condition;
 
 import org.musetest.core.*;
+import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -23,24 +24,18 @@ public class ListContainsSource extends BaseValueSource
     public ListContainsSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
-        ValueSourceConfiguration list_source = config.getSource(LIST_PARAM);
-        if (list_source != null)
-            _list = list_source.createSource(project);
-        ValueSourceConfiguration target_source = config.getSource(TARGET_PARAM);
-        if (target_source != null)
-            _target = target_source.createSource(project);
+        _list = getValueSource(config, LIST_PARAM, true, project);
+        _target = getValueSource(config, TARGET_PARAM, true, project);
         }
 
     @Override
-    public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
+    public Boolean resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
-        Object list_object = _list.resolveValue(context);
-        if (!(list_object instanceof List))
-            throw new ValueSourceResolutionError(String.format("'%s' source must evaluate to a list. Instead it is a %s (%s).", LIST_PARAM, list_object.getClass().getSimpleName(), list_object.toString()));
-        List list = (List) list_object;
-
         Object target = _target.resolveValue(context);
-        return list.contains(target);
+        List list = getValue(_list, context, false, List.class);
+        boolean contains = list.contains(target);
+        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), contains));
+        return contains;
         }
 
     private MuseValueSource _list = null;
