@@ -1,6 +1,7 @@
 package org.musetest.core.project;
 
 import org.musetest.builtins.value.property.*;
+import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
@@ -143,12 +144,21 @@ public class SimpleProject implements MuseProject
         return _resolvers;
         }
 
+    @Override
+    public SystemVariableProviders getSystemVariableProviders()
+        {
+        if (_sysvar_providers == null)
+            _sysvar_providers = new SystemVariableProviders(this);
+        return _sysvar_providers;
+        }
+
     private ResourceStore _resources;
     private StepFactory _step_factory;
     private StepDescriptors _step_descriptors;
     private ValueSourceDescriptors _source_descriptors;
     private ValueSourceStringExpressionSupporters _supporters;
     private PropertyResolvers _resolvers;
+    private SystemVariableProviders _sysvar_providers;
 
     private final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);
     }

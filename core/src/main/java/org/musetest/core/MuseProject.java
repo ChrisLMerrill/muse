@@ -1,6 +1,7 @@
 package org.musetest.core;
 
 import org.musetest.builtins.value.property.*;
+import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.descriptor.*;
@@ -66,4 +67,5 @@ public interface MuseProject
     ValueSourceDescriptors getValueSourceDescriptors();
     ValueSourceStringExpressionSupporters getValueSourceStringExpressionSupporters();
     PropertyResolvers getPropertyResolvers();
+    SystemVariableProviders getSystemVariableProviders();
     }

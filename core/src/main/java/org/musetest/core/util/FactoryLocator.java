@@ -1,11 +1,8 @@
 package org.musetest.core.util;
 
-import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.reflections.*;
-import org.slf4j.*;
 
-import java.lang.reflect.*;
 import java.util.*;
 
 /**
@@ -47,10 +44,6 @@ public class FactoryLocator
         }
 
     private final ClassLocator _locator;
-
-    private static ThreadLocal<Set<Class<? extends MuseDynamicLoadable>>> LOADABLES = new ThreadLocal<>();
-
-    final static Logger LOG = LoggerFactory.getLogger(FactoryLocator.class);
     }
 
 

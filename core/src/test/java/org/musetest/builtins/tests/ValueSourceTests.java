@@ -5,6 +5,7 @@ import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.tests.mocks.*;
 import org.musetest.builtins.value.*;
+import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.step.*;
@@ -329,6 +330,20 @@ public class ValueSourceTests
         Object value = source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID))));
 
         Assert.assertEquals(5, value);
+        }
+
+    @Test
+    public void systemVariableSource() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(SystemVariableSource.TYPE_ID);
+        config.setSource(ValueSourceConfiguration.forValue(MockSystemVariable.NAME));
+        SimpleProject project = new SimpleProject();
+
+        // resolve the source
+        MuseValueSource source = config.createSource(project);
+        Object value = source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID))));
+
+        Assert.assertEquals(MockSystemVariable.VALUE, value);
         }
 
     private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";

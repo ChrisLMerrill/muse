@@ -2,9 +2,9 @@ package org.musetest.builtins.step;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -23,7 +23,7 @@ import org.musetest.core.values.descriptor.*;
 public class StoreVariable extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection
-    public StoreVariable(StepConfiguration config, MuseProject project) throws StepExecutionError
+    public StoreVariable(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
         _name = getValueSource(config, NAME_PARAM, true, project);

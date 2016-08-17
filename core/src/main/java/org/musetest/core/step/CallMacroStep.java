@@ -2,6 +2,7 @@ package org.musetest.core.step;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.resource.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.descriptor.*;
@@ -30,7 +31,7 @@ import java.util.*;
 public class CallMacroStep extends ScopedGroup
     {
     @SuppressWarnings("unused") // called via reflection
-    public CallMacroStep(StepConfiguration config, MuseProject project) throws StepConfigurationError
+    public CallMacroStep(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
         _config = config;
