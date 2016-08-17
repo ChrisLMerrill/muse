@@ -11,7 +11,8 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public interface FromJavascriptResourceFactory extends MuseDynamicLoadable
+@SuppressWarnings("WeakerAccess")
+public interface FromJavascriptResourceFactory
     {
     List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine) throws IOException;
     }

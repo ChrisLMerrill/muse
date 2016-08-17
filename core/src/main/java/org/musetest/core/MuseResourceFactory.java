@@ -1,7 +1,6 @@
 package org.musetest.core;
 
 import org.musetest.core.resource.*;
-import org.musetest.core.util.*;
 
 import java.io.*;
 import java.util.*;
@@ -9,7 +8,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public interface MuseResourceFactory extends MuseDynamicLoadable
+public interface MuseResourceFactory
     {
     /**
      * Create MuseResources from the origin provided.
