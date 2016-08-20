@@ -6,6 +6,8 @@ import org.musetest.core.util.*;
 import java.util.*;
 
 /**
+ * Looks up the implementations of SystemVariableProvider.
+ *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class SystemVariableProviders

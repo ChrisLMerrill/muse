@@ -1,6 +1,5 @@
 package org.musetest.builtins.value.property;
 
-import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.values.*;
 

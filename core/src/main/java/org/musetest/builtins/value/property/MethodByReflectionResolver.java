@@ -3,6 +3,8 @@ package org.musetest.builtins.value.property;
 import java.lang.reflect.*;
 
 /**
+ * Resolves a property to a method of an object using reflection.
+ *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class MethodByReflectionResolver implements PropertyResolver

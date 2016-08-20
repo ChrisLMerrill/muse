@@ -9,7 +9,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("WeakerAccess")  // May need access from other places. Could be extended.
-public class DefaultEnvironmentProvider implements EnvironmentProviderInterface
+public class DefaultEnvironmentPropertiesProvider implements EnvironmentPropertiesProvider
     {
     @Override
     public Map<String, String> getVars()
@@ -55,7 +55,7 @@ public class DefaultEnvironmentProvider implements EnvironmentProviderInterface
         return getClass().getSimpleName();
         }
 
-    private final static Logger LOG = LoggerFactory.getLogger(DefaultEnvironmentProvider.class);
+    private final static Logger LOG = LoggerFactory.getLogger(DefaultEnvironmentPropertiesProvider.class);
     }
 
 

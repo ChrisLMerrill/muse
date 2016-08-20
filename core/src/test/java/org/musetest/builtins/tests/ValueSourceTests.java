@@ -5,6 +5,7 @@ import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.tests.mocks.*;
 import org.musetest.builtins.value.*;
+import org.musetest.builtins.value.property.*;
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -351,17 +352,17 @@ public class ValueSourceTests
     public void environmentProviderVariableAccess() throws MuseInstantiationException, ValueSourceResolutionError
         {
         MuseProject project = new SimpleProject();
-        MockEnvironment environment = new MockEnvironment();
+        MockEnvironmentProperties environment = new MockEnvironmentProperties();
         final String var_name = "env-var1";
         final String value = UUID.randomUUID().toString();
         environment.setVariable(var_name, value);
-        EnvironmentProvider.overrideImplementation(project, environment);
+        EnvironmentSysvarProvider.overrideImplementation(project, environment);
 
         ValueSourceConfiguration env_config = ValueSourceConfiguration.forType(SystemVariableSource.TYPE_ID);
-        env_config.setSource(ValueSourceConfiguration.forValue(EnvironmentProvider.VARNAME1));
+        env_config.setSource(ValueSourceConfiguration.forValue(EnvironmentSysvarProvider.VARNAME1));
         ValueSourceConfiguration vars_config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
         vars_config.addSource(PropertySource.TARGET_PARAM, env_config);
-        vars_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(EnvironmentProviderInterface.VARS_NAME));
+        vars_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(EnvironmentPropertiesProvider.VARS_NAME));
         ValueSourceConfiguration var_config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
         var_config.addSource(PropertySource.TARGET_PARAM, vars_config);
         var_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(var_name));
@@ -377,17 +378,17 @@ public class ValueSourceTests
     public void environmentProviderPropertyAccess() throws MuseInstantiationException, ValueSourceResolutionError
         {
         MuseProject project = new SimpleProject();
-        MockEnvironment environment = new MockEnvironment();
+        MockEnvironmentProperties environment = new MockEnvironmentProperties();
         final String prop_name = "prop-var1";
         final String value = UUID.randomUUID().toString();
         environment.setProperty(prop_name, value);
-        EnvironmentProvider.overrideImplementation(project, environment);
+        EnvironmentSysvarProvider.overrideImplementation(project, environment);
 
         ValueSourceConfiguration env_config = ValueSourceConfiguration.forType(SystemVariableSource.TYPE_ID);
-        env_config.setSource(ValueSourceConfiguration.forValue(EnvironmentProvider.VARNAME1));
+        env_config.setSource(ValueSourceConfiguration.forValue(EnvironmentSysvarProvider.VARNAME1));
         ValueSourceConfiguration vars_config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
         vars_config.addSource(PropertySource.TARGET_PARAM, env_config);
-        vars_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(EnvironmentProviderInterface.PROPS_NAME));
+        vars_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(EnvironmentPropertiesProvider.PROPS_NAME));
         ValueSourceConfiguration var_config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
         var_config.addSource(PropertySource.TARGET_PARAM, vars_config);
         var_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(prop_name));
@@ -403,16 +404,16 @@ public class ValueSourceTests
     public void environmentProviderUsernameAccess() throws MuseInstantiationException, ValueSourceResolutionError
         {
         MuseProject project = new SimpleProject();
-        MockEnvironment environment = new MockEnvironment();
+        MockEnvironmentProperties environment = new MockEnvironmentProperties();
         final String value = UUID.randomUUID().toString();
         environment.setUsername(value);
-        EnvironmentProvider.overrideImplementation(project, environment);
+        EnvironmentSysvarProvider.overrideImplementation(project, environment);
 
         ValueSourceConfiguration env_config = ValueSourceConfiguration.forType(SystemVariableSource.TYPE_ID);
-        env_config.setSource(ValueSourceConfiguration.forValue(EnvironmentProvider.VARNAME1));
+        env_config.setSource(ValueSourceConfiguration.forValue(EnvironmentSysvarProvider.VARNAME1));
         ValueSourceConfiguration username_config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
         username_config.addSource(PropertySource.TARGET_PARAM, env_config);
-        username_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(EnvironmentProviderInterface.USERNAME_NAME));
+        username_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(EnvironmentPropertiesProvider.USERNAME_NAME));
 
         // resolve the source
         MuseValueSource source = username_config.createSource(project);

@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MockEnvironment implements EnvironmentProviderInterface
+public class MockEnvironmentProperties implements EnvironmentPropertiesProvider
     {
     public void setVariable(String name, String value)
         {

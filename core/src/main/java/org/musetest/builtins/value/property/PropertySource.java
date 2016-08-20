@@ -1,6 +1,5 @@
-package org.musetest.builtins.value;
+package org.musetest.builtins.value.property;
 
-import org.musetest.builtins.value.property.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
@@ -10,6 +9,8 @@ import org.musetest.core.values.descriptor.*;
 import java.util.*;
 
 /**
+ * Resolves a named property of another value/onject.
+ *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("property")

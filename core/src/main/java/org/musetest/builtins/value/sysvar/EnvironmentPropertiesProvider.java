@@ -3,10 +3,12 @@ package org.musetest.builtins.value.sysvar;
 import java.util.*;
 
 /**
+ * Implementors provide specific properties on the Environment system variable.
+ *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused") // methods are called via reflection.
-public interface EnvironmentProviderInterface
+public interface EnvironmentPropertiesProvider
     {
     Map<String,String> getVars();
     Dictionary getProps();

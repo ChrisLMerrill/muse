@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EnvironmentProvider implements SystemVariableProvider
+public class EnvironmentSysvarProvider implements SystemVariableProvider
     {
     @Override
     public boolean provides(String name)
@@ -22,11 +22,11 @@ public class EnvironmentProvider implements SystemVariableProvider
         if (provides(name))
             {
             // for unit test
-            EnvironmentProviderInterface override = EPI_OVERRIDES.get(context.getProject());
+            EnvironmentPropertiesProvider override = EPI_OVERRIDES.get(context.getProject());
             if (override != null)
                 return override;
 
-            return new DefaultEnvironmentProvider();
+            return new DefaultEnvironmentPropertiesProvider();
             }
         return null;
         }
@@ -37,8 +37,8 @@ public class EnvironmentProvider implements SystemVariableProvider
     /**
      * For unit testing - install an override for a specific project.
      */
-    private final static Map<MuseProject, EnvironmentProviderInterface> EPI_OVERRIDES = new HashMap<>();
-    public static void overrideImplementation(MuseProject project, EnvironmentProviderInterface implementation)
+    private final static Map<MuseProject, EnvironmentPropertiesProvider> EPI_OVERRIDES = new HashMap<>();
+    public static void overrideImplementation(MuseProject project, EnvironmentPropertiesProvider implementation)
         {
         EPI_OVERRIDES.put(project, implementation);
         }

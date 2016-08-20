@@ -7,6 +7,12 @@ import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
 /**
+ * Provides access to system variables within the execution context.
+ *
+ * To provide a system variable, implement SystemVariableProvider interface. Implementations
+ * will by dynamically discovered at runtime.
+ *
+ * @see SystemVariableProvider
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("sysvar")

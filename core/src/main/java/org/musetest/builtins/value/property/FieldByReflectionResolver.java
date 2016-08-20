@@ -3,6 +3,8 @@ package org.musetest.builtins.value.property;
 import java.lang.reflect.*;
 
 /**
+ * Resolves a field of an object using reflection.
+ *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class FieldByReflectionResolver implements PropertyResolver
