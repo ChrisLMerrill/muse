@@ -2,6 +2,7 @@ package org.musetest.core.tests.mocks;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
@@ -25,7 +26,7 @@ public class DummyStepExecutionContext implements StepExecutionContext
         _test_context = new DefaultSteppedTestExecutionContext(parent_context);
         }
 
-    private SteppedTestExecutionContext _test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext());
+    private SteppedTestExecutionContext _test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(new SimpleProject(), null));
 
     @Override
     public StepConfiguration getCurrentStepConfiguration()
@@ -124,6 +125,9 @@ public class DummyStepExecutionContext implements StepExecutionContext
 
     @Override
     public void cleanup() {}
+
+    @Override
+    public void addInitializer(ContextInitializer initializer) {}
 
     @Override
     public void runInitializers() throws MuseExecutionError {}

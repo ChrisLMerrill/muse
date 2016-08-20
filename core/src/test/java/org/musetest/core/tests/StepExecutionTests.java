@@ -6,6 +6,7 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
+import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
@@ -23,7 +24,7 @@ public class StepExecutionTests
         step_a.setSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message));
 
         SteppedTest test = new SteppedTest(step_a);
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
+        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
@@ -43,7 +44,7 @@ public class StepExecutionTests
         parent.addChild(child);
 
         SteppedTest test = new SteppedTest(parent);
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
+        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
@@ -68,7 +69,7 @@ public class StepExecutionTests
         parent.addChild(child2);
 
         SteppedTest test = new SteppedTest(parent);
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
+        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
@@ -87,7 +88,7 @@ public class StepExecutionTests
         StepConfiguration step_a = new StepConfiguration();
         step_a.setType("blahblah");
         SteppedTest test = new SteppedTest(step_a);
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
+        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
@@ -105,7 +106,7 @@ public class StepExecutionTests
         step_a.setSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue(null));
 
         SteppedTest test = new SteppedTest(step_a);
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
+        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();

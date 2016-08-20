@@ -29,13 +29,13 @@ public class JavascriptTests
     @Test
     public void javascriptTest()
         {
-        TestExecutionContext context = new DefaultTestExecutionContext();
-
         MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_SUCCESS; } "));
+        TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
 
         test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_FAILURE; } "));
+        context = new DefaultTestExecutionContext(new SimpleProject(), test);
         result = test.execute(context);
         Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
         }
@@ -57,7 +57,7 @@ public class JavascriptTests
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestUtils.getTestResource("javascriptTest.js", this.getClass())));
         Assert.assertEquals(1, resources.size());
         Assert.assertTrue(resources.get(0) instanceof MuseTest);
-        MuseTestResult result = ((MuseTest) resources.get(0)).execute(new DefaultTestExecutionContext());
+        MuseTestResult result = ((MuseTest) resources.get(0)).execute(new DefaultTestExecutionContext(new SimpleProject(), null));
         Assert.assertTrue(result.isPass());
         }
 
@@ -136,7 +136,7 @@ public class JavascriptTests
         MuseStep step = config.createStep(project);
 
         final List<MessageEvent> events = new ArrayList<>();
-        DefaultSteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext());
+        DefaultSteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project, null));
         StepExecutionContext context = new SingleStepExecutionContext(test_context, config, true);
         test_context.addEventListener(event ->
             {

@@ -113,8 +113,7 @@ public class ValueSourceTests
         MuseValueSource source = config.createSource(project);
         Assert.assertTrue(source instanceof ProjectResourceValueSource);
 
-        DummyStepExecutionContext context = new DummyStepExecutionContext(project);
-        Object resolved = source.resolveValue(context);
+        Object resolved = source.resolveValue(new DummyStepExecutionContext(project));
         Assert.assertEquals(test, resolved);
         }
 
@@ -146,11 +145,10 @@ public class ValueSourceTests
         MuseValueSource source = config.createSource(project);
         Assert.assertTrue(source instanceof ProjectResourceValueSource);
 
-        DummyStepExecutionContext context = new DummyStepExecutionContext(project);
         MuseExecutionError error = null;
         try
             {
-            source.resolveValue(context);
+            source.resolveValue(new DummyStepExecutionContext());
             }
         catch (MuseExecutionError e)
             {
@@ -168,11 +166,10 @@ public class ValueSourceTests
         MuseValueSource source = config.createSource(project);
         Assert.assertTrue(source instanceof ProjectResourceValueSource);
 
-        DummyStepExecutionContext context = new DummyStepExecutionContext(project);
         MuseExecutionError error = null;
         try
             {
-            source.resolveValue(context);
+            source.resolveValue(new DummyStepExecutionContext());
             }
         catch (MuseExecutionError e)
             {
@@ -184,30 +181,27 @@ public class ValueSourceTests
     @Test
     public void notTrue() throws MuseExecutionError
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(true);
         MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
-        Assert.assertEquals(false, source.resolveValue(context));
+        Assert.assertEquals(false, source.resolveValue(new DummyStepExecutionContext()));
         }
 
     @Test
     public void notFalse() throws MuseExecutionError
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(false);
         MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
-        Assert.assertEquals(true, source.resolveValue(context));
+        Assert.assertEquals(true, source.resolveValue(new DummyStepExecutionContext()));
         }
 
     @Test
     public void notNull() throws MuseInstantiationException
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(null);
         MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
         try
             {
-            source.resolveValue(context);
+            source.resolveValue(new DummyStepExecutionContext());
             Assert.assertTrue("an exception should have been thrown", false);
             }
         catch (MuseExecutionError e)
@@ -223,12 +217,11 @@ public class ValueSourceTests
     @Test
     public void notString() throws MuseInstantiationException
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue("string");
         MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
         try
             {
-            source.resolveValue(context);
+            source.resolveValue(new DummyStepExecutionContext());
             Assert.assertTrue("an exception should have been thrown", false);
             }
         catch (MuseExecutionError e)
@@ -312,11 +305,11 @@ public class ValueSourceTests
 
         config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("xyz"));
         MuseValueSource source = config.createSource(project);
-        Assert.assertFalse((boolean) source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)))));
+        Assert.assertFalse((boolean) source.resolveValue(new BaseExecutionContext(project)));
 
         config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("abc"));
         source = config.createSource(project);
-        Assert.assertTrue((boolean) source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)))));
+        Assert.assertTrue((boolean) source.resolveValue(new BaseExecutionContext(project)));
         }
 
     @Test
@@ -329,7 +322,7 @@ public class ValueSourceTests
 
         // resolve the source
         MuseValueSource source = config.createSource(project);
-        Object value = source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID))));
+        Object value = source.resolveValue(new BaseExecutionContext(project));
 
         Assert.assertEquals(5, value);
         }

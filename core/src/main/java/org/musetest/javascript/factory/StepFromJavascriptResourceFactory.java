@@ -2,6 +2,7 @@ package org.musetest.javascript.factory;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.javascript.*;
@@ -14,7 +15,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@SuppressWarnings("unused")  // factory invoked by reflection
+@SuppressWarnings({"unused", "WeakerAccess"})  // factory invoked by reflection
 public class StepFromJavascriptResourceFactory implements FromJavascriptResourceFactory
     {
     @Override
@@ -26,7 +27,7 @@ public class StepFromJavascriptResourceFactory implements FromJavascriptResource
         Invocable inv = (Invocable) engine;
         try
             {
-            inv.invokeFunction(JavascriptStep.EXECUTE_FUNCTION, new DefaultTestExecutionContext());
+            inv.invokeFunction(JavascriptStep.EXECUTE_FUNCTION, new BaseExecutionContext(new SimpleProject()));
             }
         catch (ScriptException e)
             {
@@ -41,7 +42,7 @@ public class StepFromJavascriptResourceFactory implements FromJavascriptResource
         return resources;
         }
 
-    final static Logger LOG = LoggerFactory.getLogger(StepFromJavascriptResourceFactory.class);
+    private final static Logger LOG = LoggerFactory.getLogger(StepFromJavascriptResourceFactory.class);
     }
 
 

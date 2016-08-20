@@ -1,5 +1,6 @@
 package org.musetest.core;
 
+import org.musetest.core.context.*;
 import org.musetest.core.test.*;
 import org.musetest.core.variables.*;
 
@@ -68,6 +69,11 @@ public interface MuseExecutionContext
      * Cleanup any test resources. E.g. Shuttable
      */
     void cleanup();
+
+    /**
+     * Adds an initializer to be run when context is initialized.
+     */
+    void addInitializer(ContextInitializer initializer);
 
     /**
      * Run the configured ContextInitializers.

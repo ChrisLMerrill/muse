@@ -113,7 +113,7 @@ public class StepTests
     public void verifySuccess() throws MuseExecutionError
         {
         EventLog log = new EventLog();
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext();
+        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), null);
         test_context.addEventListener(log);
 
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue("abc");

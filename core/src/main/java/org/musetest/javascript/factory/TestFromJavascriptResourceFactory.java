@@ -2,6 +2,7 @@ package org.musetest.javascript.factory;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.javascript.*;
@@ -29,7 +30,7 @@ public class TestFromJavascriptResourceFactory implements FromJavascriptResource
         Invocable inv = (Invocable) engine;
         try
             {
-            inv.invokeFunction(JavascriptTest.FUNCTION_NAME, new DefaultTestExecutionContext());
+            inv.invokeFunction(JavascriptTest.FUNCTION_NAME, new BaseExecutionContext(new SimpleProject()));
             resources.add(new JavascriptTest(origin));
             }
         catch (ScriptException e)
@@ -45,7 +46,7 @@ public class TestFromJavascriptResourceFactory implements FromJavascriptResource
         return resources;
         }
 
-    final static Logger LOG = LoggerFactory.getLogger(TestFromJavascriptResourceFactory.class);
+    private final static Logger LOG = LoggerFactory.getLogger(TestFromJavascriptResourceFactory.class);
     }
 
 
