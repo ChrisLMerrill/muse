@@ -81,6 +81,11 @@ public class ResourceMetadata
         _saver = saver;
         }
 
+    public List<String> getTags()
+        {
+        return Collections.unmodifiableList(_tags);
+        }
+
     @Override
     public String toString()
         {
@@ -98,9 +103,16 @@ public class ResourceMetadata
         return builder.toString();
         }
 
+    public void addTag(String tag)
+        {
+        if (!_tags.contains(tag))
+            _tags.add(tag);
+        }
+
     private ResourceOrigin _origin;
     private MuseResourceSaver _saver;
     private Map<String, Object> _attributes = new HashMap<>();
+    private List<String> _tags = new ArrayList<>();  // ideally, we'd like this to be a set. But we'd have to convert to a list for JSON serialization.
     public final static String ID_ATTRIBUTE = "id";
     public final static String TYPE_ATTRIBUTE = "type";
     }

@@ -39,16 +39,9 @@ public class SystemVariableSource extends BaseValueSource
     public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         String name = getValue(_name, context, false, String.class);
-        for (SystemVariableProvider provider : getProject().getSystemVariableProviders().getProviders())
-            {
-            if (provider.provides(name))
-                {
-                Object value = provider.resolve(name, context);
-                context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), value));
-                return value;
-                }
-            }
-        throw new ValueSourceResolutionError("Unable to find provider for system variable: " + name);
+        Object value = context.getProject().getSystemVariableProviders().resolve(name, context);
+        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), value));
+        return value;
         }
 
     private MuseValueSource _name;

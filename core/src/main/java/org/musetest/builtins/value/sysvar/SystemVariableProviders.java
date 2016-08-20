@@ -1,7 +1,9 @@
 package org.musetest.builtins.value.sysvar;
 
 import org.musetest.core.*;
+import org.musetest.core.events.*;
 import org.musetest.core.util.*;
+import org.musetest.core.values.*;
 
 import java.util.*;
 
@@ -15,6 +17,14 @@ public class SystemVariableProviders
     public SystemVariableProviders(MuseProject project)
         {
         _project = project;
+        }
+
+    public Object resolve(String name, MuseExecutionContext context) throws ValueSourceResolutionError
+        {
+        for (SystemVariableProvider provider : _project.getSystemVariableProviders().getProviders())
+            if (provider.provides(name))
+                return provider.resolve(name, context);
+        throw new ValueSourceResolutionError("Unable to find provider for system variable: " + name);
         }
 
     public List<SystemVariableProvider> getProviders()
