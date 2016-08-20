@@ -1,6 +1,5 @@
 package org.musetest.builtins.tests.mocks;
 
-import com.sun.javafx.runtime.*;
 import org.musetest.builtins.value.sysvar.*;
 
 import java.util.*;
@@ -41,6 +40,12 @@ public class MockEnvironment implements EnvironmentProviderInterface
     public String getUsername()
         {
         return _username;
+        }
+
+    @Override
+    public String getHostname()
+        {
+        return null;
         }
 
     private Map<String, String> _vars = new HashMap<>();

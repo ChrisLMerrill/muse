@@ -11,9 +11,11 @@ public interface EnvironmentProviderInterface
     Map<String,String> getVars();
     Dictionary getProps();
     String getUsername();
+    String getHostname();
 
     String VARS_NAME = "vars";
     String PROPS_NAME = "props";
     String USERNAME_NAME = "username";
+    String HOSTNAME_NAME = "hostname";
     }
 
