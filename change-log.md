@@ -13,7 +13,7 @@
 - refactor: re-work how the test context is initialized. Separate into individual components (ContextInitializers)
 - add: ContextInitializerConfigurations for controlling which VariableLists are applied 
 - add: ListContainsSource
-- add: PropertySource and PropertyResolver support classes
+- add: PropertySource and PropertyResolver support classes, and support for object.property string expressions
 - add: SystemVariableSource and $$varname expression, SystemVariableProvider and dynamic implementation lookup 
 
 ## 0.3

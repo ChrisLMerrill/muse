@@ -16,7 +16,7 @@ import java.util.*;
 @MuseValueSourceName("Property")
 @MuseValueSourceShortDescription("get a named property from an object")
 @MuseValueSourceLongDescription("Evaluates the 'name' source to a string and then looks for a property matching that name in the 'target' source.")
-// TODO @MuseStringExpressionSupportImplementation(PropertySourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(PropertyStringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Name", description = "Name of the property to access", type = SubsourceDescriptor.Type.Named, name = "name")
 @MuseSubsourceDescriptor(displayName = "Target", description = "The object to look for the property in", type = SubsourceDescriptor.Type.Named, name = "target")
 public class PropertySource extends BaseValueSource

@@ -399,6 +399,28 @@ public class ValueSourceTests
         Assert.assertEquals(value, resolved);
         }
 
+    @Test
+    public void environmentProviderUsernameAccess() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        MuseProject project = new SimpleProject();
+        MockEnvironment environment = new MockEnvironment();
+        final String value = UUID.randomUUID().toString();
+        environment.setUsername(value);
+        EnvironmentProvider.overrideImplementation(project, environment);
+
+        ValueSourceConfiguration env_config = ValueSourceConfiguration.forType(SystemVariableSource.TYPE_ID);
+        env_config.setSource(ValueSourceConfiguration.forValue(EnvironmentProvider.VARNAME1));
+        ValueSourceConfiguration username_config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
+        username_config.addSource(PropertySource.TARGET_PARAM, env_config);
+        username_config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue(EnvironmentProviderInterface.USERNAME_NAME));
+
+        // resolve the source
+        MuseValueSource source = username_config.createSource(project);
+        Object resolved = source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID))));
+
+        Assert.assertEquals(value, resolved);
+        }
+
     private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";
 
     private Object resolveDateFormatSource(ValueSourceConfiguration date_param, ValueSourceConfiguration format_param, StepExecutionContext context) throws MuseExecutionError

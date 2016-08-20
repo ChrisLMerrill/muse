@@ -20,6 +20,11 @@ public class MockEnvironment implements EnvironmentProviderInterface
         _props.setProperty(key, value);
         }
 
+    public void setUsername(String username)
+        {
+        _username = username;
+        }
+
     @Override
     public Map<String, String> getVars()
         {
@@ -32,8 +37,15 @@ public class MockEnvironment implements EnvironmentProviderInterface
         return _props;
         }
 
+    @Override
+    public String getUsername()
+        {
+        return _username;
+        }
+
     private Map<String, String> _vars = new HashMap<>();
     private Properties _props = new Properties();
+    private String _username = null;
     }
 
 

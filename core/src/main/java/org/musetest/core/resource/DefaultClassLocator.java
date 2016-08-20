@@ -1,5 +1,7 @@
 package org.musetest.core.resource;
 
+import org.musetest.builtins.value.property.*;
+import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
 import org.reflections.*;
 import org.slf4j.*;
@@ -89,6 +91,11 @@ public class DefaultClassLocator implements ClassLocator
 
     public static ClassLocator get()
         {
+        // Not happy with this hack.
+        // These may not be retrieved before starting a test, since they are not needed for rendering the test. So we have to force lookups before a test starts.
+        DEFAULT.getImplementors(SystemVariableProvider.class);
+        DEFAULT.getImplementors(PropertyResolver.class);
+
         return DEFAULT;
         }
 

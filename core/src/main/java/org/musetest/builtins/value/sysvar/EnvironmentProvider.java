@@ -26,22 +26,9 @@ public class EnvironmentProvider implements SystemVariableProvider
             if (override != null)
                 return override;
 
-            return new DefaultImplementation();
+            return new DefaultEnvironmentProvider();
             }
         return null;
-        }
-
-    private class DefaultImplementation implements EnvironmentProviderInterface
-        {
-        public Map<String,String> getVars()
-            {
-            return System.getenv();
-            }
-
-        public Dictionary getProps()
-            {
-            return System.getProperties();
-            }
         }
 
     public final static String VARNAME1 = "env";
