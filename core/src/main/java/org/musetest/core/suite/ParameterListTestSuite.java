@@ -24,7 +24,7 @@ public class ParameterListTestSuite implements MuseTestSuite
 
         List<TestConfiguration> tests = new ArrayList<>();
         for (Map<String, Object> param_set : _parameters)
-            tests.add(new TestConfiguration(test, new VariablesInitializer(param_set)));
+            tests.add(new TestConfiguration(test, new VariableMapInitializer(param_set)));
         return tests;
         }
 

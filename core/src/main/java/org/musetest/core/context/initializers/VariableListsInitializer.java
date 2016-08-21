@@ -9,9 +9,14 @@ import org.musetest.core.variables.*;
 import java.util.*;
 
 /**
+ * Looks for all the VariableList resources in the project and (selectively) injects those
+ * variables into the context.  Selection is achieved by evaluating the VariableListCOntextInitializerConfigurations
+ * found in the ContextInitializerConfigurations in the project. If ContextInitializerConfigurations are found, all
+ * VariableLists are injected.
+ *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ProjectVariablesInitializer implements ContextInitializer
+public class VariableListsInitializer implements ContextInitializer
     {
     @Override
     public void initialize(MuseProject project, MuseExecutionContext context) throws MuseExecutionError
@@ -33,7 +38,7 @@ public class ProjectVariablesInitializer implements ContextInitializer
         {
         List<ContextInitializerConfigurations> list_of_configs = project.findResources(new ResourceMetadata(new ContextInitializerConfigurations.ContextInitializersConfigurationType()), ContextInitializerConfigurations.class);
         if (list_of_configs.size() == 0)
-            return lists;
+            return lists; // if there are no configurations, then apply all lists.
 
         Set<String> ids_of_lists_to_keep = new HashSet<>();
         for (ContextInitializerConfigurations configs : list_of_configs)

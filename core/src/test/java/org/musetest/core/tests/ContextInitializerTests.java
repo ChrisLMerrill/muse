@@ -46,7 +46,7 @@ public class ContextInitializerTests
         project.addResource(list2);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        ProjectVariablesInitializer initializer = new ProjectVariablesInitializer();
+        VariableListsInitializer initializer = new VariableListsInitializer();
         initializer.initialize(project, context);
 
         Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
@@ -77,7 +77,7 @@ public class ContextInitializerTests
         project.addResource(configurations);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        ProjectVariablesInitializer initializer = new ProjectVariablesInitializer();
+        VariableListsInitializer initializer = new VariableListsInitializer();
         initializer.initialize(project, context);
 
         Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
@@ -111,7 +111,7 @@ public class ContextInitializerTests
         project.addResource(configurations);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        ProjectVariablesInitializer initializer = new ProjectVariablesInitializer();
+        VariableListsInitializer initializer = new VariableListsInitializer();
         initializer.initialize(project, context);
 
         Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
@@ -126,7 +126,7 @@ public class ContextInitializerTests
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
         Map<String, Object> vars = new HashMap<>();
         vars.put("var1", "value1");
-        VariablesInitializer initializer = new VariablesInitializer(vars);
+        VariableMapInitializer initializer = new VariableMapInitializer(vars);
         initializer.initialize(project, context);
 
         Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));

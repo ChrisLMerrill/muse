@@ -18,7 +18,7 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         {
         _parent_context = parent_context;
 
-        parent_context.addInitializer(new ProjectVariablesInitializer());
+        parent_context.addInitializer(new VariableListsInitializer());
         parent_context.addInitializer(new TestDefaultsInitializer(this));
         }
 

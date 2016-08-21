@@ -6,11 +6,13 @@ import org.musetest.core.context.*;
 import java.util.*;
 
 /**
+ * Inject a map into the context. Intended for use by the ParameterizedTestSuite.
+ *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class VariablesInitializer implements ContextInitializer
+public class VariableMapInitializer implements ContextInitializer
     {
-    public VariablesInitializer(Map<String, Object> variables)
+    public VariableMapInitializer(Map<String, Object> variables)
         {
         _variables = variables;
         }
