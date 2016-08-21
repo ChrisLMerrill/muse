@@ -5,6 +5,7 @@ import org.musetest.builtins.tests.mocks.*;
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.context.initializers.*;
 import org.musetest.core.project.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.values.*;
@@ -71,6 +72,17 @@ public class SystemVariableTests
         Object test_var = project.getSystemVariableProviders().resolve(TestVariableProvider.SYSVAR_NAME, new DefaultTestExecutionContext(project, test));
         Assert.assertTrue(test_var instanceof TestVariableProvider.TestVariableProxy);
         Assert.assertTrue(((TestVariableProvider.TestVariableProxy)test_var).getTags().contains(tag));
+        }
+
+    @Test
+    public void varlistInitializer() throws ValueSourceResolutionError
+        {
+        final String id = UUID.randomUUID().toString();
+        MuseExecutionContext context = new BaseExecutionContext(new SimpleProject());
+        context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, id);
+        ProjectVarsInitializerSysvarProvider provider = new ProjectVarsInitializerSysvarProvider();
+
+        Assert.assertEquals(id, provider.resolve(ProjectVarsInitializerSysvarProvider.SYSVAR_NAME, context));
         }
     }
 

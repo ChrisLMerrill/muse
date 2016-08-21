@@ -16,6 +16,7 @@
 - add: PropertySource and PropertyResolver support classes, and support for object.property string expressions
 - add: SystemVariableSource and $$varname expression, SystemVariableProvider and dynamic implementation lookup
 - add: environment and test system variables
+- add: varlistid system variable for context initializers
 
 ## 0.3
 

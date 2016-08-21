@@ -40,6 +40,7 @@ public class ProjectVariablesInitializer implements ContextInitializer
             {
             for (VariableListContextInitializerConfiguration config : configs.getVariableListInitializers())
                 {
+                context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, config.getVariableListId());
                 ValueSourceConfiguration condition_config = config.getIncludeCondition();
                 MuseValueSource condition = condition_config.createSource();
                 Object result = condition.resolveValue(context);
