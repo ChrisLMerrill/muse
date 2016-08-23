@@ -44,7 +44,7 @@ public class InteractiveTestController implements MuseEventListener
 
     private InteractiveTestRunner getRunner()
         {
-        if (_runner == null)
+        if (_runner == null && _provider != null)
             {
             TestRunner runner = TestRunnerFactory.create(_provider.getProject(), _provider.getTest(), false, true);
             if (! (runner instanceof InteractiveTestRunner))
@@ -98,6 +98,9 @@ public class InteractiveTestController implements MuseEventListener
             listener.stateChanged(state);
         }
 
+    /**
+     * Get the current TestRunner, or null if there is no TestRunner active.
+     */
     public TestRunner getTestRunner()
         {
         return getRunner();
