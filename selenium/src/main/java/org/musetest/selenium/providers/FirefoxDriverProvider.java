@@ -22,6 +22,12 @@ public class FirefoxDriverProvider implements WebDriverProvider
             return null;
             }
         }
+
+    @Override
+    public String toString()
+        {
+        return "FirefoxDriver";
+        }
     }
 
 

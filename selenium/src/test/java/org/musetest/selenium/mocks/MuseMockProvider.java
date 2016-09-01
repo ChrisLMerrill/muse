@@ -18,6 +18,12 @@ public class MuseMockProvider implements WebDriverProvider
         return null;
         }
 
+    @Override
+    public String toString()
+        {
+        return "MuseMockDriver[local]";
+        }
+
     public final static String MUSE_BROWSER = "musemock";
     }
 

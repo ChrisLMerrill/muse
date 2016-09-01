@@ -37,6 +37,12 @@ public class IExploreDriverProvider implements WebDriverProvider
         _path_to_exe = path_to_exe;
         }
 
+    @Override
+    public String toString()
+        {
+        return "InternetExplorerDriver";
+        }
+
     private String _path_to_exe;
     }
 

@@ -42,6 +42,12 @@ public class RemoteDriverProvider implements WebDriverProvider
         _url = url;
         }
 
+    @Override
+    public String toString()
+        {
+        return "remote (" + _url + ")";
+        }
+
     private String _url;
 
     final static Logger LOG = LoggerFactory.getLogger(RemoteDriverProvider.class);

@@ -37,6 +37,12 @@ public class ChromeDriverProvider implements WebDriverProvider
         _path_to_exe = path_to_exe;
         }
 
+    @Override
+    public String toString()
+        {
+        return "ChromeDriver";
+        }
+
     private String _path_to_exe;
     }
 

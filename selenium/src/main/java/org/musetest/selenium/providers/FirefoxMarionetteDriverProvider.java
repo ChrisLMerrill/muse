@@ -39,6 +39,12 @@ public class FirefoxMarionetteDriverProvider implements WebDriverProvider
         _path_to_exe = path_to_exe;
         }
 
+    @Override
+    public String toString()
+        {
+        return "MarionetteDriver";
+        }
+
     private String _path_to_exe;
     }
 

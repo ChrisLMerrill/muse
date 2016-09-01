@@ -22,6 +22,12 @@ public class SafariDriverProvider implements WebDriverProvider
             return null;
             }
         }
+
+    @Override
+    public String toString()
+        {
+        return "SafariDriver";
+        }
     }
 
 

@@ -40,6 +40,23 @@ public class WebDriverProviderList implements WebDriverProviderConfiguration
         }
 
     @Override
+    public String toString()
+        {
+        StringBuilder builder = new StringBuilder("providers[");
+        boolean first = true;
+        for (WebDriverProvider provider : _providers)
+            {
+            if (first)
+                first = false;
+            else
+                builder.append(",");
+            builder.append(provider);
+            }
+        builder.append("]");
+        return builder.toString();
+        }
+
+    @Override
     public ResourceMetadata getMetadata()
         {
         return _metadata;

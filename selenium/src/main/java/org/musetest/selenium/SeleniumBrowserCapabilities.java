@@ -2,8 +2,6 @@ package org.musetest.selenium;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.resource.types.*;
-import org.musetest.javascript.factory.*;
 import org.openqa.selenium.remote.*;
 
 import java.util.*;
@@ -38,8 +36,6 @@ public class SeleniumBrowserCapabilities implements MuseResource
         return capabilities;
         }
 
-    private Map<String, Object> _capabilities = new HashMap<>();
-
     @SuppressWarnings("unused")  // required for Jackson de/serialization
     public Map<String, Object> getCapabilities()
         {
@@ -51,6 +47,32 @@ public class SeleniumBrowserCapabilities implements MuseResource
         {
         _capabilities = capabilities;
         }
+
+    @Override
+    public String toString()
+        {
+        StringBuilder builder = new StringBuilder(getMetadata().getId());
+        builder.append("[");
+        boolean first = true;
+        for (String key : _capabilities.keySet())
+            {
+            if (first)
+                first = false;
+            else
+                builder.append(", ");
+
+            builder.append(key);
+            builder.append("=");
+            Object value = _capabilities.get(key);
+            if (value != null)
+                value = value.toString();
+            builder.append(value);
+            }
+        builder.append("]");
+        return builder.toString();
+        }
+
+    private Map<String, Object> _capabilities = new HashMap<>();
 
     private ResourceMetadata _metadata = new ResourceMetadata();
 
