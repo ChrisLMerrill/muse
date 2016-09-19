@@ -139,16 +139,22 @@ public class ContextInitializerTests
         ContextInitializerConfigurations main_config = new ContextInitializerConfigurations();
         main_config.addContextInitializerChangeListener(listener);
 
+        // add a new config
         VariableListContextInitializerConfiguration config = new VariableListContextInitializerConfiguration();
         main_config.addVariableListInitializer(config);
-
         Assert.assertEquals(config, listener._added);
         Assert.assertNull(listener._removed);
 
+        // remove the config
         listener._added = null;
         main_config.removeVariableListInitializer(config);
-
         Assert.assertEquals(config, listener._removed);
+        Assert.assertNull(listener._added);
+
+        // make sure the listener removal works
+        main_config.removeContextInitializerChangeListener(listener);
+        listener._removed = null;
+        main_config.addVariableListInitializer(config);
         Assert.assertNull(listener._added);
         }
 
