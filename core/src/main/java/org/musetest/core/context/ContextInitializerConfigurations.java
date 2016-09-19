@@ -1,6 +1,7 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
+import org.musetest.core.context.initializers.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 
@@ -14,7 +15,7 @@ public class ContextInitializerConfigurations implements MuseResource
     {
     public List<VariableListContextInitializerConfiguration> getVariableListInitializers()
         {
-        return _var_lists;
+        return Collections.unmodifiableList(_var_lists);
         }
 
     @SuppressWarnings("unused")  // required for Json de/serialization
@@ -29,13 +30,43 @@ public class ContextInitializerConfigurations implements MuseResource
         return _metadata;
         }
 
-    public void addVariableListCondition(VariableListContextInitializerConfiguration config)
+    public void addVariableListInitializer(VariableListContextInitializerConfiguration config)
         {
         _var_lists.add(config);
+        if (_listeners != null)
+            for (ContextInitializerChangeListener listener : _listeners)
+                listener.variableListInitializerAdded(config);
+        }
+
+    public void removeVariableListInitializer(VariableListContextInitializerConfiguration config)
+        {
+        _var_lists.remove(config);
+        if (_listeners != null)
+            for (ContextInitializerChangeListener listener : _listeners)
+                listener.variableListInitializerRemoved(config);
+        }
+
+    public void addContextInitializerChangeListener(ContextInitializerChangeListener listener)
+        {
+        if (_listeners == null)
+            _listeners = new ArrayList<>();
+        _listeners.add(listener);
+        }
+
+    public void removeContextInitializerChangeListener(ContextInitializerChangeListener listener)
+        {
+        if (_listeners == null)
+            return;
+
+        _listeners.remove(listener);
+        if (_listeners.isEmpty())
+            _listeners = null;
         }
 
     private List<VariableListContextInitializerConfiguration> _var_lists = new ArrayList<>();
     private ResourceMetadata _metadata = new ResourceMetadata(new ContextInitializersConfigurationType());
+    private transient List<ContextInitializerChangeListener> _listeners;
+
 
     @SuppressWarnings("unused")  // discovered via reflection
     public static class ContextInitializersConfigurationType extends ResourceType
@@ -45,6 +76,7 @@ public class ContextInitializerConfigurations implements MuseResource
             super(ContextInitializerConfigurations.class.getAnnotation(MuseTypeId.class).value(), "Context Initializers", ContextInitializerConfigurations.class);
             }
         }
+
     }
 
 
