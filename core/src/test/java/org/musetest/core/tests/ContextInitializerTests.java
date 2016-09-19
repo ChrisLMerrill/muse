@@ -73,7 +73,7 @@ public class ContextInitializerTests
         VariableListContextInitializerConfiguration config = new VariableListContextInitializerConfiguration();
         config.setVariableListId("list2");
         config.setIncludeCondition(ValueSourceConfiguration.forValue(Boolean.TRUE));
-        configurations.addVariableListCondition(config);
+        configurations.addVariableListInitializer(config);
         project.addResource(configurations);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
@@ -107,7 +107,7 @@ public class ContextInitializerTests
         condition.addSource(EqualityCondition.LEFT_PARAM, ValueSourceConfiguration.forValue("list2"));
         condition.addSource(EqualityCondition.RIGHT_PARAM, ValueSourceConfiguration.forTypeWithSource(SystemVariableSource.TYPE_ID, ValueSourceConfiguration.forValue(ProjectVarsInitializerSysvarProvider.SYSVAR_NAME)));
         config.setIncludeCondition(condition);
-        configurations.addVariableListCondition(config);
+        configurations.addVariableListInitializer(config);
         project.addResource(configurations);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
@@ -130,6 +130,44 @@ public class ContextInitializerTests
         initializer.initialize(project, context);
 
         Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
+        }
+
+    @Test
+    public void listeners()
+        {
+        TestListener listener = new TestListener();
+        ContextInitializerConfigurations main_config = new ContextInitializerConfigurations();
+        main_config.addContextInitializerChangeListener(listener);
+
+        VariableListContextInitializerConfiguration config = new VariableListContextInitializerConfiguration();
+        main_config.addVariableListInitializer(config);
+
+        Assert.assertEquals(config, listener._added);
+        Assert.assertNull(listener._removed);
+
+        listener._added = null;
+        main_config.removeVariableListInitializer(config);
+
+        Assert.assertEquals(config, listener._removed);
+        Assert.assertNull(listener._added);
+        }
+
+    private class TestListener extends ContextInitializerChangeListener
+        {
+        @Override
+        public void variableListInitializerAdded(VariableListContextInitializerConfiguration config)
+            {
+            _added = config;
+            }
+
+        @Override
+        public void variableListInitializerRemoved(VariableListContextInitializerConfiguration config)
+            {
+            _removed = config;
+            }
+
+        VariableListContextInitializerConfiguration _added = null;
+        VariableListContextInitializerConfiguration _removed = null;
         }
     }
 
