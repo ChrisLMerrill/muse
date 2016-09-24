@@ -15,10 +15,20 @@ public class NamedSourceRenamedEvent extends ValueSourceChangeEvent
         _source = renamed_source;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
+    public String getNewName()
         {
-        observer.namedSubsourceRenamed(this, _old_name, _new_name, _source);
+        return _new_name;
+        }
+
+    public String getOldName()
+        {
+        return _old_name;
+        }
+
+    @Override
+    public ValueSourceConfiguration getSource()
+        {
+        return _source;
         }
 
     private final String _new_name;

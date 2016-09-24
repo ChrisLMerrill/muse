@@ -34,12 +34,6 @@ public class SubsourceModificationEvent extends ValueSourceChangeEvent
         _subsource_name = name;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
-        {
-        observer.subsourceModified(this);
-        }
-
     public ValueSourceChangeEvent getModificationEvent()
         {
         return _modification_event;

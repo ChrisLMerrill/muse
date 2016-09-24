@@ -24,12 +24,6 @@ public class TypeChangeEvent extends ValueSourceChangeEvent
         return _old_type;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
-        {
-        observer.typeChanged(this, _old_type, _new_type);
-        }
-
     private String _new_type;
     private String _old_type;
     }

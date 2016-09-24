@@ -16,12 +16,6 @@ public class ValueChangeEvent extends ValueSourceChangeEvent
         _old_value = old_value;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
-        {
-        observer.valueChanged(this, _old_value, _new_value);
-        }
-
     public Object getNewValue()
         {
         return _new_value;

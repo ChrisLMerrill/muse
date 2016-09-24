@@ -229,7 +229,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         return _listeners;
         }
 
-    private synchronized ValueSourceChangeListener getSourceListener()
+    private synchronized ChangeEventListener getSourceListener()
         {
         if (_source_listener == null)
             _source_listener = new SourceChangeListener();
@@ -259,7 +259,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
 
     private transient Set<StepConfigurationChangeListener> _listeners;
 
-    private transient ValueSourceChangeListener _source_listener;
+    private transient ChangeEventListener _source_listener;
 
     public final static String META_DESCRIPTION = "description";
 
@@ -276,9 +276,12 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
     private class SourceChangeListener extends ValueSourceChangeObserver
         {
         @Override
-        public void changed(ValueSourceChangeEvent event)
+        public void changeEventRaised(ChangeEvent event)
             {
-            ValueSourceConfiguration source = event.getSource();
+            if (!(event instanceof ValueSourceChangeEvent))
+                return;
+            ValueSourceChangeEvent e = (ValueSourceChangeEvent) event;
+            ValueSourceConfiguration source = e.getSource();
             String source_name = null;
             for (String name : _sources.keySet())
                 if (source == _sources.get(name))
@@ -289,7 +292,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
             if (source_name == null)
                 LOG.error("A change event for a value source received, but this step does not contain this source. Someone forget to de-register a listener?");
             else
-                notifyListeners(new SourceChangedEvent(StepConfiguration.this, event, source_name));
+                notifyListeners(new SourceChangedEvent(StepConfiguration.this, e, source_name));
             }
         }
 

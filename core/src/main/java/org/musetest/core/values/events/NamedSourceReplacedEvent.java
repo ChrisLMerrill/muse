@@ -15,10 +15,19 @@ public class NamedSourceReplacedEvent extends ValueSourceChangeEvent
         _new_source = new_source;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
+    public String getName()
         {
-        observer.namedSubsourceReplaced(this, _name, _old_source, _new_source);
+        return _name;
+        }
+
+    public ValueSourceConfiguration getOldSource()
+        {
+        return _old_source;
+        }
+
+    public ValueSourceConfiguration getNewSource()
+        {
+        return _new_source;
         }
 
     private final String _name;

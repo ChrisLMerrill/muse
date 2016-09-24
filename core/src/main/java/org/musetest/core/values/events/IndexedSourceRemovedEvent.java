@@ -14,10 +14,14 @@ public class IndexedSourceRemovedEvent extends ValueSourceChangeEvent
         _removed_source = removed_source;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
+    public int getIndex()
         {
-        observer.indexedSubsourceRemoved(this, _index, _removed_source);
+        return _index;
+        }
+
+    public ValueSourceConfiguration getRemovedSource()
+        {
+        return _removed_source;
         }
 
     private final int _index;

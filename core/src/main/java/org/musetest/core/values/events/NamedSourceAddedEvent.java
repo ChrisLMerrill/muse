@@ -14,15 +14,14 @@ public class NamedSourceAddedEvent extends ValueSourceChangeEvent
         _added_source = added_source;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
-        {
-        observer.namedSubsourceAdded(this, _name, _added_source);
-        }
-
     public String getName()
         {
         return _name;
+        }
+
+    public ValueSourceConfiguration getAddedSource()
+        {
+        return _added_source;
         }
 
     private final String _name;

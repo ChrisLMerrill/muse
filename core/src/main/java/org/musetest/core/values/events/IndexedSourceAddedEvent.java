@@ -14,10 +14,14 @@ public class IndexedSourceAddedEvent extends ValueSourceChangeEvent
         _added_source = added_source;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
+    public int getIndex()
         {
-        observer.indexedSubsourceAdded(this, _index, _added_source);
+        return _index;
+        }
+
+    public ValueSourceConfiguration getAddedSource()
+        {
+        return _added_source;
         }
 
     private final int _index;

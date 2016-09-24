@@ -16,12 +16,6 @@ public class SingularSubsourceChangeEvent extends ValueSourceChangeEvent
         _old_source = old_source;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
-        {
-        observer.subsourceChanged(this, _old_source, _new_source);
-        }
-
     public ValueSourceConfiguration getNewSource()
         {
         return _new_source;

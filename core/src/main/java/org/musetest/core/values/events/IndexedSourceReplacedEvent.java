@@ -15,10 +15,19 @@ public class IndexedSourceReplacedEvent extends ValueSourceChangeEvent
         _new_source = new_source;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
+    public int getIndex()
         {
-        observer.indexedSubsourceReplaced(this, _index, _old_source, _new_source);
+        return _index;
+        }
+
+    public ValueSourceConfiguration getOldSource()
+        {
+        return _old_source;
+        }
+
+    public ValueSourceConfiguration getNewSource()
+        {
+        return _new_source;
         }
 
     private final int _index;

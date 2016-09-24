@@ -14,12 +14,6 @@ public class NamedSourceRemovedEvent extends ValueSourceChangeEvent
         _removed_source = removed_source;
         }
 
-    @Override
-    protected void observe(ValueSourceChangeObserver observer)
-        {
-        observer.namedSubsourceRemoved(this, _name, _removed_source);
-        }
-
     public String getName()
         {
         return _name;

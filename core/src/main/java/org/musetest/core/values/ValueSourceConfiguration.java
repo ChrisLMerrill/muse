@@ -6,6 +6,7 @@ import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.util.*;
 import org.musetest.core.values.events.*;
 import org.musetest.core.values.factory.*;
 import org.slf4j.*;
@@ -297,39 +298,39 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
         return true;
         }
 
-    public void addChangeListener(ValueSourceChangeListener listener)
+    public void addChangeListener(ChangeEventListener listener)
         {
         getListenersInternal().add(listener);
         }
 
-    public boolean removeChangeListener(ValueSourceChangeListener listener)
+    public boolean removeChangeListener(ChangeEventListener listener)
         {
         return getListenersInternal().remove(listener);
         }
 
-    private void notifyListeners(ValueSourceChangeEvent event)
+    private void notifyListeners(ChangeEvent event)
         {
-        for (ValueSourceChangeListener listener : getListeners()) // use the public method - to be sure the set isn't modified while we're working (and get ConcurrentModificationException)
-            listener.changed(event);
+        for (ChangeEventListener listener : getListeners()) // use the public method - to be sure the set isn't modified while we're working (and get ConcurrentModificationException)
+            listener.changeEventRaised(event);
         }
 
     @JsonIgnore
     @SuppressWarnings({"unused", "WeakerAccess"})  // used by GUI
-    public Set<ValueSourceChangeListener> getListeners()
+    public Set<ChangeEventListener> getListeners()
         {
-        HashSet<ValueSourceChangeListener> new_set = new HashSet<>();
+        HashSet<ChangeEventListener> new_set = new HashSet<>();
         new_set.addAll(getListenersInternal());
         return new_set;
         }
 
-    private Set<ValueSourceChangeListener> getListenersInternal()
+    private Set<ChangeEventListener> getListenersInternal()
         {
         if (_listeners == null)
             _listeners = new LinkedHashSet<>();
         return _listeners;
         }
 
-    private synchronized ValueSourceChangeListener getSubsourceListener()
+    private synchronized ChangeEventListener getSubsourceListener()
         {
         if (_listener == null)
             _listener = new SubsourceChangeListener();
@@ -400,26 +401,29 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
     private Map<String, ValueSourceConfiguration> _source_map;
     private List<ValueSourceConfiguration> _source_list;
 
-    private transient Set<ValueSourceChangeListener> _listeners;
-    private transient ValueSourceChangeListener _listener;
+    private transient Set<ChangeEventListener> _listeners;
+    private transient ChangeEventListener _listener;
 
     private class SubsourceChangeListener extends ValueSourceChangeObserver
         {
         @Override
-        public void changed(ValueSourceChangeEvent event)
+        public void changeEventRaised(ChangeEvent event)
             {
+            if (! (event instanceof ValueSourceChangeEvent))
+                return;
+            ValueSourceChangeEvent e = (ValueSourceChangeEvent) event;
             SubsourceModificationEvent mod_event = null;
-            ValueSourceConfiguration modified = event.getSource();
+            ValueSourceConfiguration modified = e.getSource();
             if (modified == _source)
-                mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, event);
+                mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, e);
             else if (_source_list != null && _source_list.contains(modified))
-                mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, _source_list.indexOf(modified), event);
+                mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, _source_list.indexOf(modified), e);
             else if (_source_map != null)
                 {
                 for (String key : _source_map.keySet())
                     {
                     if (_source_map.get(key) == modified)
-                        mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, key, event);
+                        mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, key, e);
                     }
                 }
             if (mod_event == null)

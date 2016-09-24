@@ -62,7 +62,7 @@ public class ValueSourceChangeListenerTests
         source.addChangeListener(new ValueSourceChangeObserver()
             {
             @Override
-            public void subsourceChanged(SingularSubsourceChangeEvent event, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
+            public void singleSubsourceReplaced(SingularSubsourceChangeEvent event, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
                 {
                 if (old_source.equals(old_subsource) && new_source.equals(new_subsource))
                     notified.set(true);
@@ -251,7 +251,7 @@ public class ValueSourceChangeListenerTests
         ValueSourceChangeObserver listener = new ValueSourceChangeObserver()
             {
             @Override
-            public void subsourceModified(SubsourceModificationEvent event)
+            public void subsourceChanged(SubsourceModificationEvent event)
                 {
                 notification.set(event);
                 }
@@ -293,7 +293,7 @@ public class ValueSourceChangeListenerTests
         ValueSourceChangeObserver listener = new ValueSourceChangeObserver()
             {
             @Override
-            public void subsourceModified(SubsourceModificationEvent event)
+            public void subsourceChanged(SubsourceModificationEvent event)
                 {
                 notification.set(event);
                 }
@@ -336,7 +336,7 @@ public class ValueSourceChangeListenerTests
         ValueSourceChangeObserver listener = new ValueSourceChangeObserver()
             {
             @Override
-            public void subsourceModified(SubsourceModificationEvent event)
+            public void subsourceChanged(SubsourceModificationEvent event)
                 {
                 notification.set(event);
                 }
@@ -388,14 +388,15 @@ public class ValueSourceChangeListenerTests
         AtomicBoolean notified = new AtomicBoolean(false);
         source.addChangeListener(new ValueSourceChangeObserver()
             {
+
             @Override
-            public void changed(ValueSourceChangeEvent event)
+            public void changeEventRaised(ChangeEvent event)
                 {
                 notified.set(true);
                 }
 
             @Override
-            public void subsourceChanged(SingularSubsourceChangeEvent event, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
+            public void singleSubsourceReplaced(SingularSubsourceChangeEvent event, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
                 {
                 notified.set(true);
                 }
