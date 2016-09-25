@@ -6,7 +6,8 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-class UnknownValueSourceDescriptor implements ValueSourceDescriptor
+@SuppressWarnings("WeakerAccess")
+public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
     {
     UnknownValueSourceDescriptor(String type, MuseProject project)
         {

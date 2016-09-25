@@ -6,8 +6,8 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@SuppressWarnings("unused")  // used via reflection
-class PropertyStringExpressionSupport extends BaseValueSourceStringExpressionSupport
+@SuppressWarnings({"unused", "WeakerAccess"})  // used via reflection
+public class PropertyStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     @Override
     public ValueSourceConfiguration fromBinaryExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project)
