@@ -5,8 +5,10 @@ import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.events.*;
+import org.musetest.core.step.events.TypeChangeEvent;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.events.*;
 
 import java.util.concurrent.atomic.*;
 
@@ -97,31 +99,39 @@ public class StepConfigurationChangeListenerTests
         config.setSource(LogMessage.MESSAGE_PARAM, old_source);
 
         AtomicReference<String> changed_name = new AtomicReference(null);
-        AtomicReference<ValueSourceConfiguration> changed_old_source = new AtomicReference(null);
-        AtomicReference<ValueSourceConfiguration> changed_new_source = new AtomicReference(null);
+        AtomicReference<ValueSourceConfiguration> replaced_old_source = new AtomicReference(null);
+        AtomicReference<ValueSourceConfiguration> replaced_new_source = new AtomicReference(null);
+        AtomicReference<ValueSourceConfiguration> removed_source = new AtomicReference(null);
 
-        config.addChangeListener(new StepChangeObserver()
+        config.addChangeListener(new NamedSourceChangeObserver()
             {
-            public void sourceAddedOrRemoved(SourceAddedOrRemovedEvent event, String name, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
+            @Override
+            protected void namedSubsourceReplaced(NamedSourceReplacedEvent event, String name, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
                 {
                 changed_name.set(name);
-                changed_old_source.set(old_source);
-                changed_new_source.set(new_source);
+                replaced_old_source.set(old_source);
+                replaced_new_source.set(new_source);
+                }
+
+            @Override
+            protected void namedSubsourceRemoved(NamedSourceRemovedEvent event, String name, ValueSourceConfiguration source)
+                {
+                changed_name.set(name);
+                removed_source.set(source);
                 }
             });
 
         config.setSource(LogMessage.MESSAGE_PARAM, new_source);
 
         Assert.assertEquals(LogMessage.MESSAGE_PARAM, changed_name.get());
-        Assert.assertEquals(old_source, changed_old_source.get());
-        Assert.assertEquals(new_source, changed_new_source.get());
+        Assert.assertEquals(old_source, replaced_old_source.get());
+        Assert.assertEquals(new_source, replaced_new_source.get());
 
-        // remove the source and ensure we get notified
+        // remove the (new) source and ensure we get notified
         changed_name.set(null);
         config.setSource(LogMessage.MESSAGE_PARAM, null);
         Assert.assertEquals(LogMessage.MESSAGE_PARAM, changed_name.get());
-        Assert.assertEquals(new_source, changed_old_source.get());
-        Assert.assertEquals(null, changed_new_source.get());
+        Assert.assertEquals(new_source, removed_source.get());
         }
 
     @Test

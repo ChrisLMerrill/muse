@@ -73,14 +73,10 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
     public void setSources(Map<String, ValueSourceConfiguration> sources)
         {
         if (_sources != null)
-            for (ValueSourceConfiguration source : _sources.values())
-                if (source != null)
-                    source.removeChangeListener(getSourceListener());
+            _sources.values().stream().filter(source -> source != null).forEach(source -> source.removeChangeListener(getSourceListener()));
         _sources = sources;
         if (_sources != null)
-            for (ValueSourceConfiguration source : _sources.values())
-                if (source != null)
-                    source.addChangeListener(getSourceListener());
+            _sources.values().stream().filter(source -> source != null).forEach(source -> source.addChangeListener(getSourceListener()));
         }
 
     @JsonIgnore
@@ -143,7 +139,13 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
             _sources.put(name, source);
             if (source != null)
                 source.addChangeListener(getSourceListener());
-            notifyListeners(new SourceAddedOrRemovedEvent(this, name, old_source, source));
+
+            if (old_source == null)
+                notifyListeners(new NamedSourceAddedEvent(this, name, source));
+            else if (source == null)
+                notifyListeners(new NamedSourceRemovedEvent(this, name, old_source));
+            else
+                notifyListeners(new NamedSourceReplacedEvent(this, name, old_source, source));
             }
         }
 
@@ -218,7 +220,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         return builder.toString();
         }
 
-    private synchronized Set<StepConfigurationChangeListener> getListeners()
+    private synchronized Set<ChangeEventListener> getListeners()
         {
         if (_listeners == null)
             {
@@ -236,18 +238,18 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         return _source_listener;
         }
 
-    private void notifyListeners(StepChangeEvent event)
+    private void notifyListeners(ChangeEvent event)
         {
-        for (StepConfigurationChangeListener listener : getListeners())
-            listener.changed(event);
+        for (ChangeEventListener listener : getListeners())
+            listener.changeEventRaised(event);
         }
 
-    public void addChangeListener(StepConfigurationChangeListener listener)
+    public void addChangeListener(ChangeEventListener listener)
         {
         getListeners().add(listener);
         }
 
-    public void removeChangeListener(StepConfigurationChangeListener listener)
+    public void removeChangeListener(ChangeEventListener listener)
         {
         getListeners().remove(listener);
         }
@@ -257,7 +259,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
     private List<StepConfiguration> _children = null;
     private Map<String, Object> _metadata = null;
 
-    private transient Set<StepConfigurationChangeListener> _listeners;
+    private transient Set<ChangeEventListener> _listeners;
 
     private transient ChangeEventListener _source_listener;
 

@@ -1,27 +1,25 @@
 package org.musetest.core.step.events;
 
 import org.musetest.core.step.*;
+import org.musetest.core.util.*;
 
 /**
  * Describes a change to a ValueSourceConfiguration.
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class StepChangeEvent
+abstract class StepChangeEvent extends ChangeEvent
     {
-    public StepChangeEvent(StepConfiguration step)
+    StepChangeEvent(StepConfiguration step)
         {
-        _step = step;
+        super(step);
         }
 
     public StepConfiguration getStep()
         {
-        return _step;
+        return (StepConfiguration) _target;
         }
 
-    protected abstract void observe(StepChangeObserver observer);
-
-    private StepConfiguration _step;
     }
 
 

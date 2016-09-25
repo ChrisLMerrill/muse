@@ -18,6 +18,8 @@ public class ValueSourceChangeObserver implements ChangeEventListener
     @Override
     public void changeEventRaised(ChangeEvent event)
         {
+        if (!(event instanceof ValueSourceChangeEvent))
+            return;
         if (event instanceof IndexedSourceAddedEvent)
             {
             IndexedSourceAddedEvent e = (IndexedSourceAddedEvent) event;

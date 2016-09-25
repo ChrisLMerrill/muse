@@ -15,10 +15,21 @@ public class MetadataChangeEvent extends StepChangeEvent
         _new_value = new_value;
         }
 
-    @Override
-    protected void observe(StepChangeObserver observer)
+    public String getName()
         {
-        observer.metadataChanged(this, _name, _old_value, _new_value);
+        return _name;
+        }
+
+    @SuppressWarnings("WeakerAccess")
+    public Object getOldValue()
+        {
+        return _old_value;
+        }
+
+    @SuppressWarnings("WeakerAccess")
+    public Object getNewValue()
+        {
+        return _new_value;
         }
 
     private final String _name;

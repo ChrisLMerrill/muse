@@ -16,10 +16,19 @@ public class SourceAddedOrRemovedEvent extends StepChangeEvent
         _new_source = new_source;
         }
 
-    @Override
-    protected void observe(StepChangeObserver observer)
+    public String getName()
         {
-        observer.sourceAddedOrRemoved(this, _name, _old_source, _new_source);
+        return _name;
+        }
+
+    public ValueSourceConfiguration getOldSource()
+        {
+        return _old_source;
+        }
+
+    public ValueSourceConfiguration getNewSource()
+        {
+        return _new_source;
         }
 
     private final String _name;

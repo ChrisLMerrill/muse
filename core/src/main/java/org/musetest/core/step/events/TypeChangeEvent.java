@@ -14,10 +14,16 @@ public class TypeChangeEvent extends StepChangeEvent
         _new_type = new_type;
         }
 
-    @Override
-    protected void observe(StepChangeObserver observer)
+    @SuppressWarnings("WeakerAccess")
+    public String getOldType()
         {
-        observer.typeChanged(this, _old_type, _new_type);
+        return _old_type;
+        }
+
+    @SuppressWarnings("WeakerAccess")
+    public String getNewType()
+        {
+        return _new_type;
         }
 
     private final String _old_type;

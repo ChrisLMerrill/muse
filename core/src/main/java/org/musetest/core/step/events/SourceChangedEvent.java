@@ -18,10 +18,14 @@ public class SourceChangedEvent extends StepChangeEvent
         _name = source_name;
         }
 
-    @Override
-    protected void observe(StepChangeObserver observer)
+    public String getName()
         {
-        observer.sourceChanged(this, _name, _event.getSource());
+        return _name;
+        }
+
+    public ValueSourceChangeEvent getEvent()
+        {
+        return _event;
         }
 
     private final String _name;
