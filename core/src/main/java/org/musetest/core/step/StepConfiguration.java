@@ -304,9 +304,9 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         getListeners().add(listener);
         }
 
-    public void removeChangeListener(ChangeEventListener listener)
+    public boolean removeChangeListener(ChangeEventListener listener)
         {
-        getListeners().remove(listener);
+        return getListeners().remove(listener);
         }
 
     private String _step_type;
