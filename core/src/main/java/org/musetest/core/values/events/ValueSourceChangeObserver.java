@@ -18,27 +18,7 @@ public class ValueSourceChangeObserver implements ChangeEventListener
     @Override
     public void changeEventRaised(ChangeEvent event)
         {
-        if (event instanceof NamedSourceAddedEvent)
-            {
-            NamedSourceAddedEvent e = (NamedSourceAddedEvent) event;
-            namedSubsourceAdded(e, e.getName(), e.getAddedSource());
-            }
-        else if (event instanceof NamedSourceRemovedEvent)
-            {
-            NamedSourceRemovedEvent e = (NamedSourceRemovedEvent) event;
-            namedSubsourceRemoved(e, e.getName(), e.getRemovedSource());
-            }
-        else if (event instanceof NamedSourceRenamedEvent)
-            {
-            NamedSourceRenamedEvent e = (NamedSourceRenamedEvent) event;
-            namedSubsourceRenamed(e, e.getOldName(), e.getNewName(), e.getSource());
-            }
-        else if (event instanceof NamedSourceReplacedEvent)
-            {
-            NamedSourceReplacedEvent e = (NamedSourceReplacedEvent) event;
-            namedSubsourceReplaced(e, e.getName(), e.getOldSource(), e.getNewSource());
-            }
-        else if (event instanceof IndexedSourceAddedEvent)
+        if (event instanceof IndexedSourceAddedEvent)
             {
             IndexedSourceAddedEvent e = (IndexedSourceAddedEvent) event;
             indexedSubsourceAdded(e, e.getIndex(), e.getAddedSource());
@@ -76,10 +56,6 @@ public class ValueSourceChangeObserver implements ChangeEventListener
     protected void valueChanged(ValueChangeEvent event, Object old_value, Object new_value) {}
     protected void singleSubsourceReplaced(SingularSubsourceChangeEvent event, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source) {}
     protected void subsourceChanged(SubsourceModificationEvent event) {}
-    protected void namedSubsourceAdded(NamedSourceAddedEvent event, String name, ValueSourceConfiguration source) {}
-    protected void namedSubsourceRemoved(NamedSourceRemovedEvent event, String name, ValueSourceConfiguration source) {}
-    protected void namedSubsourceRenamed(NamedSourceRenamedEvent event, String old_name, String new_name, ValueSourceConfiguration source) {}
-    protected void namedSubsourceReplaced(NamedSourceReplacedEvent event, String name, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source) {}
     protected void indexedSubsourceAdded(IndexedSourceAddedEvent event, int index, ValueSourceConfiguration source) {}
     protected void indexedSubsourceRemoved(IndexedSourceRemovedEvent event, int index, ValueSourceConfiguration source) {}
     protected void indexedSubsourceReplaced(IndexedSourceReplacedEvent event, int index, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source) {}

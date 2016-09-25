@@ -6,9 +6,9 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
+class UnknownValueSourceDescriptor implements ValueSourceDescriptor
     {
-    public UnknownValueSourceDescriptor(String type, MuseProject project)
+    UnknownValueSourceDescriptor(String type, MuseProject project)
         {
         _type = type;
         _project = project;
@@ -56,13 +56,10 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
                 first = false;
                 }
             }
-        if (source.getSourceMap() != null && source.getSourceMap().size() > 0)
+        for (String source_name : source.getSourceNames())
             {
-            for (String source_name : source.getSourceMap().keySet())
-                {
-                appendSourceDescription(builder, source.getSourceMap().get(source_name), first);
-                first = false;
-                }
+            appendSourceDescription(builder, source.getSource(source_name), first);
+            first = false;
             }
         return builder.toString();
         }
@@ -103,6 +100,6 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
         return new SubsourceDescriptor[0];
         }
 
-    protected String _type;
+    String _type;
     protected MuseProject _project;
     }

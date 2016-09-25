@@ -79,7 +79,7 @@ public class ValueSourceChangeListenerTests
         final String new_name = "new_source";
         final ValueSourceConfiguration new_subsource = ValueSourceConfiguration.forValue(123L);
         final AtomicBoolean notified = new AtomicBoolean(false);
-        source.addChangeListener(new ValueSourceChangeObserver()
+        source.addChangeListener(new NamedSourceChangeObserver()
             {
             @Override
             public void namedSubsourceAdded(NamedSourceAddedEvent event, String name, ValueSourceConfiguration source)
@@ -100,7 +100,7 @@ public class ValueSourceChangeListenerTests
         final ValueSourceConfiguration removed_subsource = ValueSourceConfiguration.forValue(123L);
         source.addSource(removed_name, removed_subsource);
         final AtomicBoolean notified = new AtomicBoolean(false);
-        source.addChangeListener(new ValueSourceChangeObserver()
+        source.addChangeListener(new NamedSourceChangeObserver()
             {
             @Override
             public void namedSubsourceRemoved(NamedSourceRemovedEvent event, String name, ValueSourceConfiguration source)
@@ -122,7 +122,7 @@ public class ValueSourceChangeListenerTests
         final ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue(123L);
         source.addSource(name1, subsource);
         final AtomicBoolean notified = new AtomicBoolean(false);
-        source.addChangeListener(new ValueSourceChangeObserver()
+        source.addChangeListener(new NamedSourceChangeObserver()
             {
             @Override
             public void namedSubsourceRenamed(NamedSourceRenamedEvent event, String old_name, String new_name, ValueSourceConfiguration source)
@@ -144,7 +144,7 @@ public class ValueSourceChangeListenerTests
         final ValueSourceConfiguration replacement_subsource = ValueSourceConfiguration.forValue(123L);
         source.addSource(source_name, original_subsource);
         final AtomicBoolean notified = new AtomicBoolean(false);
-        source.addChangeListener(new ValueSourceChangeObserver()
+        source.addChangeListener(new NamedSourceChangeObserver()
             {
             @Override
             public void namedSubsourceReplaced(NamedSourceReplacedEvent event, String name, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)

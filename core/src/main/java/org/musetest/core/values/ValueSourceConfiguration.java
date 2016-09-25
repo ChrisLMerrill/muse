@@ -91,9 +91,12 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
      *
      * @return A map of named value sources contained in this source.
      */
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public Map<String, ValueSourceConfiguration> getSourceMap()
         {
-        return _source_map;
+        if (_source_map == null)
+            return null;
+        return Collections.unmodifiableMap(_source_map);
         }
 
     @JsonIgnore
@@ -105,17 +108,15 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
         return _source_map.keySet();
         }
 
+    /**
+     * required for serialization. Should not be used externally
+     */
     public void setSourceMap(Map<String, ValueSourceConfiguration> source_map)
         {
         if (_source_map != null)
-            for (ValueSourceConfiguration source : _source_map.values())
-                if (source != null)
-                    source.removeChangeListener(getSubsourceListener());
+            throw new IllegalArgumentException("This method only to be used for deserialization. Cannot call again");
         _source_map = source_map;
-        if (_source_map != null)
-            for (ValueSourceConfiguration source : _source_map.values())
-                if (source != null)
-                    source.addChangeListener(getSubsourceListener());
+        _source_map.values().stream().filter(source -> source != null).forEach(source -> source.addChangeListener(getSubsourceListener()));
         }
 
     public List<ValueSourceConfiguration> getSourceList()
@@ -332,9 +333,9 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     private synchronized ChangeEventListener getSubsourceListener()
         {
-        if (_listener == null)
-            _listener = new SubsourceChangeListener();
-        return _listener;
+        if (_subsource_change_listener == null)
+            _subsource_change_listener = new SubsourceChangeListener();
+        return _subsource_change_listener;
         }
 
     @Override
@@ -402,7 +403,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
     private List<ValueSourceConfiguration> _source_list;
 
     private transient Set<ChangeEventListener> _listeners;
-    private transient ChangeEventListener _listener;
+    private transient ChangeEventListener _subsource_change_listener;
 
     private class SubsourceChangeListener extends ValueSourceChangeObserver
         {
@@ -462,19 +463,6 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
         ValueSourceConfiguration config = new ValueSourceConfiguration();
         config.setType(type);
         config.setValue(value);
-        return config;
-        }
-
-    public static ValueSourceConfiguration forTypeWithIndexedSource(String type, Object value)
-        {
-        ValueSourceConfiguration config = new ValueSourceConfiguration();
-        config.setType(type);
-        ValueSourceConfiguration subsource;
-        if (value instanceof  ValueSourceConfiguration)
-            subsource = (ValueSourceConfiguration) value;
-        else
-            subsource = ValueSourceConfiguration.forValue(value);
-        config.addSource(0, subsource);
         return config;
         }
 
