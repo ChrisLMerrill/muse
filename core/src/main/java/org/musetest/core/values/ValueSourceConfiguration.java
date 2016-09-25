@@ -159,9 +159,9 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
         ValueSourceConfiguration old_source = _source_map.get(name);
         if (!(Objects.equals(source, old_source)))
             {
-            _source_map.put(name, source);
             if (old_source != null)
-                old_source.removeChangeListener(getSubsourceListener());
+                throw new IllegalArgumentException(String.format("source named %s is already present. can't be added.", name));
+            _source_map.put(name, source);
             source.addChangeListener(getSubsourceListener());
             notifyListeners(new NamedSourceAddedEvent(this, name, source));
             }

@@ -354,7 +354,7 @@ public class ValueSourceChangeListenerTests
         // now test the event after we re-add another source with the same name and then modify it
         notification.set(null);
         ValueSourceConfiguration subsource2 = ValueSourceConfiguration.forValue("var2");
-        source.addSource(name, subsource2);
+        source.replaceSource(name, subsource2);
         subsource.setValue("ignorethis");
         Assert.assertNull(notification.get());
         subsource2.setValue("changed2");

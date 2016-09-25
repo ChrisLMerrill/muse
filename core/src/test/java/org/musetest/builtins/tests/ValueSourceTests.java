@@ -307,7 +307,7 @@ public class ValueSourceTests
         MuseValueSource source = config.createSource(project);
         Assert.assertFalse((boolean) source.resolveValue(new BaseExecutionContext(project)));
 
-        config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("abc"));
+        config.replaceSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("abc"));
         source = config.createSource(project);
         Assert.assertTrue((boolean) source.resolveValue(new BaseExecutionContext(project)));
         }
