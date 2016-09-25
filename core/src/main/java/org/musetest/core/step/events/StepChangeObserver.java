@@ -28,9 +28,9 @@ public class StepChangeObserver implements ChangeEventListener
             }
         }
 
-    public void typeChanged(TypeChangeEvent event, String old_type, String new_type) {}
-    public void metadataChanged(MetadataChangeEvent event, String name, Object old_value, Object new_value) {}
-    public void sourceChanged(SourceChangedEvent event, String name, ValueSourceConfiguration source) {}
+    protected void typeChanged(TypeChangeEvent event, String old_type, String new_type) {}
+    protected void metadataChanged(MetadataChangeEvent event, String name, Object old_value, Object new_value) {}
+    protected void sourceChanged(SourceChangedEvent event, String name, ValueSourceConfiguration source) {}
     }
 
 
