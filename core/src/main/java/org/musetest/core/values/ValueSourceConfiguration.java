@@ -466,6 +466,20 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
         return config;
         }
 
+    @SuppressWarnings("unused")  // used in GUI tests
+    public static ValueSourceConfiguration forTypeWithIndexedSource(String type, Object value)
+         {
+         ValueSourceConfiguration config = new ValueSourceConfiguration();
+         config.setType(type);
+         ValueSourceConfiguration subsource;
+         if (value instanceof  ValueSourceConfiguration)
+             subsource = (ValueSourceConfiguration) value;
+         else
+             subsource = ValueSourceConfiguration.forValue(value);
+         config.addSource(0, subsource);
+         return config;
+         }
+
     @SuppressWarnings("unused")  // used in GUI
     public static ValueSourceConfiguration forTypeWithNamedSource(String type, String name, Object value)
         {
