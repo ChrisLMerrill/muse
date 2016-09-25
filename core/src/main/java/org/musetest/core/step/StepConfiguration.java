@@ -65,18 +65,32 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         _children = children;
         }
 
+    /**
+     * Exists only for JSON serialization support. Should not be used for any other purpose.
+     */
     public Map<String, ValueSourceConfiguration> getSources()
         {
         return _sources;
         }
 
+    /**
+     * Exists only for JSON serialization support. Should not be used for any other purpose.
+     */
     public void setSources(Map<String, ValueSourceConfiguration> sources)
         {
         if (_sources != null)
-            _sources.values().stream().filter(source -> source != null).forEach(source -> source.removeChangeListener(getSourceListener()));
+            throw new IllegalArgumentException("This method is only for deserialization. Cannot set the map again");
         _sources = sources;
         if (_sources != null)
             _sources.values().stream().filter(source -> source != null).forEach(source -> source.addChangeListener(getSourceListener()));
+        }
+
+    @JsonIgnore
+    public Set<String> getSourceNames()
+        {
+        if (_sources == null)
+            return Collections.emptySet();
+        return _sources.keySet();
         }
 
     @JsonIgnore
@@ -163,6 +177,8 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
     @Override
     public boolean renameSource(String old_name, String new_name)
         {
+        if (_sources == null)
+            return false;
         ValueSourceConfiguration source = _sources.remove(old_name);
         if (source == null)
             return false;
@@ -174,9 +190,11 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
     @Override
     public ValueSourceConfiguration replaceSource(String name, ValueSourceConfiguration new_source)
         {
+        if (_sources == null)
+            return null;
         ValueSourceConfiguration old_source = _sources.remove(name);
         if (old_source == null)
-            throw new IllegalArgumentException(String.format("Cannot replace sub-source %s, it does not exist.", name));
+            return null;
         _sources.put(name, new_source);
         old_source.removeChangeListener(getSourceListener());
         if (new_source != null)
@@ -261,8 +279,9 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         if (_listeners == null)
             {
             _listeners = new HashSet<>();
-            for (ValueSourceConfiguration source : _sources.values())
-                source.addChangeListener(getSourceListener());
+            if (_sources != null)
+                for (ValueSourceConfiguration source : _sources.values())
+                    source.addChangeListener(getSourceListener());
             }
         return _listeners;
         }
@@ -291,7 +310,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         }
 
     private String _step_type;
-    private Map<String, ValueSourceConfiguration> _sources = new HashMap<>();
+    private Map<String, ValueSourceConfiguration> _sources = null;
     private List<StepConfiguration> _children = null;
     private Map<String, Object> _metadata = null;
 
@@ -321,12 +340,13 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
             ValueSourceChangeEvent e = (ValueSourceChangeEvent) event;
             ValueSourceConfiguration source = e.getSource();
             String source_name = null;
-            for (String name : _sources.keySet())
-                if (source == _sources.get(name))
-                    {
-                    source_name = name;
-                    break;
-                    }
+            if (_sources != null)
+                for (String name : _sources.keySet())
+                    if (source == _sources.get(name))
+                        {
+                        source_name = name;
+                        break;
+                        }
             if (source_name == null)
                 LOG.error("A change event for a value source received, but this step does not contain this source. Someone forget to de-register a listener?");
             else

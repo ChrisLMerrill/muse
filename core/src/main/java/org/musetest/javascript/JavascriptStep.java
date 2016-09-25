@@ -26,7 +26,7 @@ public class JavascriptStep extends BaseStep
         {
         StepConfiguration config = getConfiguration();
         HashMap<String, Object> values = new HashMap<>();
-        for (String name : config.getSources().keySet())
+        for (String name : config.getSourceNames())
             {
             MuseValueSource source = getValueSource(config, name, false, context.getProject());
             values.put(name, getValue(source, context, true, Object.class));
