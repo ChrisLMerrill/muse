@@ -41,7 +41,7 @@ public class TestTests
     public void stepSetupFailure()
         {
         SteppedTest test = setup();
-        test.getStep().setSource(LogMessage.MESSAGE_PARAM, null);
+        test.getStep().removeSource(LogMessage.MESSAGE_PARAM);
         MuseTestResult result = test.execute(new DefaultTestExecutionContext(new SimpleProject(), test));
 
         Assert.assertFalse(result.isPass());
@@ -50,7 +50,7 @@ public class TestTests
     private SteppedTest setup()
         {
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
-        config.setSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("abc"));
+        config.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("abc"));
         return new SteppedTest(config);
         }
     }

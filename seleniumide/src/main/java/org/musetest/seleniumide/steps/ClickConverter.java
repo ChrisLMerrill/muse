@@ -17,7 +17,7 @@ public class ClickConverter implements StepConverter
         if (command.equals(CLICK) || command.equals(CLICK_AND_WAIT))
             {
             StepConfiguration step = new StepConfiguration(ClickElement.TYPE_ID);
-            step.setSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
+            step.addSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
             return step;
             }
         return null;
@@ -29,8 +29,8 @@ public class ClickConverter implements StepConverter
         return new String[] { CLICK, CLICK_AND_WAIT };
         }     // not calling this, anyway
 
-    public static final String CLICK = "click";
-    public static final String CLICK_AND_WAIT = "clickAndWait";
+    private static final String CLICK = "click";
+    private static final String CLICK_AND_WAIT = "clickAndWait";
     }
 
 

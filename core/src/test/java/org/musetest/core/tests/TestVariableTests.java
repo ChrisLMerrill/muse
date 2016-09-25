@@ -54,7 +54,7 @@ public class TestVariableTests
         {
         StepConfiguration step = new StepConfiguration(Verify.TYPE_ID);
         ValueSourceConfiguration equals = BinaryCondition.forSources(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(VAR_NAME)), ValueSourceConfiguration.forValue(VAR_VALUE));
-        step.setSource(Verify.CONDITION_PARAM, equals);
+        step.addSource(Verify.CONDITION_PARAM, equals);
 
         return new SteppedTest(step);
         }

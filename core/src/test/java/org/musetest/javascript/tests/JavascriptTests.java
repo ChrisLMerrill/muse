@@ -68,7 +68,7 @@ public class JavascriptTests
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "javascriptStep.js");
 
         StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
-        config.setSource("param1", ValueSourceConfiguration.forValue("XYZ"));
+        config.addSource("param1", ValueSourceConfiguration.forValue("XYZ"));
 
         MuseStep step = config.createStep(project);
         Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(new DummyStepExecutionContext()).getStatus());
@@ -120,7 +120,7 @@ public class JavascriptTests
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "AccessSources.js");
 
         StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
-        config.setSource("named_source", ValueSourceConfiguration.forValue("named_value"));
+        config.addSource("named_source", ValueSourceConfiguration.forValue("named_value"));
         MuseStep step = config.createStep(project);
         DummyStepExecutionContext context = new DummyStepExecutionContext();
         Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());

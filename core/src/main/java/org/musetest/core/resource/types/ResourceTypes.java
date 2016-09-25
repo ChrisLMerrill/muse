@@ -65,9 +65,9 @@ public class ResourceTypes
 
     private Map<String, ResourceType> _types = new HashMap<>();
 
-    static class TestResourceType extends ResourceType
+    private static class TestResourceType extends ResourceType
         {
-        public TestResourceType()
+        TestResourceType()
             {
             super("test", "Test", MuseTest.class);
             }
@@ -78,9 +78,9 @@ public class ResourceTypes
             return new SteppedTest(createStarterStep());
             }
         }
-    static class MacroResourceType extends ResourceType
+    private static class MacroResourceType extends ResourceType
         {
-        public MacroResourceType()
+        MacroResourceType()
             {
             super("macro", "Macro", org.musetest.core.step.Macro.class);
             }
@@ -94,9 +94,9 @@ public class ResourceTypes
             }
 
         }
-    static class FunctionResourceType extends ResourceType
+    private static class FunctionResourceType extends ResourceType
         {
-        public FunctionResourceType()
+        FunctionResourceType()
             {
             super("function", "Function", org.musetest.core.step.Function.class);
             }
@@ -109,23 +109,23 @@ public class ResourceTypes
             return function;
             }
         }
-    static class SuiteResourceType extends ResourceType
+    private static class SuiteResourceType extends ResourceType
         {
-        public SuiteResourceType()
+        SuiteResourceType()
             {
             super("suite", "Test Suite", MuseTestSuite.class);
             }
         }
-    static class IdListSuiteResourceType extends ResourceType
+    private static class IdListSuiteResourceType extends ResourceType
         {
-        public IdListSuiteResourceType()
+        IdListSuiteResourceType()
             {
             super("suite_of_ids", "Test Suite", IdListTestSuite.class);
             }
         }
-    static class jsStepResourceType extends ResourceType
+    private static class jsStepResourceType extends ResourceType
         {
-        public jsStepResourceType()
+        jsStepResourceType()
             {
             super("jsstep", "Javascript Step", JavascriptStepResource.class);
             }
@@ -137,7 +137,7 @@ public class ResourceTypes
         step.setType(ScopedGroup.TYPE_ID);
         StepConfiguration step1 = new StepConfiguration();
         step1.setType(LogMessage.TYPE_ID);
-        step1.setSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("replace this with some useful steps"));
+        step1.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("replace this with some useful steps"));
         step.addChild(step1);
         return step;
         }
@@ -148,7 +148,7 @@ public class ResourceTypes
     public final static ResourceType jsStep = new jsStepResourceType();
     public final static ResourceType Function = new FunctionResourceType();
 
-    final static Logger LOG = LoggerFactory.getLogger(ResourceTypes.class);
+    private final static Logger LOG = LoggerFactory.getLogger(ResourceTypes.class);
     }
 
 

@@ -16,8 +16,8 @@ public class SendKeysConverter implements StepConverter
     public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
         {
         StepConfiguration step = new StepConfiguration(SendKeys.TYPE_ID);
-        step.setSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
-        step.setSource(SendKeys.KEYS_PARAM, ValueSourceConfiguration.forValue(param2));
+        step.addSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
+        step.addSource(SendKeys.KEYS_PARAM, ValueSourceConfiguration.forValue(param2));
         return step;
         }
 

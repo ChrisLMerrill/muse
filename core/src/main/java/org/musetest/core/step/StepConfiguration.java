@@ -37,7 +37,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         _step_type = descriptor.getType();
         for (SubsourceDescriptor source_descriptor : descriptor.getSubsourceDescriptors())
             if (!source_descriptor.isOptional())
-                setSource(source_descriptor.getName(), ValueSourceConfiguration.forType(StringValueSource.TYPE_ID));
+                addSource(source_descriptor.getName(), ValueSourceConfiguration.forType(StringValueSource.TYPE_ID));
         }
 
     public String getType()
@@ -127,26 +127,62 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
             && Objects.equals(_sources, other.getSources());
         }
 
-    public void setSource(String name, ValueSourceConfiguration source)
+    @Override
+    public void addSource(String name, ValueSourceConfiguration source)
         {
         if (_sources == null)
             _sources = new HashMap<>();
-        ValueSourceConfiguration old_source = _sources.get(name);
-        if (!Objects.equals(source, old_source))
+        if (_sources.containsKey(name))
             {
-            if (old_source != null)
-                old_source.removeChangeListener(getSourceListener());
-            _sources.put(name, source);
-            if (source != null)
-                source.addChangeListener(getSourceListener());
-
-            if (old_source == null)
-                notifyListeners(new NamedSourceAddedEvent(this, name, source));
-            else if (source == null)
-                notifyListeners(new NamedSourceRemovedEvent(this, name, old_source));
-            else
-                notifyListeners(new NamedSourceReplacedEvent(this, name, old_source, source));
+            if (Objects.equals(source, _sources.get(name)))
+                return;
+            throw new IllegalArgumentException(String.format("Can't add source %s, there is already a source with that naem", name));
             }
+        _sources.put(name, source);
+        source.addChangeListener(getSourceListener());
+        notifyListeners(new NamedSourceAddedEvent(this, name, source));
+        }
+
+    @Override
+    public ValueSourceConfiguration removeSource(String name)
+        {
+        if (_sources == null)
+            return null;
+
+        if (_sources.containsKey(name))
+            {
+            ValueSourceConfiguration removed = _sources.remove(name);
+            if (removed != null)
+                removed.removeChangeListener(getSourceListener());
+            notifyListeners(new NamedSourceRemovedEvent(this, name, removed));
+            return removed;
+            }
+        return null;
+        }
+
+    @Override
+    public boolean renameSource(String old_name, String new_name)
+        {
+        ValueSourceConfiguration source = _sources.remove(old_name);
+        if (source == null)
+            return false;
+        _sources.put(new_name, source);
+        notifyListeners(new NamedSourceRenamedEvent(this, new_name, old_name, source));
+        return true;
+        }
+
+    @Override
+    public ValueSourceConfiguration replaceSource(String name, ValueSourceConfiguration new_source)
+        {
+        ValueSourceConfiguration old_source = _sources.remove(name);
+        if (old_source == null)
+            throw new IllegalArgumentException(String.format("Cannot replace sub-source %s, it does not exist.", name));
+        _sources.put(name, new_source);
+        old_source.removeChangeListener(getSourceListener());
+        if (new_source != null)
+            new_source.addChangeListener(getSourceListener());
+        notifyListeners(new NamedSourceReplacedEvent(this, name, old_source, new_source));
+        return old_source;
         }
 
     @SuppressWarnings("unused") // used by GUI

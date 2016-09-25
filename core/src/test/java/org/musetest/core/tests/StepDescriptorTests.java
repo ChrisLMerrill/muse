@@ -89,7 +89,7 @@ public class StepDescriptorTests
         StepConfiguration step_config = new StepConfiguration("unknown1");
         final String source = "source_name";
         final String value = "value1";
-        step_config.setSource(source, ValueSourceConfiguration.forValue(value));
+        step_config.addSource(source, ValueSourceConfiguration.forValue(value));
         String short_description = descriptor.getShortDescription(step_config);
         Assert.assertTrue(short_description.contains(source));
         Assert.assertTrue(short_description.contains(value));
@@ -101,7 +101,7 @@ public class StepDescriptorTests
         StepDescriptor descriptor = project.getStepDescriptors().get(AnnotatedTestStep.class);
         StepConfiguration step_config = new StepConfiguration(AnnotatedTestStep.class.getAnnotation(MuseTypeId.class).value());
         final String value = "abc";
-        step_config.setSource(AnnotatedTestStep.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
+        step_config.addSource(AnnotatedTestStep.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
         Assert.assertTrue(descriptor.getShortDescription(step_config).contains(value));
         }
 
@@ -111,7 +111,7 @@ public class StepDescriptorTests
         StepDescriptor descriptor = project.getStepDescriptors().get(WithCustomDescriptor.class);
         StepConfiguration step_config = new StepConfiguration(TestStepDescriptor.TYPE);
         final String value = "xyz";
-        step_config.setSource(TestStepDescriptor.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
+        step_config.addSource(TestStepDescriptor.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
         Assert.assertTrue(descriptor.getShortDescription(step_config).contains(value));
         }
 
@@ -123,7 +123,7 @@ public class StepDescriptorTests
         final String description = "this step does something interesting";
         step_config.setMetadataField(StepConfiguration.META_DESCRIPTION, description);
         final String value = "xyz";
-        step_config.setSource(TestStepDescriptor.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
+        step_config.addSource(TestStepDescriptor.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
         Assert.assertEquals(description, descriptor.getShortDescription(step_config));
         }
 
@@ -159,7 +159,7 @@ public class StepDescriptorTests
         public StepExecutionResult execute(StepExecutionContext context) throws MuseExecutionError
             { return null; }
         public StepConfiguration getConfiguration() { return null; }
-        public final static String SOURCE_NAME = "source1";
+        final static String SOURCE_NAME = "source1";
         }
 
     @MuseStepDescriptorImplementation(TestStepDescriptor.class)
