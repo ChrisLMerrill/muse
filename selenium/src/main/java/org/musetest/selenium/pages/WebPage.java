@@ -58,6 +58,10 @@ public class WebPage implements MuseResource
             }
         }
 
+    /**
+     * Provides a facade for the element locator sources in the page. This facade makes the element/locator
+     * pairs editable with a ValueSourceMapEditor.
+     */
     private class NamedElementLocators implements ContainsNamedSources
         {
         @Override
