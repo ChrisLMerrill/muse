@@ -68,4 +68,10 @@ public interface MuseProject
     ValueSourceStringExpressionSupporters getValueSourceStringExpressionSupporters();
     PropertyResolvers getPropertyResolvers();
     SystemVariableProviders getSystemVariableProviders();
+
+    /**
+     * Command line options
+     */
+    void setCommandLineOptions(Map<String, String> options);
+    Map<String,String> getCommandLineOptions();
     }

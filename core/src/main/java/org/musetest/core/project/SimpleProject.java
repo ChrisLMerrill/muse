@@ -152,6 +152,23 @@ public class SimpleProject implements MuseProject
         return _sysvar_providers;
         }
 
+    @Override
+    public void setCommandLineOptions(Map<String, String> options)
+        {
+        if (_command_line_options != null)
+            throw new IllegalArgumentException("Command-line options may only be set once for a project");
+        _command_line_options = options;
+        }
+
+    @Override
+    public Map<String, String> getCommandLineOptions()
+        {
+        if (_command_line_options == null)
+            return Collections.EMPTY_MAP;
+        else
+            return Collections.unmodifiableMap(_command_line_options);
+        }
+
     private ResourceStore _resources;
     private StepFactory _step_factory;
     private StepDescriptors _step_descriptors;
@@ -159,6 +176,7 @@ public class SimpleProject implements MuseProject
     private ValueSourceStringExpressionSupporters _supporters;
     private PropertyResolvers _resolvers;
     private SystemVariableProviders _sysvar_providers;
+    private Map<String, String> _command_line_options;
 
     private final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);
     }

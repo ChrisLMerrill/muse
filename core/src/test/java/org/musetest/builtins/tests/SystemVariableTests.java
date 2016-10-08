@@ -84,6 +84,22 @@ public class SystemVariableTests
 
         Assert.assertEquals(id, provider.resolve(ProjectVarsInitializerSysvarProvider.SYSVAR_NAME, context));
         }
+
+    @Test
+    public void commandLineOptions() throws ValueSourceResolutionError
+        {
+        final String name = "command1";
+        final String value = "option1";
+        Map<String, String> options = new HashMap<>();
+        options.put(name, value);
+        MuseProject project = new SimpleProject();
+        project.setCommandLineOptions(options);
+
+        CommandLineOptionSysvarProvider provider = new CommandLineOptionSysvarProvider();
+        Object resolved = provider.resolve("clo", new DefaultTestExecutionContext(project, new MockTest()));
+        Assert.assertTrue(resolved instanceof Map);
+        Assert.assertEquals(((Map) resolved).get(name), value);
+        }
     }
 
 
