@@ -17,6 +17,7 @@
 - add: SystemVariableSource and $$varname expression, SystemVariableProvider and dynamic implementation lookup
 - add: environment and test system variables
 - add: varlistid system variable for context initializers
+- add: commandlineoption (clo) system variable
 
 ## 0.3
 
