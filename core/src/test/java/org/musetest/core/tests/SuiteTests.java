@@ -6,6 +6,8 @@ import org.musetest.core.project.*;
 import org.musetest.core.suite.*;
 import org.musetest.tests.utils.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -14,7 +16,7 @@ public class SuiteTests
     @Test
     public void testSimpleSuiteById()
         {
-        MuseProject project = ProjectFactory.create(TestUtils.getTestResource("projects/simpleSuite", getClass()));
+        MuseProject project = ProjectFactory.create(TestUtils.getTestResource("projects/simpleSuite", getClass()), Collections.emptyMap());
         MuseTestSuite suite = project.findResource("TestSuite", MuseTestSuite.class);
         Assert.assertNotNull(suite);
 

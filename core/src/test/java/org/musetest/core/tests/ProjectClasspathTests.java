@@ -6,6 +6,7 @@ import org.musetest.core.execution.*;
 import org.musetest.core.project.*;
 
 import java.io.*;
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -15,7 +16,7 @@ public class ProjectClasspathTests
     @Test
     public void testStepLoadedFromProjectClassesFolder() throws ClassNotFoundException
         {
-        MuseProject project = ProjectFactory.create(new File("src/test/other_resources/projects/classpath"));
+        MuseProject project = ProjectFactory.create(new File("src/test/other_resources/projects/classpath"), Collections.emptyMap());
         project.open();
 
         // was the project able to load resources using classes from the project classpath?
@@ -32,7 +33,7 @@ public class ProjectClasspathTests
     @Test
     public void testStepLoadedFromProjectJar() throws ClassNotFoundException
         {
-        MuseProject project = ProjectFactory.create(new File("src/test/other_resources/projects/classpath"));
+        MuseProject project = ProjectFactory.create(new File("src/test/other_resources/projects/classpath"), Collections.emptyMap());
         project.open();
 
         // was the project able to load resources using classes from the project classpath?
