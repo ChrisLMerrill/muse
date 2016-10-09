@@ -72,6 +72,12 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
         return true;
         }
 
+    @Override
+    public String toString()
+        {
+        return getMetadata().getId();
+        }
+
     private StepConfiguration _step;
     private Map<String, ValueSourceConfiguration> _default_variables;
     }
