@@ -2,7 +2,6 @@ package org.musetest.core;
 
 import org.musetest.builtins.value.property.*;
 import org.musetest.builtins.value.sysvar.*;
-import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;
@@ -53,6 +52,8 @@ public interface MuseProject
      * Open and initialize the project
      */
     void open();
+
+    String getName();
 
     /**
      * Get a classloader that includes classes declared in the project

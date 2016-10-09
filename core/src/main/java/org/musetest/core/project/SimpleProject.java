@@ -10,7 +10,6 @@ import org.musetest.core.step.factory.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
-import org.musetest.core.variables.*;
 import org.slf4j.*;
 
 import java.util.*;
@@ -26,6 +25,12 @@ public class SimpleProject implements MuseProject
         _resources = resources;
         }
 
+    public SimpleProject(ResourceStore resources, String name)
+        {
+        _resources = resources;
+        _name = name;
+        }
+
     public SimpleProject()
         {
         _resources = new InMemoryResourceStore();
@@ -34,6 +39,12 @@ public class SimpleProject implements MuseProject
     @Override
     public void open()
         {
+        }
+
+    @Override
+    public String getName()
+        {
+        return _name;
         }
 
     @Override
@@ -177,6 +188,7 @@ public class SimpleProject implements MuseProject
     private PropertyResolvers _resolvers;
     private SystemVariableProviders _sysvar_providers;
     private Map<String, String> _command_line_options;
+    private String _name = "unnamed project";
 
     private final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);
     }

@@ -2,11 +2,8 @@ package org.musetest.core.project;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
-import org.slf4j.*;
 
 import java.io.*;
-import java.lang.reflect.*;
-import java.net.*;
 import java.util.*;
 
 /**
@@ -21,7 +18,7 @@ public class ProjectFactory
 
         FolderIntoMemoryResourceStore resources = new FolderIntoMemoryResourceStore(folder);
 
-        SimpleProject project = new SimpleProject(resources);
+        SimpleProject project = new SimpleProject(resources, folder.getName());
         project.setCommandLineOptions(command_line_options);
         return project;
         }
