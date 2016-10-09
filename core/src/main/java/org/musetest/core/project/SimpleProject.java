@@ -81,7 +81,7 @@ public class SimpleProject implements MuseProject
         {
         ResourceMetadata filter = new ResourceMetadata();
         filter.setId(id);
-        filter.setType(new ResourceTypes(getClassLocator()).forImplementationInterface(interface_class));
+        filter.setType(getResourceTypes().forImplementationInterface(interface_class));
         List<MuseResource> resources = _resources.findResources(filter);
         List<MuseResource> matching_resources = resources.stream().filter(interface_class::isInstance).collect(Collectors.toList());
         if (matching_resources.size() == 0)
@@ -89,6 +89,13 @@ public class SimpleProject implements MuseProject
         else if (matching_resources.size() > 1)
             LOG.warn("Multiple matches found for id=" + id + ", interface=" + interface_class.getSimpleName());
         return (T) matching_resources.get(0);
+        }
+
+    public ResourceTypes getResourceTypes()
+        {
+        if (_resource_types == null)
+            _resource_types = new ResourceTypes(getClassLocator());
+        return _resource_types;
         }
 
     @Override
@@ -187,6 +194,7 @@ public class SimpleProject implements MuseProject
     private ValueSourceStringExpressionSupporters _supporters;
     private PropertyResolvers _resolvers;
     private SystemVariableProviders _sysvar_providers;
+    private ResourceTypes _resource_types;
     private Map<String, String> _command_line_options;
     private String _name = "unnamed project";
 

@@ -3,6 +3,7 @@ package org.musetest.core;
 import org.musetest.builtins.value.property.*;
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.types.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;
 import org.musetest.core.values.*;
@@ -69,6 +70,7 @@ public interface MuseProject
     ValueSourceStringExpressionSupporters getValueSourceStringExpressionSupporters();
     PropertyResolvers getPropertyResolvers();
     SystemVariableProviders getSystemVariableProviders();
+    ResourceTypes getResourceTypes();
 
     /**
      * Command line options
