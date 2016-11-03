@@ -73,7 +73,7 @@ public class ContextInitializerConfigurations implements MuseResource
         {
         public ContextInitializersConfigurationType()
             {
-            super(ContextInitializerConfigurations.class.getAnnotation(MuseTypeId.class).value(), "Context Initializers", ContextInitializerConfigurations.class);
+            super(ContextInitializerConfigurations.class.getAnnotation(MuseTypeId.class).value(), "Context Initializer", ContextInitializerConfigurations.class);
             }
         }
 

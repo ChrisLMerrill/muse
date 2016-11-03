@@ -53,6 +53,8 @@ public class IdListTestSuite implements MuseTestSuite
     private ResourceMetadata _metadata = new ResourceMetadata();
     private List<String> _test_ids = new ArrayList<>();
 
+    public final static String TYPE_ID = IdListTestSuite.class.getAnnotation(MuseTypeId.class).value();
+
     final static Logger LOG = LoggerFactory.getLogger(IdListTestSuite.class);
     }
 

@@ -4,8 +4,7 @@ import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.SteppedTest;
-import org.musetest.core.suite.*;
+import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.javascript.factory.*;
 import org.slf4j.*;
@@ -58,6 +57,11 @@ public class ResourceTypes
         return null;
         }
 
+    public Collection<ResourceType> getAll()
+        {
+        return _types.values();
+        }
+
     public ResourceType forIdIgnoreCase(String value)
         {
         return _types.get(value.toLowerCase());
@@ -94,6 +98,7 @@ public class ResourceTypes
             }
 
         }
+
     private static class FunctionResourceType extends ResourceType
         {
         FunctionResourceType()
@@ -109,6 +114,8 @@ public class ResourceTypes
             return function;
             }
         }
+
+    @SuppressWarnings("unused") // located by reflection
     private static class SuiteResourceType extends ResourceType
         {
         SuiteResourceType()
@@ -116,13 +123,7 @@ public class ResourceTypes
             super("suite", "Test Suite", MuseTestSuite.class);
             }
         }
-    private static class IdListSuiteResourceType extends ResourceType
-        {
-        IdListSuiteResourceType()
-            {
-            super("suite_of_ids", "Test Suite", IdListTestSuite.class);
-            }
-        }
+
     private static class jsStepResourceType extends ResourceType
         {
         jsStepResourceType()
@@ -144,7 +145,6 @@ public class ResourceTypes
 
     public final static ResourceType Test = new TestResourceType();
     public final static ResourceType Macro = new MacroResourceType();
-    public final static ResourceType Suite = new SuiteResourceType();
     public final static ResourceType jsStep = new jsStepResourceType();
     public final static ResourceType Function = new FunctionResourceType();
 

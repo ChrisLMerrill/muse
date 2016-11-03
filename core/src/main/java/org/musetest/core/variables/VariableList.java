@@ -144,6 +144,7 @@ public class VariableList implements MuseResource
         List<ChangeEventListener> _listeners = new ArrayList<>();
         }
 
+    public final static String TYPE_ID = VariableList.class.getAnnotation(MuseTypeId.class).value();
     }
 
 
