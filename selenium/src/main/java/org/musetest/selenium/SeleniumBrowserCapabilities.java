@@ -2,6 +2,7 @@ package org.musetest.selenium;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.types.*;
 import org.openqa.selenium.remote.*;
 
 import java.util.*;
@@ -77,6 +78,7 @@ public class SeleniumBrowserCapabilities implements MuseResource
     private ResourceMetadata _metadata = new ResourceMetadata();
 
     public final static String BROWSER_NAME = "browserName";
+    public final static String TYPE_ID = SeleniumBrowserCapabilities.class.getAnnotation(MuseTypeId.class).value();
     }
 
 

@@ -12,7 +12,7 @@ public class WebDriverProviderListResourceType extends ResourceType
     {
     public WebDriverProviderListResourceType()
         {
-        super("weproviders", "WebDriver Provider List", WebDriverProviderList.class);
+        super(WebDriverProviderList.TYPE_ID, "Browser Provider", WebDriverProviderList.class);
         }
     }
 

@@ -12,7 +12,7 @@ public class SeleniumBrowserCapabilitiesResourceType extends ResourceType
     {
     public SeleniumBrowserCapabilitiesResourceType()
         {
-        super("selbrowsercap", "Browser Capabilties", SeleniumBrowserCapabilities.class);
+        super(SeleniumBrowserCapabilities.TYPE_ID, "Browser", SeleniumBrowserCapabilities.class);
         }
     }
 

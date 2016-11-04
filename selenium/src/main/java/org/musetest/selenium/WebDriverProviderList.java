@@ -2,6 +2,7 @@ package org.musetest.selenium;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.types.*;
 import org.openqa.selenium.*;
 
 import java.util.*;
@@ -65,6 +66,8 @@ public class WebDriverProviderList implements WebDriverProviderConfiguration
     private ResourceMetadata _metadata = new ResourceMetadata();
 
     private List<WebDriverProvider> _providers;
+
+    public final static String TYPE_ID = WebDriverProviderList.class.getAnnotation(MuseTypeId.class).value();
     }
 
 
