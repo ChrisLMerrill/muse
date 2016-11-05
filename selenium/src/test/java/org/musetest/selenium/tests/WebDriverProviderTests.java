@@ -3,7 +3,9 @@ package org.musetest.selenium.tests;
 import com.fasterxml.jackson.databind.*;
 import org.junit.*;
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.execution.*;
+import org.musetest.core.project.*;
 import org.musetest.core.resource.json.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.SteppedTest;
@@ -30,7 +32,7 @@ public class WebDriverProviderTests
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
         Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
-        WebDriver driver = driver_providers.getDriver(new SeleniumBrowserCapabilities(MuseMockProvider.MUSE_BROWSER));
+        WebDriver driver = driver_providers.getDriver(new SeleniumBrowserCapabilities(MuseMockProvider.MUSE_BROWSER), new BaseExecutionContext(new SimpleProject()));
         Assert.assertTrue(driver instanceof MuseMockDriver);
         }
 

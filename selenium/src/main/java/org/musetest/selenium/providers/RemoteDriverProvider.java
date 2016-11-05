@@ -15,7 +15,7 @@ import java.net.*;
 public class RemoteDriverProvider implements WebDriverProvider
     {
     @Override
-    public WebDriver getDriver(SeleniumBrowserCapabilities capabilities)
+    public WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context)
         {
         synchronized (RemoteDriverProvider.class)
             {

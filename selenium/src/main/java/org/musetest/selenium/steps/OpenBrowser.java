@@ -51,7 +51,7 @@ public class OpenBrowser extends BaseStep
             throw new StepConfigurationError("Unable to locate SeleniumBrowserCapabilities from source: " + context.getProject().getValueSourceDescriptors().get(browser_config).getInstanceDescription(browser_config));
             }
 
-        WebDriver driver = provider.getDriver(capabilities);
+        WebDriver driver = provider.getDriver(capabilities, context);
         if (driver == null)
             {
             ValueSourceConfiguration provider_config = getConfiguration().getSource(PROVIDER_PARAM);

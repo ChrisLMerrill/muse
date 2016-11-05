@@ -13,7 +13,7 @@ import org.openqa.selenium.safari.*;
 public class SafariDriverProvider implements WebDriverProvider
     {
     @Override
-    public WebDriver getDriver(SeleniumBrowserCapabilities capabilities)
+    public WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context)
         {
         synchronized (SafariDriverProvider.class)
             {

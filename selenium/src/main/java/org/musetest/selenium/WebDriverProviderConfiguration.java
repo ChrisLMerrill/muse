@@ -8,7 +8,7 @@ import org.openqa.selenium.*;
  */
 public interface WebDriverProviderConfiguration extends MuseResource
     {
-    WebDriver getDriver(SeleniumBrowserCapabilities capabilities);
+    WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context);
     }
 
 

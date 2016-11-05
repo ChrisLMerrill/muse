@@ -2,7 +2,6 @@ package org.musetest.selenium;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.resource.types.*;
 import org.openqa.selenium.*;
 
 import java.util.*;
@@ -16,11 +15,11 @@ import java.util.*;
 public class WebDriverProviderList implements WebDriverProviderConfiguration
     {
     @Override
-    public WebDriver getDriver(SeleniumBrowserCapabilities capabilities)
+    public WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context)
         {
         for (WebDriverProvider provider : _providers)
             {
-            WebDriver driver = provider.getDriver(capabilities);
+            WebDriver driver = provider.getDriver(capabilities, context);
             if (driver != null)
                 return driver;
             }

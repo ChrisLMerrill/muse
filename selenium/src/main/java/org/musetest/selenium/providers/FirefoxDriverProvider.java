@@ -13,7 +13,7 @@ import org.openqa.selenium.remote.*;
 public class FirefoxDriverProvider implements WebDriverProvider
     {
     @Override
-    public WebDriver getDriver(SeleniumBrowserCapabilities capabilities)
+    public WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context)
         {
         synchronized (FirefoxDriverProvider.class)
             {
