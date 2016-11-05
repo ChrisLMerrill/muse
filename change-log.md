@@ -4,6 +4,7 @@
 - add: 'Map' subsource type (and configure for CallFunction parameters)
 - add: ElementSelectedValueSource and elementSelected() expression
 - enhance: remove "amount" parameter from inline quick editor on IncrementVariable step
+- enhance: browser providers that require path to executable will report missing parameter and missing file path
 - refactor: MuseTestResult adds .isPassed() and .getFailureDescription(), looses .getTestResultStatus(). MuseTestResultStatus replaced with MuseTestFailureDescription.
 - refactor: implement result evaluation logic as an event listener (pull out of executor)
 - refactor: implement stop-test-on-error logic as an event listener (pull out of executor logic)
