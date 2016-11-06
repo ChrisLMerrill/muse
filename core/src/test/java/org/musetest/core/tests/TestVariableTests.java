@@ -42,6 +42,7 @@ public class TestVariableTests
         MuseProject project = new SimpleProject();
 
         VariableList list = new VariableList();
+        list.getMetadata().setId("list123");
         project.addResource(list);
         list.addVariable(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
 
@@ -56,7 +57,9 @@ public class TestVariableTests
         ValueSourceConfiguration equals = BinaryCondition.forSources(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(VAR_NAME)), ValueSourceConfiguration.forValue(VAR_VALUE));
         step.addSource(Verify.CONDITION_PARAM, equals);
 
-        return new SteppedTest(step);
+        SteppedTest test = new SteppedTest(step);
+        test.getMetadata().setId("id123");
+        return test;
         }
 
     private final static String VAR_NAME = "var1";

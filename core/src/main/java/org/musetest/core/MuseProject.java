@@ -20,9 +20,9 @@ public interface MuseProject
     {
     void addResource(MuseResource resource);
 
-    List<MuseResource> findResources(ResourceMetadata filter);
+    List<ResourceToken> findResources(ResourceMetadata filter);
 
-    <T extends MuseResource> List<T> findResources(ResourceMetadata filter, Class T);
+    <T extends MuseResource> List<ResourceToken<T>> findResources(ResourceMetadata filter, Class<T> interface_class);
 
     /*
      * A convenience method for finding a resource that has only a single match.
@@ -30,7 +30,7 @@ public interface MuseProject
      * @param filter Filters to apply to the search
      * @return A resource matching the filters or null if no matches found
      */
-    MuseResource findResource(ResourceMetadata filter);
+    ResourceToken findResource(ResourceMetadata filter);
 
     /*
      * A convenience method for finding a resource matching and id and resource type
@@ -39,7 +39,11 @@ public interface MuseProject
      * @param interface_class The class of the resource.
      * @return A resource matching the provided id and interface_class
      */
-    <T> T findResource(String id, Class<T> interface_class);
+    <T extends MuseResource> ResourceToken<T> findResource(String id, Class<T> interface_class);
+
+    <T extends MuseResource> T getResource(ResourceToken<T> token);
+    <T extends MuseResource> List<T> getResources(List<ResourceToken<T>> token);
+    List<MuseResource> getUntypedResources(List<ResourceToken> tokens);
 
     /**
      * Saves changes to a resource via the ResourceStore.

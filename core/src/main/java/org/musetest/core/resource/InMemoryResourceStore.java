@@ -18,13 +18,15 @@ public class InMemoryResourceStore implements ResourceStore
     @Override
     public void addResource(MuseResource resource)
         {
+        if (resource.getMetadata().getId() == null)
+            resource.getMetadata().setId(UUID.randomUUID().toString());
         _resources.add(resource);
         }
 
     @Override
-    public List<MuseResource> findResources(ResourceMetadata matcher)
+    public List<ResourceToken> findResources(ResourceMetadata matcher)
         {
-        List<MuseResource> resources = new ArrayList<>();
+        List<ResourceToken> resources = new ArrayList<>();
         for (MuseResource resource : _resources)
             {
             boolean match = true;
@@ -35,7 +37,7 @@ public class InMemoryResourceStore implements ResourceStore
                     match = false;
                 }
             if (match)
-                resources.add(resource);
+                resources.add(new InMemoryResourceToken(resource));
             }
         return resources;
         }
@@ -56,6 +58,33 @@ public class InMemoryResourceStore implements ResourceStore
                 LOG.error("can't create this mock resource?", e);
                 }
             }
+        }
+
+    @Override
+    public <T extends MuseResource> T getResource(ResourceToken<T> token)
+        {
+        for (MuseResource resource : _resources)
+            if (resource.getMetadata().getId().equals(token.getMetadata().getId()))
+                return (T) resource;
+        return null;
+        }
+
+    @Override
+    public <T extends MuseResource> List<T> getResources(List<ResourceToken<T>> tokens)
+        {
+        List<T> resources = new ArrayList<>();
+        for (ResourceToken<T> token : tokens)
+            resources.add(getResource(token));
+        return resources;
+        }
+
+    @Override
+    public List<MuseResource> getUntypedResources(List<ResourceToken> tokens)
+        {
+        List<MuseResource> resources = new ArrayList<>();
+        for (ResourceToken token : tokens)
+            resources.add(getResource(token));
+        return resources;
         }
 
     @Override
@@ -92,6 +121,37 @@ public class InMemoryResourceStore implements ResourceStore
     private FactoryLocator _factory_locator = new FactoryLocator(DefaultClassLocator.get());
 
     final static Logger LOG = LoggerFactory.getLogger(InMemoryResourceStore.class);
+
+    private class InMemoryResourceToken implements ResourceToken
+        {
+        public InMemoryResourceToken(MuseResource resource)
+            {
+            _resource = resource;
+            }
+
+        @Override
+        public MuseResource getResource()
+            {
+            return _resource;
+            }
+
+        @Override
+        public ResourceMetadata getMetadata()
+            {
+            return _resource.getMetadata();
+            }
+
+        @Override
+        public boolean equals(Object obj)
+            {
+            if (!(obj instanceof InMemoryResourceToken))
+                return false;
+            InMemoryResourceToken other = (InMemoryResourceToken) obj;
+            return _resource.getMetadata().getId().equals(other.getMetadata().getId());
+            }
+
+        private MuseResource _resource;
+        }
     }
 
 

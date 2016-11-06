@@ -12,7 +12,10 @@ import java.util.*;
 public interface ResourceStore
     {
     void addResource(MuseResource resource);
-    List<MuseResource> findResources(ResourceMetadata matcher);
+    List<ResourceToken> findResources(ResourceMetadata matcher);
+    <T extends MuseResource> T getResource(ResourceToken<T> token);
+    <T extends MuseResource> List<T> getResources(List<ResourceToken<T>> tokens);
+    List<MuseResource> getUntypedResources(List<ResourceToken> tokens);
     ClassLoader getContextClassloader();
     ClassLocator getClassLocator();
 

@@ -21,7 +21,8 @@ public class VariableListsInitializer implements ContextInitializer
     @Override
     public void initialize(MuseProject project, MuseExecutionContext context) throws MuseExecutionError
         {
-        List<VariableList> lists = project.findResources(new ResourceMetadata(new VariableList.VariableListType()), VariableList.class);
+        List<ResourceToken<VariableList>> tokens = project.findResources(new ResourceMetadata(new VariableList.VariableListType()), VariableList.class);
+        List<VariableList> lists = project.getResources(tokens);
         lists = filterLists(lists, project, context);
         for (VariableList list : lists)
             {
@@ -36,7 +37,8 @@ public class VariableListsInitializer implements ContextInitializer
 
     private List<VariableList> filterLists(List<VariableList> lists, MuseProject project, MuseExecutionContext context) throws MuseInstantiationException, ValueSourceResolutionError
         {
-        List<ContextInitializerConfigurations> list_of_configs = project.findResources(new ResourceMetadata(new ContextInitializerConfigurations.ContextInitializersConfigurationType()), ContextInitializerConfigurations.class);
+        List<ResourceToken<ContextInitializerConfigurations>> tokens = project.findResources(new ResourceMetadata(new ContextInitializerConfigurations.ContextInitializersConfigurationType()), ContextInitializerConfigurations.class);
+        List<ContextInitializerConfigurations> list_of_configs = project.getResources(tokens);
         if (list_of_configs.size() == 0)
             return lists; // if there are no configurations, then apply all lists.
 

@@ -18,7 +18,7 @@ public class ParameterListTestSuite implements MuseTestSuite
     @Override
     public List<TestConfiguration> generateTestList(MuseProject project)
         {
-        MuseTest test = project.findResource(_testid, MuseTest.class);
+        MuseTest test = project.getResource(project.findResource(_testid, MuseTest.class));
         if (test == null)
             test = new MissingTest(_testid);
 

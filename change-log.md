@@ -12,6 +12,7 @@
 - implement EventMatcher
 - refactor: MuseTestResult
 - refactor: re-work how the test context is initialized. Separate into individual components (ContextInitializers)
+- refactor: resource lookup from project return ResourceTokens, instead of the resources. The tokens may then be used to fetch the resource.
 - add: ContextInitializerConfigurations for controlling which VariableLists are applied 
 - add: ListContainsSource
 - add: PropertySource and PropertyResolver support classes, and support for object.property string expressions

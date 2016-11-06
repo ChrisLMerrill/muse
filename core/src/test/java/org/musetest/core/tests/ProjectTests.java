@@ -18,7 +18,7 @@ public class ProjectTests
     @Test
     public void testResourceByIdAndType()
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject();
 
         MuseTest test = new MockTest();
         test.getMetadata().setId("test1");
@@ -30,7 +30,7 @@ public class ProjectTests
     @Test
     public void testSingleResourceById()
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject();
 
         MuseTest test = new MockTest();
         test.getMetadata().setId("test1");
@@ -42,7 +42,7 @@ public class ProjectTests
 
         ResourceMetadata filter = new ResourceMetadata();
         filter.setId("test1");
-        List<MuseResource> resources = project.findResources(filter);
+        List<ResourceToken> resources = project.findResources(filter);
         Assert.assertEquals("Should only find one resource", 1, resources.size());
         Assert.assertEquals("Should find resource with id = test1", "test1", resources.get(0).getMetadata().getId());
         Assert.assertEquals("Should find resource with id = test1", "test1", project.findResource(filter).getMetadata().getId());
@@ -51,7 +51,7 @@ public class ProjectTests
     @Test
     public void testMultipleResourcesByType()
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject();
 
         MuseTest test = new MockTest();
         test.getMetadata().setType(ResourceTypes.Test);
@@ -63,7 +63,7 @@ public class ProjectTests
         test.getMetadata().setId("Test2");
         project.addResource(test);
 
-        List<MuseResource> resources = project.findResources(new ResourceMetadata(ResourceTypes.Test));
+        List<ResourceToken> resources = project.findResources(new ResourceMetadata(ResourceTypes.Test));
         Assert.assertEquals("Should find 2 resources", 2, resources.size());
         Assert.assertTrue("Should find one resource with id 'Test1'", resources.get(0).getMetadata().getId().equals("Test1") ^ resources.get(1).getMetadata().getId().equals("Test1"));
         Assert.assertTrue("Should find one resource with id 'Test2'", resources.get(0).getMetadata().getId().equals("Test2") ^ resources.get(1).getMetadata().getId().equals("Test2"));
