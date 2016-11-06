@@ -117,9 +117,22 @@ public class SimpleProject implements MuseProject
         }
 
     @Override
-    public void addResource(MuseResource resource)
+    public ResourceToken addResource(MuseResource resource)
         {
-        _resources.addResource(resource);
+        ResourceToken token = _resources.addResource(resource);
+        for (ProjectResourceListener listener : _listeners)
+            listener.resourceAdded(token);
+        return token;
+        }
+
+    @Override
+    public boolean removeResource(ResourceToken token)
+        {
+        boolean removed = _resources.removeResource(token);
+        if (removed)
+            for (ProjectResourceListener listener : _listeners)
+                listener.resourceRemoved(token);
+        return removed;
         }
 
     @Override
@@ -205,6 +218,21 @@ public class SimpleProject implements MuseProject
             return Collections.unmodifiableMap(_command_line_options);
         }
 
+    @Override
+    public boolean addResourceListener(ProjectResourceListener listener)
+        {
+        if (_listeners.contains(listener))
+            return false;
+        _listeners.add(listener);
+        return true;
+        }
+
+    @Override
+    public boolean removeResourceListener(ProjectResourceListener listener)
+        {
+        return _listeners.remove(listener);
+        }
+
     private ResourceStore _resources;
     private StepFactory _step_factory;
     private StepDescriptors _step_descriptors;
@@ -215,6 +243,8 @@ public class SimpleProject implements MuseProject
     private ResourceTypes _resource_types;
     private Map<String, String> _command_line_options;
     private String _name = "unnamed project";
+
+    private transient List<ProjectResourceListener> _listeners = new ArrayList<>();
 
     private final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);
     }

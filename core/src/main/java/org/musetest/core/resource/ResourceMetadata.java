@@ -109,8 +109,8 @@ public class ResourceMetadata
             _tags.add(tag);
         }
 
-    private ResourceOrigin _origin;
-    private MuseResourceSaver _saver;
+    private transient ResourceOrigin _origin;
+    private transient MuseResourceSaver _saver;
     private Map<String, Object> _attributes = new HashMap<>();
     private List<String> _tags = new ArrayList<>();  // ideally, we'd like this to be a set. But we'd have to convert to a list for JSON serialization.
     public final static String ID_ATTRIBUTE = "id";

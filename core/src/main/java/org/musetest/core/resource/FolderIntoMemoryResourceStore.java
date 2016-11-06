@@ -1,6 +1,7 @@
 package org.musetest.core.resource;
 
 import org.musetest.core.*;
+import org.musetest.core.resource.json.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.util.*;
 import org.reflections.*;
@@ -22,27 +23,61 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
         loadAllResources();
         }
 
+    /**
+     * Add a new resource.
+     */
+    @Override
+    public ResourceToken addResource(MuseResource resource)
+        {
+        if (getResource(new InMemoryResourceToken(resource)) != null)
+            throw new IllegalArgumentException("Resource with already exists with the same ID: " + resource.getMetadata().getId());
+
+        if (resource.getMetadata().getId() == null)
+            resource.getMetadata().setId(UUID.randomUUID().toString());
+
+        // for a new resource, we need to setup the origin
+        if (resource.getMetadata().getOrigin() == null)
+            {
+            resource.getMetadata().setSaver(new FromJsonFileResourceFactory());
+            resource.getMetadata().setOrigin(new FileResourceOrigin(new File(_folder, resource.getMetadata().getId() + "." + resource.getMetadata().getSaver().getDefaultFileExtension())));
+            }
+        saveResource(resource);
+
+        return super.addResource(resource);
+        }
+
+    @Override
+    public boolean removeResource(ResourceToken token)
+        {
+        if (getResource(token) != null)
+            {
+            FileResourceOrigin origin = (FileResourceOrigin) token.getMetadata().getOrigin();
+            File file = origin.getFile();
+            if (file.delete())
+                return super.removeResource(token);
+            }
+        return false;
+        }
+
     private void loadAllResources()
         {
-        Runnable loader = new Runnable()
+        Runnable loader = () ->
             {
-            @Override
-            public void run()
+            File[] files = _folder.listFiles();
+            if (files == null)
+                return;
+            for (File file : files)
                 {
-                File[] files = _folder.listFiles();
-                for (File file : files)
+                FileResourceOrigin origin = new FileResourceOrigin(file);
+                try
                     {
-                    FileResourceOrigin origin = new FileResourceOrigin(file);
-                    try
-                        {
-                        List<MuseResource> resources = ResourceFactory.createResources(origin, getFactoryLocator(), getClassLocator());
-                        for (MuseResource resource : resources)
-                            addResource(resource);
-                        }
-                    catch (IOException e)
-                        {
-                        LOG.warn("Unable to load resource from origin: " + origin.getDescription(), e);
-                        }
+                    List<MuseResource> resources = ResourceFactory.createResources(origin, getFactoryLocator(), getClassLocator());
+                    // don't do call the local add() method...that is for adding new resources.
+                    resources.forEach(FolderIntoMemoryResourceStore.super::addResource);
+                    }
+                catch (IOException e)
+                    {
+                    LOG.warn("Unable to load resource from origin: " + origin.getDescription(), e);
                     }
                 }
             };
@@ -67,13 +102,9 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
         File[] jars = new File[0];
         File lib = new File(_folder, "lib");
         if (lib.exists() && lib.isDirectory())
-            jars = lib.listFiles(new FilenameFilter()
+            jars = lib.listFiles((dir, name) ->
                 {
-                @Override
-                public boolean accept(File dir, String name)
-                    {
-                    return name.endsWith(".jar");
-                    }
+                return name.endsWith(".jar");
                 });
         for (File jar : jars)
             {
@@ -112,10 +143,6 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
     @Override
     public String saveResource(MuseResource resource)
         {
-        // for a new resource, we need to setup the origin
-        if (resource.getMetadata().getOrigin() == null)
-            resource.getMetadata().setOrigin(new FileResourceOrigin(new File(_folder, resource.getMetadata().getId() + "." + resource.getMetadata().getSaver().getDefaultFileExtension())));
-
         MuseResourceSaver saver = resource.getMetadata().getSaver();
         if (saver == null)
             return "No saver configured for the resource :(";
@@ -130,7 +157,7 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
     private List<File> _class_locations = new ArrayList<>();
     private ClassLoader _class_loader = null;
 
-    final static Logger LOG = LoggerFactory.getLogger(FolderIntoMemoryResourceStore.class);
+    private final static Logger LOG = LoggerFactory.getLogger(FolderIntoMemoryResourceStore.class);
     }
 
 

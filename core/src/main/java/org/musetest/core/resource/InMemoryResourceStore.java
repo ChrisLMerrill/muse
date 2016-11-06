@@ -16,11 +16,33 @@ import java.util.*;
 public class InMemoryResourceStore implements ResourceStore
     {
     @Override
-    public void addResource(MuseResource resource)
+    public ResourceToken addResource(MuseResource resource)
         {
+        if (getResource(new InMemoryResourceToken(resource)) != null)
+            throw new IllegalArgumentException("Resource with already exists with the same ID: " + resource.getMetadata().getId());
+
         if (resource.getMetadata().getId() == null)
             resource.getMetadata().setId(UUID.randomUUID().toString());
         _resources.add(resource);
+        return new InMemoryResourceToken(resource);
+        }
+
+    @Override
+    public boolean removeResource(ResourceToken token)
+        {
+        MuseResource resource = getResource(token.getMetadata().getId());
+        if (resource == null)
+            return false;
+        _resources.remove(resource);
+        return true;
+        }
+
+    private MuseResource getResource(String id)
+        {
+        for (MuseResource resource : _resources)
+            if (resource.getMetadata().getId().equals(id))
+                return resource;
+        return null;
         }
 
     @Override
@@ -121,37 +143,6 @@ public class InMemoryResourceStore implements ResourceStore
     private FactoryLocator _factory_locator = new FactoryLocator(DefaultClassLocator.get());
 
     final static Logger LOG = LoggerFactory.getLogger(InMemoryResourceStore.class);
-
-    private class InMemoryResourceToken implements ResourceToken
-        {
-        public InMemoryResourceToken(MuseResource resource)
-            {
-            _resource = resource;
-            }
-
-        @Override
-        public MuseResource getResource()
-            {
-            return _resource;
-            }
-
-        @Override
-        public ResourceMetadata getMetadata()
-            {
-            return _resource.getMetadata();
-            }
-
-        @Override
-        public boolean equals(Object obj)
-            {
-            if (!(obj instanceof InMemoryResourceToken))
-                return false;
-            InMemoryResourceToken other = (InMemoryResourceToken) obj;
-            return _resource.getMetadata().getId().equals(other.getMetadata().getId());
-            }
-
-        private MuseResource _resource;
-        }
     }
 
 

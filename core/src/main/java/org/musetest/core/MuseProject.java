@@ -18,7 +18,8 @@ import java.util.*;
  */
 public interface MuseProject
     {
-    void addResource(MuseResource resource);
+    ResourceToken addResource(MuseResource resource);
+    boolean removeResource(ResourceToken token);
 
     List<ResourceToken> findResources(ResourceMetadata filter);
 
@@ -81,4 +82,10 @@ public interface MuseProject
      */
     void setCommandLineOptions(Map<String, String> options);
     Map<String,String> getCommandLineOptions();
+
+    /**
+     * Event listeners
+     */
+    boolean addResourceListener(ProjectResourceListener listener);
+    boolean removeResourceListener(ProjectResourceListener listener);
     }

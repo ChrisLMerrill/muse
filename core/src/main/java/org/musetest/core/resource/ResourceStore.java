@@ -11,7 +11,9 @@ import java.util.*;
  */
 public interface ResourceStore
     {
-    void addResource(MuseResource resource);
+    ResourceToken addResource(MuseResource resource);
+    boolean removeResource(ResourceToken token);
+
     List<ResourceToken> findResources(ResourceMetadata matcher);
     <T extends MuseResource> T getResource(ResourceToken<T> token);
     <T extends MuseResource> List<T> getResources(List<ResourceToken<T>> tokens);
