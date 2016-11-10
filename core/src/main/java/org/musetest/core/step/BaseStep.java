@@ -30,13 +30,13 @@ public abstract class BaseStep implements MuseStep
     @Override
     public StepExecutionResult execute(StepExecutionContext context) throws MuseExecutionError
         {
-        if (!_started)
-            {
-            _started = true;
-            context.raiseEvent(new StepEvent(MuseEventType.StartStep, _config, context));
-            }
+//        if (!_started)
+//            {
+//            _started = true;
+//            context.raiseEvent(new StepEvent(MuseEventType.StartStep, _config, context));
+//            }
         StepExecutionResult result = executeImplementation(context);
-        context.raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
+//        context.raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
         return result;
         }
 
@@ -68,7 +68,7 @@ public abstract class BaseStep implements MuseStep
         }
 
     private StepConfiguration _config;
-    private boolean _started = false;
+//    private boolean _started = false;
     }
 
 

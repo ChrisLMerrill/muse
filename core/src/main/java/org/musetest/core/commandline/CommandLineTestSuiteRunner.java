@@ -46,7 +46,7 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
                 builder.append("Tests that could not be completed: ");
                 int counter = 0;
                 for (MuseTestResult test_result : result.getTestResults())
-                    if (test_result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
+                    if (test_result.getFailureDescription() != null && test_result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
                         {
                         if (counter > 0)
                             builder.append(", ");
