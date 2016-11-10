@@ -2,6 +2,7 @@
 
 ## 0.5
 - refactor: resource lookup from project return ResourceTokens, instead of the resources. The tokens may then be used to fetch the resource.
+- add: ElementTextValueSource and elementText() expression
 
 ## 0.4
 - add: 'Map' subsource type (and configure for CallFunction parameters)
