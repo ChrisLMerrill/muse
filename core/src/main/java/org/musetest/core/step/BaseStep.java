@@ -2,7 +2,6 @@ package org.musetest.core.step;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
@@ -27,17 +26,13 @@ public abstract class BaseStep implements MuseStep
         return _config;
         }
 
+    /**
+     * Allows for future functionality to be performed before/after the actual implementation of the step.
+     */
     @Override
     public StepExecutionResult execute(StepExecutionContext context) throws MuseExecutionError
         {
-//        if (!_started)
-//            {
-//            _started = true;
-//            context.raiseEvent(new StepEvent(MuseEventType.StartStep, _config, context));
-//            }
-        StepExecutionResult result = executeImplementation(context);
-//        context.raiseEvent(new StepEvent(MuseEventType.EndStep, _config, context, result));
-        return result;
+        return executeImplementation(context);
         }
 
     /**
@@ -53,7 +48,7 @@ public abstract class BaseStep implements MuseStep
      * A convenience method to get a specific value source from the configuration parameter list
      * @see BaseValueSource#getValueSource
      */
-    protected MuseValueSource getValueSource(StepConfiguration config, String name, boolean required, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    protected MuseValueSource getValueSource(StepConfiguration config, String name, boolean required, MuseProject project) throws MuseInstantiationException
         {
         return BaseValueSource.getValueSource(config, name, required, project);
         }
@@ -68,7 +63,6 @@ public abstract class BaseStep implements MuseStep
         }
 
     private StepConfiguration _config;
-//    private boolean _started = false;
     }
 
 
