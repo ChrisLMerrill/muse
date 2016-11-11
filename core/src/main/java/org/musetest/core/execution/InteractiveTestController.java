@@ -92,9 +92,11 @@ public class InteractiveTestController implements MuseEventListener
         {
         if (state.equals(_state))
             return;
-
         _state = state;
-        for (InteractiveTestStateListener listener : _listeners)
+
+        // iterate a separate list, so that listeners may unsubscribe during an event.
+        List<InteractiveTestStateListener> listeners = new ArrayList<>(_listeners);
+        for (InteractiveTestStateListener listener : listeners)
             listener.stateChanged(state);
         }
 
