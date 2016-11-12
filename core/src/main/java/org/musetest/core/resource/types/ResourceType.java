@@ -14,7 +14,7 @@ public abstract class ResourceType
         _class = interface_class;
         }
 
-    public Class getInterfaceClass()
+    Class getInterfaceClass()
         {
         return _class;
         }
@@ -33,7 +33,7 @@ public abstract class ResourceType
         {
         try
             {
-            return (MuseResource) _class.newInstance();
+            return (MuseResource) getInterfaceClass().newInstance();
             }
         catch (Exception e)
             {

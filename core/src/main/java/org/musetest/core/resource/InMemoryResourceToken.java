@@ -11,6 +11,8 @@ public class InMemoryResourceToken implements ResourceToken
     {
     public InMemoryResourceToken(MuseResource resource)
         {
+        if (resource == null)
+            throw new IllegalArgumentException("resource parameter is required");
         _resource = resource;
         }
 
@@ -32,10 +34,10 @@ public class InMemoryResourceToken implements ResourceToken
         if (!(obj instanceof InMemoryResourceToken))
             return false;
         InMemoryResourceToken other = (InMemoryResourceToken) obj;
-        return _resource.getMetadata().getId().equals(other.getMetadata().getId());
+        return _resource == other._resource;
         }
 
-    private MuseResource _resource;
+    private final MuseResource _resource;
     }
 
 

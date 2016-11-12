@@ -18,13 +18,16 @@ public class InMemoryResourceStore implements ResourceStore
     @Override
     public ResourceToken addResource(MuseResource resource)
         {
-        if (getResource(new InMemoryResourceToken(resource)) != null)
+        if (getResource(resource.getMetadata().getId()) != null)
             throw new IllegalArgumentException("Resource with already exists with the same ID: " + resource.getMetadata().getId());
 
         if (resource.getMetadata().getId() == null)
             resource.getMetadata().setId(UUID.randomUUID().toString());
         _resources.add(resource);
-        return new InMemoryResourceToken(resource);
+        InMemoryResourceToken token = new InMemoryResourceToken(resource);
+        for (ProjectResourceListener listener : _listeners)
+            listener.resourceAdded(token);
+        return token;
         }
 
     @Override
@@ -34,10 +37,12 @@ public class InMemoryResourceStore implements ResourceStore
         if (resource == null)
             return false;
         _resources.remove(resource);
+        for (ProjectResourceListener listener : _listeners)
+            listener.resourceRemoved(token);
         return true;
         }
 
-    private MuseResource getResource(String id)
+    public MuseResource getResource(String id)
         {
         for (MuseResource resource : _resources)
             if (resource.getMetadata().getId().equals(id))
@@ -121,13 +126,13 @@ public class InMemoryResourceStore implements ResourceStore
         return _class_locator;
         }
 
-    protected void setClassLocator(ClassLocator locator)
+    void setClassLocator(ClassLocator locator)
         {
         _class_locator = locator;
         _factory_locator = new FactoryLocator(locator);
         }
 
-    protected FactoryLocator getFactoryLocator()
+    FactoryLocator getFactoryLocator()
         {
         return _factory_locator;
         }
@@ -138,11 +143,28 @@ public class InMemoryResourceStore implements ResourceStore
         return null;  // nothing to do for the in-memory store
         }
 
+    @Override
+    public boolean addResourceListener(ProjectResourceListener listener)
+        {
+        if (_listeners.contains(listener))
+            return false;
+        _listeners.add(listener);
+        return true;
+        }
+
+    @Override
+    public boolean removeResourceListener(ProjectResourceListener listener)
+        {
+        return _listeners.remove(listener);
+        }
+
     private List<MuseResource> _resources = new ArrayList<>();
     private ClassLocator _class_locator = DefaultClassLocator.get();
     private FactoryLocator _factory_locator = new FactoryLocator(DefaultClassLocator.get());
 
-    final static Logger LOG = LoggerFactory.getLogger(InMemoryResourceStore.class);
+    private transient List<ProjectResourceListener> _listeners = new ArrayList<>();
+
+    private final static Logger LOG = LoggerFactory.getLogger(InMemoryResourceStore.class);
     }
 
 

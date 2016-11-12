@@ -29,21 +29,15 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
     @Override
     public ResourceToken addResource(MuseResource resource)
         {
-        if (getResource(new InMemoryResourceToken(resource)) != null)
-            throw new IllegalArgumentException("Resource with already exists with the same ID: " + resource.getMetadata().getId());
-
-        if (resource.getMetadata().getId() == null)
-            resource.getMetadata().setId(UUID.randomUUID().toString());
-
         // for a new resource, we need to setup the origin
         if (resource.getMetadata().getOrigin() == null)
             {
             resource.getMetadata().setSaver(new FromJsonFileResourceFactory());
             resource.getMetadata().setOrigin(new FileResourceOrigin(new File(_folder, resource.getMetadata().getId() + "." + resource.getMetadata().getSaver().getDefaultFileExtension())));
             }
+        ResourceToken token = super.addResource(resource);
         saveResource(resource);
-
-        return super.addResource(resource);
+        return token;
         }
 
     @Override
