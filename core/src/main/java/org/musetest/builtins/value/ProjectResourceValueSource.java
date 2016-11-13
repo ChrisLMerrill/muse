@@ -27,7 +27,7 @@ public class ProjectResourceValueSource extends BaseValueSource
     public MuseResource resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         String id = getValue(_id_source, context, false, String.class);
-        MuseResource resource = _project.getResource(_project.findResource(id, MuseResource.class));
+        MuseResource resource = _project.getResource(id);
         if (resource == null)
             throw new ValueSourceResolutionError(String.format("Unable to resolve the project resource (id=%s). Search returned null.", id));
         return resource;

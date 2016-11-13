@@ -21,30 +21,46 @@ public interface MuseProject
     ResourceToken addResource(MuseResource resource);
     boolean removeResource(ResourceToken token);
 
-    List<ResourceToken> findResources(ResourceMetadata filter);
-
-    <T extends MuseResource> List<ResourceToken<T>> findResources(ResourceMetadata filter, Class<T> interface_class);
-
-    /*
-     * A convenience method for finding a resource that has only a single match.
-     *
-     * @param filter Filters to apply to the search
-     * @return A resource matching the filters or null if no matches found
+    /**
+     * Get the resource with the id.
      */
-    ResourceToken findResource(ResourceMetadata filter);
+    MuseResource getResource(String id);
 
     /*
-     * A convenience method for finding a resource matching and id and resource type
+     * A convenience method for finding a resource matching an id that is the supplied class.
      *
      * @param id The id of the resource
      * @param interface_class The class of the resource.
      * @return A resource matching the provided id and interface_class
      */
-    <T extends MuseResource> ResourceToken<T> findResource(String id, Class<T> interface_class);
+    <T extends MuseResource> T getResource(String id, Class<T> implementing_class);
 
+    /**
+     * Find resources matching the attributes.
+     */
+    List<ResourceToken> findResources(ResourceAttributes attributes);
+
+    /**
+     * Fetch the resource corresonding to the supplied token.
+     * @return The resource, or null if it cannot be found (e.g. it was deleted since the token was created).
+     */
     <T extends MuseResource> T getResource(ResourceToken<T> token);
-    <T extends MuseResource> List<T> getResources(List<ResourceToken<T>> token);
-    List<MuseResource> getUntypedResources(List<ResourceToken> tokens);
+
+    /**
+     * Get a list of resources corresponding to the supplied list of tokens.
+     *
+     * If a resource cannot be found for any reason (i.e. it was deleted since the token was created), the
+     * corresponding entry in the list will be null.
+     */
+    <T extends MuseResource> List<T> getResources(List<ResourceToken> tokens, Class<T> implementing_class);
+
+    /**
+     * Fetch all the resources for the tokens.
+     *
+     * If a resource cannot be found for any reason (i.e. it was deleted since the token was created), the
+     * corresponding entry in the list will be null.
+     */
+    List<MuseResource> getResources(List<ResourceToken> tokens);
 
     /**
      * Saves changes to a resource via the ResourceStore.

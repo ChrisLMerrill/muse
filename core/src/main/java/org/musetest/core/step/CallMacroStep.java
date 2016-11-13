@@ -47,7 +47,7 @@ public class CallMacroStep extends ScopedGroup
             throw new StepExecutionError("id source resolved to null");
         else if (!(id_obj instanceof String))
             LOG.warn("id source did not resolve to a string. using toString() = " + id_obj.toString());
-        ContainsStep resource = _project.getResource(_project.findResource(id_obj.toString(), ContainsStep.class));
+        ContainsStep resource = _project.getResource(id_obj.toString(), ContainsStep.class);
         if (resource == null)
             throw new StepExecutionError("unable to locate id " + id_obj.toString());
 

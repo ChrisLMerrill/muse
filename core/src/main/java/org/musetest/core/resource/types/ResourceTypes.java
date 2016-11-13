@@ -40,14 +40,6 @@ public class ResourceTypes
             }
         }
 
-    public ResourceType forImplementationInterface(Class implementation)
-        {
-        for (ResourceType type : _types.values())
-            if (type.getInterfaceClass().equals(implementation))
-                return type;
-        return null;
-        }
-
     @SuppressWarnings("unchecked")
     public ResourceType forObject(Object obj)
         {

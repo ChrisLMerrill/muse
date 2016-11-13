@@ -30,12 +30,12 @@ public class RunCommand extends MuseCommand
     public void run()
         {
         MuseProject project = openProject();
-        MuseResource resource = project.getResource(project.findResource(resource_id, MuseResource.class));
+        MuseResource resource = project.getResource(resource_id);
         String id = resource_id;
         while (resource == null && id.contains("."))
             {
             id = id.substring(0, id.lastIndexOf("."));
-            resource = project.getResource(project.findResource(id, MuseResource.class));
+            resource = project.getResource(id);
             }
         if (resource == null)
             {

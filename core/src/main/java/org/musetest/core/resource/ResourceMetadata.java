@@ -7,7 +7,11 @@ import org.slf4j.*;
 import java.util.*;
 
 /**
- * Contains attributes about the resource that allow it to be identified/queried/located in a project
+ * Contains attributes about the resource that are attached by the ResourceStore.
+ * I.e. the describe how it is stored, when it was changed, etc.
+ *
+ * Metadata is not (directly) persisted when stored and may be recreated from scratch
+ * by the ResourceStore when restored.
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -25,11 +29,11 @@ public class ResourceMetadata
 
     public void setId(String id)
         {
-        setAttribute(ID_ATTRIBUTE, id);
+        _id = id;
         }
     public String getId()
         {
-        return getAttribute(ID_ATTRIBUTE, String.class);
+        return _id;
         }
 
     public void setOrigin(ResourceOrigin origin)
@@ -108,6 +112,9 @@ public class ResourceMetadata
         if (!_tags.contains(tag))
             _tags.add(tag);
         }
+
+    private String _id;
+    private String _type_id;
 
     private transient ResourceOrigin _origin;
     private transient MuseResourceSaver _saver;

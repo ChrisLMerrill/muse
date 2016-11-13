@@ -20,7 +20,7 @@ public class ProjectClasspathTests
         project.open();
 
         // was the project able to load resources using classes from the project classpath?
-        MuseTest test = project.getResource(project.findResource("TestUsesCustomJavaStep", MuseTest.class));
+        MuseTest test = project.getResource("TestUsesCustomJavaStep", MuseTest.class);
         Assert.assertNotNull(test);
 
         // Running test directly may pass or fail, depending on when the FactoryLocator scanned the classpath.
@@ -37,7 +37,7 @@ public class ProjectClasspathTests
         project.open();
 
         // was the project able to load resources using classes from the project classpath?
-        MuseTest test = project.getResource(project.findResource("TestUsesCustomJavaStepFromJar", MuseTest.class));
+        MuseTest test = project.getResource("TestUsesCustomJavaStepFromJar", MuseTest.class);
         Assert.assertNotNull(test);
 
         // Running test directly may pass or fail, depending on when the FactoryLocator scanned the classpath.

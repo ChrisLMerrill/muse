@@ -51,20 +51,28 @@ public class InMemoryResourceStore implements ResourceStore
         }
 
     @Override
-    public List<ResourceToken> findResources(ResourceMetadata matcher)
+    public List<ResourceToken> findResources(ResourceAttributes attributes)
         {
-        List<ResourceToken> resources = new ArrayList<>();
+        List<ResourceToken> matches = new ArrayList<>();
         for (MuseResource resource : _resources)
             {
-            boolean match = true;
-            for (String name : matcher.getAttributeNames())
-                {
-                Object attribute = matcher.getAttribute(name);
-                if (attribute != null && !attribute.equals(resource.getMetadata().getAttribute(name)))
-                    match = false;
-                }
-            if (match)
-                resources.add(new InMemoryResourceToken(resource));
+            if (attributes._types.contains(resource.getMetadata().getType()))
+                matches.add(new InMemoryResourceToken(resource));
+            }
+        return matches;
+        }
+
+    @Override
+    public <T extends MuseResource> List<T> getResources(List<ResourceToken> tokens, Class<T> implementing_class)
+        {
+        List<T> resources = new ArrayList<>();
+        for (ResourceToken token : tokens)
+            {
+            MuseResource resource = getResource(token.getMetadata().getId());
+            if (implementing_class.isInstance(resource))
+                resources.add((T) resource);
+            else
+                resources.add(null);
             }
         return resources;
         }
@@ -97,16 +105,7 @@ public class InMemoryResourceStore implements ResourceStore
         }
 
     @Override
-    public <T extends MuseResource> List<T> getResources(List<ResourceToken<T>> tokens)
-        {
-        List<T> resources = new ArrayList<>();
-        for (ResourceToken<T> token : tokens)
-            resources.add(getResource(token));
-        return resources;
-        }
-
-    @Override
-    public List<MuseResource> getUntypedResources(List<ResourceToken> tokens)
+    public List<MuseResource> getResources(List<ResourceToken> tokens)
         {
         List<MuseResource> resources = new ArrayList<>();
         for (ResourceToken token : tokens)

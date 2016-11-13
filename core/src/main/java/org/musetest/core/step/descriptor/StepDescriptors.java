@@ -80,8 +80,8 @@ public class StepDescriptors
             }
 
         // find descriptors for scripted steps
-        List<ResourceToken> tokens = _project.findResources(new ResourceMetadata(ResourceTypes.jsStep));
-        List<MuseResource> scripted_steps = _project.getUntypedResources(tokens);
+        List<ResourceToken> tokens = _project.findResources(new ResourceAttributes(ResourceTypes.jsStep));
+        List<MuseResource> scripted_steps = _project.getResources(tokens);
         for (MuseResource step : scripted_steps)
             {
             JavascriptStepResource step_resource = (JavascriptStepResource) step;

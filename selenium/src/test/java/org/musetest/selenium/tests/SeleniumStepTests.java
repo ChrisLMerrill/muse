@@ -172,7 +172,7 @@ public class SeleniumStepTests
 
         WebPage page1 = new WebPage();
         page1.getMetadata().setId("page1");
-        page1.getMetadata().setType(new ResourceTypes(DefaultClassLocator.get()).forObject(page1));
+        page1.getMetadata().setType(new WebPage.WebPageType());
         PageElement element1 = new PageElement();
         final String element_id = "element#1";
         element1.setLocator(ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(element_id)));

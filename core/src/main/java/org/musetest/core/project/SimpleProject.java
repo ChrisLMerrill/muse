@@ -47,46 +47,30 @@ public class SimpleProject implements MuseProject
         }
 
     @Override
-    public List<ResourceToken> findResources(ResourceMetadata filter)
+    public MuseResource getResource(String id)
         {
-        return _resources.findResources(filter);
+        return _resources.getResource(id);
         }
 
     @Override
-    public <T extends MuseResource> List<ResourceToken<T>> findResources(ResourceMetadata filter, Class<T> interface_class)
+    public <T extends MuseResource> T getResource(String id, Class<T> implementing_class)
         {
-        filter.setType(getResourceTypes().forImplementationInterface(interface_class));
-        List<ResourceToken<T>> typed_tokens = new ArrayList<>();
-        List<ResourceToken> tokens = _resources.findResources(filter);
-        for (ResourceToken token : tokens)
-            typed_tokens.add((ResourceToken<T>)token);
-        return typed_tokens;
+        MuseResource resource = getResource(id);
+        if (implementing_class.isInstance(resource))
+            return (T) resource;
+        return null;
         }
 
     @Override
-    public ResourceToken findResource(ResourceMetadata filter)
+    public List<ResourceToken> findResources(ResourceAttributes attributes)
         {
-        List<ResourceToken> resources = _resources.findResources(filter);
-        if (resources.size() == 0)
-            return null;
-        else if (resources.size() > 1)
-            LOG.warn("Multiple matches found for filter: " + filter.toString());
-        return resources.get(0);
+        return _resources.findResources(attributes);
         }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T extends MuseResource> ResourceToken<T> findResource(String id, Class<T> interface_class)
+    public <T extends MuseResource> List<T> getResources(List<ResourceToken> tokens, Class<T> implementing_class)
         {
-        ResourceMetadata filter = new ResourceMetadata();
-        filter.setId(id);
-        filter.setType(getResourceTypes().forImplementationInterface(interface_class));
-        List<ResourceToken> tokens = findResources(filter);
-        if (tokens.size() == 0)
-            return null;
-        else if (tokens.size() > 1)
-            LOG.warn("Multiple matches found for id=" + id + ", interface=" + interface_class.getSimpleName());
-        return tokens.get(0);
+        return _resources.getResources(tokens, implementing_class);
         }
 
     public ResourceTypes getResourceTypes()
@@ -105,15 +89,9 @@ public class SimpleProject implements MuseProject
         }
 
     @Override
-    public <T extends MuseResource> List<T> getResources(List<ResourceToken<T>> tokens)
+    public List<MuseResource> getResources(List<ResourceToken> tokens)
         {
         return _resources.getResources(tokens);
-        }
-
-    @Override
-    public List<MuseResource> getUntypedResources(List<ResourceToken> tokens)
-        {
-        return _resources.getUntypedResources(tokens);
         }
 
     @Override

@@ -14,7 +14,7 @@ public class PageLocator
 
     public WebPage find(String id)
         {
-        return _project.getResource(_project.findResource(id, WebPage.class));
+        return _project.getResource(id, WebPage.class);
         }
 
     MuseProject _project;

@@ -14,15 +14,11 @@ public interface ResourceStore
 
     boolean removeResource(ResourceToken token);
 
-    List<ResourceToken> findResources(ResourceMetadata matcher);
-
+    List<ResourceToken> findResources(ResourceAttributes attributes);
+    <T extends MuseResource> List<T> getResources(List<ResourceToken> tokens, Class<T> implementing_class);
     <T extends MuseResource> T getResource(ResourceToken<T> token);
-
     MuseResource getResource(String id);
-
-    <T extends MuseResource> List<T> getResources(List<ResourceToken<T>> tokens);
-
-    List<MuseResource> getUntypedResources(List<ResourceToken> tokens);
+    List<MuseResource> getResources(List<ResourceToken> tokens);
 
     ClassLoader getContextClassloader();
 
