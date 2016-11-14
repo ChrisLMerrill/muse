@@ -56,8 +56,11 @@ public class InMemoryResourceStore implements ResourceStore
         List<ResourceToken> matches = new ArrayList<>();
         for (MuseResource resource : _resources)
             {
-            if (attributes._types.contains(resource.getType()))
-                matches.add(new InMemoryResourceToken(resource));
+            if (attributes._types.size() == 0 || attributes._types.contains(resource.getType()))
+                {
+                if (attributes._id == null || resource.getId().equals(attributes._id) )
+                    matches.add(new InMemoryResourceToken(resource));
+                }
             }
         return matches;
         }

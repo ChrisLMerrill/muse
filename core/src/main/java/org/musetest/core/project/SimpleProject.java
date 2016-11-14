@@ -10,7 +10,6 @@ import org.musetest.core.step.factory.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
-import org.slf4j.*;
 
 import java.util.*;
 
@@ -65,6 +64,18 @@ public class SimpleProject implements MuseProject
     public List<ResourceToken> findResources(ResourceAttributes attributes)
         {
         return _resources.findResources(attributes);
+        }
+
+    @Override
+    public ResourceToken findResource(String id)
+        {
+        List<ResourceToken> tokens = _resources.findResources(new ResourceAttributes(id));
+        if (tokens.size() == 0)
+            return null;
+        else if (tokens.size() == 1)
+            return tokens.get(0);
+        else
+            throw new RuntimeException(String.format("The resource store returned two resources for id %s. This should never happen.", id));
         }
 
     @Override
@@ -211,8 +222,6 @@ public class SimpleProject implements MuseProject
     private ResourceTypes _resource_types;
     private Map<String, String> _command_line_options;
     private String _name = "unnamed project";
-
-    private final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);
     }
 
 

@@ -41,6 +41,11 @@ public interface MuseProject
     List<ResourceToken> findResources(ResourceAttributes attributes);
 
     /**
+     * Find resources matching the attributes.
+     */
+    ResourceToken findResource(String id);
+
+    /**
      * Fetch the resource corresonding to the supplied token.
      * @return The resource, or null if it cannot be found (e.g. it was deleted since the token was created).
      */
@@ -91,6 +96,7 @@ public interface MuseProject
     ValueSourceStringExpressionSupporters getValueSourceStringExpressionSupporters();
     PropertyResolvers getPropertyResolvers();
     SystemVariableProviders getSystemVariableProviders();
+    @SuppressWarnings("unused") // used by project navigator in UI
     ResourceTypes getResourceTypes();
 
     /**

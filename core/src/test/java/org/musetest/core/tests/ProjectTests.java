@@ -40,7 +40,12 @@ public class ProjectTests
         project.addResource(test2);
 
         MuseResource resource = project.getResource("test1");
+        Assert.assertNotNull(resource);
         Assert.assertEquals("should find the right resource", test1, resource);
+
+        ResourceToken<MuseTest> token = project.findResource("test2");
+        Assert.assertNotNull(token);
+        Assert.assertEquals("token doesn't have the right resource", test2, token.getResource());
         }
 
     @Test
@@ -71,7 +76,7 @@ public class ProjectTests
 
         AtomicReference<ResourceToken> resource_added = new AtomicReference(null);
         AtomicReference<ResourceToken> resource_removed = new AtomicReference(null);
-        project.addResourceListener(new ProjectResourceListener()
+        ProjectResourceListener listener = new ProjectResourceListener()
             {
             @Override
             public void resourceAdded(ResourceToken added)
@@ -84,7 +89,8 @@ public class ProjectTests
                 {
                 resource_removed.set(removed);
                 }
-            });
+            };
+        project.addResourceListener(listener);
 
         project.addResource(test);
         Assert.assertNotNull(resource_added.get());
@@ -93,6 +99,12 @@ public class ProjectTests
         project.removeResource(new InMemoryResourceToken(test));
         Assert.assertNotNull(resource_removed.get());
         Assert.assertEquals(test.getId(), resource_removed.get().getId());
+
+        // ensure listener is deregistered
+        resource_added.set(null);
+        project.removeResourceListener(listener);
+        project.addResource(test);
+        Assert.assertNull(resource_added.get());
         }
 
     @Test

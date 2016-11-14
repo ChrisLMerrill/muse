@@ -17,7 +17,13 @@ public class ResourceAttributes
         _types.add(type);
         }
 
+    public ResourceAttributes(String id)
+        {
+        _id = id;
+        }
+
     List<ResourceType> _types = new ArrayList<>();
+    String _id = null;
     }
 
 
