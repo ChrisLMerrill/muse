@@ -106,7 +106,7 @@ public class ValueSourceTests
         final String test_id = "test_id";
         MuseTest test = new MockTest(null, test_id);
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
-        project.addResource(test);
+        project.getResourceStorage().addResource(test);
 
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
         config.setSource(ValueSourceConfiguration.forValue(test_id));

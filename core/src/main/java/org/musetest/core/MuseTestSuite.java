@@ -19,7 +19,7 @@ public interface MuseTestSuite extends MuseResource
         {
         public TestSuiteResourceType()
             {
-            super("testsuite", "Macro", MuseTestSuite.class);
+            super("testsuite", "Test Suite", MuseTestSuite.class);
             }
         }
     }

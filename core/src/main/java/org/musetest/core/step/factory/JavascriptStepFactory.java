@@ -17,7 +17,7 @@ public class JavascriptStepFactory implements StepFactory
             return null;
 
         // look for javascript-steps in the project
-        JavascriptStepResource builder = project.getResource(configuration.getType(), JavascriptStepResource.class);
+        JavascriptStepResource builder = project.getResourceStorage().getResource(configuration.getType(), JavascriptStepResource.class);
         if (builder == null)
             return null;
 

@@ -17,7 +17,7 @@ public class SuiteTests
     public void testSimpleSuiteById()
         {
         MuseProject project = ProjectFactory.create(TestUtils.getTestResource("projects/simpleSuite", getClass()), Collections.emptyMap());
-        MuseTestSuite suite = project.getResource("TestSuite", MuseTestSuite.class);
+        MuseTestSuite suite = project.getResourceStorage().getResource("TestSuite", MuseTestSuite.class);
         Assert.assertNotNull(suite);
 
         SimpleTestSuiteRunner runner = new SimpleTestSuiteRunner(suite);

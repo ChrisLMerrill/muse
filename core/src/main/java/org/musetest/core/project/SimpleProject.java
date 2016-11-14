@@ -46,42 +46,9 @@ public class SimpleProject implements MuseProject
         }
 
     @Override
-    public MuseResource getResource(String id)
+    public ResourceStorage getResourceStorage()
         {
-        return _resources.getResource(id);
-        }
-
-    @Override
-    public <T extends MuseResource> T getResource(String id, Class<T> implementing_class)
-        {
-        MuseResource resource = getResource(id);
-        if (implementing_class.isInstance(resource))
-            return (T) resource;
-        return null;
-        }
-
-    @Override
-    public List<ResourceToken> findResources(ResourceAttributes attributes)
-        {
-        return _resources.findResources(attributes);
-        }
-
-    @Override
-    public ResourceToken findResource(String id)
-        {
-        List<ResourceToken> tokens = _resources.findResources(new ResourceAttributes(id));
-        if (tokens.size() == 0)
-            return null;
-        else if (tokens.size() == 1)
-            return tokens.get(0);
-        else
-            throw new RuntimeException(String.format("The resource store returned two resources for id %s. This should never happen.", id));
-        }
-
-    @Override
-    public <T extends MuseResource> List<T> getResources(List<ResourceToken> tokens, Class<T> implementing_class)
-        {
-        return _resources.getResources(tokens, implementing_class);
+        return _resources;
         }
 
     public ResourceTypes getResourceTypes()
@@ -89,38 +56,6 @@ public class SimpleProject implements MuseProject
         if (_resource_types == null)
             _resource_types = new ResourceTypes(getClassLocator());
         return _resource_types;
-        }
-
-    @Override
-    public <T extends MuseResource> T getResource(ResourceToken<T> token)
-        {
-        if (token == null)
-            return null;
-        return _resources.getResource(token);
-        }
-
-    @Override
-    public List<MuseResource> getResources(List<ResourceToken> tokens)
-        {
-        return _resources.getResources(tokens);
-        }
-
-    @Override
-    public ResourceToken addResource(MuseResource resource)
-        {
-        return _resources.addResource(resource);
-        }
-
-    @Override
-    public boolean removeResource(ResourceToken token)
-        {
-        return _resources.removeResource(token);
-        }
-
-    @Override
-    public String saveResource(MuseResource resource)
-        {
-        return _resources.saveResource(resource);
         }
 
     @Override

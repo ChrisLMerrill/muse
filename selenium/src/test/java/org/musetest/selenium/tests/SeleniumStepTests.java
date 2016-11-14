@@ -175,7 +175,7 @@ public class SeleniumStepTests
         element1.setLocator(ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(element_id)));
         String page_element_id = "element1";
         page1.addElement(page_element_id, element1);
-        project.addResource(page1);
+        project.getResourceStorage().addResource(page1);
 
         MuseMockDriver driver = new MuseMockDriver();
         final MuseMockElement mock_element1 = new MuseMockElement();

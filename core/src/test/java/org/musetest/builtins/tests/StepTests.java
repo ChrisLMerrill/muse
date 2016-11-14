@@ -160,7 +160,7 @@ public class StepTests
         main.addChild(message_step);
         macro.setId(macro_id);
         macro.setStep(main);
-        project.addResource(macro);
+        project.getResourceStorage().addResource(macro);
 
         // create a step and test that calls the macro above
         StepConfiguration call_macro = new StepConfiguration(CallMacroStep.TYPE_ID);
@@ -198,7 +198,7 @@ public class StepTests
         main.addChild(return_step);
         function.setId(function_id);
         function.setStep(main);
-        project.addResource(function);
+        project.getResourceStorage().addResource(function);
 
         // create a step and test that calls the function above
         StepConfiguration test_step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
@@ -243,7 +243,7 @@ public class StepTests
         main.addChild(log_step);
         function.setId(function_id);
         function.setStep(main);
-        project.addResource(function);
+        project.getResourceStorage().addResource(function);
 
         // create a step and test that calls the function above
         StepConfiguration test_step = new StepConfiguration(BasicCompoundStep.TYPE_ID);

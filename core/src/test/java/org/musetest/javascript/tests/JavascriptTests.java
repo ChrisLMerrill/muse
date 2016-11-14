@@ -93,7 +93,7 @@ public class JavascriptTests
         Assert.assertTrue(resources.get(0) instanceof JavascriptStepResource);
 
         JavascriptStepResource step_resource = (JavascriptStepResource) resources.get(0);
-        project.addResource(step_resource);
+        project.getResourceStorage().addResource(step_resource);
 
         return step_resource;
         }

@@ -86,8 +86,8 @@ public class TestSuiteTests
         SteppedTest test = (SteppedTest) ResourceFactory.createResources(new FileResourceOrigin(test_file), new FactoryLocator(null), DefaultClassLocator.get()).get(0);
 
         SimpleProject project = new SimpleProject(new InMemoryResourceStorage());
-        project.addResource(suite);
-        project.addResource(test);
+        project.getResourceStorage().addResource(suite);
+        project.getResourceStorage().addResource(test);
 
         SimpleTestSuiteRunner runner = new SimpleTestSuiteRunner(suite);
         MuseTestSuiteResult result = runner.execute(project);

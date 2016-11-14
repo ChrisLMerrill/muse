@@ -28,7 +28,7 @@ public class ResourceFactoryTests
         test.setId("test1");
         store.loadResource(new MockResourceOrigin(test));
 
-        final List<ResourceToken> resources = project.findResources(new ResourceAttributes(new MuseTest.TestResourceType()));
+        final List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceAttributes(new MuseTest.TestResourceType()));
         Assert.assertEquals(1, resources.size());
         Assert.assertEquals("test1", resources.get(0).getId());
         }
@@ -38,7 +38,7 @@ public class ResourceFactoryTests
         {
         FolderIntoMemoryResourceStorage store = new FolderIntoMemoryResourceStorage(TestUtils.getTestResource("projects/files", getClass()));
         MuseProject project = new SimpleProject(store);
-        MuseResource resource = project.getResource("not_done_yet", MockMuseResource.class);
+        MuseResource resource = project.getResourceStorage().getResource("not_done_yet", MockMuseResource.class);
         Assert.assertNull(resource);
         }
     }

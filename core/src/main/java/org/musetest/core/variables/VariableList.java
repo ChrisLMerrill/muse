@@ -141,7 +141,7 @@ public class VariableList extends BaseMuseResource
         {
         public VariableListResourceType()
             {
-            super(TYPE_ID, "Macro", VariableList.class);
+            super(TYPE_ID, "Variable List", VariableList.class);
             }
         }
     }

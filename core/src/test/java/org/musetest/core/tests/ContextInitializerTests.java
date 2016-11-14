@@ -39,11 +39,11 @@ public class ContextInitializerTests
 
         VariableList list = new VariableList();
         list.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
-        project.addResource(list);
+        project.getResourceStorage().addResource(list);
 
         VariableList list2 = new VariableList();
         list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
-        project.addResource(list2);
+        project.getResourceStorage().addResource(list2);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
         VariableListsInitializer initializer = new VariableListsInitializer();
@@ -62,19 +62,19 @@ public class ContextInitializerTests
         VariableList list1 = new VariableList();
         list1.setId("list1");
         list1.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
-        project.addResource(list1);
+        project.getResourceStorage().addResource(list1);
 
         VariableList list2 = new VariableList();
         list2.setId("list2");
         list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
-        project.addResource(list2);
+        project.getResourceStorage().addResource(list2);
 
         ContextInitializerConfigurations configurations = new ContextInitializerConfigurations();
         VariableListContextInitializerConfiguration config = new VariableListContextInitializerConfiguration();
         config.setVariableListId("list2");
         config.setIncludeCondition(ValueSourceConfiguration.forValue(Boolean.TRUE));
         configurations.addVariableListInitializer(config);
-        project.addResource(configurations);
+        project.getResourceStorage().addResource(configurations);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
         VariableListsInitializer initializer = new VariableListsInitializer();
@@ -93,12 +93,12 @@ public class ContextInitializerTests
         VariableList list1 = new VariableList();
         list1.setId("list1");
         list1.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
-        project.addResource(list1);
+        project.getResourceStorage().addResource(list1);
 
         VariableList list2 = new VariableList();
         list2.setId("list2");
         list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
-        project.addResource(list2);
+        project.getResourceStorage().addResource(list2);
 
         ContextInitializerConfigurations configurations = new ContextInitializerConfigurations();
         VariableListContextInitializerConfiguration config = new VariableListContextInitializerConfiguration();
@@ -108,7 +108,7 @@ public class ContextInitializerTests
         condition.addSource(EqualityCondition.RIGHT_PARAM, ValueSourceConfiguration.forTypeWithSource(SystemVariableSource.TYPE_ID, ValueSourceConfiguration.forValue(ProjectVarsInitializerSysvarProvider.SYSVAR_NAME)));
         config.setIncludeCondition(condition);
         configurations.addVariableListInitializer(config);
-        project.addResource(configurations);
+        project.getResourceStorage().addResource(configurations);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
         VariableListsInitializer initializer = new VariableListsInitializer();

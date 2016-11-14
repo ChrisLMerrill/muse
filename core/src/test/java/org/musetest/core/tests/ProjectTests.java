@@ -22,8 +22,8 @@ public class ProjectTests
 
         MuseTest test = new MockTest();
         test.setId("test1");
-        project.addResource(test);
-        Assert.assertNotNull(project.getResource("test1", MuseTest.class));
+        project.getResourceStorage().addResource(test);
+        Assert.assertNotNull(project.getResourceStorage().getResource("test1", MuseTest.class));
         }
 
     @Test
@@ -33,17 +33,17 @@ public class ProjectTests
 
         MuseTest test1 = new MockTest();
         test1.setId("test1");
-        project.addResource(test1);
+        project.getResourceStorage().addResource(test1);
 
         MuseTest test2 = new MockTest();
         test2.setId("test2");
-        project.addResource(test2);
+        project.getResourceStorage().addResource(test2);
 
-        MuseResource resource = project.getResource("test1");
+        MuseResource resource = project.getResourceStorage().getResource("test1");
         Assert.assertNotNull(resource);
         Assert.assertEquals("should find the right resource", test1, resource);
 
-        ResourceToken<MuseTest> token = project.findResource("test2");
+        ResourceToken<MuseTest> token = project.getResourceStorage().findResource("test2");
         Assert.assertNotNull(token);
         Assert.assertEquals("token doesn't have the right resource", test2, token.getResource());
         }
@@ -55,13 +55,13 @@ public class ProjectTests
 
         MuseTest test = new MockTest();
         test.setId("Test1");
-        project.addResource(test);
+        project.getResourceStorage().addResource(test);
 
         test = new MockTest();
         test.setId("Test2");
-        project.addResource(test);
+        project.getResourceStorage().addResource(test);
 
-        List<ResourceToken> resources = project.findResources(new ResourceAttributes(new MuseTest.TestResourceType()));
+        List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceAttributes(new MuseTest.TestResourceType()));
         Assert.assertEquals("Should find 2 resources", 2, resources.size());
         Assert.assertTrue("Should find one resource with id 'Test1'", resources.get(0).getId().equals("Test1") ^ resources.get(1).getId().equals("Test1"));
         Assert.assertTrue("Should find one resource with id 'Test2'", resources.get(0).getId().equals("Test2") ^ resources.get(1).getId().equals("Test2"));
@@ -92,18 +92,18 @@ public class ProjectTests
             };
         project.addResourceListener(listener);
 
-        project.addResource(test);
+        project.getResourceStorage().addResource(test);
         Assert.assertNotNull(resource_added.get());
         Assert.assertEquals(test.getId(), resource_added.get().getId());
 
-        project.removeResource(new InMemoryResourceToken(test));
+        project.getResourceStorage().removeResource(new InMemoryResourceToken(test));
         Assert.assertNotNull(resource_removed.get());
         Assert.assertEquals(test.getId(), resource_removed.get().getId());
 
         // ensure listener is deregistered
         resource_added.set(null);
         project.removeResourceListener(listener);
-        project.addResource(test);
+        project.getResourceStorage().addResource(test);
         Assert.assertNull(resource_added.get());
         }
 
@@ -113,13 +113,13 @@ public class ProjectTests
         MuseProject project = new SimpleProject();
         MuseTest test = new MockTest();
         test.setId("Test1");
-        project.addResource(test);
+        project.getResourceStorage().addResource(test);
 
         MuseTest duplicate = new MockTest();
         duplicate.setId("Test1");
         try
             {
-            project.addResource(duplicate);
+            project.getResourceStorage().addResource(duplicate);
             Assert.assertTrue("should have thown an exception", false);
             }
         catch (IllegalArgumentException e)

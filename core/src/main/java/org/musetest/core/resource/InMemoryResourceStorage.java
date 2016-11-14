@@ -51,6 +51,17 @@ public class InMemoryResourceStorage implements ResourceStorage
         }
 
     @Override
+    public <T extends MuseResource> T getResource(String id, Class<T> implementing_class)
+        {
+        MuseResource resource = getResource(id);
+        if (resource == null)
+            return null;
+        if (implementing_class.isInstance(resource))
+            return (T) resource;
+        return null;
+        }
+
+    @Override
     public List<ResourceToken> findResources(ResourceAttributes attributes)
         {
         List<ResourceToken> matches = new ArrayList<>();
@@ -63,6 +74,18 @@ public class InMemoryResourceStorage implements ResourceStorage
                 }
             }
         return matches;
+        }
+
+    @Override
+    public ResourceToken findResource(String id)
+        {
+        List<ResourceToken> tokens = findResources(new ResourceAttributes(id));
+        if (tokens.size() == 0)
+            return null;
+        else if (tokens.size() == 1)
+            return tokens.get(0);
+        else
+            throw new RuntimeException(String.format("The found two resources for id %s. This should never happen.", id));
         }
 
     @Override
@@ -101,6 +124,8 @@ public class InMemoryResourceStorage implements ResourceStorage
     @Override
     public <T extends MuseResource> T getResource(ResourceToken<T> token)
         {
+        if (token == null)
+            return null;
         for (MuseResource resource : _resources)
             if (resource.getId().equals(token.getId()))
                 return (T) resource;

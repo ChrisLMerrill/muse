@@ -22,7 +22,7 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
         List<TestConfiguration> tests = new ArrayList<>(_test_ids.size());
         for (String id : _test_ids)
             {
-            MuseTest test = project.getResource(id, MuseTest.class);
+            MuseTest test = project.getResourceStorage().getResource(id, MuseTest.class);
             if (test == null)
                 {
                 LOG.error("Test with id {} was not found in the project", id);

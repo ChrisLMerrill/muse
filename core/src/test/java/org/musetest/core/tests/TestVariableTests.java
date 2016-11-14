@@ -43,7 +43,7 @@ public class TestVariableTests
 
         VariableList list = new VariableList();
         list.setId("list123");
-        project.addResource(list);
+        project.getResourceStorage().addResource(list);
         list.addVariable(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
 
         DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
