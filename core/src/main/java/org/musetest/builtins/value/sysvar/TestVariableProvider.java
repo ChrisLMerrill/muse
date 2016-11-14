@@ -48,12 +48,12 @@ public class TestVariableProvider implements SystemVariableProvider
 
         public List<String> getTags()
             {
-            return _test.getMetadata().getTags();
+            return _test.getTags();
             }
 
         public String getId()
             {
-            return _test.getMetadata().getId();
+            return _test.getId();
             }
 
         private MuseTest _test;

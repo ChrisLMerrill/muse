@@ -67,15 +67,10 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
         return (obj instanceof SteppedTest && _step.equals(((SteppedTest)obj)._step));
         }
 
-    public boolean initializeContext(MuseExecutionContext context)
-        {
-        return true;
-        }
-
     @Override
     public String toString()
         {
-        return getMetadata().getId();
+        return getId();
         }
 
     private StepConfiguration _step;

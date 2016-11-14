@@ -2,7 +2,6 @@ package org.musetest.core.step.descriptor;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
 import org.musetest.core.util.*;
 import org.musetest.javascript.factory.*;
@@ -80,10 +79,10 @@ public class StepDescriptors
             }
 
         // find descriptors for scripted steps
-        List<ResourceToken> tokens = _project.findResources(new ResourceAttributes(ResourceTypes.jsStep));
+        List<ResourceToken> tokens = _project.findResources(new ResourceAttributes(new JavascriptStepResource.JavascriptStepResourceType()));
         List<MuseResource> scripted_steps = _project.getResources(tokens);
         for (MuseResource step : scripted_steps)
-            {
+             {
             JavascriptStepResource step_resource = (JavascriptStepResource) step;
             StepDescriptor descriptor = step_resource.getStepDescriptor(_project);
             _descriptors_by_type.put(descriptor.getType(), descriptor);
@@ -97,22 +96,21 @@ public class StepDescriptors
         if (descriptor_annotation != null)
             {
             Class<? extends StepDescriptor> descriptor_class = descriptor_annotation.value();
-            if (descriptor_class != null)
-                try
+            try
+                {
+                if (StepDescriptor.class.isAssignableFrom(descriptor_class))
                     {
-                    if (StepDescriptor.class.isAssignableFrom(descriptor_class))
-                        {
-                        Constructor<? extends StepDescriptor> constructor = descriptor_class.getConstructor(MuseProject.class);
-                        return constructor.newInstance(_project);
-                        }
-                    else
-                        LOG.error(String.format("The specified class (%s) does not implement the required interface (%s)", descriptor_class.getSimpleName(), StepDescriptor.class.getSimpleName()));
-                    return descriptor_class.newInstance();
+                    Constructor<? extends StepDescriptor> constructor = descriptor_class.getConstructor(MuseProject.class);
+                    return constructor.newInstance(_project);
                     }
-                catch (Exception e)
-                    {
-                    LOG.error("Unable to create the StepDescriptor based on the " + MuseStepDescriptorImplementation.class.getSimpleName() + " annotation. Implementing class is: " + descriptor_annotation.value().getSimpleName(), e);
-                    }
+                else
+                    LOG.error(String.format("The specified class (%s) does not implement the required interface (%s)", descriptor_class.getSimpleName(), StepDescriptor.class.getSimpleName()));
+                return descriptor_class.newInstance();
+                }
+            catch (Exception e)
+                {
+                LOG.error("Unable to create the StepDescriptor based on the " + MuseStepDescriptorImplementation.class.getSimpleName() + " annotation. Implementing class is: " + descriptor_annotation.value().getSimpleName(), e);
+                }
             }
         return new AnnotatedStepDescriptor(step_implementation, _project);
         }
@@ -130,7 +128,7 @@ public class StepDescriptors
     private Map<Class, StepDescriptor> _descriptors_by_class = new HashMap<>();
     private Set<StepDescriptor> _all_descriptors = new HashSet<>();
 
-    final static Logger LOG = LoggerFactory.getLogger(StepDescriptors.class);
+    private final static Logger LOG = LoggerFactory.getLogger(StepDescriptors.class);
     }
 
 

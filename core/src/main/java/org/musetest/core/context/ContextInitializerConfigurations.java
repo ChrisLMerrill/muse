@@ -11,7 +11,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("context-initializers")
-public class ContextInitializerConfigurations implements MuseResource
+public class ContextInitializerConfigurations extends BaseMuseResource
     {
     public List<VariableListContextInitializerConfiguration> getVariableListInitializers()
         {
@@ -63,15 +63,21 @@ public class ContextInitializerConfigurations implements MuseResource
             _listeners = null;
         }
 
+    @Override
+    public ResourceType getType()
+        {
+        return new ContextInitializerConfigurationsResourceType();
+        }
+
     private List<VariableListContextInitializerConfiguration> _var_lists = new ArrayList<>();
-    private ResourceMetadata _metadata = new ResourceMetadata(new ContextInitializersConfigurationType());
+    private ResourceMetadata _metadata = new ResourceMetadata();
     private transient List<ContextInitializerChangeListener> _listeners;
 
 
-    @SuppressWarnings("unused")  // discovered via reflection
-    public static class ContextInitializersConfigurationType extends ResourceType
+    @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    public static class ContextInitializerConfigurationsResourceType extends ResourceType
         {
-        public ContextInitializersConfigurationType()
+        public ContextInitializerConfigurationsResourceType()
             {
             super(ContextInitializerConfigurations.class.getAnnotation(MuseTypeId.class).value(), "Context Initializer", ContextInitializerConfigurations.class);
             }

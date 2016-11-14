@@ -2,6 +2,7 @@ package org.musetest.selenium;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.types.*;
 import org.openqa.selenium.*;
 
 import java.util.*;
@@ -12,7 +13,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("webdriver-provider-list")
-public class WebDriverProviderList implements WebDriverProviderConfiguration
+public class WebDriverProviderList extends BaseMuseResource implements WebDriverProviderConfiguration
     {
     @Override
     public WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context)
@@ -57,6 +58,12 @@ public class WebDriverProviderList implements WebDriverProviderConfiguration
         }
 
     @Override
+    public ResourceType getType()
+        {
+        return new WebdriverProviderResourceType();
+        }
+
+    @Override
     public ResourceMetadata getMetadata()
         {
         return _metadata;
@@ -67,6 +74,15 @@ public class WebDriverProviderList implements WebDriverProviderConfiguration
     private List<WebDriverProvider> _providers;
 
     public final static String TYPE_ID = WebDriverProviderList.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    public static class WebdriverProviderResourceType extends ResourceType
+        {
+        public WebdriverProviderResourceType()
+            {
+            super(TYPE_ID, "BrowserProvider", WebDriverProviderList.class);
+            }
+        }
     }
 
 

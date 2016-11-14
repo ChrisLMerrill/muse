@@ -29,7 +29,7 @@ public class JunitReportRenderer
             else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
                 {
                 writer.println(String.format("    <testcase classname=\"tests\" name=\"%s\">", result.getTest().getDescription()));
-                writer.println(String.format("        <error message=\"%s\"/>", "Unable to complete test due to: ") + result.getFailureDescription().getReason());
+                writer.println(String.format("        <error message=\"%s\"/>", "Unable to complete test due to: " + result.getFailureDescription().getReason()));
                 writer.println("        <system-out>");
                 writer.println(HtmlEscapers.htmlEscaper().escape(result.getLog().toString()));
                 writer.println("        </system-out>");

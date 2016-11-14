@@ -9,13 +9,11 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
 import org.musetest.core.execution.*;
-import org.musetest.core.steptest.SteppedTest;
-import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.tests.mocks.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
@@ -160,8 +158,7 @@ public class StepTests
         StepConfiguration message_step = new StepConfiguration(LogMessage.TYPE_ID);
         message_step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message));
         main.addChild(message_step);
-        macro.getMetadata().setId(macro_id);
-        macro.getMetadata().setType(ResourceTypes.Macro);
+        macro.setId(macro_id);
         macro.setStep(main);
         project.addResource(macro);
 
@@ -199,8 +196,7 @@ public class StepTests
         StepConfiguration return_step = new StepConfiguration(ReturnStep.TYPE_ID);
         return_step.addSource(ReturnStep.VALUE_PARAM, ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, param_name));
         main.addChild(return_step);
-        function.getMetadata().setId(function_id);
-        function.getMetadata().setType(ResourceTypes.Function);
+        function.setId(function_id);
         function.setStep(main);
         project.addResource(function);
 
@@ -245,7 +241,7 @@ public class StepTests
         String logged_message = "logged";
         log_step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(logged_message));
         main.addChild(log_step);
-        function.getMetadata().setId(function_id);
+        function.setId(function_id);
         function.setStep(main);
         project.addResource(function);
 

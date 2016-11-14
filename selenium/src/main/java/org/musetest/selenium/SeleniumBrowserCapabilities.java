@@ -11,7 +11,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("selenium-capabilities")
-public class SeleniumBrowserCapabilities implements MuseResource
+public class SeleniumBrowserCapabilities extends BaseMuseResource
     {
     public SeleniumBrowserCapabilities()
         {
@@ -20,6 +20,12 @@ public class SeleniumBrowserCapabilities implements MuseResource
     public SeleniumBrowserCapabilities(String browser)
         {
         _capabilities.put(BROWSER_NAME, browser);
+        }
+
+    @Override
+    public ResourceType getType()
+        {
+        return new BrowserResourceType();
         }
 
     @Override
@@ -52,7 +58,7 @@ public class SeleniumBrowserCapabilities implements MuseResource
     @Override
     public String toString()
         {
-        StringBuilder builder = new StringBuilder(getMetadata().getId());
+        StringBuilder builder = new StringBuilder(getId());
         builder.append("[");
         boolean first = true;
         for (String key : _capabilities.keySet())
@@ -79,6 +85,15 @@ public class SeleniumBrowserCapabilities implements MuseResource
 
     public final static String BROWSER_NAME = "browserName";
     public final static String TYPE_ID = SeleniumBrowserCapabilities.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    public static class BrowserResourceType extends ResourceType
+        {
+        public BrowserResourceType()
+            {
+            super(TYPE_ID, "Browser", SeleniumBrowserCapabilities.class);
+            }
+        }
     }
 
 

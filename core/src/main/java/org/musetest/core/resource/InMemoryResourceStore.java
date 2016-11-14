@@ -18,11 +18,11 @@ public class InMemoryResourceStore implements ResourceStore
     @Override
     public ResourceToken addResource(MuseResource resource)
         {
-        if (getResource(resource.getMetadata().getId()) != null)
-            throw new IllegalArgumentException("Resource with already exists with the same ID: " + resource.getMetadata().getId());
+        if (getResource(resource.getId()) != null)
+            throw new IllegalArgumentException("Resource with already exists with the same ID: " + resource.getId());
 
-        if (resource.getMetadata().getId() == null)
-            resource.getMetadata().setId(UUID.randomUUID().toString());
+        if (resource.getId() == null)
+            resource.setId(UUID.randomUUID().toString());
         _resources.add(resource);
         InMemoryResourceToken token = new InMemoryResourceToken(resource);
         for (ProjectResourceListener listener : _listeners)
@@ -33,7 +33,7 @@ public class InMemoryResourceStore implements ResourceStore
     @Override
     public boolean removeResource(ResourceToken token)
         {
-        MuseResource resource = getResource(token.getMetadata().getId());
+        MuseResource resource = getResource(token.getId());
         if (resource == null)
             return false;
         _resources.remove(resource);
@@ -45,7 +45,7 @@ public class InMemoryResourceStore implements ResourceStore
     public MuseResource getResource(String id)
         {
         for (MuseResource resource : _resources)
-            if (resource.getMetadata().getId().equals(id))
+            if (resource.getId().equals(id))
                 return resource;
         return null;
         }
@@ -56,7 +56,7 @@ public class InMemoryResourceStore implements ResourceStore
         List<ResourceToken> matches = new ArrayList<>();
         for (MuseResource resource : _resources)
             {
-            if (attributes._types.contains(resource.getMetadata().getType()))
+            if (attributes._types.contains(resource.getType()))
                 matches.add(new InMemoryResourceToken(resource));
             }
         return matches;
@@ -68,7 +68,7 @@ public class InMemoryResourceStore implements ResourceStore
         List<T> resources = new ArrayList<>();
         for (ResourceToken token : tokens)
             {
-            MuseResource resource = getResource(token.getMetadata().getId());
+            MuseResource resource = getResource(token.getId());
             if (implementing_class.isInstance(resource))
                 resources.add((T) resource);
             else
@@ -99,7 +99,7 @@ public class InMemoryResourceStore implements ResourceStore
     public <T extends MuseResource> T getResource(ResourceToken<T> token)
         {
         for (MuseResource resource : _resources)
-            if (resource.getMetadata().getId().equals(token.getMetadata().getId()))
+            if (resource.getId().equals(token.getId()))
                 return (T) resource;
         return null;
         }

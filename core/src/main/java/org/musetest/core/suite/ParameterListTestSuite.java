@@ -3,6 +3,7 @@ package org.musetest.core.suite;
 import org.musetest.core.*;
 import org.musetest.core.context.initializers.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.types.*;
 import org.musetest.core.test.*;
 
 import java.util.*;
@@ -13,7 +14,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("parameterized_test_suite")
-public class ParameterListTestSuite implements MuseTestSuite
+public class ParameterListTestSuite extends BaseMuseResource implements MuseTestSuite
     {
     @Override
     public List<TestConfiguration> generateTestList(MuseProject project)
@@ -26,6 +27,12 @@ public class ParameterListTestSuite implements MuseTestSuite
         for (Map<String, Object> param_set : _parameters)
             tests.add(new TestConfiguration(test, new VariableMapInitializer(param_set)));
         return tests;
+        }
+
+    @Override
+    public ResourceType getType()
+        {
+        return new MuseTest.TestResourceType();
         }
 
     @Override

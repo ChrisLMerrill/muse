@@ -30,7 +30,7 @@ public class CreateCommand extends MuseCommand
 
         ResourceType resource_type;
         if (type == null)
-            resource_type = ResourceTypes.Test;
+            resource_type = new MuseTest.TestResourceType();
         else
             resource_type = (new ResourceTypes(project.getClassLocator())).forIdIgnoreCase(type);
 
@@ -43,8 +43,8 @@ public class CreateCommand extends MuseCommand
         try
             {
             MuseResource resource = resource_type.create();
+            resource.setId(resource_id);
             ResourceMetadata meta = resource.getMetadata();
-            meta.setId(resource_id);
             meta.setSaver(new FromJsonFileResourceFactory()); // defaults to JSON
             String error = project.saveResource(resource);
             if (error != null)
@@ -56,7 +56,7 @@ public class CreateCommand extends MuseCommand
             }
         }
 
-    final static Logger LOG = LoggerFactory.getLogger(CreateCommand.class);
+    private final static Logger LOG = LoggerFactory.getLogger(CreateCommand.class);
     }
 
 

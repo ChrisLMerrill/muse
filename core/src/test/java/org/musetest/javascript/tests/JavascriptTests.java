@@ -7,7 +7,6 @@ import org.musetest.core.events.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
-import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.tests.mocks.*;
@@ -47,7 +46,7 @@ public class JavascriptTests
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
         String script = "function not_the_right_method(test_context) { return TEST_SUCCESS; } ";
         engine.eval(script);
-        List<MuseResource> resources = factory.createResources(new StringResourceOrigin("abc"), ResourceTypes.Test, engine);
+        List<MuseResource> resources = factory.createResources(new StringResourceOrigin("abc"), new MuseTest.TestResourceType(), engine);
         Assert.assertEquals(0, resources.size());
         }
 
@@ -67,7 +66,7 @@ public class JavascriptTests
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "javascriptStep.js");
 
-        StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
+        StepConfiguration config = new StepConfiguration(step_resource.getId());
         config.addSource("param1", ValueSourceConfiguration.forValue("XYZ"));
 
         MuseStep step = config.createStep(project);
@@ -105,7 +104,7 @@ public class JavascriptTests
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "getSetVariables.js");
 
-        StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
+        StepConfiguration config = new StepConfiguration(step_resource.getId());
         MuseStep step = config.createStep(project);
         DummyStepExecutionContext context = new DummyStepExecutionContext();
         context.setVariable("var_in", "input");
@@ -119,7 +118,7 @@ public class JavascriptTests
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "AccessSources.js");
 
-        StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
+        StepConfiguration config = new StepConfiguration(step_resource.getId());
         config.addSource("named_source", ValueSourceConfiguration.forValue("named_value"));
         MuseStep step = config.createStep(project);
         DummyStepExecutionContext context = new DummyStepExecutionContext();
@@ -132,7 +131,7 @@ public class JavascriptTests
         MuseProject project = new SimpleProject(new InMemoryResourceStore());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "LogMessage.js");
 
-        StepConfiguration config = new StepConfiguration(step_resource.getMetadata().getId());
+        StepConfiguration config = new StepConfiguration(step_resource.getId());
         MuseStep step = config.createStep(project);
 
         final List<MessageEvent> events = new ArrayList<>();

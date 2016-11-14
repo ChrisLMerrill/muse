@@ -6,7 +6,6 @@ import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
-import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
 import org.musetest.tests.utils.*;
 
@@ -25,8 +24,8 @@ public class ResourceLoadingFromDiskTests
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(file));
         Assert.assertEquals(1, resources.size());
         MuseResource resource = resources.get(0);
-        Assert.assertEquals(ResourceTypes.Macro, resource.getMetadata().getType());
-        Assert.assertEquals("MacroStep", resource.getMetadata().getId());
+        Assert.assertEquals(new Macro.MacroResourceType(), resource.getType());
+        Assert.assertEquals("MacroStep", resource.getId());
 
         Assert.assertTrue(resource instanceof Macro);
         Macro macro = (Macro) resource;

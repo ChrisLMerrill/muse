@@ -13,7 +13,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("page")
-public class WebPage implements MuseResource
+public class WebPage extends BaseMuseResource
     {
     @SuppressWarnings("unused,WeakerAccess")  // required for Json de/serialization
     public Map<String, PageElement> getElements()
@@ -41,6 +41,12 @@ public class WebPage implements MuseResource
         }
 
     @Override
+    public ResourceType getType()
+        {
+        return new WebPageResourceType();
+        }
+
+    @Override
     public ResourceMetadata getMetadata()
         {
         return _metadata;
@@ -48,15 +54,6 @@ public class WebPage implements MuseResource
 
     private Map<String, PageElement> _elements = new HashMap<>();
     private ResourceMetadata _metadata = new ResourceMetadata();
-
-    @SuppressWarnings("unused")  // discovered via reflection
-    public static class WebPageType extends ResourceType
-        {
-        public WebPageType()
-            {
-            super(WebPage.class.getAnnotation(MuseTypeId.class).value(), "Web Page", WebPage.class);
-            }
-        }
 
     /**
      * Provides a facade for the element locator sources in the page. This facade makes the element/locator
@@ -150,6 +147,15 @@ public class WebPage implements MuseResource
             }
 
         List<ChangeEventListener> _listeners = new ArrayList<>();
+        }
+
+    @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    public static class WebPageResourceType extends ResourceType
+        {
+        public WebPageResourceType()
+            {
+            super(WebPage.class.getAnnotation(MuseTypeId.class).value(), "Web Page", WebPage.class);
+            }
         }
     }
 

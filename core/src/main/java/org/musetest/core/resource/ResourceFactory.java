@@ -1,7 +1,6 @@
 package org.musetest.core.resource;
 
 import org.musetest.core.*;
-import org.musetest.core.resource.types.*;
 import org.musetest.core.util.*;
 import org.slf4j.*;
 
@@ -27,7 +26,6 @@ public class ResourceFactory
 
     public static List<MuseResource> createResources(ResourceOrigin origin, FactoryLocator factory_locator, ClassLocator locator) throws IOException
         {
-        ResourceTypes resource_types = new ResourceTypes(locator);
         List<MuseResource> resources = new ArrayList<>();
         List<MuseResourceFactory> factories = factory_locator.findFactories(MuseResourceFactory.class);
         if (factories.isEmpty())
@@ -40,14 +38,9 @@ public class ResourceFactory
                 if (created_resources.size() == 1)
                     {
                     MuseResource resource = created_resources.get(0);
-                    if (resource.getMetadata().getId() == null)
-                        resource.getMetadata().setId(origin.suggestId());
+                    if (resource.getId() == null)
+                        resource.setId(origin.suggestId());
                     resource.getMetadata().setOrigin(origin);
-                    ResourceType type = resource_types.forObject(resource);
-                    if (type == null)
-                        LOG.warn("Cannot find ResourceType for class: " + resource.getClass().getName());
-                    else
-                        resource.getMetadata().setType(type);
                     LOG.info(String.format("Loaded resource %s from %s", resource.getMetadata().getId(), resource.getMetadata().getOrigin().getDescription()));
                     }
                 else if (created_resources.size() > 1)
@@ -60,7 +53,7 @@ public class ResourceFactory
         return resources;
         }
 
-    final static Logger LOG = LoggerFactory.getLogger(ResourceFactory.class);
+    private final static Logger LOG = LoggerFactory.getLogger(ResourceFactory.class);
     }
 
 

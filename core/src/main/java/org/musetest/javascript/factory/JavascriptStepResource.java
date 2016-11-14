@@ -13,9 +13,9 @@ import javax.script.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class JavascriptStepResource implements MuseResource
+public class JavascriptStepResource extends BaseMuseResource
     {
-    public JavascriptStepResource(ResourceOrigin origin, Invocable script_runner)
+    JavascriptStepResource(ResourceOrigin origin, Invocable script_runner)
         {
         _origin = origin;
         _metadata.setId(origin.suggestId());
@@ -31,6 +31,12 @@ public class JavascriptStepResource implements MuseResource
             {
             // do nothing
             }
+        }
+
+    @Override
+    public ResourceType getType()
+        {
+        return new JavascriptStepResourceType();
         }
 
     @Override
@@ -159,7 +165,7 @@ public class JavascriptStepResource implements MuseResource
             @Override
             public String getType()
                 {
-                return getMetadata().getId();
+                return getId();
                 }
 
             @Override
@@ -219,7 +225,7 @@ public class JavascriptStepResource implements MuseResource
             @Override
             public String getType()
                 {
-                return getMetadata().getId();
+                return getId();
                 }
 
             @Override
@@ -231,10 +237,19 @@ public class JavascriptStepResource implements MuseResource
         }
 
     private ResourceOrigin _origin;
-    private ResourceMetadata _metadata = new ResourceMetadata(ResourceTypes.jsStep);
+    private ResourceMetadata _metadata = new ResourceMetadata();
     private ScriptObjectMirror _get_descriptor_result;
     private String _get_descriptor_error;
     private StepDescriptor _descriptor;
+
+    @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    public static class JavascriptStepResourceType extends ResourceType
+        {
+        public JavascriptStepResourceType()
+            {
+            super("jsstep", "Javascript Step", JavascriptStepResourceType.class);
+            }
+        }
     }
 
 

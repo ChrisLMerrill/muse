@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MissingTest implements MuseTest
+public class MissingTest extends BaseMuseResource implements MuseTest
     {
     public MissingTest(String id)
         {
@@ -35,7 +35,7 @@ public class MissingTest implements MuseTest
     @Override
     public ResourceMetadata getMetadata()
         {
-        return new ResourceMetadata(ResourceTypes.Test);
+        return new ResourceMetadata();
         }
 
     @Override
@@ -54,6 +54,12 @@ public class MissingTest implements MuseTest
     public void setDefaultVariable(String name, ValueSourceConfiguration source)
         {
 
+        }
+
+    @Override
+    public ResourceType getType()
+        {
+        return new MuseTest.TestResourceType();
         }
 
     private String _id;

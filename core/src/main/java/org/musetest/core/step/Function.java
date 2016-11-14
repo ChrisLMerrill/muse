@@ -12,12 +12,12 @@ import org.musetest.core.resource.types.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("function")
-public class Function implements MuseResource, ContainsStep
+public class Function extends BaseMuseResource implements MuseResource, ContainsStep
     {
     @SuppressWarnings("unused")   // required for Jackson serialization
     public Function()
         {
-        getMetadata().setType(ResourceTypes.Function);
+//        getMetadata().setType(ResourceTypes.Function);
         }
 
     @Override
@@ -44,8 +44,30 @@ public class Function implements MuseResource, ContainsStep
         return (obj instanceof Function && _step.equals(((Function)obj)._step));
         }
 
+    @Override
+    public ResourceType getType()
+        {
+        return new FunctionResourceType();
+        }
+
     private StepConfiguration _step;
     private ResourceMetadata _metadata;
+
+    @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    public static class FunctionResourceType extends ResourceType
+        {
+        public FunctionResourceType()
+            {
+            super(Function.class.getAnnotation(MuseTypeId.class).value(), "Function", Function.class);
+            }
+        @Override
+        public MuseResource create()
+            {
+            org.musetest.core.step.Function function = new org.musetest.core.step.Function();
+            function.setStep(ContainsStep.createStarterStep());
+            return function;
+            }
+        }
     }
 
 

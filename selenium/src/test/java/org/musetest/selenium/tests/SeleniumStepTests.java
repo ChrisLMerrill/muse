@@ -4,13 +4,11 @@ import org.junit.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.steptest.SteppedTest;
-import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.resource.types.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.tests.mocks.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.musetest.selenium.locators.*;
@@ -171,8 +169,7 @@ public class SeleniumStepTests
         MuseProject project = new SimpleProject();
 
         WebPage page1 = new WebPage();
-        page1.getMetadata().setId("page1");
-        page1.getMetadata().setType(new WebPage.WebPageType());
+        page1.setId("page1");
         PageElement element1 = new PageElement();
         final String element_id = "element#1";
         element1.setLocator(ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(element_id)));
@@ -189,7 +186,7 @@ public class SeleniumStepTests
 
         StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);
         ValueSourceConfiguration element_source = ValueSourceConfiguration.forType(PagesElementValueSource.TYPE_ID);
-        element_source.addSource(PagesElementValueSource.PAGE_PARAM_ID, ValueSourceConfiguration.forValue(page1.getMetadata().getId()));
+        element_source.addSource(PagesElementValueSource.PAGE_PARAM_ID, ValueSourceConfiguration.forValue(page1.getId()));
         element_source.addSource(PagesElementValueSource.ELEMENT_PARAM_ID, ValueSourceConfiguration.forValue(page_element_id));
         click.addSource(ClickElement.ELEMENT_PARAM, element_source);
         MuseStep step = click.createStep(null);

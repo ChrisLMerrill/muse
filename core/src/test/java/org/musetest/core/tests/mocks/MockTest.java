@@ -26,7 +26,7 @@ public class MockTest extends BaseMuseTest
     public MockTest(MuseTestFailureDescription failure, String id)
         {
         _failure = failure;
-        getMetadata().setId(id);
+        setId(id);
         }
 
     @Override

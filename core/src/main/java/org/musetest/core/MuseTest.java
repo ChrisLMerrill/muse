@@ -2,6 +2,8 @@ package org.musetest.core;
 
 import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.context.*;
+import org.musetest.core.resource.types.*;
+import org.musetest.core.step.*;
 import org.musetest.core.values.*;
 
 import java.util.*;
@@ -21,5 +23,22 @@ public interface MuseTest extends MuseResource
     Map<String, ValueSourceConfiguration> getDefaultVariables();
     void setDefaultVariables(Map<String, ValueSourceConfiguration> default_variables);
     void setDefaultVariable(String name, ValueSourceConfiguration source);
+
+    @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    class TestResourceType extends ResourceType
+        {
+        public TestResourceType()
+            {
+            super("test", "Test", MuseTest.class);
+            }
+
+        @Override
+        public MuseResource create()
+            {
+            org.musetest.core.step.Function function = new org.musetest.core.step.Function();
+            function.setStep(ContainsStep.createStarterStep());
+            return function;
+            }
+        }
     }
 

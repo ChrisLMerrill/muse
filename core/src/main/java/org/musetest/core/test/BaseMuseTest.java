@@ -9,7 +9,7 @@ import org.musetest.core.resource.types.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class BaseMuseTest implements MuseTest
+public abstract class BaseMuseTest extends BaseMuseResource implements MuseTest
     {
     @Override
     public MuseTestResult execute(TestExecutionContext context)
@@ -20,7 +20,7 @@ public abstract class BaseMuseTest implements MuseTest
     @Override
     public String getDescription()
         {
-        return _meta.getId();
+        return getId();
         }
 
     protected abstract MuseTestResult executeImplementation(TestExecutionContext context);
@@ -31,7 +31,13 @@ public abstract class BaseMuseTest implements MuseTest
         return _meta;
         }
 
-    private ResourceMetadata _meta = new ResourceMetadata(ResourceTypes.Test);
+    private ResourceMetadata _meta = new ResourceMetadata();
+
+    @Override
+    public ResourceType getType()
+        {
+        return new MuseTest.TestResourceType();
+        }
     }
 
 

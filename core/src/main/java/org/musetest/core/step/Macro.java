@@ -13,12 +13,12 @@ import org.musetest.core.resource.types.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("macro")
-public class Macro implements MuseResource, ContainsStep
+public class Macro extends BaseMuseResource implements ContainsStep
     {
     @SuppressWarnings("unused")   // required for Jackson serialization
     public Macro()
         {
-        getMetadata().setType(ResourceTypes.Macro);
+//        getMetadata().setType(ResourceTypes.Macro);
         }
 
     @Override
@@ -27,6 +27,12 @@ public class Macro implements MuseResource, ContainsStep
         if (_metadata == null)
             _metadata = new ResourceMetadata();
         return _metadata;
+        }
+
+    @Override
+    public ResourceType getType()
+        {
+        return new MacroResourceType();
         }
 
     public StepConfiguration getStep()
@@ -47,6 +53,15 @@ public class Macro implements MuseResource, ContainsStep
 
     private StepConfiguration _step;
     private ResourceMetadata _metadata;
+
+    @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    public static class MacroResourceType extends ResourceType
+        {
+        public MacroResourceType()
+            {
+            super(Macro.class.getAnnotation(MuseTypeId.class).value(), "Macro", Macro.class);
+            }
+        }
     }
 
 

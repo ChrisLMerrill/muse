@@ -13,7 +13,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("variables")
-public class VariableList implements MuseResource
+public class VariableList extends BaseMuseResource
     {
     public Map<String, ValueSourceConfiguration> getVariables()
         {
@@ -34,6 +34,12 @@ public class VariableList implements MuseResource
         }
 
     @Override
+    public ResourceType getType()
+        {
+        return new VariableListResourceType();
+        }
+
+    @Override
     public ResourceMetadata getMetadata()
         {
         return _metadata;
@@ -46,16 +52,7 @@ public class VariableList implements MuseResource
         }
 
     private Map<String, ValueSourceConfiguration> _variables = new HashMap<>();
-    private ResourceMetadata _metadata = new ResourceMetadata(new VariableListType());
-
-    @SuppressWarnings("unused")  // discovered via reflection
-    public static class VariableListType extends ResourceType
-        {
-        public VariableListType()
-            {
-            super(VariableList.class.getAnnotation(MuseTypeId.class).value(), "Variable List", VariableList.class);
-            }
-        }
+    private ResourceMetadata _metadata = new ResourceMetadata();
 
     /**
      * Provides a facade for the element locator sources in the page. This facade makes the element/locator
@@ -145,6 +142,15 @@ public class VariableList implements MuseResource
         }
 
     public final static String TYPE_ID = VariableList.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    public static class VariableListResourceType extends ResourceType
+        {
+        public VariableListResourceType()
+            {
+            super(TYPE_ID, "Macro", VariableList.class);
+            }
+        }
     }
 
 

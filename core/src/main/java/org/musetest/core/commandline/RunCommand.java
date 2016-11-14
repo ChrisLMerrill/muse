@@ -56,7 +56,7 @@ public class RunCommand extends MuseCommand
                 }
             }
 
-        LOG.error(String.format("No editor found for resource type %s (id=%s).", resource.getMetadata().getType().getName(), resource_id));
+        LOG.error(String.format("No editor found for resource type %s (id=%s).", resource.getType().getName(), resource_id));
         }
 
     final static Logger LOG = LoggerFactory.getLogger(RunCommand.class);

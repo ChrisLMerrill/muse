@@ -15,6 +15,7 @@ import java.util.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@Deprecated
 @SuppressWarnings("unchecked")
 public class ResourceMetadata
     {

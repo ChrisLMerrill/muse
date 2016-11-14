@@ -60,12 +60,12 @@ public class ContextInitializerTests
         SimpleProject project = new SimpleProject();
 
         VariableList list1 = new VariableList();
-        list1.getMetadata().setId("list1");
+        list1.setId("list1");
         list1.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
         project.addResource(list1);
 
         VariableList list2 = new VariableList();
-        list2.getMetadata().setId("list2");
+        list2.setId("list2");
         list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
         project.addResource(list2);
 
@@ -91,12 +91,12 @@ public class ContextInitializerTests
         SimpleProject project = new SimpleProject();
 
         VariableList list1 = new VariableList();
-        list1.getMetadata().setId("list1");
+        list1.setId("list1");
         list1.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
         project.addResource(list1);
 
         VariableList list2 = new VariableList();
-        list2.getMetadata().setId("list2");
+        list2.setId("list2");
         list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
         project.addResource(list2);
 

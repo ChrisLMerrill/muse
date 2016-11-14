@@ -104,21 +104,19 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
             }
         catch (Exception e)
             {
-            System.err.println("Unable to run test suite " + suite.getMetadata().getId());
+            System.err.println("Unable to run test suite " + suite.getId());
             e.printStackTrace(System.err);
             return false;
             }
         return true;
         }
 
-    public String buildResultDetails(MuseTestResult result)
+    private String buildResultDetails(MuseTestResult result)
         {
-        StringBuilder builder = new StringBuilder();
-        builder.append("\n-------------------\n");
-        builder.append("Test: ").append(result.getTest().getDescription()).append("\n");
-        builder.append(result.getLog().toString()).append("\n");
-        builder.append("-------------------");
-        return builder.toString();
+        return "\n-------------------\n" +
+            "Test: " + result.getTest().getDescription() + "\n" +
+            result.getLog().toString() + "\n" +
+            "-------------------";
         }
     }
 

@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@SuppressWarnings("unused")  // discovered via reflection
+@SuppressWarnings("unused,WeakerAccess")  // discovered via reflection
 public class FromJsFileResourceFactory implements MuseResourceFactory
     {
     @Override
@@ -53,7 +53,7 @@ public class FromJsFileResourceFactory implements MuseResourceFactory
         return resources;
         }
 
-    final static Logger LOG = LoggerFactory.getLogger(FromJsFileResourceFactory.class);
+    private final static Logger LOG = LoggerFactory.getLogger(FromJsFileResourceFactory.class);
     }
 
 

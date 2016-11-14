@@ -2,6 +2,7 @@ package org.musetest.core.suite;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.types.*;
 import org.musetest.core.test.*;
 import org.slf4j.*;
 
@@ -13,7 +14,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("suite_of_ids")
-public class IdListTestSuite implements MuseTestSuite
+public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
     {
     @Override
     public List<TestConfiguration> generateTestList(MuseProject project)
@@ -50,12 +51,18 @@ public class IdListTestSuite implements MuseTestSuite
         return _metadata;
         }
 
+    @Override
+    public ResourceType getType()
+        {
+        return new TestSuiteResourceType();
+        }
+
     private ResourceMetadata _metadata = new ResourceMetadata();
     private List<String> _test_ids = new ArrayList<>();
 
     public final static String TYPE_ID = IdListTestSuite.class.getAnnotation(MuseTypeId.class).value();
 
-    final static Logger LOG = LoggerFactory.getLogger(IdListTestSuite.class);
+    private final static Logger LOG = LoggerFactory.getLogger(IdListTestSuite.class);
     }
 
 

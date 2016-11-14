@@ -23,7 +23,7 @@ public class TestFromJavascriptResourceFactory implements FromJavascriptResource
         List<MuseResource> resources = new ArrayList<>();
 
         // Did the script declare it is a Test?
-        if (!type.equals(ResourceTypes.Test))
+        if (!type.equals(new MuseTest.TestResourceType()))
             return resources;
 
         // Does the script implement the right method?

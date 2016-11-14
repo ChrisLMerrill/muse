@@ -66,7 +66,7 @@ public class SystemVariableTests
         {
         MuseTest test = new MockTest();
         final String tag = UUID.randomUUID().toString();
-        test.getMetadata().addTag(tag);
+        test.addTag(tag);
 
         MuseProject project = new SimpleProject();
         Object test_var = project.getSystemVariableProviders().resolve(TestVariableProvider.SYSVAR_NAME, new DefaultTestExecutionContext(project, test));
