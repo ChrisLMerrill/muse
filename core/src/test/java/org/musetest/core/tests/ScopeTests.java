@@ -35,7 +35,7 @@ public class ScopeTests
     private void runTestAndCheckForSuccess(String test_name)
         {
         File file = TestUtils.getTestResource("projects/scopes", getClass());
-        SimpleProject project = new SimpleProject(new FolderIntoMemoryResourceStore(file));
+        SimpleProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(file));
         MuseTest test = project.getResource(test_name, MuseTest.class);
         MuseTestResult result = test.execute(new DefaultTestExecutionContext(project, test));
         Assert.assertTrue(result.isPass());

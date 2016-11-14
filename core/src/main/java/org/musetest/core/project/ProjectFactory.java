@@ -16,7 +16,7 @@ public class ProjectFactory
         if (!folder.exists() || !folder.isDirectory())
             throw new IllegalArgumentException("'folder' parameter must be an existing directory: " + folder.getAbsolutePath());
 
-        FolderIntoMemoryResourceStore resources = new FolderIntoMemoryResourceStore(folder);
+        FolderIntoMemoryResourceStorage resources = new FolderIntoMemoryResourceStorage(folder);
 
         SimpleProject project = new SimpleProject(resources, folder.getName());
         project.setCommandLineOptions(command_line_options);

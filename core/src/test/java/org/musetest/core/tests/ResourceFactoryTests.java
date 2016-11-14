@@ -22,7 +22,7 @@ public class ResourceFactoryTests
     @Test
     public void testResourceFactoryLoading()
         {
-        InMemoryResourceStore store = new InMemoryResourceStore();
+        InMemoryResourceStorage store = new InMemoryResourceStorage();
         MuseProject project = new SimpleProject(store);
         MockTest test = new MockTest();
         test.setId("test1");
@@ -36,7 +36,7 @@ public class ResourceFactoryTests
     @Test
     public void testOpenProjectWithFileResource()
         {
-        FolderIntoMemoryResourceStore store = new FolderIntoMemoryResourceStore(TestUtils.getTestResource("projects/files", getClass()));
+        FolderIntoMemoryResourceStorage store = new FolderIntoMemoryResourceStorage(TestUtils.getTestResource("projects/files", getClass()));
         MuseProject project = new SimpleProject(store);
         MuseResource resource = project.getResource("not_done_yet", MockMuseResource.class);
         Assert.assertNull(resource);

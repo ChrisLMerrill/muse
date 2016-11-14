@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public interface ResourceStore
+public interface ResourceStorage
     {
     ResourceToken addResource(MuseResource resource);
 

@@ -228,7 +228,7 @@ public class SeleniumStepTests
                 Assert.assertTrue("illegal syntax in File-to-URL conversion ??", false);
                 }
             File folder = file.getParentFile();
-            MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStore(folder));
+            MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(folder));
             project.open();
             PROJECT = project;
             }

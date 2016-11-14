@@ -1,7 +1,6 @@
 package org.musetest.core.resource;
 
 import org.musetest.core.*;
-import org.musetest.core.resource.json.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.util.*;
 import org.reflections.*;
@@ -14,9 +13,9 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
+public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage
     {
-    public FolderIntoMemoryResourceStore(File folder)
+    public FolderIntoMemoryResourceStorage(File folder)
         {
         _folder = folder;
         locateClasspaths();
@@ -156,7 +155,7 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
     private ClassLoader _class_loader = null;
     private Map<MuseResource, ResourceOrigin> _origins = new HashMap<>();
 
-    private final static Logger LOG = LoggerFactory.getLogger(FolderIntoMemoryResourceStore.class);
+    private final static Logger LOG = LoggerFactory.getLogger(FolderIntoMemoryResourceStorage.class);
     }
 
 

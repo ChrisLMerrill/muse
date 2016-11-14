@@ -105,7 +105,7 @@ public class ValueSourceTests
         {
         final String test_id = "test_id";
         MuseTest test = new MockTest(null, test_id);
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         project.addResource(test);
 
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
@@ -120,7 +120,7 @@ public class ValueSourceTests
     @Test
     public void missingSubsourceProjectResourceValueSource() throws StepConfigurationError
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
 
         MuseInstantiationException error = null;
@@ -139,7 +139,7 @@ public class ValueSourceTests
     @Test
     public void misconfiguredProjectResourceValueSource() throws MuseInstantiationException
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
         config.setSource(ValueSourceConfiguration.forValue(null));
         MuseValueSource source = config.createSource(project);
@@ -160,7 +160,7 @@ public class ValueSourceTests
     @Test
     public void missingProjectResourceValueSource() throws MuseInstantiationException
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
         config.setSource(ValueSourceConfiguration.forValue("nonexistent"));
         MuseValueSource source = config.createSource(project);

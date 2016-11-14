@@ -63,7 +63,7 @@ public class JavascriptTests
     @Test
     public void loadJavascriptStepFromFile() throws IOException, MuseExecutionError
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "javascriptStep.js");
 
         StepConfiguration config = new StepConfiguration(step_resource.getId());
@@ -101,7 +101,7 @@ public class JavascriptTests
     @Test
     public void getAndSetVariablesInJavascriptStep() throws IOException, MuseExecutionError
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "getSetVariables.js");
 
         StepConfiguration config = new StepConfiguration(step_resource.getId());
@@ -115,7 +115,7 @@ public class JavascriptTests
     @Test
     public void accessValueSourcesInJavascriptStep() throws IOException, MuseExecutionError
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "AccessSources.js");
 
         StepConfiguration config = new StepConfiguration(step_resource.getId());
@@ -128,7 +128,7 @@ public class JavascriptTests
     @Test
     public void logMessageInJavascriptStep() throws IOException, MuseExecutionError
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "LogMessage.js");
 
         StepConfiguration config = new StepConfiguration(step_resource.getId());

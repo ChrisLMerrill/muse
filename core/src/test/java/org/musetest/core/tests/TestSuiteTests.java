@@ -23,7 +23,7 @@ public class TestSuiteTests
     @Test
     public void simpleSuite()
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 
         SimpleTestSuite suite = new SimpleTestSuite();
         suite.add(new MockTest());
@@ -85,7 +85,7 @@ public class TestSuiteTests
         File test_file = TestUtils.getTestResource("projects/parameterizedSuite/checkSum.json", this.getClass());
         SteppedTest test = (SteppedTest) ResourceFactory.createResources(new FileResourceOrigin(test_file), new FactoryLocator(null), DefaultClassLocator.get()).get(0);
 
-        SimpleProject project = new SimpleProject(new InMemoryResourceStore());
+        SimpleProject project = new SimpleProject(new InMemoryResourceStorage());
         project.addResource(suite);
         project.addResource(test);
 

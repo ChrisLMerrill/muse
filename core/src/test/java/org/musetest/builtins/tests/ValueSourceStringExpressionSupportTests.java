@@ -234,7 +234,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals("formatDate(\"date\",\"format\")", stringified);
         }
 
-    static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStore());
+    static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStorage());
     }
 
 

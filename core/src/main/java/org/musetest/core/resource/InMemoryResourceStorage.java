@@ -13,7 +13,7 @@ import java.util.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class InMemoryResourceStore implements ResourceStore
+public class InMemoryResourceStorage implements ResourceStorage
     {
     @Override
     public ResourceToken addResource(MuseResource resource)
@@ -166,7 +166,7 @@ public class InMemoryResourceStore implements ResourceStore
 
     private transient List<ProjectResourceListener> _listeners = new ArrayList<>();
 
-    private final static Logger LOG = LoggerFactory.getLogger(InMemoryResourceStore.class);
+    private final static Logger LOG = LoggerFactory.getLogger(InMemoryResourceStorage.class);
     }
 
 

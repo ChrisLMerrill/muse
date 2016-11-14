@@ -147,7 +147,7 @@ public class StepTests
     @Test
     public void callMacro()
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 
         // create a macro to call
         String macro_id = "TestMacro";
@@ -183,7 +183,7 @@ public class StepTests
     @Test
     public void callFunction()
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 
         // create a function to call -- it will increment the parameter value and return it
         String function_id = "TestFunction";
@@ -229,7 +229,7 @@ public class StepTests
     @Test
     public void returnEarlyFromFunction()
         {
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 
         // create a function to call -- it will increment the parameter value and return it
         String function_id = "TestFunction";
@@ -267,7 +267,7 @@ public class StepTests
         step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
         step.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
 
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         SteppedTest test = new SteppedTest(step);
         TestRunner runner = TestRunnerFactory.create(project, test, true, false);
         runner.runTest();
@@ -289,7 +289,7 @@ public class StepTests
         main.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
         main.addChild(config);
 
-        MuseProject project = new SimpleProject(new InMemoryResourceStore());
+        MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         SteppedTest test = new SteppedTest(main);
         TestRunner runner = TestRunnerFactory.create(project, test, true, false);
         runner.runTest();

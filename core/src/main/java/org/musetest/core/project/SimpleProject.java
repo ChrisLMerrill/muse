@@ -18,12 +18,12 @@ import java.util.*;
  */
 public class SimpleProject implements MuseProject
     {
-    public SimpleProject(ResourceStore resources)
+    public SimpleProject(ResourceStorage resources)
         {
         _resources = resources;
         }
 
-    public SimpleProject(ResourceStore resources, String name)
+    public SimpleProject(ResourceStorage resources, String name)
         {
         _resources = resources;
         _name = name;
@@ -31,7 +31,7 @@ public class SimpleProject implements MuseProject
 
     public SimpleProject()
         {
-        _resources = new InMemoryResourceStore();
+        _resources = new InMemoryResourceStorage();
         }
 
     @Override
@@ -212,7 +212,7 @@ public class SimpleProject implements MuseProject
         return _resources.removeResourceListener(listener);
         }
 
-    private ResourceStore _resources;
+    private ResourceStorage _resources;
     private StepFactory _step_factory;
     private StepDescriptors _step_descriptors;
     private ValueSourceDescriptors _source_descriptors;
