@@ -29,12 +29,31 @@ public class StringResourceOrigin implements ResourceOrigin
         }
 
     @Override
-    public InputStream asStream()
+    public InputStream asInputStream()
         {
         return new ByteArrayInputStream(_source.getBytes());
         }
 
+    @Override
+    public OutputStream asOutputStream() throws IOException
+        {
+        throw new IllegalArgumentException("Can't output to a string");  // this class is for creating resources from live data.
+        }
+
+    @Override
+    public ResourceSerializer getSerializer()
+        {
+        return _serializer;
+        }
+
+    @Override
+    public void setSerializer(ResourceSerializer serializer)
+        {
+        _serializer = serializer;
+        }
+
     private String _source;
+    private ResourceSerializer _serializer;
     }
 
 

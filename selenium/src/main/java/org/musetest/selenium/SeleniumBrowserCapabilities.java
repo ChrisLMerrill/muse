@@ -28,12 +28,6 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
         return new BrowserResourceType();
         }
 
-    @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _metadata;
-        }
-
     public DesiredCapabilities toDesiredCapabilities()
         {
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -80,8 +74,6 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
         }
 
     private Map<String, Object> _capabilities = new HashMap<>();
-
-    private ResourceMetadata _metadata = new ResourceMetadata();
 
     public final static String BROWSER_NAME = "browserName";
     public final static String TYPE_ID = SeleniumBrowserCapabilities.class.getAnnotation(MuseTypeId.class).value();

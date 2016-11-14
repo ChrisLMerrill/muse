@@ -18,7 +18,7 @@ public class JavascriptStepResource extends BaseMuseResource
     JavascriptStepResource(ResourceOrigin origin, Invocable script_runner)
         {
         _origin = origin;
-        _metadata.setId(origin.suggestId());
+        setId(origin.suggestId());
         try
             {
             _get_descriptor_result = (ScriptObjectMirror) script_runner.invokeFunction("getStepDescriptor");
@@ -37,12 +37,6 @@ public class JavascriptStepResource extends BaseMuseResource
     public ResourceType getType()
         {
         return new JavascriptStepResourceType();
-        }
-
-    @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _metadata;
         }
 
     public MuseStep createStep(StepConfiguration configuration)
@@ -71,7 +65,7 @@ public class JavascriptStepResource extends BaseMuseResource
             @Override
             public String getType()
                 {
-                return _metadata.getId();
+                return getId();
                 }
 
             @Override
@@ -201,7 +195,7 @@ public class JavascriptStepResource extends BaseMuseResource
             @Override
             public String getLongDescription()
                 {
-                return "see the source code at: " + getMetadata().getOrigin().getDescription();
+                return "see the source code at: " + _origin.getDescription();
                 }
 
             @Override
@@ -237,7 +231,6 @@ public class JavascriptStepResource extends BaseMuseResource
         }
 
     private ResourceOrigin _origin;
-    private ResourceMetadata _metadata = new ResourceMetadata();
     private ScriptObjectMirror _get_descriptor_result;
     private String _get_descriptor_error;
     private StepDescriptor _descriptor;

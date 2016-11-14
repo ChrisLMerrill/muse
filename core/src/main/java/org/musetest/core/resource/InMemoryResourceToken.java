@@ -26,12 +26,6 @@ public class InMemoryResourceToken implements ResourceToken
         }
 
     @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _resource.getMetadata();
-        }
-
-    @Override
     public String getId()
         {
         return _resource.getId();

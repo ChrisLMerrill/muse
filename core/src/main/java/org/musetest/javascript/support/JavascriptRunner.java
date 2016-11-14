@@ -24,7 +24,7 @@ public class JavascriptRunner
         if (origin instanceof FileResourceOrigin)
             return evalScript(((FileResourceOrigin)origin).getFile());
 
-        try (InputStream input = origin.asStream())
+        try (InputStream input = origin.asInputStream())
             {
             return evalScript(input);
             }

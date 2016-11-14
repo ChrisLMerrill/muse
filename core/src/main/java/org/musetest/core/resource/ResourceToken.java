@@ -8,7 +8,6 @@ import org.musetest.core.*;
 public interface ResourceToken<T extends MuseResource> extends ResourceInfo
     {
     T getResource();
-    ResourceMetadata getMetadata();
     }
 
 

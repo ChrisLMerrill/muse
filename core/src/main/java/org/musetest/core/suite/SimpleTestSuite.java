@@ -28,13 +28,6 @@ public class SimpleTestSuite extends BaseMuseResource implements MuseTestSuite
         return new TestSuiteResourceType();
         }
 
-    @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _metadata;
-        }
-
-    private ResourceMetadata _metadata = new ResourceMetadata();
     private List<TestConfiguration> _tests = new ArrayList<>();
     }
 

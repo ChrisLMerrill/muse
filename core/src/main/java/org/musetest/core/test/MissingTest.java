@@ -33,12 +33,6 @@ public class MissingTest extends BaseMuseResource implements MuseTest
         }
 
     @Override
-    public ResourceMetadata getMetadata()
-        {
-        return new ResourceMetadata();
-        }
-
-    @Override
     public Map<String, ValueSourceConfiguration> getDefaultVariables()
         {
         return null;

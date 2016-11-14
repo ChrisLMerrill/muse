@@ -24,12 +24,6 @@ public class ContextInitializerConfigurations extends BaseMuseResource
         _var_lists = var_lists;
         }
 
-    @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _metadata;
-        }
-
     public void addVariableListInitializer(VariableListContextInitializerConfiguration config)
         {
         _var_lists.add(config);
@@ -70,7 +64,6 @@ public class ContextInitializerConfigurations extends BaseMuseResource
         }
 
     private List<VariableListContextInitializerConfiguration> _var_lists = new ArrayList<>();
-    private ResourceMetadata _metadata = new ResourceMetadata();
     private transient List<ContextInitializerChangeListener> _listeners;
 
 

@@ -35,12 +35,6 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
         return new MuseTest.TestResourceType();
         }
 
-    @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _metadata;
-        }
-
     public String getTestId()
         {
         return _testid;
@@ -63,7 +57,6 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
         _parameters = parameter_map_list;
         }
 
-    private ResourceMetadata _metadata = new ResourceMetadata();
     private List<Map<String, Object>> _parameters;
     private String _testid;
     }

@@ -20,9 +20,9 @@ public class InMemoryResourceStore implements ResourceStore
         {
         if (getResource(resource.getId()) != null)
             throw new IllegalArgumentException("Resource with already exists with the same ID: " + resource.getId());
-
         if (resource.getId() == null)
             resource.setId(UUID.randomUUID().toString());
+
         _resources.add(resource);
         InMemoryResourceToken token = new InMemoryResourceToken(resource);
         for (ProjectResourceListener listener : _listeners)

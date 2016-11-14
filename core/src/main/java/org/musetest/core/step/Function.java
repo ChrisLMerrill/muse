@@ -17,15 +17,6 @@ public class Function extends BaseMuseResource implements MuseResource, Contains
     @SuppressWarnings("unused")   // required for Jackson serialization
     public Function()
         {
-//        getMetadata().setType(ResourceTypes.Function);
-        }
-
-    @Override
-    public ResourceMetadata getMetadata()
-        {
-        if (_metadata == null)
-            _metadata = new ResourceMetadata();
-        return _metadata;
         }
 
     public StepConfiguration getStep()
@@ -51,7 +42,6 @@ public class Function extends BaseMuseResource implements MuseResource, Contains
         }
 
     private StepConfiguration _step;
-    private ResourceMetadata _metadata;
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     public static class FunctionResourceType extends ResourceType

@@ -63,14 +63,6 @@ public class WebDriverProviderList extends BaseMuseResource implements WebDriver
         return new WebdriverProviderResourceType();
         }
 
-    @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _metadata;
-        }
-
-    private ResourceMetadata _metadata = new ResourceMetadata();
-
     private List<WebDriverProvider> _providers;
 
     public final static String TYPE_ID = WebDriverProviderList.class.getAnnotation(MuseTypeId.class).value();

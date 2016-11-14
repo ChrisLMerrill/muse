@@ -9,20 +9,10 @@ import org.musetest.core.resource.types.*;
 public class MockMuseResource extends BaseMuseResource
     {
     @Override
-    public ResourceMetadata getMetadata()
-        {
-        if (_meta == null)
-            _meta = new ResourceMetadata();
-        return _meta;
-        }
-
-    @Override
     public ResourceType getType()
         {
         return new MockResourceType();
         }
-
-    private ResourceMetadata _meta;
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     public static class MockResourceType extends ResourceType

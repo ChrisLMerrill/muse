@@ -46,14 +46,7 @@ public class WebPage extends BaseMuseResource
         return new WebPageResourceType();
         }
 
-    @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _metadata;
-        }
-
     private Map<String, PageElement> _elements = new HashMap<>();
-    private ResourceMetadata _metadata = new ResourceMetadata();
 
     /**
      * Provides a facade for the element locator sources in the page. This facade makes the element/locator

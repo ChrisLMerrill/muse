@@ -40,8 +40,7 @@ public class ResourceFactory
                     MuseResource resource = created_resources.get(0);
                     if (resource.getId() == null)
                         resource.setId(origin.suggestId());
-                    resource.getMetadata().setOrigin(origin);
-                    LOG.info(String.format("Loaded resource %s from %s", resource.getMetadata().getId(), resource.getMetadata().getOrigin().getDescription()));
+                    LOG.info(String.format("Loaded resource %s from %s", resource.getId(), origin.getDescription()));
                     }
                 else if (created_resources.size() > 1)
                     LOG.error("Multiple resources within a resource is not supported (yet). resource = " + origin.getDescription());

@@ -29,12 +29,6 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
     @Override
     public ResourceToken addResource(MuseResource resource)
         {
-        // for a new resource, we need to setup the origin
-        if (resource.getMetadata().getOrigin() == null)
-            {
-            resource.getMetadata().setSaver(new FromJsonFileResourceFactory());
-            resource.getMetadata().setOrigin(new FileResourceOrigin(new File(_folder, resource.getMetadata().getId() + "." + resource.getMetadata().getSaver().getDefaultFileExtension())));
-            }
         ResourceToken token = super.addResource(resource);
         saveResource(resource);
         return token;
@@ -45,7 +39,7 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
         {
         if (getResource(token) != null)
             {
-            FileResourceOrigin origin = (FileResourceOrigin) token.getMetadata().getOrigin();
+            FileResourceOrigin origin = (FileResourceOrigin) _origins.get(token.getResource());
             File file = origin.getFile();
             if (file.delete())
                 return super.removeResource(token);
@@ -67,7 +61,11 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
                     {
                     List<MuseResource> resources = ResourceFactory.createResources(origin, getFactoryLocator(), getClassLocator());
                     // don't do call the local add() method...that is for adding new resources.
-                    resources.forEach(FolderIntoMemoryResourceStore.super::addResource);
+                    for (MuseResource resource : resources)
+                        {
+                        super.addResource(resource);
+                        _origins.put(resource, origin);
+                        }
                     }
                 catch (IOException e)
                     {
@@ -137,19 +135,26 @@ public class FolderIntoMemoryResourceStore extends InMemoryResourceStore
     @Override
     public String saveResource(MuseResource resource)
         {
-        MuseResourceSaver saver = resource.getMetadata().getSaver();
-        if (saver == null)
-            return "No saver configured for the resource :(";
+        ResourceOrigin origin = _origins.get(resource);
+        if (origin == null)
+            return "unable to determine the origin of this resource";
 
-        if (!saver.saveResource(resource, new TypeLocator(getClassLocator())))
+        try (OutputStream stream = origin.asOutputStream())
+            {
+            origin.getSerializer().writeToStream(resource, stream, new TypeLocator(getClassLocator()));
+            return null;
+            }
+        catch (IOException e)
+            {
+            LOG.error("Unable to save the resource", e);
             return "Saving resource failed. Consult the diagnostic log";
-
-        return null;
+            }
         }
 
     private File _folder;
     private List<File> _class_locations = new ArrayList<>();
     private ClassLoader _class_loader = null;
+    private Map<MuseResource, ResourceOrigin> _origins = new HashMap<>();
 
     private final static Logger LOG = LoggerFactory.getLogger(FolderIntoMemoryResourceStore.class);
     }

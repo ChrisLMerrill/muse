@@ -26,14 +26,6 @@ public abstract class BaseMuseTest extends BaseMuseResource implements MuseTest
     protected abstract MuseTestResult executeImplementation(TestExecutionContext context);
 
     @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _meta;
-        }
-
-    private ResourceMetadata _meta = new ResourceMetadata();
-
-    @Override
     public ResourceType getType()
         {
         return new MuseTest.TestResourceType();

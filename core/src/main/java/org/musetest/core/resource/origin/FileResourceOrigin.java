@@ -31,9 +31,15 @@ public class FileResourceOrigin implements ResourceOrigin
         }
 
     @Override
-    public InputStream asStream() throws IOException
+    public InputStream asInputStream() throws IOException
         {
         return new FileInputStream(_file);
+        }
+
+    @Override
+    public OutputStream asOutputStream() throws IOException
+        {
+        return new FileOutputStream(_file);
         }
 
     public File getFile()
@@ -41,7 +47,20 @@ public class FileResourceOrigin implements ResourceOrigin
         return _file;
         }
 
+    @Override
+    public ResourceSerializer getSerializer()
+        {
+        return _serializer;
+        }
+
+    @Override
+    public void setSerializer(ResourceSerializer serializer)
+        {
+        _serializer = serializer;
+        }
+
     private final File _file;
+    private ResourceSerializer _serializer;
     }
 
 

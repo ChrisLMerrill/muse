@@ -46,18 +46,11 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
         }
 
     @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _metadata;
-        }
-
-    @Override
     public ResourceType getType()
         {
         return new TestSuiteResourceType();
         }
 
-    private ResourceMetadata _metadata = new ResourceMetadata();
     private List<String> _test_ids = new ArrayList<>();
 
     public final static String TYPE_ID = IdListTestSuite.class.getAnnotation(MuseTypeId.class).value();

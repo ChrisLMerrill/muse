@@ -29,30 +29,32 @@ public class StreamResourceOrigin implements ResourceOrigin
         return Integer.toString(hashCode());
         }
 
-    public void close()
+    @Override
+    public InputStream asInputStream()
         {
-        try
-            {
-            _stream.close();
-            }
-        catch (IOException e)
-            {
-            LOG.error("StreamResourceOrigin.close() - Unable to close stream: ", e);
-            }
+        return _stream;
         }
 
     @Override
-    public InputStream asStream()
+    public OutputStream asOutputStream() throws IOException
         {
-        return _stream;
+        throw new IllegalArgumentException("Can't output to an input stream");  // this class is for creating resources from live data.
         }
 
-    public InputStream getStream()
+    @Override
+    public ResourceSerializer getSerializer()
         {
-        return _stream;
+        return _serializer;
+        }
+
+    @Override
+    public void setSerializer(ResourceSerializer serializer)
+        {
+        _serializer = serializer;
         }
 
     private InputStream _stream;
+    private ResourceSerializer _serializer;
 
     final static Logger LOG = LoggerFactory.getLogger(StreamResourceOrigin.class);
     }

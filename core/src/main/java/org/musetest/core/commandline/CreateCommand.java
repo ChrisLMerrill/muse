@@ -44,8 +44,8 @@ public class CreateCommand extends MuseCommand
             {
             MuseResource resource = resource_type.create();
             resource.setId(resource_id);
-            ResourceMetadata meta = resource.getMetadata();
-            meta.setSaver(new FromJsonFileResourceFactory()); // defaults to JSON
+//            ResourceMetadata meta = resource.getMetadata();
+//            meta.setSaver(new FromJsonFileResourceFactory()); // defaults to JSON
             String error = project.saveResource(resource);
             if (error != null)
                 LOG.error(error);

@@ -18,15 +18,6 @@ public class Macro extends BaseMuseResource implements ContainsStep
     @SuppressWarnings("unused")   // required for Jackson serialization
     public Macro()
         {
-//        getMetadata().setType(ResourceTypes.Macro);
-        }
-
-    @Override
-    public ResourceMetadata getMetadata()
-        {
-        if (_metadata == null)
-            _metadata = new ResourceMetadata();
-        return _metadata;
         }
 
     @Override
@@ -52,7 +43,6 @@ public class Macro extends BaseMuseResource implements ContainsStep
         }
 
     private StepConfiguration _step;
-    private ResourceMetadata _metadata;
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     public static class MacroResourceType extends ResourceType

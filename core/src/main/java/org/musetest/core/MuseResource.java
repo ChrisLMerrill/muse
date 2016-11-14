@@ -13,8 +13,5 @@ import java.io.*;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 public interface MuseResource extends Serializable, ResourceInfo
     {
-    @JsonIgnore
-    @Deprecated
-    ResourceMetadata getMetadata();
     }
 

@@ -27,7 +27,13 @@ public class MockResourceOrigin implements ResourceOrigin
         }
 
     @Override
-    public InputStream asStream() throws IOException
+    public InputStream asInputStream() throws IOException
+        {
+        return null;
+        }
+
+    @Override
+    public OutputStream asOutputStream() throws IOException
         {
         return null;
         }
@@ -38,7 +44,20 @@ public class MockResourceOrigin implements ResourceOrigin
         return Integer.toString(hashCode());
         }
 
+    @Override
+    public ResourceSerializer getSerializer()
+        {
+        return _serializer;
+        }
+
+    @Override
+    public void setSerializer(ResourceSerializer serializer)
+        {
+        _serializer = serializer;
+        }
+
     private final MuseResource _resource;
+    private ResourceSerializer _serializer;
     }
 
 

@@ -39,12 +39,6 @@ public class VariableList extends BaseMuseResource
         return new VariableListResourceType();
         }
 
-    @Override
-    public ResourceMetadata getMetadata()
-        {
-        return _metadata;
-        }
-
     @SuppressWarnings("unused") // used by UI
     public ContainsNamedSources namedElementLocators()
         {
@@ -52,7 +46,6 @@ public class VariableList extends BaseMuseResource
         }
 
     private Map<String, ValueSourceConfiguration> _variables = new HashMap<>();
-    private ResourceMetadata _metadata = new ResourceMetadata();
 
     /**
      * Provides a facade for the element locator sources in the page. This facade makes the element/locator
