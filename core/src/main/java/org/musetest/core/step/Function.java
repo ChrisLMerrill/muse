@@ -4,6 +4,8 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 
+import java.util.*;
+
 
 /**
  * A step composed of other steps to be called from a step in a test.
@@ -32,7 +34,7 @@ public class Function extends BaseMuseResource implements MuseResource, Contains
     @Override
     public boolean equals(Object obj)
         {
-        return (obj instanceof Function && _step.equals(((Function)obj)._step));
+        return (obj instanceof Function && Objects.equals(_step, ((Function)obj)._step));
         }
 
     @Override

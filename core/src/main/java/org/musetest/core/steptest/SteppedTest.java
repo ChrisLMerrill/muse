@@ -64,7 +64,7 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
     @Override
     public boolean equals(Object obj)
         {
-        return (obj instanceof SteppedTest && _step.equals(((SteppedTest)obj)._step));
+        return (obj instanceof SteppedTest && Objects.equals(_step, ((SteppedTest)obj)._step));
         }
 
     @Override

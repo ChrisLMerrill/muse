@@ -47,6 +47,12 @@ public abstract class ResourceType
         return other instanceof  ResourceType && _type_id.equals(((ResourceType)other)._type_id);
         }
 
+    @Override
+    public String toString()
+        {
+        return _name;
+        }
+
     private final String _type_id;
     private final String _name;
     private final Class _class;

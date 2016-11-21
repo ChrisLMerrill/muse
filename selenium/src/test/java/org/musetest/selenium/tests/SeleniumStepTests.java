@@ -164,7 +164,7 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void locateElementWithPageMap() throws MuseExecutionError
+    public void locateElementWithPageMap() throws MuseExecutionError, IOException
         {
         MuseProject project = new SimpleProject();
 

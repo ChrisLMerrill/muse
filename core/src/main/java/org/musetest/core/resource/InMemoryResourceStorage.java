@@ -16,7 +16,7 @@ import java.util.*;
 public class InMemoryResourceStorage implements ResourceStorage
     {
     @Override
-    public ResourceToken addResource(MuseResource resource)
+    public ResourceToken addResource(MuseResource resource) throws IOException
         {
         if (getResource(resource.getId()) != null)
             throw new IllegalArgumentException("Resource with already exists with the same ID: " + resource.getId());

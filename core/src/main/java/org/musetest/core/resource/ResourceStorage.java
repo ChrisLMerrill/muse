@@ -3,6 +3,7 @@ package org.musetest.core.resource;
 
 import org.musetest.core.*;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ import java.util.*;
  */
 public interface ResourceStorage
     {
-    ResourceToken addResource(MuseResource resource);
+    ResourceToken addResource(MuseResource resource) throws IOException;
 
     boolean removeResource(ResourceToken token);
 

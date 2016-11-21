@@ -12,6 +12,8 @@ public interface ResourceSerializer
     {
     MuseResource readFromStream(InputStream stream, TypeLocator locator) throws IOException;
     void writeToStream(MuseResource resource, OutputStream stream, TypeLocator locator) throws IOException;
+
+    String suggestFilename(MuseResource resource);
     }
 
 

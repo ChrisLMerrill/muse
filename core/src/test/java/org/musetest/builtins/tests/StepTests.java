@@ -17,6 +17,8 @@ import org.musetest.core.tests.mocks.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
+import java.io.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -145,7 +147,7 @@ public class StepTests
         }
 
     @Test
-    public void callMacro()
+    public void callMacro() throws IOException
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 
@@ -181,7 +183,7 @@ public class StepTests
      * Ensure parameters are passed to a function and the return value is passed back.
      */
     @Test
-    public void callFunction()
+    public void callFunction() throws IOException
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 
@@ -227,7 +229,7 @@ public class StepTests
      * Ensure that return exits the function immediately and following steps are not executed.
      */
     @Test
-    public void returnEarlyFromFunction()
+    public void returnEarlyFromFunction() throws IOException
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 

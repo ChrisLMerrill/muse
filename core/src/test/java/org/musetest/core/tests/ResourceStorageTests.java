@@ -7,16 +7,17 @@ import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.tests.mocks.*;
 
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ProjectTests
+public class ResourceStorageTests
     {
     @Test
-    public void findResourceByIdAndType()
+    public void findResourceByIdAndType() throws IOException
         {
         MuseProject project = new SimpleProject();
 
@@ -27,7 +28,7 @@ public class ProjectTests
         }
 
     @Test
-    public void findSingleResourceById()
+    public void findSingleResourceById() throws IOException
         {
         MuseProject project = new SimpleProject();
 
@@ -49,7 +50,7 @@ public class ProjectTests
         }
 
     @Test
-    public void findMultipleResourcesByType()
+    public void findMultipleResourcesByType() throws IOException
         {
         MuseProject project = new SimpleProject();
 
@@ -68,7 +69,7 @@ public class ProjectTests
         }
 
     @Test
-    public void addAndRemoveResourceEvents()
+    public void addAndRemoveResourceEvents() throws IOException
         {
         MuseProject project = new SimpleProject();
         MuseTest test = new MockTest();
@@ -108,7 +109,7 @@ public class ProjectTests
         }
 
     @Test
-    public void refuseToAddDuplicateResource()
+    public void refuseToAddDuplicateResource() throws IOException
         {
         MuseProject project = new SimpleProject();
         MuseTest test = new MockTest();
@@ -126,6 +127,12 @@ public class ProjectTests
             {
             // pass
             }
+        }
+
+    @Test
+    public void addInvalidFilename() throws IOException
+        {
+        Assert.assertFalse("bad filename would have been accepted", new FilenameValidator().isValid("test<1>"));
         }
     }
 

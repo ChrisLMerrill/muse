@@ -17,6 +17,7 @@ import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.tests.utils.*;
 
+import java.io.*;
 import java.text.*;
 import java.util.*;
 
@@ -101,7 +102,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void projectResourceValueSource() throws MuseExecutionError
+    public void projectResourceValueSource() throws MuseExecutionError, IOException
         {
         final String test_id = "test_id";
         MuseTest test = new MockTest(null, test_id);

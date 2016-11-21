@@ -26,11 +26,12 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage
      * Add a new resource.
      */
     @Override
-    public ResourceToken addResource(MuseResource resource)
+    public ResourceToken addResource(MuseResource resource) throws IOException
         {
-        ResourceToken token = super.addResource(resource);
-        saveResource(resource);
-        return token;
+        String error = saveResource(resource);
+        if (error != null)
+            throw new IOException(error);
+        return super.addResource(resource);
         }
 
     @Override
@@ -134,19 +135,48 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage
     @Override
     public String saveResource(MuseResource resource)
         {
+        ResourceSerializer serializer = null;
         ResourceOrigin origin = _origins.get(resource);
-        if (origin == null)
-            return "unable to determine the origin of this resource";
+        if (origin != null)
+            serializer = origin.getSerializer();
 
-        try (OutputStream stream = origin.asOutputStream())
+        if (serializer == null)
+            serializer = DefaultSerializers.get(resource);
+        if (serializer == null)
+            return "Unable to find a serializer for a " + resource.getType().getName();
+
+        OutputStream outstream = null;
+        try
             {
-            origin.getSerializer().writeToStream(resource, stream, new TypeLocator(getClassLocator()));
+            File new_file = null;
+            if (origin == null)
+                {
+                String filename = serializer.suggestFilename(resource);
+                if (!(new FilenameValidator().isValid(filename)))
+                    return "not a valid resource id";
+                new_file = new File(_folder, filename);
+                outstream = new FileOutputStream(new_file);
+                }
+            else
+                outstream = origin.asOutputStream();
+
+            serializer.writeToStream(resource, outstream, new TypeLocator(getClassLocator()));
+
+            if (new_file != null)
+                {
+                // new resource...record the origin
+                _origins.put(resource, new FileResourceOrigin(new_file));
+                }
             return null;
             }
         catch (IOException e)
             {
             LOG.error("Unable to save the resource", e);
             return "Saving resource failed. Consult the diagnostic log";
+            }
+        finally
+            {
+            try { if (outstream != null) outstream.close(); } catch (IOException e) { }
             }
         }
 

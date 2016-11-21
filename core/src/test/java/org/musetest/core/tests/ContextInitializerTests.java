@@ -11,6 +11,7 @@ import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -32,7 +33,7 @@ public class ContextInitializerTests
         }
 
     @Test
-    public void allProjectVariables() throws MuseExecutionError
+    public void allProjectVariables() throws MuseExecutionError, IOException
         {
         MuseTest test = new SteppedTest();
         SimpleProject project = new SimpleProject();
@@ -54,7 +55,7 @@ public class ContextInitializerTests
         }
 
     @Test
-    public void filteredProjectVariables() throws MuseExecutionError
+    public void filteredProjectVariables() throws MuseExecutionError, IOException
         {
         MuseTest test = new SteppedTest();
         SimpleProject project = new SimpleProject();
@@ -85,7 +86,7 @@ public class ContextInitializerTests
         }
 
     @Test
-    public void filteredByVarlistId() throws MuseExecutionError
+    public void filteredByVarlistId() throws MuseExecutionError, IOException
         {
         MuseTest test = new SteppedTest();
         SimpleProject project = new SimpleProject();

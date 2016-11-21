@@ -24,6 +24,12 @@ public class JsonResourceSerializer implements ResourceSerializer
         getMapper(locator).writerWithDefaultPrettyPrinter().writeValue(stream, resource);
         }
 
+    @Override
+    public String suggestFilename(MuseResource resource)
+        {
+        return resource.getId() + ".json";
+        }
+
     private ObjectMapper getMapper(TypeLocator locator)
         {
         return JsonMapperFactory.createMapper(locator);

@@ -4,6 +4,8 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 
+import java.util.*;
+
 
 /**
  * A step composed of other steps to be called from a step in a test.  The steps are executed in the
@@ -39,7 +41,7 @@ public class Macro extends BaseMuseResource implements ContainsStep
     @Override
     public boolean equals(Object obj)
         {
-        return (obj instanceof Macro && _step.equals(((Macro)obj)._step));
+        return (obj instanceof Macro && Objects.equals(_step, ((Macro)obj)._step));
         }
 
     private StepConfiguration _step;
