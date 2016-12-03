@@ -70,7 +70,7 @@ public class WebDriverProviderTests
         for (WebDriverProvider provider : provider_list.getProviders())
             if (provider instanceof ChromeDriverProvider)
                 {
-                Assert.assertEquals("path-to\\chromedriver.exe", ((ChromeDriverProvider) provider).getPathToExe());
+                Assert.assertEquals("path-to\\chromedriver.exe", ((ChromeDriverProvider) provider).getRelativePath());
                 return;
                 }
 
@@ -91,7 +91,7 @@ public class WebDriverProviderTests
         for (WebDriverProvider provider : provider_list.getProviders())
             if (provider instanceof FirefoxMarionetteDriverProvider)
                 {
-                Assert.assertEquals("path-to\\geckodriver.exe", ((FirefoxMarionetteDriverProvider) provider).getPathToExe());
+                Assert.assertEquals("path-to\\geckodriver.exe", ((FirefoxMarionetteDriverProvider) provider).getRelativePath());
                 return;
                 }
 
@@ -112,7 +112,7 @@ public class WebDriverProviderTests
         for (WebDriverProvider provider : provider_list.getProviders())
             if (provider instanceof IExploreDriverProvider)
                 {
-                Assert.assertEquals("path-to\\iexploredriver.exe", ((IExploreDriverProvider) provider).getPathToExe());
+                Assert.assertEquals("path-to\\iexploredriver.exe", ((IExploreDriverProvider) provider).getRelativePath());
                 return;
                 }
 

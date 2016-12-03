@@ -2,6 +2,7 @@ package org.musetest.selenium.providers;
 
 import org.musetest.core.*;
 import org.musetest.core.events.*;
+import org.musetest.core.util.*;
 import org.musetest.selenium.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.*;
@@ -13,43 +14,35 @@ import java.io.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("chromedriver-provider")
-public class ChromeDriverProvider implements WebDriverProvider
+public class ChromeDriverProvider extends BaseLocalDriverProvider
     {
     @Override
     public WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context)
         {
-        synchronized (ChromeDriverProvider.class)
+        if (getOs() != null && !(OperatingSystem.get().equals(getOs())))
+            return null;   // this provider is not for the current OS
+
+        if (!capabilities.getCapabilities().get(SeleniumBrowserCapabilities.BROWSER_NAME).equals(BrowserType.CHROME))
+            return null;
+
+        File path = getDriverLocation(context);
+        if (path == null)
             {
-            if (capabilities.getCapabilities().get(SeleniumBrowserCapabilities.BROWSER_NAME).equals(BrowserType.CHROME))
-                {
-                if (_path_to_exe == null)
-                    {
-                    context.raiseEvent(new MessageEvent("ChromeDriverProvider would try to satisfy request for Chrome browser, but it was not provided with a path-to-exe"));
-                    return null;
-                    }
-
-                if (!(new File(_path_to_exe).exists()))
-                    {
-                    context.raiseEvent(new MessageEvent("ChromeDriverProvider would try to satisfy request for Chrome browser, but the provided path-to-exe does not exist"));
-                    return null;
-                    }
-
-                System.setProperty("webdriver.chrome.driver", _path_to_exe);
-                return new ChromeDriver(capabilities.toDesiredCapabilities());
-                }
+            context.raiseEvent(new MessageEvent("ChromeDriverProvider would try to satisfy request for Chrome browser, but it was not configured with a path to the driver"));
             return null;
             }
-        }
 
-    public String getPathToExe()
-        {
-        return _path_to_exe;
-        }
+        if (!(path.exists()))
+            {
+            context.raiseEvent(new MessageEvent("ChromeDriverProvider would try to satisfy request for Chrome browser, but the configured path does not exist: " + path.getAbsolutePath()));
+            return null;
+            }
 
-    @SuppressWarnings("unused")  // required for Json de/serialization
-    public void setPathToExe(String path_to_exe)
-        {
-        _path_to_exe = path_to_exe;
+        synchronized (ChromeDriverProvider.class)
+            {
+            System.setProperty("webdriver.chrome.driver", path.getAbsolutePath());
+            return new ChromeDriver(capabilities.toDesiredCapabilities());
+            }
         }
 
     @Override
@@ -57,8 +50,6 @@ public class ChromeDriverProvider implements WebDriverProvider
         {
         return "ChromeDriver";
         }
-
-    private String _path_to_exe;
     }
 
 

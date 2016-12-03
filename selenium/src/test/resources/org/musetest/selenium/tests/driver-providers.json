@@ -4,9 +4,9 @@
           [
             { "type" : "muse-mock-provider" },
             { "type" : "firefoxdriver-provider"},
-            { "type" : "firefox-marionette-provider", "pathToExe" : "path-to\\geckodriver.exe"},
+            { "type" : "firefox-marionette-provider", "relativePath" : "path-to\\geckodriver.exe"},
             { "type" : "safaridriver-provider"},
-            { "type" : "chromedriver-provider", "pathToExe" : "path-to\\chromedriver.exe"},
-            { "type" : "iexploredriver-provider", "pathToExe" : "path-to\\iexploredriver.exe"}
+            { "type" : "chromedriver-provider", "relativePath" : "path-to\\chromedriver.exe"},
+            { "type" : "iexploredriver-provider", "relativePath" : "path-to\\iexploredriver.exe"}
           ]
 }

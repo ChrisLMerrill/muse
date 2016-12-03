@@ -13,13 +13,19 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage
+public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage implements FilesystemStorage
     {
     public FolderIntoMemoryResourceStorage(File folder)
         {
         _folder = folder;
         locateClasspaths();
         loadAllResources();
+        }
+
+    @Override
+    public File getBaseLocation()
+        {
+        return _folder;
         }
 
     /**
@@ -176,7 +182,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage
             }
         finally
             {
-            try { if (outstream != null) outstream.close(); } catch (IOException e) { }
+            try { if (outstream != null) outstream.close(); } catch (IOException e) { /* nothing to do here */ }
             }
         }
 
