@@ -22,8 +22,18 @@ public class ResourceAttributes
         _id = id;
         }
 
-    List<ResourceType> _types = new ArrayList<>();
-    String _id = null;
+    public List<ResourceType> getTypes()
+        {
+        return _types;
+        }
+
+    public String getId()
+        {
+        return _id;
+        }
+
+    protected List<ResourceType> _types = new ArrayList<>();
+    protected String _id = null;
     }
 
 

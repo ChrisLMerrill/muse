@@ -5,7 +5,7 @@ import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
-import org.musetest.core.resource.*;
+import org.musetest.core.resource.storage.*;
 import org.musetest.core.values.*;
 
 import java.text.*;

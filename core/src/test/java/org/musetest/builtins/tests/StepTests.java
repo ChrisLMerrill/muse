@@ -11,6 +11,7 @@ import org.musetest.core.events.matching.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.storage.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.tests.mocks.*;

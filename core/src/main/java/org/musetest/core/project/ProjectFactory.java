@@ -1,7 +1,7 @@
 package org.musetest.core.project;
 
 import org.musetest.core.*;
-import org.musetest.core.resource.*;
+import org.musetest.core.resource.storage.*;
 
 import java.io.*;
 import java.util.*;

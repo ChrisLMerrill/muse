@@ -2,6 +2,7 @@ package org.musetest.selenium.providers;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.storage.*;
 import org.musetest.core.util.*;
 import org.musetest.selenium.*;
 import org.slf4j.*;

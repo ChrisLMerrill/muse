@@ -1,6 +1,7 @@
-package org.musetest.core.resource;
+package org.musetest.core.resource.storage;
 
 import org.musetest.core.*;
+import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.util.*;
 import org.reflections.*;

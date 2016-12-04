@@ -9,6 +9,7 @@ import org.musetest.builtins.value.property.*;
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.resource.storage.*;
 import org.musetest.core.step.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;

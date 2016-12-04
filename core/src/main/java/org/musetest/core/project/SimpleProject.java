@@ -4,6 +4,7 @@ import org.musetest.builtins.value.property.*;
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.storage.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;

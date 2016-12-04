@@ -1,4 +1,4 @@
-package org.musetest.core.resource;
+package org.musetest.core.resource.storage;
 
 import java.io.*;
 

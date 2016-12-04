@@ -7,6 +7,7 @@ import org.musetest.core.events.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
+import org.musetest.core.resource.storage.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.tests.mocks.*;
