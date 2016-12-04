@@ -19,13 +19,55 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
 
     public SeleniumBrowserCapabilities(String browser)
         {
-        _capabilities.put(BROWSER_NAME, browser);
+        _capabilities.put(CapabilityType.BROWSER_NAME, browser);
         }
 
     @Override
     public ResourceType getType()
         {
         return new BrowserResourceType();
+        }
+
+    public String getName()
+        {
+        return _capabilities.get(CapabilityType.BROWSER_NAME).toString();
+        }
+
+    public void setName(String name)
+        {
+        setCapability(CapabilityType.BROWSER_NAME, name);
+        }
+
+    @SuppressWarnings("unused") // used in UI
+    public String getPlatform()
+        {
+        return _capabilities.get(CapabilityType.PLATFORM).toString();
+        }
+
+    @SuppressWarnings("unused") // used in UI
+    public void setPlatform(String platform)
+        {
+        setCapability(CapabilityType.PLATFORM, platform);
+        }
+
+    @SuppressWarnings("unused") // used in UI
+    public String getVersion()
+        {
+        return _capabilities.get(CapabilityType.VERSION).toString();
+        }
+
+    @SuppressWarnings("unused") // used in UI
+    public void setVersion(String version)
+        {
+        setCapability(CapabilityType.VERSION, version);
+        }
+
+    private void setCapability(String name, Object new_value)
+        {
+        Object old_value = _capabilities.get(name);
+        _capabilities.put(name, new_value);
+        for (SeleniumBrowserCapabilitiesChangeListener listener : _listeners)
+            listener.capabilityChanged(name, old_value, new_value);
         }
 
     public DesiredCapabilities toDesiredCapabilities()
@@ -73,9 +115,19 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
         return builder.toString();
         }
 
-    private Map<String, Object> _capabilities = new HashMap<>();
+    public void addChangeListener(SeleniumBrowserCapabilitiesChangeListener listener)
+        {
+        _listeners.add(listener);
+        }
 
-    public final static String BROWSER_NAME = "browserName";
+    public void removeChangeListener(SeleniumBrowserCapabilitiesChangeListener listener)
+        {
+        _listeners.remove(listener);
+        }
+
+    private Map<String, Object> _capabilities = new HashMap<>();
+    private transient Set<SeleniumBrowserCapabilitiesChangeListener> _listeners = new HashSet<>();
+
     public final static String TYPE_ID = SeleniumBrowserCapabilities.class.getAnnotation(MuseTypeId.class).value();
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)

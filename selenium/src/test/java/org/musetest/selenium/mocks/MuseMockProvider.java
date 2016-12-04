@@ -13,7 +13,7 @@ public class MuseMockProvider implements WebDriverProvider
     @Override
     public WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context)
         {
-        if (capabilities.getCapabilities().get(SeleniumBrowserCapabilities.BROWSER_NAME).equals(MUSE_BROWSER))
+        if (capabilities.getName().equals(MUSE_BROWSER))
             return new MuseMockDriver();
         return null;
         }

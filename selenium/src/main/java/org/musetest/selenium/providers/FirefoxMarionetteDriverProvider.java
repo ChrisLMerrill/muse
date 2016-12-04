@@ -22,7 +22,7 @@ public class FirefoxMarionetteDriverProvider extends BaseLocalDriverProvider
         if (getOs() != null && !(OperatingSystem.get().equals(getOs())))
             return null;   // this provider is not for the current OS
 
-        if (!capabilities.getCapabilities().get(SeleniumBrowserCapabilities.BROWSER_NAME).equals(BrowserType.FIREFOX))
+        if (!capabilities.getName().equals(BrowserType.FIREFOX))
             return null;
 
         File path = getDriverLocation(context);

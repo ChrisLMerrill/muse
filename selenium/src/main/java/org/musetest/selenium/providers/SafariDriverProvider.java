@@ -19,7 +19,7 @@ public class SafariDriverProvider extends BaseLocalDriverProvider
         if (getOs() != null && !(OperatingSystem.get().equals(getOs())))
             return null;   // this provider is not for the current OS
 
-        if (!capabilities.getCapabilities().get(SeleniumBrowserCapabilities.BROWSER_NAME).equals(BrowserType.SAFARI))
+        if (!capabilities.getName().equals(BrowserType.SAFARI))
             return null;
 
         synchronized (SafariDriverProvider.class)
