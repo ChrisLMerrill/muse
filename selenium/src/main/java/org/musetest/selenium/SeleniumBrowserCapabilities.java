@@ -66,7 +66,7 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
         {
         Object old_value = _capabilities.get(name);
         _capabilities.put(name, new_value);
-        for (SeleniumBrowserCapabilitiesChangeListener listener : _listeners)
+        for (ChangeListener listener : _listeners)
             listener.capabilityChanged(name, old_value, new_value);
         }
 
@@ -115,18 +115,20 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
         return builder.toString();
         }
 
-    public void addChangeListener(SeleniumBrowserCapabilitiesChangeListener listener)
+    @SuppressWarnings("unused")  // public API
+    public void addChangeListener(ChangeListener listener)
         {
         _listeners.add(listener);
         }
 
-    public void removeChangeListener(SeleniumBrowserCapabilitiesChangeListener listener)
+    @SuppressWarnings("unused")  // public API
+    public void removeChangeListener(ChangeListener listener)
         {
         _listeners.remove(listener);
         }
 
     private Map<String, Object> _capabilities = new HashMap<>();
-    private transient Set<SeleniumBrowserCapabilitiesChangeListener> _listeners = new HashSet<>();
+    private transient Set<ChangeListener> _listeners = new HashSet<>();
 
     public final static String TYPE_ID = SeleniumBrowserCapabilities.class.getAnnotation(MuseTypeId.class).value();
 
@@ -138,6 +140,13 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
             super(TYPE_ID, "Browser", SeleniumBrowserCapabilities.class);
             }
         }
+
+    @SuppressWarnings("WeakerAccess")  // public API
+    public interface ChangeListener
+        {
+        void capabilityChanged(String name, Object old_value, Object new_value);
+        }
+
     }
 
 

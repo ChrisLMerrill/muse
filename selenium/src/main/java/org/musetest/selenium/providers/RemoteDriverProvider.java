@@ -7,6 +7,7 @@ import org.openqa.selenium.remote.*;
 import org.slf4j.*;
 
 import java.net.*;
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -36,10 +37,16 @@ public class RemoteDriverProvider implements WebDriverProvider
         return _url;
         }
 
-    @SuppressWarnings("unused")  // used by JSON de/serialization
+    @SuppressWarnings("unused")  // used by JSON de/serialization and in UI
     public void setUrl(String url)
         {
-        _url = url;
+        if (!Objects.equals(_url, url))
+            {
+            String old_url = _url;
+            _url = url;
+            for (ChangeListener listener : _listeners)
+                listener.urlChanged(old_url, url);
+            }
         }
 
     @Override
@@ -48,9 +55,28 @@ public class RemoteDriverProvider implements WebDriverProvider
         return "remote (" + _url + ")";
         }
 
-    private String _url;
+    @SuppressWarnings("unused")  // public API
+    public void addChangeListener(ChangeListener listener)
+        {
+        _listeners.add(listener);
+        }
 
-    final static Logger LOG = LoggerFactory.getLogger(RemoteDriverProvider.class);
+    @SuppressWarnings("unused")  // public API
+    public void removeChangeListener(ChangeListener listener)
+        {
+        _listeners.remove(listener);
+        }
+
+    private String _url;
+    private transient Set<ChangeListener> _listeners = new HashSet<>();
+
+    private final static Logger LOG = LoggerFactory.getLogger(RemoteDriverProvider.class);
+
+    @SuppressWarnings("WeakerAccess")  // public API
+    public interface ChangeListener
+        {
+        void urlChanged(String old_url, String new_url);
+        }
     }
 
 
