@@ -8,7 +8,6 @@ import org.musetest.core.util.*;
 import org.musetest.javascript.support.*;
 import org.slf4j.*;
 
-import javax.script.*;
 import java.io.*;
 import java.util.*;
 
@@ -44,7 +43,7 @@ public class FromJsFileResourceFactory implements MuseResourceFactory
                     for (FromJavascriptResourceFactory factory : factories)
                         resources.addAll(factory.createResources(origin, type, runner.getScriptEngine()));
                     }
-                catch (ScriptException e)
+                catch (Exception e)
                     {
                     LOG.error("Unable to eval() the javascript: " + origin, e);
                     }

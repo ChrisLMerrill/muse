@@ -129,7 +129,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
                     LOG.error(String.format("Unable to add %s to the context classloader", file.getAbsoluteFile()), e);
                     }
             URL[] url_array = urls.toArray(new URL[urls.size()]);
-            _class_loader = new URLClassLoader(url_array);
+            _class_loader = new URLClassLoader(url_array, getClass().getClassLoader());
 
             Object[] class_search_path = new Object[url_array.length + 1];
             System.arraycopy(url_array, 0, class_search_path, 0, url_array.length);
