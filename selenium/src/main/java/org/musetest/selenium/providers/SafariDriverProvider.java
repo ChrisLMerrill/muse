@@ -29,6 +29,12 @@ public class SafariDriverProvider extends BaseLocalDriverProvider
         }
 
     @Override
+    public String getName()
+        {
+        return "Safari (local)";
+        }
+
+    @Override
     public String toString()
         {
         return "SafariDriver";

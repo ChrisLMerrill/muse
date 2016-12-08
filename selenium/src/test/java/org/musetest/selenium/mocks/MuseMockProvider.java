@@ -19,6 +19,12 @@ public class MuseMockProvider implements WebDriverProvider
         }
 
     @Override
+    public String getName()
+        {
+        return toString();
+        }
+
+    @Override
     public String toString()
         {
         return "MuseMockDriver[local]";

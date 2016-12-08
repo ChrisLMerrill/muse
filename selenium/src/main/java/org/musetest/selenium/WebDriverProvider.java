@@ -11,7 +11,8 @@ import org.openqa.selenium.*;
 public interface WebDriverProvider
     {
     WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context);
-
+    @JsonIgnore
+    String getName();
     String TYPE_ID = SeleniumBrowserCapabilities.class.getAnnotation(MuseTypeId.class).value();
     }
 

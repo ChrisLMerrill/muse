@@ -1,5 +1,6 @@
 package org.musetest.selenium;
 
+import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
@@ -28,35 +29,41 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
         return new BrowserResourceType();
         }
 
+    @JsonIgnore
     public String getName()
         {
         return _capabilities.get(CapabilityType.BROWSER_NAME).toString();
         }
 
+    @JsonIgnore
     public void setName(String name)
         {
         setCapability(CapabilityType.BROWSER_NAME, name);
         }
 
     @SuppressWarnings("unused") // used in UI
+    @JsonIgnore
     public String getPlatform()
         {
         return _capabilities.get(CapabilityType.PLATFORM).toString();
         }
 
     @SuppressWarnings("unused") // used in UI
+    @JsonIgnore
     public void setPlatform(String platform)
         {
         setCapability(CapabilityType.PLATFORM, platform);
         }
 
     @SuppressWarnings("unused") // used in UI
+    @JsonIgnore
     public String getVersion()
         {
         return _capabilities.get(CapabilityType.VERSION).toString();
         }
 
     @SuppressWarnings("unused") // used in UI
+    @JsonIgnore
     public void setVersion(String version)
         {
         setCapability(CapabilityType.VERSION, version);

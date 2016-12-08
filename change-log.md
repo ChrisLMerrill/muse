@@ -1,5 +1,9 @@
 # Muse Change Log
 
+## 0.7
+- add: Change listeners on WebDriverProviderList
+- add: Name property on WebDriverProvider
+
 ## 0.6
 - Minor changes in support of the first IDE release
 - switch to LogBack (from slf4j-simple) for logging diagnostic. Log to a file instead of console ($HOME/.muse/muse.log) 

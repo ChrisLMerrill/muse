@@ -8,7 +8,7 @@ import org.musetest.core.execution.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.json.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.SteppedTest;
+import org.musetest.core.steptest.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
@@ -174,6 +174,79 @@ public class WebDriverProviderTests
             }
 
         Assert.assertTrue("remote provider not found", false);
+        }
+
+    @Test
+    public void listListenerRegistrationAndAddEvents()
+        {
+        WebDriverProviderList list = new WebDriverProviderList();
+        class MyChangeListener implements WebDriverProviderList.ChangeListener
+            {
+            @Override
+            public void providerAdded(int index, WebDriverProvider provider)
+                {
+                _added_index = index;
+                _added_provider = provider;
+                }
+
+            @Override
+            public void providerRemoved(int index, WebDriverProvider provider) {}
+
+            private void reset()
+                {
+                _added_index = null;
+                _added_provider = null;
+                }
+            private Integer _added_index;
+            private WebDriverProvider _added_provider;
+            }
+        MyChangeListener listener = new MyChangeListener();
+        list.addListener(listener);
+
+        RemoteDriverProvider new_provider = new RemoteDriverProvider();
+        list.add(new_provider);
+
+        Assert.assertEquals(0, listener._added_index.longValue());
+        Assert.assertEquals(new_provider, listener._added_provider);
+
+        // remove listener
+        listener.reset();
+        list.removeListener(listener);
+        list.add(new_provider);
+        Assert.assertEquals(null, listener._added_provider);
+        }
+
+    @Test
+    public void listListenerRemoveEvents()
+        {
+        WebDriverProviderList list = new WebDriverProviderList();
+        RemoteDriverProvider provider1 = new RemoteDriverProvider();
+        list.add(provider1);
+        RemoteDriverProvider provider2 = new RemoteDriverProvider();
+        list.add(provider2);
+
+        class MyChangeListener implements WebDriverProviderList.ChangeListener
+            {
+            @Override
+            public void providerAdded(int index, WebDriverProvider provider) { }
+
+            @Override
+            public void providerRemoved(int index, WebDriverProvider provider)
+                {
+                _removed_index = index;
+                _removed_provider = provider;
+                }
+
+            private Integer _removed_index;
+            private WebDriverProvider _removed_provider;
+            }
+        MyChangeListener listener = new MyChangeListener();
+        list.addListener(listener);
+
+        list.remove(provider2);
+
+        Assert.assertEquals(1, listener._removed_index.longValue());
+        Assert.assertEquals(provider2, listener._removed_provider);
         }
 
     }

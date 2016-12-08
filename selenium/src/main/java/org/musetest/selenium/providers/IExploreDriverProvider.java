@@ -46,6 +46,12 @@ public class IExploreDriverProvider extends BaseLocalDriverProvider
         }
 
     @Override
+    public String getName()
+        {
+        return "IEDriverServer (local)";
+        }
+
+    @Override
     public String toString()
         {
         return "InternetExplorerDriver";

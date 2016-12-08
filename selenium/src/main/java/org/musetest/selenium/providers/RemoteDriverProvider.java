@@ -2,6 +2,7 @@ package org.musetest.selenium.providers;
 
 import org.musetest.core.*;
 import org.musetest.selenium.*;
+import org.musetest.selenium.steps.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.*;
 import org.slf4j.*;
@@ -55,6 +56,12 @@ public class RemoteDriverProvider implements WebDriverProvider
         return "remote (" + _url + ")";
         }
 
+    @Override
+    public String getName()
+        {
+        return "Remote";
+        }
+
     @SuppressWarnings("unused")  // public API
     public void addChangeListener(ChangeListener listener)
         {
@@ -67,10 +74,12 @@ public class RemoteDriverProvider implements WebDriverProvider
         _listeners.remove(listener);
         }
 
-    private String _url;
+    private String _url = DEFAULT_URL;
     private transient Set<ChangeListener> _listeners = new HashSet<>();
 
     private final static Logger LOG = LoggerFactory.getLogger(RemoteDriverProvider.class);
+
+    public final static String DEFAULT_URL = "http://selenium.grid.host:4444/grid";
 
     @SuppressWarnings("WeakerAccess")  // public API
     public interface ChangeListener

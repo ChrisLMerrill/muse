@@ -29,6 +29,12 @@ public class FirefoxDriverProvider extends BaseLocalDriverProvider
         }
 
     @Override
+    public String getName()
+        {
+        return "Firefox (local)";
+        }
+
+    @Override
     public String toString()
         {
         return "FirefoxDriver";

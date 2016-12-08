@@ -48,6 +48,12 @@ public class FirefoxMarionetteDriverProvider extends BaseLocalDriverProvider
         }
 
     @Override
+    public String getName()
+        {
+        return "Firefox Marionette (local)";
+        }
+
+    @Override
     public String toString()
         {
         return "MarionetteDriver";

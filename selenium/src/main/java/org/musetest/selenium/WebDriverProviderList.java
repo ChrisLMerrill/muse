@@ -3,6 +3,7 @@ package org.musetest.selenium;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
+import org.musetest.selenium.providers.*;
 import org.openqa.selenium.*;
 
 import java.util.*;
@@ -31,7 +32,37 @@ public class WebDriverProviderList extends BaseMuseResource implements WebDriver
     @SuppressWarnings("unused")  // JSON de/serialization
     public List<WebDriverProvider> getProviders()
         {
+        if (_providers == null)
+            _providers = new ArrayList<>();
         return _providers;
+        }
+
+    @SuppressWarnings("unused")  // used in UI
+    public void add(WebDriverProvider provider)
+        {
+        int index = getProviders().size();
+        getProviders().add(provider);
+        for (WebDriverProviderList.ChangeListener listener : _listeners)
+            listener.providerAdded(index, provider);
+        }
+
+    @SuppressWarnings("unused")  // used in UI
+    public void add(int index, WebDriverProvider provider)
+        {
+        getProviders().add(index, provider);
+        for (WebDriverProviderList.ChangeListener listener : _listeners)
+            listener.providerAdded(index, provider);
+        }
+
+    public void remove(WebDriverProvider provider)
+        {
+        int index = getProviders().indexOf(provider);
+        if (index >= 0)
+            {
+            getProviders().remove(index);
+            for (WebDriverProviderList.ChangeListener listener : _listeners)
+                listener.providerRemoved(index, provider);
+            }
         }
 
     @SuppressWarnings("unused")  // JSON de/serialization
@@ -63,7 +94,19 @@ public class WebDriverProviderList extends BaseMuseResource implements WebDriver
         return new WebdriverProviderResourceType();
         }
 
+    public void addListener(ChangeListener listener)
+        {
+        _listeners.add(listener);
+        }
+
+    public void removeListener(ChangeListener listener)
+        {
+        _listeners.remove(listener);
+        }
+
     private List<WebDriverProvider> _providers;
+
+    private transient Set<ChangeListener> _listeners = new HashSet<>();
 
     public final static String TYPE_ID = WebDriverProviderList.class.getAnnotation(MuseTypeId.class).value();
 
@@ -74,6 +117,12 @@ public class WebDriverProviderList extends BaseMuseResource implements WebDriver
             {
             super(TYPE_ID, "BrowserProvider", WebDriverProviderList.class);
             }
+        }
+
+    public interface ChangeListener
+        {
+        void providerAdded(int index, WebDriverProvider provider);
+        void providerRemoved(int index, WebDriverProvider provider);
         }
     }
 

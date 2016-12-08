@@ -46,6 +46,12 @@ public class ChromeDriverProvider extends BaseLocalDriverProvider
         }
 
     @Override
+    public String getName()
+        {
+        return "ChromeDriver (local)";
+        }
+
+    @Override
     public String toString()
         {
         return "ChromeDriver";
