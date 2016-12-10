@@ -8,13 +8,15 @@ import org.musetest.selenium.*;
 import org.slf4j.*;
 
 import java.io.*;
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-abstract class BaseLocalDriverProvider implements WebDriverProvider
+public abstract class BaseLocalDriverProvider implements WebDriverProvider
     {
-    OperatingSystem getOs()
+    @SuppressWarnings("WeakerAccess")  // part of API
+    public OperatingSystem getOs()
         {
         return _os;
         }
@@ -22,7 +24,10 @@ abstract class BaseLocalDriverProvider implements WebDriverProvider
     @SuppressWarnings("unused")  // required for Json de/serialization
     public void setOs(OperatingSystem os)
         {
+        OperatingSystem old_os = _os;
         _os = os;
+        for (ChangeListener listener : _listeners)
+            listener.osChanged(old_os, _os);
         }
 
     @SuppressWarnings("unused")  // required for Json de/serialization
@@ -32,9 +37,14 @@ abstract class BaseLocalDriverProvider implements WebDriverProvider
         }
 
     @SuppressWarnings("unused")  // required for Json de/serialization
-    public void setRelativePath(String relative_path)
+    public void setRelativePath(String new_path)
         {
-        _relative_path = relative_path;
+        String old_path = _relative_path;
+        if (Objects.equals(old_path, new_path))
+            return;
+        _relative_path = new_path;
+        for (ChangeListener listener : _listeners)
+            listener.relativePathChanged(old_path, _relative_path);
         }
 
     @SuppressWarnings("unused")  // required for Json de/serialization
@@ -44,9 +54,14 @@ abstract class BaseLocalDriverProvider implements WebDriverProvider
         }
 
     @SuppressWarnings("unused")  // required for Json de/serialization
-    public void setAbsolutePath(String absolute_path)
+    public void setAbsolutePath(String new_path)
         {
-        _absolute_path = absolute_path;
+        String old_path = _absolute_path;
+        if (Objects.equals(old_path, new_path))
+            return;
+        _absolute_path = new_path;
+        for (ChangeListener listener : _listeners)
+            listener.absolutePathChanged(old_path, _absolute_path);
         }
 
     File getDriverLocation(MuseExecutionContext context)
@@ -74,11 +89,37 @@ abstract class BaseLocalDriverProvider implements WebDriverProvider
         return new File(_absolute_path);
         }
 
+    @SuppressWarnings("unused")  // public API
+    public void addChangeListener(ChangeListener listener)
+        {
+        if (_listeners == null)
+            _listeners = new HashSet<>();
+        _listeners.add(listener);
+        }
+
+    @SuppressWarnings("unused")  // public API
+    public void removeChangeListener(ChangeListener listener)
+        {
+        if (_listeners == null)
+            return;
+        _listeners.remove(listener);
+        }
+
     private OperatingSystem _os;
     private String _relative_path;
     private String _absolute_path;
 
+    private transient Set<ChangeListener> _listeners = new HashSet<>();
+
     private final static Logger LOG = LoggerFactory.getLogger(BaseLocalDriverProvider.class);
+
+    @SuppressWarnings("WeakerAccess")  // public API
+    public interface ChangeListener
+        {
+        void absolutePathChanged(String old_path, String new_path);
+        void relativePathChanged(String old_path, String new_path);
+        void osChanged(OperatingSystem old_os, OperatingSystem new_os);
+        }
     }
 
 

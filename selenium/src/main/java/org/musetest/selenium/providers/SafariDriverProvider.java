@@ -11,14 +11,11 @@ import org.openqa.selenium.safari.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("safaridriver-provider")
-public class SafariDriverProvider extends BaseLocalDriverProvider
+public class SafariDriverProvider implements WebDriverProvider
     {
     @Override
     public WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context)
         {
-        if (getOs() != null && !(OperatingSystem.get().equals(getOs())))
-            return null;   // this provider is not for the current OS
-
         if (!capabilities.getName().equals(BrowserType.SAFARI))
             return null;
 
