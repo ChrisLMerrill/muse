@@ -38,7 +38,7 @@ public class ResourceSubtypes
             }
         }
 
-    public Collection<ResourceSubtype> getSubtypesOf(ResourceType type)
+    public List<ResourceSubtype> getSubtypesOf(ResourceType type)
         {
         List<ResourceSubtype> subtypes = new ArrayList<>();
         for (ResourceSubtype subtype : _subtypes.values())

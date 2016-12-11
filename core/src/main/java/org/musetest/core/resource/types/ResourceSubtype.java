@@ -11,6 +11,7 @@ public abstract class ResourceSubtype extends ResourceType
         _parent_type_id = parent_type.getTypeId();
         }
 
+    @SuppressWarnings("WeakerAccess") // public API
     public boolean isSubtypeOf(ResourceType type)
         {
         return _parent_type_id.equals(type.getTypeId());
