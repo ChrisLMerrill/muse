@@ -8,22 +8,15 @@ import java.io.*;
 import java.util.*;
 
 /**
+ * Factory for restoring resources from persistant storage.
+ *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class ResourceFactory
     {
     /**
-     * Convenience method for unit tests.  Use the other createResources() to load with the correct classpaths for project-defined resources.
-     *
-     * @param origin Where to load the resources from
-     * @return A list of resources loaded from the origin
-     * @throws IOException If the resource cannot be read
+     * Create a resource from a source, using the classpaths from a project.
      */
-    public static List<MuseResource> createResources(ResourceOrigin origin) throws IOException
-        {
-        return createResources(origin, new FactoryLocator(DefaultClassLocator.get()), DefaultClassLocator.get());
-        }
-
     public static List<MuseResource> createResources(ResourceOrigin origin, FactoryLocator factory_locator, ClassLocator locator) throws IOException
         {
         List<MuseResource> resources = new ArrayList<>();
@@ -50,6 +43,18 @@ public class ResourceFactory
                 LOG.info(factories.size() + " factories found, but no resources created for " + origin.getDescription());
             }
         return resources;
+        }
+
+    /**
+     * Convenience method for unit tests.  Use the other createResources() to load with the correct classpaths for project-defined resources.
+     *
+     * @param origin Where to load the resources from
+     * @return A list of resources loaded from the origin
+     * @throws IOException If the resource cannot be read
+     */
+    public static List<MuseResource> createResources(ResourceOrigin origin) throws IOException
+        {
+        return createResources(origin, new FactoryLocator(DefaultClassLocator.get()), DefaultClassLocator.get());
         }
 
     private final static Logger LOG = LoggerFactory.getLogger(ResourceFactory.class);

@@ -59,6 +59,17 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
 
     private List<Map<String, Object>> _parameters;
     private String _testid;
+
+    @SuppressWarnings("unused,WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    public static class ParameterListTestSuiteSubtype extends ResourceSubtype
+        {
+        public ParameterListTestSuiteSubtype()
+            {
+            super(TYPE_ID, "Parameterized Test", ParameterListTestSuite.class, new MuseTestSuite.TestSuiteResourceType());
+            }
+        }
+
+    public final static String TYPE_ID = ParameterListTestSuite.class.getAnnotation(MuseTypeId.class).value();
     }
 
 

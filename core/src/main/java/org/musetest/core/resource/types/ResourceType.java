@@ -29,6 +29,11 @@ public abstract class ResourceType
         return _type_id;
         }
 
+    public boolean isSubtype()
+        {
+        return false;
+        }
+
     public MuseResource create()
         {
         try
@@ -44,7 +49,7 @@ public abstract class ResourceType
     @Override
     public boolean equals(Object other)
         {
-        return other instanceof  ResourceType && _type_id.equals(((ResourceType)other)._type_id);
+        return other instanceof ResourceType && _type_id.equals(((ResourceType)other)._type_id);
         }
 
     @Override

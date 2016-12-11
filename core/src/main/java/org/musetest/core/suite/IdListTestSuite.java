@@ -51,6 +51,15 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
         return new TestSuiteResourceType();
         }
 
+    @SuppressWarnings("unused,WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
+    public static class IdListTestSuiteSubtype extends ResourceSubtype
+        {
+        public IdListTestSuiteSubtype()
+            {
+            super(TYPE_ID, "List of tests", IdListTestSuite.class, new MuseTestSuite.TestSuiteResourceType());
+            }
+        }
+
     private List<String> _test_ids = new ArrayList<>();
 
     public final static String TYPE_ID = IdListTestSuite.class.getAnnotation(MuseTypeId.class).value();

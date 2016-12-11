@@ -46,6 +46,7 @@ public interface MuseProject
     SystemVariableProviders getSystemVariableProviders();
     @SuppressWarnings("unused") // used by project navigator in UI
     ResourceTypes getResourceTypes();
+    ResourceSubtypes getResourceSubtypes();
 
     /**
      * Command line options

@@ -21,10 +21,13 @@ public class ResourceTypes
                 if (obj instanceof ResourceType)
                     {
                     ResourceType type = (ResourceType) obj;
-                    if (_types.get(type.getTypeId()) != null)
-                        LOG.warn("Duplicate ResourceTypes found for id: " + type.getTypeId());
-                    else
-                        _types.put(type.getTypeId().toLowerCase(), type);
+                    if (!type.isSubtype())
+                        {
+                        if (_types.get(type.getTypeId()) != null)
+                            LOG.warn("Duplicate ResourceType found for id: " + type.getTypeId());
+                        else
+                            _types.put(type.getTypeId().toLowerCase(), type);
+                        }
                     }
                 }
             catch (Exception e)
