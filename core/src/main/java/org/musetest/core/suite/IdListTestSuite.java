@@ -45,10 +45,45 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
         _test_ids = ids;
         }
 
+    @SuppressWarnings("unused")  // public API
+    public boolean addTestId(String id)
+        {
+        boolean added = _test_ids.add(id);
+        for (ChangeListener listener : _listeners)
+            listener.testIdAdded(id);
+        return added;
+        }
+
+    @SuppressWarnings("unused")  // public API
+    public boolean removeTestId(String id)
+        {
+        boolean added = _test_ids.remove(id);
+        for (ChangeListener listener : _listeners)
+            listener.testIdRemoved(id);
+        return added;
+        }
+
     @Override
     public ResourceType getType()
         {
         return new TestSuiteResourceType();
+        }
+
+    public void addChangeListener(ChangeListener listener)
+        {
+        _listeners.add(listener);
+        }
+
+    public boolean removeChangeListener(ChangeListener listener)
+        {
+        return _listeners.remove(listener);
+        }
+
+    @SuppressWarnings("unused")  // public API
+    public interface ChangeListener
+        {
+        void testIdAdded(String id);
+        void testIdRemoved(String id);
         }
 
     @SuppressWarnings("unused,WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
@@ -61,6 +96,8 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
         }
 
     private List<String> _test_ids = new ArrayList<>();
+
+    private transient Set<ChangeListener> _listeners = new HashSet<>();
 
     public final static String TYPE_ID = IdListTestSuite.class.getAnnotation(MuseTypeId.class).value();
 
