@@ -91,7 +91,7 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
         {
         public IdListTestSuiteSubtype()
             {
-            super(TYPE_ID, "List of tests", IdListTestSuite.class, new MuseTestSuite.TestSuiteResourceType());
+            super(TYPE_ID, "List of tests suite", IdListTestSuite.class, new MuseTestSuite.TestSuiteResourceType());
             }
         }
 

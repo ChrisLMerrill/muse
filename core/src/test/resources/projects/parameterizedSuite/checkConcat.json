@@ -1,0 +1,69 @@
+{
+  "type" : "steppedtest",
+  "step" : {
+    "type" : "scope",
+    "children" : [ {
+      "type" : "store-variable",
+      "sources" : {
+        "name" : {
+          "value" : "result",
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "add",
+          "sourceList" : [ {
+            "type" : "variable",
+            "source" : {
+              "value" : "p1",
+              "type" : "string"
+            }
+          }, {
+            "type" : "variable",
+            "source" : {
+              "value" : "p2",
+              "type" : "string"
+            }
+          } ]
+        }
+      }
+    }, {
+      "type" : "verify",
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "result",
+                "type" : "string"
+              }
+            },
+            "right" : {
+              "type" : "variable",
+              "source" : {
+                "value" : "check",
+                "type" : "string"
+              }
+            }
+          }
+        }
+      }
+    } ]
+  },
+  "defaultVariables" : {
+    "p1" : {
+      "value" : "1and",
+      "type" : "string"
+    },
+    "p2" : {
+      "value" : "1",
+      "type" : "string"
+    },
+    "check" : {
+      "value" : "1and1",
+      "type" : "string"
+    }
+  },
+  "tags" : [ ]
+}

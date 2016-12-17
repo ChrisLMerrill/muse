@@ -65,7 +65,7 @@ public class BasicDataTable extends BaseMuseResource implements DataTable
     @Override
     public ResourceType getType()
         {
-        return null;
+        return new DataTable.DataTableResourceType();
         }
 
     private String[] _column_names;

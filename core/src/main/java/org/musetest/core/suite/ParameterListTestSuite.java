@@ -71,9 +71,13 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
         }
 
     @SuppressWarnings("unused")    // used by Jackson for de/serialization
-    public void setTestId(String testid)
+    public void setTestId(String id)
         {
-        _testid = testid;
+        String old_id = _testid;
+        _testid = id;
+        if (!Objects.equals(old_id, id))
+            for (ChangeListener listener : _listeners)
+                listener.testIdChanged(old_id, id);
         }
 
     @SuppressWarnings("unused")    // used by Jackson for de/serialization
@@ -85,7 +89,11 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
     @SuppressWarnings("unused")    // used by Jackson for de/serialization
     public void setDataTableId(String id)
         {
+        String old_id = _datatable_id;
         _datatable_id = id;
+        if (!Objects.equals(old_id, id))
+            for (ChangeListener listener : _listeners)
+                listener.datatableIdChanged(old_id, id);
         }
 
     public List<Map<String, Object>> getParameters()
@@ -99,16 +107,37 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
         _parameters = parameter_map_list;
         }
 
+    @SuppressWarnings("unused")  // public API
+    public void addListener(ChangeListener listener)
+        {
+        _listeners.add(listener);
+        }
+
+    @SuppressWarnings("unused")  // public API
+    public void removeListener(ChangeListener listener)
+        {
+        _listeners.remove(listener);
+        }
+
     private List<Map<String, Object>> _parameters;
     private String _datatable_id;
     private String _testid;
+
+    private transient Set<ChangeListener> _listeners = new HashSet<>();
+
+    @SuppressWarnings("WeakerAccess")  // public API
+    public interface ChangeListener
+        {
+        void testIdChanged(String old_id, String new_id);
+        void datatableIdChanged(String old_id, String new_id);
+        }
 
     @SuppressWarnings("unused,WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     public static class ParameterListTestSuiteSubtype extends ResourceSubtype
         {
         public ParameterListTestSuiteSubtype()
             {
-            super(TYPE_ID, "Parameterized Test", ParameterListTestSuite.class, new MuseTestSuite.TestSuiteResourceType());
+            super(TYPE_ID, "Parameterized Test Suite", ParameterListTestSuite.class, new MuseTestSuite.TestSuiteResourceType());
             }
         }
 
