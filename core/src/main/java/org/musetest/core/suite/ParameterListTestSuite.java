@@ -24,9 +24,39 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
             test = new MissingTest(_testid);
 
         List<TestConfiguration> tests = new ArrayList<>();
-        for (Map<String, Object> param_set : _parameters)
+        List<Map<String, Object>> parameters;
+        if (_parameters != null)
+            parameters = _parameters;
+        else if (_datatable_id != null)
+            parameters = createParametersFromDataTable(project);
+        else
+            throw new IllegalStateException("ParameterListTestSuite requires either the DataTableId or Parameters properties.");
+        for (Map<String, Object> param_set : parameters)
             tests.add(new TestConfiguration(test, new VariableMapInitializer(param_set)));
         return tests;
+        }
+
+    private List<Map<String, Object>> createParametersFromDataTable(MuseProject project)
+        {
+        List<Map<String, Object>> param_list = new ArrayList<>();
+
+        ResourceToken token = project.getResourceStorage().findResource(_datatable_id);
+        if (token == null)
+            throw new IllegalStateException("DataTable not found in the project: " + _datatable_id);
+        if (!(token.getResource() instanceof DataTable))
+            throw new IllegalStateException("ParameterListTestSuite requires the DataTableId corresponds to a DataTable resource in the project");
+
+        DataTable table = (DataTable) token.getResource();
+        String[] names = table.getColumnNames();
+        for (int row = 0; row < table.getNumberRows(); row++)
+            {
+            Map<String, Object> params = new HashMap<>();
+            for (int column = 0; column < names.length; column++)
+                params.put(names[column], table.getData(column, row));
+            param_list.add(params);
+            }
+
+        return param_list;
         }
 
     @Override
@@ -46,6 +76,18 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
         _testid = testid;
         }
 
+    @SuppressWarnings("unused")    // used by Jackson for de/serialization
+    public String getDataTableId()
+        {
+        return _datatable_id;
+        }
+
+    @SuppressWarnings("unused")    // used by Jackson for de/serialization
+    public void setDataTableId(String id)
+        {
+        _datatable_id = id;
+        }
+
     public List<Map<String, Object>> getParameters()
         {
         return _parameters;
@@ -58,6 +100,7 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
         }
 
     private List<Map<String, Object>> _parameters;
+    private String _datatable_id;
     private String _testid;
 
     @SuppressWarnings("unused,WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)

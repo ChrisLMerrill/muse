@@ -2,13 +2,12 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.core.*;
-import org.musetest.core.resource.storage.*;
-import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
-import org.musetest.core.steptest.*;
+import org.musetest.core.resource.storage.*;
 import org.musetest.core.suite.*;
+import org.musetest.core.tests.mocks.*;
 import org.musetest.core.util.*;
 import org.musetest.core.variables.*;
 import org.musetest.tests.utils.*;
@@ -80,21 +79,24 @@ public class TestSuiteTests
     @Test
     public void paramterizedTestSuite() throws IOException
         {
-        File suite_file = TestUtils.getTestResource("projects/parameterizedSuite/suite.json", this.getClass());
-        MuseTestSuite suite = (MuseTestSuite) ResourceFactory.createResources(new FileResourceOrigin(suite_file), new FactoryLocator(null), DefaultClassLocator.get()).get(0);
-
-        File test_file = TestUtils.getTestResource("projects/parameterizedSuite/checkSum.json", this.getClass());
-        SteppedTest test = (SteppedTest) ResourceFactory.createResources(new FileResourceOrigin(test_file), new FactoryLocator(null), DefaultClassLocator.get()).get(0);
-
-        SimpleProject project = new SimpleProject(new InMemoryResourceStorage());
-        project.getResourceStorage().addResource(suite);
-        project.getResourceStorage().addResource(test);
-
+        MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestUtils.getTestResource("projects/parameterizedSuite", this.getClass())));
+        MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("suite").getResource();
         SimpleTestSuiteRunner runner = new SimpleTestSuiteRunner(suite);
         MuseTestSuiteResult result = runner.execute(project);
 
         Assert.assertEquals(1, result.getFailureCount());
         Assert.assertEquals(2, result.getSuccessCount());
+        }
+
+    @Test
+    public void parametersFromCsv()
+        {
+        MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestUtils.getTestResource("projects/parameterizedSuite", this.getClass())));
+        MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("CsvSuite").getResource();
+        SimpleTestSuiteRunner runner = new SimpleTestSuiteRunner(suite);
+        MuseTestSuiteResult result = runner.execute(project);
+
+        Assert.assertEquals(3, result.getSuccessCount());
         }
     }
 

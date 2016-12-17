@@ -1,0 +1,5 @@
+{
+"type":"parameterized_test_suite",
+"testId": "checkSum",
+"dataTableId": "params"
+}

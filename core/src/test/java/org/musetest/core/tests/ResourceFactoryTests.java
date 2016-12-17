@@ -4,10 +4,13 @@ import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.tests.mocks.*;
+import org.musetest.core.util.*;
 import org.musetest.tests.utils.*;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -41,6 +44,25 @@ public class ResourceFactoryTests
         MuseProject project = new SimpleProject(store);
         MuseResource resource = project.getResourceStorage().getResource("not_done_yet", MockMuseResource.class);
         Assert.assertNull(resource);
+        }
+
+    @Test
+    public void loadCsvDataTable() throws IOException
+        {
+        MuseProject project = new SimpleProject();
+        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestUtils.getTestResource("test_files/DataTable.csv", getClass())), new FactoryLocator(project.getClassLocator()), project.getClassLocator());
+        Assert.assertEquals(1, resources.size());
+        Assert.assertTrue(resources.get(0) instanceof DataTable);
+
+        DataTable table = (DataTable) resources.get(0);
+        Assert.assertEquals(2, table.getNumberColumns());
+        Assert.assertEquals("col1", table.getColumnNames()[0]);
+        Assert.assertEquals("col2", table.getColumnNames()[1]);
+        Assert.assertEquals(2, table.getNumberRows());
+        Assert.assertEquals("data1.1" , table.getData(0, 0));
+        Assert.assertEquals("data1.2" , table.getData("col2", 0));
+        Assert.assertEquals("data2.1" , table.getDataRow(1)[0]);
+        Assert.assertEquals("data2.2" , table.getDataRow(1)[1]);
         }
     }
 
