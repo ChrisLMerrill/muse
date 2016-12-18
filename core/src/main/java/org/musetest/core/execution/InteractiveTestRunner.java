@@ -26,9 +26,9 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
     @Override
     public void runTest()
         {
-        Thread t = new Thread(this);
-        t.setContextClassLoader(_loader);
-        t.start();
+        _thread = new Thread(this);
+        _thread.setContextClassLoader(_loader);
+        _thread.start();
         }
 
     @Override
@@ -54,6 +54,7 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
             _context.raiseEvent(new MuseEvent(MuseEventType.Interrupted));
 
         setTestResult(_executor.finishTest());
+        _thread = null;
         }
 
     private synchronized boolean paused()
@@ -81,10 +82,11 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
 
     public synchronized void requestStop()
         {
-// TODO throw an event?
         _interrupted = true;
         if (_paused)
             notify();
+        else
+            _thread.interrupt();
         }
 
     public void requestPause()
@@ -122,8 +124,9 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
     private boolean _step_requested = false;
     private boolean _paused = false;
     private SteppedTestExecutor _executor;
+    private Thread _thread;
 
-    final static Logger LOG = LoggerFactory.getLogger(InteractiveTestRunner.class);
+    private final static Logger LOG = LoggerFactory.getLogger(InteractiveTestRunner.class);
     }
 
 
