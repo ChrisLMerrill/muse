@@ -3,6 +3,12 @@
 ## 0.7
 - add: Change listeners on WebDriverProviderList
 - add: Name property on WebDriverProvider
+- add: Support resource sub-types (e.g. different types of MuseTestSuite)
+- add: DataTable resource type and CSV implementation
+- add: optional parameters for the wait step (control wait duration and fail behavior)
+- add: Wait for N seconds step
+- add: import pause step from SeleniumIDE
+- fix: Stopping the InteractiveTestRunner now interrupts the thread (thus, stopping immediately)
 
 ## 0.6
 - Minor changes in support of the first IDE release
