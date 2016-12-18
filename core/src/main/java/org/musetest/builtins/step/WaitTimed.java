@@ -48,7 +48,7 @@ public class WaitTimed extends BaseStep
 
     private MuseValueSource _duration;
 
-    final static String DURATION_PARAM = "duration";
+    public final static String DURATION_PARAM = "duration";
 
     public final static String TYPE_ID = WaitTimed.class.getAnnotation(MuseTypeId.class).value();
     }
