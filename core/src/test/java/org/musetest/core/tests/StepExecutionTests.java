@@ -78,10 +78,6 @@ public class StepExecutionTests
         Assert.assertNotNull("second step didn't run", executor.getEventLog().findFirstEvent(new EventDescriptionMatcher(message2)));
         }
 
-    // TODO test doubly-nested compound steps
-
-    // TODO test step failure - e.g. verify(false)
-
     @Test
     public void stepMissingParameter()
         {
@@ -115,8 +111,6 @@ public class StepExecutionTests
         Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(MuseEventType.StartStep)));
         Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));
         }
-
-
     }
 
 

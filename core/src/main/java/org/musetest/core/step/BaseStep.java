@@ -45,7 +45,7 @@ public abstract class BaseStep implements MuseStep
     protected abstract StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError;
 
     /**
-     * A convenience method to get a specific value source from the configuration parameter list
+     * A convenience method to get a specific value source from the configuration parameter list.
      * @see BaseValueSource#getValueSource
      */
     protected MuseValueSource getValueSource(StepConfiguration config, String name, boolean required, MuseProject project) throws MuseInstantiationException
@@ -54,12 +54,24 @@ public abstract class BaseStep implements MuseStep
         }
 
     /**
-     * A convenience method to resolves a value source to the desired type
+     * A convenience method to resolves a value source to the desired type.
      * @see BaseValueSource#getValueSource
      */
     protected <T> T getValue(MuseValueSource source, StepExecutionContext context, boolean null_allowed, Class<T> type) throws ValueSourceResolutionError
         {
         return BaseValueSource.getValue(source, context, null_allowed, type);
+        }
+
+    /**
+     * A convenience method to resolves a value source to the desired type with a default value.
+     * @see BaseValueSource#getValueSource
+     */
+    protected <T> T getValue(MuseValueSource source, StepExecutionContext context, boolean null_allowed, Class<T> type, T default_value) throws ValueSourceResolutionError
+        {
+        T result = BaseValueSource.getValue(source, context, null_allowed, type);
+        if (result == null)
+            return default_value;
+        return result;
         }
 
     private StepConfiguration _config;
