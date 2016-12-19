@@ -1,5 +1,7 @@
 # Muse Change Log
 
+## 0.8
+
 ## 0.7
 - add: Change listeners on WebDriverProviderList
 - add: Name property on WebDriverProvider
