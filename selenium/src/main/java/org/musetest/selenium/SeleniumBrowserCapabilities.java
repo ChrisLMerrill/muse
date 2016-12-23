@@ -32,7 +32,7 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
     @JsonIgnore
     public String getName()
         {
-        return _capabilities.get(CapabilityType.BROWSER_NAME).toString();
+        return (String) getCapability(CapabilityType.BROWSER_NAME);
         }
 
     @JsonIgnore
@@ -45,7 +45,7 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
     @JsonIgnore
     public String getPlatform()
         {
-        return _capabilities.get(CapabilityType.PLATFORM).toString();
+        return (String) getCapability(CapabilityType.PLATFORM);
         }
 
     @SuppressWarnings("unused") // used in UI
@@ -59,7 +59,7 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
     @JsonIgnore
     public String getVersion()
         {
-        return _capabilities.get(CapabilityType.VERSION).toString();
+        return (String) getCapability(CapabilityType.VERSION);
         }
 
     @SuppressWarnings("unused") // used in UI
@@ -76,6 +76,14 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
         for (ChangeListener listener : _listeners)
             listener.capabilityChanged(name, old_value, new_value);
         }
+
+    private Object getCapability(String name)
+        {
+        if (_capabilities == null)
+            return null;
+        return _capabilities.get(name);
+        }
+
 
     public DesiredCapabilities toDesiredCapabilities()
         {
