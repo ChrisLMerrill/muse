@@ -1,6 +1,7 @@
 # Muse Change Log
 
 ## 0.8
+- fix: Implement createResource() for Macro
 
 ## 0.7
 - add: Change listeners on WebDriverProviderList

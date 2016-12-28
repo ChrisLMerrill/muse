@@ -53,6 +53,14 @@ public class Macro extends BaseMuseResource implements ContainsStep
             {
             super(Macro.class.getAnnotation(MuseTypeId.class).value(), "Macro", Macro.class);
             }
+
+        @Override
+        public MuseResource create()
+            {
+            Macro macro = new Macro();
+            macro.setStep(ContainsStep.createStarterStep());
+            return macro;
+            }
         }
     }
 
