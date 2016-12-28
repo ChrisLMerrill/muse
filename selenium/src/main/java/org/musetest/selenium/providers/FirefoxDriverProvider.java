@@ -31,7 +31,7 @@ public class FirefoxDriverProvider extends BaseLocalDriverProvider
     @Override
     public String getName()
         {
-        return "Firefox (local)";
+        return "Firefox legacy (local)";
         }
 
     @Override
