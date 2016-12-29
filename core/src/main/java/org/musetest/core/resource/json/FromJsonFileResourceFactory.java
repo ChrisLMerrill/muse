@@ -50,9 +50,8 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory
 
     private void createResources(ResourceOrigin origin, List<MuseResource> resources, TypeLocator type_locator) throws IOException
         {
-        try
+        try (InputStream instream = origin.asInputStream())
             {
-            InputStream instream = origin.asInputStream();
             MuseResource resource = _serializer.readFromStream(instream, type_locator);
             origin.setSerializer(_serializer);
 

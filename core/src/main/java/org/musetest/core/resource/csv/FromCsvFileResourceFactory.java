@@ -52,9 +52,8 @@ public class FromCsvFileResourceFactory implements MuseResourceFactory
 
     private void createResources(ResourceOrigin origin, List<MuseResource> resources, TypeLocator type_locator) throws IOException
         {
-        try
+        try (InputStream instream = origin.asInputStream())
             {
-            InputStream instream = origin.asInputStream();
             CSVReader reader = new CSVReader(new InputStreamReader(instream));
             String[] column_names = reader.readNext();
             List<String[]> row_list = reader.readAll();

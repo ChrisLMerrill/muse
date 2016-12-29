@@ -2,6 +2,7 @@
 
 ## 0.8
 - fix: Implement createResource() for Macro
+- fix: Ensure .json and .csv files are closed after reading by the responsible resource factories.
 
 ## 0.7
 - add: Change listeners on WebDriverProviderList
