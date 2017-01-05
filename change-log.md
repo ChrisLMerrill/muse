@@ -1,6 +1,7 @@
 # Muse Change Log
 
 ## 0.8
+- add: RandomNumberValueSource and random(min,max) expression support.
 - fix: Implement createResource() for Macro
 - fix: Ensure .json and .csv files are closed after reading by the responsible resource factories.
 

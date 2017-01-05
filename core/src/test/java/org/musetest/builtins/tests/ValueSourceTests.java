@@ -343,6 +343,35 @@ public class ValueSourceTests
         Assert.assertEquals(MockSystemVariable.VALUE, value);
         }
 
+    @Test
+    public void randomNumber1to5() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        testRandom(1, 5, 50);
+        }
+
+    @Test
+    public void randomNumber0to11() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        testRandom(0, 11, 100);
+        }
+
+    private void testRandom(long min, long max, int repeats) throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(RandomNumberValueSource.TYPE_ID);
+        config.addSource(RandomNumberValueSource.MIN_PARAM, ValueSourceConfiguration.forValue(min));
+        config.addSource(RandomNumberValueSource.MAX_PARAM, ValueSourceConfiguration.forValue(max));
+
+        MuseProject project = new SimpleProject();
+        MuseExecutionContext context = new DummyStepExecutionContext(project);
+        MuseValueSource source = config.createSource(project);
+        for (int i = 0; i < repeats; i++)
+            {
+            Long result = (Long) source.resolveValue(context);
+            Assert.assertTrue(result < max + 1);
+            Assert.assertTrue(min - 1 < result);
+            }
+        }
+
     private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";
 
     private Object resolveDateFormatSource(ValueSourceConfiguration date_param, ValueSourceConfiguration format_param, StepExecutionContext context) throws MuseExecutionError
