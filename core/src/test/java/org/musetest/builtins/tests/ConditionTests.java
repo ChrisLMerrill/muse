@@ -16,7 +16,7 @@ public class ConditionTests
     @Test
     public void stringEquality() throws MuseExecutionError
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
 
         ValueSourceConfiguration condition = createCondition(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue("abc"), ValueSourceConfiguration.forValue("abc"));
         Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
@@ -28,7 +28,7 @@ public class ConditionTests
     @Test
     public void variableEquality() throws MuseExecutionError
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
 
         context.setVariable("var1", "abc");
 
@@ -54,7 +54,7 @@ public class ConditionTests
     @Test
     public void integerGreaterThan() throws MuseExecutionError
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         ValueSourceConfiguration condition;
 
         // compare two constants
@@ -87,7 +87,7 @@ public class ConditionTests
     @Test
     public void testStringGreaterThan() throws MuseExecutionError
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         ValueSourceConfiguration condition;
 
         // compare two constants
@@ -121,7 +121,7 @@ public class ConditionTests
     @Test
     public void integerLessThan() throws MuseExecutionError
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         ValueSourceConfiguration condition;
 
         // compare two constants
@@ -154,7 +154,7 @@ public class ConditionTests
     @Test
     public void stringLessThan() throws MuseExecutionError
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         ValueSourceConfiguration condition;
 
         // compare two constants
@@ -187,7 +187,7 @@ public class ConditionTests
     @Test
     public void integerDoubleEquality() throws MuseExecutionError
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         ValueSourceConfiguration condition = createCondition(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue(123L), ValueSourceConfiguration.forValue(123.0d));
         Assert.assertTrue((Boolean) condition.createSource().resolveValue(context));
         }

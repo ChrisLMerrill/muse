@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.steptest.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)

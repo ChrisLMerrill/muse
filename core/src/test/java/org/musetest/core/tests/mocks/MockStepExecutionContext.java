@@ -14,16 +14,21 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class DummyStepExecutionContext implements StepExecutionContext
+public class MockStepExecutionContext implements StepExecutionContext
     {
-    public DummyStepExecutionContext()
+    public MockStepExecutionContext()
         {
         }
 
-    public DummyStepExecutionContext(MuseProject project)
+    public MockStepExecutionContext(MuseProject project)
         {
         DefaultTestExecutionContext parent_context = new DefaultTestExecutionContext(project, null);
         _test_context = new DefaultSteppedTestExecutionContext(parent_context);
+        }
+
+    public MockStepExecutionContext(TestExecutionContext test_context)
+        {
+        _test_context = new DefaultSteppedTestExecutionContext(test_context);
         }
 
     private SteppedTestExecutionContext _test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(new SimpleProject(), null));

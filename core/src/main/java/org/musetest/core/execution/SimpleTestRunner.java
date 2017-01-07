@@ -30,6 +30,11 @@ public class SimpleTestRunner extends BaseTestRunner
         setTestResult(_test.execute(_context));
         }
 
+    @Override
+    public void requestStop()
+        {
+        throw new IllegalStateException("This kind of test runner can't be stopped externally");
+        }
     }
 
 

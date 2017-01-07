@@ -23,7 +23,7 @@ public class SeleniumValueSourceTests
         {
         final String THE_URL = "http://the.url/is/this";
         MuseMockDriver driver = new MuseMockDriver();
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         driver.get(THE_URL);
         CurrentUrlValueSource source = new CurrentUrlValueSource(null, null);
@@ -35,7 +35,7 @@ public class SeleniumValueSourceTests
         {
         final String THE_URL = "http://the.url/is/this";
         MuseMockDriver driver = new MuseMockDriver();
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         driver.get(THE_URL);
         PageTitleValueSource source = new PageTitleValueSource(null, null);
@@ -54,7 +54,7 @@ public class SeleniumValueSourceTests
         MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(XPathElementValueSource.TYPE_ID, xpath).createSource();
         Assert.assertTrue(source instanceof XPathElementValueSource);
 
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         Object value = source.resolveValue(context);
         Assert.assertEquals(element1, value);
@@ -152,7 +152,7 @@ public class SeleniumValueSourceTests
         MuseMockDriver driver = new MuseMockDriver();
         if (element != null)
             driver.addIdElement(element_id, element);
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         return source.resolveValue(context);
         }

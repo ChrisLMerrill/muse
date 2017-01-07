@@ -25,7 +25,7 @@ public class StepExecutor
     public void executeAll()
         {
         boolean had_a_step_to_run = true;
-        while (had_a_step_to_run && !_terminate)
+        while (had_a_step_to_run && !isTerminateRequested())
             had_a_step_to_run = executeNextStep();
         }
 
@@ -90,6 +90,11 @@ public class StepExecutor
     public void requestTerminate()
         {
         _terminate = true;
+        }
+
+    public boolean isTerminateRequested()
+        {
+        return _terminate;
         }
 
     public EventLog getEventLog()

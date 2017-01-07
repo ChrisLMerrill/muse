@@ -33,8 +33,8 @@ public class EventTests
     public void stepResultStatusMatcher()
         {
         EventMatcher matcher = new StepResultStatusMatcher(StepExecutionStatus.ERROR);
-        Assert.assertTrue(matcher.matches(new StepEvent(MuseEventType.EndStep, new StepConfiguration(LogMessage.TYPE_ID), new DummyStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR))));
-        Assert.assertFalse(matcher.matches(new StepEvent(MuseEventType.EndStep, new StepConfiguration(LogMessage.TYPE_ID), new DummyStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE))));
+        Assert.assertTrue(matcher.matches(new StepEvent(MuseEventType.EndStep, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR))));
+        Assert.assertFalse(matcher.matches(new StepEvent(MuseEventType.EndStep, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE))));
         }
     }
 

@@ -16,5 +16,7 @@ public interface TestRunner
     void runTest();
 
     MuseTestResult getResult();
+
+    void requestStop();
     }
 

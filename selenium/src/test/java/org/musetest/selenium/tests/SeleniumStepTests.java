@@ -68,7 +68,7 @@ public class SeleniumStepTests
         final MuseMockElement element1 = new MuseMockElement();
         driver.addIdElement(id, element1);
 
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);
@@ -87,7 +87,7 @@ public class SeleniumStepTests
         final MuseMockElement element1 = new MuseMockElement();
         driver.addIdElement(id, element1);
 
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration switch_to = new StepConfiguration(SwitchTo.TYPE_ID);
@@ -139,7 +139,7 @@ public class SeleniumStepTests
 
     private StepExecutionResult executeScriptStep(WebDriver driver, String script) throws MuseExecutionError
         {
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration execute = new StepConfiguration(ExecuteJavascript.TYPE_ID);
@@ -153,7 +153,7 @@ public class SeleniumStepTests
         {
         MuseMockDriver driver = new MuseMockDriver();
 
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration switch_to = new StepConfiguration(SwitchTo.TYPE_ID);
@@ -181,7 +181,7 @@ public class SeleniumStepTests
         final MuseMockElement mock_element1 = new MuseMockElement();
         driver.addIdElement(element_id, mock_element1);
 
-        StepExecutionContext context = new DummyStepExecutionContext(project);
+        StepExecutionContext context = new MockStepExecutionContext(project);
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);

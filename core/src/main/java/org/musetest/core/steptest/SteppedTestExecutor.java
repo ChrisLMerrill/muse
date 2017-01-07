@@ -72,6 +72,11 @@ public class SteppedTestExecutor
         _step_executor.requestTerminate();
         }
 
+    public boolean terminateRequested()
+        {
+        return _step_executor.isTerminateRequested();
+        }
+
     private SteppedTestExecutionContext _context;
     private SteppedTest _test;
     private StepExecutor _step_executor;

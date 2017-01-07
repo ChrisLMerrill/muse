@@ -43,7 +43,7 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
         _executor = new SteppedTestExecutor((SteppedTest) _test, stepped_context);
         _executor.startTest();
         boolean has_more = true;
-        while (!_interrupted && has_more)
+        while (!_interrupted && has_more && !_executor.terminateRequested())
             {
             if (!paused() || _step_requested)
                 has_more = _executor.executeNextStep();

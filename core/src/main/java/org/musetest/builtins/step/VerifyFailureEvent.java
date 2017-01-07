@@ -22,7 +22,18 @@ public class VerifyFailureEvent extends StepEvent
         return _message;
         }
 
+    public boolean isFatal()
+        {
+        return _fatal;
+        }
+
+    public void setFatal(boolean fatal)
+        {
+        _fatal = fatal;
+        }
+
     private String _message;
+    private boolean _fatal = false;
     }
 
 

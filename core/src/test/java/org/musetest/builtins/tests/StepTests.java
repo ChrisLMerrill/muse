@@ -19,6 +19,7 @@ import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
 import java.io.*;
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -42,7 +43,7 @@ public class StepTests
             MuseStep step = config.createStep();
             Assert.assertTrue("createStep() should have thrown an error due to a missing parameter", false);
 
-            step.execute(new DummyStepExecutionContext());
+            step.execute(new MockStepExecutionContext());
             }
         catch (MuseInstantiationException e)
             {
@@ -51,7 +52,7 @@ public class StepTests
 
         // this should log a message
         config.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("this is the message"));
-        config.createStep().execute(new DummyStepExecutionContext());
+        config.createStep().execute(new MockStepExecutionContext());
         }
 
     @Test
@@ -61,7 +62,7 @@ public class StepTests
         config.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
         config.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
 
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         MuseStep step = config.createStep();
         step.execute(context);
         Assert.assertEquals("abc", context.getVariable("var1"));
@@ -75,7 +76,7 @@ public class StepTests
         config.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(191L));
 
         MuseStep step = config.createStep();
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         step.execute(context);
         Assert.assertEquals(191L, context.getVariable("var_int"));
         }
@@ -87,7 +88,7 @@ public class StepTests
         config.addSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
 
         MuseStep step = config.createStep();
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         context.setVariable("var1", 3L);
         step.execute(context);
         Assert.assertEquals(4L, context.getVariable("var1"));
@@ -104,7 +105,7 @@ public class StepTests
         config.addSource(IncrementVariable.AMOUNT_PARAM, ValueSourceConfiguration.forValue(amount));
 
         MuseStep step = config.createStep();
-        StepExecutionContext context = new DummyStepExecutionContext();
+        StepExecutionContext context = new MockStepExecutionContext();
         context.setVariable("var1", start_value);
         step.execute(context);
         Assert.assertEquals(start_value + amount, context.getVariable("var1"));
@@ -113,38 +114,55 @@ public class StepTests
     @Test
     public void verifySuccess() throws MuseExecutionError
         {
-        EventLog log = new EventLog();
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), null);
-        test_context.addEventListener(log);
-
-        ValueSourceConfiguration left = ValueSourceConfiguration.forValue("abc");
-        ValueSourceConfiguration right = ValueSourceConfiguration.forValue("abc");
-        ValueSourceConfiguration condition = ValueSourceConfiguration.forType(EqualityCondition.TYPE_ID);
-        condition.addSource(EqualityCondition.LEFT_PARAM, left);
-        condition.addSource(EqualityCondition.RIGHT_PARAM, right);
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
-        config.addSource(Verify.CONDITION_PARAM, condition);
+        config.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
         MuseStep step = config.createStep();
 
-        StepExecutionContext context = new DummyStepExecutionContext();
-        StepExecutionResult result = step.execute(context);
+        StepExecutionResult result = step.execute(new MockStepExecutionContext());
         Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
         }
 
     @Test
     public void verifyFailed() throws MuseExecutionError
         {
-        ValueSourceConfiguration left = ValueSourceConfiguration.forValue("abc");
-        ValueSourceConfiguration right = ValueSourceConfiguration.forValue("def");
-        ValueSourceConfiguration condition = ValueSourceConfiguration.forType(EqualityCondition.TYPE_ID);
-        condition.addSource(EqualityCondition.LEFT_PARAM, left);
-        condition.addSource(EqualityCondition.RIGHT_PARAM, right);
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
-        config.addSource(Verify.CONDITION_PARAM, condition);
+        config.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(false));
         MuseStep step = config.createStep();
 
-        StepExecutionResult result = step.execute(new DummyStepExecutionContext());
+        StepExecutionResult result = step.execute(new MockStepExecutionContext());
         Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
+        }
+
+    @Test
+    public void verifyFatal() throws MuseExecutionError
+        {
+        verifyMaybeFatal(true);
+        }
+
+    @Test
+    public void verifyNotFatal() throws MuseExecutionError
+        {
+        verifyMaybeFatal(false);
+        }
+
+    private void verifyMaybeFatal(boolean fatal) throws MuseExecutionError
+        {
+        EventLog log = new EventLog();
+        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), null);
+        test_context.addEventListener(log);
+
+        StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
+        config.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(false));
+        if (fatal)
+            config.addSource(Verify.TERMINATE_PARAM, ValueSourceConfiguration.forValue(true));
+        MuseStep step = config.createStep();
+
+        StepExecutionResult result = step.execute(new MockStepExecutionContext(test_context));
+        Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
+
+        List<MuseEvent> events = log.findEvents(new EventTypeMatcher(MuseEventType.VerifyFailed));
+        Assert.assertEquals(1, events.size());
+        Assert.assertEquals(fatal, ((VerifyFailureEvent) events.get(0)).isFatal());
         }
 
     @Test

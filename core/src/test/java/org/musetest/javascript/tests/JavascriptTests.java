@@ -71,7 +71,7 @@ public class JavascriptTests
         config.addSource("param1", ValueSourceConfiguration.forValue("XYZ"));
 
         MuseStep step = config.createStep(project);
-        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(new DummyStepExecutionContext()).getStatus());
+        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(new MockStepExecutionContext()).getStatus());
 
         StepDescriptor descriptor = project.getStepDescriptors().get(config);
         Assert.assertNotNull(descriptor);
@@ -107,7 +107,7 @@ public class JavascriptTests
 
         StepConfiguration config = new StepConfiguration(step_resource.getId());
         MuseStep step = config.createStep(project);
-        DummyStepExecutionContext context = new DummyStepExecutionContext();
+        MockStepExecutionContext context = new MockStepExecutionContext();
         context.setVariable("var_in", "input");
         Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
         Assert.assertEquals("output", context.getVariable("var_out"));
@@ -122,7 +122,7 @@ public class JavascriptTests
         StepConfiguration config = new StepConfiguration(step_resource.getId());
         config.addSource("named_source", ValueSourceConfiguration.forValue("named_value"));
         MuseStep step = config.createStep(project);
-        DummyStepExecutionContext context = new DummyStepExecutionContext();
+        MockStepExecutionContext context = new MockStepExecutionContext();
         Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
         }
 
