@@ -7,8 +7,10 @@ import org.musetest.core.steptest.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("WeakerAccess")  // part of public API
 public class SimpleTestRunner extends BaseTestRunner
     {
+    @SuppressWarnings("WeakerAccess")  // part of public API
     public SimpleTestRunner(MuseProject project, MuseTest test, TestExecutionContext context)
         {
         _project = project;
@@ -28,12 +30,6 @@ public class SimpleTestRunner extends BaseTestRunner
     public void runTest()
         {
         setTestResult(_test.execute(_context));
-        }
-
-    @Override
-    public void requestStop()
-        {
-        throw new IllegalStateException("This kind of test runner can't be stopped externally");
         }
     }
 

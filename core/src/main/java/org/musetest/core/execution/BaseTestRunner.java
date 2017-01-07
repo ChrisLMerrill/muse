@@ -6,7 +6,7 @@ import org.musetest.core.context.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class BaseTestRunner implements TestRunner
+abstract class BaseTestRunner implements TestRunner
     {
     @Override
     public TestExecutionContext getTestContext()
@@ -20,14 +20,14 @@ public abstract class BaseTestRunner implements TestRunner
         return _result;
         }
 
-    protected void setTestResult(MuseTestResult result)
+    void setTestResult(MuseTestResult result)
         {
         _result = result;
         }
 
     protected MuseTest _test;
     protected MuseProject _project;
-    protected TestExecutionContext _context;
+    TestExecutionContext _context;
     private MuseTestResult _result;
     }
 

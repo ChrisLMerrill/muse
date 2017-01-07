@@ -7,8 +7,10 @@ import org.slf4j.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("WeakerAccess") // part of public API
 public class BlockingThreadedTestRunner extends ThreadedTestRunner
     {
+    @SuppressWarnings("WeakerAccess")  // part of public API
     public BlockingThreadedTestRunner(MuseProject project, MuseTest test, TestExecutionContext context)
         {
         super(project, test, context);
@@ -32,7 +34,7 @@ public class BlockingThreadedTestRunner extends ThreadedTestRunner
             }
         }
 
-    final static Logger LOG = LoggerFactory.getLogger(BlockingThreadedTestRunner.class);
+    private final static Logger LOG = LoggerFactory.getLogger(BlockingThreadedTestRunner.class);
     }
 
 

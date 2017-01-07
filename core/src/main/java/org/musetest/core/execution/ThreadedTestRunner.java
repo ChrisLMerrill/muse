@@ -6,8 +6,10 @@ import org.musetest.core.context.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("WeakerAccess")  // part of public API
 public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
     {
+    @SuppressWarnings("WeakerAccess")  // part of public API
     public ThreadedTestRunner(MuseProject project, MuseTest test, TestExecutionContext context)
         {
         super(project, test, context);
@@ -20,16 +22,10 @@ public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
     @Override
     public void runTest()
         {
-        _thread = new Thread(this);
+        Thread thread = new Thread(this);
         if (_loader != null)
-            _thread.setContextClassLoader(_loader);
-        _thread.start();
-        }
-
-    @Override
-    public void requestStop()
-        {
-        _thread.interrupt();
+            thread.setContextClassLoader(_loader);
+        thread.start();
         }
 
     @Override
@@ -39,7 +35,6 @@ public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
         }
 
     ClassLoader _loader;
-    private Thread _thread;
     }
 
 
