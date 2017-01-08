@@ -77,6 +77,11 @@ public class SteppedTestExecutor
         return _step_executor.isTerminateRequested();
         }
 
+    public EventLog getEventLog()
+        {
+        return _step_executor.getEventLog();
+        }
+
     private SteppedTestExecutionContext _context;
     private SteppedTest _test;
     private StepExecutor _step_executor;

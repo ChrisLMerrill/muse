@@ -5,6 +5,6 @@ package org.musetest.core;
  */
 public interface MuseEventListener
     {
-    public void eventRaised(MuseEvent event);
+    void eventRaised(MuseEvent event);
     }
 

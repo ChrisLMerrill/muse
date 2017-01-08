@@ -2,6 +2,7 @@ package org.musetest.core.execution;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 
 /**
  * Runs the test. If this is a synchronous runner, it will block until the test completes (the test

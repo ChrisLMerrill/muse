@@ -1,6 +1,7 @@
 package org.musetest.core.execution;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 
@@ -143,6 +144,11 @@ public class InteractiveTestController implements MuseEventListener
         _provider = provider;
         getRunner().getTestContext().addEventListener(new PauseAfterStep(getRunner()));
         run(provider);
+        }
+
+    public EventLog getEventLog()
+        {
+        return _runner.getEventLog();
         }
 
     public MuseTestResult getResult()

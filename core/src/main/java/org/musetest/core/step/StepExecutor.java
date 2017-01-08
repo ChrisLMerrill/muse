@@ -18,7 +18,6 @@ public class StepExecutor
         _context = context;
 
         _context.addEventListener(_log);
-        _context.addEventListener(new TerminateOnError(this));
         _context.getExecutionStack().push(new SingleStepExecutionContext(_context, step.getStep(), true));
         }
 

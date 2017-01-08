@@ -87,6 +87,7 @@ public class StepExecutionTests
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+        test_context.addEventListener(new TerminateOnError(executor));
         executor.executeAll();
 
         EventLog log = executor.getEventLog();
@@ -105,6 +106,7 @@ public class StepExecutionTests
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+        test_context.addEventListener(new TerminateOnError(executor));
         executor.executeAll();
 
         EventLog log = executor.getEventLog();

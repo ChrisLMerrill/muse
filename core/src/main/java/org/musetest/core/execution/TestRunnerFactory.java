@@ -40,15 +40,25 @@ public class TestRunnerFactory
         else
             {
             if (synchronous)
-                return new BlockingThreadedTestRunner(project, test, context);
+                {
+                BlockingThreadedTestRunner runner = new BlockingThreadedTestRunner(project, test, context);
+                context.addEventListener(new TerminateOnError(runner));
+                return runner;
+                }
             else if (interactive)
                 {
                 if (!(test instanceof SteppedTest))
                     throw new IllegalArgumentException("Can only create an interactive test runner for SteppedTests.");
-                return new InteractiveTestRunner(project, (SteppedTest) test, context);
+                InteractiveTestRunner runner = new InteractiveTestRunner(project, (SteppedTest) test, context);
+                context.addEventListener(new PauseOnFailureOrError(runner));
+                return runner;
                 }
             else
-                return new ThreadedTestRunner(project, test, context);
+                {
+                ThreadedTestRunner runner = new ThreadedTestRunner(project, test, context);
+                context.addEventListener(new TerminateOnError(runner));
+                return runner;
+                }
             }
         }
 

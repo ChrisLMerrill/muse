@@ -118,6 +118,11 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
         notify();
         }
 
+    EventLog getEventLog()
+        {
+        return _executor.getEventLog();
+        }
+
     private ClassLoader _loader;
     private boolean _interrupted = false;
     private boolean _pause_requested = false;

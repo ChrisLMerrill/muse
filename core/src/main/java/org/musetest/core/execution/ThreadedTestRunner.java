@@ -22,10 +22,15 @@ public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
     @Override
     public void runTest()
         {
-        Thread thread = new Thread(this);
+        _thread = new Thread(this);
         if (_loader != null)
-            thread.setContextClassLoader(_loader);
-        thread.start();
+            _thread.setContextClassLoader(_loader);
+        _thread.start();
+        }
+
+    public void interrupt()
+        {
+        _thread.interrupt();
         }
 
     @Override
@@ -35,6 +40,7 @@ public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
         }
 
     ClassLoader _loader;
+    private Thread _thread;
     }
 
 

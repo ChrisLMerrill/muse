@@ -102,7 +102,7 @@ public class TestTests
         Assert.assertTrue(log.findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 2);
         }
 
-    private SteppedTest setupLogTest(StepConfiguration first_step)
+    static SteppedTest setupLogTest(StepConfiguration first_step)
         {
         StepConfiguration log_step = new StepConfiguration(LogMessage.TYPE_ID);
         log_step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("abc"));
