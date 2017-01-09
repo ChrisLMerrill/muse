@@ -4,7 +4,8 @@
 - add: RandomNumberValueSource and random(min,max) expression support.
 - fix: Implement createResource() for Macro
 - fix: Ensure .json and .csv files are closed after reading by the responsible resource factories.
-- new: Verify step adds (optional) parameter to terminate test on failure
+- add: Verify step adds (optional) parameter to terminate test on failure
+- add: Support verifyElementPresent and assertElementPresent commands in SeleniumIDE test import
 
 ## 0.7
 - add: Change listeners on WebDriverProviderList
