@@ -24,12 +24,12 @@ public class CommandLineTestRunner implements MuseResourceRunner
             return false;
         MuseTest test = (MuseTest) resource;
 
-        TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
         if (verbose)
             {
             System.out.println("--------------------------------------------------------------------------------");
             final EventLogPrinter printer = new EventLogPrinter(System.out);
-            runner.getTestContext().addEventListener(printer::print);
+            runner.getExecutionContext().addEventListener(printer::print);
             }
 
         runner.runTest();

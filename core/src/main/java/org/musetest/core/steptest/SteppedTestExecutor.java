@@ -5,6 +5,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 import org.musetest.core.test.*;
+import org.slf4j.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -52,7 +53,15 @@ public class SteppedTestExecutor
         {
         MuseTestResult result = _resulter.getTestResult();
         _context.raiseEvent(new EndTestEvent(result));
-        _context.cleanup();
+        try
+            {
+            _context.cleanup();
+            }
+        catch (Throwable e)
+            {
+            LOG.error("Exception during test cleanup:", e);
+            // regardless of exception here, we want to return the result.
+            }
         return result;
         }
 
@@ -86,6 +95,8 @@ public class SteppedTestExecutor
     private SteppedTest _test;
     private StepExecutor _step_executor;
     private TestResultProducer _resulter;
+
+    private final static Logger LOG = LoggerFactory.getLogger(SteppedTestExecutor.class);
     }
 
 

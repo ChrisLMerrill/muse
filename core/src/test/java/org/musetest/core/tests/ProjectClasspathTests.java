@@ -2,8 +2,8 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.core.*;
-import org.musetest.core.execution.*;
 import org.musetest.core.project.*;
+import org.musetest.core.tests.utils.*;
 
 import java.io.*;
 import java.util.*;
@@ -26,7 +26,7 @@ public class ProjectClasspathTests
         // Running test directly may pass or fail, depending on when the FactoryLocator scanned the classpath.
         // E.g. in a unit test scenario, it has probably already happened (unless this class is the only test run)
         // so it would fail. But running it through the project ensures it will have the correct classpath.
-        MuseTestResult result = TestRunnerFactory.runTest(project, test);
+        MuseTestResult result = TestRunHelper.runTest(project, test);
         Assert.assertTrue(result.isPass());
         }
 
@@ -43,7 +43,7 @@ public class ProjectClasspathTests
         // Running test directly may pass or fail, depending on when the FactoryLocator scanned the classpath.
         // E.g. in a unit test scenario, it has probably already happened (unless this class is the only test run)
         // so it would fail. But running it through the project ensures it will have the correct classpath.
-        MuseTestResult result = TestRunnerFactory.runTest(project, test);
+        MuseTestResult result = TestRunHelper.runTest(project, test);
         Assert.assertTrue(result.isPass());
         }
     }

@@ -19,14 +19,10 @@ public class BlockingThreadedTestRunner extends ThreadedTestRunner
     @Override
     public void runTest()
         {
-        Thread t = new Thread(this);
-        if (_loader != null)
-            t.setContextClassLoader(_loader);
-        t.start();
-
+        super.runTest();
         try
             {
-            t.join();
+            _thread.join();
             }
         catch (InterruptedException e)
             {

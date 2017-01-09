@@ -12,23 +12,12 @@ import org.slf4j.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("WeakerAccess")  // public API
 public class InteractiveTestRunner extends ThreadedTestRunner implements Runnable
     {
     public InteractiveTestRunner(MuseProject project, SteppedTest test, TestExecutionContext context)
         {
         super(project, test, context);
-        if (project == null)
-            _loader = getClass().getClassLoader();
-        else
-            _loader = project.getClassloader();
-        }
-
-    @Override
-    public void runTest()
-        {
-        _thread = new Thread(this);
-        _thread.setContextClassLoader(_loader);
-        _thread.start();
         }
 
     @Override
@@ -45,7 +34,7 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
         boolean has_more = true;
         while (!_interrupted && has_more && !_executor.terminateRequested())
             {
-            if (!paused() || _step_requested)
+            if (!pause() || _step_requested)
                 has_more = _executor.executeNextStep();
             _step_requested = false;
             }
@@ -57,7 +46,7 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
         _thread = null;
         }
 
-    private synchronized boolean paused()
+    private synchronized boolean pause()
         {
         if (!_pause_requested)
             return false;
@@ -123,7 +112,6 @@ public class InteractiveTestRunner extends ThreadedTestRunner implements Runnabl
         return _executor.getEventLog();
         }
 
-    private ClassLoader _loader;
     private boolean _interrupted = false;
     private boolean _pause_requested = false;
     private boolean _step_requested = false;

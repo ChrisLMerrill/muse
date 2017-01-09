@@ -13,10 +13,7 @@ public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
     public ThreadedTestRunner(MuseProject project, MuseTest test, TestExecutionContext context)
         {
         super(project, test, context);
-        if (project == null)
-            _loader = getClass().getClassLoader();
-        else
-            _loader = project.getClassloader();
+        _loader = project.getClassloader();
         }
 
     @Override
@@ -40,7 +37,7 @@ public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
         }
 
     ClassLoader _loader;
-    private Thread _thread;
+    protected Thread _thread;
     }
 
 

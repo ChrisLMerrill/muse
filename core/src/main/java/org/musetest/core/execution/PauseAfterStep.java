@@ -31,7 +31,7 @@ public class PauseAfterStep implements MuseEventListener
             if (_step == null || step_event.getConfig() == _step)
                 {
                 _runner.requestPause();
-                _runner.getTestContext().removeEventListener(this);
+                _runner.getExecutionContext().removeEventListener(this);
                 }
             }
         }

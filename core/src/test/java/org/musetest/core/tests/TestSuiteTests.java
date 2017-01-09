@@ -40,6 +40,19 @@ public class TestSuiteTests
         }
 
     @Test
+    public void testSimpleSuiteById()
+        {
+        MuseProject project = ProjectFactory.create(TestUtils.getTestResource("projects/simpleSuite", getClass()), Collections.emptyMap());
+        MuseTestSuite suite = project.getResourceStorage().getResource("TestSuite", MuseTestSuite.class);
+        Assert.assertNotNull(suite);
+
+        SimpleTestSuiteRunner runner = new SimpleTestSuiteRunner(suite);
+        MuseTestSuiteResult result = runner.execute(project);
+        Assert.assertEquals(1, result.getFailureCount());
+        Assert.assertEquals(1, result.getSuccessCount());
+        Assert.assertEquals(0, result.getErrorCount());
+        }
+    @Test
     public void loadTestSuiteFromJSON() throws IOException
         {
         File file = TestUtils.getTestResource("TestSuite.json", this.getClass());

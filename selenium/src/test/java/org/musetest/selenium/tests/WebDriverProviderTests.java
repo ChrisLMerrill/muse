@@ -46,7 +46,7 @@ public class WebDriverProviderTests
         controller.runPastStep(new SteppedTestProviderImpl(project, test), open_step);
         new TestStateBlocker(controller).blockUntil(InteractiveTestState.PAUSED);
 
-        MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(controller.getTestRunner().getTestContext());
+        MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(controller.getTestRunner().getExecutionContext());
         Assert.assertNotNull(driver);
 
         controller.resume();

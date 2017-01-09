@@ -1,7 +1,6 @@
 package org.musetest.core.execution;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 
@@ -47,12 +46,9 @@ public class InteractiveTestController implements MuseEventListener
         {
         if (_runner == null && _provider != null)
             {
-            TestRunner runner = TestRunnerFactory.create(_provider.getProject(), _provider.getTest(), false, true);
-            if (! (runner instanceof InteractiveTestRunner))
-                throw new IllegalStateException("Something is wrong...asked for an an InteractiveTestRunner, but didn't get one!");
-            _runner = (InteractiveTestRunner) runner;
-            runner.getTestContext().addEventListener(this);
-            runner.getTestContext().addEventListener(new PauseOnError(_runner));
+            _runner = TestRunnerFactory.createInteractiveRunner(_provider.getProject(), _provider.getTest());
+            _runner.getExecutionContext().addEventListener(this);
+            _runner.getExecutionContext().addEventListener(new PauseOnError(_runner));
             }
         return _runner;
         }
@@ -76,7 +72,7 @@ public class InteractiveTestController implements MuseEventListener
             {
             case EndTest:
                 setState(InteractiveTestState.STOPPING);
-                getRunner().getTestContext().removeEventListener(this);
+                getRunner().getExecutionContext().removeEventListener(this);
                 _runner = null;
                 _result = ((EndTestEvent) event).getResult();
                 setState(InteractiveTestState.IDLE);
@@ -134,7 +130,7 @@ public class InteractiveTestController implements MuseEventListener
     public void runPastStep(SteppedTestProvider provider, StepConfiguration step)
         {
         _provider = provider;
-        getRunner().getTestContext().addEventListener(new PauseAfterStep(getRunner(), step));
+        getRunner().getExecutionContext().addEventListener(new PauseAfterStep(getRunner(), step));
         run(provider);
         }
 
@@ -142,7 +138,7 @@ public class InteractiveTestController implements MuseEventListener
     public void runOneStep(SteppedTestProvider provider)
         {
         _provider = provider;
-        getRunner().getTestContext().addEventListener(new PauseAfterStep(getRunner()));
+        getRunner().getExecutionContext().addEventListener(new PauseAfterStep(getRunner()));
         run(provider);
         }
 

@@ -189,9 +189,9 @@ public class StepTests
         SteppedTest test = new SteppedTest(call_macro);
 
         // verify that the macro runs when the test is executed
-        TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
         EventLog log = new EventLog();
-        runner.getTestContext().addEventListener(log);
+        runner.getExecutionContext().addEventListener(log);
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
@@ -238,7 +238,7 @@ public class StepTests
         SteppedTest test = new SteppedTest(test_step);
 
         // verify that the return value is correct in the context (the function should have incremented by one
-        TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
@@ -273,7 +273,7 @@ public class StepTests
         test_step.addChild(call_function);
         SteppedTest test = new SteppedTest(test_step);
 
-        TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
@@ -290,7 +290,7 @@ public class StepTests
 
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         SteppedTest test = new SteppedTest(step);
-        TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
@@ -312,7 +312,7 @@ public class StepTests
 
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         SteppedTest test = new SteppedTest(main);
-        TestRunner runner = TestRunnerFactory.create(project, test, true, false);
+        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
