@@ -23,12 +23,6 @@ public class ClickConverter implements StepConverter
         return null;
         }
 
-    @Override
-    public String[] getCommands()
-        {
-        return new String[] { CLICK, CLICK_AND_WAIT };
-        }     // not calling this, anyway
-
     private static final String CLICK = "click";
     private static final String CLICK_AND_WAIT = "clickAndWait";
     }

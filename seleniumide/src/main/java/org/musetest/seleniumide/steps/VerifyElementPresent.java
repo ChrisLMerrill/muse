@@ -29,12 +29,6 @@ public class VerifyElementPresent implements StepConverter
         return null;
         }
 
-    @Override
-    public String[] getCommands()
-        {
-        return new String[] { VERIFY, ASSERT};
-        }     // not calling this, anyway
-
     private static final String VERIFY = "verifyElementPresent";
     private static final String ASSERT = "assertElementPresent";
     }

@@ -26,12 +26,6 @@ public class GotoUrlConverter implements StepConverter
         return null;
         }
 
-    @Override
-    public String[] getCommands()
-        {
-        return new String[] { OPEN };
-        }
-
     private static final String OPEN = "open";
     }
 

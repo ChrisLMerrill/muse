@@ -6,6 +6,7 @@
 - fix: Ensure .json and .csv files are closed after reading by the responsible resource factories.
 - add: Verify step adds (optional) parameter to terminate test on failure
 - add: Support verifyElementPresent and assertElementPresent commands in SeleniumIDE test import
+- add: Support verifyText and assertText commands in SeleniumIDE test import
 
 ## 0.7
 - add: Change listeners on WebDriverProviderList

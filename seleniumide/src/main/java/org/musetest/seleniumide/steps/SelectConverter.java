@@ -36,12 +36,6 @@ public class SelectConverter implements StepConverter
         return null;
         }
 
-    @Override
-    public String[] getCommands()
-        {
-        return new String[] {SELECT };
-        }
-
     private static final String SELECT = "select";
 
     private static final String BY_LABEL = "label=";

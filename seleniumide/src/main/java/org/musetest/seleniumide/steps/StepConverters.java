@@ -1,5 +1,6 @@
 package org.musetest.seleniumide.steps;
 
+import org.musetest.core.step.*;
 import org.musetest.seleniumide.*;
 import org.reflections.*;
 import org.slf4j.*;
@@ -9,7 +10,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepConverters
+public class StepConverters implements StepConverter
     {
     public static StepConverters get()
         {
@@ -18,9 +19,16 @@ public class StepConverters
         return INSTANCE;
         }
 
-    public StepConverter getConverter(String command)
+    @Override
+    public StepConfiguration convertStep(TestConverter test_converter, String command, String param1, String param2) throws UnsupportedError
         {
-        return _converters.get(command);
+        for (StepConverter converter : _converters)
+            {
+            StepConfiguration step = converter.convertStep(test_converter, command, param1, param2);
+            if (step != null)
+                return step;
+            }
+        return null;
         }
 
     private StepConverters()
@@ -30,7 +38,8 @@ public class StepConverters
         for (Class<? extends StepConverter> converter_class : converter_classes)
             try
                 {
-                addConverter(converter_class.newInstance());
+                if (converter_class != getClass())
+                    _converters.add(converter_class.newInstance());
                 }
             catch (Exception e)
                 {
@@ -38,13 +47,7 @@ public class StepConverters
                 }
         }
 
-    private void addConverter(StepConverter converter)
-        {
-        for (String command : converter.getCommands())
-            _converters.put(command, converter);
-        }
-
-    private Map<String, StepConverter> _converters = new HashMap<>();
+    private List<StepConverter> _converters = new ArrayList<>();
 
     private static StepConverters INSTANCE;
     final static Logger LOG = LoggerFactory.getLogger(StepConverters.class);

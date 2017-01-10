@@ -20,16 +20,10 @@ public class NavigateConverter implements StepConverter
         return null;
         }
 
-    @Override
-    public String[] getCommands()
-        {
-        return new String[] { BACK, BACK_AND_WAIT, REFRESH, REFRESH_AND_WAIT };
-        }     // not calling this, anyway
-
-    public static final String BACK = "goBack";
-    public static final String BACK_AND_WAIT = "goBackAndWait";
-    public static final String REFRESH = "refresh";
-    public static final String REFRESH_AND_WAIT = "refreshAndWait";
+    private static final String BACK = "goBack";
+    private static final String BACK_AND_WAIT = "goBackAndWait";
+    private static final String REFRESH = "refresh";
+    private static final String REFRESH_AND_WAIT = "refreshAndWait";
     // note: there is apparently no forward implemented in the IDE
     }
 

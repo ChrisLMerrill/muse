@@ -23,12 +23,6 @@ public class PauseConverter implements StepConverter
         return null;
         }
 
-    @Override
-    public String[] getCommands()
-        {
-        return new String[] { PAUSE };
-        }
-
     private static final String PAUSE = "pause";
     }
 

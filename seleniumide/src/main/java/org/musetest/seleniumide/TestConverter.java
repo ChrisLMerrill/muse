@@ -68,21 +68,19 @@ public class TestConverter
     private void generateStepForCommand(String command, String param1, String param2) throws UnsupportedError
         {
         _result._total_steps++;
-        StepConverter converter = _converters.getConverter(command);
-        String failure_message;
-        if (converter == null)
-            failure_message = "No converter available for command";
-        else
+        String failure_message = null;
+        try
             {
-            try
+            StepConfiguration step = _converters.convertStep(this, command, param1, param2);
+            if (step != null)
                 {
-                _test.getStep().addChild(converter.convertStep(this, command, param1, param2));
+                _test.getStep().addChild(step);
                 return;
                 }
-            catch (UnsupportedError unsupportedError)
-                {
-                failure_message = unsupportedError.getMessage();
-                }
+            }
+        catch (UnsupportedError e)
+            {
+            failure_message = e.getMessage();
             }
 
         if (param1 == null)
