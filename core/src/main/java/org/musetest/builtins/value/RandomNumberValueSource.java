@@ -17,7 +17,7 @@ import java.util.concurrent.*;
 @MuseValueSourceLongDescription("Resolves the 'min' and 'max' value sources as integers. Returns a random integer from min to max, inclusive.")
 @MuseStringExpressionSupportImplementation(RandomNumberValueSourceStringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Minimum", description = "The minimum value", type = SubsourceDescriptor.Type.Named, name = RandomNumberValueSource.MIN_PARAM)
-@MuseSubsourceDescriptor(displayName = "Maximum", description = "The maximum value", type = SubsourceDescriptor.Type.Named, name = RandomNumberValueSource.MIN_PARAM)
+@MuseSubsourceDescriptor(displayName = "Maximum", description = "The maximum value", type = SubsourceDescriptor.Type.Named, name = RandomNumberValueSource.MAX_PARAM)
 public class RandomNumberValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
