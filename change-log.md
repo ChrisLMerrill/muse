@@ -7,6 +7,8 @@
 - add: Verify step adds (optional) parameter to terminate test on failure
 - add: Support verifyElementPresent and assertElementPresent commands in SeleniumIDE test import
 - add: Support verifyText and assertText commands in SeleniumIDE test import
+- add: Support glob: exact: and regexp: matchers in verifyText and assertText steps imported from SeleniumIDE
+- add: globMatch and regexMatch value source and corresonding string expressions
 
 ## 0.7
 - add: Change listeners on WebDriverProviderList

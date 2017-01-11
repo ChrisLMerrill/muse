@@ -1,4 +1,4 @@
-package org.musetest.seleniumide.conditions;
+package org.musetest.core.util;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,6 +23,10 @@ import java.util.regex.PatternSyntaxException;
 
 /**
  * A class for POSIX glob pattern with brace expansions.
+ *
+ * This comes from the (defunct) Apache ORO project. There are more efficient implementations,
+ * which do not convert to a RegEx. This one is more complete for the intended purpose, where
+ * efficiency is largely irrelevant.
  */
 public class GlobPattern
     {
@@ -37,24 +41,6 @@ public class GlobPattern
     public GlobPattern(String globPattern)
         {
         set(globPattern);
-        }
-
-    /**
-     * @return the compiled pattern
-     */
-    public Pattern compiled()
-        {
-        return compiled;
-        }
-
-    /**
-     * Compile glob pattern string
-     * @param globPattern the glob pattern
-     * @return the pattern object
-     */
-    public static Pattern compile(String globPattern)
-        {
-        return new GlobPattern(globPattern).compiled();
         }
 
     /**

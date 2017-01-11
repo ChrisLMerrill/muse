@@ -37,7 +37,7 @@ public class GreaterThanCondition extends BinaryCondition
         else if (left instanceof String && right instanceof String)
             result = ((String) left).compareTo((String) right) > 0;
         else
-            throw new IllegalArgumentException("GreaterThanCondition can operate on 2 integers or 2 strings. Instead received: " + left + "(" + left.getClass().getSimpleName() + ") > " + right + "(" + right.getClass().getSimpleName() + ")");
+            throw new ValueSourceResolutionError("GreaterThanCondition can operate on 2 integers or 2 strings. Instead received: " + left + "(" + left.getClass().getSimpleName() + ") > " + right + "(" + right.getClass().getSimpleName() + ")");
 
         context.raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s>%s) is %b", left, right, result)));
         return result;

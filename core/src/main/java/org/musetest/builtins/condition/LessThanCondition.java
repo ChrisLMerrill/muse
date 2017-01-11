@@ -37,7 +37,7 @@ public class LessThanCondition extends BinaryCondition
         else if (value1 instanceof String && value2 instanceof String)
             result = ((String) value1).compareTo((String) value2) < 0;
         else
-            throw new IllegalArgumentException("LessThanCondition can operate on 2 integers or 2 strings. Instead received: " + value1 + "(" + value1.getClass().getSimpleName() + ") > " + value2 + "(" + value2.getClass().getSimpleName() + ")");
+            throw new ValueSourceResolutionError("LessThanCondition can operate on 2 integers or 2 strings. Instead received: " + value1 + "(" + value1.getClass().getSimpleName() + ") > " + value2 + "(" + value2.getClass().getSimpleName() + ")");
 
         context.raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s<%s) is %b", value1, value2, result)));
         return result;

@@ -15,6 +15,7 @@ import org.musetest.core.tests.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.tests.utils.*;
 
@@ -260,14 +261,16 @@ public class ValueSourceTests
         Assert.assertTrue(new TimeRange(System.currentTimeMillis(), 50).isInRange(time));
         }
 
-    @Test public void formatNow() throws MuseExecutionError
+    @Test
+    public void formatNow() throws MuseExecutionError
         {
         String expected = new SimpleDateFormat(NOW_DATE_FORMAT).format(new Date());
         Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forValue(NOW_DATE_FORMAT), null);
         Assert.assertEquals(expected, result);
         }
 
-    @Test public void formatDate() throws MuseExecutionError, ParseException
+    @Test
+    public void formatDate() throws MuseExecutionError, ParseException
         {
         String expected = "05291998123456";
         Date parsed = new SimpleDateFormat(NOW_DATE_FORMAT).parse(expected);
@@ -276,6 +279,22 @@ public class ValueSourceTests
         context.setVariable(var_name, parsed);
         Object result = resolveDateFormatSource(ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(var_name)), ValueSourceConfiguration.forValue(NOW_DATE_FORMAT), context);
         Assert.assertEquals(expected, result);
+        }
+
+    private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";
+
+    private Object resolveDateFormatSource(ValueSourceConfiguration date_param, ValueSourceConfiguration format_param, StepExecutionContext context) throws MuseExecutionError
+        {
+        StepExecutionContext step_context = new MockStepExecutionContext();
+        if (context != null)
+            step_context = context;
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(DateFormatValueSource.TYPE_ID);
+        if (date_param != null)
+            config.addSource(DateFormatValueSource.DATE_PARAM, date_param);
+        if (format_param != null)
+            config.addSource(DateFormatValueSource.FORMAT_PARAM, format_param);
+        MuseValueSource source = config.createSource();
+        return source.resolveValue(step_context);
         }
 
     @Test
@@ -372,19 +391,37 @@ public class ValueSourceTests
             }
         }
 
-    private final static String NOW_DATE_FORMAT = "MMddyyyyHHmmss";
-
-    private Object resolveDateFormatSource(ValueSourceConfiguration date_param, ValueSourceConfiguration format_param, StepExecutionContext context) throws MuseExecutionError
+    @Test
+    public void globMatchCondition() throws MuseInstantiationException, ValueSourceResolutionError
         {
-        StepExecutionContext step_context = new MockStepExecutionContext();
-        if (context != null)
-            step_context = context;
-        ValueSourceConfiguration config = ValueSourceConfiguration.forType(DateFormatValueSource.TYPE_ID);
-        if (date_param != null)
-            config.addSource(DateFormatValueSource.DATE_PARAM, date_param);
-        if (format_param != null)
-            config.addSource(DateFormatValueSource.FORMAT_PARAM, format_param);
-        MuseValueSource source = config.createSource();
-        return source.resolveValue(step_context);
+        ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(GlobMatchCondition.TYPE_ID);
+        matcher.addSource(GlobMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a*z"));
+        matcher.addSource(GlobMatchCondition.TARGET_PARAM, ValueSourceConfiguration.forValue("a2z"));
+        MuseValueSource source = matcher.createSource();
+        Boolean result = (Boolean) source.resolveValue(new MockStepExecutionContext());
+        Assert.assertTrue(result);
+        }
+
+    @Test
+    public void regexMatchCondition() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(RegexMatchCondition.TYPE_ID);
+        matcher.addSource(RegexMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a.*z"));
+        matcher.addSource(RegexMatchCondition.TARGET_PARAM, ValueSourceConfiguration.forValue("a2z"));
+        MuseValueSource source = matcher.createSource();
+        Boolean result = (Boolean) source.resolveValue(new MockStepExecutionContext());
+        Assert.assertTrue(result);
+        }
+
+    @Test
+    public void regexMatchCaseInsensitive() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(RegexMatchCondition.TYPE_ID);
+        matcher.addSource(RegexMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a.*z"));
+        matcher.addSource(RegexMatchCondition.TARGET_PARAM, ValueSourceConfiguration.forValue("a2Z"));
+        matcher.addSource(RegexMatchCondition.CASE_PARAM, ValueSourceConfiguration.forValue(true));
+        MuseValueSource source = matcher.createSource();
+        Boolean result = (Boolean) source.resolveValue(new MockStepExecutionContext());
+        Assert.assertTrue(result);
         }
     }

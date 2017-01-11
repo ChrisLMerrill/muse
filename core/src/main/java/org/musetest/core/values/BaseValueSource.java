@@ -44,7 +44,7 @@ public abstract class BaseValueSource implements MuseValueSource
      * @throws RequiredParameterMissingError if required=true and the parameter is not present
      * @throws MuseInstantiationException if sub-sources cannot be instantiated
      */
-    public static MuseValueSource getValueSource(ContainsNamedSources config, String name, boolean required, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public static MuseValueSource getValueSource(ContainsNamedSources config, String name, boolean required, MuseProject project) throws MuseInstantiationException
         {
         ValueSourceConfiguration source_config = config.getSource(name);
         if (source_config == null)
@@ -69,7 +69,7 @@ public abstract class BaseValueSource implements MuseValueSource
      * @throws RequiredParameterMissingError if required=true and the parameter is not present
      * @throws MuseInstantiationException if sub-sources cannot be instantiated
      */
-    public static MuseValueSource getValueSource(ValueSourceConfiguration config, boolean required, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public static MuseValueSource getValueSource(ValueSourceConfiguration config, boolean required, MuseProject project) throws MuseInstantiationException
         {
         ValueSourceConfiguration source_config = config.getSource();
         if (source_config == null)
@@ -118,6 +118,30 @@ public abstract class BaseValueSource implements MuseValueSource
         if (type.equals(String.class))
             return (T) value.toString();
         throw new WrongTypeError(source, value);
+        }
+
+    /**
+     * A convenience method to resolves a value source to the desired type with a default value when null.
+     *
+     * @param source The value source to be resolved
+     * @param context The context the step is executed in
+     * @param type The type that the source should resolve to
+     * @param default_value Default value to return when null
+     *
+     * @return A value of the supplied type, resolved by the provided source and replaced by the supplied default value when null
+     *
+     * @throws NullNotAllowedError if the source resolves to null and null_allowed=false
+     * @throws WrongTypeError if the source resolves to an incompatible type
+     * @throws ValueSourceResolutionError if the source is null (this is likely caused by an implementation defect)
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T getValue(MuseValueSource source, MuseExecutionContext context, Class<T> type, T default_value) throws ValueSourceResolutionError
+        {
+        T result = getValue(source, context, true, type);
+        if (result == null)
+            return default_value;
+        else
+            return result;
         }
 
     public static <T> T getValue(MuseValueSource source, MuseExecutionContext context, boolean null_allowed) throws ValueSourceResolutionError
