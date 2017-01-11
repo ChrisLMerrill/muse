@@ -14,7 +14,7 @@ import org.slf4j.*;
 @MuseValueSourceTypeGroup("Primitives")
 @MuseValueSourceShortDescription("a string of characters")
 @MuseValueSourceLongDescription("A primitive value source that returns string of characters")
-@MuseStringExpressionSupportImplementation(StringValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(StringValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Text", description = "text of the string, surrounded by quotes", type = SubsourceDescriptor.Type.Value)
 public class StringValueSource extends BaseValueSource
     {
@@ -55,7 +55,36 @@ public class StringValueSource extends BaseValueSource
 
     private String _value;
 
-    final static Logger LOG = LoggerFactory.getLogger(StringValueSource.class);
+    private final static Logger LOG = LoggerFactory.getLogger(StringValueSource.class);
 
     public final static String TYPE_ID = StringValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
+        {
+        @Override
+        public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
+            {
+            if (string.length() > 1 && string.startsWith("\"") && string.endsWith("\""))
+                {
+                ValueSourceConfiguration config = new ValueSourceConfiguration();
+                config.setType(StringValueSource.TYPE_ID);
+                config.setValue(string.substring(1, string.length() - 1));
+                return config;
+                }
+            return null;
+            }
+
+        @Override
+        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+            {
+            if (config.getType().equals(StringValueSource.TYPE_ID))
+                {
+                if (config.getValue() != null)
+                    return "\"" + config.getValue() + "\"";
+                return "???";
+                }
+            return null;
+            }
+        }
     }

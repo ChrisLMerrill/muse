@@ -1,5 +1,6 @@
 package org.musetest.selenium.conditions;
 
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
@@ -16,7 +17,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceTypeGroup("Element.Condition")
 @MuseValueSourceShortDescription("True if the element exists")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement, otherwise returns false.")
-@MuseStringExpressionSupportImplementation(ElementExistsConditionStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(ElementExistsCondition.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to inspect", type = SubsourceDescriptor.Type.Single)
 public class ElementExistsCondition extends BaseElementValueSource
     {
@@ -42,4 +43,32 @@ public class ElementExistsCondition extends BaseElementValueSource
         }
 
     public final static String TYPE_ID = ElementExistsCondition.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
+        {
+        @Override
+        public String getName()
+            {
+            return "elementExists";
+            }
+
+        @Override
+        protected int getNumberArguments()
+            {
+            return 1;
+            }
+
+        @Override
+        protected String getTypeId()
+            {
+            return ElementExistsCondition.TYPE_ID;
+            }
+
+        @Override
+        protected boolean storeSingleArgumentAsSingleSubsource()
+            {
+            return true;
+            }
+        }
     }

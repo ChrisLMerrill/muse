@@ -16,7 +16,7 @@ import java.util.*;
 @MuseValueSourceName("Element by page/element lookup")
 @MuseValueSourceShortDescription("Locates a Selenium WebElement from the page/element specified by the subsource")
 @MuseValueSourceTypeGroup("Element.Locate")
-@MuseStringExpressionSupportImplementation(PagesElementValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(PagesElementValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Page id", description = "The id of the page (in the project) to lookup the element in", type = SubsourceDescriptor.Type.Named, name = PagesElementValueSource.PAGE_PARAM_ID)
 @MuseSubsourceDescriptor(displayName = "Element id", description = "The id of the element to lookup in the page", type = SubsourceDescriptor.Type.Named, name = PagesElementValueSource.ELEMENT_PARAM_ID)
 public class PagesElementValueSource extends BaseSeleniumValueSource
@@ -61,7 +61,7 @@ public class PagesElementValueSource extends BaseSeleniumValueSource
             }
         }
 
-    public static void upgrade(ValueSourceConfiguration config)
+    private static void upgrade(ValueSourceConfiguration config)
         {
         ValueSourceConfiguration subsource = config.getSource();
         if (subsource != null
@@ -82,6 +82,63 @@ public class PagesElementValueSource extends BaseSeleniumValueSource
     public final static String TYPE_ID = PagesElementValueSource.class.getAnnotation(MuseTypeId.class).value();
     public final static String PAGE_PARAM_ID = "page";
     public final static String ELEMENT_PARAM_ID = "element";
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
+        {
+        @Override
+        public ValueSourceConfiguration fromElementExpression(String type, List<ValueSourceConfiguration> arguments, MuseProject project)
+            {
+            if (type.equals(STRING_TYPE_ID) && (arguments.size() == 1 || arguments.size() == 2))
+                {
+                ValueSourceConfiguration page_source;
+                ValueSourceConfiguration element_source;
+                if (arguments.size() == 1 && arguments.get(0).getType().equals(StringValueSource.TYPE_ID))  // for backwards compatibility
+                    {
+                    StringTokenizer tokenizer = new StringTokenizer((String) (arguments.get(0).getValue()), ".");
+                    page_source = ValueSourceConfiguration.forValue(tokenizer.nextToken());
+                    element_source = ValueSourceConfiguration.forValue(tokenizer.nextToken());
+                    }
+                else if (arguments.size() == 2)  // the preferred method
+                    {
+                    page_source = arguments.get(0);
+                    element_source = arguments.get(1);
+                    }
+                else
+                    return null;
+                ValueSourceConfiguration source = ValueSourceConfiguration.forType(PagesElementValueSource.TYPE_ID);
+                source.addSource(PagesElementValueSource.PAGE_PARAM_ID, page_source);
+                source.addSource(PagesElementValueSource.ELEMENT_PARAM_ID, element_source);
+                return source;
+                }
+            return null;
+            }
+
+        @Override
+        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+            {
+            if (config.getType().equals(PagesElementValueSource.TYPE_ID))
+                {
+                PagesElementValueSource.upgrade(config);
+                StringBuilder builder = new StringBuilder();
+                if (depth > 0)
+                    builder.append("(");
+                if (config.getSource(PagesElementValueSource.PAGE_PARAM_ID) != null
+                    && config.getSource(PagesElementValueSource.PAGE_PARAM_ID).getType().equals(StringValueSource.TYPE_ID)
+                    && config.getSource(PagesElementValueSource.PAGE_PARAM_ID) != null
+                    && config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID).getType().equals(StringValueSource.TYPE_ID))
+                    builder.append(String.format("<%s:\"%s.%s\">", STRING_TYPE_ID, config.getSource(PagesElementValueSource.PAGE_PARAM_ID).getValue(), config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID).getValue()));
+                else
+                    builder.append(String.format("<%s:%s:%s>", STRING_TYPE_ID, project.getValueSourceStringExpressionSupporters().toString(config.getSource(PagesElementValueSource.PAGE_PARAM_ID), depth + 1), project.getValueSourceStringExpressionSupporters().toString(config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID), depth + 1)));
+                if (depth > 0)
+                    builder.append(")");
+                return builder.toString();
+                }
+            return null;
+            }
+
+        public final static String STRING_TYPE_ID = "page";
+        }
     }
 
 

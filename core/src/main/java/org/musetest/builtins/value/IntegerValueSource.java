@@ -14,7 +14,7 @@ import org.slf4j.*;
 @MuseValueSourceTypeGroup("Primitives")
 @MuseValueSourceShortDescription("an integer value")
 @MuseValueSourceLongDescription("A primitive value source that returns an integer value")
-@MuseStringExpressionSupportImplementation(IntegerValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(IntegerValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Value", description = "an integer number", type = SubsourceDescriptor.Type.Value)
 public class IntegerValueSource extends BaseValueSource
     {
@@ -57,7 +57,40 @@ public class IntegerValueSource extends BaseValueSource
 
     private Long  _value;
 
-    final static Logger LOG = LoggerFactory.getLogger(IntegerValueSource.class);
+    private final static Logger LOG = LoggerFactory.getLogger(IntegerValueSource.class);
 
     public final static String TYPE_ID = IntegerValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
+        {
+        @Override
+        public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
+            {
+            try
+                {
+                Long value = Long.parseLong(string);
+                ValueSourceConfiguration config = new ValueSourceConfiguration();
+                config.setType(IntegerValueSource.TYPE_ID);
+                config.setValue(value);
+                return config;
+                }
+            catch (NumberFormatException e)
+                {
+                return null;
+                }
+            }
+
+        @Override
+        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+            {
+            if (config.getType().equals(IntegerValueSource.TYPE_ID))
+                {
+                if (config.getValue() != null)
+                    return config.getValue().toString();
+                return "???";
+                }
+            return null;
+            }
+        }
     }

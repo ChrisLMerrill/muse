@@ -14,7 +14,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseValueSourceTypeGroup("Math")
 @MuseValueSourceShortDescription("True if the left is greater than the right")
 @MuseValueSourceLongDescription("Compare the result of resolving two sources (left and right). Returns true if left operand is greater than the right. Integer and String comparisons are supported - other operand types will result in an error.")
-@MuseStringExpressionSupportImplementation(GreaterThanConditionStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(GreaterThanCondition.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Left", description = "Left operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.LEFT_PARAM)
 @MuseSubsourceDescriptor(displayName = "Right", description = "Right operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.RIGHT_PARAM)
 public class GreaterThanCondition extends BinaryCondition
@@ -44,6 +44,22 @@ public class GreaterThanCondition extends BinaryCondition
         }
 
     public final static String TYPE_ID = GreaterThanCondition.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BinaryConditionStringExpressionSupport
+       {
+       @Override
+       public String getOperator()
+           {
+           return ">";
+           }
+
+       @Override
+       public String getSourceType()
+           {
+           return GreaterThanCondition.TYPE_ID;
+           }
+       }
     }
 
 

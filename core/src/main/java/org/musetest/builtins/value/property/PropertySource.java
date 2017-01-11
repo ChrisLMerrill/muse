@@ -17,7 +17,7 @@ import java.util.*;
 @MuseValueSourceName("Property")
 @MuseValueSourceShortDescription("get a named property from an object")
 @MuseValueSourceLongDescription("Evaluates the 'name' source to a string and then looks for a property matching that name in the 'target' source.")
-@MuseStringExpressionSupportImplementation(PropertyStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(PropertySource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Name", description = "Name of the property to access", type = SubsourceDescriptor.Type.Named, name = "name")
 @MuseSubsourceDescriptor(displayName = "Target", description = "The object to look for the property in", type = SubsourceDescriptor.Type.Named, name = "target")
 public class PropertySource extends BaseValueSource
@@ -66,4 +66,37 @@ public class PropertySource extends BaseValueSource
     public final static String TARGET_PARAM = "target";
 
     public final static String TYPE_ID = PropertySource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
+        {
+        @Override
+        public ValueSourceConfiguration fromBinaryExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project)
+            {
+            if (operator.equals("."))
+                {
+                ValueSourceConfiguration config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
+                config.addSource(PropertySource.TARGET_PARAM, left);
+                config.addSource(PropertySource.NAME_PARAM, right);
+                return config;
+                }
+            return null;
+            }
+
+        @Override
+        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+            {
+            if (config.getType().equals(PropertySource.TYPE_ID))
+                {
+                String target = project.getValueSourceStringExpressionSupporters().toString(config.getSource(PropertySource.TARGET_PARAM), depth + 1);
+                String name = project.getValueSourceStringExpressionSupporters().toString(config.getSource(PropertySource.NAME_PARAM), depth + 1);
+                String expression = String.format("%s.%s", target, name);
+                if (depth == 0)
+                    return expression;
+                else
+                    return "(" + expression + ")";
+                }
+            return null;
+            }
+        }
     }

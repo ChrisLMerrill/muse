@@ -14,7 +14,7 @@ import org.musetest.selenium.*;
 @MuseValueSourceTypeGroup("Web Page")
 @MuseValueSourceShortDescription("Title of the current page")
 @MuseValueSourceLongDescription("Retrieves the page title of the current browser window by calling driver.getTitle().")
-@MuseStringExpressionSupportImplementation(PageTitleValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(PageTitleValueSource.StringExpressionSupport.class)
 public class PageTitleValueSource extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -30,4 +30,15 @@ public class PageTitleValueSource extends BaseSeleniumValueSource
         }
 
     public final static String TYPE_ID = PageTitleValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends SimpleWebdriverValueSourceStringExpressionSupport
+        {
+        public StringExpressionSupport()
+            {
+            super(NAME, PageTitleValueSource.TYPE_ID);
+            }
+
+        public final static String NAME = "title";
+        }
     }

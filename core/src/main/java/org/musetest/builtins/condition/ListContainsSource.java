@@ -1,5 +1,6 @@
 package org.musetest.builtins.condition;
 
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
@@ -15,7 +16,7 @@ import java.util.*;
 @MuseValueSourceName("List Contains")
 @MuseValueSourceShortDescription("returns true if the list contains the specified value")
 @MuseValueSourceLongDescription("Evaluates the 'list' and 'target' parameters. If the former is a list and it contains the latter, this source returns true.")
-@MuseStringExpressionSupportImplementation(ListContainsSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(ListContainsSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "List", description = "List to examine", type = SubsourceDescriptor.Type.Named, name = "list")
 @MuseSubsourceDescriptor(displayName = "Target", description = "Value to look for", type = SubsourceDescriptor.Type.Named, name = "target")
 public class ListContainsSource extends BaseValueSource
@@ -45,4 +46,32 @@ public class ListContainsSource extends BaseValueSource
     public final static String TARGET_PARAM = "target";
 
     public final static String TYPE_ID = ListContainsSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
+        {
+        @Override
+        public String getName()
+            {
+            return "listContains";
+            }
+
+        @Override
+        protected int getNumberArguments()
+            {
+            return 2;
+            }
+
+        @Override
+        protected String[] getArgumentNames()
+            {
+            return new String[] {"list", "target"};
+            }
+
+        @Override
+        protected String getTypeId()
+            {
+            return ListContainsSource.TYPE_ID;
+            }
+        }
     }

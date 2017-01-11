@@ -6,10 +6,12 @@ import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("WeakerAccess")  // used via reflection, public API
 public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

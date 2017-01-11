@@ -13,7 +13,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseValueSourceTypeGroup("Primitives")
 @MuseValueSourceShortDescription("a null reference")
 @MuseValueSourceLongDescription("A primitive value source that returns a null reference")
-@MuseStringExpressionSupportImplementation(NullValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(NullValueSource.StringExpressionSupport.class)
 public class NullValueSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -29,4 +29,26 @@ public class NullValueSource extends BaseValueSource
         }
 
     public final static String TYPE_ID = NullValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
+        {
+        @Override
+        public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
+            {
+            if (string.equals(NULL))
+                return ValueSourceConfiguration.forType(NULL);
+            return null;
+            }
+
+        @Override
+        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+            {
+            if (NullValueSource.TYPE_ID.equals(config.getType()))
+                return NULL;
+            return null;
+            }
+
+        public final static String NULL = "null";
+        }
     }

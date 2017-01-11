@@ -20,53 +20,53 @@ public class ValueSourceStringExpressionSupportTests
     public void emptyStringSource()
         {
         String s = "";
-        testParseFromAndToString(new StringValueSourceStringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
+        testParseFromAndToString(new StringValueSource.StringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
         }
 
     @Test
     public void stringSource()
         {
         String s = "abc";
-        testParseFromAndToString(new StringValueSourceStringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
+        testParseFromAndToString(new StringValueSource.StringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
         }
 
     @Test
     public void stringSourceWithEscapedQuotes()
         {
         String s = "string \\\" has \\\" quotes";
-        testParseFromAndToString(new StringValueSourceStringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
+        testParseFromAndToString(new StringValueSource.StringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
         }
 
     @Test
     public void stringSourceWithInvalidQuotes()
         {
         String s = "string \" quote";
-        testParseFromAndToString(new StringValueSourceStringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
+        testParseFromAndToString(new StringValueSource.StringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
         }
 
     @Test
     public void integerSource()
         {
         Long value = 123L;
-        testParseFromAndToString(new IntegerValueSourceStringExpressionSupport(), value.toString(), IntegerValueSource.TYPE_ID, value);
+        testParseFromAndToString(new IntegerValueSource.StringExpressionSupport(), value.toString(), IntegerValueSource.TYPE_ID, value);
         }
 
     @Test
     public void booleanSourceTrue()
         {
-        testParseFromAndToString(new BooleanValueSourceStringExpressionSupport(), Boolean.TRUE.toString(), BooleanValueSource.TYPE_ID, true);
+        testParseFromAndToString(new BooleanValueSource.StringExpressionSupport(), Boolean.TRUE.toString(), BooleanValueSource.TYPE_ID, true);
         }
 
     @Test
     public void booleanSourceFalse()
         {
-        testParseFromAndToString(new BooleanValueSourceStringExpressionSupport(), Boolean.FALSE.toString(), BooleanValueSource.TYPE_ID, false);
+        testParseFromAndToString(new BooleanValueSource.StringExpressionSupport(), Boolean.FALSE.toString(), BooleanValueSource.TYPE_ID, false);
         }
 
     @Test
     public void nullSource()
         {
-        testParseFromAndToString(new NullValueSourceStringExpressionSupport(), "null", NullValueSource.TYPE_ID, null);
+        testParseFromAndToString(new NullValueSource.StringExpressionSupport(), "null", NullValueSource.TYPE_ID, null);
         }
 
     private void testParseFromAndToString(ValueSourceStringExpressionSupport support, String string_content, String type, Object content)
@@ -84,7 +84,7 @@ public class ValueSourceStringExpressionSupportTests
         {
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue(123L);
         ValueSourceConfiguration right = ValueSourceConfiguration.forValue(456L);
-        AdditionSourceStringExpressionSupport supporter = new AdditionSourceStringExpressionSupport();
+        AdditionSource.StringExpressionSupport supporter = new AdditionSource.StringExpressionSupport();
         ValueSourceConfiguration config = supporter.fromBinaryExpression(left, "+", right, TEST_PROJECT);
 
         Assert.assertNotNull(config);
@@ -102,7 +102,7 @@ public class ValueSourceStringExpressionSupportTests
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue(123L);
         ValueSourceConfiguration right = ValueSourceConfiguration.forValue(456L);
         ValueSourceConfiguration far_right = ValueSourceConfiguration.forValue(789L);
-        AdditionSourceStringExpressionSupport supporter = new AdditionSourceStringExpressionSupport();
+        AdditionSource.StringExpressionSupport supporter = new AdditionSource.StringExpressionSupport();
         ValueSourceConfiguration config = supporter.fromBinaryExpression(left, "+", right, TEST_PROJECT);
         config = supporter.fromBinaryExpression(config, "+", far_right, TEST_PROJECT);
 
@@ -123,7 +123,7 @@ public class ValueSourceStringExpressionSupportTests
         ValueSourceConfiguration left = ValueSourceConfiguration.forValue(22L);
         ValueSourceConfiguration right = ValueSourceConfiguration.forValue(33L);
         ValueSourceConfiguration far_right = ValueSourceConfiguration.forValue(44L);
-        AdditionSourceStringExpressionSupport supporter = new AdditionSourceStringExpressionSupport();
+        AdditionSource.StringExpressionSupport supporter = new AdditionSource.StringExpressionSupport();
         ValueSourceConfiguration config = supporter.fromBinaryExpression(far_left, "+", left, TEST_PROJECT);
         config = supporter.fromBinaryExpression(config, "+", right, TEST_PROJECT);
         config = supporter.fromBinaryExpression(config, "+", far_right, TEST_PROJECT);
@@ -143,7 +143,7 @@ public class ValueSourceStringExpressionSupportTests
     public void variableSource()
         {
         ValueSourceConfiguration string_source = ValueSourceConfiguration.forValue("var1");
-        ValueSourceConfiguration config = new VariableValueSourceStringExpressionSupport().fromPrefixedExpression("$", string_source, TEST_PROJECT);
+        ValueSourceConfiguration config = new VariableValueSource.StringExpressionSupport().fromPrefixedExpression("$", string_source, TEST_PROJECT);
         Assert.assertNotNull(config);
 
         Assert.assertEquals(VariableValueSource.TYPE_ID, config.getType());
@@ -156,7 +156,7 @@ public class ValueSourceStringExpressionSupportTests
     public void projectResourceSource()
         {
         ValueSourceConfiguration string_source = ValueSourceConfiguration.forValue("res1");
-        ValueSourceConfiguration config = new ProjectResourceValueSourceStringExpressionSupport().fromPrefixedExpression("#", string_source, TEST_PROJECT);
+        ValueSourceConfiguration config = new ProjectResourceValueSource.StringExpressionSupport().fromPrefixedExpression("#", string_source, TEST_PROJECT);
         Assert.assertNotNull(config);
 
         Assert.assertEquals(ProjectResourceValueSource.TYPE_ID, config.getType());
@@ -168,19 +168,19 @@ public class ValueSourceStringExpressionSupportTests
     @Test
     public void equals()
         {
-        testBinaryCondition(new EqualityConditionStringExpressionSupport());
+        testBinaryCondition(new EqualityCondition.StringExpressionSupport());
         }
 
     @Test
     public void greaterThan()
         {
-        testBinaryCondition(new GreaterThanConditionStringExpressionSupport());
+        testBinaryCondition(new GreaterThanCondition.StringExpressionSupport());
         }
 
     @Test
     public void lessThan()
         {
-        testBinaryCondition(new LessThanConditionStringExpressionSupport());
+        testBinaryCondition(new LessThanCondition.StringExpressionSupport());
         }
 
     private void testBinaryCondition(BinaryConditionStringExpressionSupport supporter)
@@ -201,7 +201,7 @@ public class ValueSourceStringExpressionSupportTests
     @Test
     public void notFromString()
         {
-        NotValueSourceStringExpressionSupport supporter = new NotValueSourceStringExpressionSupport();
+        NotValueSource.StringExpressionSupport supporter = new NotValueSource.StringExpressionSupport();
         List<ValueSourceConfiguration> arguments = new ArrayList<>();
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue(true);
         arguments.add(subsource);
@@ -217,7 +217,7 @@ public class ValueSourceStringExpressionSupportTests
     @Test
     public void dateFormat() throws ParseException
         {
-        DateFormatValueSourceStringExpressionSupport supporter = new DateFormatValueSourceStringExpressionSupport();
+        DateFormatValueSource.StringExpressionSupport supporter = new DateFormatValueSource.StringExpressionSupport();
         ValueSourceConfiguration date_config = ValueSourceConfiguration.forValue("date");
         ValueSourceConfiguration format_config = ValueSourceConfiguration.forValue("format");
         List<ValueSourceConfiguration> arguments = new ArrayList<>();
@@ -234,7 +234,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals("formatDate(\"date\",\"format\")", stringified);
         }
 
-    static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStorage());
+    private static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStorage());
     }
 
 

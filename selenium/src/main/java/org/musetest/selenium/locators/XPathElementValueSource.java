@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceTypeGroup("Element.Locate")
 @MuseValueSourceShortDescription("Locate an element by XPath")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByXPath locator.")
-@MuseStringExpressionSupportImplementation(XPathElementValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(XPathElementValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "XPath", description = "An XPath string", type = SubsourceDescriptor.Type.Single)
 public class XPathElementValueSource extends ElementByLocatorValueSource
     {
@@ -30,4 +30,15 @@ public class XPathElementValueSource extends ElementByLocatorValueSource
         }
 
     public final static String TYPE_ID = XPathElementValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends ElementByLocatorValueSourceStringExpressionSupport
+        {
+        public StringExpressionSupport()
+            {
+            super(XPathElementValueSource.TYPE_ID, STRING_EXPRESSION_ID);
+            }
+
+        public static final String STRING_EXPRESSION_ID = "xpath";
+        }
     }

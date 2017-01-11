@@ -15,7 +15,7 @@ import java.util.*;
 @MuseValueSourceName("Format date")
 @MuseValueSourceShortDescription("Format a date as a string")
 @MuseValueSourceLongDescription("Formats the 'date' param according the the 'format' string (see Javadocs for SimpleDateFormat). If date is not provided, the current date/time is used. If the format is not provided, the output is milliseconds since 1970.")
-@MuseStringExpressionSupportImplementation(DateFormatValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(DateFormatValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Date", description = "Date object", type = SubsourceDescriptor.Type.Named, name = DateFormatValueSource.DATE_PARAM)
 @MuseSubsourceDescriptor(displayName = "Format", description = "format descriptor", type = SubsourceDescriptor.Type.Named, name = DateFormatValueSource.FORMAT_PARAM)
 public class DateFormatValueSource extends BaseValueSource
@@ -86,4 +86,38 @@ public class DateFormatValueSource extends BaseValueSource
     public final static String FORMAT_PARAM = "format";
 
     public final static String TYPE_ID = DateFormatValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
+        {
+        @Override
+        public String getName()
+            {
+            return "formatDate";
+            }
+
+        @Override
+        protected int getNumberArguments()
+            {
+            return 2;
+            }
+
+        @Override
+        protected String getTypeId()
+            {
+            return DateFormatValueSource.TYPE_ID;
+            }
+
+        @Override
+        protected boolean storeArgumentsNamed()
+            {
+            return true;
+            }
+
+        @Override
+        protected String[] getArgumentNames()
+            {
+            return new String[] {DateFormatValueSource.DATE_PARAM, DateFormatValueSource.FORMAT_PARAM };
+            }
+        }
     }

@@ -15,7 +15,7 @@ import java.util.concurrent.*;
 @MuseValueSourceTypeGroup("Math")
 @MuseValueSourceShortDescription("Generates a random integer from {min} to {max}")
 @MuseValueSourceLongDescription("Resolves the 'min' and 'max' value sources as integers. Returns a random integer from min to max, inclusive.")
-@MuseStringExpressionSupportImplementation(RandomNumberValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(RandomNumberValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Minimum", description = "The minimum value", type = SubsourceDescriptor.Type.Named, name = RandomNumberValueSource.MIN_PARAM)
 @MuseSubsourceDescriptor(displayName = "Maximum", description = "The maximum value", type = SubsourceDescriptor.Type.Named, name = RandomNumberValueSource.MAX_PARAM)
 public class RandomNumberValueSource extends BaseValueSource
@@ -48,4 +48,44 @@ public class RandomNumberValueSource extends BaseValueSource
     public final static String MIN_PARAM = "min";
     public final static String MAX_PARAM = "max";
     public final static String TYPE_ID = RandomNumberValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
+        {
+        @Override
+        public String getName()
+            {
+            return "random";
+            }
+
+        @Override
+        protected int getNumberArguments()
+            {
+            return 2;
+            }
+
+        @Override
+        protected boolean storeArgumentsNamed()
+            {
+            return true;
+            }
+
+        @Override
+        protected String[] getArgumentNames()
+            {
+            return new String[] { RandomNumberValueSource.MIN_PARAM, RandomNumberValueSource.MAX_PARAM };
+            }
+
+        @Override
+        protected String getTypeId()
+            {
+            return RandomNumberValueSource.TYPE_ID;
+            }
+
+        @Override
+        protected boolean storeSingleArgumentAsSingleSubsource()
+            {
+            return true;
+            }
+        }
     }

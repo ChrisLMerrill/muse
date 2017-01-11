@@ -11,7 +11,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseValueSourceName("Project Resource")
 @MuseValueSourceShortDescription("Get a project resource by resource id")
 @MuseValueSourceLongDescription("Resolves the sub-source and converts it to a string, which is used to lookup the resource in the project. If multiple project resources match the id, the first found will be returned (this behavior may not be consistent from one call to the next).")
-@MuseStringExpressionSupportImplementation(ProjectResourceValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(ProjectResourceValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Id", description = "Id of the project resource", type = SubsourceDescriptor.Type.Single)
 public class ProjectResourceValueSource extends BaseValueSource
     {
@@ -37,4 +37,36 @@ public class ProjectResourceValueSource extends BaseValueSource
     private final MuseValueSource _id_source;
 
     public final static String TYPE_ID = ProjectResourceValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
+        {
+        @Override
+        public ValueSourceConfiguration fromPrefixedExpression(String prefix, ValueSourceConfiguration expression, MuseProject project)
+            {
+            if (prefix.equals(OPERATOR))
+                {
+                ValueSourceConfiguration config = new ValueSourceConfiguration();
+                config.setType(ProjectResourceValueSource.TYPE_ID);
+                config.setSource(expression);
+                return config;
+                }
+            return null;
+            }
+
+        @Override
+        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+            {
+            if (config.getType().equals(ProjectResourceValueSource.TYPE_ID))
+                {
+                if (config.getValue() instanceof String)
+                    return OPERATOR + "\"" + config.getValue().toString() + "\"";
+                else
+                    return OPERATOR + project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1);
+                }
+            return null;
+            }
+
+        private final static String OPERATOR = "#";
+        }
     }

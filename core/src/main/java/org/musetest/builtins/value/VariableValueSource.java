@@ -14,7 +14,7 @@ import org.slf4j.*;
 @MuseValueSourceName("Variable")
 @MuseValueSourceShortDescription("get the value assigned to a variable (by variable name)")
 @MuseValueSourceLongDescription("Evaluates to the value assigned to a variable in the step execution context. The variable is located by resolving the sub-source to a string and using that as the name of the variable to return. If not found in the local context, it will attempt to find the variable (by name) in higher-level contexts (e.g. the test context).")
-@MuseStringExpressionSupportImplementation(VariableValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(VariableValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Name", description = "Name of the variable to get", type = SubsourceDescriptor.Type.Single)
 public class VariableValueSource extends BaseValueSource
     {
@@ -53,4 +53,34 @@ public class VariableValueSource extends BaseValueSource
     private final static Logger LOG = LoggerFactory.getLogger(VariableValueSource.class);
 
     public final static String TYPE_ID = VariableValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
+        {
+        @Override
+        public ValueSourceConfiguration fromPrefixedExpression(String prefix, ValueSourceConfiguration expression, MuseProject project)
+            {
+            if (prefix.equals(OPERATOR))
+                {
+                ValueSourceConfiguration config = new ValueSourceConfiguration();
+                config.setType(VariableValueSource.TYPE_ID);
+                config.setSource(expression);
+                return config;
+                }
+            return null;
+            }
+
+        @Override
+        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+            {
+            if (config.getType().equals(VariableValueSource.TYPE_ID))
+                if (config.getValue() instanceof String)
+                    return OPERATOR + "\"" + config.getValue().toString() + "\"";
+                else
+                    return OPERATOR + project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1);
+            return null;
+            }
+
+        private final static String OPERATOR = "$";
+        }
     }

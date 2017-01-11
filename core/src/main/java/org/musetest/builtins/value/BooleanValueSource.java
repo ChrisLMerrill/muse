@@ -14,7 +14,7 @@ import org.slf4j.*;
 @MuseValueSourceTypeGroup("Primitives")
 @MuseValueSourceShortDescription("true or false")
 @MuseValueSourceLongDescription("A primitive value source that returns true or false.")
-@MuseStringExpressionSupportImplementation(BooleanValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(BooleanValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Value", description = "true or false", type = SubsourceDescriptor.Type.Value)
 public class BooleanValueSource extends BaseValueSource
     {
@@ -57,7 +57,41 @@ public class BooleanValueSource extends BaseValueSource
 
     private Boolean _value;
 
-    final static Logger LOG = LoggerFactory.getLogger(BooleanValueSource.class);
+    private final static Logger LOG = LoggerFactory.getLogger(BooleanValueSource.class);
 
     public final static String TYPE_ID = BooleanValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
+        {
+        @Override
+        public ValueSourceConfiguration fromLiteral(String string, MuseProject project)
+            {
+            Boolean value = null;
+            if (string.toLowerCase().equals("true"))
+                value = true;
+            else if (string.toLowerCase().equals("false"))
+                value = false;
+
+            if (value == null)
+                return null;
+
+            ValueSourceConfiguration config = new ValueSourceConfiguration();
+            config.setType(BooleanValueSource.TYPE_ID);
+            config.setValue(value);
+            return config;
+            }
+
+        @Override
+        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+            {
+            if (config.getType().equals(BooleanValueSource.TYPE_ID))
+                {
+                if (config.getValue() != null)
+                    return config.getValue().toString();
+                return "???";
+                }
+            return null;
+            }
+        }
     }

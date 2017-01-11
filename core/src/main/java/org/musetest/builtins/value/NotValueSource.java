@@ -13,11 +13,10 @@ import org.musetest.core.values.descriptor.*;
 @MuseValueSourceName("Not")
 @MuseValueSourceShortDescription("Returns the boolean complement of the sub-source.")
 @MuseValueSourceLongDescription("Resolves the sub-source. If it is a boolean, return the complement. Else error.")
-@MuseStringExpressionSupportImplementation(NotValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(NotValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Value", description = "subsource to invert (expects a boolean value)", type = SubsourceDescriptor.Type.Single)
 public class NotValueSource extends BaseValueSource
     {
-//    @SuppressWarnings("unused")  // used via reflection
     public NotValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
@@ -49,6 +48,34 @@ public class NotValueSource extends BaseValueSource
     private MuseValueSource _subsource;
 
     public final static String TYPE_ID = NotValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
+        {
+        @Override
+        public String getName()
+            {
+            return "not";
+            }
+
+        @Override
+        protected boolean storeSingleArgumentAsSingleSubsource()
+            {
+            return true;
+            }
+
+        @Override
+        protected int getNumberArguments()
+            {
+            return 1;
+            }
+
+        @Override
+        protected String getTypeId()
+            {
+            return NotValueSource.TYPE_ID;
+            }
+        }
     }
 
 

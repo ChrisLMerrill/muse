@@ -1,5 +1,6 @@
 package org.musetest.selenium.values;
 
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
@@ -17,7 +18,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceTypeGroup("Element.Value")
 @MuseValueSourceShortDescription("Returns the text content of the sub-source Selenium WebElement")
 @MuseValueSourceLongDescription("Resolves the supplied element source, then returns the text content of that element (if any).")
-@MuseStringExpressionSupportImplementation(ElementTextStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(ElementText.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to get text from", type = SubsourceDescriptor.Type.Single)
 public class ElementText extends BaseElementValueSource
     {
@@ -43,4 +44,32 @@ public class ElementText extends BaseElementValueSource
         }
 
     public final static String TYPE_ID = ElementText.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
+        {
+        @Override
+        public String getName()
+            {
+            return "elementText";
+            }
+
+        @Override
+        protected int getNumberArguments()
+            {
+            return 1;
+            }
+
+        @Override
+        protected String getTypeId()
+            {
+            return ElementText.TYPE_ID;
+            }
+
+        @Override
+        protected boolean storeSingleArgumentAsSingleSubsource()
+            {
+            return true;
+            }
+        }
     }

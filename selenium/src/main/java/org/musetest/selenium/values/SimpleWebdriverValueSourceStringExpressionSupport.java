@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@SuppressWarnings("unused")  // used via reflection
+@SuppressWarnings("WeakerAccess")  // used via reflection
 public abstract class SimpleWebdriverValueSourceStringExpressionSupport extends BaseValueSourceStringExpressionSupport
     {
     public SimpleWebdriverValueSourceStringExpressionSupport(String expression_name, String muse_type)
@@ -35,7 +35,6 @@ public abstract class SimpleWebdriverValueSourceStringExpressionSupport extends 
 
     private final String _name;
     private final String _muse_type;
-    public final static String NAME = "url";
     }
 
 

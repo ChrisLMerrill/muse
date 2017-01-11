@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceTypeGroup("Element.Locate")
 @MuseValueSourceShortDescription("Locate an element by id")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ById locator.")
-@MuseStringExpressionSupportImplementation(IdElementValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(IdElementValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Id", description = "Id of the element", type = SubsourceDescriptor.Type.Single)
 public class IdElementValueSource extends ElementByLocatorValueSource
     {
@@ -30,4 +30,15 @@ public class IdElementValueSource extends ElementByLocatorValueSource
         }
 
     public final static String TYPE_ID = IdElementValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends ElementByLocatorValueSourceStringExpressionSupport
+        {
+        public StringExpressionSupport()
+            {
+            super(IdElementValueSource.TYPE_ID, STRING_EXPRESSION_ID);
+            }
+
+        public static final String STRING_EXPRESSION_ID = "id";
+        }
     }

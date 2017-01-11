@@ -1,5 +1,6 @@
 package org.musetest.selenium.conditions;
 
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
@@ -16,7 +17,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceTypeGroup("Element.Condition")
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is enabled")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement and it is enabled.")
-@MuseStringExpressionSupportImplementation(ElementEnabledConditionStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(ElementEnabledCondition.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Element", description = "True if the element supplied by the sub-source is enabled (expects a page element)", type = SubsourceDescriptor.Type.Single)
 public class ElementEnabledCondition extends BaseElementValueSource
     {
@@ -42,4 +43,32 @@ public class ElementEnabledCondition extends BaseElementValueSource
         }
 
     public final static String TYPE_ID = ElementEnabledCondition.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
+        {
+        @Override
+        public String getName()
+            {
+            return "elementEnabled";
+            }
+
+        @Override
+        protected int getNumberArguments()
+            {
+            return 1;
+            }
+
+        @Override
+        protected String getTypeId()
+            {
+            return ElementEnabledCondition.TYPE_ID;
+            }
+
+        @Override
+        protected boolean storeSingleArgumentAsSingleSubsource()
+            {
+            return true;
+            }
+        }
     }

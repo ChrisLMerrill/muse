@@ -16,7 +16,7 @@ import java.util.*;
 @MuseValueSourceTypeGroup("Math")
 @MuseValueSourceShortDescription("Compare two sources for equality")
 @MuseValueSourceLongDescription("Compare two sources, return true if equal. Object.equals() is used for the comparison.")
-@MuseStringExpressionSupportImplementation(EqualityConditionStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(EqualityCondition.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Left", description = "Left operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.LEFT_PARAM)
 @MuseSubsourceDescriptor(displayName = "Right", description = "Right operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.RIGHT_PARAM)
 public class EqualityCondition extends BinaryCondition
@@ -69,6 +69,22 @@ public class EqualityCondition extends BinaryCondition
         }
 
     public final static String TYPE_ID = EqualityCondition.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BinaryConditionStringExpressionSupport
+        {
+        @Override
+        public String getOperator()
+            {
+            return "==";
+            }
+
+        @Override
+        public String getSourceType()
+            {
+            return EqualityCondition.TYPE_ID;
+            }
+        }
     }
 
 

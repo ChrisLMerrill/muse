@@ -14,7 +14,7 @@ import org.musetest.selenium.*;
 @MuseValueSourceTypeGroup("Web Page")
 @MuseValueSourceShortDescription("URL of the current page")
 @MuseValueSourceLongDescription("Retrieves the URL of the current browser window by calling driver.getCurrentUrl().")
-@MuseStringExpressionSupportImplementation(CurrentUrlValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(CurrentUrlValueSource.StringExpressionSupport.class)
 public class CurrentUrlValueSource extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -29,6 +29,16 @@ public class CurrentUrlValueSource extends BaseSeleniumValueSource
         return getDriver(context).getCurrentUrl();
         }
 
-    public final static String NAME = CurrentUrlValueSourceStringExpressionSupport.NAME;
     public final static String TYPE_ID = CurrentUrlValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends SimpleWebdriverValueSourceStringExpressionSupport
+        {
+        public StringExpressionSupport()
+            {
+            super(NAME, CurrentUrlValueSource.TYPE_ID);
+            }
+
+        public final static String NAME = "url";
+        }
     }

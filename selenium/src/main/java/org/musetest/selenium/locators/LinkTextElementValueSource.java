@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceTypeGroup("Element.Locate")
 @MuseValueSourceShortDescription("Locates an element by link text")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByLinkText locator.")
-@MuseStringExpressionSupportImplementation(LinkTextElementValueSourceStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(LinkTextElementValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Text", description = "The text of the link", type = SubsourceDescriptor.Type.Single)
 public class LinkTextElementValueSource extends ElementByLocatorValueSource
     {
@@ -30,4 +30,15 @@ public class LinkTextElementValueSource extends ElementByLocatorValueSource
         }
 
     public final static String TYPE_ID = LinkTextElementValueSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends ElementByLocatorValueSourceStringExpressionSupport
+        {
+        public StringExpressionSupport()
+            {
+            super(LinkTextElementValueSource.TYPE_ID, STRING_EXPRESSION_ID);
+            }
+
+        public static final String STRING_EXPRESSION_ID = "linktext";
+        }
     }

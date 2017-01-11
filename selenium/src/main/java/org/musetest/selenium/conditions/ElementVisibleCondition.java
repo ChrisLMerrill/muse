@@ -1,5 +1,6 @@
 package org.musetest.selenium.conditions;
 
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
@@ -16,7 +17,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceTypeGroup("Element.Condition")
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is visible")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement and it is visible.")
-@MuseStringExpressionSupportImplementation(ElementVisibleConditionStringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(ElementVisibleCondition.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to inspect", type = SubsourceDescriptor.Type.Single)
 public class ElementVisibleCondition extends BaseElementValueSource
     {
@@ -42,4 +43,32 @@ public class ElementVisibleCondition extends BaseElementValueSource
         }
 
     public final static String TYPE_ID = ElementVisibleCondition.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
+        {
+        @Override
+        public String getName()
+            {
+            return "elementVisible";
+            }
+
+        @Override
+        protected int getNumberArguments()
+            {
+            return 1;
+            }
+
+        @Override
+        protected String getTypeId()
+            {
+            return ElementVisibleCondition.TYPE_ID;
+            }
+
+        @Override
+        protected boolean storeSingleArgumentAsSingleSubsource()
+            {
+            return true;
+            }
+        }
     }
