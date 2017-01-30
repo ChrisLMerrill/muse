@@ -9,6 +9,8 @@
 - add: Support verifyText and assertText commands in SeleniumIDE test import
 - add: Support glob: exact: and regexp: matchers in verifyText and assertText steps imported from SeleniumIDE
 - add: globMatch and regexMatch value source and corresonding string expressions
+- add: 'clear' parameter to the SendKeys command - an optional parameter which, if true, causes the field to be cleared before keystrokes are sent.
+- enhance: The SeleniumIDE import now accepts the TYPE command as well as SENDKEYS. Both convert to the SendKeys Muse step, but converting the TYPE command, the 'clear' parameter will be set to true. 
 
 ## 0.7
 - add: Change listeners on WebDriverProviderList

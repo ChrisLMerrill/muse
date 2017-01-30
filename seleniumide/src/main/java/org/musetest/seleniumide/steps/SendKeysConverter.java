@@ -15,11 +15,13 @@ public class SendKeysConverter implements StepConverter
     @Override
     public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
         {
-        if (!SENDKEYS.equals(command))
+        if (!TYPE.equals(command) && !SENDKEYS.equals(command))
             return null;
         StepConfiguration step = new StepConfiguration(SendKeys.TYPE_ID);
         step.addSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
         step.addSource(SendKeys.KEYS_PARAM, ValueSourceConfiguration.forValue(param2));
+        if (TYPE.equals(command))
+            step.addSource(SendKeys.CLEAR_PARAM, ValueSourceConfiguration.forValue(true));
         return step;
         }
 
