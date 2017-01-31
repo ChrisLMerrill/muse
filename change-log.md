@@ -12,6 +12,8 @@
 - add: 'clear' parameter to the SendKeys command - an optional parameter which, if true, causes the field to be cleared before keystrokes are sent.
 - enhance: The SeleniumIDE import now accepts the TYPE command as well as SENDKEYS. Both convert to the SendKeys Muse step, but converting the TYPE command, the 'clear' parameter will be set to true.
 - add: low-level support for colored step icons (and implement Red for unknown step icon).
+- add: support for ValueConverters in SeleniumIDE test import
+- add: support for variable references in SeleniumIDE test import. E.g. ${value1}
 
 ## 0.7
 - add: Change listeners on WebDriverProviderList

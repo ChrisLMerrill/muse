@@ -5,6 +5,7 @@ import org.musetest.core.values.*;
 import org.musetest.selenium.steps.*;
 import org.musetest.seleniumide.*;
 import org.musetest.seleniumide.locators.*;
+import org.musetest.seleniumide.values.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -19,7 +20,7 @@ public class SendKeysConverter implements StepConverter
             return null;
         StepConfiguration step = new StepConfiguration(SendKeys.TYPE_ID);
         step.addSource(SendKeys.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
-        step.addSource(SendKeys.KEYS_PARAM, ValueSourceConfiguration.forValue(param2));
+        step.addSource(SendKeys.KEYS_PARAM, ValueConverters.get().convertValue(param2));
         if (TYPE.equals(command))
             step.addSource(SendKeys.CLEAR_PARAM, ValueSourceConfiguration.forValue(true));
         return step;
