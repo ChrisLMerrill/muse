@@ -44,9 +44,9 @@ public class Wait extends BaseStep
         if (period_value != null)
             wait_time = period_value.intValue();
 
-        int max_duration = getValue(_duration, context, true, Number.class, 30000L).intValue();
-        boolean fail_on_false = getValue(_fail, context, true, Boolean.class, Boolean.FALSE);
-        String fail_message = getValue(_message, context, true, String.class, "The condition was still false after the maximum wait was exceeded");
+        int max_duration = getValue(_duration, context, Number.class, 30000L).intValue();
+        boolean fail_on_false = getValue(_fail, context, Boolean.class, Boolean.FALSE);
+        String fail_message = getValue(_message, context, String.class, "The condition was still false after the maximum wait was exceeded");
 
         boolean success = false;
         long end_time = System.currentTimeMillis() + max_duration;

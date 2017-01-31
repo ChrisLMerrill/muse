@@ -63,12 +63,12 @@ public abstract class BaseStep implements MuseStep
         }
 
     /**
-     * A convenience method to resolves a value source to the desired type with a default value.
+     * A convenience method to resolve a value source to the desired type with a default value.
      * @see BaseValueSource#getValueSource
      */
-    protected <T> T getValue(MuseValueSource source, StepExecutionContext context, boolean null_allowed, Class<T> type, T default_value) throws ValueSourceResolutionError
+    protected <T> T getValue(MuseValueSource source, StepExecutionContext context, Class<T> type, T default_value) throws ValueSourceResolutionError
         {
-        T result = BaseValueSource.getValue(source, context, null_allowed, type);
+        T result = BaseValueSource.getValue(source, context, true, type);
         if (result == null)
             return default_value;
         return result;

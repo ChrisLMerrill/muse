@@ -317,6 +317,34 @@ public class StepTests
         MuseTestResult result = runner.getResult();
         Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
         }
+
+    @Test
+    public void nullSubsourceWithDefaultValue() throws ValueSourceResolutionError
+        {
+        MockStep step = new MockStep();
+        String result = step.getValue(null, new MockStepExecutionContext(), String.class, "default_value");
+        Assert.assertEquals("default_value", result);
+        }
+
+    class MockStep extends BaseStep
+        {
+        public MockStep()
+            {
+            super(new StepConfiguration("mock"));
+            }
+
+        @Override
+        public <T> T getValue(MuseValueSource source, StepExecutionContext context, Class<T> type, T default_value) throws ValueSourceResolutionError
+            {
+            return super.getValue(source, context, type, default_value);
+            }
+
+        @Override
+        protected StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
+            {
+            return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
+            }
+        }
     }
 
 

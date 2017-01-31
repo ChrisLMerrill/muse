@@ -37,7 +37,7 @@ public class SendKeys extends BrowserStep
         {
         WebElement element = getElement(_element_source, context);
 
-        Boolean clear = getValue(_clear_source, context, false, Boolean.class, Boolean.FALSE);
+        Boolean clear = getValue(_clear_source, context, Boolean.class, Boolean.FALSE);
         if (clear)
             element.clear();
 
