@@ -7,6 +7,6 @@ import org.musetest.core.values.*;
  */
 public interface ValueConverter
     {
-    ValueSourceConfiguration convertValue(String parameter);
+    ValueSourceConfiguration convert(String parameter);
     }
 

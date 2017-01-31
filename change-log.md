@@ -14,6 +14,7 @@
 - add: low-level support for colored step icons (and implement Red for unknown step icon).
 - add: support for ValueConverters in SeleniumIDE test import
 - add: support for variable references in SeleniumIDE test import. E.g. ${value1}
+- add: support for store command in SeleniumIDE test import
 
 ## 0.7
 - add: Change listeners on WebDriverProviderList

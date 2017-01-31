@@ -11,7 +11,7 @@ import org.musetest.seleniumide.*;
 public class VariableValueConverter implements ValueConverter
     {
     @Override
-    public ValueSourceConfiguration convertValue(String parameter)
+    public ValueSourceConfiguration convert(String parameter)
         {
         if (parameter.startsWith("${") && parameter.endsWith("}"))
             {

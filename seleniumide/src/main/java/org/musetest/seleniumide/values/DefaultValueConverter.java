@@ -9,7 +9,7 @@ import org.musetest.seleniumide.*;
 class DefaultValueConverter implements ValueConverter
     {
     @Override
-    public ValueSourceConfiguration convertValue(String parameter)
+    public ValueSourceConfiguration convert(String parameter)
         {
         return ValueSourceConfiguration.forValue(parameter);
         }

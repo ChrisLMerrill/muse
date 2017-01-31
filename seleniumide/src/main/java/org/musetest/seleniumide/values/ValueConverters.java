@@ -20,11 +20,11 @@ public class ValueConverters implements ValueConverter
         }
 
     @Override
-    public ValueSourceConfiguration convertValue(String parameter)
+    public ValueSourceConfiguration convert(String parameter)
         {
         for (ValueConverter converter : _converters)
             {
-            ValueSourceConfiguration source = converter.convertValue(parameter);
+            ValueSourceConfiguration source = converter.convert(parameter);
             if (source != null)
                 return source;
             }

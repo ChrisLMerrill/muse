@@ -14,7 +14,7 @@ public class ValueConverterTests
     public void simpleText()
         {
         final String content = "abc123";
-        ValueSourceConfiguration source = ValueConverters.get().convertValue(content);
+        ValueSourceConfiguration source = ValueConverters.get().convert(content);
         Assert.assertEquals(StringValueSource.TYPE_ID, source.getType());
         Assert.assertEquals(content, source.getValue());
         }
@@ -23,7 +23,7 @@ public class ValueConverterTests
     public void variableReference()
         {
         final String content = "${var1}";
-        ValueSourceConfiguration source = ValueConverters.get().convertValue(content);
+        ValueSourceConfiguration source = ValueConverters.get().convert(content);
         Assert.assertEquals(VariableValueSource.TYPE_ID, source.getType());
         Assert.assertEquals(StringValueSource.TYPE_ID, source.getSource().getType());
         Assert.assertEquals("var1", source.getSource().getValue());
