@@ -16,6 +16,7 @@
 - add: support for variable references in SeleniumIDE test import. E.g. ${value1}
 - add: support for store command in SeleniumIDE test import
 - add: EvaluateJavascript value source
+- add: support for javascript{...} parameters in SeleniumIDE test import
 
 ## 0.7
 - add: Change listeners on WebDriverProviderList

@@ -3,6 +3,7 @@ package org.musetest.seleniumide.tests;
 import org.junit.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.values.*;
+import org.musetest.javascript.*;
 import org.musetest.seleniumide.values.*;
 
 /**
@@ -27,6 +28,16 @@ public class ValueConverterTests
         Assert.assertEquals(VariableValueSource.TYPE_ID, source.getType());
         Assert.assertEquals(StringValueSource.TYPE_ID, source.getSource().getType());
         Assert.assertEquals("var1", source.getSource().getValue());
+        }
+
+    @Test
+    public void evaluateJavascript()
+        {
+        final String content = "javascript{'var' + 1;}";
+        ValueSourceConfiguration source = ValueConverters.get().convert(content);
+        Assert.assertEquals(EvaluateJavascriptValueSource.TYPE_ID, source.getType());
+        Assert.assertEquals(StringValueSource.TYPE_ID, source.getSource().getType());
+        Assert.assertEquals("'var' + 1;", source.getSource().getValue());
         }
     }
 
