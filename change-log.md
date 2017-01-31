@@ -15,6 +15,7 @@
 - add: support for ValueConverters in SeleniumIDE test import
 - add: support for variable references in SeleniumIDE test import. E.g. ${value1}
 - add: support for store command in SeleniumIDE test import
+- add: EvaluateJavascript value source
 
 ## 0.7
 - add: Change listeners on WebDriverProviderList

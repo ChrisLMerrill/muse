@@ -148,6 +148,16 @@ public class JavascriptTests
         Assert.assertEquals(1, events.size());
         Assert.assertTrue(events.get(0).getDescription().contains("test message"));
         }
+
+    @Test
+    public void evaluateJavascriptValueSource() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forTypeWithSource(EvaluateJavascriptValueSource.TYPE_ID, "'abc' + 1;");
+        SimpleProject project = new SimpleProject();
+        MuseValueSource source = config.createSource(project);
+        Object result = source.resolveValue(new MockStepExecutionContext(project));
+        Assert.assertEquals("abc1", result);
+        }
     }
 
 
