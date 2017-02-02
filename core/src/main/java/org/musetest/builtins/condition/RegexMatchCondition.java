@@ -20,7 +20,7 @@ import java.util.regex.*;
 @MuseStringExpressionSupportImplementation(RegexMatchCondition.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Pattern", description = "The pattern to use", type = SubsourceDescriptor.Type.Named, name = RegexMatchCondition.PATTERN_PARAM)
 @MuseSubsourceDescriptor(displayName = "Target", description = "The string to check", type = SubsourceDescriptor.Type.Named, name = RegexMatchCondition.TARGET_PARAM)
-@MuseSubsourceDescriptor(displayName = "Case insensitive", description = "Should case be ignored when matchin?", type = SubsourceDescriptor.Type.Named, name = RegexMatchCondition.CASE_PARAM, optional = true)
+@MuseSubsourceDescriptor(displayName = "Case insensitive", description = "Should case be ignored when matching?", type = SubsourceDescriptor.Type.Named, name = RegexMatchCondition.CASE_PARAM, optional = true)
 public class RegexMatchCondition extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
