@@ -35,6 +35,9 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
     @Override
     public ResourceToken addResource(MuseResource resource) throws IOException
         {
+        if (getResource(resource.getId()) != null)
+            throw new IllegalArgumentException("Resource with already exists with the same ID: " + resource.getId());
+
         String error = saveResource(resource);
         if (error != null)
             throw new IOException(error);
