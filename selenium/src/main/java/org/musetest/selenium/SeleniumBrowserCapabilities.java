@@ -72,6 +72,8 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
     private void setCapability(String name, Object new_value)
         {
         Object old_value = _capabilities.get(name);
+        if (Objects.equals(old_value, new_value))
+            return;
         _capabilities.put(name, new_value);
         for (ChangeListener listener : _listeners)
             listener.capabilityChanged(name, old_value, new_value);
