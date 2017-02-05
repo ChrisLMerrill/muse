@@ -69,6 +69,12 @@ public class ListContainsSource extends BaseValueSource
             }
 
         @Override
+        protected boolean storeArgumentsNamed()
+            {
+            return true;
+            }
+
+        @Override
         protected String getTypeId()
             {
             return ListContainsSource.TYPE_ID;

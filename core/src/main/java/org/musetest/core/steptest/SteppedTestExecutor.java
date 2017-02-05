@@ -10,6 +10,7 @@ import org.slf4j.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("WeakerAccess") // public API
 public class SteppedTestExecutor
     {
     public SteppedTestExecutor(SteppedTest test, SteppedTestExecutionContext context)
@@ -41,6 +42,7 @@ public class SteppedTestExecutor
             }
         catch (MuseExecutionError e)
             {
+            LOG.error("Unable to initialize the context", e);
             _context.raiseEvent(new TestErrorEvent("Unable to initialize the context"));
             return false;
             }
@@ -65,11 +67,13 @@ public class SteppedTestExecutor
         return result;
         }
 
+    @SuppressWarnings("unused") // used in GUI
     public boolean executeNextStep()
         {
         return _step_executor.executeNextStep();
         }
 
+    @SuppressWarnings("unused") // used in GUI
     public StepConfiguration getNextStep()
         {
         return _step_executor.getNextStep();
@@ -81,11 +85,13 @@ public class SteppedTestExecutor
         _step_executor.requestTerminate();
         }
 
+    @SuppressWarnings("unused") // used in GUI
     public boolean terminateRequested()
         {
         return _step_executor.isTerminateRequested();
         }
 
+    @SuppressWarnings("unused") // used in GUI
     public EventLog getEventLog()
         {
         return _step_executor.getEventLog();

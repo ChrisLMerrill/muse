@@ -25,27 +25,8 @@ public class TestRunnerFactory
         return runner;
         }
 
-    /**
-     * Creates a TestRunner that runs asynchronously. I.e. it returns immediately and runs on another thread.
-     *
-     * @param project The project to run in
-     * @param test The test to run
-     *
-     * @return The runner
-     */
     @SuppressWarnings("WeakerAccess")  // public API
-    public static InteractiveTestRunner createInteractiveRunner(MuseProject project, MuseTest test)
-        {
-        if (!(test instanceof SteppedTest))
-            throw new IllegalArgumentException("Can only create an interactive test runner for SteppedTests.");
-
-        TestExecutionContext context = createContext(project, test);
-        InteractiveTestRunner runner = new InteractiveTestRunner(project, (SteppedTest) test, context);
-        context.addEventListener(new PauseOnFailureOrError(runner));
-        return runner;
-        }
-
-    private static TestExecutionContext createContext(MuseProject project, MuseTest test)
+    public static TestExecutionContext createContext(MuseProject project, MuseTest test)
         {
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
         if (test instanceof SteppedTest)

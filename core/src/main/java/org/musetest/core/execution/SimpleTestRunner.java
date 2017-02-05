@@ -46,14 +46,14 @@ public class SimpleTestRunner implements TestRunner
         return _result;
         }
 
-    void setTestResult(MuseTestResult result)
+    protected void setTestResult(MuseTestResult result)
         {
         _result = result;
         }
 
     protected MuseTest _test;
     protected MuseProject _project;
-    TestExecutionContext _context;
+    protected TestExecutionContext _context;
     private MuseTestResult _result;
     }
 

@@ -36,6 +36,7 @@ public class WebDriverProviderTests
         Assert.assertTrue(driver instanceof MuseMockDriver);
         }
 
+/*
     @Test
     public void closeShuttables() throws URISyntaxException, InterruptedException, ValueSourceResolutionError
         {
@@ -55,6 +56,7 @@ public class WebDriverProviderTests
         Thread.sleep(50); // allow time for the test executor thread to finish and driver to stop.
         Assert.assertTrue(driver._is_quitted);
         }
+*/
 
     /**
      * Ensure the serialization format remains compatible
