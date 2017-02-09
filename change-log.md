@@ -1,5 +1,8 @@
 # Muse Change Log
 
+## 0.9
+- update dependencies to latest versions, including Selenium 3.0.1.
+
 ## 0.8
 - add: RandomNumberValueSource and random(min,max) expression support.
 - fix: Implement createResource() for Macro

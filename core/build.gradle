@@ -1,17 +1,17 @@
 //noinspection GroovyAssignabilityCheck
 dependencies
     {
-    compile 'org.reflections:reflections:0.9.9'   // finding classes at runtime
+    compile 'org.reflections:reflections:0.9.10'   // finding classes at runtime
     compile 'org.slf4j:slf4j-api:1.7+'  // logging API used in core
     compile 'io.airlift:airline:0.7+'  // command-line parsing
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.0'  // JSON de/serialization
-    compile 'commons-io:commons-io:2.4'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.6'  // JSON de/serialization
+    compile 'commons-io:commons-io:2.5'
     compile 'net.sf.opencsv:opencsv:2.3'
 
-    compile 'ch.qos.logback:logback-classic:1.1.7'
-    compile 'ch.qos.logback:logback-core:1.1.7'
+    compile 'ch.qos.logback:logback-classic:1.1.9'
+    compile 'ch.qos.logback:logback-core:1.1.9'
 
     // Force use of these specific versions to prevent conflicts from multiple transitive dependencies on different versions.
-    compile('com.google.guava:guava:19.0') { force = true }
-    compile('com.google.code.findbugs:annotations:2.0.3') { force = true }
+    compile('com.google.guava:guava:19.0') //{ force = true }
+    compile('com.google.code.findbugs:annotations:3.0.1') //{ force = true }
     }
