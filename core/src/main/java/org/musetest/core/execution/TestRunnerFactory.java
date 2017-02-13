@@ -20,7 +20,7 @@ public class TestRunnerFactory
     public static TestRunner createSynchronousRunner(MuseProject project, MuseTest test)
         {
         TestExecutionContext context = createContext(project, test);
-        BlockingThreadedTestRunner runner = new BlockingThreadedTestRunner(project, test, context);
+        BlockingThreadedTestRunner runner = new BlockingThreadedTestRunner(context);
         context.addEventListener(new TerminateOnError(runner));
         return runner;
         }

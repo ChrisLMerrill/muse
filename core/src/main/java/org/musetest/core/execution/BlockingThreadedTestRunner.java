@@ -10,10 +10,16 @@ import org.slf4j.*;
 @SuppressWarnings("WeakerAccess") // part of public API
 public class BlockingThreadedTestRunner extends ThreadedTestRunner
     {
-    @SuppressWarnings("WeakerAccess")  // part of public API
-    public BlockingThreadedTestRunner(MuseProject project, MuseTest test, TestExecutionContext context)
+    @SuppressWarnings("unused,WeakerAccess")  // part of public API
+    public BlockingThreadedTestRunner(MuseProject project, MuseTest test)
         {
-        super(project, test, context);
+        super(project, test);
+        }
+
+    @SuppressWarnings("unused,WeakerAccess")  // part of public API
+    public BlockingThreadedTestRunner(TestExecutionContext context)
+        {
+        super(context);
         }
 
     @Override

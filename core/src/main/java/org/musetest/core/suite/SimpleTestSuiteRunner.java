@@ -17,16 +17,18 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     @Override
     public MuseTestSuiteResult execute(MuseProject project)
         {
+        _project = project;
         BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult();
         for (TestConfiguration config : _suite.generateTestList(project))
-            suite_result.addTestResult(runTest(project, config));
+            suite_result.addTestResult(runTest(config));
 
         return suite_result;
         }
 
-    private static MuseTestResult runTest(MuseProject project, TestConfiguration configuration)
+    @SuppressWarnings("WeakerAccess")  // external API
+    protected MuseTestResult runTest(TestConfiguration configuration)
         {
-        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, configuration.getTest());
+        TestRunner runner = TestRunnerFactory.createSynchronousRunner(_project, configuration.getTest());
         for (ContextInitializer initializer : configuration.getInitializers())
             runner.getExecutionContext().addInitializer(initializer);
         runner.runTest();
@@ -34,6 +36,7 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         }
 
     private MuseTestSuite _suite;
+    private MuseProject _project;
     }
 
 

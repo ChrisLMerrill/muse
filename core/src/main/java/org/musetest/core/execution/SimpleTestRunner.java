@@ -11,21 +11,21 @@ import org.musetest.core.steptest.*;
 public class SimpleTestRunner implements TestRunner
     {
     @SuppressWarnings("WeakerAccess")  // part of public API
-    public SimpleTestRunner(MuseProject project, MuseTest test, TestExecutionContext context)
+    public SimpleTestRunner(MuseProject project, MuseTest test)
         {
-        if (project == null)
-            throw new IllegalArgumentException("project is required");
         _project = project;
         _test = test;
-        if (context == null)
-            {
-            if (test instanceof SteppedTest)
-                _context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project, test));
-            else
-                _context = new DefaultTestExecutionContext(project, test);
-            }
+        if (test instanceof SteppedTest)
+            _context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project, test));
         else
-            _context = context;
+            _context = new DefaultTestExecutionContext(project, test);
+        }
+
+    public SimpleTestRunner(TestExecutionContext context)
+        {
+        _context = context;
+        _project = context.getProject();
+        _test = context.getTest();
         }
 
     @Override
