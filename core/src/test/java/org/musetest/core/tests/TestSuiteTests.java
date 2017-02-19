@@ -40,7 +40,7 @@ public class TestSuiteTests
         }
 
     @Test
-    public void testSimpleSuiteById()
+    public void executeSimpleSuiteById()
         {
         MuseProject project = ProjectFactory.create(TestUtils.getTestResource("projects/simpleSuite", getClass()), Collections.emptyMap());
         MuseTestSuite suite = project.getResourceStorage().getResource("TestSuite", MuseTestSuite.class);
@@ -52,6 +52,38 @@ public class TestSuiteTests
         Assert.assertEquals(1, result.getSuccessCount());
         Assert.assertEquals(0, result.getErrorCount());
         }
+
+    @Test
+    public void generateConfigWithSubsuites() throws IOException
+        {
+        MuseProject project = new SimpleProject();
+
+        // create 2 tests
+        MuseTest test1 = new MockTest("test1");
+        project.getResourceStorage().addResource(test1);
+        MuseTest test2 = new MockTest("test2");
+        project.getResourceStorage().addResource(test2);
+
+        // first suite contains the first test
+        IdListTestSuite suite1 = new IdListTestSuite();
+        suite1.setId("suite1");
+        suite1.addTestId("test1");
+        project.getResourceStorage().addResource(suite1);
+
+        // second suite contains the second test...and the first suite
+        IdListTestSuite suite2 = new IdListTestSuite();
+        suite2.setId("suite2");
+        suite2.addTestId("test2");
+        suite2.addTestId("suite1");
+        project.getResourceStorage().addResource(suite2);
+
+        List<TestConfiguration> test_configs = suite2.generateTestList(project);
+
+        Assert.assertEquals(2, test_configs.size());
+        Assert.assertEquals(test2, test_configs.get(0).getTest());
+        Assert.assertEquals(test1, test_configs.get(1).getTest());
+        }
+
     @Test
     public void loadTestSuiteFromJSON() throws IOException
         {

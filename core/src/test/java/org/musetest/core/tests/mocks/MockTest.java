@@ -18,6 +18,11 @@ public class MockTest extends BaseMuseTest
         {
         }
 
+    public MockTest(String id)
+        {
+        setId(id);
+        }
+
     public MockTest(MuseTestFailureDescription failure)
         {
         _failure = failure;

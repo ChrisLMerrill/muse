@@ -9,7 +9,7 @@ import org.slf4j.*;
 import java.util.*;
 
 /**
- * A MuseTestSuite that creates tests based on a list of test IDs.
+ * A MuseTestSuite that creates tests based on a list of test IDs and/or test suite ids.
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -22,14 +22,21 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
         List<TestConfiguration> tests = new ArrayList<>(_test_ids.size());
         for (String id : _test_ids)
             {
-            MuseTest test = project.getResourceStorage().getResource(id, MuseTest.class);
-            if (test == null)
+            MuseResource resource = project.getResourceStorage().getResource(id);
+            if (resource == null)
                 {
                 LOG.error("Test with id {} was not found in the project", id);
                 tests.add(new TestConfiguration(new MissingTest(id)));
                 }
+            else if (resource instanceof MuseTest)
+                tests.add(new TestConfiguration((MuseTest)resource));
+            else if (resource instanceof MuseTestSuite)
+                tests.addAll(((MuseTestSuite)resource).generateTestList(project));
             else
-                tests.add(new TestConfiguration(test));
+                {
+                LOG.error("id {} is not a test or test suite", id);
+                tests.add(new TestConfiguration(new MissingTest(id)));
+                }
             }
         return tests;
         }
