@@ -36,6 +36,12 @@ public class StepExecutor
         if (!_context.getExecutionStack().hasMoreSteps())
             return false;
 
+        if (Thread.currentThread().isInterrupted())
+            {
+            _context.raiseEvent(new MuseEvent(MuseEventType.Interrupted));
+            return false;
+            }
+
         String error_message = null;
         StepExecutionResult step_result = null;
         MuseStep step = null;

@@ -2,7 +2,6 @@ package org.musetest.core.execution;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.slf4j.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -32,11 +31,9 @@ public class BlockingThreadedTestRunner extends ThreadedTestRunner
             }
         catch (InterruptedException e)
             {
-            LOG.error("Interrupted: Unable to re-join the test execution thread.");
+            _context.raiseEvent(new MuseEvent(MuseEventType.Interrupted));
             }
         }
-
-    private final static Logger LOG = LoggerFactory.getLogger(BlockingThreadedTestRunner.class);
     }
 
 

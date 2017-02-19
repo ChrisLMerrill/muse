@@ -29,8 +29,18 @@ public class SteppedTestExecutor
         if (!startTest())
             finishTest();
 
-        _step_executor.executeAll();
-
+        try
+            {
+            _step_executor.executeAll();
+            }
+        catch (Exception e)
+            {
+            //noinspection ConstantConditions
+            if (e instanceof InterruptedException)
+                _context.raiseEvent(new MuseEvent(MuseEventType.Interrupted));
+            else
+                throw e;
+            }
         return finishTest();
         }
 

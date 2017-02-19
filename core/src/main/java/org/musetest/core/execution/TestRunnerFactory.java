@@ -17,7 +17,7 @@ public class TestRunnerFactory
      *
      * @return The runner
      */
-    public static TestRunner createSynchronousRunner(MuseProject project, MuseTest test)
+    public static ThreadedTestRunner createSynchronousRunner(MuseProject project, MuseTest test)
         {
         TestExecutionContext context = createContext(project, test);
         BlockingThreadedTestRunner runner = new BlockingThreadedTestRunner(context);
