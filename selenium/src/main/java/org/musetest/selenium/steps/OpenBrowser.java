@@ -6,10 +6,12 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.test.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.musetest.selenium.*;
 import org.openqa.selenium.*;
+import org.slf4j.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -60,7 +62,17 @@ public class OpenBrowser extends BaseStep
 
         BrowserStepExecutionContext.putDriver(driver, context);
 
-        context.registerShuttable(driver::quit);
+        context.registerShuttable(() ->
+            {
+            try
+                {
+                driver.quit();
+                }
+            catch (Exception e)
+                {
+                LOG.error("Exception encountered while cleaning up the driver", e);
+                }
+            });
 
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }
@@ -72,6 +84,8 @@ public class OpenBrowser extends BaseStep
     public final static String PROVIDER_PARAM = "provider";
 
     public final static String TYPE_ID = OpenBrowser.class.getAnnotation(MuseTypeId.class).value();
+
+    private final static Logger LOG = LoggerFactory.getLogger(OpenBrowser.class);
     }
 
 
