@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
+import org.musetest.core.variables.*;
 
 
 /**
@@ -14,7 +15,17 @@ public abstract class BaseMuseTest extends BaseMuseResource implements MuseTest
     @Override
     public MuseTestResult execute(TestExecutionContext context)
         {
-        return executeImplementation(context);
+        MuseTestResult result;
+        try
+            {
+            result = executeImplementation(context);
+            }
+        catch (Throwable e)
+            {
+            result = new BaseMuseTestResult(this, null, new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "An exception was thrown: " + e.getMessage()));
+            }
+
+        return result;
         }
 
     @Override

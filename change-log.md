@@ -3,6 +3,7 @@
 ## 0.9
 - update dependencies to latest versions, including Selenium 3.0.1.
 - fix: OpenBrowser step should not propogate an exception during test resource cleanup if WebDriver.quit() throws an exception.
+- fix: BaseMuseTest always returns a result, even when a serious exception is thrown. 
 
 ## 0.8
 - add: RandomNumberValueSource and random(min,max) expression support.
