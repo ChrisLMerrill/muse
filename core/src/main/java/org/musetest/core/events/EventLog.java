@@ -68,6 +68,11 @@ public class EventLog implements MuseEventListener
         return null;
         }
 
+    public List<MuseEvent> getEvents()
+        {
+        return Collections.unmodifiableList(_events);
+        }
+
     private List<MuseEvent> _events = new ArrayList<>();
     private long _start_time;
     }
