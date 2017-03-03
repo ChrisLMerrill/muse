@@ -18,7 +18,7 @@ public class VariableMapInitializer implements ContextInitializer
         }
 
     @Override
-    public void initialize(MuseProject project, MuseExecutionContext context) throws MuseExecutionError
+    public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
         for (String name : _variables.keySet())
             context.setVariable(name, _variables.get(name));

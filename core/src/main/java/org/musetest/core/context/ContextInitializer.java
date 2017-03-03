@@ -7,7 +7,7 @@ import org.musetest.core.*;
  */
 public interface ContextInitializer
     {
-    void initialize(MuseProject project, MuseExecutionContext context) throws MuseExecutionError;
+    void initialize(MuseExecutionContext context) throws MuseExecutionError;
     }
 
 

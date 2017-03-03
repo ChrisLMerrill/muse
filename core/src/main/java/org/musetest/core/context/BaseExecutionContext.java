@@ -119,7 +119,7 @@ public class BaseExecutionContext implements MuseExecutionContext
             throw new MuseExecutionError("Context has been initialized...can't run it again.");
 
         for (ContextInitializer initializer : _initializers)
-            initializer.initialize(getProject(), this);
+            initializer.initialize(this);
         }
 
     private final MuseProject _project;

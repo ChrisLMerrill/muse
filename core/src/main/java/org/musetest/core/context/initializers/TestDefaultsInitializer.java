@@ -19,14 +19,14 @@ public class TestDefaultsInitializer implements ContextInitializer
         }
 
     @Override
-    public void initialize(MuseProject project, MuseExecutionContext context) throws MuseExecutionError
+    public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
         Map<String, ValueSourceConfiguration> defaults = _test_context.getTest().getDefaultVariables();
         if (defaults != null)
             for (String name : defaults.keySet())
                 if (context.getVariable(name, VariableScope.Execution) == null)
                     {
-                    MuseValueSource source = ValueSourceFactory.getDefault(project).createSource(defaults.get(name), project);
+                    MuseValueSource source = ValueSourceFactory.getDefault(_test_context.getProject()).createSource(defaults.get(name), _test_context.getProject());
                     Object value = source.resolveValue(context);
                     context.setVariable(name, value, VariableScope.Execution);
                     }

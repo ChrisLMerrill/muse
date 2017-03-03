@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  * Looks for all the VariableList resources in the project and (selectively) injects those
- * variables into the context.  Selection is achieved by evaluating the VariableListCOntextInitializerConfigurations
+ * variables into the context.  Selection is achieved by evaluating the VariableListContextInitializerConfigurations
  * found in the ContextInitializerConfigurations in the project. If ContextInitializerConfigurations are found, all
  * VariableLists are injected.
  *
@@ -19,8 +19,9 @@ import java.util.*;
 public class VariableListsInitializer implements ContextInitializer
     {
     @Override
-    public void initialize(MuseProject project, MuseExecutionContext context) throws MuseExecutionError
+    public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
+        MuseProject project = context.getProject();
         List<ResourceToken> tokens = project.getResourceStorage().findResources(new ResourceAttributes(new VariableList.VariableListResourceType()));
         List<VariableList> lists = project.getResourceStorage().getResources(tokens, VariableList.class);
         lists = filterLists(lists, project, context);
@@ -42,7 +43,7 @@ public class VariableListsInitializer implements ContextInitializer
         if (list_of_configs.size() == 0)
             return lists; // if there are no configurations, then apply all lists.
 
-        Set<String> ids_of_lists_to_keep = new HashSet<>();
+        List<String> ids_of_lists_to_keep = new ArrayList<>();
         for (ContextInitializerConfigurations configs : list_of_configs)
             {
             for (VariableListContextInitializerConfiguration config : configs.getVariableListInitializers())
@@ -62,10 +63,15 @@ public class VariableListsInitializer implements ContextInitializer
                 }
             }
 
-        List<VariableList> filtered_list = new ArrayList<>();
+        // map them by id
+        Map<String, VariableList> map_of_lists = new HashMap<>();
         for (VariableList list : lists)
-            if (ids_of_lists_to_keep.contains(list.getId()))
-                filtered_list.add(list);
+            map_of_lists.put(list.getId(), list);
+
+        // create a new list, ordered as they appear in the initializer list
+        List<VariableList> filtered_list = new ArrayList<>();
+        for (String id_of_list : ids_of_lists_to_keep)
+            filtered_list.add(map_of_lists.get(id_of_list));
 
         return filtered_list;
         }

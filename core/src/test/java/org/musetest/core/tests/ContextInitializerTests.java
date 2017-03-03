@@ -27,7 +27,7 @@ public class ContextInitializerTests
         SimpleProject project = new SimpleProject();
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
         TestDefaultsInitializer initializer = new TestDefaultsInitializer(context);
-        initializer.initialize(project, context);
+        initializer.initialize(context);
 
         Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
         }
@@ -48,7 +48,7 @@ public class ContextInitializerTests
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
         VariableListsInitializer initializer = new VariableListsInitializer();
-        initializer.initialize(project, context);
+        initializer.initialize(context);
 
         Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
         Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
@@ -79,7 +79,7 @@ public class ContextInitializerTests
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
         VariableListsInitializer initializer = new VariableListsInitializer();
-        initializer.initialize(project, context);
+        initializer.initialize(context);
 
         Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
         Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
@@ -113,7 +113,7 @@ public class ContextInitializerTests
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
         VariableListsInitializer initializer = new VariableListsInitializer();
-        initializer.initialize(project, context);
+        initializer.initialize(context);
 
         Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
         Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
@@ -128,7 +128,7 @@ public class ContextInitializerTests
         Map<String, Object> vars = new HashMap<>();
         vars.put("var1", "value1");
         VariableMapInitializer initializer = new VariableMapInitializer(vars);
-        initializer.initialize(project, context);
+        initializer.initialize(context);
 
         Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
         }
@@ -157,6 +157,49 @@ public class ContextInitializerTests
         listener._removed = null;
         main_config.addVariableListInitializer(config);
         Assert.assertNull(listener._added);
+        }
+
+    @Test
+    public void maintainInitializerOrder() throws IOException, MuseExecutionError
+        {
+        // add a bunch of references to lists that all init the same variable. Make sure that the LAST one sticks.
+        MuseProject project = new SimpleProject();
+        String last_value = null;
+        final String var_name = "var1";
+
+        ContextInitializerConfigurations initializers = new ContextInitializerConfigurations();
+        project.getResourceStorage().addResource(initializers);
+
+        List<VariableList> list_of_lists = new ArrayList<>();
+        for (int i = 0; i < 10; i++)
+            {
+            // create a list
+            VariableList list = new VariableList();
+            last_value = "value" + i;
+            list.addVariable(var_name, ValueSourceConfiguration.forValue(last_value));
+            String list_id = UUID.randomUUID().toString();
+            list.setId(list_id);
+
+            // add an initializer condition for this list
+            VariableListContextInitializerConfiguration initializer = new VariableListContextInitializerConfiguration();
+            initializer.setVariableListId(list_id);
+            initializer.setIncludeCondition(ValueSourceConfiguration.forValue(true));
+            initializers.addVariableListInitializer(initializer);
+
+            // add to project
+            list_of_lists.add(list);
+            }
+
+        // Add them in reverse order. We want to ensure they are initialized in the order that they appear
+        // in the initializer list...regardless of the order they appear in the project.
+        Collections.reverse(list_of_lists);
+        for (VariableList list : list_of_lists)
+            project.getResourceStorage().addResource(list);
+
+        MuseExecutionContext context = new BaseExecutionContext(project);
+        new VariableListsInitializer().initialize(context);
+
+        Assert.assertEquals(last_value, context.getVariable(var_name));
         }
 
     private class TestListener extends ContextInitializerChangeListener

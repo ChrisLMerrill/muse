@@ -9,6 +9,7 @@
 - fix: BaseMuseTest always returns a result, even when a serious exception is thrown.
 - fix: encode jUnit report XML in UTF-8
 - fix: HTML-escape the test failure message in jUnit report
+- fix: run VariableListContextInitializers in the order they appear in the config
 
 ## 0.8
 - add: RandomNumberValueSource and random(min,max) expression support.
