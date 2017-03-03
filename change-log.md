@@ -6,7 +6,9 @@
 - add: support for PhantomJS driver
 - add: step SetBrowserSize
 - fix: OpenBrowser step should not propogate an exception during test resource cleanup if WebDriver.quit() throws an exception.
-- fix: BaseMuseTest always returns a result, even when a serious exception is thrown. 
+- fix: BaseMuseTest always returns a result, even when a serious exception is thrown.
+- fix: encode jUnit report XML in UTF-8
+- fix: HTML-escape the test failure message in jUnit report
 
 ## 0.8
 - add: RandomNumberValueSource and random(min,max) expression support.

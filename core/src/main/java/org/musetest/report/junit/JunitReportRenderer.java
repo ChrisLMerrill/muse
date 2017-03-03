@@ -5,6 +5,7 @@ import org.musetest.core.*;
 import org.musetest.core.variables.*;
 
 import java.io.*;
+import java.nio.charset.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -18,7 +19,7 @@ public class JunitReportRenderer
 
     public void render(OutputStream outstream)
         {
-        PrintWriter writer = new PrintWriter(outstream);
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(outstream, StandardCharsets.UTF_8));   // use the UTF-8 so that chars are encoded correctly for JUnit XML parser
 
         writer.println("<testsuite>");
 
@@ -29,7 +30,9 @@ public class JunitReportRenderer
             else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
                 {
                 writer.println(String.format("    <testcase classname=\"tests\" name=\"%s\">", result.getTest().getDescription()));
-                writer.println(String.format("        <error message=\"%s\"/>", "Unable to complete test due to: " + result.getFailureDescription().getReason()));
+                String message = "Unable to complete test due to: " + result.getFailureDescription().getReason();
+                message = HtmlEscapers.htmlEscaper().escape(message);
+                writer.println(String.format("        <error message=\"%s\"/>", message));
                 writer.println("        <system-out>");
                 writer.println(HtmlEscapers.htmlEscaper().escape(result.getLog().toString()));
                 writer.println("        </system-out>");
@@ -37,7 +40,9 @@ public class JunitReportRenderer
             else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Failure))
                 {
                 writer.println(String.format("    <testcase classname=\"tests\" name=\"%s\">", result.getTest().getDescription()));
-                writer.println(String.format("        <failure message=\"%s\"/>", "test failed due to: " + result.getFailureDescription().getReason()));
+                String message = "test failed due to: " + result.getFailureDescription().getReason();
+                message = HtmlEscapers.htmlEscaper().escape(message);
+                writer.println(String.format("        <failure message=\"%s\"/>", message));
                 writer.println("        <system-out>");
                 writer.println(HtmlEscapers.htmlEscaper().escape(result.getLog().toString()));
                 writer.println("        </system-out>");
