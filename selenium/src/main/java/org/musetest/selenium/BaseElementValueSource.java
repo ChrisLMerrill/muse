@@ -14,7 +14,12 @@ public abstract class BaseElementValueSource extends BaseSeleniumValueSource
     public BaseElementValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
-        _element_source = getValueSource(config, true, project);
+        _element_source = findElementSource(config, project);
+        }
+
+    protected MuseValueSource findElementSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+        {
+        return getValueSource(config, true, project);
         }
 
     public MuseValueSource getElementSource()

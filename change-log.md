@@ -5,6 +5,7 @@
 - add: IdListTestSuite supports ids of test suites
 - add: support for PhantomJS driver
 - add: step SetBrowserSize
+- add: ElementHasClassCondition and expression support for elementHasClass(<element>, "class")
 - fix: OpenBrowser step should not propogate an exception during test resource cleanup if WebDriver.quit() throws an exception.
 - fix: BaseMuseTest always returns a result, even when a serious exception is thrown.
 - fix: encode jUnit report XML in UTF-8
