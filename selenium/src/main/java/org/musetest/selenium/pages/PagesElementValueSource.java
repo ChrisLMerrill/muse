@@ -87,31 +87,14 @@ public class PagesElementValueSource extends BaseSeleniumValueSource
     public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
         {
         @Override
-        public ValueSourceConfiguration fromElementExpression(String type, List<ValueSourceConfiguration> arguments, MuseProject project)
+        public ValueSourceConfiguration fromElementLookupExpression(List<ValueSourceConfiguration> arguments, MuseProject project)
             {
-            if (type.equals(STRING_TYPE_ID) && (arguments.size() == 1 || arguments.size() == 2))
-                {
-                ValueSourceConfiguration page_source;
-                ValueSourceConfiguration element_source;
-                if (arguments.size() == 1 && arguments.get(0).getType().equals(StringValueSource.TYPE_ID))  // for backwards compatibility
-                    {
-                    StringTokenizer tokenizer = new StringTokenizer((String) (arguments.get(0).getValue()), ".");
-                    page_source = ValueSourceConfiguration.forValue(tokenizer.nextToken());
-                    element_source = ValueSourceConfiguration.forValue(tokenizer.nextToken());
-                    }
-                else if (arguments.size() == 2)  // the preferred method
-                    {
-                    page_source = arguments.get(0);
-                    element_source = arguments.get(1);
-                    }
-                else
-                    return null;
-                ValueSourceConfiguration source = ValueSourceConfiguration.forType(PagesElementValueSource.TYPE_ID);
-                source.addSource(PagesElementValueSource.PAGE_PARAM_ID, page_source);
-                source.addSource(PagesElementValueSource.ELEMENT_PARAM_ID, element_source);
-                return source;
-                }
-            return null;
+            ValueSourceConfiguration page_source = arguments.get(0);
+            ValueSourceConfiguration element_source = arguments.get(1);
+            ValueSourceConfiguration source = ValueSourceConfiguration.forType(PagesElementValueSource.TYPE_ID);
+            source.addSource(PagesElementValueSource.PAGE_PARAM_ID, page_source);
+            source.addSource(PagesElementValueSource.ELEMENT_PARAM_ID, element_source);
+            return source;
             }
 
         @Override
@@ -123,21 +106,28 @@ public class PagesElementValueSource extends BaseSeleniumValueSource
                 StringBuilder builder = new StringBuilder();
                 if (depth > 0)
                     builder.append("(");
-                if (config.getSource(PagesElementValueSource.PAGE_PARAM_ID) != null
-                    && config.getSource(PagesElementValueSource.PAGE_PARAM_ID).getType().equals(StringValueSource.TYPE_ID)
-                    && config.getSource(PagesElementValueSource.PAGE_PARAM_ID) != null
-                    && config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID).getType().equals(StringValueSource.TYPE_ID))
-                    builder.append(String.format("<%s:\"%s.%s\">", STRING_TYPE_ID, config.getSource(PagesElementValueSource.PAGE_PARAM_ID).getValue(), config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID).getValue()));
+
+                String page;
+                ValueSourceConfiguration page_source = config.getSource(PagesElementValueSource.PAGE_PARAM_ID);
+                if (page_source.getType().equals(StringValueSource.TYPE_ID))
+                    page = page_source.getValue().toString();
                 else
-                    builder.append(String.format("<%s:%s:%s>", STRING_TYPE_ID, project.getValueSourceStringExpressionSupporters().toString(config.getSource(PagesElementValueSource.PAGE_PARAM_ID), depth + 1), project.getValueSourceStringExpressionSupporters().toString(config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID), depth + 1)));
+                    page = project.getValueSourceStringExpressionSupporters().toString(page_source, depth + 1);
+
+                String element;
+                ValueSourceConfiguration element_source = config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID);
+                if (element_source.getType().equals(StringValueSource.TYPE_ID))
+                    element = element_source.getValue().toString();
+                else
+                    element = project.getValueSourceStringExpressionSupporters().toString(element_source, depth + 1);
+
+                builder.append(String.format("<%s.%s>", page, element));
                 if (depth > 0)
                     builder.append(")");
                 return builder.toString();
                 }
             return null;
             }
-
-        public final static String STRING_TYPE_ID = "page";
         }
     }
 

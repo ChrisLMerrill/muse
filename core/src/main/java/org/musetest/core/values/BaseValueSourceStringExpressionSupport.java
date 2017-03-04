@@ -28,6 +28,12 @@ public abstract class BaseValueSourceStringExpressionSupport implements ValueSou
         }
 
     @Override
+    public ValueSourceConfiguration fromElementLookupExpression(List<ValueSourceConfiguration> arguments, MuseProject project)
+        {
+        return null;
+        }
+
+    @Override
     public ValueSourceConfiguration fromArgumentedExpression(String name, List<ValueSourceConfiguration> arguments, MuseProject project)
         {
         return null;

@@ -104,31 +104,17 @@ public class SeleniumValueSourceStringExpressionSupportTests
         }
 
     @Test
-    public void pageElementExpressionSupportWithOneArgument() throws IOException
-        {
-        PagesElementValueSource.StringExpressionSupport supporter = new PagesElementValueSource.StringExpressionSupport();
-        List<ValueSourceConfiguration> configs = new ArrayList<>();
-        String user_string = "page.element";
-        configs.add(ValueSourceConfiguration.forValue(user_string));
-        ValueSourceConfiguration config = supporter.fromElementExpression(PagesElementValueSource.StringExpressionSupport.STRING_TYPE_ID, configs, PROJECT);
-        Assert.assertEquals("the page param was not set", "page", config.getSource(PagesElementValueSource.PAGE_PARAM_ID).getValue());
-        Assert.assertEquals("the element param was not set", "element", config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID).getValue());
-
-        Assert.assertEquals("not stringified correctly", String.format("<%s:\"%s\">", PagesElementValueSource.StringExpressionSupport.STRING_TYPE_ID, user_string), supporter.toString(config, PROJECT));
-        }
-
-    @Test
     public void pageElementExpressionSupportWithTwoArguments() throws IOException
         {
         PagesElementValueSource.StringExpressionSupport supporter = new PagesElementValueSource.StringExpressionSupport();
         List<ValueSourceConfiguration> configs = new ArrayList<>();
         configs.add(ValueSourceConfiguration.forValue("page"));
         configs.add(ValueSourceConfiguration.forValue("element"));
-        ValueSourceConfiguration config = supporter.fromElementExpression(PagesElementValueSource.StringExpressionSupport.STRING_TYPE_ID, configs, PROJECT);
+        ValueSourceConfiguration config = supporter.fromElementLookupExpression(configs, PROJECT);
         Assert.assertEquals("the page param was not set", "page", config.getSource(PagesElementValueSource.PAGE_PARAM_ID).getValue());
         Assert.assertEquals("the element param was not set", "element", config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID).getValue());
 
-        Assert.assertEquals("not stringified correctly", String.format("<%s:\"%s\">", PagesElementValueSource.StringExpressionSupport.STRING_TYPE_ID, "page.element"), supporter.toString(config, PROJECT));
+        Assert.assertEquals("not stringified correctly", String.format("<%s.%s>", "page", "element"), supporter.toString(config, PROJECT));
         }
 
     @Test
@@ -140,11 +126,11 @@ public class SeleniumValueSourceStringExpressionSupportTests
         configs.add(ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, page_source));
         ValueSourceConfiguration element_source = ValueSourceConfiguration.forValue("element_var");
         configs.add(ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, element_source));
-        ValueSourceConfiguration config = supporter.fromElementExpression(PagesElementValueSource.StringExpressionSupport.STRING_TYPE_ID, configs, PROJECT);
+        ValueSourceConfiguration config = supporter.fromElementLookupExpression(configs, PROJECT);
         Assert.assertEquals("the page param was not set", page_source, config.getSource(PagesElementValueSource.PAGE_PARAM_ID).getSource());
         Assert.assertEquals("the element param was not set", element_source, config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID).getSource());
 
-        Assert.assertEquals("not stringified correctly", String.format("<%s:%s:%s>", PagesElementValueSource.StringExpressionSupport.STRING_TYPE_ID, "$\"page_var\"", "$\"element_var\""), supporter.toString(config, PROJECT));
+        Assert.assertEquals("not stringified correctly", String.format("<$\"%s\".$\"%s\">", "page_var", "element_var"), supporter.toString(config, PROJECT));
         }
 
     private void checkCreationFromStringExpression(ValueSourceStringExpressionSupport parser, String expression_id, String muse_type_id)
