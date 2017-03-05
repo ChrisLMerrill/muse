@@ -64,7 +64,7 @@ public class ElementHasClassCondition extends BaseElementValueSource
     @Override
     public String getDescription()
         {
-        return METHOD_HANE + "(" + getElementSource().getDescription() + ")";
+        return METHOD_HANE + "(" + getElementSource().getDescription() + "," + _class_source.getDescription() + ")";
         }
 
     private MuseValueSource _class_source;
