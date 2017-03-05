@@ -64,7 +64,7 @@ public class ElementHasClassCondition extends BaseElementValueSource
     @Override
     public String getDescription()
         {
-        return "visible(" + getElementSource().getDescription() + ")";
+        return METHOD_HANE + "(" + getElementSource().getDescription() + ")";
         }
 
     private MuseValueSource _class_source;
@@ -72,6 +72,7 @@ public class ElementHasClassCondition extends BaseElementValueSource
     public final static String ELEMENT_PARAM = "element";
     public final static String CLASS_PARAM = "class";
     public final static String TYPE_ID = ElementHasClassCondition.class.getAnnotation(MuseTypeId.class).value();
+    private final static String METHOD_HANE = "elementHasClass";
 
     @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
     public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
@@ -79,7 +80,7 @@ public class ElementHasClassCondition extends BaseElementValueSource
         @Override
         public String getName()
             {
-            return "elementHasClass";
+            return METHOD_HANE;
             }
 
         @Override
@@ -105,5 +106,6 @@ public class ElementHasClassCondition extends BaseElementValueSource
             {
             return ElementHasClassCondition.TYPE_ID;
             }
+
         }
     }
