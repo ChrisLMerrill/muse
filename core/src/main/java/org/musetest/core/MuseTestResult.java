@@ -1,6 +1,7 @@
 package org.musetest.core;
 
 import org.musetest.core.events.*;
+import org.musetest.core.suite.*;
 import org.musetest.core.variables.*;
 
 /**
@@ -18,7 +19,12 @@ public interface MuseTestResult
 
     EventLog getLog();
 
+    String getName();
+
     String getOneLineDescription();
+
+    TestConfiguration getConfiguration();
+    void setConfiguration(TestConfiguration config);
     }
 
 

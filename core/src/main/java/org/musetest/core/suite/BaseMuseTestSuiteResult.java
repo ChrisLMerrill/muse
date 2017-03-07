@@ -10,6 +10,11 @@ import java.util.*;
  */
 public class BaseMuseTestSuiteResult implements MuseTestSuiteResult
     {
+    public BaseMuseTestSuiteResult(MuseTestSuite suite)
+        {
+        _suite = suite;
+        }
+
     @Override
     public int getSuccessCount()
         {
@@ -45,6 +50,12 @@ public class BaseMuseTestSuiteResult implements MuseTestSuiteResult
         }
 
     @Override
+    public MuseTestSuite getSuite()
+        {
+        return _suite;
+        }
+
+    @Override
     public List<MuseTestResult> getTestResults()
         {
         return _test_results;
@@ -55,6 +66,7 @@ public class BaseMuseTestSuiteResult implements MuseTestSuiteResult
     private int _error;
 
     private ArrayList<MuseTestResult> _test_results = new ArrayList<>();
+    private MuseTestSuite _suite;
     }
 
 

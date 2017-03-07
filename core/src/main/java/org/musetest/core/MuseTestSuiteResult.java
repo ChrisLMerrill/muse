@@ -12,5 +12,6 @@ public interface MuseTestSuiteResult
     int getErrorCount();
 
     List<MuseTestResult> getTestResults();
+    MuseTestSuite getSuite();
     }
 

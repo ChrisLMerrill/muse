@@ -20,7 +20,7 @@ public class JunitReportTests
     @Test
     public void generateJunitXmlReport() throws IOException
         {
-        BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult();
+        BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult(new IdListTestSuite());
         suite_result.addTestResult(new BaseMuseTestResult(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "error"), "test 1"), new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "error")));
         suite_result.addTestResult(new BaseMuseTestResult(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed"), "test 2"), new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed")));
         suite_result.addTestResult(new BaseMuseTestResult(new MockTest(null, "test 3"), new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed")));

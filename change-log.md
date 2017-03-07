@@ -6,6 +6,12 @@
 - add: support for PhantomJS driver
 - add: step SetBrowserSize
 - add: ElementHasClassCondition and expression support for elementHasClass(<element>, "class")
+- add: TestConfiguration gets a name() property.
+- add: TestResult gets name and configuration properties
+- add: ParameterListTestSuite adds parameters to name of test configuration when it generates them
+- add: TestSuiteRunners add the TestConfiguration to the TestResult.
+- add: JUnitReportRenderer uses the TestConfiguration name as the test name
+- add: JUnitReportRenderer uses the TestSuite id as the class name
 - fix: OpenBrowser step should not propogate an exception during test resource cleanup if WebDriver.quit() throws an exception.
 - fix: BaseMuseTest always returns a result, even when a serious exception is thrown.
 - fix: encode jUnit report XML in UTF-8

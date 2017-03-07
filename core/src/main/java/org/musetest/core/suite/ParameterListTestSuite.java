@@ -5,6 +5,7 @@ import org.musetest.core.context.initializers.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.test.*;
+import org.musetest.core.util.*;
 
 import java.util.*;
 
@@ -32,7 +33,11 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
         else
             throw new IllegalStateException("ParameterListTestSuite requires either the DataTableId or Parameters properties.");
         for (Map<String, Object> param_set : parameters)
-            tests.add(new TestConfiguration(test, new VariableMapInitializer(param_set)));
+            {
+            TestConfiguration config = new TestConfiguration(test, new VariableMapInitializer(param_set));
+            config.setName(String.format("%s (%s)", test.getDescription(), Stringifiers.find(param_set).toString()));
+            tests.add(config);
+            }
         return tests;
         }
 

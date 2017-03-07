@@ -2,6 +2,7 @@ package org.musetest.core.test;
 
 import org.musetest.core.*;
 import org.musetest.core.events.*;
+import org.musetest.core.suite.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
@@ -62,9 +63,29 @@ public class BaseMuseTestResult implements MuseTestResult
             }
         }
 
+    @Override
+    public String getName()
+        {
+        if (_config == null)
+            return _test.getDescription();
+        return _config.getName();
+        }
+
+    @Override
+    public TestConfiguration getConfiguration()
+        {
+        return _config;
+        }
+
+    public void setConfiguration(TestConfiguration config)
+        {
+        _config = config;
+        }
+
     private MuseTest _test;
     private EventLog _log;
     private MuseTestFailureDescription _failure;
+    private TestConfiguration _config;
 
     private static Map<MuseTestFailureDescription.FailureType, String> FAILURE_STRINGS = new HashMap<>();
     static

@@ -34,6 +34,16 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
         return executor.executeAll();
         }
 
+    @Override
+    public String getDescription()
+        {
+        Object description = _step.getMetadataField(StepConfiguration.META_DESCRIPTION);
+        if (description != null)
+            return description.toString();
+        else
+            return super.getDescription();
+        }
+
     public StepConfiguration getStep()
         {
         return _step;

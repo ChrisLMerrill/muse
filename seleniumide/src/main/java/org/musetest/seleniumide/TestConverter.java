@@ -47,9 +47,6 @@ public class TestConverter
         step.addSource(OpenBrowser.PROVIDER_PARAM, ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, DEFAULT_PROVIDER_NAME));
         step.addSource(OpenBrowser.BROWSER_PARAM, ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, DEFAULT_BROWSER_NAME));
         _test.getStep().addChild(step);
-
-        _test.setDefaultVariable(DEFAULT_PROVIDER_NAME, ValueSourceConfiguration.forTypeWithSource(ProjectResourceValueSource.TYPE_ID, DEFAULT_PROVIDER_VALUE));
-        _test.setDefaultVariable(DEFAULT_BROWSER_NAME, ValueSourceConfiguration.forTypeWithSource(ProjectResourceValueSource.TYPE_ID, DEFAULT_BROWSER_VALUE));
         }
 
     private void generateSteps(Document doc) throws UnsupportedError
@@ -114,9 +111,7 @@ public class TestConverter
     private ConversionResult _result = new ConversionResult();
 
     private final static String DEFAULT_PROVIDER_NAME = "provider";
-    private final static String DEFAULT_PROVIDER_VALUE = "local-provider";
     private final static String DEFAULT_BROWSER_NAME = "browser";
-    private final static String DEFAULT_BROWSER_VALUE = "firefox";
     }
 
 

@@ -18,7 +18,7 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     public MuseTestSuiteResult execute(MuseProject project)
         {
         _project = project;
-        BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult();
+        BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult(_suite);
         for (TestConfiguration config : _suite.generateTestList(project))
             suite_result.addTestResult(runTest(config));
 
@@ -32,7 +32,9 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         for (ContextInitializer initializer : configuration.getInitializers())
             runner.getExecutionContext().addInitializer(initializer);
         runner.runTest();
-        return runner.getResult();
+        MuseTestResult result = runner.getResult();
+        result.setConfiguration(configuration);
+        return result;
         }
 
     private MuseTestSuite _suite;

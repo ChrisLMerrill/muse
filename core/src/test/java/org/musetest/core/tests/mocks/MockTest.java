@@ -3,6 +3,7 @@ package org.musetest.core.tests.mocks;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
+import org.musetest.core.suite.*;
 import org.musetest.core.test.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
@@ -67,6 +68,24 @@ public class MockTest extends BaseMuseTest
             public EventLog getLog()
                 {
                 return new EventLog();
+                }
+
+            @Override
+            public String getName()
+                {
+                return "MockTest";
+                }
+
+            @Override
+            public TestConfiguration getConfiguration()
+                {
+                return null;
+                }
+
+            @Override
+            public void setConfiguration(TestConfiguration config)
+                {
+
                 }
             };
         }

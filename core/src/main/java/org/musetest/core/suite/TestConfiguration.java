@@ -28,6 +28,18 @@ public class TestConfiguration
         return _test;
         }
 
+    public String getName()
+        {
+        if (_name != null)
+            return _name;
+        return _test.getDescription();
+        }
+
+    public void setName(String name)
+        {
+        _name = name;
+        }
+
     public List<ContextInitializer> getInitializers()
         {
         return Collections.unmodifiableList(_initializers);
@@ -35,6 +47,7 @@ public class TestConfiguration
 
     private final MuseTest _test;
     private final List<ContextInitializer> _initializers = new ArrayList<>();
+    private String _name;
     }
 
 

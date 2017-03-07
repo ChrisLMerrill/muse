@@ -25,28 +25,34 @@ public class JunitReportRenderer
 
         for (MuseTestResult result : _result.getTestResults())
             {
-            if (result.isPass())
-                writer.println(String.format("    <testcase classname=\"tests\" name=\"%s\">", result.getTest().getDescription()));
-            else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
+            String suite_name = _result.getSuite().getId();
+            String test_name = result.getName();
+            String failure_type = null;
+            String failure_message = null;
+
+            // create error info
+            if (!result.isPass())
                 {
-                writer.println(String.format("    <testcase classname=\"tests\" name=\"%s\">", result.getTest().getDescription()));
-                String message = "Unable to complete test due to: " + result.getFailureDescription().getReason();
-                message = HtmlEscapers.htmlEscaper().escape(message);
-                writer.println(String.format("        <error message=\"%s\"/>", message));
-                writer.println("        <system-out>");
-                writer.println(HtmlEscapers.htmlEscaper().escape(result.getLog().toString()));
-                writer.println("        </system-out>");
+                if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
+                    {
+                    failure_type = "error";
+                    failure_message = HtmlEscapers.htmlEscaper().escape("Unable to complete test due to: " + result.getFailureDescription().getReason());
+                    }
+                else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Failure))
+                    {
+                    failure_type = "failure";
+                    failure_message = HtmlEscapers.htmlEscaper().escape("test failed due to: " + result.getFailureDescription().getReason());
+                    }
                 }
-            else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Failure))
-                {
-                writer.println(String.format("    <testcase classname=\"tests\" name=\"%s\">", result.getTest().getDescription()));
-                String message = "test failed due to: " + result.getFailureDescription().getReason();
-                message = HtmlEscapers.htmlEscaper().escape(message);
-                writer.println(String.format("        <failure message=\"%s\"/>", message));
-                writer.println("        <system-out>");
-                writer.println(HtmlEscapers.htmlEscaper().escape(result.getLog().toString()));
-                writer.println("        </system-out>");
-                }
+
+            // write the output
+            writer.println(String.format("    <testcase classname=\"%s\" name=\"%s\">", suite_name, test_name));
+            if (failure_type != null)
+                writer.println(String.format("        <%s message=\"%s\"/>", failure_type, failure_message));
+            writer.println("        <system-out>");
+            writer.println(HtmlEscapers.htmlEscaper().escape(result.getLog().toString()));
+            writer.println("        </system-out>");
+
             writer.println("    </testcase>");
             }
 
