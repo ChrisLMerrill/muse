@@ -3,7 +3,6 @@
   "providers" :
           [
             { "type" : "muse-mock-provider" },
-            { "type" : "firefoxdriver-provider"},
             { "type" : "firefox-marionette-provider", "relativePath" : "path-to\\geckodriver.exe"},
             { "type" : "safaridriver-provider"},
             { "type" : "chromedriver-provider", "relativePath" : "path-to\\chromedriver.exe"},

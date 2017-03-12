@@ -1,7 +1,7 @@
 # Muse Change Log
 
 ## 0.9
-- update dependencies to latest versions, including Selenium 3.0.1.
+- update dependencies to latest versions, including Selenium 3.3.1. Switch to starting Firefox driver to use Marionette 
 - add: IdListTestSuite supports ids of test suites
 - add: support for PhantomJS driver
 - add: step SetBrowserSize

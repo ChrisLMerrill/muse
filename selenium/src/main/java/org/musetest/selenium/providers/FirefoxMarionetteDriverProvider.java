@@ -43,7 +43,7 @@ public class FirefoxMarionetteDriverProvider extends BaseLocalDriverProvider
             System.setProperty("webdriver.gecko.driver", path.getAbsolutePath());
             DesiredCapabilities selenium_capabilities = capabilities.toDesiredCapabilities();
             selenium_capabilities.setCapability("marionette", true);
-            return new MarionetteDriver(selenium_capabilities);
+            return new FirefoxDriver(selenium_capabilities);
             }
         }
 

@@ -133,7 +133,7 @@ public class WebDriverProviderTests
         Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
         for (WebDriverProvider provider : provider_list.getProviders())
-            if (provider instanceof FirefoxDriverProvider || provider instanceof FirefoxMarionetteDriverProvider)
+            if (provider instanceof FirefoxMarionetteDriverProvider)
                 return;
 
         Assert.assertTrue("no provider found for Firefox", false);
