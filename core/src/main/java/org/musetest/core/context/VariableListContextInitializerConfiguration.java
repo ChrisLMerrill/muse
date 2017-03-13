@@ -7,14 +7,14 @@ import org.musetest.core.values.*;
  */
 public class VariableListContextInitializerConfiguration
     {
-    public String getVariableListId()
+    public ValueSourceConfiguration getListId()
         {
-        return _varlist_id;
+        return _list_id;
         }
 
-    public void setVariableListId(String varlist_id)
+    public void setListId(ValueSourceConfiguration list_id)
         {
-        _varlist_id = varlist_id;
+        _list_id = list_id;
         }
 
     public ValueSourceConfiguration getIncludeCondition()
@@ -27,7 +27,7 @@ public class VariableListContextInitializerConfiguration
         _include_condition = include_condition;
         }
 
-    private String _varlist_id;
+    private ValueSourceConfiguration _list_id;
     private ValueSourceConfiguration _include_condition;
     }
 

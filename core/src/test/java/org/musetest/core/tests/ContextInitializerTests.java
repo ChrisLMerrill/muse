@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
-import org.musetest.builtins.condition.*;
-import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.context.initializers.*;
@@ -72,7 +70,7 @@ public class ContextInitializerTests
 
         ContextInitializerConfigurations configurations = new ContextInitializerConfigurations();
         VariableListContextInitializerConfiguration config = new VariableListContextInitializerConfiguration();
-        config.setVariableListId("list2");
+        config.setListId(ValueSourceConfiguration.forValue("list2"));
         config.setIncludeCondition(ValueSourceConfiguration.forValue(Boolean.TRUE));
         configurations.addVariableListInitializer(config);
         project.getResourceStorage().addResource(configurations);
@@ -102,13 +100,17 @@ public class ContextInitializerTests
         project.getResourceStorage().addResource(list2);
 
         ContextInitializerConfigurations configurations = new ContextInitializerConfigurations();
-        VariableListContextInitializerConfiguration config = new VariableListContextInitializerConfiguration();
-        config.setVariableListId("list2");
-        ValueSourceConfiguration condition = ValueSourceConfiguration.forType(EqualityCondition.TYPE_ID);
-        condition.addSource(EqualityCondition.LEFT_PARAM, ValueSourceConfiguration.forValue("list2"));
-        condition.addSource(EqualityCondition.RIGHT_PARAM, ValueSourceConfiguration.forTypeWithSource(SystemVariableSource.TYPE_ID, ValueSourceConfiguration.forValue(ProjectVarsInitializerSysvarProvider.SYSVAR_NAME)));
-        config.setIncludeCondition(condition);
-        configurations.addVariableListInitializer(config);
+
+        VariableListContextInitializerConfiguration include1 = new VariableListContextInitializerConfiguration();
+        include1.setListId(ValueSourceConfiguration.forValue("list1"));
+        include1.setIncludeCondition(ValueSourceConfiguration.forValue(false));
+        configurations.addVariableListInitializer(include1);
+
+        VariableListContextInitializerConfiguration include2 = new VariableListContextInitializerConfiguration();
+        include2.setListId(ValueSourceConfiguration.forValue("list2"));
+        include2.setIncludeCondition(ValueSourceConfiguration.forValue(true));
+        configurations.addVariableListInitializer(include2);
+
         project.getResourceStorage().addResource(configurations);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
@@ -182,7 +184,7 @@ public class ContextInitializerTests
 
             // add an initializer condition for this list
             VariableListContextInitializerConfiguration initializer = new VariableListContextInitializerConfiguration();
-            initializer.setVariableListId(list_id);
+            initializer.setListId(ValueSourceConfiguration.forValue(list_id));
             initializer.setIncludeCondition(ValueSourceConfiguration.forValue(true));
             initializers.addVariableListInitializer(initializer);
 

@@ -48,18 +48,26 @@ public class VariableListsInitializer implements ContextInitializer
             {
             for (VariableListContextInitializerConfiguration config : configs.getVariableListInitializers())
                 {
-                context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, config.getVariableListId());
+                context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, config.getListId());
                 ValueSourceConfiguration condition_config = config.getIncludeCondition();
-                MuseValueSource condition = condition_config.createSource();
-                Object result = condition.resolveValue(context);
+                MuseValueSource condition_source = condition_config.createSource(context.getProject());
+                Object condition = condition_source.resolveValue(context);
                 Boolean include_it;
-                if (result instanceof Boolean)
-                    include_it = (Boolean) result;
+                if (condition instanceof Boolean)
+                    include_it = (Boolean) condition;
                 else
-                    throw new IllegalArgumentException("The condition source of a VariableListContextInitializerConfiguration must resolve to a boolean value. The source (" + condition + ") resolved to " + result);
+                    throw new IllegalArgumentException("The condition source of a VariableListContextInitializerConfiguration must resolve to a boolean value. The source (" + condition_source + ") resolved to " + condition);
 
                 if (include_it)
-                    ids_of_lists_to_keep.add(config.getVariableListId());
+                    {
+                    ValueSourceConfiguration id_config = config.getListId();
+                    MuseValueSource id_source = id_config.createSource(context.getProject());
+                    Object id = id_source.resolveValue(context);
+                    if (id != null)
+                        ids_of_lists_to_keep.add(id.toString());
+                    else
+                        throw new IllegalArgumentException("The id source of a VariableListContextInitializerConfiguration must resolve to a non-nullvalue.");
+                    }
                 }
             }
 
