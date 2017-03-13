@@ -3,6 +3,7 @@ package org.musetest.builtins.tests;
 import org.junit.*;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
+import org.musetest.builtins.value.property.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.storage.*;
@@ -232,6 +233,23 @@ public class ValueSourceStringExpressionSupportTests
 
         String stringified = supporter.toString(parsed, TEST_PROJECT);
         Assert.assertEquals("formatDate(\"date\",\"format\")", stringified);
+        }
+
+    @Test
+    public void propertySource()
+        {
+        ValueSourceStringExpressionSupport supporter = new PropertySource.StringExpressionSupport();
+        String left = "\"abc\"";
+        String right = "\"xyz\"";
+        String to_parse = String.format("\"%s\".\"%s\"", left, right);
+        ValueSourceConfiguration parsed = supporter.fromDotExpression(ValueSourceConfiguration.forValue(left), ValueSourceConfiguration.forValue(right), TEST_PROJECT);
+
+        Assert.assertEquals(PropertySource.TYPE_ID, parsed.getType());
+        Assert.assertEquals(left, parsed.getSource(PropertySource.TARGET_PARAM).getValue());
+        Assert.assertEquals(right, parsed.getSource(PropertySource.NAME_PARAM).getValue());
+
+        String stringified = supporter.toString(parsed, TEST_PROJECT);
+        Assert.assertEquals(to_parse, stringified);
         }
 
     private static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStorage());

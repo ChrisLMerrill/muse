@@ -71,16 +71,12 @@ public class PropertySource extends BaseValueSource
     public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
         {
         @Override
-        public ValueSourceConfiguration fromBinaryExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project)
+        public ValueSourceConfiguration fromDotExpression(ValueSourceConfiguration left, ValueSourceConfiguration right, MuseProject project)
             {
-            if (operator.equals("."))
-                {
-                ValueSourceConfiguration config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
-                config.addSource(PropertySource.TARGET_PARAM, left);
-                config.addSource(PropertySource.NAME_PARAM, right);
-                return config;
-                }
-            return null;
+            ValueSourceConfiguration config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
+            config.addSource(PropertySource.TARGET_PARAM, left);
+            config.addSource(PropertySource.NAME_PARAM, right);
+            return config;
             }
 
         @Override

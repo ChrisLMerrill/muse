@@ -19,6 +19,7 @@ public interface ValueSourceStringExpressionSupport
     ValueSourceConfiguration fromElementLookupExpression(List<ValueSourceConfiguration> arguments, MuseProject project);
     ValueSourceConfiguration fromArgumentedExpression(String name, List<ValueSourceConfiguration> arguments, MuseProject project);
     ValueSourceConfiguration fromBinaryExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project);
+    ValueSourceConfiguration fromDotExpression(ValueSourceConfiguration left, ValueSourceConfiguration right, MuseProject project);
     String toString(ValueSourceConfiguration config, MuseProject project);
     String toString(ValueSourceConfiguration config, MuseProject project, int depth);
     }
