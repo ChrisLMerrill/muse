@@ -338,6 +338,39 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
         return _subsource_change_listener;
         }
 
+    @JsonIgnore
+    @SuppressWarnings("unused")  // used in UI
+    public void setMetadataField(String name, Object value)
+        {
+        if (_metadata == null)
+            _metadata = new HashMap<>();
+        _metadata.put(name, value);
+        if (_metadata.size() == 0)
+            _metadata = null;
+        }
+
+    @JsonIgnore
+    @SuppressWarnings("unused")  // used in UI
+    public Object getMetadataField(String name)
+        {
+        if (_metadata == null)
+            return null;
+        return _metadata.get(name);
+        }
+
+    @SuppressWarnings("unused")  // required for JSON de/serialization
+    public Map<String, Object> getMetadata()
+        {
+        return _metadata;
+        }
+
+    @SuppressWarnings("unused")  // required for JSON de/serialization
+    public void setMetadata(Map<String, Object> metadata)
+        {
+        _metadata = metadata;
+        }
+
+
     @Override
     public String toString()
         {
@@ -401,6 +434,8 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
     private String _type;
     private Map<String, ValueSourceConfiguration> _source_map;
     private List<ValueSourceConfiguration> _source_list;
+    private Map<String, Object> _metadata = null;
+
 
     private transient Set<ChangeEventListener> _listeners;
     private transient ChangeEventListener _subsource_change_listener;
