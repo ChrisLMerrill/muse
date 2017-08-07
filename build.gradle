@@ -10,12 +10,14 @@ subprojects
 
     repositories
         {
+        mavenLocal()
         mavenCentral()
         }
 
     //noinspection GroovyAssignabilityCheck
     dependencies
         {
+        compile 'org.musetest:muse-extensions:0.1+'
         testCompile 'junit:junit:4+'
         }
 

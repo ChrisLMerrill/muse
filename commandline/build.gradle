@@ -7,7 +7,7 @@ dependencies
     compile project(':muse-selenium')
     compile project(':muse-seleniumide')
 
-    compile 'io.airlift:airline:0.7+'  // command-line parsing
+    compile 'io.airlift:airline:0.8+'  // command-line parsing
     }
 
 //noinspection GroovyUnusedAssignment

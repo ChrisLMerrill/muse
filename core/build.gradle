@@ -3,7 +3,7 @@ dependencies
     {
     compile 'org.reflections:reflections:0.9.10'   // finding classes at runtime
     compile 'org.slf4j:slf4j-api:1.7+'  // logging API used in core
-    compile 'io.airlift:airline:0.7+'  // command-line parsing
+    compile 'io.airlift:airline:0.8+'  // command-line parsing
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.6'  // JSON de/serialization
     compile 'commons-io:commons-io:2.5'
     compile 'net.sf.opencsv:opencsv:2.3'
