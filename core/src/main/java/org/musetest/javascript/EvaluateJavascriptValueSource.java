@@ -17,7 +17,7 @@ import javax.script.*;
 @MuseTypeId("evaluateJS")
 @MuseValueSourceName("Eval JS")
 @MuseValueSourceShortDescription("Evaluate a snippet of Javascript")
-@MuseValueSourceLongDescription("Resolves the sub-source. If it is a string, evaulate that as Javascript and return the result.")
+@MuseValueSourceLongDescription("Resolves the sub-source. If it is a string, evaluate that as Javascript and return the result.")
 @MuseStringExpressionSupportImplementation(EvaluateJavascriptValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Script", description = "The script to evaluate", type = SubsourceDescriptor.Type.Single)
 public class EvaluateJavascriptValueSource extends BaseValueSource
