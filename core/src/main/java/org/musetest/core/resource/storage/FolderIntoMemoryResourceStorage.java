@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.util.*;
+import org.musetest.extensions.registry.*;
 import org.reflections.*;
 import org.slf4j.*;
 
@@ -188,6 +189,12 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
             {
             try { if (outstream != null) outstream.close(); } catch (IOException e) { /* nothing to do here */ }
             }
+        }
+
+    @Override
+    public ExtensionRegistry getExtensionRegistry()
+        {
+        return new ExtensionRegistry(new File(_folder, ExtensionRegistry.DEFAULT_FOLDER));
         }
 
     private File _folder;

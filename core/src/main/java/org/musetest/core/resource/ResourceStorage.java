@@ -2,6 +2,7 @@ package org.musetest.core.resource;
 
 
 import org.musetest.core.*;
+import org.musetest.extensions.registry.*;
 
 import java.io.*;
 import java.util.*;
@@ -81,5 +82,7 @@ public interface ResourceStorage
     boolean addResourceListener(ProjectResourceListener listener);
 
     boolean removeResourceListener(ProjectResourceListener listener);
+
+    ExtensionRegistry getExtensionRegistry();
     }
 
