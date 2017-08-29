@@ -11,6 +11,7 @@ import org.slf4j.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.jar.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -97,7 +98,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
             File classes = new File(_folder, path);
             if (classes.exists())
                 {
-                LOG.debug("Adding to project classpath: " + classes.getAbsolutePath());
+                LOG.debug("Adding folder to project classpath: " + classes.getAbsolutePath());
                 class_locations.add(classes);
                 }
             }
@@ -106,15 +107,38 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
         File lib = new File(_folder, "lib");
         if (lib.exists() && lib.isDirectory())
             jars = lib.listFiles((dir, name) ->
-                {
-                return name.endsWith(".jar");
-                });
+                name.endsWith(".jar"));
+        _packages = new ArrayList<>();
+        _packages.add("org.musetest");
         for (File jar : jars)
             {
-            LOG.debug("Adding to project classpath: " + jar.getAbsolutePath());
+            LOG.debug("Adding jar to project classpath: " + jar.getAbsolutePath());
             class_locations.add(jar);
+            _packages.addAll(getPackages(jar));
             }
         _class_locations = class_locations;
+        }
+
+    private List<String> getPackages(File jar)
+        {
+        List<String> packages = new ArrayList<>();
+        try (InputStream filestream = new FileInputStream(jar))
+            {
+            JarInputStream jarstream = new JarInputStream(filestream);
+            final Attributes attributes = jarstream.getManifest().getMainAttributes();
+            final String package_list = attributes.getValue("muse-package");
+            if (package_list != null)
+                {
+                StringTokenizer tokenizer = new StringTokenizer(package_list, ",");
+                while (tokenizer.hasMoreTokens())
+                    packages.add(tokenizer.nextToken());
+                }
+            }
+        catch (IOException e)
+            {
+            LOG.error("Unable to read jar for package spec: " + jar.getName());
+            }
+        return packages;
         }
 
     @Override
@@ -135,9 +159,17 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
             URL[] url_array = urls.toArray(new URL[urls.size()]);
             _class_loader = new URLClassLoader(url_array, getClass().getClassLoader());
 
-            Object[] class_search_path = new Object[url_array.length + 1];
+            StringBuilder package_string = new StringBuilder();
+            for (String package_spec : _packages)
+                {
+                package_string.append(package_spec);
+                package_string.append(",");
+                }
+            LOG.debug("Project context classloader will search in packages: " + package_string.toString());
+            Object[] class_search_path = new Object[url_array.length + _packages.size()];
             System.arraycopy(url_array, 0, class_search_path, 0, url_array.length);
-            class_search_path[url_array.length] = "org.musetest";
+            for (int i = 0; i < _packages.size(); i++)
+                class_search_path[url_array.length + i] = _packages.get(i);
             setClassLocator(new CustomClassLocator(new Reflections(class_search_path)));
             }
         return _class_loader;
@@ -199,6 +231,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
 
     private File _folder;
     private List<File> _class_locations = new ArrayList<>();
+    private List<String> _packages = new ArrayList<>();
     private ClassLoader _class_loader = null;
     private Map<MuseResource, ResourceOrigin> _origins = new HashMap<>();
 
