@@ -47,13 +47,13 @@ public class ValueSourceDescriptors
             return new UnknownValueSourceDescriptor(type_id, _project);
         }
 
-    public ValueSourceDescriptor get(Class<? extends MuseValueSource> step_class)
+    public ValueSourceDescriptor get(Class<? extends MuseValueSource> source_class)
         {
-        String type_id = step_class.getAnnotation(MuseTypeId.class).value();
+        String type_id = source_class.getAnnotation(MuseTypeId.class).value();
 
         try
             {
-            MuseSourceDescriptorImplementation descriptor_annotation = step_class.getAnnotation(MuseSourceDescriptorImplementation.class);
+            MuseSourceDescriptorImplementation descriptor_annotation = source_class.getAnnotation(MuseSourceDescriptorImplementation.class);
             if (descriptor_annotation != null)
                 {
                 try
@@ -72,7 +72,7 @@ public class ValueSourceDescriptors
                     LOG.error("Unable to create the ValueSourceDescriptor based on the " + MuseSourceDescriptorImplementation.class.getSimpleName() + " annotation. Implementing class is: " + descriptor_annotation.value().getSimpleName(), e);
                     }
                 }
-            return new AnnotatedValueSourceDescriptor(type_id, step_class, _project);
+            return new AnnotatedValueSourceDescriptor(type_id, source_class, _project);
             }
         catch (Exception e)
             {
