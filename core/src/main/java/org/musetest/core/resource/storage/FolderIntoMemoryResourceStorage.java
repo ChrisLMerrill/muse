@@ -170,7 +170,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
             System.arraycopy(url_array, 0, class_search_path, 0, url_array.length);
             for (int i = 0; i < _packages.size(); i++)
                 class_search_path[url_array.length + i] = _packages.get(i);
-            setClassLocator(new CustomClassLocator(new Reflections(class_search_path)));
+            setClassLocator(new CustomClassLocator(_class_loader, new Reflections(class_search_path)));
             }
         return _class_loader;
         }

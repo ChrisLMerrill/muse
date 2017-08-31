@@ -7,9 +7,10 @@ import org.reflections.*;
  */
 public class CustomClassLocator extends DefaultClassLocator
     {
-    public CustomClassLocator(Reflections reflections)
+    public CustomClassLocator(ClassLoader classloader, Reflections reflections)
         {
         _reflections = reflections;
+        _classloader = classloader;
         }
     }
 

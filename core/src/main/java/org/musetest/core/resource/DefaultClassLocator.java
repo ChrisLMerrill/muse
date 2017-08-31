@@ -9,6 +9,7 @@ import org.slf4j.*;
 import java.lang.annotation.*;
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.concurrent.atomic.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -78,16 +79,33 @@ public class DefaultClassLocator implements ClassLocator
         List<Class> implementors = _implementor_lists.get(T);
         if (implementors == null)
             {
-            Set<Class<? extends T>> classes = _reflections.getSubTypesOf(T);
-            implementors = new ArrayList<>(classes);
+            final AtomicReference<Set<Class<? extends T>>> classes = new AtomicReference<>();
+            runOnClassloader(() -> classes.set(_reflections.getSubTypesOf(T)));
+            implementors = new ArrayList<>(classes.get());
             _implementor_lists.put(T, implementors);
             }
         return implementors;
         }
 
+    private void runOnClassloader(Runnable runner)
+        {
+        Thread thread = new Thread(runner);
+        thread.setContextClassLoader(_classloader);
+        thread.start();
+        try
+            {
+            thread.join();
+            }
+        catch (InterruptedException e)
+            {
+            // ok
+            }
+        }
+
     private Map<Class, Map<String, Class>> _annotation_value_to_class_map = new HashMap<>();
     private Map<Class, List<Class>> _implementor_lists = new HashMap<>();
     protected Reflections _reflections = DEFAULT_REFLECTIONS;
+    protected ClassLoader _classloader = getClass().getClassLoader();
 
     public static ClassLocator get()
         {
