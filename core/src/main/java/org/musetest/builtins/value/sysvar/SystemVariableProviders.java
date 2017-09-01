@@ -1,8 +1,6 @@
 package org.musetest.builtins.value.sysvar;
 
 import org.musetest.core.*;
-import org.musetest.core.events.*;
-import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 
 import java.util.*;
@@ -30,7 +28,7 @@ public class SystemVariableProviders
     public List<SystemVariableProvider> getProviders()
         {
         if (_resolvers == null)
-            _resolvers = new FactoryLocator(_project.getClassLocator()).findFactories(SystemVariableProvider.class);
+            _resolvers = _project.getClassLocator().getInstances(SystemVariableProvider.class);
         return _resolvers;
         }
 

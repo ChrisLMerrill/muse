@@ -4,7 +4,6 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.types.*;
-import org.musetest.core.util.*;
 import org.musetest.javascript.support.*;
 import org.slf4j.*;
 
@@ -39,7 +38,7 @@ public class FromJsFileResourceFactory implements MuseResourceFactory
                         return Collections.emptyList();
 
                     // find factories for this type and try to load it
-                    List<FromJavascriptResourceFactory> factories = new FactoryLocator(class_locator).findFactories(FromJavascriptResourceFactory.class);
+                    List<FromJavascriptResourceFactory> factories = class_locator.getInstances(FromJavascriptResourceFactory.class);
                     for (FromJavascriptResourceFactory factory : factories)
                         resources.addAll(factory.createResources(origin, type, runner.getScriptEngine()));
                     }

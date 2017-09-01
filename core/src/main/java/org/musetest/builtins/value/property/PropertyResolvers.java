@@ -1,7 +1,6 @@
 package org.musetest.builtins.value.property;
 
 import org.musetest.core.*;
-import org.musetest.core.util.*;
 
 import java.util.*;
 
@@ -15,10 +14,10 @@ public class PropertyResolvers
         _project = project;
         }
 
-    public List<PropertyResolver> getPropertyResolvers()
+    List<PropertyResolver> getPropertyResolvers()
         {
         if (_resolvers == null)
-            _resolvers = new FactoryLocator(_project.getClassLocator()).findFactories(PropertyResolver.class);
+            _resolvers = _project.getClassLocator().getInstances(PropertyResolver.class);
         return _resolvers;
         }
 

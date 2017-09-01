@@ -1,7 +1,6 @@
 package org.musetest.core.values;
 
 import org.musetest.core.*;
-import org.musetest.core.util.*;
 
 import java.util.*;
 
@@ -13,7 +12,7 @@ public class ValueSourceStringExpressionSupporters
     public ValueSourceStringExpressionSupporters(MuseProject project)
         {
         _project = project;
-        _supporters = new FactoryLocator(project.getClassLocator()).findFactories(ValueSourceStringExpressionSupport.class);
+        _supporters = project.getClassLocator().getInstances(ValueSourceStringExpressionSupport.class);
         }
 
     public String toString(ValueSourceConfiguration source)
