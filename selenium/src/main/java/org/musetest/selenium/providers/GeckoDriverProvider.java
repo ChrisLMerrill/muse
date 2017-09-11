@@ -14,7 +14,7 @@ import java.io.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("firefox-marionette-provider")
-public class FirefoxMarionetteDriverProvider extends BaseLocalDriverProvider
+public class GeckoDriverProvider extends BaseLocalDriverProvider
     {
     @Override
     public WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context)
@@ -28,20 +28,24 @@ public class FirefoxMarionetteDriverProvider extends BaseLocalDriverProvider
         File path = getDriverLocation(context);
         if (path == null)
             {
-            context.raiseEvent(new MessageEvent("FirefoxMarionetteDriverProvider would try to satisfy request for Firefox browser, but it was not configured with a path to the driver"));
+            context.raiseEvent(new MessageEvent("GeckoDriverProvider would try to satisfy request for Firefox browser, but it was not configured with a path to the driver"));
             return null;
             }
 
         if (!(path.exists()))
             {
-            context.raiseEvent(new MessageEvent("FirefoxMarionetteDriverProvider would try to satisfy request for Firefox browser, but the configured path does not exist: " + path.getAbsolutePath()));
+            context.raiseEvent(new MessageEvent("GeckoDriverProvider would try to satisfy request for Firefox browser, but the configured path does not exist: " + path.getAbsolutePath()));
             return null;
             }
 
-        synchronized (FirefoxMarionetteDriverProvider.class)
+        synchronized (GeckoDriverProvider.class)
             {
             System.setProperty("webdriver.gecko.driver", path.getAbsolutePath());
-            DesiredCapabilities selenium_capabilities = capabilities.toDesiredCapabilities();
+            DesiredCapabilities selenium_capabilities = DesiredCapabilities.firefox();
+            if (capabilities.getVersion() != null && capabilities.getVersion().length() > 0)
+                selenium_capabilities.setVersion(capabilities.getVersion());
+            if (capabilities.getPlatform() != null && capabilities.getPlatform().length() > 0)
+                selenium_capabilities.setPlatform(Platform.fromString(capabilities.getPlatform()));
             selenium_capabilities.setCapability("marionette", true);
             return new FirefoxDriver(selenium_capabilities);
             }
@@ -50,13 +54,13 @@ public class FirefoxMarionetteDriverProvider extends BaseLocalDriverProvider
     @Override
     public String getName()
         {
-        return "Firefox Marionette (local)";
+        return "GeckoDriver for Firefox (local)";
         }
 
     @Override
     public String toString()
         {
-        return "MarionetteDriver";
+        return "GeckoDriver";
         }
     }
 

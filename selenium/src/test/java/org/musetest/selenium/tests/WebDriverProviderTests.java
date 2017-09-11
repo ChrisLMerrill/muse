@@ -4,21 +4,15 @@ import com.fasterxml.jackson.databind.*;
 import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.execution.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.json.*;
-import org.musetest.core.step.*;
-import org.musetest.core.steptest.*;
-import org.musetest.core.tests.utils.*;
 import org.musetest.core.util.*;
-import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.musetest.selenium.mocks.*;
 import org.musetest.selenium.providers.*;
 import org.openqa.selenium.*;
 
 import java.io.*;
-import java.net.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -91,9 +85,9 @@ public class WebDriverProviderTests
         Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
         for (WebDriverProvider provider : provider_list.getProviders())
-            if (provider instanceof FirefoxMarionetteDriverProvider)
+            if (provider instanceof GeckoDriverProvider)
                 {
-                Assert.assertEquals("path-to\\geckodriver.exe", ((FirefoxMarionetteDriverProvider) provider).getRelativePath());
+                Assert.assertEquals("path-to\\geckodriver.exe", ((GeckoDriverProvider) provider).getRelativePath());
                 return;
                 }
 
@@ -133,7 +127,7 @@ public class WebDriverProviderTests
         Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
         for (WebDriverProvider provider : provider_list.getProviders())
-            if (provider instanceof FirefoxMarionetteDriverProvider)
+            if (provider instanceof GeckoDriverProvider)
                 return;
 
         Assert.assertTrue("no provider found for Firefox", false);
