@@ -26,7 +26,7 @@ public class MuseEvent
         }
 
     MuseEventType _type;
-    long _timestamp_nanos = System.nanoTime();
+    protected long _timestamp_nanos = System.nanoTime();
     }
 
 

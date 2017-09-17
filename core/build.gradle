@@ -14,4 +14,6 @@ dependencies
     // Force use of these specific versions to prevent conflicts from multiple transitive dependencies on different versions.
     compile('com.google.guava:guava:19.0') //{ force = true }
     compile('com.google.code.findbugs:annotations:3.0.1') //{ force = true }
+
+    testCompile 'org.musetest:muse-core-mocks:1.0+'
     }
