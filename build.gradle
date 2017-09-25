@@ -18,6 +18,7 @@ subprojects
     dependencies
         {
         compile 'org.musetest:muse-extensions:0.1+'
+        testCompile 'org.musetest:muse-core-mocks:1.0'
         testCompile 'junit:junit:4+'
         }
 
