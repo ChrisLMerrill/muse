@@ -1,6 +1,6 @@
 subprojects
     {
-    version 0.10
+    version 0.11
 
     apply plugin: 'java'
     apply plugin: 'maven'
