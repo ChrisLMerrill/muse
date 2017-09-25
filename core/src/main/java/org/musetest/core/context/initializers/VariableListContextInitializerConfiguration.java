@@ -1,4 +1,4 @@
-package org.musetest.core.context;
+package org.musetest.core.context.initializers;
 
 import org.musetest.core.values.*;
 

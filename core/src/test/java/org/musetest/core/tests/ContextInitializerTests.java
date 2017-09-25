@@ -68,7 +68,7 @@ public class ContextInitializerTests
         list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
         project.getResourceStorage().addResource(list2);
 
-        ContextInitializerConfigurations configurations = new ContextInitializerConfigurations();
+        VariableListContextInitializerConfigurations configurations = new VariableListContextInitializerConfigurations();
         VariableListContextInitializerConfiguration config = new VariableListContextInitializerConfiguration();
         config.setListId(ValueSourceConfiguration.forValue("list2"));
         config.setIncludeCondition(ValueSourceConfiguration.forValue(Boolean.TRUE));
@@ -99,7 +99,7 @@ public class ContextInitializerTests
         list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
         project.getResourceStorage().addResource(list2);
 
-        ContextInitializerConfigurations configurations = new ContextInitializerConfigurations();
+        VariableListContextInitializerConfigurations configurations = new VariableListContextInitializerConfigurations();
 
         VariableListContextInitializerConfiguration include1 = new VariableListContextInitializerConfiguration();
         include1.setListId(ValueSourceConfiguration.forValue("list1"));
@@ -139,7 +139,7 @@ public class ContextInitializerTests
     public void listeners()
         {
         TestListener listener = new TestListener();
-        ContextInitializerConfigurations main_config = new ContextInitializerConfigurations();
+        VariableListContextInitializerConfigurations main_config = new VariableListContextInitializerConfigurations();
         main_config.addContextInitializerChangeListener(listener);
 
         // add a new config
@@ -169,7 +169,7 @@ public class ContextInitializerTests
         String last_value = null;
         final String var_name = "var1";
 
-        ContextInitializerConfigurations initializers = new ContextInitializerConfigurations();
+        VariableListContextInitializerConfigurations initializers = new VariableListContextInitializerConfigurations();
         project.getResourceStorage().addResource(initializers);
 
         List<VariableList> list_of_lists = new ArrayList<>();
@@ -204,7 +204,7 @@ public class ContextInitializerTests
         Assert.assertEquals(last_value, context.getVariable(var_name));
         }
 
-    private class TestListener extends ContextInitializerChangeListener
+    private class TestListener extends VariableListContextInitializerChangeListener
         {
         @Override
         public void variableListInitializerAdded(VariableListContextInitializerConfiguration config)

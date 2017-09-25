@@ -1,7 +1,6 @@
-package org.musetest.core.context;
+package org.musetest.core.context.initializers;
 
 import org.musetest.core.*;
-import org.musetest.core.context.initializers.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 
@@ -10,8 +9,8 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@MuseTypeId("context-initializers")
-public class ContextInitializerConfigurations extends BaseMuseResource
+@MuseTypeId("varlist-initializers")
+public class VariableListContextInitializerConfigurations extends BaseMuseResource
     {
     public List<VariableListContextInitializerConfiguration> getVariableListInitializers()
         {
@@ -28,7 +27,7 @@ public class ContextInitializerConfigurations extends BaseMuseResource
         {
         _var_lists.add(config);
         if (_listeners != null)
-            for (ContextInitializerChangeListener listener : _listeners)
+            for (VariableListContextInitializerChangeListener listener : _listeners)
                 listener.variableListInitializerAdded(config);
         }
 
@@ -36,18 +35,18 @@ public class ContextInitializerConfigurations extends BaseMuseResource
         {
         _var_lists.remove(config);
         if (_listeners != null)
-            for (ContextInitializerChangeListener listener : _listeners)
+            for (VariableListContextInitializerChangeListener listener : _listeners)
                 listener.variableListInitializerRemoved(config);
         }
 
-    public void addContextInitializerChangeListener(ContextInitializerChangeListener listener)
+    public void addContextInitializerChangeListener(VariableListContextInitializerChangeListener listener)
         {
         if (_listeners == null)
             _listeners = new ArrayList<>();
         _listeners.add(listener);
         }
 
-    public void removeContextInitializerChangeListener(ContextInitializerChangeListener listener)
+    public void removeContextInitializerChangeListener(VariableListContextInitializerChangeListener listener)
         {
         if (_listeners == null)
             return;
@@ -64,7 +63,7 @@ public class ContextInitializerConfigurations extends BaseMuseResource
         }
 
     private List<VariableListContextInitializerConfiguration> _var_lists = new ArrayList<>();
-    private transient List<ContextInitializerChangeListener> _listeners;
+    private transient List<VariableListContextInitializerChangeListener> _listeners;
 
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
@@ -72,7 +71,7 @@ public class ContextInitializerConfigurations extends BaseMuseResource
         {
         public ContextInitializerConfigurationsResourceType()
             {
-            super(ContextInitializerConfigurations.class.getAnnotation(MuseTypeId.class).value(), "Context Initializer", ContextInitializerConfigurations.class);
+            super(VariableListContextInitializerConfigurations.class.getAnnotation(MuseTypeId.class).value(), "Context Initializer", VariableListContextInitializerConfigurations.class);
             }
         }
 

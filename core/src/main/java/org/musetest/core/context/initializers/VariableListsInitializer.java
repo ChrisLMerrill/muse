@@ -38,13 +38,13 @@ public class VariableListsInitializer implements ContextInitializer
 
     private List<VariableList> filterLists(List<VariableList> lists, MuseProject project, MuseExecutionContext context) throws MuseInstantiationException, ValueSourceResolutionError
         {
-        List<ResourceToken> tokens = project.getResourceStorage().findResources(new ResourceAttributes(new ContextInitializerConfigurations.ContextInitializerConfigurationsResourceType()));
-        List<ContextInitializerConfigurations> list_of_configs = project.getResourceStorage().getResources(tokens, ContextInitializerConfigurations.class);
+        List<ResourceToken> tokens = project.getResourceStorage().findResources(new ResourceAttributes(new VariableListContextInitializerConfigurations.ContextInitializerConfigurationsResourceType()));
+        List<VariableListContextInitializerConfigurations> list_of_configs = project.getResourceStorage().getResources(tokens, VariableListContextInitializerConfigurations.class);
         if (list_of_configs.size() == 0)
             return lists; // if there are no configurations, then apply all lists.
 
         List<String> ids_of_lists_to_keep = new ArrayList<>();
-        for (ContextInitializerConfigurations configs : list_of_configs)
+        for (VariableListContextInitializerConfigurations configs : list_of_configs)
             {
             for (VariableListContextInitializerConfiguration config : configs.getVariableListInitializers())
                 {

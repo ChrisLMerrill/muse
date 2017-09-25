@@ -2,7 +2,7 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.core.*;
-import org.musetest.core.context.*;
+import org.musetest.core.context.initializers.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.suite.*;
@@ -21,7 +21,7 @@ public class ResourceTypeTests
         Collection<ResourceType> all = project.getResourceTypes().getAll();
 
         Assert.assertTrue(all.contains(new MuseTest.TestResourceType()));
-        Assert.assertTrue(all.contains(new ContextInitializerConfigurations.ContextInitializerConfigurationsResourceType()));
+        Assert.assertTrue(all.contains(new VariableListContextInitializerConfigurations.ContextInitializerConfigurationsResourceType()));
         }
 
     @Test
