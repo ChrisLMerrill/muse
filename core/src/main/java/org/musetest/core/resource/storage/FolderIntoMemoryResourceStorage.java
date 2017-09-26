@@ -91,8 +91,10 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
     private void locateClasspaths()
         {
         List<File> class_locations = new ArrayList<>();
+        _packages = new ArrayList<>();
+        _packages.add("org.musetest");
 
-        String[] paths = {"classes", "build/classes/main"};
+        String[] paths = {"classes", "build/classes/java/main"};
         for (String path : paths)
             {
             File classes = new File(_folder, path);
@@ -100,6 +102,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
                 {
                 LOG.debug("Adding folder to project classpath: " + classes.getAbsolutePath());
                 class_locations.add(classes);
+                findPackagesInFolders(_packages, classes, "");
                 }
             }
 
@@ -108,8 +111,6 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
         if (lib.exists() && lib.isDirectory())
             jars = lib.listFiles((dir, name) ->
                 name.endsWith(".jar"));
-        _packages = new ArrayList<>();
-        _packages.add("org.musetest");
         for (File jar : jars)
             {
             LOG.debug("Adding jar to project classpath: " + jar.getAbsolutePath());
@@ -117,6 +118,24 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
             _packages.addAll(getPackages(jar));
             }
         _class_locations = class_locations;
+        }
+
+    private void findPackagesInFolders(List<String> packages, File folder, String base_package_name)
+        {
+        File[] subfolders = folder.listFiles();
+        for (File subfolder : subfolders)
+            {
+            if (subfolder.isDirectory())
+                {
+                String package_name;
+                if (base_package_name.length() == 0)
+                    package_name = subfolder.getName();
+                else
+                    package_name = base_package_name + "." + subfolder.getName();
+                packages.add(package_name);
+                findPackagesInFolders(packages, subfolder, package_name);
+                }
+            }
         }
 
     private List<String> getPackages(File jar)
