@@ -40,7 +40,7 @@ public class ResourceFactoryTests
     @Test
     public void testOpenProjectWithFileResource()
         {
-        FolderIntoMemoryResourceStorage store = new FolderIntoMemoryResourceStorage(TestUtils.getTestResource("projects/files", getClass()));
+        FolderIntoMemoryResourceStorage store = new FolderIntoMemoryResourceStorage(TestUtils.getTestResource("projects/empty", getClass()));
         MuseProject project = new SimpleProject(store);
         MuseResource resource = project.getResourceStorage().getResource("not_done_yet", MockMuseResource.class);
         Assert.assertNull(resource);

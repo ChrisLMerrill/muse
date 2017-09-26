@@ -1,0 +1,1 @@
+Just here as a placeholder for the 'empty' folder. Git doesn't consider an empty folder to be useful.
