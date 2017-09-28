@@ -21,12 +21,20 @@ public class ResourceTypes
                 if (obj instanceof ResourceType)
                     {
                     ResourceType type = (ResourceType) obj;
-                    if (!type.isSubtype())
+                    if (type instanceof ResourceSubtype)
                         {
-                        if (_types.get(type.getTypeId()) != null)
+                        ResourceSubtype subtype = (ResourceSubtype) type;
+                        if (_subtypes.get(subtype.getTypeId()) != null)
+                            LOG.warn("Duplicate ResourceSubtype found for id: " + subtype.getTypeId());
+                        else
+                            _subtypes.put(subtype.getTypeId().toLowerCase(), subtype);
+                        }
+                    else
+                        {
+                        if (_primary_types.get(type.getTypeId()) != null)
                             LOG.warn("Duplicate ResourceType found for id: " + type.getTypeId());
                         else
-                            _types.put(type.getTypeId().toLowerCase(), type);
+                            _primary_types.put(type.getTypeId().toLowerCase(), type);
                         }
                     }
                 }
@@ -37,17 +45,27 @@ public class ResourceTypes
             }
         }
 
-    public Collection<ResourceType> getAll()
+    public Collection<ResourceType> getPrimary()
         {
-        return _types.values();
+        return _primary_types.values();
+        }
+
+    public List<ResourceSubtype> getSubtypesOf(ResourceType type)
+        {
+        List<ResourceSubtype> subtypes = new ArrayList<>();
+        for (ResourceSubtype subtype : _subtypes.values())
+            if (subtype.isSubtypeOf(type))
+                subtypes.add(subtype);
+        return subtypes;
         }
 
     public ResourceType forIdIgnoreCase(String value)
         {
-        return _types.get(value.toLowerCase());
+        return _primary_types.get(value.toLowerCase());
         }
 
-    private Map<String, ResourceType> _types = new HashMap<>();
+    private Map<String, ResourceType> _primary_types = new HashMap<>();
+    private Map<String, ResourceSubtype> _subtypes = new HashMap<>();
 
     private final static Logger LOG = LoggerFactory.getLogger(ResourceTypes.class);
     }

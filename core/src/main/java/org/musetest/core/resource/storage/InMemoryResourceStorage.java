@@ -2,6 +2,7 @@ package org.musetest.core.resource.storage;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.resource.types.*;
 import org.musetest.core.util.*;
 import org.musetest.extensions.registry.*;
 import org.slf4j.*;
@@ -69,7 +70,7 @@ public class InMemoryResourceStorage implements ResourceStorage
         List<ResourceToken> matches = new ArrayList<>();
         for (MuseResource resource : _resources)
             {
-            if (attributes.getTypes().size() == 0 || attributes.getTypes().contains(resource.getType()))
+            if (attributes.getTypes().size() == 0 || attributes.getTypes().contains(resource.getType()) || (resource.getType().isSubtype() && attributes.getTypes().contains(((ResourceSubtype)resource.getType()).getParentType())))
                 {
                 if (attributes.getId() == null || resource.getId().equals(attributes.getId()) )
                     matches.add(new InMemoryResourceToken(resource));

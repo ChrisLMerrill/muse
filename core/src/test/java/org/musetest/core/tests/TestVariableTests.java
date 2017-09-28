@@ -6,6 +6,7 @@ import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.context.initializers.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.SteppedTest;
@@ -37,17 +38,25 @@ public class TestVariableTests
         }
 
     @Test
-    public void variableSetFromProjectVariableList() throws IOException
+    public void variableSetFromProjectVariableList() throws IOException, MuseExecutionError
         {
         SteppedTest test = getTest();
         MuseProject project = new SimpleProject();
 
         VariableList list = new VariableList();
-        list.setId("list123");
+        final String list_id = "list123";
+        list.setId(list_id);
         project.getResourceStorage().addResource(list);
         list.addVariable(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
 
+        VariableListContextInitializerConfigurations initializer_list = new VariableListContextInitializerConfigurations();
+        final VariableListContextInitializerConfiguration initializer_config = new VariableListContextInitializerConfiguration();
+        initializer_config.setIncludeCondition(ValueSourceConfiguration.forValue(Boolean.TRUE));
+        initializer_config.setListId(ValueSourceConfiguration.forValue(list_id));
+        initializer_list.addVariableListInitializer(initializer_config);
+
         DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
+        context.addInitializer(initializer_list.createInitializer());
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
         }

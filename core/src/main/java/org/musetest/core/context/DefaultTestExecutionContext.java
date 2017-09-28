@@ -1,13 +1,7 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
-import org.musetest.core.events.*;
-import org.musetest.core.project.*;
-import org.musetest.core.test.*;
-import org.musetest.core.variables.*;
-import org.slf4j.*;
-
-import java.util.*;
+import org.musetest.core.context.initializers.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -18,6 +12,9 @@ public class DefaultTestExecutionContext extends BaseExecutionContext implements
         {
         super(project);
         _test = test;
+
+        ContextInitializers.setup(this);
+        addInitializer(new TestDefaultsInitializer(this));
         }
 
     @Override

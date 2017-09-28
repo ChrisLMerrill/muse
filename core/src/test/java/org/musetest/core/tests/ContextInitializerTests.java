@@ -40,16 +40,10 @@ public class ContextInitializerTests
         list.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
         project.getResourceStorage().addResource(list);
 
-        VariableList list2 = new VariableList();
-        list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
-        project.getResourceStorage().addResource(list2);
-
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        VariableListsInitializer initializer = new VariableListsInitializer();
-        initializer.initialize(context);
 
-        Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
-        Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
+        // no variables will be injected, because there are no context initializers
+        Assert.assertNull("variable missing", context.getVariable("var1"));
         }
 
     @Test
@@ -76,8 +70,7 @@ public class ContextInitializerTests
         project.getResourceStorage().addResource(configurations);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        VariableListsInitializer initializer = new VariableListsInitializer();
-        initializer.initialize(context);
+        context.runInitializers();
 
         Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
         Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
@@ -114,15 +107,14 @@ public class ContextInitializerTests
         project.getResourceStorage().addResource(configurations);
 
         TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        VariableListsInitializer initializer = new VariableListsInitializer();
-        initializer.initialize(context);
+        context.runInitializers();
 
         Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
         Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
         }
 
     @Test
-    public void variablesInitializer() throws MuseExecutionError
+    public void variableMapInitializer() throws MuseExecutionError
         {
         MuseTest test = new SteppedTest();
         SimpleProject project = new SimpleProject();
@@ -199,7 +191,8 @@ public class ContextInitializerTests
             project.getResourceStorage().addResource(list);
 
         MuseExecutionContext context = new BaseExecutionContext(project);
-        new VariableListsInitializer().initialize(context);
+        context.addInitializer(initializers.createInitializer());
+        context.runInitializers();
 
         Assert.assertEquals(last_value, context.getVariable(var_name));
         }

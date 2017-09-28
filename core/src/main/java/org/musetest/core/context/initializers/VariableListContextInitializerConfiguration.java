@@ -7,6 +7,7 @@ import org.musetest.core.values.*;
  */
 public class VariableListContextInitializerConfiguration
     {
+    @SuppressWarnings("WeakerAccess") // public API
     public ValueSourceConfiguration getListId()
         {
         return _list_id;
@@ -17,6 +18,7 @@ public class VariableListContextInitializerConfiguration
         _list_id = list_id;
         }
 
+    @SuppressWarnings("WeakerAccess") // public API
     public ValueSourceConfiguration getIncludeCondition()
         {
         return _include_condition;

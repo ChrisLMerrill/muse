@@ -1,7 +1,6 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
-import org.musetest.core.context.initializers.*;
 import org.musetest.core.events.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
@@ -17,9 +16,6 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
     public DefaultSteppedTestExecutionContext(TestExecutionContext parent_context)
         {
         _parent_context = parent_context;
-
-        parent_context.addInitializer(new VariableListsInitializer());
-        parent_context.addInitializer(new TestDefaultsInitializer(this));
         }
 
     @Override

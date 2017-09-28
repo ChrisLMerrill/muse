@@ -59,13 +59,6 @@ public class SimpleProject implements MuseProject
         return _resource_types;
         }
 
-    public ResourceSubtypes getResourceSubtypes()
-        {
-        if (_resource_subtypes == null)
-            _resource_subtypes = new ResourceSubtypes(getClassLocator());
-        return _resource_subtypes;
-        }
-
     @Override
     public ClassLoader getClassloader()
         {
@@ -163,7 +156,6 @@ public class SimpleProject implements MuseProject
     private PropertyResolvers _resolvers;
     private SystemVariableProviders _sysvar_providers;
     private ResourceTypes _resource_types;
-    private ResourceSubtypes _resource_subtypes;
     private Map<String, String> _command_line_options;
     private String _name = "unnamed project";
     }
