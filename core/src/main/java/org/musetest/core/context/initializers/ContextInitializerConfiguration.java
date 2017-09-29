@@ -1,6 +1,5 @@
 package org.musetest.core.context.initializers;
 
-import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
@@ -8,7 +7,6 @@ import org.musetest.core.resource.types.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@MuseTypeId("context-initializer")
 @SuppressWarnings("WeakerAccess") // publicly extensible UI
 public abstract class ContextInitializerConfiguration extends BaseMuseResource
     {
