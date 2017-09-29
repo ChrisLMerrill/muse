@@ -1,4 +1,4 @@
-package org.musetest.core.tests.mocks;
+package org.musetest.core.mocks;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;

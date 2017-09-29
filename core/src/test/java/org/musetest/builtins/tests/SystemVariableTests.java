@@ -6,8 +6,8 @@ import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.context.initializers.*;
+import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
-import org.musetest.core.tests.mocks.*;
 import org.musetest.core.values.*;
 
 import java.util.*;

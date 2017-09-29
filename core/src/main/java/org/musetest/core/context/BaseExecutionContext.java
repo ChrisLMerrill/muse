@@ -125,7 +125,7 @@ public class BaseExecutionContext implements MuseExecutionContext
     private final MuseProject _project;
 
     private Map<String, Object> _vars = new HashMap<>();
-    private List<MuseEventListener> _listeners = new ArrayList<>();
+    protected List<MuseEventListener> _listeners = new ArrayList<>();
     private List<Shuttable> _shuttables = new ArrayList<>();
     private List<ContextInitializer> _initializers = new ArrayList<>();
     private boolean _initialized = false;

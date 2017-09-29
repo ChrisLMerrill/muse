@@ -2,7 +2,7 @@ package org.musetest.report.junit.tests;
 
 import org.junit.*;
 import org.musetest.core.events.*;
-import org.musetest.core.tests.mocks.*;
+import org.musetest.core.mocks.*;
 import org.musetest.core.suite.*;
 import org.musetest.core.test.*;
 import org.musetest.core.variables.*;

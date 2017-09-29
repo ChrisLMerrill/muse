@@ -10,7 +10,7 @@ import org.musetest.core.resource.types.*;
 @SuppressWarnings("WeakerAccess") // publicly extensible UI
 public abstract class ContextInitializerConfiguration extends BaseMuseResource
     {
-    abstract ContextInitializer createInitializer();
+    public abstract ContextInitializer createInitializer();
 
     public static class ContextInitializerResourceType extends ResourceType
         {

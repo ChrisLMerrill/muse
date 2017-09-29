@@ -4,10 +4,11 @@ import org.junit.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
+import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.test.*;
-import org.musetest.core.tests.mocks.*;
+import org.musetest.core.tests.mocks.MockStepExecutionContext;
 import org.musetest.core.variables.*;
 
 /**
