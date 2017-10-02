@@ -10,7 +10,10 @@ import java.util.*;
  */
 public class ContextInitializers
     {
-    public static void setup(MuseExecutionContext context)
+	/**
+	 * Finds all the context initializers in the project and applies them to the supplied context.
+	 */
+	public static void setup(MuseExecutionContext context)
         {
         final List<ResourceToken> resources = context.getProject().getResourceStorage().findResources(new ResourceAttributes(new ContextInitializerConfiguration.ContextInitializerResourceType()));
         for (ResourceToken resource : resources)

@@ -22,7 +22,7 @@ public abstract class BaseMuseTest extends BaseMuseResource implements MuseTest
             }
         catch (Throwable e)
             {
-            result = new BaseMuseTestResult(this, null, new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "An exception was thrown: " + e.getMessage()));
+            result = new BaseMuseTestResult(this, context, new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "An exception was thrown: " + e.getMessage()));
             }
 
         return result;

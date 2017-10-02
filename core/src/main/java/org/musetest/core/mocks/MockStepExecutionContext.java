@@ -2,6 +2,8 @@ package org.musetest.core.mocks;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.datacollection.*;
+import org.musetest.core.events.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
@@ -27,18 +29,30 @@ public class MockStepExecutionContext implements StepExecutionContext
         this(new SimpleProject());
         }
 
+	public MockStepExecutionContext(MuseTest test)
+		{
+		this(new SimpleProject(), test);
+		}
+
     public MockStepExecutionContext(MuseProject project)
         {
-        DefaultTestExecutionContext parent_context = new DefaultTestExecutionContext(project, null);
-        _test_context = new DefaultSteppedTestExecutionContext(parent_context);
+        this(project, new MockTest());
         }
+
+	public MockStepExecutionContext(MuseProject project, MuseTest test)
+		{
+		DefaultTestExecutionContext parent_context = new DefaultTestExecutionContext(project, test);
+		parent_context.addInitializer(new EventLog());
+  		_test_context = new DefaultSteppedTestExecutionContext(parent_context);
+		}
 
     public MockStepExecutionContext(TestExecutionContext test_context)
         {
+		test_context.addInitializer(new EventLog());
         _test_context = new DefaultSteppedTestExecutionContext(test_context);
         }
 
-    private SteppedTestExecutionContext _test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(new SimpleProject(), null));
+    final SteppedTestExecutionContext _test_context;
 
     @Override
     public StepConfiguration getCurrentStepConfiguration()
@@ -139,13 +153,24 @@ public class MockStepExecutionContext implements StepExecutionContext
     public void cleanup() {}
 
     @Override
-    public void addInitializer(ContextInitializer initializer) {}
+    public void addInitializer(ContextInitializer initializer)
+		{
+	    _test_context.addInitializer(initializer);
+		}
 
     @Override
     public void runInitializers() throws MuseExecutionError
-		{}
+		{
+		_test_context.runInitializers();
+		}
 
-    private Map<String, Object> _variables = new HashMap<>();
+	@Override
+	public List<DataCollector> getDataCollectors()
+		{
+		return _test_context.getDataCollectors();
+		}
+
+	private Map<String, Object> _variables = new HashMap<>();
     }
 
 

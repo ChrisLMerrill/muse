@@ -1,6 +1,7 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
+import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
@@ -153,7 +154,13 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         return _parent_context.getTest();
         }
 
-    private TestExecutionContext _parent_context;
+	@Override
+	public List<DataCollector> getDataCollectors()
+		{
+		return _parent_context.getDataCollectors();
+		}
+
+	private TestExecutionContext _parent_context;
     private StepExecutionContextStack _stack = new StepExecutionContextStack();
     }
 

@@ -1,8 +1,11 @@
 package org.musetest.core;
 
 import org.musetest.core.context.*;
+import org.musetest.core.datacollection.*;
 import org.musetest.core.test.*;
 import org.musetest.core.variables.*;
+
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -80,5 +83,10 @@ public interface MuseExecutionContext
      * @throws MuseExecutionError If an initalizer fails or if already initalized.
      */
     void runInitializers() throws MuseExecutionError;
+
+	/**
+	 * Get the DataCollectors configured for the test.
+	 */
+	List<DataCollector> getDataCollectors();
     }
 

@@ -4,11 +4,11 @@ import org.junit.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.tests.mocks.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.musetest.selenium.locators.*;
@@ -214,7 +214,7 @@ public class SeleniumStepTests
         return context;
         }
 
-    static MuseProject createSeleniumTestProject()
+    private static MuseProject createSeleniumTestProject()
         {
         if (PROJECT == null)
             {
@@ -238,7 +238,7 @@ public class SeleniumStepTests
     // until project loading is faster, only create this once
     private static MuseProject PROJECT = null;
 
-    static StepConfiguration createOpenBrowserStep()
+    private static StepConfiguration createOpenBrowserStep()
         {
         StepConfiguration open_browser_step = new StepConfiguration(OpenBrowser.TYPE_ID);
         ValueSourceConfiguration provider_source = ValueSourceConfiguration.forTypeWithSource(ProjectResourceValueSource.TYPE_ID, ValueSourceConfiguration.forValue("driver-providers"));

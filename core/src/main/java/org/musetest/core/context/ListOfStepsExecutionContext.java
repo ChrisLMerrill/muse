@@ -62,18 +62,6 @@ public class ListOfStepsExecutionContext extends BaseStepExecutionContext
         return !_finished;
         }
 
-    @Override
-    public void addInitializer(ContextInitializer initializer)
-        {
-        // no-op. no support for initializers in this context (yet).
-        }
-
-    @Override
-    public void runInitializers() throws MuseExecutionError
-        {
-        // no-op. no support for initializers in this context (yet).
-        }
-
     private boolean _finished = false;
     private int _current_index = 0;
     private MuseStep _current_step;

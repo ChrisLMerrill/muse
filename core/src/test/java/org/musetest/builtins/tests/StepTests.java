@@ -274,6 +274,7 @@ public class StepTests
         SteppedTest test = new SteppedTest(test_step);
 
         TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
+        runner.getExecutionContext().addInitializer(new EventLog());
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
@@ -328,7 +329,7 @@ public class StepTests
 
     class MockStep extends BaseStep
         {
-        public MockStep()
+        MockStep()
             {
             super(new StepConfiguration("mock"));
             }

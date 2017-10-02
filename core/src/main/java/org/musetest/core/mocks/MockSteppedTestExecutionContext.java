@@ -8,10 +8,20 @@ import org.musetest.core.context.*;
  */
 public class MockSteppedTestExecutionContext extends MockStepExecutionContext implements SteppedTestExecutionContext
 	{
+	public MockSteppedTestExecutionContext(MuseTest test)
+		{
+		super(test);
+		}
+
+	public MockSteppedTestExecutionContext()
+		{
+		super(new MockTest());
+		}
+
 	@Override
 	public MuseTest getTest()
 		{
-		return null;
+		return _test_context.getTest();
 		}
 	}
 

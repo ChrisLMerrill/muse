@@ -11,16 +11,16 @@ import org.musetest.core.variables.*;
  */
 public class TestFailsOnErrorFailureOrInterrupt implements TestResultProducer
     {
-    public TestFailsOnErrorFailureOrInterrupt(MuseTest test, EventLog log)
+    public TestFailsOnErrorFailureOrInterrupt(MuseTest test, MuseExecutionContext context)
         {
         _test = test;
-        _log = log;
+        _context = context;
         }
 
     @Override
     public MuseTestResult getTestResult()
         {
-        return new BaseMuseTestResult(_test, _log, _failure);
+        return new BaseMuseTestResult(_test, _context, _failure);
         }
 
     @Override
@@ -43,8 +43,8 @@ public class TestFailsOnErrorFailureOrInterrupt implements TestResultProducer
         }
 
     private MuseTest _test;
-    private EventLog _log;
-    private MuseTestFailureDescription _failure;
+	private MuseExecutionContext _context;
+	private MuseTestFailureDescription _failure;
     }
 
 

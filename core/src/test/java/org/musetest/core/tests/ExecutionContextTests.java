@@ -3,6 +3,7 @@ package org.musetest.core.tests;
 import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
@@ -25,6 +26,7 @@ public class ExecutionContextTests
 
         // run the test
         DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
+        context.addInitializer(new EventLog());
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
 

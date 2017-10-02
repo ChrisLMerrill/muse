@@ -8,6 +8,4 @@ import org.musetest.core.*;
 public interface TestExecutionContext extends MuseExecutionContext
     {
     MuseTest getTest();
-    void addInitializer(ContextInitializer initializer);
     }
-

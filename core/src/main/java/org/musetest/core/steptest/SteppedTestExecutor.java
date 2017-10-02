@@ -18,7 +18,7 @@ public class SteppedTestExecutor
         _context = context;
         _test = test;
         _step_executor = new StepExecutor(test, context);
-        _resulter = new TestFailsOnErrorFailureOrInterrupt(test, _step_executor.getEventLog());
+        _resulter = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         _context.addEventListener(_resulter);
         }

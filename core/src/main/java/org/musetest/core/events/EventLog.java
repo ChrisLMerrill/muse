@@ -1,6 +1,7 @@
 package org.musetest.core.events;
 
 import org.musetest.core.*;
+import org.musetest.core.datacollection.*;
 import org.musetest.core.events.matching.*;
 
 import java.io.*;
@@ -10,14 +11,20 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EventLog implements MuseEventListener
+public class EventLog implements MuseEventListener, DataCollector, TestResultData
     {
     public Iterator<MuseEvent> events()
         {
         return _events.iterator();
         }
 
-    @Override
+	@Override
+	public void initialize(MuseExecutionContext context) throws MuseExecutionError
+		{
+		context.addEventListener(this);
+		}
+
+	@Override
     public void eventRaised(MuseEvent event)
         {
         if (_events.size() == 0)
@@ -25,7 +32,13 @@ public class EventLog implements MuseEventListener
         _events.add(event);
         }
 
-    public void print(PrintStream out)
+	@Override
+	public TestResultData getData()
+		{
+		return this;
+		}
+
+	public void print(PrintStream out)
         {
         if (_events.size() == 0)
             {

@@ -25,6 +25,8 @@ public class CommandLineTestRunner implements MuseResourceRunner
         MuseTest test = (MuseTest) resource;
 
         TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
+// TODO only do this if instructed to save the TestResultData
+//        runner.getExecutionContext().addInitializer(new EventLog());
         if (verbose)
             {
             System.out.println("--------------------------------------------------------------------------------");

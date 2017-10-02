@@ -21,7 +21,9 @@ public class TestTests
     public void eventGeneration()
         {
         SteppedTest test = setupLogTest(null);
-        MuseTestResult result = test.execute(new DefaultTestExecutionContext(new SimpleProject(), test));
+		final DefaultTestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
+		context.addInitializer(new EventLog());
+		MuseTestResult result = test.execute(context);
 
         Assert.assertTrue(result.isPass());
         Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(MuseEventType.StartTest)).size());
@@ -102,7 +104,7 @@ public class TestTests
         Assert.assertTrue(log.findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 2);
         }
 
-    static SteppedTest setupLogTest(StepConfiguration first_step)
+    private static SteppedTest setupLogTest(StepConfiguration first_step)
         {
         StepConfiguration log_step = new StepConfiguration(LogMessage.TYPE_ID);
         log_step.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue("abc"));

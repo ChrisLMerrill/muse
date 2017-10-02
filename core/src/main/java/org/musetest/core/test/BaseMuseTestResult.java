@@ -1,6 +1,7 @@
 package org.musetest.core.test;
 
 import org.musetest.core.*;
+import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.suite.*;
 import org.musetest.core.variables.*;
@@ -19,6 +20,14 @@ public class BaseMuseTestResult implements MuseTestResult
         _failure = failure;
         }
 
+    public BaseMuseTestResult(MuseTest test, MuseExecutionContext context, MuseTestFailureDescription failure)
+        {
+        _test = test;
+        for (DataCollector collector : context.getDataCollectors())
+        	_result_data.add(collector.getData());
+        _failure = failure;
+        }
+
     @Override
     public MuseTest getTest()
         {
@@ -28,6 +37,9 @@ public class BaseMuseTestResult implements MuseTestResult
     @Override
     public EventLog getLog()
         {
+        for (TestResultData data : _result_data)
+        	if (data instanceof EventLog)
+        		return (EventLog) data;
         return _log;
         }
 
@@ -86,6 +98,7 @@ public class BaseMuseTestResult implements MuseTestResult
     private EventLog _log;
     private MuseTestFailureDescription _failure;
     private TestConfiguration _config;
+    private List<TestResultData> _result_data = new ArrayList<>();
 
     private static Map<MuseTestFailureDescription.FailureType, String> FAILURE_STRINGS = new HashMap<>();
     static

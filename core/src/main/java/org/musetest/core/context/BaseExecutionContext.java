@@ -1,6 +1,7 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
+import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.test.*;
 import org.musetest.core.variables.*;
@@ -119,15 +120,26 @@ public class BaseExecutionContext implements MuseExecutionContext
             throw new MuseExecutionError("Context has been initialized...can't run it again.");
 
         for (ContextInitializer initializer : _initializers)
-            initializer.initialize(this);
-        }
+			{
+			initializer.initialize(this);
+			if (initializer instanceof DataCollector)
+				_data_collectors.add((DataCollector)initializer);
+			}
+		_initialized = true;
+		}
 
-    private final MuseProject _project;
+	public List<DataCollector> getDataCollectors()
+		{
+		return _data_collectors;
+		}
+
+	private final MuseProject _project;
 
     private Map<String, Object> _vars = new HashMap<>();
     protected List<MuseEventListener> _listeners = new ArrayList<>();
     private List<Shuttable> _shuttables = new ArrayList<>();
     private List<ContextInitializer> _initializers = new ArrayList<>();
+    private List<DataCollector> _data_collectors = new ArrayList<>();
     private boolean _initialized = false;
 
     private final static Logger LOG = LoggerFactory.getLogger(TestExecutionContext.class);

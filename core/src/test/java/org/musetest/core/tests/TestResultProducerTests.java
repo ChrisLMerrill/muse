@@ -17,16 +17,17 @@ import org.musetest.core.variables.*;
 public class TestResultProducerTests
     {
     @Test
-    public void basics()
-        {
-        EventLog log = new EventLog();
-        MuseTest test = new MockTest();
-        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, log);
+    public void basics() throws MuseExecutionError
+		{
+		final MockTest test = new MockTest();
+		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext(test);
+        context.runInitializers();  // need to do this manually since we're not actually running a test
+        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         MuseTestResult result = producer.getTestResult();
         Assert.assertTrue(result.isPass());
         Assert.assertNull(result.getFailureDescription());
-        Assert.assertEquals(log, result.getLog());
+		Assert.assertNotNull(result.getLog());
         Assert.assertEquals(test, result.getTest());
         Assert.assertTrue(result.getOneLineDescription().toLowerCase().contains("success"));
         }
@@ -36,7 +37,9 @@ public class TestResultProducerTests
         {
         EventLog log = new EventLog();
         MuseTest test = new MockTest();
-        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, log);
+		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
+		context.addInitializer(log);
+        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "test123";
         producer.eventRaised(new StepEvent(MuseEventType.EndStep, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, reason)));
@@ -53,7 +56,9 @@ public class TestResultProducerTests
         {
         EventLog log = new EventLog();
         MuseTest test = new MockTest();
-        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, log);
+		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
+		context.addInitializer(log);
+        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "test123";
         producer.eventRaised(new StepEvent(MuseEventType.EndStep, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.ERROR, reason)));
@@ -70,7 +75,9 @@ public class TestResultProducerTests
         {
         EventLog log = new EventLog();
         MuseTest test = new MockTest();
-        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, log);
+		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
+		context.addInitializer(log);
+        TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "verifyfail";
         producer.eventRaised(new VerifyFailureEvent(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), reason));
