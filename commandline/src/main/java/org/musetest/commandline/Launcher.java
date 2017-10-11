@@ -28,14 +28,25 @@ public class Launcher
             .withCommands(implementors);
         Cli<Runnable> muse_parser = builder.build();
 
-        try
+		final Runnable command;
+		try
             {
-            muse_parser.parse(args).run();
+			command = muse_parser.parse(args);
             }
         catch (Exception e)
             {
             muse_parser.parse(new String[0]).run();
+            return;
             }
+        try
+            {
+            command.run();
+            }
+        catch (Exception e)
+            {
+			System.out.println(String.format("Command failed due to a %s.\n%s", e.getClass().getSimpleName(), e.getMessage()));
+			e.printStackTrace(System.err);
+			}
         }
 
     static
