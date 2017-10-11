@@ -120,17 +120,33 @@ public class BaseExecutionContext implements MuseExecutionContext
             throw new MuseExecutionError("Context has been initialized...can't run it again.");
 
         for (ContextInitializer initializer : _initializers)
-			{
 			initializer.initialize(this);
-			if (initializer instanceof DataCollector)
-				_data_collectors.add((DataCollector)initializer);
-			}
 		_initialized = true;
 		}
 
 	public List<DataCollector> getDataCollectors()
 		{
-		return _data_collectors;
+		List<DataCollector> data_collectors = new ArrayList<>();
+		for (ContextInitializer initializer : _initializers)
+		if (initializer instanceof DataCollector)
+			data_collectors.add((DataCollector)initializer);
+		return data_collectors;
+		}
+
+	@Override
+	public <T extends DataCollector> T getDataCollector(Class<T> type)
+		{
+		T the_collector = null;
+		for (ContextInitializer initializer : _initializers)
+			{
+			if (type.isAssignableFrom(initializer.getClass()))
+				{
+				if (the_collector != null)
+					throw new IllegalArgumentException("Cannot use this method when there are more than one DataCollectors of the desired type");
+				the_collector = (T) initializer;
+				}
+			}
+		return the_collector;
 		}
 
 	private final MuseProject _project;
@@ -139,7 +155,6 @@ public class BaseExecutionContext implements MuseExecutionContext
     protected List<MuseEventListener> _listeners = new ArrayList<>();
     private List<Shuttable> _shuttables = new ArrayList<>();
     private List<ContextInitializer> _initializers = new ArrayList<>();
-    private List<DataCollector> _data_collectors = new ArrayList<>();
     private boolean _initialized = false;
 
     private final static Logger LOG = LoggerFactory.getLogger(TestExecutionContext.class);

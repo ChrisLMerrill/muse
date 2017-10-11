@@ -35,10 +35,9 @@ public class TestResultProducerTests
     @Test
     public void stepFailure()
         {
-        EventLog log = new EventLog();
         MuseTest test = new MockTest();
 		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
-		context.addInitializer(log);
+		context.addInitializer(new EventLogger());
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "test123";
@@ -54,10 +53,9 @@ public class TestResultProducerTests
     @Test
     public void stepError()
         {
-        EventLog log = new EventLog();
         MuseTest test = new MockTest();
 		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
-		context.addInitializer(log);
+		context.addInitializer(new EventLogger());
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "test123";
@@ -73,10 +71,9 @@ public class TestResultProducerTests
     @Test
     public void verifyFailed()
         {
-        EventLog log = new EventLog();
         MuseTest test = new MockTest();
 		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
-		context.addInitializer(log);
+		context.addInitializer(new EventLogger());
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "verifyfail";

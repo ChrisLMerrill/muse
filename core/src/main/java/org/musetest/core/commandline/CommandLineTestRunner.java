@@ -1,9 +1,12 @@
 package org.musetest.core.commandline;
 
 import org.musetest.core.*;
+import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.resource.*;
+
+import java.io.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -24,9 +27,13 @@ public class CommandLineTestRunner implements MuseResourceRunner
             return false;
         MuseTest test = (MuseTest) resource;
 
+        File output_folder = null;
+        if (report_path != null)
+        	output_folder = new File(report_path);
+
         TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
-// TODO only do this if instructed to save the TestResultData
-//        runner.getExecutionContext().addInitializer(new EventLog());
+        if (output_folder != null)
+        	runner.getExecutionContext().addInitializer(new EventLogger());
         if (verbose)
             {
             System.out.println("--------------------------------------------------------------------------------");
@@ -46,6 +53,27 @@ public class CommandLineTestRunner implements MuseResourceRunner
             else
                 System.out.println(result.getFailureDescription());
             }
+
+		if (output_folder != null)
+			{
+			String test_name = test.getId();
+			File base_file = new File(output_folder, test_name);
+			for (DataCollector collector : runner.getExecutionContext().getDataCollectors())
+				{
+				final File data_file = new File(output_folder, collector.getData().getName());
+				// TODO add numbers to the filenames to avoid overwriting other related files
+				// TODO get DataCollector metadata associated with this collector and store it?
+				try (FileOutputStream outstream = new FileOutputStream(data_file))
+					{
+					collector.getData().write(outstream);
+					}
+				catch (IOException e)
+					{
+					System.out.println(String.format("Unable to store results of test %s in %s due to: %s", test_name, data_file.getAbsolutePath(), e.getMessage()));
+					}
+				}
+			}
+
         return true;
         }
     }

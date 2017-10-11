@@ -7,24 +7,32 @@ import org.musetest.core.*;
  */
 public class EndTestEvent extends MuseEvent
     {
-    public EndTestEvent(MuseTestResult result)
+    public EndTestEvent(String description, boolean pass)
         {
         super(MuseEventType.EndTest);
-        _result = result;
+		_description = description;
+		_pass = pass;
         }
 
     @Override
     public String getDescription()
         {
-        return _result.getOneLineDescription();
+        return _description;
         }
 
-    public MuseTestResult getResult()
-        {
-        return _result;
-        }
+	@SuppressWarnings("unused")  // needed for JSON de/serialization
+	private void setDescription(String description)
+		{
+		_description = description;
+		}
 
-    private MuseTestResult _result;
+	public boolean isPass()
+		{
+		return _pass;
+		}
+
+    private String _description;
+    private boolean _pass;
     }
 
 

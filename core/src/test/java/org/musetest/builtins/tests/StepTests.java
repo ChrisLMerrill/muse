@@ -147,9 +147,9 @@ public class StepTests
 
     private void verifyMaybeFatal(boolean fatal) throws MuseExecutionError
         {
-        EventLog log = new EventLog();
+        EventLogger logger = new EventLogger();
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), null);
-        test_context.addEventListener(log);
+        test_context.addEventListener(logger);
 
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
         config.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(false));
@@ -160,7 +160,7 @@ public class StepTests
         StepExecutionResult result = step.execute(new MockStepExecutionContext(test_context));
         Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
 
-        List<MuseEvent> events = log.findEvents(new EventTypeMatcher(MuseEventType.VerifyFailed));
+        List<MuseEvent> events = logger.getData().findEvents(new EventTypeMatcher(MuseEventType.VerifyFailed));
         Assert.assertEquals(1, events.size());
         Assert.assertEquals(fatal, ((VerifyFailureEvent) events.get(0)).isFatal());
         }
@@ -190,12 +190,12 @@ public class StepTests
 
         // verify that the macro runs when the test is executed
         TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
-        EventLog log = new EventLog();
-        runner.getExecutionContext().addEventListener(log);
+        EventLogger logger = new EventLogger();
+        runner.getExecutionContext().addEventListener(logger);
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
-        Assert.assertNotNull("message step didn't run", log.findFirstEvent(new EventDescriptionMatcher(message)));
+        Assert.assertNotNull("message step didn't run", logger.getData().findFirstEvent(new EventDescriptionMatcher(message)));
         }
 
     /**
@@ -274,7 +274,7 @@ public class StepTests
         SteppedTest test = new SteppedTest(test_step);
 
         TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
-        runner.getExecutionContext().addInitializer(new EventLog());
+        runner.getExecutionContext().addInitializer(new EventLogger());
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());

@@ -61,5 +61,3 @@ public class StepEvent extends MuseEvent
     private StepExecutionResult _result;
     private StepConfiguration _config;
     }
-
-

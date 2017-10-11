@@ -16,8 +16,6 @@ public class StepExecutor
     public StepExecutor(ContainsStep step, StepsExecutionContext context)
         {
         _context = context;
-
-        _context.addEventListener(_log);
         _context.getExecutionStack().push(new SingleStepExecutionContext(_context, step.getStep(), true));
         }
 
@@ -102,14 +100,8 @@ public class StepExecutor
         return _terminate;
         }
 
-    public EventLog getEventLog()
-        {
-        return _log;
-        }
-
     private StepsExecutionContext _context;
     private boolean _terminate = false;
-    private final EventLog _log = new EventLog();
     private Set<StepConfiguration> _steps_in_progress = new HashSet<>();
 
     private final static Logger LOG = LoggerFactory.getLogger(StepExecutor.class);

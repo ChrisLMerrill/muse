@@ -88,5 +88,12 @@ public interface MuseExecutionContext
 	 * Get the DataCollectors configured for the test.
 	 */
 	List<DataCollector> getDataCollectors();
+
+	/**
+	 * Gets the single collector of the specified type.
+	 *
+	 * @throws IllegalArgumentException if there are multiple collectors of that type.
+	 */
+	<T extends DataCollector> T getDataCollector(Class<T> type);
     }
 

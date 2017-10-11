@@ -41,7 +41,8 @@ public class SteppedTestExecutor
             else
                 throw e;
             }
-        return finishTest();
+        finishTest();
+        return getResult();
         }
 
     public boolean startTest()
@@ -61,10 +62,15 @@ public class SteppedTestExecutor
         return true;
         }
 
-    public MuseTestResult finishTest()
+	public MuseTestResult getResult()
+		{
+		return _resulter.getTestResult();
+		}
+
+    public void finishTest()
         {
-        MuseTestResult result = _resulter.getTestResult();
-        _context.raiseEvent(new EndTestEvent(result));
+		final MuseTestResult result = _resulter.getTestResult();
+		_context.raiseEvent(new EndTestEvent(result.getOneLineDescription(), result.isPass()));
         try
             {
             _context.cleanup();
@@ -74,7 +80,6 @@ public class SteppedTestExecutor
             LOG.error("Exception during test cleanup:", e);
             // regardless of exception here, we want to return the result.
             }
-        return result;
         }
 
     @SuppressWarnings("unused") // used in GUI
@@ -99,12 +104,6 @@ public class SteppedTestExecutor
     public boolean terminateRequested()
         {
         return _step_executor.isTerminateRequested();
-        }
-
-    @SuppressWarnings("unused") // used in GUI
-    public EventLog getEventLog()
-        {
-        return _step_executor.getEventLog();
         }
 
     private SteppedTestExecutionContext _context;

@@ -42,13 +42,13 @@ public class MockStepExecutionContext implements StepExecutionContext
 	public MockStepExecutionContext(MuseProject project, MuseTest test)
 		{
 		DefaultTestExecutionContext parent_context = new DefaultTestExecutionContext(project, test);
-		parent_context.addInitializer(new EventLog());
+		parent_context.addInitializer(new EventLogger());
   		_test_context = new DefaultSteppedTestExecutionContext(parent_context);
 		}
 
     public MockStepExecutionContext(TestExecutionContext test_context)
         {
-		test_context.addInitializer(new EventLog());
+		test_context.addInitializer(new EventLogger());
         _test_context = new DefaultSteppedTestExecutionContext(test_context);
         }
 
@@ -168,6 +168,12 @@ public class MockStepExecutionContext implements StepExecutionContext
 	public List<DataCollector> getDataCollectors()
 		{
 		return _test_context.getDataCollectors();
+		}
+
+	@Override
+	public <T extends DataCollector> T getDataCollector(Class<T> type)
+		{
+		return _test_context.getDataCollector(type);
 		}
 
 	private Map<String, Object> _variables = new HashMap<>();

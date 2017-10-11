@@ -22,7 +22,7 @@ public class TestTests
         {
         SteppedTest test = setupLogTest(null);
 		final DefaultTestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
-		context.addInitializer(new EventLog());
+		context.addInitializer(new EventLogger());
 		MuseTestResult result = test.execute(context);
 
         Assert.assertTrue(result.isPass());
@@ -56,15 +56,15 @@ public class TestTests
         StepConfiguration step = new StepConfiguration(Verify.TYPE_ID); // will cause an error - condition param is missing
         SteppedTest test = setupLogTest(step);
 
-        EventLog log = new EventLog();
+        EventLogger logger = new EventLogger();
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        test_context.addEventListener(log);
+        test_context.addEventListener(logger);
 
         MuseTestResult result = test.execute(test_context);
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should stop after verify step
-        Assert.assertTrue(log.findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 2);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 2);
         }
 
     @Test
@@ -74,15 +74,15 @@ public class TestTests
         step.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(false)); // will cause a failure
         SteppedTest test = setupLogTest(step);
 
-        EventLog log = new EventLog();
+        EventLogger logger = new EventLogger();
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        test_context.addEventListener(log);
+        test_context.addEventListener(logger);
 
         MuseTestResult result = test.execute(test_context);
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should run all steps
-        Assert.assertTrue(log.findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 3);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 3);
         }
 
     @Test
@@ -93,15 +93,15 @@ public class TestTests
         step.addSource(Verify.TERMINATE_PARAM, ValueSourceConfiguration.forValue(true)); // should cause test to stop
         SteppedTest test = setupLogTest(step);
 
-        EventLog log = new EventLog();
+        EventLogger logger = new EventLogger();
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        test_context.addEventListener(log);
+        test_context.addEventListener(logger);
 
         MuseTestResult result = test.execute(test_context);
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should stop after verify step
-        Assert.assertTrue(log.findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 2);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 2);
         }
 
     private static SteppedTest setupLogTest(StepConfiguration first_step)

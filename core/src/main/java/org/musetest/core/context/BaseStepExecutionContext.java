@@ -142,6 +142,12 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
 		return _parent_context.getDataCollectors();
 		}
 
+	@Override
+	public <T extends DataCollector> T getDataCollector(Class<T> type)
+		{
+		return _parent_context.getDataCollector(type);
+		}
+
 	private StepsExecutionContext _parent_context;
 	private Map<String, Object> _step_vars = null;
 	}
