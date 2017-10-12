@@ -9,7 +9,7 @@ import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.util.*;
-import org.musetest.tests.utils.*;
+import org.musetest.testutils.*;
 
 import java.io.*;
 import java.util.*;
@@ -41,7 +41,7 @@ public class ResourceFactoryTests
     @Test
     public void testOpenProjectWithFileResource()
         {
-        FolderIntoMemoryResourceStorage store = new FolderIntoMemoryResourceStorage(TestUtils.getTestResource("projects/empty", getClass()));
+        FolderIntoMemoryResourceStorage store = new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/empty", getClass()));
         MuseProject project = new SimpleProject(store);
         MuseResource resource = project.getResourceStorage().getResource("not_done_yet", MockMuseResource.class);
         Assert.assertNull(resource);
@@ -51,7 +51,7 @@ public class ResourceFactoryTests
     public void loadCsvDataTable() throws IOException
         {
         MuseProject project = new SimpleProject();
-        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestUtils.getTestResource("test_files/DataTable.csv", getClass())), new FactoryLocator(project.getClassLocator()), project.getClassLocator());
+        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("test_files/DataTable.csv", getClass())), new FactoryLocator(project.getClassLocator()), project.getClassLocator());
         Assert.assertEquals(1, resources.size());
         Assert.assertTrue(resources.get(0) instanceof DataTable);
 

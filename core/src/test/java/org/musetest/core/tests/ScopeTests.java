@@ -5,7 +5,7 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.storage.*;
-import org.musetest.tests.utils.*;
+import org.musetest.testutils.*;
 
 import java.io.*;
 
@@ -34,7 +34,7 @@ public class ScopeTests
 
     private void runTestAndCheckForSuccess(String test_name)
         {
-        File file = TestUtils.getTestResource("projects/scopes", getClass());
+        File file = TestResources.getFile("projects/scopes", getClass());
         SimpleProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(file));
         MuseTest test = project.getResourceStorage().getResource(test_name, MuseTest.class);
         MuseTestResult result = test.execute(new DefaultTestExecutionContext(project, test));

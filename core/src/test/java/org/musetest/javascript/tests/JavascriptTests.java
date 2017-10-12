@@ -15,7 +15,7 @@ import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 import org.musetest.javascript.*;
 import org.musetest.javascript.factory.*;
-import org.musetest.tests.utils.*;
+import org.musetest.testutils.*;
 
 import javax.script.*;
 import java.io.*;
@@ -54,7 +54,7 @@ public class JavascriptTests
     @Test
     public void loadJavascriptTestFromFile() throws IOException
         {
-        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestUtils.getTestResource("javascriptTest.js", this.getClass())));
+        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("javascriptTest.js", this.getClass())));
         Assert.assertEquals(1, resources.size());
         Assert.assertTrue(resources.get(0) instanceof MuseTest);
         MuseTestResult result = ((MuseTest) resources.get(0)).execute(new DefaultTestExecutionContext(new SimpleProject(), null));
@@ -89,7 +89,7 @@ public class JavascriptTests
 
     private JavascriptStepResource loadJavascriptStepFromFileIntoProject(MuseProject project, String filename) throws IOException
         {
-        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestUtils.getTestResource(filename, this.getClass())));
+        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile(filename, this.getClass())));
         Assert.assertEquals(1, resources.size());
         Assert.assertTrue(resources.get(0) instanceof JavascriptStepResource);
 

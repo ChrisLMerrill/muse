@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.matching.*;
 
+import javax.annotation.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -17,22 +18,22 @@ public class EventLog implements TestResultData
         {
         return _events.iterator();
         }
+	private String _name = "EventLog.txt";
 
 	@Override
 	public String getName()
 		{
-		return "EventLog.txt";
-//		return "EventLog.json";
+		return _name;
 		}
 
 	@Override
-	public void setName(String name)
+	public void setName(@Nonnull String name)
 		{
-
+		_name = name;
 		}
 
 	@Override
-	public void write(OutputStream outstream) throws IOException
+	public void write(@Nonnull OutputStream outstream) throws IOException
 		{
 		print(new PrintStream(outstream));
 

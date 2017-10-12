@@ -7,7 +7,7 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.step.*;
-import org.musetest.tests.utils.*;
+import org.musetest.testutils.*;
 
 import java.io.*;
 import java.util.*;
@@ -20,7 +20,7 @@ public class ResourceLoadingFromDiskTests
     @Test
     public void testLoadingMacroStep() throws IOException
         {
-        File file = TestUtils.getTestResource("test_files/MacroStep.json", this.getClass());
+        File file = TestResources.getFile("test_files/MacroStep.json", this.getClass());
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(file));
         Assert.assertEquals(1, resources.size());
         MuseResource resource = resources.get(0);

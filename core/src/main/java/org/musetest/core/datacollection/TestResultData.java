@@ -1,5 +1,6 @@
 package org.musetest.core.datacollection;
 
+import javax.annotation.*;
 import java.io.*;
 
 /**
@@ -8,8 +9,8 @@ import java.io.*;
 public interface TestResultData
 	{
 	String getName();
-	void setName(String name);
+	void setName(@Nonnull String name);
 
-	void write(OutputStream outstream) throws IOException;
+	void write(@Nonnull OutputStream outstream) throws IOException;
 	}
 
