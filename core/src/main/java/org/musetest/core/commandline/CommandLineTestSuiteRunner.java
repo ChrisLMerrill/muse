@@ -21,7 +21,7 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
         }
 
     @Override
-    public boolean run(MuseProject project, MuseResource resource, boolean verbose, String report_path)
+    public boolean run(MuseProject project, MuseResource resource, boolean verbose, String output_path)
         {
         if (!(resource instanceof MuseTestSuite))
             return false;
@@ -83,10 +83,10 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
 
             try
                 {
-                if (report_path != null)
+                if (output_path != null)
                     {
                     JunitReportRenderer renderer = new JunitReportRenderer(result);
-                    File report_file = new File(report_path);
+                    File report_file = new File(output_path);
                     if (report_file.isDirectory())
                         report_file = new File(report_file, "testresults.xml");
                     FileOutputStream outstream = new FileOutputStream(report_file);

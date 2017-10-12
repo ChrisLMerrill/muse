@@ -18,13 +18,13 @@ import java.util.*;
 public class RunCommand extends MuseCommand
     {
     @Arguments(description = "filename/ID of resource to run", required = true)
-    public String resource_id;
+    private String resource_id;
 
     @Option(name = "-v", description = "Verbose output")
-    public boolean verbose;
+	private boolean verbose;
 
-    @Option(name = "-o", description = "Report output path")
-    public String report_path;
+    @Option(name = "-o", description = "Output path")
+	private String output_path;
 
     @Override
     public void run()
@@ -49,7 +49,7 @@ public class RunCommand extends MuseCommand
             {
             if (runner.canRun(resource))
                 {
-                if (runner.run(project, resource, verbose, report_path))
+                if (runner.run(project, resource, verbose, output_path))
                     return;
                 else
                     System.exit(1);
@@ -59,7 +59,7 @@ public class RunCommand extends MuseCommand
         LOG.error(String.format("No editor found for resource type %s (id=%s).", resource.getType().getName(), resource_id));
         }
 
-    final static Logger LOG = LoggerFactory.getLogger(RunCommand.class);
+    private final static Logger LOG = LoggerFactory.getLogger(RunCommand.class);
     }
 
 

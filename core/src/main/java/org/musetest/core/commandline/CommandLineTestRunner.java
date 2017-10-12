@@ -21,15 +21,15 @@ public class CommandLineTestRunner implements MuseResourceRunner
         }
 
     @Override
-    public boolean run(MuseProject project, MuseResource resource, boolean verbose, String report_path)
+    public boolean run(MuseProject project, MuseResource resource, boolean verbose, String output_path)
         {
         if (!(resource instanceof MuseTest))
             return false;
         MuseTest test = (MuseTest) resource;
 
         File output_folder = null;
-        if (report_path != null)
-        	output_folder = new File(report_path);
+        if (output_path != null)
+        	output_folder = new File(output_path);
 
         TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
         if (output_folder != null)

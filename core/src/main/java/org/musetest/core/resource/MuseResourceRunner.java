@@ -10,6 +10,6 @@ import org.musetest.core.*;
 public interface MuseResourceRunner
     {
     boolean canRun(MuseResource resource);
-    boolean run(MuseProject project, MuseResource resource, boolean verbose, String report_path);
+    boolean run(MuseProject project, MuseResource resource, boolean verbose, String output_path);
     }
 
