@@ -94,18 +94,14 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public Map<String, ValueSourceConfiguration> getSourceMap()
         {
-        if (_source_map == null)
-            return null;
-        return Collections.unmodifiableMap(_source_map);
+        return _named_sources.getSourceMap();    // delegate
         }
 
     @JsonIgnore
     @SuppressWarnings("unused") // used by GUI
     public Set<String> getSourceNames()
         {
-        if (_source_map == null)
-            return Collections.emptySet();
-        return _source_map.keySet();
+        return _named_sources.getSourceNames();  // delegate
         }
 
     /**
@@ -113,10 +109,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
      */
     public void setSourceMap(Map<String, ValueSourceConfiguration> source_map)
         {
-        if (_source_map != null)
-            throw new IllegalArgumentException("This method only to be used for deserialization. Cannot call again");
-        _source_map = source_map;
-        _source_map.values().stream().filter(source -> source != null).forEach(source -> source.addChangeListener(getSubsourceListener()));
+        _named_sources.setSourceMap(source_map);
         }
 
     public List<ValueSourceConfiguration> getSourceList()
@@ -151,20 +144,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public void addSource(String name, ValueSourceConfiguration source)
         {
-        if (source == null)
-            throw new IllegalArgumentException("Cannot add a named source with a null value");
-
-        if (_source_map == null)
-            _source_map = new HashMap<>();
-        ValueSourceConfiguration old_source = _source_map.get(name);
-        if (!(Objects.equals(source, old_source)))
-            {
-            if (old_source != null)
-                throw new IllegalArgumentException(String.format("source named %s is already present. can't be added.", name));
-            _source_map.put(name, source);
-            source.addChangeListener(getSubsourceListener());
-            notifyListeners(new NamedSourceAddedEvent(this, name, source));
-            }
+        _named_sources.addSource(name, source);  // delegate
         }
 
     public void addSource(int index, ValueSourceConfiguration source)
@@ -179,9 +159,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public ValueSourceConfiguration getSource(String name)
         {
-        if (_source_map == null)
-            return null;
-        return _source_map.get(name);
+        return _named_sources.getSource(name);  // delegate
         }
 
     public ValueSourceConfiguration getSource(int index)
@@ -193,18 +171,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public ValueSourceConfiguration removeSource(String name)
         {
-        if (_source_map == null)
-            return null;
-
-        if (_source_map.containsKey(name))
-            {
-            ValueSourceConfiguration removed = _source_map.remove(name);
-            if (removed != null)
-                removed.removeChangeListener(getSubsourceListener());
-            notifyListeners(new NamedSourceRemovedEvent(this, name, removed));
-            return removed;
-            }
-        return null;
+        return _named_sources.removeSource(name);  // delegate
         }
 
     public ValueSourceConfiguration removeSource(int index)
@@ -227,15 +194,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public ValueSourceConfiguration replaceSource(String name, ValueSourceConfiguration new_source)
         {
-        ValueSourceConfiguration old_source = _source_map.remove(name);
-        if (old_source == null)
-            throw new IllegalArgumentException(String.format("Cannot replace sub-source %s, it does not exist.", name));
-        _source_map.put(name, new_source);
-        old_source.removeChangeListener(getSubsourceListener());
-        if (new_source != null)
-            new_source.addChangeListener(getSubsourceListener());
-        notifyListeners(new NamedSourceReplacedEvent(this, name, old_source, new_source));
-        return old_source;
+        return _named_sources.replaceSource(name, new_source);  // delegate
         }
 
     public ValueSourceConfiguration replaceSource(int index, ValueSourceConfiguration new_source)
@@ -252,12 +211,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public boolean renameSource(String old_name, String new_name)
         {
-        ValueSourceConfiguration source = _source_map.remove(old_name);
-        if (source == null)
-            return false;
-        _source_map.put(new_name, source);
-        notifyListeners(new NamedSourceRenamedEvent(this, new_name, old_name, source));
-        return true;
+        return _named_sources.renameSource(old_name, new_name);  // delegate
         }
 
     @Override
@@ -286,26 +240,18 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
         if (!Objects.equals(list, other_list))
             return false;
 
-        // a little extra work, because a null reference to a map is technically not the same as an empty map (but for our purposes, it is)
-        Map<String, ValueSourceConfiguration> map = _source_map;
-        if (map == null)
-            map = Collections.emptyMap();
-        Map<String, ValueSourceConfiguration> other_map = other._source_map;
-        if (other_map == null)
-            other_map = Collections.emptyMap();
-        if (!Objects.equals(map, other_map))
-            return false;
-
-        return true;
+        return Objects.equals(_named_sources, other._named_sources);
         }
 
     public void addChangeListener(ChangeEventListener listener)
         {
         getListenersInternal().add(listener);
+        _named_sources.addChangeListener(listener);
         }
 
     public boolean removeChangeListener(ChangeEventListener listener)
         {
+        _named_sources.addChangeListener(listener);
         return getListenersInternal().remove(listener);
         }
 
@@ -407,15 +353,15 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
             builder.append("]");
             first = false;
             }
-        if (_source_map != null && _source_map.size() > 0)
+        if (_named_sources != null && _named_sources.getSourceNames().size() > 0)
             {
             if (!first)
                 builder.append(",");
             builder.append("map={");
             boolean first_in_list = true;
-            for (String name : _source_map.keySet())
+            for (String name : _named_sources.getSourceNames())
                 {
-                ValueSourceConfiguration source = _source_map.get(name);
+                ValueSourceConfiguration source = _named_sources.getSource(name);
                 if (!first_in_list)
                     builder.append(",");
                 builder.append(name);
@@ -432,7 +378,8 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
     private Object _value;
     private ValueSourceConfiguration _source;
     private String _type;
-    private Map<String, ValueSourceConfiguration> _source_map;
+//    private Map<String, ValueSourceConfiguration> _source_map;
+    private NamedSourcesContainer _named_sources = new NamedSourcesContainer(this);
     private List<ValueSourceConfiguration> _source_list;
     private Map<String, Object> _metadata = null;
 
@@ -454,14 +401,6 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
                 mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, e);
             else if (_source_list != null && _source_list.contains(modified))
                 mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, _source_list.indexOf(modified), e);
-            else if (_source_map != null)
-                {
-                for (String key : _source_map.keySet())
-                    {
-                    if (_source_map.get(key) == modified)
-                        mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, key, e);
-                    }
-                }
             if (mod_event == null)
                 LOG.error("Received an event for an unknown subsource -- somebody forget to de-register a listener!");
             else
