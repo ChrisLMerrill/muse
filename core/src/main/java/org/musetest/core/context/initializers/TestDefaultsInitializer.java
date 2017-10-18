@@ -19,6 +19,18 @@ public class TestDefaultsInitializer implements ContextInitializer
         }
 
     @Override
+    public String getType()
+	    {
+	    return "test-defaults";
+	    }
+
+    @Override
+    public void configure(ContextInitializerConfiguration configuration)
+	    {
+	    // doesn't currently need configuration
+	    }
+
+    @Override
     public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
         Map<String, ValueSourceConfiguration> defaults = _test_context.getTest().getDefaultVariables();

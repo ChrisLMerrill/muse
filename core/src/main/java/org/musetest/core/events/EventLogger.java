@@ -1,6 +1,7 @@
 package org.musetest.core.events;
 
 import org.musetest.core.*;
+import org.musetest.core.context.initializers.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.matching.*;
 
@@ -19,7 +20,19 @@ public class EventLogger implements MuseEventListener, DataCollector
 		context.addEventListener(this);
 		}
 
-	@Override
+    @Override
+    public String getType()
+	    {
+	    return "event-logger";
+	    }
+
+    @Override
+    public void configure(ContextInitializerConfiguration configuration)
+	    {
+	    // doesn't currently need configuration
+	    }
+
+    @Override
     public void eventRaised(MuseEvent event)
         {
         _log.add(event);

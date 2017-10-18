@@ -3,6 +3,7 @@ package org.musetest.core.project;
 import org.musetest.builtins.value.property.*;
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
+import org.musetest.core.context.initializers.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.resource.types.*;
@@ -58,6 +59,14 @@ public class SimpleProject implements MuseProject
             _resource_types = new ResourceTypes(getClassLocator());
         return _resource_types;
         }
+
+    @Override
+    public ContextInitializerTypes getContextInitializerTypes()
+	    {
+	    if (_ci_types == null)
+		    _ci_types = new ContextInitializerTypes(getClassLocator());
+     return _ci_types;
+	    }
 
     @Override
     public ClassLoader getClassloader()
@@ -156,6 +165,7 @@ public class SimpleProject implements MuseProject
     private PropertyResolvers _resolvers;
     private SystemVariableProviders _sysvar_providers;
     private ResourceTypes _resource_types;
+    private ContextInitializerTypes _ci_types;
     private Map<String, String> _command_line_options;
     private String _name = "unnamed project";
     }

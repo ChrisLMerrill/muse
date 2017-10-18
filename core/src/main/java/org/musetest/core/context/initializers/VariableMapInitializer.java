@@ -18,6 +18,18 @@ public class VariableMapInitializer implements ContextInitializer
         }
 
     @Override
+    public String getType()
+	    {
+	    return "variable-map";
+	    }
+
+    @Override
+    public void configure(ContextInitializerConfiguration configuration)
+	    {
+	    // doesn't currently need configuration
+	    }
+
+    @Override
     public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
         for (String name : _variables.keySet())

@@ -21,9 +21,9 @@ public class ResourceTypeTests
         Collection<ResourceType> all = project.getResourceTypes().getPrimary();
 
         Assert.assertTrue(all.contains(new MuseTest.TestResourceType()));
-        Assert.assertTrue(all.contains(new ContextInitializerConfiguration.ContextInitializerResourceType()));
+        Assert.assertTrue(all.contains(new ContextInitializersConfiguration.ContextInitializersConfigurationResourceType()));
         // subtype should not be found
-        Assert.assertFalse(all.contains(new VariableListContextInitializerConfigurations.ContextInitializerConfigurationsResourceType()));
+        Assert.assertFalse(all.contains(new IdListTestSuite.IdListTestSuiteSubtype()));
         }
 
     @Test

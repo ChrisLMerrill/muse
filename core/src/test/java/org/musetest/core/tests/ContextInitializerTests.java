@@ -16,204 +16,177 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class ContextInitializerTests
-    {
-    @Test
-    public void testDefaultsInitializer() throws MuseExecutionError
-        {
-        MuseTest test = new SteppedTest();
-        test.setDefaultVariable("var1", ValueSourceConfiguration.forValue("value1"));
-        SimpleProject project = new SimpleProject();
-        TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        TestDefaultsInitializer initializer = new TestDefaultsInitializer(context);
-        initializer.initialize(context);
+	{
+	@Test
+	public void testDefaultsInitializer() throws MuseExecutionError
+		{
+		MuseTest test = new SteppedTest();
+		test.setDefaultVariable("var1", ValueSourceConfiguration.forValue("value1"));
+		SimpleProject project = new SimpleProject();
+		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
+		TestDefaultsInitializer initializer = new TestDefaultsInitializer(context);
+		initializer.initialize(context);
 
-        Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
-        }
+		Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
+		}
 
-    @Test
-    public void allProjectVariables() throws MuseExecutionError, IOException
-        {
-        MuseTest test = new SteppedTest();
-        SimpleProject project = new SimpleProject();
+	@Test
+	public void allProjectVariables() throws MuseExecutionError, IOException
+		{
+		MuseTest test = new SteppedTest();
+		SimpleProject project = new SimpleProject();
 
-        VariableList list = new VariableList();
-        list.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
-        project.getResourceStorage().addResource(list);
+		VariableList list = new VariableList();
+		list.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
+		project.getResourceStorage().addResource(list);
 
-        TestExecutionContext context = new DefaultTestExecutionContext(project, test);
+		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
 
-        // no variables will be injected, because there are no context initializers
-        Assert.assertNull("variable missing", context.getVariable("var1"));
-        }
+		// no variables will be injected, because there are no context initializers
+		Assert.assertNull("variable missing", context.getVariable("var1"));
+		}
 
-    @Test
-    public void filteredProjectVariables() throws MuseExecutionError, IOException
-        {
-        MuseTest test = new SteppedTest();
-        SimpleProject project = new SimpleProject();
+	@Test
+	public void filteredProjectVariables() throws MuseExecutionError, IOException
+		{
+		MuseTest test = new SteppedTest();
+		SimpleProject project = new SimpleProject();
 
-        VariableList list1 = new VariableList();
-        list1.setId("list1");
-        list1.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
-        project.getResourceStorage().addResource(list1);
+		VariableList list1 = new VariableList();
+		list1.setId("list1");
+		list1.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
+		project.getResourceStorage().addResource(list1);
 
-        VariableList list2 = new VariableList();
-        list2.setId("list2");
-        list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
-        project.getResourceStorage().addResource(list2);
+		VariableList list2 = new VariableList();
+		list2.setId("list2");
+		list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
+		project.getResourceStorage().addResource(list2);
 
-        VariableListContextInitializerConfigurations configurations = new VariableListContextInitializerConfigurations();
-        VariableListContextInitializerConfiguration config = new VariableListContextInitializerConfiguration();
-        config.setListId(ValueSourceConfiguration.forValue("list2"));
-        config.setIncludeCondition(ValueSourceConfiguration.forValue(Boolean.TRUE));
-        configurations.addVariableListInitializer(config);
-        project.getResourceStorage().addResource(configurations);
+		final ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+		config.setInitializerType(VariableListContextInitializer.TYPE_ID);
+		config.setApplyCondition(ValueSourceConfiguration.forValue(true));
+		config.addParameter(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list2"));
 
-        TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        context.runInitializers();
+		final ContextInitializersConfiguration initializers = new ContextInitializersConfiguration();
+		initializers.setApplyToTestCondition(ValueSourceConfiguration.forValue(true));
+		initializers.addConfiguration(config);
+		project.getResourceStorage().addResource(initializers);
 
-        Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
-        Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
-        }
+		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
+		context.runInitializers();
 
-    @Test
-    public void filteredByVarlistId() throws MuseExecutionError, IOException
-        {
-        MuseTest test = new SteppedTest();
-        SimpleProject project = new SimpleProject();
+		Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
+		Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
+		}
 
-        VariableList list1 = new VariableList();
-        list1.setId("list1");
-        list1.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
-        project.getResourceStorage().addResource(list1);
+	@Test
+	public void filteredByVarlistId() throws MuseExecutionError, IOException
+		{
+		MuseTest test = new SteppedTest();
+		SimpleProject project = new SimpleProject();
 
-        VariableList list2 = new VariableList();
-        list2.setId("list2");
-        list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
-        project.getResourceStorage().addResource(list2);
+		VariableList list1 = new VariableList();
+		list1.setId("list1");
+		list1.addVariable("var1", ValueSourceConfiguration.forValue("value1"));
+		project.getResourceStorage().addResource(list1);
 
-        VariableListContextInitializerConfigurations configurations = new VariableListContextInitializerConfigurations();
+		VariableList list2 = new VariableList();
+		list2.setId("list2");
+		list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
+		project.getResourceStorage().addResource(list2);
 
-        VariableListContextInitializerConfiguration include1 = new VariableListContextInitializerConfiguration();
-        include1.setListId(ValueSourceConfiguration.forValue("list1"));
-        include1.setIncludeCondition(ValueSourceConfiguration.forValue(false));
-        configurations.addVariableListInitializer(include1);
+		ContextInitializersConfiguration configurations = new ContextInitializersConfiguration();
+		configurations.setApplyToTestCondition(ValueSourceConfiguration.forValue(true));
 
-        VariableListContextInitializerConfiguration include2 = new VariableListContextInitializerConfiguration();
-        include2.setListId(ValueSourceConfiguration.forValue("list2"));
-        include2.setIncludeCondition(ValueSourceConfiguration.forValue(true));
-        configurations.addVariableListInitializer(include2);
+		ContextInitializerConfiguration include1 = new ContextInitializerConfiguration();
+		include1.setApplyCondition(ValueSourceConfiguration.forValue(true));
+		include1.setInitializerType(VariableListContextInitializer.TYPE_ID);
+		include1.addSource(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list1"));
+		include1.setApplyCondition(ValueSourceConfiguration.forValue(false));
+		configurations.addConfiguration(include1);
 
-        project.getResourceStorage().addResource(configurations);
+		ContextInitializerConfiguration include2 = new ContextInitializerConfiguration();
+		include2.setApplyCondition(ValueSourceConfiguration.forValue(true));
+		include2.setInitializerType(VariableListContextInitializer.TYPE_ID);
+		include2.addSource(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list2"));
+		include2.setApplyCondition(ValueSourceConfiguration.forValue(true));
+		configurations.addConfiguration(include2);
 
-        TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        context.runInitializers();
+		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
+		ContextInitializers.applyConditionally(configurations, context);
+		context.runInitializers();
 
-        Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
-        Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
-        }
+		Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
+		Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
+		}
 
-    @Test
-    public void variableMapInitializer() throws MuseExecutionError
-        {
-        MuseTest test = new SteppedTest();
-        SimpleProject project = new SimpleProject();
-        TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        Map<String, Object> vars = new HashMap<>();
-        vars.put("var1", "value1");
-        VariableMapInitializer initializer = new VariableMapInitializer(vars);
-        initializer.initialize(context);
+	@Test
+	public void variableMapInitializer() throws MuseExecutionError
+		{
+		MuseTest test = new SteppedTest();
+		SimpleProject project = new SimpleProject();
+		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
+		Map<String, Object> vars = new HashMap<>();
+		vars.put("var1", "value1");
+		VariableMapInitializer initializer = new VariableMapInitializer(vars);
+		initializer.initialize(context);
 
-        Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
-        }
+		Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
+		}
 
-    @Test
-    public void listeners()
-        {
-        TestListener listener = new TestListener();
-        VariableListContextInitializerConfigurations main_config = new VariableListContextInitializerConfigurations();
-        main_config.addContextInitializerChangeListener(listener);
+	@Test
+	public void listeners()
+		{
+		// add/remove ContextInitializerConfiguration from a ContextInitializersConfiguration
+		// and listen for the change events
 
-        // add a new config
-        VariableListContextInitializerConfiguration config = new VariableListContextInitializerConfiguration();
-        main_config.addVariableListInitializer(config);
-        Assert.assertEquals(config, listener._added);
-        Assert.assertNull(listener._removed);
+		Assert.assertTrue("test not finished", false);
+		}
 
-        // remove the config
-        listener._added = null;
-        main_config.removeVariableListInitializer(config);
-        Assert.assertEquals(config, listener._removed);
-        Assert.assertNull(listener._added);
+	@Test
+	public void maintainInitializerOrder() throws IOException, MuseExecutionError
+		{
+		// add a bunch of references to lists that all init the same variable. Make sure that the LAST one sticks.
+		MuseProject project = new SimpleProject();
+		String last_value = null;
+		final String var_name = "var1";
 
-        // make sure the listener removal works
-        main_config.removeContextInitializerChangeListener(listener);
-        listener._removed = null;
-        main_config.addVariableListInitializer(config);
-        Assert.assertNull(listener._added);
-        }
+		ContextInitializersConfiguration initializers = new ContextInitializersConfiguration();
+		initializers.setApplyToTestCondition(ValueSourceConfiguration.forValue(true));
 
-    @Test
-    public void maintainInitializerOrder() throws IOException, MuseExecutionError
-        {
-        // add a bunch of references to lists that all init the same variable. Make sure that the LAST one sticks.
-        MuseProject project = new SimpleProject();
-        String last_value = null;
-        final String var_name = "var1";
+		List<VariableList> list_of_lists = new ArrayList<>();
+		for (int i = 0; i < 10; i++)
+			{
+			// create a list
+			VariableList list = new VariableList();
+			last_value = "value" + i;
+			list.addVariable(var_name, ValueSourceConfiguration.forValue(last_value));
+			String list_id = UUID.randomUUID().toString();
+			list.setId(list_id);
 
-        VariableListContextInitializerConfigurations initializers = new VariableListContextInitializerConfigurations();
-        project.getResourceStorage().addResource(initializers);
+			// add an initializer condition for this list
+			ContextInitializerConfiguration init_config = new ContextInitializerConfiguration();
+			init_config.setInitializerType(VariableListContextInitializer.TYPE_ID);
+			init_config.setApplyCondition(ValueSourceConfiguration.forValue(true));
+			init_config.addParameter(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
+			initializers.addConfiguration(init_config);
 
-        List<VariableList> list_of_lists = new ArrayList<>();
-        for (int i = 0; i < 10; i++)
-            {
-            // create a list
-            VariableList list = new VariableList();
-            last_value = "value" + i;
-            list.addVariable(var_name, ValueSourceConfiguration.forValue(last_value));
-            String list_id = UUID.randomUUID().toString();
-            list.setId(list_id);
+			// add to project
+			list_of_lists.add(list);
+			}
+		project.getResourceStorage().addResource(initializers);
 
-            // add an initializer condition for this list
-            VariableListContextInitializerConfiguration initializer = new VariableListContextInitializerConfiguration();
-            initializer.setListId(ValueSourceConfiguration.forValue(list_id));
-            initializer.setIncludeCondition(ValueSourceConfiguration.forValue(true));
-            initializers.addVariableListInitializer(initializer);
+		// Add the lists in reverse order. We want to ensure they are initialized in the order that they appear
+		// in the initializer list...regardless of the order they appear in the project.
+		Collections.reverse(list_of_lists);
+		for (VariableList list : list_of_lists)
+			project.getResourceStorage().addResource(list);
 
-            // add to project
-            list_of_lists.add(list);
-            }
+		MuseExecutionContext context = new BaseExecutionContext(project);
+		ContextInitializers.applyConditionally(initializers, context);
+		context.runInitializers();
 
-        // Add them in reverse order. We want to ensure they are initialized in the order that they appear
-        // in the initializer list...regardless of the order they appear in the project.
-        Collections.reverse(list_of_lists);
-        for (VariableList list : list_of_lists)
-            project.getResourceStorage().addResource(list);
+		Assert.assertEquals(last_value, context.getVariable(var_name));
+		}
 
-        MuseExecutionContext context = new BaseExecutionContext(project);
-        context.addInitializer(initializers.createInitializer());
-        context.runInitializers();
-
-        Assert.assertEquals(last_value, context.getVariable(var_name));
-        }
-
-    private class TestListener extends VariableListContextInitializerChangeListener
-        {
-        @Override
-        public void variableListInitializerAdded(VariableListContextInitializerConfiguration config)
-            {
-            _added = config;
-            }
-
-        @Override
-        public void variableListInitializerRemoved(VariableListContextInitializerConfiguration config)
-            {
-            _removed = config;
-            }
-
-        VariableListContextInitializerConfiguration _added = null;
-        VariableListContextInitializerConfiguration _removed = null;
-        }
-    }
-
-
+	}

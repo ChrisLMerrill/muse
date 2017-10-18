@@ -49,14 +49,16 @@ public class TestVariableTests
         project.getResourceStorage().addResource(list);
         list.addVariable(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
 
-        VariableListContextInitializerConfigurations initializer_list = new VariableListContextInitializerConfigurations();
-        final VariableListContextInitializerConfiguration initializer_config = new VariableListContextInitializerConfiguration();
-        initializer_config.setIncludeCondition(ValueSourceConfiguration.forValue(Boolean.TRUE));
-        initializer_config.setListId(ValueSourceConfiguration.forValue(list_id));
-        initializer_list.addVariableListInitializer(initializer_config);
+        ContextInitializerConfiguration initializer = new ContextInitializerConfiguration();
+        initializer.setInitializerType(VariableListContextInitializer.TYPE_ID);
+        initializer.setApplyCondition(ValueSourceConfiguration.forValue(true));
+        initializer.addParameter(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
+        ContextInitializersConfiguration initializers = new ContextInitializersConfiguration();
+        initializers.setApplyToTestCondition(ValueSourceConfiguration.forValue(true));
+        initializers.addConfiguration(initializer);
 
         DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        context.addInitializer(initializer_list.createInitializer());
+        ContextInitializers.applyConditionally(initializers, context);
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
         }

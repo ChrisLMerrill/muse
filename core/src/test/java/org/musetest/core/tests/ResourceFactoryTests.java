@@ -1,7 +1,10 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
+import org.musetest.core.context.initializers.*;
+import org.musetest.core.datacollection.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
@@ -9,6 +12,7 @@ import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.util.*;
+import org.musetest.core.values.*;
 import org.musetest.testutils.*;
 
 import java.io.*;
@@ -64,6 +68,26 @@ public class ResourceFactoryTests
         Assert.assertEquals("data1.2" , table.getData("col2", 0));
         Assert.assertEquals("data2.1" , table.getDataRow(1)[0]);
         Assert.assertEquals("data2.2" , table.getDataRow(1)[1]);
+        }
+
+    @Test
+    public void loadContextInitializer() throws IOException
+	    {
+        MuseProject project = new SimpleProject();
+        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("test_files/initializer-config.json", getClass())), new FactoryLocator(project.getClassLocator()), project.getClassLocator());
+        Assert.assertEquals(1, resources.size());
+        Assert.assertTrue(resources.get(0) instanceof ContextInitializersConfiguration);
+
+	    ContextInitializersConfiguration configs = (ContextInitializersConfiguration) resources.get(0);
+	    Assert.assertEquals(1, configs.getInitializers().size());
+	    Assert.assertEquals(ValueSourceConfiguration.forValue(true), configs.getApplyToTestCondition());
+
+	    ContextInitializerConfiguration config = configs.getInitializers().get(0);
+	    Assert.assertEquals("type1", config.getInitializerType());
+	    ValueSourceConfiguration param1 = config.getSource("p1");
+	    Assert.assertEquals(StringValueSource.TYPE_ID, param1.getType());
+	    Assert.assertEquals("v1", param1.getValue());
+	    Assert.assertEquals(ValueSourceConfiguration.forValue(false), config.getApplyCondition());
         }
     }
 

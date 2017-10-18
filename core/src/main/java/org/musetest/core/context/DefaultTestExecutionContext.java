@@ -3,6 +3,7 @@ package org.musetest.core.context;
 import org.musetest.core.*;
 import org.musetest.core.context.initializers.*;
 import org.musetest.core.datacollection.*;
+import org.slf4j.*;
 
 import java.util.*;
 
@@ -16,7 +17,14 @@ public class DefaultTestExecutionContext extends BaseExecutionContext implements
 		super(project);
 		_test = test;
 
-		ContextInitializers.setup(this);
+		try
+			{
+			ContextInitializers.setup(this);
+			}
+		catch (MuseExecutionError e)
+			{
+			LOG.error("Unable to setup ContextInitializers due to: " + e.getMessage());
+			}
 		addInitializer(new TestDefaultsInitializer(this));
 		}
 
@@ -27,6 +35,8 @@ public class DefaultTestExecutionContext extends BaseExecutionContext implements
 		}
 
 	private final MuseTest _test;
+
+	private final static Logger LOG = LoggerFactory.getLogger(DefaultTestExecutionContext.class);
 	}
 
 

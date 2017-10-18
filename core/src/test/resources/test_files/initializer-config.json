@@ -1,0 +1,21 @@
+{
+  "type" : "context-initializers",
+  "applyToTestCondition" : {
+    "value" : true,
+    "type" : "boolean"
+  },
+  "initializers" : [ {
+    "parameters" : {
+      "p1" : {
+        "value" : "v1",
+        "type" : "string"
+      }
+    },
+    "applyCondition" : {
+      "value" : false,
+      "type" : "boolean"
+    },
+    "initializerType" : "type1"
+  } ],
+  "tags" : [ ]
+}
