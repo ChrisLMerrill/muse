@@ -5,6 +5,7 @@ import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
+import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 
 import java.util.*;
@@ -61,21 +62,61 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 		return _initializer_configs;
 		}
 
-	public void setInitializers(List<ContextInitializerConfiguration> initializer_configs)
+	public synchronized void setInitializers(List<ContextInitializerConfiguration> initializer_configs)
 		{
 		_initializer_configs = initializer_configs;
 		}
 
-	public void addConfiguration(ContextInitializerConfiguration config)
+	public synchronized void addConfiguration(ContextInitializerConfiguration config)
 		{
 		if (_initializer_configs == null)
 			_initializer_configs = new ArrayList<>();
+		int index = _initializer_configs.size();
 		_initializer_configs.add(config);
-		// TODO throw a change event for the UI
+
+		if (_listeners != null)
+			{
+			ConfigAddedEvent event = new ConfigAddedEvent(this, config, index);
+			for (ChangeEventListener listener : _listeners)
+				listener.changeEventRaised(event);
+			}
 		}
 
-	ValueSourceConfiguration _apply_to_test_condition;
-	List<ContextInitializerConfiguration> _initializer_configs;
+	public synchronized void removeConfiguration(ContextInitializerConfiguration config)
+		{
+		if (_initializer_configs == null)
+			return;
+		int index = _initializer_configs.indexOf(config);
+		if (index < 0)
+			return;  // not in list
+
+		_initializer_configs.remove(config);
+		if (_listeners != null)
+			{
+			ConfigRemovedEvent event = new ConfigRemovedEvent(this, config, index);
+			for (ChangeEventListener listener : _listeners)
+				listener.changeEventRaised(event);
+			}
+		}
+
+	private ValueSourceConfiguration _apply_to_test_condition;
+	private List<ContextInitializerConfiguration> _initializer_configs;
+
+	public void addChangeListener(ChangeEventListener listener)
+		{
+		if (_listeners == null)
+			_listeners = new HashSet<>();
+		_listeners.add(listener);
+		}
+
+	public void removeChangeListener(ChangeEventListener listener)
+		{
+		if (_listeners == null)
+			return;
+		_listeners.remove(listener);
+		}
+
+	private transient Set<ChangeEventListener> _listeners;
 
 	public static class ContextInitializersConfigurationResourceType extends ResourceType
 		{
@@ -83,5 +124,51 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 			{
 			super("context-initializer-configurations", "Context Initializer", ContextInitializersConfiguration.class);
 			}
+		}
+
+	public static class ConfigAddedEvent extends ChangeEvent
+		{
+		ConfigAddedEvent(ContextInitializersConfiguration target, ContextInitializerConfiguration added, int index)
+			{
+			super(target);
+			_added = added;
+			_index = index;
+			}
+
+		public ContextInitializerConfiguration getAddedConfig()
+			{
+			return _added;
+			}
+
+		public int getIndex()
+			{
+			return _index;
+			}
+
+		private ContextInitializerConfiguration _added;
+		private int _index;
+		}
+
+	public static class ConfigRemovedEvent extends ChangeEvent
+		{
+		ConfigRemovedEvent(ContextInitializersConfiguration target, ContextInitializerConfiguration removed, int index)
+			{
+			super(target);
+			_removed = removed;
+			_index = index;
+			}
+
+		public int getIndex()
+			{
+			return _index;
+			}
+
+		public ContextInitializerConfiguration getRemovedConfig()
+			{
+			return _removed;
+			}
+
+		private ContextInitializerConfiguration _removed;
+		private int _index;
 		}
 	}

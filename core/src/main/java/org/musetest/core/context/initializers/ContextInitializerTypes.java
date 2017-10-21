@@ -1,7 +1,6 @@
 package org.musetest.core.context.initializers;
 
 import org.musetest.core.resource.*;
-import org.musetest.core.resource.types.*;
 import org.slf4j.*;
 
 import java.util.*;
@@ -40,6 +39,12 @@ public class ContextInitializerTypes
 	public Collection<ContextInitializerType> getAll()
 		{
 		return _types.values();
+		}
+
+	@SuppressWarnings("unused")  // used in UI
+	public ContextInitializerType findType(String type_id)
+		{
+		return _types.get(type_id);
 		}
 
 	private Map<String, ContextInitializerType> _types = new HashMap<>();

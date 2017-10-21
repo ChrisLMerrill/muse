@@ -65,7 +65,7 @@ public class SimpleProject implements MuseProject
 	    {
 	    if (_ci_types == null)
 		    _ci_types = new ContextInitializerTypes(getClassLocator());
-     return _ci_types;
+        return _ci_types;
 	    }
 
     @Override

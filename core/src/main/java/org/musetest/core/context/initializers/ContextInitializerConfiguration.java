@@ -24,15 +24,18 @@ import java.util.*;
 public class ContextInitializerConfiguration implements ContainsNamedSources
     {
     // required for de/serialization
-   	public String getInitializerType()
+   	public String getTypeId()
    		{
    		return _initializer_type;
    		}
 
    	// required for de/serialization
-   	public void setInitializerType(String initializer_type)
+   	public void setTypeId(String initializer_type)
    		{
+   		String old_type = _initializer_type;
 	    _initializer_type = initializer_type;
+	    for (ChangeEventListener listener : _listeners)
+	    	listener.changeEventRaised(new TypeChangeEvent(this, old_type, initializer_type));
    		}
 
    	// required for de/serialization
@@ -59,7 +62,13 @@ public class ContextInitializerConfiguration implements ContainsNamedSources
 
    	public void setApplyCondition(ValueSourceConfiguration apply_condition)
    		{
+	    ValueSourceConfiguration old_condition = _apply_condition;
+	    if (old_condition != null)
+	    	old_condition.removeChangeListener(getRelayListener());
    		_apply_condition = apply_condition;
+   		_apply_condition.addChangeListener(getRelayListener());
+	    for (ChangeEventListener listener : _listeners)
+	    	listener.changeEventRaised(new ApplyConditionChangeEvent(this, old_condition, apply_condition));
    		}
 
    	@Override
@@ -102,12 +111,14 @@ public class ContextInitializerConfiguration implements ContainsNamedSources
    	@Override
    	public void addChangeListener(ChangeEventListener listener)
    		{
+   		_listeners.add(listener);
    		_named_sources.addChangeListener(listener);
    		}
 
    	@Override
    	public boolean removeChangeListener(ChangeEventListener listener)
    		{
+	    _listeners.remove(listener);
    		return _named_sources.removeChangeListener(listener);
    		}
 
@@ -119,7 +130,7 @@ public class ContextInitializerConfiguration implements ContainsNamedSources
 		    try
 			    {
 			    ContextInitializer initializer = (ContextInitializer) initializer_class.newInstance();
-			    if (getInitializerType().equals(initializer.getType()))
+			    if (getTypeId().equals(initializer.getType()))
 				    {
 				    initializer.configure(this);
 				    return initializer;
@@ -140,9 +151,23 @@ public class ContextInitializerConfiguration implements ContainsNamedSources
 	    return BaseValueSource.getValue(_apply_condition.createSource(context.getProject()), context, false, Boolean.class);
 	    }
 
+    private ChangeEventListener getRelayListener()
+	    {
+	    if (_listener == null)
+		    _listener = event ->
+			    {
+			    for (ChangeEventListener listener : _listeners)
+				    listener.changeEventRaised(event);
+			    };
+	    return _listener;
+	    }
+
     private NamedSourcesContainer _named_sources = new NamedSourcesContainer();
    	private String _initializer_type;
    	private ValueSourceConfiguration _apply_condition;
+   	private Set<ChangeEventListener> _listeners = new HashSet<>();
+
+   	private transient ChangeEventListener _listener;
 
    	private final static Logger LOG = LoggerFactory.getLogger(ContextInitializerConfiguration.class);
     }

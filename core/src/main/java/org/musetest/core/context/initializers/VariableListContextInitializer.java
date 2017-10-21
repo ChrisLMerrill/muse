@@ -58,6 +58,28 @@ public class VariableListContextInitializer implements ContextInitializer
 
 	public final static String TYPE_ID = "varlist";
 	public final static String LIST_ID_PARAM = "listid";
+
+	@SuppressWarnings("unused") // used by reflection
+	public static class VariableListType extends ContextInitializerType
+		{
+		@Override
+		public String getTypeId()
+			{
+			return TYPE_ID;
+			}
+
+		@Override
+		public String getDisplayName()
+			{
+			return "Variable List";
+			}
+
+		@Override
+		public String getShortDescription()
+			{
+			return "Copy variables from a list into the context";
+			}
+		}
 	}
 
 

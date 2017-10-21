@@ -4,13 +4,17 @@ import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.context.initializers.*;
+import org.musetest.core.context.initializers.TypeChangeEvent;
 import org.musetest.core.project.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.util.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.events.*;
 import org.musetest.core.variables.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.atomic.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -63,7 +67,7 @@ public class ContextInitializerTests
 		project.getResourceStorage().addResource(list2);
 
 		final ContextInitializerConfiguration config = new ContextInitializerConfiguration();
-		config.setInitializerType(VariableListContextInitializer.TYPE_ID);
+		config.setTypeId(VariableListContextInitializer.TYPE_ID);
 		config.setApplyCondition(ValueSourceConfiguration.forValue(true));
 		config.addParameter(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list2"));
 
@@ -100,14 +104,14 @@ public class ContextInitializerTests
 
 		ContextInitializerConfiguration include1 = new ContextInitializerConfiguration();
 		include1.setApplyCondition(ValueSourceConfiguration.forValue(true));
-		include1.setInitializerType(VariableListContextInitializer.TYPE_ID);
+		include1.setTypeId(VariableListContextInitializer.TYPE_ID);
 		include1.addSource(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list1"));
 		include1.setApplyCondition(ValueSourceConfiguration.forValue(false));
 		configurations.addConfiguration(include1);
 
 		ContextInitializerConfiguration include2 = new ContextInitializerConfiguration();
 		include2.setApplyCondition(ValueSourceConfiguration.forValue(true));
-		include2.setInitializerType(VariableListContextInitializer.TYPE_ID);
+		include2.setTypeId(VariableListContextInitializer.TYPE_ID);
 		include2.addSource(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list2"));
 		include2.setApplyCondition(ValueSourceConfiguration.forValue(true));
 		configurations.addConfiguration(include2);
@@ -135,15 +139,6 @@ public class ContextInitializerTests
 		}
 
 	@Test
-	public void listeners()
-		{
-		// add/remove ContextInitializerConfiguration from a ContextInitializersConfiguration
-		// and listen for the change events
-
-		Assert.assertTrue("test not finished", false);
-		}
-
-	@Test
 	public void maintainInitializerOrder() throws IOException, MuseExecutionError
 		{
 		// add a bunch of references to lists that all init the same variable. Make sure that the LAST one sticks.
@@ -166,7 +161,7 @@ public class ContextInitializerTests
 
 			// add an initializer condition for this list
 			ContextInitializerConfiguration init_config = new ContextInitializerConfiguration();
-			init_config.setInitializerType(VariableListContextInitializer.TYPE_ID);
+			init_config.setTypeId(VariableListContextInitializer.TYPE_ID);
 			init_config.setApplyCondition(ValueSourceConfiguration.forValue(true));
 			init_config.addParameter(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
 			initializers.addConfiguration(init_config);
@@ -189,4 +184,85 @@ public class ContextInitializerTests
 		Assert.assertEquals(last_value, context.getVariable(var_name));
 		}
 
+	@Test
+	public void changeTypeEvent()
+	    {
+	    ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+
+	    final AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
+	    config.addChangeListener(event_holder::set);
+
+	    config.setTypeId("new_type");
+	    Assert.assertNotNull("no event received", event_holder.get());
+	    Assert.assertTrue("wrong type of event", event_holder.get() instanceof TypeChangeEvent);
+	    Assert.assertTrue("wrong event target", config == ((TypeChangeEvent) event_holder.get()).getConfig()); // yes, this is a reference equality check
+	    Assert.assertNull("old type should be null",  ((TypeChangeEvent) event_holder.get()).getOldType());
+	    Assert.assertEquals("new type is wrong", "new_type", ((TypeChangeEvent) event_holder.get()).getNewType());
+	    }
+
+	@Test
+	public void replaceApplyCondition()
+	    {
+	    ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+
+	    final AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
+	    config.addChangeListener(event_holder::set);
+
+	    config.setApplyCondition(ValueSourceConfiguration.forValue(true));
+	    Assert.assertNotNull("no event received", event_holder.get());
+	    Assert.assertTrue("wrong type of event", event_holder.get() instanceof ApplyConditionChangeEvent);
+	    Assert.assertTrue("wrong event target", config == ((ApplyConditionChangeEvent) event_holder.get()).getConfig()); // yes, this is a reference equality check
+	    Assert.assertNull("old condition should be null",  ((ApplyConditionChangeEvent) event_holder.get()).getOldCondition());
+	    Assert.assertEquals("new condition is wrong", ValueSourceConfiguration.forValue(true), ((ApplyConditionChangeEvent) event_holder.get()).getNewCondition());
+	    }
+
+	@Test
+	public void changeApplyCondition()
+	    {
+	    ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+	    config.setApplyCondition(ValueSourceConfiguration.forValue(true));
+
+	    final AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
+	    config.addChangeListener(event_holder::set);
+
+	    config.getApplyCondition().addSource("abc", ValueSourceConfiguration.forValue(123));
+	    Assert.assertNotNull("no event received", event_holder.get());
+	    Assert.assertTrue("wrong type of event", event_holder.get() instanceof NamedSourceAddedEvent);
+	    // don't need to check the specifics of the event...as that is delegated functionality covered by other tests. Only need to know this listener was wired into the event chain correctly.
+	    }
+
+	@Test
+	public void addConfigEvent()
+	    {
+	    ContextInitializersConfiguration configs = new ContextInitializersConfiguration();
+	    AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
+	    configs.addChangeListener(event_holder::set);
+	    
+	    ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+	    config.setTypeId("config1");
+	    configs.addConfiguration(config);
+
+	    Assert.assertNotNull(event_holder.get());
+	    Assert.assertTrue(event_holder.get() instanceof ContextInitializersConfiguration.ConfigAddedEvent);
+	    ContextInitializersConfiguration.ConfigAddedEvent event = (ContextInitializersConfiguration.ConfigAddedEvent) event_holder.get();
+	    Assert.assertEquals(config, event.getAddedConfig());
+	    }
+
+	@Test
+	public void removeConfigEvent()
+	    {
+	    ContextInitializersConfiguration configs = new ContextInitializersConfiguration();
+	    ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+	    config.setTypeId("config1");
+	    configs.addConfiguration(config);
+
+	    AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
+	    configs.addChangeListener(event_holder::set);
+	    configs.removeConfiguration(config);
+
+	    Assert.assertNotNull(event_holder.get());
+	    Assert.assertTrue(event_holder.get() instanceof ContextInitializersConfiguration.ConfigRemovedEvent);
+	    ContextInitializersConfiguration.ConfigRemovedEvent event = (ContextInitializersConfiguration.ConfigRemovedEvent) event_holder.get();
+	    Assert.assertEquals(config, event.getRemovedConfig());
+	    }
 	}

@@ -4,7 +4,6 @@ import org.junit.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.initializers.*;
-import org.musetest.core.datacollection.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
@@ -83,7 +82,7 @@ public class ResourceFactoryTests
 	    Assert.assertEquals(ValueSourceConfiguration.forValue(true), configs.getApplyToTestCondition());
 
 	    ContextInitializerConfiguration config = configs.getInitializers().get(0);
-	    Assert.assertEquals("type1", config.getInitializerType());
+	    Assert.assertEquals("type1", config.getTypeId());
 	    ValueSourceConfiguration param1 = config.getSource("p1");
 	    Assert.assertEquals(StringValueSource.TYPE_ID, param1.getType());
 	    Assert.assertEquals("v1", param1.getValue());

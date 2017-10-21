@@ -50,7 +50,7 @@ public class TestVariableTests
         list.addVariable(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
 
         ContextInitializerConfiguration initializer = new ContextInitializerConfiguration();
-        initializer.setInitializerType(VariableListContextInitializer.TYPE_ID);
+        initializer.setTypeId(VariableListContextInitializer.TYPE_ID);
         initializer.setApplyCondition(ValueSourceConfiguration.forValue(true));
         initializer.addParameter(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
         ContextInitializersConfiguration initializers = new ContextInitializersConfiguration();
