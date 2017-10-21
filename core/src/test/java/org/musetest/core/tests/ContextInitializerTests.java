@@ -249,6 +249,27 @@ public class ContextInitializerTests
 	    }
 
 	@Test
+	public void insertConfigEvent()
+	    {
+	    ContextInitializersConfiguration configs = new ContextInitializersConfiguration();
+	    configs.addConfiguration(new ContextInitializerConfiguration());
+	    configs.addConfiguration(new ContextInitializerConfiguration());
+	    AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
+	    configs.addChangeListener(event_holder::set);
+
+	    ContextInitializerConfiguration added_config = new ContextInitializerConfiguration();
+	    added_config.setTypeId("config1");
+	    configs.addConfiguration(added_config, 1);
+
+	    Assert.assertNotNull(event_holder.get());
+	    Assert.assertTrue(event_holder.get() instanceof ContextInitializersConfiguration.ConfigAddedEvent);
+	    ContextInitializersConfiguration.ConfigAddedEvent event = (ContextInitializersConfiguration.ConfigAddedEvent) event_holder.get();
+	    Assert.assertTrue(added_config == event.getAddedConfig());
+	    Assert.assertEquals(1, event.getIndex());
+	    Assert.assertTrue(added_config == configs.getInitializers().get(1));
+	    }
+
+	@Test
 	public void removeConfigEvent()
 	    {
 	    ContextInitializersConfiguration configs = new ContextInitializersConfiguration();

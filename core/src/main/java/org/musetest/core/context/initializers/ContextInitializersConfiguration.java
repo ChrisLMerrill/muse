@@ -67,12 +67,13 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 		_initializer_configs = initializer_configs;
 		}
 
-	public synchronized void addConfiguration(ContextInitializerConfiguration config)
+	public synchronized void addConfiguration(ContextInitializerConfiguration config, int index)
 		{
 		if (_initializer_configs == null)
 			_initializer_configs = new ArrayList<>();
-		int index = _initializer_configs.size();
-		_initializer_configs.add(config);
+		if (index < 0 || index > _initializer_configs.size())
+			throw new IllegalArgumentException(String.format("Can't add at index %d in a list of length %d", index, _initializer_configs.size()));
+		_initializer_configs.add(index, config);
 
 		if (_listeners != null)
 			{
@@ -80,6 +81,13 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 			for (ChangeEventListener listener : _listeners)
 				listener.changeEventRaised(event);
 			}
+		}
+
+	public synchronized void addConfiguration(ContextInitializerConfiguration config)
+		{
+		if (_initializer_configs == null)
+			_initializer_configs = new ArrayList<>();
+		addConfiguration(config, _initializer_configs.size());
 		}
 
 	public synchronized void removeConfiguration(ContextInitializerConfiguration config)
