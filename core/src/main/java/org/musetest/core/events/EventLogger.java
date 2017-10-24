@@ -23,7 +23,7 @@ public class EventLogger implements MuseEventListener, DataCollector
     @Override
     public String getType()
 	    {
-	    return "event-logger";
+	    return TYPE_ID;
 	    }
 
     @Override
@@ -45,6 +45,29 @@ public class EventLogger implements MuseEventListener, DataCollector
 		}
 
 	private EventLog _log = new EventLog();
+
+    public final static String TYPE_ID = "event-logger";
+
+    @SuppressWarnings("unused") // used by reflection
+  	public static class EventLoggerType extends ContextInitializerType
+  		{
+  		@Override
+  		public String getTypeId()
+  			{
+  			return TYPE_ID;
+  			}
+
+  		@Override
+  		public String getDisplayName()
+  			{
+  			return "Event Logger";
+  			}
+
+  		@Override
+  		public String getShortDescription()
+  			{
+  			return "Captures a log of test events";
+  			}
+  		}
+
     }
-
-
