@@ -17,7 +17,7 @@ subprojects
     //noinspection GroovyAssignabilityCheck
     dependencies
         {
-        compile 'org.musetest:muse-extensions:0.1+'
+        compile 'org.musetest:muse-extensions:0.2+'
         testCompile 'junit:junit:4+'
         }
 
