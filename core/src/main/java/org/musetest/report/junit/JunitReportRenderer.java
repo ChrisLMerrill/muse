@@ -2,6 +2,7 @@ package org.musetest.report.junit;
 
 import com.google.common.html.*;
 import org.musetest.core.*;
+import org.musetest.core.events.*;
 import org.musetest.core.variables.*;
 
 import java.io.*;
@@ -49,9 +50,13 @@ public class JunitReportRenderer
             writer.println(String.format("    <testcase classname=\"%s\" name=\"%s\">", suite_name, test_name));
             if (failure_type != null)
                 writer.println(String.format("        <%s message=\"%s\"/>", failure_type, failure_message));
-            writer.println("        <system-out>");
-            writer.println(HtmlEscapers.htmlEscaper().escape(result.getLog().toString()));
-            writer.println("        </system-out>");
+            EventLog log = result.getLog();
+            if (log != null)
+	            {
+	            writer.println("        <system-out>");
+	            writer.println(HtmlEscapers.htmlEscaper().escape(result.getLog().toString()));
+	            writer.println("        </system-out>");
+	            }
 
             writer.println("    </testcase>");
             }
