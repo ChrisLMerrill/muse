@@ -15,7 +15,7 @@
       "value" : false,
       "type" : "boolean"
     },
-    "initializerType" : "type1"
+    "typeId" : "type1"
   } ],
   "tags" : [ ]
 }
