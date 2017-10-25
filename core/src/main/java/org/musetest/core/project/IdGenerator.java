@@ -33,9 +33,19 @@ public class IdGenerator
 	public synchronized long generateLongId()
 		{
 		long id = _config.getNextId();
+		if (id == 0)  // never use zero as an id
+			id += new Random().nextInt();
 		_config.setNextId(id + 1);
 		_project.getResourceStorage().saveResource(_config);
 		return id;
+		}
+
+	// Skip forward to move the generated range when a conflict occurs.
+	@SuppressWarnings("unused")  // public api
+	public synchronized void conflict()
+		{
+		_config.setNextId(_config.getNextId() + new Random().nextInt());
+		_project.getResourceStorage().saveResource(_config);
 		}
 
 	private MuseProject _project;

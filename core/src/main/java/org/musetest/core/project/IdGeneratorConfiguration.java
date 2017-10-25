@@ -14,7 +14,8 @@ public class IdGeneratorConfiguration extends BaseMuseResource
 	{
 	public IdGeneratorConfiguration()
 		{
-		_next_id = new Random().nextLong();
+		// pick a wide range of positive longs
+		_next_id = ((long)Math.abs(new Random().nextInt())) << 16;
 		}
 
 	public long getNextId()
