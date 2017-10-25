@@ -253,6 +253,19 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         _metadata = metadata;
         }
 
+    public void setStepId(Long id)
+	    {
+	    setMetadataField(META_ID, id);
+	    }
+
+    public Long getStepId()
+	    {
+	    final Object value = getMetadataField(META_ID);
+	    if (value instanceof Number)
+	    	return ((Number)value).longValue();
+	    return null;
+	    }
+
     @Override
     public String toString()
         {
@@ -319,6 +332,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
     private transient ChangeEventListener _source_listener;
 
     public final static String META_DESCRIPTION = "description";
+    public final static String META_ID = "id";
 
     private static StepFactory getDefaultStepFactory()
         {
@@ -353,6 +367,20 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
                 notifyListeners(new SourceChangedEvent(StepConfiguration.this, e, source_name));
             }
         }
+
+    public static StepConfiguration create(MuseProject project, String step_type)
+	    {
+	    StepConfiguration config = new StepConfiguration(step_type);
+	    config.setStepId(IdGenerator.get(project).generateLongId());
+	    return config;
+	    }
+
+    public static StepConfiguration copy(StepConfiguration old, MuseProject project)
+	    {
+	    StepConfiguration new_config = Copy.withJavaSerialization(old);
+	    new_config.setStepId(IdGenerator.get(project).generateLongId());
+	    return new_config;
+	    }
 
     private static StepFactory DEFAULT = null;
 

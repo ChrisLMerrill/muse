@@ -16,7 +16,7 @@ public class Copy
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             ObjectOutputStream outstream = new ObjectOutputStream(bytes);
             outstream.writeObject(original);
-
+            outstream.close();
             ObjectInputStream instream = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()));
             return (T) instream.readObject();
             }
