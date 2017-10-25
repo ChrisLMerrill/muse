@@ -253,17 +253,26 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         _metadata = metadata;
         }
 
+    @SuppressWarnings("unused")
+    @JsonIgnore
     public void setStepId(Long id)
 	    {
 	    setMetadataField(META_ID, id);
 	    }
 
+    @SuppressWarnings("unused")
+    @JsonIgnore
     public Long getStepId()
 	    {
 	    final Object value = getMetadataField(META_ID);
-	    if (value instanceof Number)
-	    	return ((Number)value).longValue();
-	    return null;
+	    if (value == null)
+	    	return null;
+	    if (!(value instanceof Number))
+		    {
+		    LOG.error(String.format("Expected the 'id' metadata field to contain a number. Instead, found a %s. Returning null. ", value.getClass().getSimpleName()));
+		    return null;
+		    }
+	    return ((Number) value).longValue();
 	    }
 
     @Override
@@ -368,17 +377,19 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
             }
         }
 
+    @SuppressWarnings("unused")  // public API
     public static StepConfiguration create(MuseProject project, String step_type)
 	    {
 	    StepConfiguration config = new StepConfiguration(step_type);
-	    config.setStepId(IdGenerator.get(project).generateLongId());
+	    config.setMetadataField(StepConfiguration.META_ID, IdGenerator.get(project).generateLongId());
 	    return config;
 	    }
 
+    @SuppressWarnings("unused")  // public API
     public static StepConfiguration copy(StepConfiguration old, MuseProject project)
 	    {
 	    StepConfiguration new_config = Copy.withJavaSerialization(old);
-	    new_config.setStepId(IdGenerator.get(project).generateLongId());
+	    new_config.setMetadataField(StepConfiguration.META_ID, IdGenerator.get(project).generateLongId());
 	    return new_config;
 	    }
 

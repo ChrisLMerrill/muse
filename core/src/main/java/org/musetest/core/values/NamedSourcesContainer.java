@@ -5,12 +5,13 @@ import org.musetest.core.util.*;
 import org.musetest.core.values.events.*;
 import org.slf4j.*;
 
+import java.io.*;
 import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class NamedSourcesContainer implements ContainsNamedSources
+public class NamedSourcesContainer implements ContainsNamedSources, Serializable
 	{
 	public NamedSourcesContainer()
 		{
@@ -87,6 +88,7 @@ public class NamedSourcesContainer implements ContainsNamedSources
 		return old_source;
 		}
 
+	@JsonIgnore
 	@Override
 	public Set<String> getSourceNames()
 		{

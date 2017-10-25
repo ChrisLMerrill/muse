@@ -10,14 +10,39 @@ import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.events.*;
 
+import java.util.*;
 import java.util.concurrent.atomic.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")
-public class StepConfigurationChangeListenerTests
+public class StepConfigurationTests
     {
+    @Test
+    public void serializable()
+        {
+        StepConfiguration original = new StepConfiguration(LogMessage.TYPE_ID);
+        original.addSource("name1", ValueSourceConfiguration.forValue("value1"));
+        StepConfiguration copy = Copy.withJavaSerialization(original);
+
+        Assert.assertEquals("Copy is not identical", original, copy);
+        }
+
+    @Test
+    public void idNotLong()
+        {
+        StepConfiguration config = new StepConfiguration("steptype");
+        Assert.assertNull(config.getStepId());
+
+        config.setMetadataField(StepConfiguration.META_ID, "anything not an integer");
+        Assert.assertNull(config.getStepId());
+
+        final Long id = new Random().nextLong();
+        config.setStepId(id);
+        Assert.assertEquals(id, config.getStepId());
+        }
+
     @Test
     public void changeType()
         {
