@@ -49,6 +49,8 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 
 	public ValueSourceConfiguration getApplyToTestCondition()
 		{
+		if (_apply_to_test_condition == null)
+			_apply_to_test_condition = ValueSourceConfiguration.forValue(true);
 		return _apply_to_test_condition;
 		}
 
@@ -59,6 +61,8 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 
 	public List<ContextInitializerConfiguration> getInitializers()
 		{
+		if (_initializer_configs == null)
+			return Collections.emptyList();
 		return _initializer_configs;
 		}
 
@@ -107,7 +111,7 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 			}
 		}
 
-	private ValueSourceConfiguration _apply_to_test_condition;
+	private ValueSourceConfiguration _apply_to_test_condition = ValueSourceConfiguration.forValue(true);
 	private List<ContextInitializerConfiguration> _initializer_configs;
 
 	public void addChangeListener(ChangeEventListener listener)
