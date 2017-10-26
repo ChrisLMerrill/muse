@@ -11,17 +11,15 @@ public class StepEvent extends MuseEvent
     {
     public StepEvent(MuseEventType type, StepConfiguration config, StepExecutionContext context)
         {
-        super(type);
-        if (config.getMetadataField(StepConfiguration.META_ID) != null)
-	        _stepid = config.getMetadataField(StepConfiguration.META_ID).toString();
-        _step_description = context.getProject().getStepDescriptors().get(config).getShortDescription(config);
+        this(type, config, context, null);
         }
 
     public StepEvent(MuseEventType type, StepConfiguration config, StepExecutionContext context, StepExecutionResult result)
         {
         super(type);
-        if (config.getMetadataField(StepConfiguration.META_ID) != null)
-	        _stepid = config.getMetadataField(StepConfiguration.META_ID).toString();
+        final Object id = config.getMetadataField(StepConfiguration.META_ID);
+        if (id != null && id instanceof Number)
+	        _stepid = ((Number) id).longValue();
         _step_description = context.getProject().getStepDescriptors().get(config).getShortDescription(config);
         _result = result;
         }
@@ -49,7 +47,7 @@ public class StepEvent extends MuseEvent
         return builder.toString();
         }
 
-    public String getStepId()
+    public Long getStepId()
         {
         return _stepid;
         }
@@ -61,5 +59,5 @@ public class StepEvent extends MuseEvent
 
     private String _step_description;
     private StepExecutionResult _result;
-    private String _stepid;
+    private Long _stepid;
     }
