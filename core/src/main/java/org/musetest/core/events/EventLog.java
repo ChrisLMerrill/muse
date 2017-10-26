@@ -18,7 +18,7 @@ public class EventLog implements TestResultData
         {
         return _events.iterator();
         }
-	private String _name = "EventLog.txt";
+	private String _name = "EventLog";
 
 	@Override
 	public String getName()
@@ -32,7 +32,13 @@ public class EventLog implements TestResultData
 		_name = name;
 		}
 
-	@Override
+    @Override
+    public String suggestFilename()
+	    {
+	    return getName() + ".txt";
+	    }
+
+    @Override
 	public void write(@Nonnull OutputStream outstream) throws IOException
 		{
 		print(new PrintStream(outstream));

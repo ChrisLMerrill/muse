@@ -11,6 +11,8 @@ public interface TestResultData
 	String getName();
 	void setName(@Nonnull String name);
 
+	String suggestFilename();
+
 	void write(@Nonnull OutputStream outstream) throws IOException;
 	}
 

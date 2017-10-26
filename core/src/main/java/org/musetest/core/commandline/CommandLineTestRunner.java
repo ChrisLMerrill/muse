@@ -60,7 +60,7 @@ public class CommandLineTestRunner implements MuseResourceRunner
 			File base_file = new File(output_folder, test_name);
 			for (DataCollector collector : runner.getExecutionContext().getDataCollectors())
 				{
-				final File data_file = new File(output_folder, collector.getData().getName());
+				final File data_file = new File(output_folder, collector.getData().suggestFilename());
 				// TODO add numbers to the filenames to avoid overwriting other related files
 				// TODO get DataCollector metadata associated with this collector and store it?
 				try (FileOutputStream outstream = new FileOutputStream(data_file))
