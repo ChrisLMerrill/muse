@@ -2,6 +2,7 @@ package org.musetest.core.step;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.steptest.*;
 import org.slf4j.*;
 
@@ -23,6 +24,13 @@ public class StepFinder
 			return null;
 
 		return findById(_root_step, step_id);
+		}
+
+	public StepConfiguration by(StepEvent event)
+		{
+		if (event.getConfig() != null)
+			return event.getConfig();
+		return findById(_root_step, event.getStepId());
 		}
 
 	private StepConfiguration findById(StepConfiguration step, Long id)

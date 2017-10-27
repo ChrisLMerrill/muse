@@ -1,5 +1,6 @@
 package org.musetest.core.events;
 
+import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.step.*;
@@ -17,6 +18,7 @@ public class StepEvent extends MuseEvent
     public StepEvent(MuseEventType type, StepConfiguration config, StepExecutionContext context, StepExecutionResult result)
         {
         super(type);
+        _config = config;
         final Object id = config.getMetadataField(StepConfiguration.META_ID);
         if (id != null && id instanceof Number)
 	        _stepid = ((Number) id).longValue();
@@ -57,7 +59,19 @@ public class StepEvent extends MuseEvent
         return _result;
         }
 
+    /**
+     * Note that the step configuration is only available live during the execution.
+     * The StepConfiguration is not serialized, so when working with deserialized
+     * events, you must use the StepId to identify the step.
+     */
+    @JsonIgnore
+    public StepConfiguration getConfig()
+	    {
+	    return _config;
+	    }
+
     private String _step_description;
     private StepExecutionResult _result;
     private Long _stepid;
+    private StepConfiguration _config;
     }

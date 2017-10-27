@@ -4,12 +4,15 @@ import org.junit.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
+import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 
 import java.io.*;
+import java.lang.reflect.*;
 import java.util.*;
 
 /**
@@ -76,6 +79,27 @@ public class StepFinderTests
 	    _root_step.addChild(call_step);
 
 	    Assert.assertEquals(log_step, new StepFinder(_context).by(987L));
+	    }
+
+	@Test
+	public void findByEventWithConfig()
+	    {
+	    setupTestInContext();
+
+	    StepEvent event = new StepEvent(MuseEventType.EndStep, _log_step, new MockStepExecutionContext());
+	    Assert.assertEquals(_log_step, new StepFinder(_context).by(event));
+	    }
+
+	@Test
+	public void findByEventWithoutConfig() throws NoSuchFieldException, IllegalAccessException
+		{
+	    setupTestInContext();
+
+	    StepEvent event = new StepEvent(MuseEventType.EndStep, _log_step, new MockStepExecutionContext());
+	    Field field = event.getClass().getDeclaredField("_config");
+	    field.setAccessible(true);
+	    field.set(event, null);
+	    Assert.assertEquals(_log_step, new StepFinder(_context).by(event));
 	    }
 
 	private void setupTestInContext()
