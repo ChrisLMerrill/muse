@@ -1,5 +1,6 @@
 package org.musetest.core.context;
 
+import com.sun.istack.internal.*;
 import org.musetest.core.*;
 import org.musetest.core.context.initializers.*;
 
@@ -10,7 +11,7 @@ public interface ContextInitializer
     {
     String getType();  // the unique identifier for this type of context initializer
     void initialize(MuseExecutionContext context) throws MuseExecutionError;
-    void configure(ContextInitializerConfiguration configuration);
+    void configure(@NotNull ContextInitializerConfiguration configuration);
     }
 
 
