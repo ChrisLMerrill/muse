@@ -14,12 +14,22 @@ public class MuseEvent
         _type_id = type.getTypeId();
         }
 
+    /**
+     * This is a convenience method only. Use getTypeId() and EventTypes.findType() to lookup the EventType.
+     *
+     * This method will work as expected if the event was created within this JVM session. It will not work for
+     * event types defined in extensions after de-serializing a saved event.
+     */
+    @Deprecated
     public EventType getType()
         {
         if (_type != null)
             return _type;
         else
-	        return EventTypes.DEFAULT.findType(_type_id);
+	        {
+	        _type = EventTypes.DEFAULT.findType(_type_id);  // this is a hack without a reference to the project
+	        return _type;
+	        }
         }
 
     public String getTypeId()
@@ -32,7 +42,7 @@ public class MuseEvent
 
     public String getDescription()
         {
-        return _type.getName();
+        return getType().getName();
         }
 
     public long getTimestampNanos()
@@ -40,7 +50,7 @@ public class MuseEvent
         return _timestamp_nanos;
         }
 
-    private transient final EventType _type;
+    private transient EventType _type;
     protected String _type_id = null;
     protected long _timestamp_nanos = System.nanoTime();
 
