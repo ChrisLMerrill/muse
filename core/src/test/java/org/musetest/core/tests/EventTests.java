@@ -6,8 +6,8 @@ import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
+import org.musetest.core.mocks.*;
 import org.musetest.core.step.*;
-import org.musetest.core.tests.mocks.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)

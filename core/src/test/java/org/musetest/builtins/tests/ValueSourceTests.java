@@ -15,7 +15,6 @@ import org.musetest.core.step.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.tests.mocks.MockStepExecutionContext;
 import org.musetest.core.values.*;
 import org.musetest.tests.utils.*;
 
