@@ -3,6 +3,7 @@ package org.musetest.core.steptest;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
+import org.musetest.core.execution.*;
 import org.musetest.core.step.*;
 import org.musetest.core.test.*;
 import org.slf4j.*;
@@ -37,7 +38,7 @@ public class SteppedTestExecutor
             {
             //noinspection ConstantConditions
             if (e instanceof InterruptedException)
-                _context.raiseEvent(new MuseEvent(MuseEventType.Interrupted));
+                _context.raiseEvent(new MuseEvent(InterruptedEventType.TYPE));
             else
                 throw e;
             }

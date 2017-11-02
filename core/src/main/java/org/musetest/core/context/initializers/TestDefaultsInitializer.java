@@ -6,6 +6,7 @@ import org.musetest.core.values.*;
 import org.musetest.core.values.factory.*;
 import org.musetest.core.variables.*;
 
+import javax.annotation.*;
 import java.util.*;
 
 /**
@@ -25,7 +26,7 @@ public class TestDefaultsInitializer implements ContextInitializer
 	    }
 
     @Override
-    public void configure(ContextInitializerConfiguration configuration)
+    public void configure(@Nonnull ContextInitializerConfiguration configuration)
 	    {
 	    // doesn't currently need configuration
 	    }

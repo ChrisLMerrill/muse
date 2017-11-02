@@ -3,6 +3,7 @@ package org.musetest.core.context.initializers;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 
+import javax.annotation.*;
 import java.util.*;
 
 /**
@@ -24,7 +25,7 @@ public class VariableMapInitializer implements ContextInitializer
 	    }
 
     @Override
-    public void configure(ContextInitializerConfiguration configuration)
+    public void configure(@Nonnull ContextInitializerConfiguration configuration)
 	    {
 	    // doesn't currently need configuration
 	    }

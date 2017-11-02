@@ -26,8 +26,8 @@ public class TestTests
 		MuseTestResult result = test.execute(context);
 
         Assert.assertTrue(result.isPass());
-        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(MuseEventType.StartTest)).size());
-        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(MuseEventType.EndTest)).size());
+        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(new StartTestEvent.StartTestEventType().getTypeId())).size());
+        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(new EndTestEvent.EndTestEventType().getTypeId())).size());
         }
 
     @Test
@@ -64,7 +64,7 @@ public class TestTests
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should stop after verify step
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 2);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     @Test
@@ -82,7 +82,7 @@ public class TestTests
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should run all steps
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 3);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 3);
         }
 
     @Test
@@ -101,7 +101,7 @@ public class TestTests
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should stop after verify step
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(MuseEventType.StartStep)).size() == 2);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     private static SteppedTest setupLogTest(StepConfiguration first_step)

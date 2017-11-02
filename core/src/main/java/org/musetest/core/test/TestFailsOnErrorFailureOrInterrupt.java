@@ -3,6 +3,7 @@ package org.musetest.core.test;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
+import org.musetest.core.execution.*;
 import org.musetest.core.step.*;
 import org.musetest.core.variables.*;
 
@@ -38,7 +39,7 @@ public class TestFailsOnErrorFailureOrInterrupt implements TestResultProducer
             else if (step_result.getStatus() == StepExecutionStatus.ERROR)
                 _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, step_result.getDescription());
             }
-        else if (event.getType().equals(MuseEventType.Interrupted))
+        else if (event.getTypeId().equals(InterruptedEventType.TYPE_ID))
             _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Interrupted, "interrupted by user");
         }
 

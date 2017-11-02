@@ -12,7 +12,7 @@ public class VerifyFailureEvent extends StepEvent
     {
     public VerifyFailureEvent(StepConfiguration config, StepExecutionContext context, String message)
         {
-        super(MuseEventType.VerifyFailed, config, context);
+        super(VerifyFailureEventType.TYPE, config, context);
         _message = message;
         }
 
@@ -34,6 +34,24 @@ public class VerifyFailureEvent extends StepEvent
 
     private String _message;
     private boolean _fatal = false;
+
+    public static class VerifyFailureEventType extends EventType
+	    {
+	    @Override
+	    public String getTypeId()
+		    {
+		    return TYPE_ID;
+		    }
+
+	    @Override
+	    public String getName()
+		    {
+		    return "Verify Failed";
+		    }
+
+	    public final static String TYPE_ID = "VerifyFailed";
+	    public final static EventType TYPE = new VerifyFailureEventType();
+	    }
     }
 
 

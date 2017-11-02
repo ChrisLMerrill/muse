@@ -32,13 +32,13 @@ public class EventLogPrinter
 
         _out.print(DurationFormat.formatMinutesSeconds(event.getTimestampNanos() - _first_time));
 
-        if (event.getType().equals(MuseEventType.EndStep) && !((StepEvent)event).getResult().getStatus().equals(StepExecutionStatus.INCOMPLETE) && _indent_stack.size() > 1)  // never pop the first indent (something else has gone wrong).
+        if (event.getTypeId().equals(StepEvent.EndStepEventType.TYPE_ID) && !((StepEvent)event).getResult().getStatus().equals(StepExecutionStatus.INCOMPLETE) && _indent_stack.size() > 1)  // never pop the first indent (something else has gone wrong).
             _indent_stack.pop();
         if (!_indent_stack.isEmpty()) // this should never happen, but just in case...avoid an exception
             _out.print(_indent_stack.peek());
         _out.println(event.getDescription());
 
-        if (event.getType().equals(MuseEventType.StartStep))
+        if (event.getTypeId().equals(StepEvent.StartStepEventType.TYPE_ID))
             _indent_stack.push(_indent_stack.peek() + "  ");
         }
 

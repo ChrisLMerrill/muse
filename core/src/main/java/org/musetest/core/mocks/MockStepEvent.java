@@ -1,6 +1,5 @@
 package org.musetest.core.mocks;
 
-import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.step.*;
@@ -10,9 +9,10 @@ import org.musetest.core.step.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("unused")  // used in some other packages depending on this
 public class MockStepEvent extends StepEvent
     {
-    public MockStepEvent(MuseEventType type, StepConfiguration config, StepExecutionContext context)
+    public MockStepEvent(EventType type, StepConfiguration config, StepExecutionContext context)
         {
         super(type, config, context);
         }

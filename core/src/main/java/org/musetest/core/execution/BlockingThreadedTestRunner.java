@@ -31,7 +31,7 @@ public class BlockingThreadedTestRunner extends ThreadedTestRunner
             }
         catch (InterruptedException e)
             {
-            _context.raiseEvent(new MuseEvent(MuseEventType.Interrupted));
+            _context.raiseEvent(new MuseEvent(InterruptedEventType.TYPE));
             }
         }
     }

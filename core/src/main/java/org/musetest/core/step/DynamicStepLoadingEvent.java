@@ -13,7 +13,7 @@ public class DynamicStepLoadingEvent extends StepEvent
     {
     public DynamicStepLoadingEvent(StepConfiguration config, StepExecutionContext context, List<StepConfiguration> steps)
         {
-        super(MuseEventType.DynamicStepLoad, config, context);
+        super(DynamicStepLoadEventType.TYPE, config, context);
         _steps = steps;
         }
 
@@ -23,6 +23,23 @@ public class DynamicStepLoadingEvent extends StepEvent
         }
 
     private List<StepConfiguration> _steps;
+
+    public final static class DynamicStepLoadEventType extends EventType
+	    {
+	    @Override
+	    public String getTypeId()
+		    {
+		    return TYPE_ID;
+		    }
+
+	    @Override
+	    public String getName()
+		    {
+		    return "Load Steps";
+		    }
+
+	    public final static String TYPE_ID = "DynamicStepLoad";
+	    public final static EventType TYPE = new DynamicStepLoadEventType();
+	    }
+
     }
-
-

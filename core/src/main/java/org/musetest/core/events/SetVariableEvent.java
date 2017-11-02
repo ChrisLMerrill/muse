@@ -10,7 +10,7 @@ public class SetVariableEvent extends MuseEvent
     {
     public SetVariableEvent(String name, Object value, VariableScope scope)
         {
-        super(MuseEventType.SetVariable);
+        super(SetVariableEventType.TYPE);
         _name = name;
         _value = value;
         _scope = scope;
@@ -26,6 +26,22 @@ public class SetVariableEvent extends MuseEvent
     private String _name;
     private Object _value;
     private VariableScope _scope;
+
+    public final static class SetVariableEventType extends EventType
+	    {
+	    @Override
+	    public String getTypeId()
+		    {
+		    return TYPE_ID;
+		    }
+
+	    @Override
+	    public String getName()
+		    {
+		    return "Set Variable";
+		    }
+
+	    public final static String TYPE_ID = "SetVariable";
+	    public final static EventType TYPE = new SetVariableEventType();
+	    }
     }
-
-

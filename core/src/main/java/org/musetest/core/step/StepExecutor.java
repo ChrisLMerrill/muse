@@ -3,6 +3,7 @@ package org.musetest.core.step;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
+import org.musetest.core.execution.*;
 import org.musetest.core.steptest.*;
 import org.slf4j.*;
 
@@ -36,7 +37,7 @@ public class StepExecutor
 
         if (Thread.currentThread().isInterrupted())
             {
-            _context.raiseEvent(new MuseEvent(MuseEventType.Interrupted));
+            _context.raiseEvent(new MuseEvent(InterruptedEventType.TYPE));
             return false;
             }
 
@@ -49,7 +50,7 @@ public class StepExecutor
         if (!(_steps_in_progress.contains(step_config)))
             {
             _steps_in_progress.add(step_config);
-            _context.raiseEvent(new StepEvent(MuseEventType.StartStep, step_config, step_context));
+            _context.raiseEvent(new StepEvent(StepEvent.START_TYPE, step_config, step_context));
             }
         try
             {
@@ -74,7 +75,7 @@ public class StepExecutor
             step_result = new BasicStepExecutionResult(StepExecutionStatus.ERROR, error_message);
         if (step != null && !step_result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
             step_context.stepComplete(step, step_result);
-        _context.raiseEvent(new StepEvent(MuseEventType.EndStep, step_config, step_context, step_result));
+        _context.raiseEvent(new StepEvent(StepEvent.END_TYPE, step_config, step_context, step_result));
 
         if (!step_result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
             _steps_in_progress.remove(step_config);

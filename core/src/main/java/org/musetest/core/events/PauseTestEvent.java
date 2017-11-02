@@ -10,7 +10,7 @@ public class PauseTestEvent extends MuseEvent
     {
     public PauseTestEvent(StepConfiguration next_step)
         {
-        super(MuseEventType.Pause);
+        super(PauseTestEventType.INSTANCE);
         _next_step = next_step;
         }
 
@@ -20,6 +20,23 @@ public class PauseTestEvent extends MuseEvent
         }
 
     private StepConfiguration _next_step;
+
+    public final static class PauseTestEventType extends EventType
+	    {
+	    @Override
+	    public String getTypeId()
+		    {
+		    return TYPE_ID;
+		    }
+
+	    @Override
+	    public String getName()
+		    {
+		    return "Pause";
+		    }
+
+	    public final static String TYPE_ID = "pause";
+	    public final static EventType INSTANCE = new PauseTestEventType();
+	    }
+
     }
-
-

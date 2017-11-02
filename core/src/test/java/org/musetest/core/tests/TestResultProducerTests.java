@@ -41,7 +41,7 @@ public class TestResultProducerTests
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "test123";
-        producer.eventRaised(new StepEvent(MuseEventType.EndStep, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, reason)));
+        producer.eventRaised(new StepEvent(StepEvent.END_TYPE, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, reason)));
 
         MuseTestResult result = producer.getTestResult();
         Assert.assertFalse(result.isPass());
@@ -59,7 +59,7 @@ public class TestResultProducerTests
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "test123";
-        producer.eventRaised(new StepEvent(MuseEventType.EndStep, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.ERROR, reason)));
+        producer.eventRaised(new StepEvent(StepEvent.END_TYPE, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.ERROR, reason)));
 
         MuseTestResult result = producer.getTestResult();
         Assert.assertFalse(result.isPass());

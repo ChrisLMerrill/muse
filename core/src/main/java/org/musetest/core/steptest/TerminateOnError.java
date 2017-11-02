@@ -36,8 +36,8 @@ public class TerminateOnError implements MuseEventListener
     @Override
     public void eventRaised(MuseEvent event)
         {
-        if (event.getType().equals(MuseEventType.EndStep) && ((StepEvent)event).getResult().getStatus().equals(StepExecutionStatus.ERROR)
-            || event.getType().equals(MuseEventType.VerifyFailed) && ((VerifyFailureEvent)event).isFatal())
+        if (event.getTypeId().equals(StepEvent.EndStepEventType.TYPE_ID) && ((StepEvent)event).getResult().getStatus().equals(StepExecutionStatus.ERROR)
+            || event.getTypeId().equals(VerifyFailureEvent.VerifyFailureEventType.TYPE_ID) && ((VerifyFailureEvent)event).isFatal())
             {
             if (_runner != null)
                 _runner.interrupt();

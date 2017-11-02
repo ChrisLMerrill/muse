@@ -2,7 +2,6 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.builtins.step.*;
-import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.mocks.*;
@@ -86,7 +85,7 @@ public class StepFinderTests
 	    {
 	    setupTestInContext();
 
-	    StepEvent event = new StepEvent(MuseEventType.EndStep, _log_step, new MockStepExecutionContext());
+	    StepEvent event = new StepEvent(StepEvent.END_TYPE, _log_step, new MockStepExecutionContext());
 	    Assert.assertEquals(_log_step, new StepFinder(_context).by(event));
 	    }
 
@@ -95,7 +94,7 @@ public class StepFinderTests
 		{
 	    setupTestInContext();
 
-	    StepEvent event = new StepEvent(MuseEventType.EndStep, _log_step, new MockStepExecutionContext());
+	    StepEvent event = new StepEvent(StepEvent.END_TYPE, _log_step, new MockStepExecutionContext());
 	    Field field = event.getClass().getDeclaredField("_config");
 	    field.setAccessible(true);
 	    field.set(event, null);

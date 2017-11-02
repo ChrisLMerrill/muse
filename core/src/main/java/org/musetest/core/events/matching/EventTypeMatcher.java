@@ -9,16 +9,21 @@ public class EventTypeMatcher implements EventMatcher
     {
     public EventTypeMatcher(MuseEventType type)
         {
-        _type = type;
+        _type = type.name();
+        }
+
+    public EventTypeMatcher(String type_id)
+        {
+        _type = type_id;
         }
 
     @Override
     public boolean matches(MuseEvent event)
         {
-        return _type.equals(event.getType());
+        return _type.equals(event.getTypeId());
         }
 
-    private MuseEventType _type;
+    private String _type;
     }
 
 

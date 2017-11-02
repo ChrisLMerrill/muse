@@ -5,6 +5,7 @@ import org.musetest.core.context.initializers.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.matching.*;
 
+import javax.annotation.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -27,7 +28,7 @@ public class EventLogger implements MuseEventListener, DataCollector
 	    }
 
     @Override
-    public void configure(ContextInitializerConfiguration configuration)
+    public void configure(@Nonnull ContextInitializerConfiguration configuration)
 	    {
 	    // doesn't currently need configuration
 	    }

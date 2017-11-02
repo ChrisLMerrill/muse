@@ -9,7 +9,7 @@ public class TestErrorEvent extends MuseEvent
     {
     public TestErrorEvent(String message)
         {
-        super(MuseEventType.TestExecutionError);
+        super(TYPE);
         _message = message;
         }
 
@@ -19,6 +19,22 @@ public class TestErrorEvent extends MuseEvent
         }
 
     private String _message;
+
+    public static class TestErrorEventType extends EventType
+	    {
+	    @Override
+	    public String getTypeId()
+		    {
+		    return "TestExecutionError";
+		    }
+
+	    @Override
+	    public String getName()
+		    {
+		    return "Test Execution Error";
+		    }
+	    }
+    private final static EventType TYPE = new TestErrorEventType();
     }
 
 

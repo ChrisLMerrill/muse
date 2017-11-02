@@ -5,6 +5,8 @@ import org.musetest.core.context.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
+import javax.annotation.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -17,7 +19,7 @@ public class VariableListContextInitializer implements ContextInitializer
 		}
 
 	@Override
-	public void configure(ContextInitializerConfiguration configuration)
+	public void configure(@Nonnull ContextInitializerConfiguration configuration)
 		{
 		_configuration = configuration;
 		}

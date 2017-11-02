@@ -1,5 +1,6 @@
 package org.musetest.core.events;
 
+import org.musetest.builtins.condition.*;
 import org.musetest.core.*;
 
 /**
@@ -9,7 +10,7 @@ public class ConditionEvaluatedEvent extends MuseEvent
     {
     public ConditionEvaluatedEvent(String description)
         {
-        super(MuseEventType.ConditionEvaluated);
+        super(ConditionEvaluatedEventType.TYPE);
         _description = description;
         }
 

@@ -18,7 +18,7 @@ public class StepResultStatusMatcher implements EventMatcher
     public boolean matches(MuseEvent event)
         {
         return event instanceof StepEvent
-            && event.getType().equals(MuseEventType.EndStep)
+            && event.getTypeId().equals(StepEvent.EndStepEventType.TYPE_ID)
             && _status.equals(((StepEvent)event).getResult().getStatus());
         }
 

@@ -10,12 +10,12 @@ import org.musetest.core.step.*;
  */
 public class StepEvent extends MuseEvent
     {
-    public StepEvent(MuseEventType type, StepConfiguration config, StepExecutionContext context)
+    public StepEvent(EventType type, StepConfiguration config, StepExecutionContext context)
         {
         this(type, config, context, null);
         }
 
-    public StepEvent(MuseEventType type, StepConfiguration config, StepExecutionContext context, StepExecutionResult result)
+    public StepEvent(EventType type, StepConfiguration config, StepExecutionContext context, StepExecutionResult result)
         {
         super(type);
         _config = config;
@@ -30,12 +30,12 @@ public class StepEvent extends MuseEvent
     public String getDescription()
         {
         StringBuilder builder = new StringBuilder();
-        if (getType().equals(MuseEventType.StartStep))
+        if (getTypeId().equals(StartStepEventType.TYPE_ID))
             builder.append("Starting:");
-        else if (getType().equals(MuseEventType.EndStep))
+        else if (getTypeId().equals(EndStepEventType.TYPE_ID))
             builder.append("Finished:");
         else
-            builder.append(getType().name());
+            builder.append(getType().getName());
 
         builder.append(" ");
         builder.append(_step_description);
@@ -74,4 +74,40 @@ public class StepEvent extends MuseEvent
     private StepExecutionResult _result;
     private Long _stepid;
     private StepConfiguration _config;
+
+    public static class StartStepEventType extends EventType
+	    {
+	    @Override
+	    public String getTypeId()
+		    {
+		    return TYPE_ID;
+		    }
+
+	    @Override
+	    public String getName()
+		    {
+		    return "Start Step";
+		    }
+
+	    public final static String TYPE_ID = "StartStep";
+	    }
+    public final static EventType START_TYPE = new StepEvent.StartStepEventType();
+
+    public static class EndStepEventType extends EventType
+	    {
+	    @Override
+	    public String getTypeId()
+		    {
+		    return TYPE_ID;
+		    }
+
+	    @Override
+	    public String getName()
+		    {
+		    return "End Step";
+		    }
+
+	    public final static String TYPE_ID = "EndStep";
+	    }
+    public final static EventType END_TYPE = new StepEvent.EndStepEventType();
     }
