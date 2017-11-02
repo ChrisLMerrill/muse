@@ -8,6 +8,8 @@ import org.musetest.core.variables.*;
 import org.slf4j.*;
 
 import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -19,20 +21,38 @@ public class BaseExecutionContext implements MuseExecutionContext
         _project = project;
         }
 
+    /**
+     * Send an event to all event listeners.
+     *
+     * This is not really intended to be threadsafe, but it is intended for re-entrant safety.
+     * I.e. Raising a new event (or multiple events) by an EventListener, during the processing of an event,
+     * will queue the events and deliver them in the order they were raised.
+     */
     @Override
     public void raiseEvent(MuseEvent event)
         {
-        for (MuseEventListener listener : _listeners.toArray(new MuseEventListener[_listeners.size()]))  // note, this is a threadsafe iteration - listeners can unsubscribe during event dispatch
-            {
-            try
+        // put it into a queue
+        _event_queue.add(event);
+        if (_events_processing.get())
+        	return;
+
+        _events_processing.set(true);
+        while (!_event_queue.isEmpty())
+	        {
+	        MuseEvent queued_event = _event_queue.remove();
+	        for (MuseEventListener listener : _listeners.toArray(new MuseEventListener[_listeners.size()]))  // note, this is a threadsafe iteration - listeners can unsubscribe during event dispatch
                 {
-                listener.eventRaised(event);
+                try
+                    {
+                    listener.eventRaised(queued_event);
+                    }
+                catch (Exception e)
+                    {
+                    LOG.error("TextExecutionContext.raiseEvent(): Exception while passing event to listeners: ", e);
+                    }
                 }
-            catch (Exception e)
-                {
-                LOG.error("TextExecutionContext.raiseEvent(): Exception while passing event to listeners: ", e);
-                }
-            }
+	        }
+        _events_processing.set(false);
         }
 
     @Override
@@ -156,6 +176,8 @@ public class BaseExecutionContext implements MuseExecutionContext
     private List<Shuttable> _shuttables = new ArrayList<>();
     private List<ContextInitializer> _initializers = new ArrayList<>();
     private boolean _initialized = false;
+    private Queue<MuseEvent> _event_queue = new ConcurrentLinkedQueue<>();
+    private AtomicBoolean _events_processing = new AtomicBoolean(false);
 
     private final static Logger LOG = LoggerFactory.getLogger(TestExecutionContext.class);
     }
