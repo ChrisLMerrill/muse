@@ -7,11 +7,6 @@ import org.musetest.core.*;
  */
 public class EventTypeMatcher implements EventMatcher
     {
-    public EventTypeMatcher(MuseEventType type)
-        {
-        _type = type.name();
-        }
-
     public EventTypeMatcher(String type_id)
         {
         _type = type_id;
