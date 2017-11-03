@@ -26,7 +26,7 @@ public class BaseExecutionContext implements MuseExecutionContext
      *
      * This is not really intended to be threadsafe, but it is intended for re-entrant safety.
      * I.e. Raising a new event (or multiple events) by an EventListener, during the processing of an event,
-     * will queue the events and deliver them in the order they were raised.
+     * will queue the event and continue to deliver them in the order they were raised.
      */
     @Override
     public void raiseEvent(MuseEvent event)

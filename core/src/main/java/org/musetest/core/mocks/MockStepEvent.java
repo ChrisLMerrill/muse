@@ -17,6 +17,11 @@ public class MockStepEvent extends StepEvent
         super(type, config, context);
         }
 
+    public void setResult(StepExecutionResult result)
+        {
+        _result = result;
+        }
+
     public void setTimestampNanos(long nanos)
         {
         _timestamp_nanos = nanos;

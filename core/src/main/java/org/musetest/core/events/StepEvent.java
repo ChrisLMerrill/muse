@@ -71,7 +71,7 @@ public class StepEvent extends MuseEvent
 	    }
 
     private String _step_description;
-    private StepExecutionResult _result;
+    protected StepExecutionResult _result;
     private Long _stepid;
     private StepConfiguration _config;
 
