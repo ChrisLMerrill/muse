@@ -1,6 +1,5 @@
 package org.musetest.builtins.step;
 
-import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.step.*;
@@ -12,7 +11,7 @@ public class VerifyFailureEvent extends StepEvent
     {
     public VerifyFailureEvent(StepConfiguration config, StepExecutionContext context, String message)
         {
-        super(VerifyFailureEventType.TYPE, config, context);
+        super(VerifyFailureEventType.INSTANCE, config, context);
         _message = message;
         }
 
@@ -27,7 +26,7 @@ public class VerifyFailureEvent extends StepEvent
         return _fatal;
         }
 
-    public void setFatal(boolean fatal)
+    void setFatal(boolean fatal)
         {
         _fatal = fatal;
         }
@@ -49,8 +48,8 @@ public class VerifyFailureEvent extends StepEvent
 		    return "Verify Failed";
 		    }
 
-	    public final static String TYPE_ID = "VerifyFailed";
-	    public final static EventType TYPE = new VerifyFailureEventType();
+	    public final static String TYPE_ID = "verify-failed";
+	    public final static EventType INSTANCE = new VerifyFailureEventType();
 	    }
     }
 

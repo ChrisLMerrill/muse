@@ -2,7 +2,7 @@ package org.musetest.core.events;
 
 import org.musetest.core.*;
 
-import static org.musetest.core.events.EndTestEvent.EndTestEventType.TYPE_INSTANCE;
+import static org.musetest.core.events.EndTestEvent.EndTestEventType.INSTANCE;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -11,7 +11,7 @@ public class EndTestEvent extends MuseEvent
     {
     public EndTestEvent(String description, boolean pass)
         {
-        super(TYPE_INSTANCE);
+        super(INSTANCE);
 		_description = description;
 		_pass = pass;
         }
@@ -50,7 +50,7 @@ public class EndTestEvent extends MuseEvent
 		    return "End Test";
 		    }
 
-	    public final static String TYPE_ID = "EndTest";
-	    public final static EventType TYPE_INSTANCE = new EndTestEventType();
+	    public final static String TYPE_ID = "end-test";
+	    final static EventType INSTANCE = new EndTestEventType();
 	    }
     }

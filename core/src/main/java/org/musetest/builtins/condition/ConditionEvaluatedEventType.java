@@ -19,8 +19,8 @@ public class ConditionEvaluatedEventType extends EventType
 		return "Condition Evaluated";
 		}
 
-	public final static String TYPE_ID = "ConditionEvaluated";
-	public final static EventType TYPE = new ConditionEvaluatedEventType();
+	public final static String TYPE_ID = "condition-evaluated";
+	public final static EventType INSTANCE = new ConditionEvaluatedEventType();
 	}
 
 

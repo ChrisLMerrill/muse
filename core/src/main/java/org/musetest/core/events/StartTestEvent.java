@@ -9,7 +9,7 @@ public class StartTestEvent extends MuseEvent
     {
     public StartTestEvent(MuseTest test)
         {
-        super(TYPE);
+        super(INSTANCE);
         _test = test;
         }
 
@@ -26,7 +26,7 @@ public class StartTestEvent extends MuseEvent
 	    @Override
 	    public String getTypeId()
 		    {
-		    return "StartTest";
+		    return "start-test";
 		    }
 
 	    @Override
@@ -35,5 +35,6 @@ public class StartTestEvent extends MuseEvent
 		    return "Start Test";
 		    }
 	    }
-    private static EventType TYPE = new StartTestEventType();
+
+    private final static EventType INSTANCE = new StartTestEventType();
     }

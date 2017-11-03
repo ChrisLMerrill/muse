@@ -10,7 +10,6 @@ import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.tests.mocks.*;
-import org.musetest.extensions.install.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.*;
@@ -56,7 +55,7 @@ public class ExecutionContextTests
 	        {
 	        if (event.getTypeId().equals(MessageEvent.MessageEventType.TYPE_ID))  // don't go into infinite loop
 		        {
-		        final MockStepEvent second_event = new MockStepEvent(StepEvent.END_TYPE, step_config, new MockStepExecutionContext(context));
+		        final MockStepEvent second_event = new MockStepEvent(StepEvent.END_INSTANCE, step_config, new MockStepExecutionContext(context));
 		        event2.set(second_event);
 		        context.raiseEvent(second_event);
 		        }

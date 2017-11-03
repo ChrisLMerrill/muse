@@ -9,7 +9,7 @@ public class MessageEvent extends MuseEvent
     {
     public MessageEvent(String message)
         {
-        super(MessageEventType.TYPE);
+        super(MessageEventType.INSTANCE);
         _message = message;
         }
 
@@ -35,8 +35,8 @@ public class MessageEvent extends MuseEvent
 		    return "Message";
 		    }
 
-	    public final static String TYPE_ID = "Message";
-	    public final static EventType TYPE = new MessageEventType();
+	    public final static String TYPE_ID = "message";
+	    public final static EventType INSTANCE = new MessageEventType();
 	    }
 
     }

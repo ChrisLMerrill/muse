@@ -61,7 +61,7 @@ public class ReturnStep extends BaseStep
             {
             StepExecutionContext popped_context = stack.peek();
             BasicStepExecutionResult result = new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
-            current_context.raiseEvent(new StepEvent(StepEvent.END_TYPE, popped_context.getCurrentStepConfiguration(), popped_context, result));
+            current_context.raiseEvent(new StepEvent(StepEvent.END_INSTANCE, popped_context.getCurrentStepConfiguration(), popped_context, result));
             popped_context.stepComplete(popped_context.getCurrentStep(), result);
             if (stack.peek() == popped_context)
                 stack.pop();  // ensure the context was popped, if completing the step wasn't enough

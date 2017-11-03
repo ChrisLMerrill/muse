@@ -26,16 +26,16 @@ public class EventTests
     public void eventTypeMatcher()
         {
         EventMatcher matcher = new EventTypeMatcher(ConditionEvaluatedEventType.TYPE_ID);
-        Assert.assertTrue(matcher.matches(new MuseEvent(ConditionEvaluatedEventType.TYPE)));
-        Assert.assertFalse(matcher.matches(new MuseEvent(StepEvent.END_TYPE)));
+        Assert.assertTrue(matcher.matches(new MuseEvent(ConditionEvaluatedEventType.INSTANCE)));
+        Assert.assertFalse(matcher.matches(new MuseEvent(StepEvent.END_INSTANCE)));
         }
 
     @Test
     public void stepResultStatusMatcher()
         {
         EventMatcher matcher = new StepResultStatusMatcher(StepExecutionStatus.ERROR);
-        Assert.assertTrue(matcher.matches(new StepEvent(StepEvent.END_TYPE, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR))));
-        Assert.assertFalse(matcher.matches(new StepEvent(StepEvent.END_TYPE, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE))));
+        Assert.assertTrue(matcher.matches(new StepEvent(StepEvent.END_INSTANCE, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR))));
+        Assert.assertFalse(matcher.matches(new StepEvent(StepEvent.END_INSTANCE, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE))));
         }
 
     @Test

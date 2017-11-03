@@ -10,7 +10,7 @@ public class ConditionEvaluatedEvent extends MuseEvent
     {
     public ConditionEvaluatedEvent(String description)
         {
-        super(ConditionEvaluatedEventType.TYPE);
+        super(ConditionEvaluatedEventType.INSTANCE);
         _description = description;
         }
 
@@ -22,5 +22,3 @@ public class ConditionEvaluatedEvent extends MuseEvent
 
     private String _description;
     }
-
-

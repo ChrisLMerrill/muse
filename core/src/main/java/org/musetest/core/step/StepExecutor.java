@@ -50,7 +50,7 @@ public class StepExecutor
         if (!(_steps_in_progress.contains(step_config)))
             {
             _steps_in_progress.add(step_config);
-            _context.raiseEvent(new StepEvent(StepEvent.START_TYPE, step_config, step_context));
+            _context.raiseEvent(new StepEvent(StepEvent.START_INSTANCE, step_config, step_context));
             }
         try
             {
@@ -75,7 +75,7 @@ public class StepExecutor
             step_result = new BasicStepExecutionResult(StepExecutionStatus.ERROR, error_message);
         if (step != null && !step_result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
             step_context.stepComplete(step, step_result);
-        _context.raiseEvent(new StepEvent(StepEvent.END_TYPE, step_config, step_context, step_result));
+        _context.raiseEvent(new StepEvent(StepEvent.END_INSTANCE, step_config, step_context, step_result));
 
         if (!step_result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
             _steps_in_progress.remove(step_config);

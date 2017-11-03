@@ -1,6 +1,5 @@
 package org.musetest.core.step;
 
-import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 
@@ -11,12 +10,13 @@ import java.util.*;
  */
 public class DynamicStepLoadingEvent extends StepEvent
     {
-    public DynamicStepLoadingEvent(StepConfiguration config, StepExecutionContext context, List<StepConfiguration> steps)
+    DynamicStepLoadingEvent(StepConfiguration config, StepExecutionContext context, List<StepConfiguration> steps)
         {
-        super(DynamicStepLoadEventType.TYPE, config, context);
+        super(DynamicStepLoadEventType.INSTANCE, config, context);
         _steps = steps;
         }
 
+    @SuppressWarnings("unused")  // used in UI
     public List<StepConfiguration> getLoadedSteps()
         {
         return _steps;
@@ -38,8 +38,8 @@ public class DynamicStepLoadingEvent extends StepEvent
 		    return "Load Steps";
 		    }
 
-	    public final static String TYPE_ID = "DynamicStepLoad";
-	    public final static EventType TYPE = new DynamicStepLoadEventType();
+	    public final static String TYPE_ID = "load-steps";
+	    final static EventType INSTANCE = new DynamicStepLoadEventType();
 	    }
 
     }

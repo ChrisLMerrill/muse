@@ -84,7 +84,7 @@ public class CallFunction extends CallMacroStep
             }
 
         BasicStepExecutionResult result = new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
-        context.raiseEvent(new StepEvent(StepEvent.END_TYPE, _config, context, result));
+        context.raiseEvent(new StepEvent(StepEvent.END_INSTANCE, _config, context, result));
         context.stepComplete(this, result);
         }
 

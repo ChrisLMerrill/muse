@@ -89,9 +89,9 @@ public class StepEvent extends MuseEvent
 		    return "Start Step";
 		    }
 
-	    public final static String TYPE_ID = "StartStep";
+	    public final static String TYPE_ID = "start-step";
 	    }
-    public final static EventType START_TYPE = new StepEvent.StartStepEventType();
+    public final static EventType START_INSTANCE = new StepEvent.StartStepEventType();
 
     public static class EndStepEventType extends EventType
 	    {
@@ -107,7 +107,7 @@ public class StepEvent extends MuseEvent
 		    return "End Step";
 		    }
 
-	    public final static String TYPE_ID = "EndStep";
+	    public final static String TYPE_ID = "end-step";
 	    }
-    public final static EventType END_TYPE = new StepEvent.EndStepEventType();
+    public final static EventType END_INSTANCE = new StepEvent.EndStepEventType();
     }

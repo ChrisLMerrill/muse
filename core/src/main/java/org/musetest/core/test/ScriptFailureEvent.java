@@ -8,16 +8,19 @@ import org.musetest.core.events.*;
  */
 public class ScriptFailureEvent extends MuseEvent
     {
-    public ScriptFailureEvent(String message, Throwable exception)
+    public ScriptFailureEvent(String message, @SuppressWarnings("unused") Throwable exception)
         {
-        super(ScriptFailureEventType.TYPE);
+        super(ScriptFailureEventType.INSTANCE);
         _message = message;
-        _exception = exception;
         }
 
+    @Override
+    public String getDescription()
+	    {
+	    return _message;
+	    }
+
     private String _message;
-    private String _script;
-    private Throwable _exception;
 
     public final static class ScriptFailureEventType extends EventType
 	    {
@@ -33,8 +36,8 @@ public class ScriptFailureEvent extends MuseEvent
 		    return "Script Error";
 		    }
 
-	    public final static String TYPE_ID = "ScriptError";
-	    public final static EventType TYPE = new ScriptFailureEventType();
+	    public final static String TYPE_ID = "script-fail";
+	    public final static EventType INSTANCE = new ScriptFailureEventType();
 	    }
 
     }

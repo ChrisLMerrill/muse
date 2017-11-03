@@ -9,7 +9,7 @@ public class ValueSourceResolvedEvent extends MuseEvent
     {
     public ValueSourceResolvedEvent(String description, Object value)
         {
-        super(ValueSourceResolvedEventType.TYPE);
+        super(ValueSourceResolvedEventType.INSTANCE);
         _description = description;
         _value = value;
         }
@@ -37,7 +37,7 @@ public class ValueSourceResolvedEvent extends MuseEvent
 		    return "ValueSource Resolved";
 		    }
 
-	    public final static String TYPE_ID = "ValueResolved";
-	    public final static EventType TYPE = new ValueSourceResolvedEventType();
+	    public final static String TYPE_ID = "value-resolved";
+	    public final static EventType INSTANCE = new ValueSourceResolvedEventType();
 	    }
     }
