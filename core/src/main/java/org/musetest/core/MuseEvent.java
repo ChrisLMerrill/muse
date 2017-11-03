@@ -1,7 +1,6 @@
 package org.musetest.core;
 
 import org.musetest.core.events.*;
-import org.musetest.core.resource.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -35,7 +34,7 @@ public class MuseEvent
     public String getTypeId()
 	    {
 	    if (_type != null)
-	    	return _type.getName();
+	    	return _type.getTypeId();
 	    else
 	    	return _type_id;
 	    }
@@ -51,10 +50,8 @@ public class MuseEvent
         }
 
     private transient EventType _type;
-    protected String _type_id = null;
+    private String _type_id = null;
     protected long _timestamp_nanos = System.nanoTime();
-
-    private final static DefaultClassLocator DEFAULT_LOCATOR = new DefaultClassLocator();
     }
 
 
