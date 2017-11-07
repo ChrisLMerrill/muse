@@ -55,7 +55,9 @@ public class SteppedTestExecutor
         catch (MuseExecutionError e)
             {
             LOG.error("Unable to initialize the context", e);
-            _context.raiseEvent(new TestErrorEvent("Unable to initialize the context"));
+            final TestErrorEvent event = new TestErrorEvent("Unable to initialize the context");
+            event.setStatus(EventStatus.Failure);
+            _context.raiseEvent(event);
             return false;
             }
 

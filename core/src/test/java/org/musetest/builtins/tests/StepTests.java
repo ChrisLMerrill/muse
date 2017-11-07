@@ -162,7 +162,7 @@ public class StepTests
 
         List<MuseEvent> events = logger.getData().findEvents(new EventTypeMatcher(VerifyFailureEvent.VerifyFailureEventType.TYPE_ID));
         Assert.assertEquals(1, events.size());
-        Assert.assertEquals(fatal, ((VerifyFailureEvent) events.get(0)).isFatal());
+        Assert.assertEquals(fatal, events.get(0).isTerminateRequested());
         }
 
     @Test

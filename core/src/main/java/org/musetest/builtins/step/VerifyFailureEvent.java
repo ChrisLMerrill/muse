@@ -13,6 +13,7 @@ public class VerifyFailureEvent extends StepEvent
         {
         super(VerifyFailureEventType.INSTANCE, config, context);
         _message = message;
+        setStatus(EventStatus.Failure);
         }
 
     @Override
@@ -21,18 +22,7 @@ public class VerifyFailureEvent extends StepEvent
         return _message;
         }
 
-    public boolean isFatal()
-        {
-        return _fatal;
-        }
-
-    void setFatal(boolean fatal)
-        {
-        _fatal = fatal;
-        }
-
     private String _message;
-    private boolean _fatal = false;
 
     public static class VerifyFailureEventType extends EventType
 	    {

@@ -44,6 +44,26 @@ public class MuseEvent
         return getType().getName();
         }
 
+    public EventStatus getStatus()
+	    {
+	    return _status;
+	    }
+
+    public void setStatus(EventStatus status)
+	    {
+	    _status = status;
+	    }
+
+    public boolean isTerminateRequested()
+        {
+        return _terminate;
+        }
+
+    public void setTerminate(boolean terminate)
+	    {
+	    _terminate = terminate;
+	    }
+
     public long getTimestampNanos()
         {
         return _timestamp_nanos;
@@ -51,6 +71,8 @@ public class MuseEvent
 
     private transient EventType _type;
     private String _type_id = null;
+    private EventStatus _status = EventStatus.Normal;
+    private boolean _terminate = false;
     protected long _timestamp_nanos = System.nanoTime();
     }
 

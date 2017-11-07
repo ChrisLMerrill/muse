@@ -8,9 +8,11 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
 import org.musetest.core.project.*;
+import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.SteppedTest;
 import org.musetest.core.values.*;
+import org.musetest.core.variables.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -98,11 +100,88 @@ public class TestTests
         test_context.addEventListener(logger);
 
         MuseTestResult result = test.execute(test_context);
-        Assert.assertFalse(result.isPass());  // test marked as failure
+        Assert.assertFalse(result.isPass());  // test did not pass
+        Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
 
         // should stop after verify step
         Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 2);
         }
+
+    /**
+     * An event that has failure status causes the test result to have failure status
+     */
+    @Test
+    public void failureEventStatusCausesTestFailureStatus()
+        {
+        MuseEvent event = new MuseEvent(MessageEvent.MessageEventType.INSTANCE);
+        event.setStatus(EventStatus.Failure);
+        EventLogger logger = new EventLogger();
+        MuseTestResult result = runEventRaisingTest(event, logger);
+
+
+        Assert.assertFalse(result.isPass());  // test did not pass
+        Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
+
+        // it was not fatal, so all steps should run
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 3);
+        }
+
+    /**
+     * An event that has error status causes the test result to have error status. And test Terminates
+     */
+    @Test
+    public void errorEventStatusCausesTestErrorStatus()
+        {
+        MuseEvent event = new MuseEvent(MessageEvent.MessageEventType.INSTANCE);
+        event.setStatus(EventStatus.Error);
+        EventLogger logger = new EventLogger();
+        MuseTestResult result = runEventRaisingTest(event, logger);
+
+        Assert.assertFalse(result.isPass());  // test did not pass
+        Assert.assertEquals(MuseTestFailureDescription.FailureType.Error, result.getFailureDescription().getFailureType());
+        }
+
+    /**
+     * An event that has error status causes the test result to have error status. And test Terminates
+     */
+    @Test
+    public void eventTerminatePropertyCausesTermination()
+        {
+        MuseEvent event = new MuseEvent(MessageEvent.MessageEventType.INSTANCE);
+        event.setTerminate(true);
+        EventLogger logger = new EventLogger();
+        runEventRaisingTest(event, logger);
+
+        // second step should not run (technically 3rd, since the 2 are contained in compound step)
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 2);
+        }
+
+    private MuseTestResult runEventRaisingTest(MuseEvent event, EventLogger logger)
+	    {
+	    // Implement a step that generates an event with failure status
+	    StepConfiguration step = new StepConfiguration("mock-step")
+		    {
+		    @Override
+		    public MuseStep createStep(MuseProject project) throws MuseInstantiationException
+			    {
+			    return new BaseStep(this)
+				    {
+				    @Override
+				    protected StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
+					    {
+					    context.raiseEvent(event);
+					    return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
+					    }
+				    };
+			    }
+		    };
+	    SteppedTest test = setupLogTest(step);
+
+	    DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
+	    test_context.addEventListener(logger);
+
+	    return test.execute(test_context);
+	    }
 
     private static SteppedTest setupLogTest(StepConfiguration first_step)
         {

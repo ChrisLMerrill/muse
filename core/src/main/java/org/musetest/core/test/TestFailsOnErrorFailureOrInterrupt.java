@@ -1,6 +1,5 @@
 package org.musetest.core.test;
 
-import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
@@ -27,11 +26,7 @@ public class TestFailsOnErrorFailureOrInterrupt implements TestResultProducer
     @Override
     public void eventRaised(MuseEvent event)
         {
-        if (event instanceof VerifyFailureEvent)
-            _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, event.getDescription());
-        else if (event instanceof TestErrorEvent)
-            _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, event.getDescription());
-        else if (event instanceof StepEvent && ((StepEvent)event).getResult() != null)
+        if (event instanceof StepEvent && ((StepEvent)event).getResult() != null)
             {
             StepExecutionResult step_result = ((StepEvent)event).getResult();
             if (step_result.getStatus() == StepExecutionStatus.FAILURE && _failure == null)
@@ -41,6 +36,10 @@ public class TestFailsOnErrorFailureOrInterrupt implements TestResultProducer
             }
         else if (event.getTypeId().equals(InterruptedEventType.TYPE_ID))
             _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Interrupted, "interrupted by user");
+        else if (event.getStatus().equals(EventStatus.Failure))
+            _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, event.getDescription());
+        else if (event.getStatus().equals(EventStatus.Error))
+            _failure = new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, event.getDescription());
         }
 
     private MuseTest _test;

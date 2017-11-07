@@ -5,7 +5,6 @@ import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -23,7 +22,7 @@ import org.musetest.core.values.descriptor.*;
 public class Verify extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection
-    public Verify(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public Verify(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
         _condition = getValueSource(config, CONDITION_PARAM, true, project);
@@ -41,14 +40,18 @@ public class Verify extends BaseStep
         boolean success = (Boolean) value;
         String message = String.format("%s is %b", _condition.getDescription(), success);
         if (success)
-            return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, "passed");
+            return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, "verify passed");
         else
             {
+            // is this step configured to terminated on verify failure?
             Boolean terminate_value = getValue(_terminate, context, true, Boolean.class);
+            final boolean fatal = terminate_value != null && terminate_value;
+
             VerifyFailureEvent event = new VerifyFailureEvent(_config, context, message);
-            event.setFatal(terminate_value != null && terminate_value);
+            event.setTerminate(fatal);
             context.raiseEvent(event);
-            return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "FAIL");
+
+            return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "verify FAILED");
             }
         }
 

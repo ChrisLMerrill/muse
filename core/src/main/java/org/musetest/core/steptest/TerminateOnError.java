@@ -1,6 +1,5 @@
 package org.musetest.core.steptest;
 
-import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
@@ -37,7 +36,7 @@ public class TerminateOnError implements MuseEventListener
     public void eventRaised(MuseEvent event)
         {
         if (event.getTypeId().equals(StepEvent.EndStepEventType.TYPE_ID) && ((StepEvent)event).getResult().getStatus().equals(StepExecutionStatus.ERROR)
-            || event.getTypeId().equals(VerifyFailureEvent.VerifyFailureEventType.TYPE_ID) && ((VerifyFailureEvent)event).isFatal())
+            || event.isTerminateRequested())
             {
             if (_runner != null)
                 _runner.interrupt();
