@@ -31,7 +31,6 @@ public class TerminateOnError implements MuseEventListener
         _test_executor = null;
         }
 
-
     @Override
     public void eventRaised(MuseEvent event)
         {
@@ -51,5 +50,3 @@ public class TerminateOnError implements MuseEventListener
     private final SteppedTestExecutor _test_executor;
     private final StepExecutor _step_executor;
     }
-
-

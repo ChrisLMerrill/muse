@@ -46,6 +46,8 @@ public class MuseEvent
 
     public EventStatus getStatus()
 	    {
+	    if (_status == null)
+		    _status = EventStatus.Normal;
 	    return _status;
 	    }
 

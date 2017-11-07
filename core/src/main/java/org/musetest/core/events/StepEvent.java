@@ -24,6 +24,13 @@ public class StepEvent extends MuseEvent
 	        _stepid = ((Number) id).longValue();
         _step_description = context.getProject().getStepDescriptors().get(config).getShortDescription(config);
         _result = result;
+        if (_result != null)
+	        {
+	        if (_result.getStatus().equals(StepExecutionStatus.ERROR))
+                setStatus(EventStatus.Error);
+            else if (_result.getStatus().equals(StepExecutionStatus.FAILURE))
+                setStatus(EventStatus.Failure);
+	        }
         }
 
     @Override

@@ -17,7 +17,8 @@ public class BaseMuseTestResult implements MuseTestResult
         {
         _test = test;
         _log = log;
-        _failure = failure;
+        if (failure != null)
+	        _failures.add(failure);
         }
 
     public BaseMuseTestResult(MuseTest test, MuseExecutionContext context, MuseTestFailureDescription failure)
@@ -25,7 +26,16 @@ public class BaseMuseTestResult implements MuseTestResult
         _test = test;
         for (DataCollector collector : context.getDataCollectors())
         	_result_data.add(collector.getData());
-        _failure = failure;
+        if (failure != null)
+	        _failures.add(failure);
+        }
+
+    public BaseMuseTestResult(MuseTest test, MuseExecutionContext context, List<MuseTestFailureDescription> failures)
+        {
+        _test = test;
+        for (DataCollector collector : context.getDataCollectors())
+        	_result_data.add(collector.getData());
+        _failures.addAll(failures);
         }
 
     @Override
@@ -51,13 +61,15 @@ public class BaseMuseTestResult implements MuseTestResult
     @Override
     public boolean isPass()
         {
-        return _failure == null;
+        return _failures.size() == 0;
         }
 
     @Override
     public MuseTestFailureDescription getFailureDescription()
         {
-        return _failure;
+        if (_failures.isEmpty())
+        	return null;
+        return _failures.get(0);
         }
 
     @Override
@@ -67,13 +79,36 @@ public class BaseMuseTestResult implements MuseTestResult
             return String.format("SUCCESS: Test '%s' completed successfully.", _test.getDescription());
         else
             {
-            String start = String.format(FAILURE_STRINGS.get(_failure.getFailureType()), _failure.getFailureType().name().toUpperCase(), _test.getDescription());
-            String reason = _failure.getReason();
+            MuseTestFailureDescription first_failure = _failures.get(0);
+            String reason = first_failure.getReason();
+            MuseTestFailureDescription.FailureType severity = getSeverity();
             if (reason == null)
                 reason = UNDESCRIBED;
+            String template;
+            if (_failures.size() == 1)
+                template = SINGLE_FAILURE_STRINGS.get(severity);
+            else
+                template = MULTIPLE_FAILURE_STRINGS.get(severity);
+            String start = String.format(template, severity.name().toUpperCase(), _test.getDescription(), _failures.size(), reason);
             return start + " Reason is: " + reason;
             }
         }
+
+    private MuseTestFailureDescription.FailureType getSeverity()
+	    {
+	    MuseTestFailureDescription.FailureType severity = null;
+	    for (MuseTestFailureDescription failure : _failures)
+		    {
+		    final MuseTestFailureDescription.FailureType type = failure.getFailureType();
+		    if (type.equals(MuseTestFailureDescription.FailureType.Failure) && severity == null)
+			    severity = MuseTestFailureDescription.FailureType.Failure;
+		    else if (type.equals(MuseTestFailureDescription.FailureType.Interrupted) && (severity != MuseTestFailureDescription.FailureType.Error))
+		    	severity = MuseTestFailureDescription.FailureType.Interrupted;
+		    else
+		    	severity = MuseTestFailureDescription.FailureType.Error;
+		    }
+	    return severity;
+	    }
 
     @Override
     public String getName()
@@ -96,16 +131,23 @@ public class BaseMuseTestResult implements MuseTestResult
 
     private MuseTest _test;
     private EventLog _log;
-    private MuseTestFailureDescription _failure;
+    private List<MuseTestFailureDescription> _failures = new ArrayList<>();
     private TestConfiguration _config;
     private List<TestResultData> _result_data = new ArrayList<>();
 
-    private static Map<MuseTestFailureDescription.FailureType, String> FAILURE_STRINGS = new HashMap<>();
+    private static Map<MuseTestFailureDescription.FailureType, String> SINGLE_FAILURE_STRINGS = new HashMap<>();
     static
         {
-        FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Error, "%s: Test '%s' was not completed due to an error.");
-        FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Failure, "%s: Test '%s' failed.");
-        FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Interrupted, "%s: Test '%s' was not completed due to an error.");
+        SINGLE_FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Error, "%s: Test '%s' was not completed due to an error. Reason is: %s");
+        SINGLE_FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Failure, "%s: Test '%s' failed. Reason is: %s");
+        SINGLE_FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Interrupted, "%s: Test '%s' was not completed due to an error. Reason is: %s");
+        }
+    private static Map<MuseTestFailureDescription.FailureType, String> MULTIPLE_FAILURE_STRINGS = new HashMap<>();
+    static
+        {
+        MULTIPLE_FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Error, "%s: Test '%s' was not completed due to %d failures and/or errors. First is: %s");
+        MULTIPLE_FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Failure, "%s: Test '%s' encountered %d failures. First is: %s");
+        MULTIPLE_FAILURE_STRINGS.put(MuseTestFailureDescription.FailureType.Interrupted, "%s: Test '%s' was not completed due to %d errors. First is: %s");
         }
     private final static String UNDESCRIBED = "(no description provided)";
     }
