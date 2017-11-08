@@ -84,13 +84,10 @@ public class BaseMuseTestResult implements MuseTestResult
             MuseTestFailureDescription.FailureType severity = getSeverity();
             if (reason == null)
                 reason = UNDESCRIBED;
-            String template;
             if (_failures.size() == 1)
-                template = SINGLE_FAILURE_STRINGS.get(severity);
+	            return String.format(SINGLE_FAILURE_STRINGS.get(severity), severity.name().toUpperCase(), _test.getDescription(), reason);
             else
-                template = MULTIPLE_FAILURE_STRINGS.get(severity);
-            String start = String.format(template, severity.name().toUpperCase(), _test.getDescription(), _failures.size(), reason);
-            return start + " Reason is: " + reason;
+	            return String.format(MULTIPLE_FAILURE_STRINGS.get(severity), severity.name().toUpperCase(), _test.getDescription(), _failures.size(), reason);
             }
         }
 
@@ -104,7 +101,7 @@ public class BaseMuseTestResult implements MuseTestResult
 			    severity = MuseTestFailureDescription.FailureType.Failure;
 		    else if (type.equals(MuseTestFailureDescription.FailureType.Interrupted) && (severity != MuseTestFailureDescription.FailureType.Error))
 		    	severity = MuseTestFailureDescription.FailureType.Interrupted;
-		    else
+		    else if (type.equals(MuseTestFailureDescription.FailureType.Error))
 		    	severity = MuseTestFailureDescription.FailureType.Error;
 		    }
 	    return severity;
