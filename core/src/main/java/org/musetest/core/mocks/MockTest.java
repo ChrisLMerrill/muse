@@ -17,13 +17,8 @@ public class MockTest extends BaseMuseTest
     {
     public MockTest()
         {
+        setId("mock-test");
         }
-
-    @Override
-    public String getDescription()
-	    {
-	    return "A Mock Test";
-	    }
 
     public MockTest(String id)
         {
