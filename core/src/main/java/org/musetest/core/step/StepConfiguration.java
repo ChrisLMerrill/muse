@@ -101,19 +101,21 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         return _sources.get(name);
         }
 
-    public void addChild(StepConfiguration child)
+    public synchronized void addChild(StepConfiguration child)
         {
         if (_children == null)
             _children = new ArrayList<>();
         _children.add(child);
+        notifyListeners(new ChildAddedEvent(this, child, _children.size() - 1));
         }
 
     @SuppressWarnings("unused") // used by GUI
-    public void addChild(int index, StepConfiguration child)
+    public synchronized void addChild(int index, StepConfiguration child)
         {
         if (_children == null)
             _children = new ArrayList<>();
         _children.add(index, child);
+        notifyListeners(new ChildAddedEvent(this, child, index));
         }
 
     public MuseStep createStep() throws MuseInstantiationException
@@ -216,7 +218,10 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         // _children.remove(child);
         for (int i = 0; i < _children.size(); i++)
             if (child == _children.get(i))
-                _children.remove(i);
+	            {
+	            _children.remove(i);
+	            notifyListeners(new ChildRemovedEvent(this, child, i));
+	            }
         if (_children.size() == 0)
             _children = null;
         }

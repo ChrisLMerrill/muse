@@ -247,6 +247,55 @@ public class StepConfigurationTests
         subsource.setValue("value #2");
         Assert.assertTrue(notified.get());
         }
+
+    @Test
+    public void addChildStep()
+        {
+        StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
+
+        final AtomicReference<StepConfiguration> added = new AtomicReference<>(null);
+        final AtomicReference<Integer> added_index = new AtomicReference<>(null);
+        step.addChangeListener(new StepChangeObserver()
+            {
+            @Override
+            protected void childAdded(StepConfiguration child, int index)
+	            {
+	            added.set(child);
+	            added_index.set(index);
+	            }
+            });
+
+        StepConfiguration added_step = new StepConfiguration(Verify.TYPE_ID);
+        step.addChild(added_step);
+
+        Assert.assertTrue(added.get() == added_step);
+        Assert.assertEquals(0, (int) added_index.get());
+        }
+
+    @Test
+    public void removeChildStep()
+        {
+        StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
+        StepConfiguration step_to_remove = new StepConfiguration(Verify.TYPE_ID);
+        step.addChild(step_to_remove);
+
+        final AtomicReference<StepConfiguration> removed = new AtomicReference<>(null);
+        final AtomicReference<Integer> removed_index = new AtomicReference<>(null);
+        step.addChangeListener(new StepChangeObserver()
+            {
+            @Override
+            protected void childRemoved(StepConfiguration child, int index)
+	            {
+	            removed.set(child);
+	            removed_index.set(index);
+	            }
+            });
+
+        step.removeChild(step_to_remove);
+
+        Assert.assertTrue(removed.get() == step_to_remove);
+        Assert.assertEquals(0, (int) removed_index.get());
+        }
     }
 
 
