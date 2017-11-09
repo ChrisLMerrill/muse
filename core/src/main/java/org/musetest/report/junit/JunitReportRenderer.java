@@ -37,12 +37,12 @@ public class JunitReportRenderer
                 if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
                     {
                     failure_type = "error";
-                    failure_message = HtmlEscapers.htmlEscaper().escape("Unable to complete test due to: " + result.getFailureDescription().getReason());
+                    failure_message = HtmlEscapers.htmlEscaper().escape(result.getOneLineDescription());
                     }
                 else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Failure))
                     {
                     failure_type = "failure";
-                    failure_message = HtmlEscapers.htmlEscaper().escape("test failed due to: " + result.getFailureDescription().getReason());
+                    failure_message = HtmlEscapers.htmlEscaper().escape(result.getOneLineDescription());
                     }
                 }
 
