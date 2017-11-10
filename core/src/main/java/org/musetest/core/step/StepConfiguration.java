@@ -280,6 +280,22 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
 	    return ((Number) value).longValue();
 	    }
 
+    public StepConfiguration findParentOf(StepConfiguration target)
+	    {
+	    if (_children != null)
+		    {
+		    if (_children.contains(target))
+		    	return this;
+		    for (StepConfiguration child : _children)
+			    {
+			    StepConfiguration found_parent = child.findParentOf(target);
+			    if (found_parent != null)
+			    	return found_parent;
+			    }
+		    }
+	    return null;
+	    }
+
     @Override
     public String toString()
         {

@@ -296,6 +296,24 @@ public class StepConfigurationTests
         Assert.assertTrue(removed.get() == step_to_remove);
         Assert.assertEquals(0, (int) removed_index.get());
         }
+
+    @Test
+    public void findParent()
+        {
+        StepConfiguration root = new StepConfiguration("root");
+        root.addChild(new StepConfiguration("child1"));
+        final StepConfiguration child2 = new StepConfiguration("child2");
+        root.addChild(child2);
+        root.addChild(new StepConfiguration("child3"));
+
+        child2.addChild(new StepConfiguration("child2.1"));
+        final StepConfiguration child22 = new StepConfiguration("child2.2");
+        child2.addChild(child22);
+
+        Assert.assertNull(root.findParentOf(new StepConfiguration("not_in_tree")));
+        Assert.assertTrue(root == root.findParentOf(child2));
+        Assert.assertTrue(child2 == root.findParentOf(child22));
+        }
     }
 
 
