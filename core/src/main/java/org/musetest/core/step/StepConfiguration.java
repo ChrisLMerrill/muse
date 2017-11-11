@@ -140,7 +140,8 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         StepConfiguration other = (StepConfiguration) obj;
         return _step_type.equals(other.getType())
             && Objects.equals(_children, other.getChildren())
-            && Objects.equals(_sources, other.getSources());
+            && Objects.equals(_sources, other.getSources())
+	        && Objects.equals(getStepId(), other.getStepId());
         }
 
     @Override
@@ -211,19 +212,25 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
         return _children != null && _children.size() > 0;
         }
 
+    /**
+     * Returns the index of the child if removed, else -1 if not found.
+     */
     @SuppressWarnings("unused") // used by GUI
-    public void removeChild(StepConfiguration child)
+    public int removeChild(StepConfiguration child)
         {
         // note that we remove using object identity rather than equivalence, since a list can contain multiple identical StepConfigurations
         // _children.remove(child);
+        int index = -1;
         for (int i = 0; i < _children.size(); i++)
             if (child == _children.get(i))
 	            {
 	            _children.remove(i);
+	            index = i;
 	            notifyListeners(new ChildRemovedEvent(this, child, i));
 	            }
         if (_children.size() == 0)
             _children = null;
+        return index;
         }
 
     @JsonIgnore
@@ -294,6 +301,23 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
 			    }
 		    }
 	    return null;
+	    }
+
+    public StepConfiguration findByStepId(Long step_id)
+	    {
+	    if (step_id.equals(getStepId()))
+	    	return this;
+	    if (_children != null)
+		    {
+		    for (StepConfiguration child : _children)
+			    {
+			    StepConfiguration found = child.findByStepId(step_id);
+			    if (found != null)
+			    	return found;
+			    }
+		    }
+	    return null;
+
 	    }
 
     @Override

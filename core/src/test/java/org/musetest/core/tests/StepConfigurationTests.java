@@ -3,6 +3,8 @@ package org.musetest.core.tests;
 import org.junit.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
+import org.musetest.core.*;
+import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.events.*;
 import org.musetest.core.step.events.TypeChangeEvent;
@@ -313,6 +315,34 @@ public class StepConfigurationTests
         Assert.assertNull(root.findParentOf(new StepConfiguration("not_in_tree")));
         Assert.assertTrue(root == root.findParentOf(child2));
         Assert.assertTrue(child2 == root.findParentOf(child22));
+        }
+
+    @Test
+    public void findByStepId()
+        {
+        MuseProject project = new SimpleProject();
+        StepConfiguration root = new StepConfiguration("root");
+        root.setStepId(IdGenerator.get(project).generateLongId());
+
+        final StepConfiguration child1 = new StepConfiguration("child1");
+        child1.setStepId(IdGenerator.get(project).generateLongId());
+        root.addChild(child1);
+
+        final StepConfiguration child2 = new StepConfiguration("child2");
+        child2.setStepId(IdGenerator.get(project).generateLongId());
+        root.addChild(child2);
+        root.addChild(new StepConfiguration("child3"));
+
+        child2.addChild(new StepConfiguration("child2.1"));
+        final StepConfiguration child22 = new StepConfiguration("child2.2");
+        child22.setStepId(IdGenerator.get(project).generateLongId());
+        child2.addChild(child22);
+
+        Assert.assertNull(root.findByStepId(0L));
+        Assert.assertTrue(root == root.findByStepId(root.getStepId()));
+        Assert.assertTrue(child1 == root.findByStepId(child1.getStepId()));
+        Assert.assertTrue(child2 == root.findByStepId(child2.getStepId()));
+        Assert.assertTrue(child22 == root.findByStepId(child22.getStepId()));
         }
     }
 
