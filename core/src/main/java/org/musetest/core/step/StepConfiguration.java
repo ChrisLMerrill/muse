@@ -362,7 +362,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
 
     private void notifyListeners(ChangeEvent event)
         {
-        for (ChangeEventListener listener : getListeners())
+        for (ChangeEventListener listener : getListeners().toArray(new ChangeEventListener[getListeners().size()]))
             listener.changeEventRaised(event);
         }
 
