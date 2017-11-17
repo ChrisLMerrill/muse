@@ -24,6 +24,12 @@ public class MuseTestFailureDescription
     private FailureType _type;
     private String _reason;
 
+    @Override
+    public String toString()
+	    {
+	    return _type.name() + ": " + _reason;
+	    }
+
     public enum FailureType
         {
         Failure,
