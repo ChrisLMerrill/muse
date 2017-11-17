@@ -22,270 +22,324 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class StepConfiguration implements Serializable, ContainsNamedSources
-    {
-    public StepConfiguration()
-        {
-        }
+	{
+	public StepConfiguration()
+		{
+		}
 
-    public StepConfiguration(String step_type)
-        {
-        _step_type = step_type;
-        }
+	public StepConfiguration(String step_type)
+		{
+		_step_type = step_type;
+		}
 
-    public StepConfiguration(StepDescriptor descriptor)
-        {
-        _step_type = descriptor.getType();
-        for (SubsourceDescriptor source_descriptor : descriptor.getSubsourceDescriptors())
-            if (!source_descriptor.isOptional())
-                addSource(source_descriptor.getName(), ValueSourceConfiguration.forType(StringValueSource.TYPE_ID));
-        }
+	public StepConfiguration(StepDescriptor descriptor)
+		{
+		_step_type = descriptor.getType();
+		for (SubsourceDescriptor source_descriptor : descriptor.getSubsourceDescriptors())
+			if (!source_descriptor.isOptional())
+				addSource(source_descriptor.getName(), ValueSourceConfiguration.forType(StringValueSource.TYPE_ID));
+		}
 
-    public String getType()
-        {
-        return _step_type;
-        }
+	public String getType()
+		{
+		return _step_type;
+		}
 
-    public void setType(String step_type)
-        {
-        if (step_type.equals(_step_type))
-            return;
+	public void setType(String step_type)
+		{
+		if (step_type.equals(_step_type))
+			return;
 
-        String old_type = _step_type;
-        _step_type = step_type;
-        notifyListeners(new TypeChangeEvent(this, old_type, step_type));
-        }
+		String old_type = _step_type;
+		_step_type = step_type;
+		notifyListeners(new TypeChangeEvent(this, old_type, step_type));
+		}
 
-    public List<StepConfiguration> getChildren()
-        {
-        return _children;
-        }
+	public List<StepConfiguration> getChildren()
+		{
+		return _children;
+		}
 
-    public void setChildren(List<StepConfiguration> children)
-        {
-        _children = children;
-        }
+	public void setChildren(List<StepConfiguration> children)
+		{
+		_children = children;
+		}
 
-    /**
-     * Exists only for JSON serialization support. Should not be used for any other purpose.
-     */
-    public Map<String, ValueSourceConfiguration> getSources()
-        {
-        return _sources;
-        }
+	/**
+	 * Exists only for JSON serialization support. Should not be used for any other purpose.
+	 */
+	public Map<String, ValueSourceConfiguration> getSources()
+		{
+		return _sources;
+		}
 
-    /**
-     * Exists only for JSON serialization support. Should not be used for any other purpose.
-     */
-    public void setSources(Map<String, ValueSourceConfiguration> sources)
-        {
-        if (_sources != null)
-            throw new IllegalArgumentException("This method is only for deserialization. Cannot set the map again");
-        _sources = sources;
-        if (_sources != null)
-            _sources.values().stream().filter(source -> source != null).forEach(source -> source.addChangeListener(getSourceListener()));
-        }
+	/**
+	 * Exists only for JSON serialization support. Should not be used for any other purpose.
+	 */
+	public void setSources(Map<String, ValueSourceConfiguration> sources)
+		{
+		if (_sources != null)
+			throw new IllegalArgumentException("This method is only for deserialization. Cannot set the map again");
+		_sources = sources;
+		if (_sources != null)
+			_sources.values().stream().filter(source -> source != null).forEach(source -> source.addChangeListener(getSourceListener()));
+		}
 
-    @JsonIgnore
-    public Set<String> getSourceNames()
-        {
-        if (_sources == null)
-            return Collections.emptySet();
-        return _sources.keySet();
-        }
+	@JsonIgnore
+	public Set<String> getSourceNames()
+		{
+		if (_sources == null)
+			return Collections.emptySet();
+		return _sources.keySet();
+		}
 
-    @JsonIgnore
-    public ValueSourceConfiguration getSource(String name)
-        {
-        if (_sources == null)
-            return null;
-        return _sources.get(name);
-        }
+	@JsonIgnore
+	public ValueSourceConfiguration getSource(String name)
+		{
+		if (_sources == null)
+			return null;
+		return _sources.get(name);
+		}
 
-    public synchronized void addChild(StepConfiguration child)
-        {
-        if (_children == null)
-            _children = new ArrayList<>();
-        _children.add(child);
-        notifyListeners(new ChildAddedEvent(this, child, _children.size() - 1));
-        }
+	public synchronized void addChild(StepConfiguration child)
+		{
+		if (_children == null)
+			_children = new ArrayList<>();
+		_children.add(child);
+		notifyListeners(new ChildAddedEvent(this, child, _children.size() - 1));
+		}
 
-    @SuppressWarnings("unused") // used by GUI
-    public synchronized void addChild(int index, StepConfiguration child)
-        {
-        if (_children == null)
-            _children = new ArrayList<>();
-        _children.add(index, child);
-        notifyListeners(new ChildAddedEvent(this, child, index));
-        }
+	@SuppressWarnings("unused") // used by GUI
+	public synchronized void addChild(int index, StepConfiguration child)
+		{
+		if (_children == null)
+			_children = new ArrayList<>();
+		_children.add(index, child);
+		notifyListeners(new ChildAddedEvent(this, child, index));
+		}
 
-    public MuseStep createStep() throws MuseInstantiationException
-        {
-        return createStep(new SimpleProject());
-        }
+	public MuseStep createStep() throws MuseInstantiationException
+		{
+		return createStep(new SimpleProject());
+		}
 
-    public MuseStep createStep(MuseProject project) throws MuseInstantiationException
-        {
-        if (project != null)
-            return project.getStepFactory().createStep(this, project);
+	public MuseStep createStep(MuseProject project) throws MuseInstantiationException
+		{
+		if (project != null)
+			return project.getStepFactory().createStep(this, project);
 
-        return getDefaultStepFactory().createStep(this, null);
-        }
+		return getDefaultStepFactory().createStep(this, null);
+		}
 
-    @Override
-    public boolean equals(Object obj)
-        {
-        if (!(obj instanceof StepConfiguration))
-            return false;
+	@Override
+	public boolean equals(Object obj)
+		{
+		if (!(obj instanceof StepConfiguration))
+			return false;
 
-        StepConfiguration other = (StepConfiguration) obj;
-        return _step_type.equals(other.getType())
-            && Objects.equals(_children, other.getChildren())
-            && Objects.equals(_sources, other.getSources())
-	        && Objects.equals(getStepId(), other.getStepId());
-        }
+		StepConfiguration other = (StepConfiguration) obj;
+		return _step_type.equals(other.getType())
+			&& Objects.equals(_children, other.getChildren())
+			&& Objects.equals(_sources, other.getSources())
+			&& Objects.equals(getStepId(), other.getStepId());
+		}
 
-    @Override
-    public void addSource(String name, ValueSourceConfiguration source)
-        {
-        if (_sources == null)
-            _sources = new HashMap<>();
-        if (_sources.containsKey(name))
-            {
-            if (Objects.equals(source, _sources.get(name)))
-                return;
-            throw new IllegalArgumentException(String.format("Can't add source %s, there is already a source with that naem", name));
-            }
-        _sources.put(name, source);
-        source.addChangeListener(getSourceListener());
-        notifyListeners(new NamedSourceAddedEvent(this, name, source));
-        }
+	@Override
+	public void addSource(String name, ValueSourceConfiguration source)
+		{
+		if (_sources == null)
+			_sources = new HashMap<>();
+		if (_sources.containsKey(name))
+			{
+			if (Objects.equals(source, _sources.get(name)))
+				return;
+			throw new IllegalArgumentException(String.format("Can't add source %s, there is already a source with that naem", name));
+			}
+		_sources.put(name, source);
+		source.addChangeListener(getSourceListener());
+		notifyListeners(new NamedSourceAddedEvent(this, name, source));
+		}
 
-    @Override
-    public ValueSourceConfiguration removeSource(String name)
-        {
-        if (_sources == null)
-            return null;
+	@Override
+	public ValueSourceConfiguration removeSource(String name)
+		{
+		if (_sources == null)
+			return null;
 
-        if (_sources.containsKey(name))
-            {
-            ValueSourceConfiguration removed = _sources.remove(name);
-            if (removed != null)
-                removed.removeChangeListener(getSourceListener());
-            notifyListeners(new NamedSourceRemovedEvent(this, name, removed));
-            return removed;
-            }
-        return null;
-        }
+		if (_sources.containsKey(name))
+			{
+			ValueSourceConfiguration removed = _sources.remove(name);
+			if (removed != null)
+				removed.removeChangeListener(getSourceListener());
+			notifyListeners(new NamedSourceRemovedEvent(this, name, removed));
+			return removed;
+			}
+		return null;
+		}
 
-    @Override
-    public boolean renameSource(String old_name, String new_name)
-        {
-        if (_sources == null)
-            return false;
-        ValueSourceConfiguration source = _sources.remove(old_name);
-        if (source == null)
-            return false;
-        _sources.put(new_name, source);
-        notifyListeners(new NamedSourceRenamedEvent(this, new_name, old_name, source));
-        return true;
-        }
+	@Override
+	public boolean renameSource(String old_name, String new_name)
+		{
+		if (_sources == null)
+			return false;
+		ValueSourceConfiguration source = _sources.remove(old_name);
+		if (source == null)
+			return false;
+		_sources.put(new_name, source);
+		notifyListeners(new NamedSourceRenamedEvent(this, new_name, old_name, source));
+		return true;
+		}
 
-    @Override
-    public ValueSourceConfiguration replaceSource(String name, ValueSourceConfiguration new_source)
-        {
-        if (_sources == null)
-            return null;
-        ValueSourceConfiguration old_source = _sources.remove(name);
-        if (old_source == null)
-            return null;
-        _sources.put(name, new_source);
-        old_source.removeChangeListener(getSourceListener());
-        if (new_source != null)
-            new_source.addChangeListener(getSourceListener());
-        notifyListeners(new NamedSourceReplacedEvent(this, name, old_source, new_source));
-        return old_source;
-        }
+	@Override
+	public ValueSourceConfiguration replaceSource(String name, ValueSourceConfiguration new_source)
+		{
+		if (_sources == null)
+			return null;
+		ValueSourceConfiguration old_source = _sources.remove(name);
+		if (old_source == null)
+			return null;
+		_sources.put(name, new_source);
+		old_source.removeChangeListener(getSourceListener());
+		if (new_source != null)
+			new_source.addChangeListener(getSourceListener());
+		notifyListeners(new NamedSourceReplacedEvent(this, name, old_source, new_source));
+		return old_source;
+		}
 
-    @SuppressWarnings("unused") // used by GUI
-    public boolean hasChildren()
-        {
-        return _children != null && _children.size() > 0;
-        }
+	@SuppressWarnings("unused") // used by GUI
+	public boolean hasChildren()
+		{
+		return _children != null && _children.size() > 0;
+		}
 
-    /**
-     * Returns the index of the child if removed, else -1 if not found.
-     */
-    @SuppressWarnings("unused") // used by GUI
-    public int removeChild(StepConfiguration child)
-        {
-        // note that we remove using object identity rather than equivalence, since a list can contain multiple identical StepConfigurations
-        // _children.remove(child);
-        int index = -1;
-        for (int i = 0; i < _children.size(); i++)
-            if (child == _children.get(i))
-	            {
-	            _children.remove(i);
-	            index = i;
-	            notifyListeners(new ChildRemovedEvent(this, child, i));
-	            }
-        if (_children.size() == 0)
-            _children = null;
-        return index;
-        }
+	/**
+	 * Returns the index of the child if removed, else -1 if not found.
+	 */
+	@SuppressWarnings("unused") // used by GUI
+	public int removeChild(StepConfiguration child)
+		{
+		// note that we remove using object identity rather than equivalence, since a list can contain multiple identical StepConfigurations
+		// _children.remove(child);
+		int index = -1;
+		for (int i = 0; i < _children.size(); i++)
+			if (child == _children.get(i))
+				{
+				_children.remove(i);
+				index = i;
+				notifyListeners(new ChildRemovedEvent(this, child, i));
+				}
+		if (_children.size() == 0)
+			_children = null;
+		return index;
+		}
 
-    @JsonIgnore
-    public void setMetadataField(String name, Object value)
-        {
-        if (_metadata == null)
-            _metadata = new HashMap<>();
-        Object old_value = _metadata.get(name);
-        _metadata.put(name, value);
-        if (_metadata.size() == 0)
-            _metadata = null;
+	@JsonIgnore
+	public void setMetadataField(String name, Object value)
+		{
+		if (_metadata == null)
+			_metadata = new HashMap<>();
+		Object old_value = _metadata.get(name);
+		_metadata.put(name, value);
+		if (_metadata.size() == 0)
+			_metadata = null;
 
-        notifyListeners(new MetadataChangeEvent(this, name, old_value, value));
-        }
+		notifyListeners(new MetadataChangeEvent(this, name, old_value, value));
+		}
 
-    @JsonIgnore
-    public Object getMetadataField(String name)
-        {
-        if (_metadata == null)
-            return null;
-        return _metadata.get(name);
-        }
+	@JsonIgnore
+	public void removeMetadataField(String name)
+		{
+		if (_metadata != null)
+			{
+			Object old_value = _metadata.remove(name);
+			if (_metadata.size() == 0)
+				_metadata = null;
+			notifyListeners(new MetadataChangeEvent(this, name, old_value, null));
+			}
+		}
 
-    public Map<String, Object> getMetadata()
-        {
-        return _metadata;
-        }
+	@JsonIgnore
+	public Object getMetadataField(String name)
+		{
+		if (_metadata == null)
+			return null;
+		return _metadata.get(name);
+		}
 
-    @SuppressWarnings("unused")  // required for JSON de/serialization
-    public void setMetadata(Map<String, Object> metadata)
-        {
-        _metadata = metadata;
-        }
+	public Map<String, Object> getMetadata()
+		{
+		return _metadata;
+		}
 
-    @SuppressWarnings("unused")
-    @JsonIgnore
-    public void setStepId(Long id)
-	    {
-	    setMetadataField(META_ID, id);
-	    }
+	@SuppressWarnings("unused")  // required for JSON de/serialization
+	public void setMetadata(Map<String, Object> metadata)
+		{
+		_metadata = metadata;
+		}
 
-    @SuppressWarnings("unused")
-    @JsonIgnore
-    public Long getStepId()
-	    {
-	    final Object value = getMetadataField(META_ID);
-	    if (value == null)
-	    	return null;
-	    if (!(value instanceof Number))
-		    {
-		    LOG.error(String.format("Expected the 'id' metadata field to contain a number. Instead, found a %s. Returning null. ", value.getClass().getSimpleName()));
-		    return null;
-		    }
-	    return ((Number) value).longValue();
-	    }
+	@SuppressWarnings("unused")
+	@JsonIgnore
+	public void setStepId(Long id)
+		{
+		setMetadataField(META_ID, id);
+		}
+
+	@SuppressWarnings("unused")
+	@JsonIgnore
+	public Long getStepId()
+		{
+		final Object value = getMetadataField(META_ID);
+		if (value == null)
+			return null;
+		if (!(value instanceof Number))
+			{
+			LOG.error(String.format("Expected the 'id' metadata field to contain a number. Instead, found a %s. Returning null. ", value.getClass().getSimpleName()));
+			return null;
+			}
+		return ((Number) value).longValue();
+		}
+
+	public boolean hasTag(String tag)
+		{
+		return getTags().contains(tag);
+		}
+
+	@JsonIgnore
+	private List<String> getTags()
+		{
+		Object meta = getMetadataField(META_TAGS);
+		if (meta == null || !(meta instanceof List))
+			return Collections.emptyList();
+		else
+			return (List) meta;
+		}
+
+	public boolean addTag(String tag)
+		{
+		List<String> tags = getTags();
+		if (tags.contains(tag))
+			return false;
+		if (tags.isEmpty())
+			{
+			tags = new ArrayList<>();
+			setMetadataField(META_TAGS, tags);
+			}
+		tags.add(tag);
+		return true;
+		}
+
+	public boolean removeTag(String tag)
+		{
+		List<String> tags = getTags();
+		if (tags.contains(tag))
+			{
+			tags.remove(tag);
+			if (tags.isEmpty())
+				removeMetadataField(META_TAGS);
+			return true;
+			}
+		return false;
+		}
 
     public StepConfiguration findParentOf(StepConfiguration target)
 	    {
@@ -387,6 +441,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
 
     public final static String META_DESCRIPTION = "description";
     public final static String META_ID = "id";
+    public final static String META_TAGS = "tags";
 
     private static StepFactory getDefaultStepFactory()
         {

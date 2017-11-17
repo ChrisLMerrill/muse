@@ -344,6 +344,44 @@ public class StepConfigurationTests
         Assert.assertTrue(child2 == root.findByStepId(child2.getStepId()));
         Assert.assertTrue(child22 == root.findByStepId(child22.getStepId()));
         }
+
+    @Test
+    public void tags()
+        {
+        StepConfiguration step = new StepConfiguration("step-type");
+        final String tag1 = "tagname";
+
+        Assert.assertFalse("step should not initially have any tags", step.hasTag(tag1));
+
+        boolean added = step.addTag(tag1);
+        Assert.assertTrue("tag was not added", added);
+        Assert.assertTrue("tag was not added", step.hasTag(tag1));
+
+        boolean added_dup = step.addTag(tag1);
+        Assert.assertFalse("duplicate tag was allowed", added_dup);
+        Assert.assertEquals("duplicate tag was allowed", 1, ((List) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
+
+        boolean removed = step.removeTag(tag1);
+        Assert.assertTrue("tag was not removed", removed);
+        Assert.assertFalse("tag was not removed", step.hasTag(tag1));
+
+        boolean removed_again = step.removeTag(tag1);
+        Assert.assertFalse("can't remove a tag that isn't there", removed_again);
+
+        final String tag2 = "tagname2";
+        step.addTag(tag1);
+        step.addTag(tag2);
+        Assert.assertTrue("tag1 was not added", step.hasTag(tag1));
+        Assert.assertTrue("tag2 was not added", step.hasTag(tag2));
+        Assert.assertEquals("should be 2 entries in list", 2, ((List) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
+        step.removeTag(tag1);
+        Assert.assertFalse("tag1 was not removed", step.hasTag(tag1));
+        Assert.assertTrue("tag2 was removed", step.hasTag(tag2));
+        Assert.assertEquals("should be 1 tag in list", 1, ((List) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
+        step.removeTag(tag2);
+        Assert.assertFalse("tag2 was not removed", step.hasTag(tag2));
+        Assert.assertTrue("list should be null", step.getMetadata() == null || step.getMetadata().get(StepConfiguration.META_TAGS) == null);
+        }
     }
 
 
