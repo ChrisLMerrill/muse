@@ -1,18 +1,17 @@
 package org.musetest.core.values.events;
 
-import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class NamedSourceRemovedEvent extends ChangeEvent
+public class NamedSourceRemovedEvent extends NamedSourceChangedEvent
     {
     public NamedSourceRemovedEvent(ContainsNamedSources target, String name, ValueSourceConfiguration removed_source)
         {
-        super(target);
+        super(target, name, removed_source);
         _name = name;
-        _removed_source = removed_source;
+        _source = removed_source;
         }
 
     @SuppressWarnings("WeakerAccess")
@@ -24,11 +23,8 @@ public class NamedSourceRemovedEvent extends ChangeEvent
     @SuppressWarnings("WeakerAccess")
     public ValueSourceConfiguration getRemovedSource()
         {
-        return _removed_source;
+        return _source;
         }
-
-    private final String _name;
-    private final ValueSourceConfiguration _removed_source;
     }
 
 

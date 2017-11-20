@@ -18,6 +18,9 @@ public class NamedSourceChangeObserver implements ChangeEventListener
     @Override
     public void changeEventRaised(ChangeEvent event)
         {
+        if (!(event instanceof NamedSourceChangedEvent))
+        	return;
+
         if (event instanceof NamedSourceAddedEvent)
             {
             NamedSourceAddedEvent e = (NamedSourceAddedEvent) event;

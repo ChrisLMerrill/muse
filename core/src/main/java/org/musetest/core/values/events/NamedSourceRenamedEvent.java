@@ -6,13 +6,13 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class NamedSourceRenamedEvent extends ChangeEvent
+public class NamedSourceRenamedEvent extends NamedSourceChangedEvent
     {
     public NamedSourceRenamedEvent(ContainsNamedSources target, String new_name, String old_name, ValueSourceConfiguration renamed_source)
         {
-        super(target);
+        super(target, old_name, renamed_source);
         _new_name = new_name;
-        _old_name = old_name;
+        _name = old_name;
         _source = renamed_source;
         }
 
@@ -25,7 +25,7 @@ public class NamedSourceRenamedEvent extends ChangeEvent
     @SuppressWarnings("WeakerAccess")
     public String getOldName()
         {
-        return _old_name;
+        return _name;
         }
 
     @SuppressWarnings("WeakerAccess")
@@ -35,8 +35,6 @@ public class NamedSourceRenamedEvent extends ChangeEvent
         }
 
     private final String _new_name;
-    private final String _old_name;
-    private final ValueSourceConfiguration _source;
     }
 
 
