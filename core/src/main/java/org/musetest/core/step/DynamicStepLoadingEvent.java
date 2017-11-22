@@ -10,7 +10,8 @@ import java.util.*;
  */
 public class DynamicStepLoadingEvent extends StepEvent
     {
-    DynamicStepLoadingEvent(StepConfiguration config, StepExecutionContext context, List<StepConfiguration> steps)
+    @SuppressWarnings("WeakerAccess")  // used in UI tests
+    public DynamicStepLoadingEvent(StepConfiguration config, StepExecutionContext context, List<StepConfiguration> steps)
         {
         super(DynamicStepLoadEventType.INSTANCE, config, context);
         _steps = steps;
