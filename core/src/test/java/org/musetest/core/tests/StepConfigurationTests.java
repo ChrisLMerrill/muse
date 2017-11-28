@@ -359,7 +359,7 @@ public class StepConfigurationTests
 
         boolean added_dup = step.addTag(tag1);
         Assert.assertFalse("duplicate tag was allowed", added_dup);
-        Assert.assertEquals("duplicate tag was allowed", 1, ((List) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
+        Assert.assertEquals("duplicate tag was allowed", 1, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
 
         boolean removed = step.removeTag(tag1);
         Assert.assertTrue("tag was not removed", removed);
@@ -373,11 +373,11 @@ public class StepConfigurationTests
         step.addTag(tag2);
         Assert.assertTrue("tag1 was not added", step.hasTag(tag1));
         Assert.assertTrue("tag2 was not added", step.hasTag(tag2));
-        Assert.assertEquals("should be 2 entries in list", 2, ((List) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
+        Assert.assertEquals("should be 2 entries in list", 2, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
         step.removeTag(tag1);
         Assert.assertFalse("tag1 was not removed", step.hasTag(tag1));
         Assert.assertTrue("tag2 was removed", step.hasTag(tag2));
-        Assert.assertEquals("should be 1 tag in list", 1, ((List) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
+        Assert.assertEquals("should be 1 tag in list", 1, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
         step.removeTag(tag2);
         Assert.assertFalse("tag2 was not removed", step.hasTag(tag2));
         Assert.assertTrue("list should be null", step.getMetadata() == null || step.getMetadata().get(StepConfiguration.META_TAGS) == null);

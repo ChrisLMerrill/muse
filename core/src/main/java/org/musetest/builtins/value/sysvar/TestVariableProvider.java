@@ -46,7 +46,7 @@ public class TestVariableProvider implements SystemVariableProvider
             _test = test;
             }
 
-        public List<String> getTags()
+        public Set<String> getTags()
             {
             return _test.getTags();
             }

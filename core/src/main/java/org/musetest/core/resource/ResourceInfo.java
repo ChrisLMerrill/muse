@@ -2,15 +2,14 @@ package org.musetest.core.resource;
 
 import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.resource.types.*;
-
-import java.util.*;
+import org.musetest.core.util.*;
 
 /**
  * Contains basic information about a resource.
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public interface ResourceInfo
+public interface ResourceInfo extends Taggable
     {
     /**
      * The unique ID for this resource.
@@ -34,26 +33,5 @@ public interface ResourceInfo
 
     @JsonIgnore
     ResourceType getType();
-
-    /**
-     * Tags allow the end user to group and select resources. E.g. Add an "administrator" tag to
-     * tests that required administrator credentials.
-     */
-    List<String> getTags();
-
-    /**
-     * This is required for Jackson serialization. It is not recommended for general use, as the project will not
-     * see these changes...so queries based on the new tags will malfunction.
-     * @see #addTag
-     * @see #removeTag
-     * @see #hasTag
-     */
-    @SuppressWarnings("unused")  // used in UI
-    void setTags(List<String> tags);
-
-    boolean addTag(String tag);
-    @SuppressWarnings("unused")  // used in UI
-    boolean removeTag(String tag);
-    boolean hasTag(String tag);
     }
 

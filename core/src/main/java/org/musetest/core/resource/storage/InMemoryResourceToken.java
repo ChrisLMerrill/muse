@@ -45,13 +45,13 @@ public class InMemoryResourceToken implements ResourceToken
         }
 
     @Override
-    public List<String> getTags()
+    public Set<String> getTags()
         {
         return _resource.getTags();
         }
 
     @Override
-    public void setTags(List<String> tags)
+    public void setTags(Set<String> tags)
         {
         throw new UnsupportedOperationException("Cannot modify the tags of a resource via a ResourceToken");
         }

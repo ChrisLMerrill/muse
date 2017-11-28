@@ -22,13 +22,13 @@ public abstract class BaseMuseResource implements MuseResource
         }
 
     @Override
-    public List<String> getTags()
+    public Set<String> getTags()
         {
-        return Collections.unmodifiableList(_tags);
+        return Collections.unmodifiableSet(_tags);
         }
 
     @Override
-    public void setTags(List<String> tags)
+    public void setTags(Set<String> tags)
         {
         _tags = tags;
         }
@@ -55,7 +55,7 @@ public abstract class BaseMuseResource implements MuseResource
         }
 
     private String _id;
-    private List<String> _tags = new ArrayList<>();
+    private Set<String> _tags = new HashSet<>();
     }
 
 

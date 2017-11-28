@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepConfiguration implements Serializable, ContainsNamedSources
+public class StepConfiguration implements Serializable, ContainsNamedSources, Taggable
 	{
 	public StepConfiguration()
 		{
@@ -82,7 +82,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
 			throw new IllegalArgumentException("This method is only for deserialization. Cannot set the map again");
 		_sources = sources;
 		if (_sources != null)
-			_sources.values().stream().filter(source -> source != null).forEach(source -> source.addChangeListener(getSourceListener()));
+			_sources.values().stream().filter(Objects::nonNull).forEach(source -> source.addChangeListener(getSourceListener()));
 		}
 
 	@JsonIgnore
@@ -215,7 +215,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
 	/**
 	 * Returns the index of the child if removed, else -1 if not found.
 	 */
-	@SuppressWarnings("unused") // used by GUI
+	@SuppressWarnings({"unused", "UnusedReturnValue"}) // used by GUI
 	public int removeChild(StepConfiguration child)
 		{
 		// note that we remove using object identity rather than equivalence, since a list can contain multiple identical StepConfigurations
@@ -246,6 +246,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
 		notifyListeners(new MetadataChangeEvent(this, name, old_value, value));
 		}
 
+	@SuppressWarnings("WeakerAccess")  // UI usage
 	@JsonIgnore
 	public void removeMetadataField(String name)
 		{
@@ -299,38 +300,49 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
 		return ((Number) value).longValue();
 		}
 
+	@Override
 	public boolean hasTag(String tag)
 		{
 		return getTags().contains(tag);
 		}
 
 	@JsonIgnore
-	private List<String> getTags()
+	@Override
+	public Set<String> getTags()
 		{
 		Object meta = getMetadataField(META_TAGS);
-		if (meta == null || !(meta instanceof List))
-			return Collections.emptyList();
+		if (meta instanceof Set)
+			return (Set) meta;
+		else if (meta instanceof List)
+			{
+			HashSet tags = new HashSet();
+			tags.addAll((List)meta);
+			setMetadataField(META_TAGS, tags);
+			return tags;
+			}
 		else
-			return (List) meta;
+			return Collections.emptySet();
 		}
 
+	@Override
 	public boolean addTag(String tag)
 		{
-		List<String> tags = getTags();
+		Set<String> tags = getTags();
 		if (tags.contains(tag))
 			return false;
 		if (tags.isEmpty())
 			{
-			tags = new ArrayList<>();
+			tags = new HashSet<>();
 			setMetadataField(META_TAGS, tags);
 			}
 		tags.add(tag);
 		return true;
 		}
 
+	@Override
 	public boolean removeTag(String tag)
 		{
-		List<String> tags = getTags();
+		Set<String> tags = getTags();
 		if (tags.contains(tag))
 			{
 			tags.remove(tag);
@@ -341,7 +353,14 @@ public class StepConfiguration implements Serializable, ContainsNamedSources
 		return false;
 		}
 
-    public StepConfiguration findParentOf(StepConfiguration target)
+	@JsonIgnore
+	@Override
+	public void setTags(Set<String> tags)
+		{
+		setMetadataField(META_TAGS, tags);
+		}
+
+	public StepConfiguration findParentOf(StepConfiguration target)
 	    {
 	    if (_children != null)
 		    {
