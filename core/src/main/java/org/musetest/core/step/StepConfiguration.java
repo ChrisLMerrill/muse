@@ -317,7 +317,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 			{
 			HashSet tags = new HashSet();
 			tags.addAll((List)meta);
-			setMetadataField(META_TAGS, tags);
+			_metadata.put(META_TAGS, tags);  // go direct - don't notify listeners.
 			return tags;
 			}
 		else
