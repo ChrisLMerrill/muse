@@ -333,9 +333,14 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 		if (tags.isEmpty())
 			{
 			tags = new HashSet<>();
+			tags.add(tag);
 			setMetadataField(META_TAGS, tags);
 			}
-		tags.add(tag);
+		else
+			{
+			tags.add(tag);
+			notifyListeners(new MetadataChangeEvent(this, META_TAGS, null, tag));
+			}
 		return true;
 		}
 
@@ -348,6 +353,8 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 			tags.remove(tag);
 			if (tags.isEmpty())
 				removeMetadataField(META_TAGS);
+			else
+				notifyListeners(new MetadataChangeEvent(this, META_TAGS, tag, null));
 			return true;
 			}
 		return false;
