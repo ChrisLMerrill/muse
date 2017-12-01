@@ -465,9 +465,9 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 
     private transient ChangeEventListener _source_listener;
 
-    public final static String META_DESCRIPTION = "description";
-    public final static String META_ID = "id";
-    public final static String META_TAGS = "tags";
+    public final static String META_DESCRIPTION = "_description";
+    public final static String META_ID = "_id";
+    public final static String META_TAGS = "_tags";
 
     private static StepFactory getDefaultStepFactory()
         {
