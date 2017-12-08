@@ -289,7 +289,15 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 	@JsonIgnore
 	public Long getStepId()
 		{
-		final Object value = getMetadataField(META_ID);
+		// upgrade old tests
+		Object value = getMetadataField(META_ID_OLD);
+		if (value != null)
+			{
+			_metadata.put(META_ID, value);
+			_metadata.remove(META_ID_OLD);
+			}
+
+		value = getMetadataField(META_ID);
 		if (value == null)
 			return null;
 		if (!(value instanceof Number))
@@ -466,7 +474,9 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
     private transient ChangeEventListener _source_listener;
 
     public final static String META_DESCRIPTION = "_description";
+    public final static String META_DESCRIPTION_OLD = "description";
     public final static String META_ID = "_id";
+    public final static String META_ID_OLD = "id";
     public final static String META_TAGS = "_tags";
 
     private static StepFactory getDefaultStepFactory()
