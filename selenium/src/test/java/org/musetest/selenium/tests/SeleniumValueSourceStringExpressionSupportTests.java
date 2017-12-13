@@ -1,13 +1,11 @@
 package org.musetest.selenium.tests;
 
 import org.junit.*;
-import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.conditions.*;
 import org.musetest.selenium.locators.*;
-import org.musetest.selenium.pages.*;
 import org.musetest.selenium.values.*;
 
 import java.io.*;
@@ -21,29 +19,29 @@ public class SeleniumValueSourceStringExpressionSupportTests
     @Test
     public void elementExists() throws InstantiationException, IllegalAccessException
         {
-        checkValueSourceFunction(ElementExistsCondition.TYPE_ID, new ElementExistsCondition.StringExpressionSupport().getName(), ElementExistsCondition.StringExpressionSupport.class, "abc");
+        checkValueSourceFunction(ElementExistsCondition.TYPE_ID, new ElementExistsCondition.StringExpressionSupport().getName(), ElementExistsCondition.StringExpressionSupport.class);
         }
 
     @Test
     public void elementVisible() throws InstantiationException, IllegalAccessException
         {
-        checkValueSourceFunction(ElementExistsCondition.TYPE_ID, new ElementExistsCondition.StringExpressionSupport().getName(), ElementExistsCondition.StringExpressionSupport.class, "abc");
+        checkValueSourceFunction(ElementExistsCondition.TYPE_ID, new ElementExistsCondition.StringExpressionSupport().getName(), ElementExistsCondition.StringExpressionSupport.class);
         }
 
     @Test
     public void elementEnabled() throws InstantiationException, IllegalAccessException
         {
-        checkValueSourceFunction(ElementEnabledCondition.TYPE_ID, new ElementEnabledCondition.StringExpressionSupport().getName(), ElementEnabledCondition.StringExpressionSupport.class, "abc");
+        checkValueSourceFunction(ElementEnabledCondition.TYPE_ID, new ElementEnabledCondition.StringExpressionSupport().getName(), ElementEnabledCondition.StringExpressionSupport.class);
         }
 
-    private void checkValueSourceFunction(String muse_type_id, String function_name, Class<? extends BaseValueSourceStringExpressionSupport> support_class, String argument) throws IllegalAccessException, InstantiationException
+    private void checkValueSourceFunction(String muse_type_id, String function_name, Class<? extends BaseValueSourceStringExpressionSupport> support_class) throws IllegalAccessException, InstantiationException
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(muse_type_id);
-        ValueSourceConfiguration sub_source = ValueSourceConfiguration.forValue(argument);
+        ValueSourceConfiguration sub_source = ValueSourceConfiguration.forValue("abc");
         config.setSource(sub_source);
 
         String stringified = PROJECT.getValueSourceStringExpressionSupporters().toString(config);
-        Assert.assertEquals(String.format("%s(\"%s\")", function_name, argument), stringified);
+        Assert.assertEquals(String.format("%s(\"%s\")", function_name, "abc"), stringified);
 
         ArrayList<ValueSourceConfiguration> arguments = new ArrayList<>();
         arguments.add(sub_source);
@@ -101,36 +99,6 @@ public class SeleniumValueSourceStringExpressionSupportTests
     public void elementByLinkTextExpressionSupport() throws IOException
         {
         checkCreationFromStringExpression(new LinkTextElementValueSource.StringExpressionSupport(), LinkTextElementValueSource.StringExpressionSupport.STRING_EXPRESSION_ID, LinkTextElementValueSource.TYPE_ID);
-        }
-
-    @Test
-    public void pageElementExpressionSupportWithTwoArguments() throws IOException
-        {
-        PagesElementValueSource.StringExpressionSupport supporter = new PagesElementValueSource.StringExpressionSupport();
-        List<ValueSourceConfiguration> configs = new ArrayList<>();
-        configs.add(ValueSourceConfiguration.forValue("page"));
-        configs.add(ValueSourceConfiguration.forValue("element"));
-        ValueSourceConfiguration config = supporter.fromElementLookupExpression(configs, PROJECT);
-        Assert.assertEquals("the page param was not set", "page", config.getSource(PagesElementValueSource.PAGE_PARAM_ID).getValue());
-        Assert.assertEquals("the element param was not set", "element", config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID).getValue());
-
-        Assert.assertEquals("not stringified correctly", String.format("<%s.%s>", "page", "element"), supporter.toString(config, PROJECT));
-        }
-
-    @Test
-    public void pageElementExpressionSupportWithTwoNonStringArguments() throws IOException
-        {
-        PagesElementValueSource.StringExpressionSupport supporter = new PagesElementValueSource.StringExpressionSupport();
-        List<ValueSourceConfiguration> configs = new ArrayList<>();
-        ValueSourceConfiguration page_source = ValueSourceConfiguration.forValue("page_var");
-        configs.add(ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, page_source));
-        ValueSourceConfiguration element_source = ValueSourceConfiguration.forValue("element_var");
-        configs.add(ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, element_source));
-        ValueSourceConfiguration config = supporter.fromElementLookupExpression(configs, PROJECT);
-        Assert.assertEquals("the page param was not set", page_source, config.getSource(PagesElementValueSource.PAGE_PARAM_ID).getSource());
-        Assert.assertEquals("the element param was not set", element_source, config.getSource(PagesElementValueSource.ELEMENT_PARAM_ID).getSource());
-
-        Assert.assertEquals("not stringified correctly", String.format("<$\"%s\".$\"%s\">", "page_var", "element_var"), supporter.toString(config, PROJECT));
         }
 
     private void checkCreationFromStringExpression(ValueSourceStringExpressionSupport parser, String expression_id, String muse_type_id)

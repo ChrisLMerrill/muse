@@ -13,7 +13,6 @@ import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.musetest.selenium.locators.*;
 import org.musetest.selenium.mocks.*;
-import org.musetest.selenium.pages.*;
 import org.musetest.selenium.steps.*;
 import org.openqa.selenium.*;
 
@@ -161,38 +160,6 @@ public class SeleniumStepTests
         MuseStep step = switch_to.createStep(null);
         StepExecutionResult result = step.execute(context);
         Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
-        }
-
-    @Test
-    public void locateElementWithPageMap() throws MuseExecutionError, IOException
-        {
-        MuseProject project = new SimpleProject();
-
-        WebPage page1 = new WebPage();
-        page1.setId("page1");
-        PageElement element1 = new PageElement();
-        final String element_id = "element#1";
-        element1.setLocator(ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(element_id)));
-        String page_element_id = "element1";
-        page1.addElement(page_element_id, element1);
-        project.getResourceStorage().addResource(page1);
-
-        MuseMockDriver driver = new MuseMockDriver();
-        final MuseMockElement mock_element1 = new MuseMockElement();
-        driver.addIdElement(element_id, mock_element1);
-
-        StepExecutionContext context = new MockStepExecutionContext(project);
-        BrowserStepExecutionContext.putDriver(driver, context);
-
-        StepConfiguration click = new StepConfiguration(ClickElement.TYPE_ID);
-        ValueSourceConfiguration element_source = ValueSourceConfiguration.forType(PagesElementValueSource.TYPE_ID);
-        element_source.addSource(PagesElementValueSource.PAGE_PARAM_ID, ValueSourceConfiguration.forValue(page1.getId()));
-        element_source.addSource(PagesElementValueSource.ELEMENT_PARAM_ID, ValueSourceConfiguration.forValue(page_element_id));
-        click.addSource(ClickElement.ELEMENT_PARAM, element_source);
-        MuseStep step = click.createStep(null);
-        step.execute(context);
-
-        Assert.assertTrue(mock_element1.isClicked());
         }
 
     private TestExecutionContext runTestWithSteps(StepConfiguration... steps)
