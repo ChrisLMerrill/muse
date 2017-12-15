@@ -474,8 +474,10 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
     private transient ChangeEventListener _source_listener;
 
     public final static String META_DESCRIPTION = "_description";
+    @SuppressWarnings("unused")
     public final static String META_DESCRIPTION_OLD = "description";
     public final static String META_ID = "_id";
+    @SuppressWarnings("WeakerAccess")  // IDE uses this to auto-upgrade
     public final static String META_ID_OLD = "id";
     public final static String META_TAGS = "_tags";
 
