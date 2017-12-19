@@ -9,15 +9,11 @@ import org.musetest.core.execution.*;
  */
 public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     {
-    public SimpleTestSuiteRunner(MuseTestSuite suite)
-        {
-        _suite = suite;
-        }
-
     @Override
-    public MuseTestSuiteResult execute(MuseProject project)
+    public MuseTestSuiteResult execute(MuseProject project, MuseTestSuite suite)
         {
         _project = project;
+        _suite = suite;
         BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult(_suite);
         for (TestConfiguration config : _suite.generateTestList(project))
             suite_result.addTestResult(runTest(config));

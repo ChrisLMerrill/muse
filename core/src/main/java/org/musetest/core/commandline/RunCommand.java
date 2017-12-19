@@ -26,6 +26,9 @@ public class RunCommand extends MuseCommand
     @Option(name = "-o", description = "Output path")
 	private String output_path;
 
+    @Option(name = "-r", description = "Runner configuration id")
+    private String runner_id;
+
     @Override
     public void run()
         {
@@ -49,7 +52,7 @@ public class RunCommand extends MuseCommand
             {
             if (runner.canRun(resource))
                 {
-                if (runner.run(project, resource, verbose, output_path))
+                if (runner.run(project, resource, verbose, output_path, runner_id))
                     return;
                 else
                     System.exit(1);

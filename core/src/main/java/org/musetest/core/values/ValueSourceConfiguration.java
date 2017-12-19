@@ -484,6 +484,11 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
             config.setType(BooleanValueSource.TYPE_ID);
         else if (value instanceof Long)
             config.setType(IntegerValueSource.TYPE_ID);
+        else if (value instanceof Integer)
+	        {
+	        config.setType(IntegerValueSource.TYPE_ID);
+	        value = new Long((Integer)value);
+	        }
         else
             config.setType(StringValueSource.TYPE_ID);
         config.setValue(value);

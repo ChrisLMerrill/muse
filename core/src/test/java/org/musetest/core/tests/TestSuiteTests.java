@@ -32,8 +32,7 @@ public class TestSuiteTests
 
         Assert.assertEquals(3, suite.generateTestList(project).size());
 
-        SimpleTestSuiteRunner runner = new SimpleTestSuiteRunner(suite);
-        MuseTestSuiteResult result = runner.execute(project);
+        MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite);
         Assert.assertEquals(1, result.getSuccessCount());
         Assert.assertEquals(1, result.getFailureCount());
         Assert.assertEquals(1, result.getErrorCount());
@@ -46,8 +45,7 @@ public class TestSuiteTests
         MuseTestSuite suite = project.getResourceStorage().getResource("TestSuite", MuseTestSuite.class);
         Assert.assertNotNull(suite);
 
-        SimpleTestSuiteRunner runner = new SimpleTestSuiteRunner(suite);
-        MuseTestSuiteResult result = runner.execute(project);
+        MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite);
         Assert.assertEquals(1, result.getFailureCount());
         Assert.assertEquals(1, result.getSuccessCount());
         Assert.assertEquals(0, result.getErrorCount());
@@ -126,8 +124,7 @@ public class TestSuiteTests
         {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("suite").getResource();
-        SimpleTestSuiteRunner runner = new SimpleTestSuiteRunner(suite);
-        MuseTestSuiteResult result = runner.execute(project);
+        MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite);
 
         Assert.assertEquals(1, result.getFailureCount());
         Assert.assertEquals(2, result.getSuccessCount());
@@ -138,8 +135,7 @@ public class TestSuiteTests
         {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("CsvSuite").getResource();
-        SimpleTestSuiteRunner runner = new SimpleTestSuiteRunner(suite);
-        MuseTestSuiteResult result = runner.execute(project);
+        MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite);
 
         Assert.assertEquals(3, result.getSuccessCount());
         }

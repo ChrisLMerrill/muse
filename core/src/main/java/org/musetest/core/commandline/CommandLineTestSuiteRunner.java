@@ -1,6 +1,7 @@
 package org.musetest.core.commandline;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.suite.*;
 import org.musetest.core.variables.*;
@@ -21,7 +22,7 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
         }
 
     @Override
-    public boolean run(MuseProject project, MuseResource resource, boolean verbose, String output_path)
+    public boolean run(MuseProject project, MuseResource resource, boolean verbose, String output_path, String runner_id)
         {
         if (!(resource instanceof MuseTestSuite))
             return false;
@@ -29,8 +30,26 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
 
         try
             {
-            MuseTestSuiteRunner runner = new SimpleTestSuiteRunner(suite);
-            MuseTestSuiteResult result = runner.execute(project);
+            MuseTestSuiteRunner runner = new SimpleTestSuiteRunner();
+            if (runner_id != null)
+	            {
+	            // lookup the runner specified
+	            final ResourceToken token = project.getResourceStorage().findResource(runner_id);
+	            if (token == null)
+		            {
+		            System.out.println("runner configuration with id=" + runner_id + " was not found in the project.");
+		            return false;
+		            }
+	            if (!(token.getResource() instanceof SuiteRunnerConfiguration))
+		            {
+		            System.out.println("resource with id=" + runner_id + " is not a Test Suite Runner.");
+		            return false;
+		            }
+	            SuiteRunnerConfiguration config = (SuiteRunnerConfiguration) token.getResource();
+	            runner = config.createRunner(new BaseExecutionContext(project));  // TODO run initializers on this context?
+	            }
+
+            MuseTestSuiteResult result = runner.execute(project, suite);
             if (result.getFailureCount() == 0 && result.getErrorCount() == 0)
                 System.out.println(String.format("%d tests completed successfully.", result.getSuccessCount()));
             else if (result.getErrorCount() == 0)

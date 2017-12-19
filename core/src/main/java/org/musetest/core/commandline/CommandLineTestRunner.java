@@ -21,7 +21,7 @@ public class CommandLineTestRunner implements MuseResourceRunner
         }
 
     @Override
-    public boolean run(MuseProject project, MuseResource resource, boolean verbose, String output_path)
+    public boolean run(MuseProject project, MuseResource resource, boolean verbose, String output_path, String runner_id)
         {
         if (!(resource instanceof MuseTest))
             return false;
