@@ -15,7 +15,7 @@ public abstract class ResourceType
         _class = interface_class;
         }
 
-    Class getInterfaceClass()
+    public Class getInterfaceClass()
         {
         return _class;
         }
@@ -37,7 +37,9 @@ public abstract class ResourceType
 
     public ResourceDescriptor getDescriptor()
 	    {
-	    return null;
+	    if (_descriptor == null)
+	    	_descriptor = new DefaultResourceDescriptor(this);
+	    return _descriptor;
 	    }
 
     public MuseResource create()
@@ -67,6 +69,7 @@ public abstract class ResourceType
     private final String _type_id;
     private final String _name;
     private final Class _class;
+    private ResourceDescriptor _descriptor = null;
     }
 
 
