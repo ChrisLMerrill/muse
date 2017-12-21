@@ -73,7 +73,7 @@ public class ResourceTypes
 	                    return subtype;
                 }
             }
-	    return UNKNOWN_TYPE;
+	    return null;
 	    }
 
     public ResourceType forIdIgnoreCase(String value)
@@ -85,16 +85,6 @@ public class ResourceTypes
     private Map<String, ResourceSubtype> _subtypes = new HashMap<>();
 
     private final static Logger LOG = LoggerFactory.getLogger(ResourceTypes.class);
-
-    private static class UnknownType extends ResourceType
-	    {
-	    public UnknownType()
-		    {
-		    super("unkown", "Unkown Resource", null);
-		    }
-	    }
-
-    public final static ResourceType UNKNOWN_TYPE = new ResourceType("unkown", "Unkown Resource", null) { };
     }
 
 

@@ -67,7 +67,7 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
     @Override
     public ResourceType getType()
         {
-        return new TestSuiteResourceType();
+        return new ParameterListTestSuiteSubtype();
         }
 
     public String getTestId()

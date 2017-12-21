@@ -73,7 +73,7 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
     @Override
     public ResourceType getType()
         {
-        return new TestSuiteResourceType();
+        return new IdListTestSuiteSubtype();
         }
 
     public void addChangeListener(ChangeListener listener)
