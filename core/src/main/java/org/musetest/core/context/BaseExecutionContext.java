@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.test.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.variables.*;
 import org.slf4j.*;
 
@@ -126,30 +127,30 @@ public class BaseExecutionContext implements MuseExecutionContext
         }
 
     @Override
-    public void addInitializer(ContextInitializer initializer)
+    public void addTestPlugin(TestPlugin plugin)
         {
-        if (_initialized)
-            throw new IllegalStateException("Context has been initialized...too late to add initializers.");
-        _initializers.add(initializer);
+        if (_plugins_initialized)
+            throw new IllegalStateException("Context has been initialized...too late to add plugins.");
+        _plugins.add(plugin);
         }
 
     @Override
-    public void runInitializers() throws MuseExecutionError
+    public void initializePlugins() throws MuseExecutionError
         {
-        if (_initialized)
+        if (_plugins_initialized)
             throw new MuseExecutionError("Context has been initialized...can't run it again.");
 
-        for (ContextInitializer initializer : _initializers)
-			initializer.initialize(this);
-		_initialized = true;
+        for (TestPlugin plugin : _plugins)
+			plugin.initialize(this);
+		_plugins_initialized = true;
 		}
 
 	public List<DataCollector> getDataCollectors()
 		{
 		List<DataCollector> data_collectors = new ArrayList<>();
-		for (ContextInitializer initializer : _initializers)
-		if (initializer instanceof DataCollector)
-			data_collectors.add((DataCollector)initializer);
+		for (TestPlugin plugin : _plugins)
+		if (plugin instanceof DataCollector)
+			data_collectors.add((DataCollector)plugin);
 		return data_collectors;
 		}
 
@@ -157,13 +158,13 @@ public class BaseExecutionContext implements MuseExecutionContext
 	public <T extends DataCollector> T getDataCollector(Class<T> type)
 		{
 		T the_collector = null;
-		for (ContextInitializer initializer : _initializers)
+		for (TestPlugin plugin : _plugins)
 			{
-			if (type.isAssignableFrom(initializer.getClass()))
+			if (type.isAssignableFrom(plugin.getClass()))
 				{
 				if (the_collector != null)
 					throw new IllegalArgumentException("Cannot use this method when there are more than one DataCollectors of the desired type");
-				the_collector = (T) initializer;
+				the_collector = (T) plugin;
 				}
 			}
 		return the_collector;
@@ -174,8 +175,8 @@ public class BaseExecutionContext implements MuseExecutionContext
     private Map<String, Object> _vars = new HashMap<>();
     protected List<MuseEventListener> _listeners = new ArrayList<>();
     private List<Shuttable> _shuttables = new ArrayList<>();
-    private List<ContextInitializer> _initializers = new ArrayList<>();
-    private boolean _initialized = false;
+    private List<TestPlugin> _plugins = new ArrayList<>();
+    private boolean _plugins_initialized = false;
     private Queue<MuseEvent> _event_queue = new ConcurrentLinkedQueue<>();
     private AtomicBoolean _events_processing = new AtomicBoolean(false);
 

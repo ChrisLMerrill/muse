@@ -48,7 +48,7 @@ public class ConditionalAndLoopingTests
         SteppedTest test = new SteppedTest(main);
         TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
         EventLogger logger = new EventLogger();
-        context.addInitializer(logger);
+        context.addTestPlugin(logger);
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
         Assert.assertNotNull("The conditional that should have run, did not", logger.getData().findFirstEvent(new EventDescriptionMatcher(should_run_message)));
@@ -63,7 +63,7 @@ public class ConditionalAndLoopingTests
 
         TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
         EventLogger logger = new EventLogger();
-        context.addInitializer(logger);
+        context.addTestPlugin(logger);
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
         Assert.assertNotNull("first message is missing", logger.getData().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)));
@@ -109,7 +109,7 @@ public class ConditionalAndLoopingTests
 
         TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
         EventLogger logger = new EventLogger();
-        context.addInitializer(logger);
+        context.addTestPlugin(logger);
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
         Assert.assertNull("this should not be found", logger.getData().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)));
@@ -122,7 +122,7 @@ public class ConditionalAndLoopingTests
         SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 3L);
         TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
         EventLogger logger = new EventLogger();
-        context.addInitializer(logger);
+        context.addTestPlugin(logger);
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
         Assert.assertNull("this should not be found", logger.getData().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)));

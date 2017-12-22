@@ -33,7 +33,7 @@ public class CommandLineTestRunner implements MuseResourceRunner
 
         TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
         if (output_folder != null)
-        	runner.getExecutionContext().addInitializer(new EventLogger());
+        	runner.getExecutionContext().addTestPlugin(new EventLogger());
         if (verbose)
             {
             System.out.println("--------------------------------------------------------------------------------");

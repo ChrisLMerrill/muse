@@ -3,10 +3,10 @@ package org.musetest.core.tests;
 import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.context.initializers.*;
-import org.musetest.core.context.initializers.TypeChangeEvent;
 import org.musetest.core.project.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.test.plugins.*;
+import org.musetest.core.test.plugins.TypeChangeEvent;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.events.*;
@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ContextInitializerTests
+public class TestPluginTests
 	{
 	@Test
 	public void testDefaultsInitializer() throws MuseExecutionError
@@ -35,7 +35,7 @@ public class ContextInitializerTests
 		}
 
 	@Test
-	public void allProjectVariables() throws MuseExecutionError, IOException
+	public void allProjectVariables() throws IOException
 		{
 		MuseTest test = new SteppedTest();
 		SimpleProject project = new SimpleProject();
@@ -46,7 +46,7 @@ public class ContextInitializerTests
 
 		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
 
-		// no variables will be injected, because there are no context initializers
+		// no variables will be injected, because there are no plugins
 		Assert.assertNull("variable missing", context.getVariable("var1"));
 		}
 
@@ -66,18 +66,18 @@ public class ContextInitializerTests
 		list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
 		project.getResourceStorage().addResource(list2);
 
-		final ContextInitializerConfiguration config = new ContextInitializerConfiguration();
-		config.setTypeId(VariableListContextInitializer.TYPE_ID);
+		final TestPluginConfiguration config = new TestPluginConfiguration();
+		config.setTypeId(VariableListInitializer.TYPE_ID);
 		config.setApplyCondition(ValueSourceConfiguration.forValue(true));
-		config.addParameter(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list2"));
+		config.addParameter(VariableListInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list2"));
 
-		final ContextInitializersConfiguration initializers = new ContextInitializersConfiguration();
+		final TestPluginsConfiguration initializers = new TestPluginsConfiguration();
 		initializers.setApplyToTestCondition(ValueSourceConfiguration.forValue(true));
-		initializers.addConfiguration(config);
+		initializers.addPlugin(config);
 		project.getResourceStorage().addResource(initializers);
 
 		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-		context.runInitializers();
+		context.initializePlugins();
 
 		Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
 		Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
@@ -99,33 +99,33 @@ public class ContextInitializerTests
 		list2.addVariable("var2", ValueSourceConfiguration.forValue("value2"));
 		project.getResourceStorage().addResource(list2);
 
-		ContextInitializersConfiguration configurations = new ContextInitializersConfiguration();
+		TestPluginsConfiguration configurations = new TestPluginsConfiguration();
 		configurations.setApplyToTestCondition(ValueSourceConfiguration.forValue(true));
 
-		ContextInitializerConfiguration include1 = new ContextInitializerConfiguration();
+		TestPluginConfiguration include1 = new TestPluginConfiguration();
 		include1.setApplyCondition(ValueSourceConfiguration.forValue(true));
-		include1.setTypeId(VariableListContextInitializer.TYPE_ID);
-		include1.addSource(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list1"));
+		include1.setTypeId(VariableListInitializer.TYPE_ID);
+		include1.addSource(VariableListInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list1"));
 		include1.setApplyCondition(ValueSourceConfiguration.forValue(false));
-		configurations.addConfiguration(include1);
+		configurations.addPlugin(include1);
 
-		ContextInitializerConfiguration include2 = new ContextInitializerConfiguration();
+		TestPluginConfiguration include2 = new TestPluginConfiguration();
 		include2.setApplyCondition(ValueSourceConfiguration.forValue(true));
-		include2.setTypeId(VariableListContextInitializer.TYPE_ID);
-		include2.addSource(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list2"));
+		include2.setTypeId(VariableListInitializer.TYPE_ID);
+		include2.addSource(VariableListInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list2"));
 		include2.setApplyCondition(ValueSourceConfiguration.forValue(true));
-		configurations.addConfiguration(include2);
+		configurations.addPlugin(include2);
 
 		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-		ContextInitializers.applyConditionally(configurations, context);
-		context.runInitializers();
+		TestPlugins.applyConditionally(configurations, context);
+		context.initializePlugins();
 
 		Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
 		Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
 		}
 
 	@Test
-	public void variableMapInitializer() throws MuseExecutionError
+	public void variableMapInitializer()
 		{
 		MuseTest test = new SteppedTest();
 		SimpleProject project = new SimpleProject();
@@ -146,7 +146,7 @@ public class ContextInitializerTests
 		String last_value = null;
 		final String var_name = "var1";
 
-		ContextInitializersConfiguration initializers = new ContextInitializersConfiguration();
+		TestPluginsConfiguration initializers = new TestPluginsConfiguration();
 		initializers.setApplyToTestCondition(ValueSourceConfiguration.forValue(true));
 
 		List<VariableList> list_of_lists = new ArrayList<>();
@@ -160,11 +160,11 @@ public class ContextInitializerTests
 			list.setId(list_id);
 
 			// add an initializer condition for this list
-			ContextInitializerConfiguration init_config = new ContextInitializerConfiguration();
-			init_config.setTypeId(VariableListContextInitializer.TYPE_ID);
+			TestPluginConfiguration init_config = new TestPluginConfiguration();
+			init_config.setTypeId(VariableListInitializer.TYPE_ID);
 			init_config.setApplyCondition(ValueSourceConfiguration.forValue(true));
-			init_config.addParameter(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
-			initializers.addConfiguration(init_config);
+			init_config.addParameter(VariableListInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
+			initializers.addPlugin(init_config);
 
 			// add to project
 			list_of_lists.add(list);
@@ -178,8 +178,8 @@ public class ContextInitializerTests
 			project.getResourceStorage().addResource(list);
 
 		MuseExecutionContext context = new BaseExecutionContext(project);
-		ContextInitializers.applyConditionally(initializers, context);
-		context.runInitializers();
+		TestPlugins.applyConditionally(initializers, context);
+		context.initializePlugins();
 
 		Assert.assertEquals(last_value, context.getVariable(var_name));
 		}
@@ -187,7 +187,7 @@ public class ContextInitializerTests
 	@Test
 	public void changeTypeEvent()
 	    {
-	    ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+	    TestPluginConfiguration config = new TestPluginConfiguration();
 
 	    final AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
 	    config.addChangeListener(event_holder::set);
@@ -203,7 +203,7 @@ public class ContextInitializerTests
 	@Test
 	public void replaceApplyCondition()
 	    {
-	    ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+	    TestPluginConfiguration config = new TestPluginConfiguration();
 
 	    final AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
 	    config.addChangeListener(event_holder::set);
@@ -219,7 +219,7 @@ public class ContextInitializerTests
 	@Test
 	public void changeApplyCondition()
 	    {
-	    ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+	    TestPluginConfiguration config = new TestPluginConfiguration();
 	    config.setApplyCondition(ValueSourceConfiguration.forValue(true));
 
 	    final AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
@@ -234,56 +234,56 @@ public class ContextInitializerTests
 	@Test
 	public void addConfigEvent()
 	    {
-	    ContextInitializersConfiguration configs = new ContextInitializersConfiguration();
+	    TestPluginsConfiguration configs = new TestPluginsConfiguration();
 	    AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
 	    configs.addChangeListener(event_holder::set);
 	    
-	    ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+	    TestPluginConfiguration config = new TestPluginConfiguration();
 	    config.setTypeId("config1");
-	    configs.addConfiguration(config);
+	    configs.addPlugin(config);
 
 	    Assert.assertNotNull(event_holder.get());
-	    Assert.assertTrue(event_holder.get() instanceof ContextInitializersConfiguration.ConfigAddedEvent);
-	    ContextInitializersConfiguration.ConfigAddedEvent event = (ContextInitializersConfiguration.ConfigAddedEvent) event_holder.get();
+	    Assert.assertTrue(event_holder.get() instanceof TestPluginsConfiguration.ConfigAddedEvent);
+	    TestPluginsConfiguration.ConfigAddedEvent event = (TestPluginsConfiguration.ConfigAddedEvent) event_holder.get();
 	    Assert.assertEquals(config, event.getAddedConfig());
 	    }
 
 	@Test
 	public void insertConfigEvent()
 	    {
-	    ContextInitializersConfiguration configs = new ContextInitializersConfiguration();
-	    configs.addConfiguration(new ContextInitializerConfiguration());
-	    configs.addConfiguration(new ContextInitializerConfiguration());
+	    TestPluginsConfiguration configs = new TestPluginsConfiguration();
+	    configs.addPlugin(new TestPluginConfiguration());
+	    configs.addPlugin(new TestPluginConfiguration());
 	    AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
 	    configs.addChangeListener(event_holder::set);
 
-	    ContextInitializerConfiguration added_config = new ContextInitializerConfiguration();
+	    TestPluginConfiguration added_config = new TestPluginConfiguration();
 	    added_config.setTypeId("config1");
-	    configs.addConfiguration(added_config, 1);
+	    configs.addPlugin(added_config, 1);
 
 	    Assert.assertNotNull(event_holder.get());
-	    Assert.assertTrue(event_holder.get() instanceof ContextInitializersConfiguration.ConfigAddedEvent);
-	    ContextInitializersConfiguration.ConfigAddedEvent event = (ContextInitializersConfiguration.ConfigAddedEvent) event_holder.get();
+	    Assert.assertTrue(event_holder.get() instanceof TestPluginsConfiguration.ConfigAddedEvent);
+	    TestPluginsConfiguration.ConfigAddedEvent event = (TestPluginsConfiguration.ConfigAddedEvent) event_holder.get();
 	    Assert.assertTrue(added_config == event.getAddedConfig());
 	    Assert.assertEquals(1, event.getIndex());
-	    Assert.assertTrue(added_config == configs.getInitializers().get(1));
+	    Assert.assertTrue(added_config == configs.getPlugins().get(1));
 	    }
 
 	@Test
 	public void removeConfigEvent()
 	    {
-	    ContextInitializersConfiguration configs = new ContextInitializersConfiguration();
-	    ContextInitializerConfiguration config = new ContextInitializerConfiguration();
+	    TestPluginsConfiguration configs = new TestPluginsConfiguration();
+	    TestPluginConfiguration config = new TestPluginConfiguration();
 	    config.setTypeId("config1");
-	    configs.addConfiguration(config);
+	    configs.addPlugin(config);
 
 	    AtomicReference<ChangeEvent> event_holder = new AtomicReference<>(null);
 	    configs.addChangeListener(event_holder::set);
 	    configs.removeConfiguration(config);
 
 	    Assert.assertNotNull(event_holder.get());
-	    Assert.assertTrue(event_holder.get() instanceof ContextInitializersConfiguration.ConfigRemovedEvent);
-	    ContextInitializersConfiguration.ConfigRemovedEvent event = (ContextInitializersConfiguration.ConfigRemovedEvent) event_holder.get();
+	    Assert.assertTrue(event_holder.get() instanceof TestPluginsConfiguration.ConfigRemovedEvent);
+	    TestPluginsConfiguration.ConfigRemovedEvent event = (TestPluginsConfiguration.ConfigRemovedEvent) event_holder.get();
 	    Assert.assertEquals(config, event.getRemovedConfig());
 	    }
 	}

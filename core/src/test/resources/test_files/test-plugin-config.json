@@ -1,10 +1,10 @@
 {
-  "type" : "context-initializers",
+  "type" : "test-plugins",
   "applyToTestCondition" : {
     "value" : true,
     "type" : "boolean"
   },
-  "initializers" : [ {
+  "plugins" : [ {
     "parameters" : {
       "p1" : {
         "value" : "v1",

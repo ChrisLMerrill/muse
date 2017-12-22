@@ -6,10 +6,10 @@ import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.context.initializers.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.SteppedTest;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
@@ -17,8 +17,8 @@ import java.io.*;
 import java.util.*;
 
 /**
- * These tests ensure the correct ContextInitializers are run by the test engine. Correctness of
- * the initializers should be tested in ContextInitializerTests.
+ * These tests ensure the correct TestPlugins are run by the test engine. Correctness of
+ * the plugins should be tested in TestPluginTests.
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -49,16 +49,16 @@ public class TestVariableTests
         project.getResourceStorage().addResource(list);
         list.addVariable(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
 
-        ContextInitializerConfiguration initializer = new ContextInitializerConfiguration();
-        initializer.setTypeId(VariableListContextInitializer.TYPE_ID);
-        initializer.setApplyCondition(ValueSourceConfiguration.forValue(true));
-        initializer.addParameter(VariableListContextInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
-        ContextInitializersConfiguration initializers = new ContextInitializersConfiguration();
-        initializers.setApplyToTestCondition(ValueSourceConfiguration.forValue(true));
-        initializers.addConfiguration(initializer);
+        TestPluginConfiguration config = new TestPluginConfiguration();
+        config.setTypeId(VariableListInitializer.TYPE_ID);
+        config.setApplyCondition(ValueSourceConfiguration.forValue(true));
+        config.addParameter(VariableListInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
+        TestPluginsConfiguration configs = new TestPluginsConfiguration();
+        configs.setApplyToTestCondition(ValueSourceConfiguration.forValue(true));
+        configs.addPlugin(config);
 
         DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        ContextInitializers.applyConditionally(initializers, context);
+        TestPlugins.applyConditionally(configs, context);
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
         }

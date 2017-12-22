@@ -5,6 +5,7 @@ import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
@@ -137,15 +138,15 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         }
 
     @Override
-    public void addInitializer(ContextInitializer initializer)
+    public void addTestPlugin(TestPlugin initializer)
         {
-        _parent_context.addInitializer(initializer);
+        _parent_context.addTestPlugin(initializer);
         }
 
     @Override
-    public void runInitializers() throws MuseExecutionError
+    public void initializePlugins() throws MuseExecutionError
         {
-        _parent_context.runInitializers();
+        _parent_context.initializePlugins();
         }
 
     @Override

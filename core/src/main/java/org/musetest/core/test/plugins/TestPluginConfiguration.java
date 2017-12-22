@@ -1,8 +1,7 @@
-package org.musetest.core.context.initializers;
+package org.musetest.core.test.plugins;
 
 import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.util.*;
@@ -12,30 +11,30 @@ import org.slf4j.*;
 import java.util.*;
 
 /**
- * Represents configuration data for a ContextInitializer.  It has a type, which is used to
- * lookup the implementation of the initializer. It also has an ApplyCondition, which should
+ * Represents configuration data for a TestPlugin.  It has a type, which is used to
+ * lookup the implementation of the plugin. It also has an ApplyCondition, which should
  * be evaluated before applying to the context. It contains named ValueSourceConfigurations which
- * should be supplied to the ContextInitializer.configure() method after construction (or anytime prior
+ * should be supplied to the TestPlugin.configure() method after construction (or anytime prior
  * to use).
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("WeakerAccess") // publicly extensible UI
-public class ContextInitializerConfiguration implements ContainsNamedSources
+public class TestPluginConfiguration implements ContainsNamedSources
     {
     // required for de/serialization
    	public String getTypeId()
    		{
-   		return _initializer_type;
+   		return _plugin_type;
    		}
 
    	// required for de/serialization
-   	public void setTypeId(String initializer_type)
+   	public void setTypeId(String plugin_type)
    		{
-   		String old_type = _initializer_type;
-	    _initializer_type = initializer_type;
+   		String old_type = _plugin_type;
+	    _plugin_type = plugin_type;
 	    for (ChangeEventListener listener : _listeners)
-	    	listener.changeEventRaised(new TypeChangeEvent(this, old_type, initializer_type));
+	    	listener.changeEventRaised(new TypeChangeEvent(this, old_type, plugin_type));
    		}
 
    	// required for de/serialization
@@ -122,23 +121,23 @@ public class ContextInitializerConfiguration implements ContainsNamedSources
    		return _named_sources.removeChangeListener(listener);
    		}
 
-    public ContextInitializer createInitializer(MuseProject project)
+    public TestPlugin createPlugin(MuseProject project)
 	    {
-	    final List<Class> intializers = project.getClassLocator().getImplementors(ContextInitializer.class);
-	    for (Class initializer_class : intializers)
+	    final List<Class> plugins = project.getClassLocator().getImplementors(TestPlugin.class);
+	    for (Class plugin_class : plugins)
 		    {
 		    try
 			    {
-			    ContextInitializer initializer = (ContextInitializer) initializer_class.newInstance();
-			    if (getTypeId().equals(initializer.getType()))
+			    TestPlugin plugin = (TestPlugin) plugin_class.newInstance();
+			    if (getTypeId().equals(plugin.getType()))
 				    {
-				    initializer.configure(this);
-				    return initializer;
+				    plugin.configure(this);
+				    return plugin;
 				    }
 			    }
 		    catch (Exception e)
 			    {
-			    LOG.warn(String.format("WARNING: %s implements ContextInitializer but does not have a default constructor. Thus it cannot be instantiated automatically (which may or may not be a problem).", initializer_class.getSimpleName()));
+			    LOG.warn(String.format("WARNING: %s implements TestPlugin but does not have a default constructor. Thus it cannot be instantiated automatically (which may or may not be a problem).", plugin_class.getSimpleName()));
 			    }
 		    }
 	    // TODO lookup the implementation by the type
@@ -163,13 +162,13 @@ public class ContextInitializerConfiguration implements ContainsNamedSources
 	    }
 
     private NamedSourcesContainer _named_sources = new NamedSourcesContainer();
-   	private String _initializer_type;
+   	private String _plugin_type;
    	private ValueSourceConfiguration _apply_condition;
    	private Set<ChangeEventListener> _listeners = new HashSet<>();
 
    	private transient ChangeEventListener _listener;
 
-   	private final static Logger LOG = LoggerFactory.getLogger(ContextInitializerConfiguration.class);
+   	private final static Logger LOG = LoggerFactory.getLogger(TestPluginConfiguration.class);
     }
 
 

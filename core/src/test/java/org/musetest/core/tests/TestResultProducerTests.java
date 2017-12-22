@@ -20,7 +20,7 @@ public class TestResultProducerTests
 		{
 		final MockTest test = new MockTest();
 		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext(test);
-        context.runInitializers();  // need to do this manually since we're not actually running a test
+        context.initializePlugins();  // need to do this manually since we're not actually running a test
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         MuseTestResult result = producer.getTestResult();
@@ -36,7 +36,7 @@ public class TestResultProducerTests
         {
         MuseTest test = new MockTest();
 		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
-		context.addInitializer(new EventLogger());
+		context.addTestPlugin(new EventLogger());
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "test123";
@@ -54,7 +54,7 @@ public class TestResultProducerTests
         {
         MuseTest test = new MockTest();
 		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
-		context.addInitializer(new EventLogger());
+		context.addTestPlugin(new EventLogger());
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "test123";
@@ -72,7 +72,7 @@ public class TestResultProducerTests
         {
         MuseTest test = new MockTest();
 		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
-		context.addInitializer(new EventLogger());
+		context.addTestPlugin(new EventLogger());
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "verifyfail";

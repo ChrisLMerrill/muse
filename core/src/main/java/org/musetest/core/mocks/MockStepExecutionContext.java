@@ -5,10 +5,10 @@ import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.project.*;
-import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
@@ -42,13 +42,13 @@ public class MockStepExecutionContext implements StepExecutionContext
 	public MockStepExecutionContext(MuseProject project, MuseTest test)
 		{
 		DefaultTestExecutionContext parent_context = new DefaultTestExecutionContext(project, test);
-		parent_context.addInitializer(new EventLogger());
+		parent_context.addTestPlugin(new EventLogger());
   		_test_context = new DefaultSteppedTestExecutionContext(parent_context);
 		}
 
     public MockStepExecutionContext(TestExecutionContext test_context)
         {
-		test_context.addInitializer(new EventLogger());
+		test_context.addTestPlugin(new EventLogger());
         _test_context = new DefaultSteppedTestExecutionContext(test_context);
         }
 
@@ -61,7 +61,7 @@ public class MockStepExecutionContext implements StepExecutionContext
         }
 
     @Override
-    public MuseStep getCurrentStep() throws MuseInstantiationException
+    public MuseStep getCurrentStep()
         {
         return null;
         }
@@ -153,15 +153,15 @@ public class MockStepExecutionContext implements StepExecutionContext
     public void cleanup() {}
 
     @Override
-    public void addInitializer(ContextInitializer initializer)
+    public void addTestPlugin(TestPlugin plugin)
 		{
-	    _test_context.addInitializer(initializer);
+	    _test_context.addTestPlugin(plugin);
 		}
 
     @Override
-    public void runInitializers() throws MuseExecutionError
+    public void initializePlugins() throws MuseExecutionError
 		{
-		_test_context.runInitializers();
+		_test_context.initializePlugins();
 		}
 
 	@Override

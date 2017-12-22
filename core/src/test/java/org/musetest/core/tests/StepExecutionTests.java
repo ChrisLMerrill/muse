@@ -25,8 +25,8 @@ public class StepExecutionTests
 
         SteppedTest test = new SteppedTest(step_a);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
-		test_context.addInitializer(new EventLogger());
-		test_context.runInitializers();
+		test_context.addTestPlugin(new EventLogger());
+		test_context.initializePlugins();
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
@@ -47,8 +47,8 @@ public class StepExecutionTests
 
         SteppedTest test = new SteppedTest(parent);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
-		test_context.addInitializer(new EventLogger());
-		test_context.runInitializers();
+		test_context.addTestPlugin(new EventLogger());
+		test_context.initializePlugins();
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
@@ -74,8 +74,8 @@ public class StepExecutionTests
 
         SteppedTest test = new SteppedTest(parent);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        test_context.addInitializer(new EventLogger());
-		test_context.runInitializers();
+        test_context.addTestPlugin(new EventLogger());
+		test_context.initializePlugins();
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
@@ -92,8 +92,8 @@ public class StepExecutionTests
         step_a.setType("blahblah");
         SteppedTest test = new SteppedTest(step_a);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
-		test_context.addInitializer(new EventLogger());
-		test_context.runInitializers();
+		test_context.addTestPlugin(new EventLogger());
+		test_context.initializePlugins();
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         test_context.addEventListener(new TerminateOnError(executor));
@@ -113,8 +113,8 @@ public class StepExecutionTests
 
         SteppedTest test = new SteppedTest(step_a);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
-		test_context.addInitializer(new EventLogger());
-		test_context.runInitializers();
+		test_context.addTestPlugin(new EventLogger());
+		test_context.initializePlugins();
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         test_context.addEventListener(new TerminateOnError(executor));

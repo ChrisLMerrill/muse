@@ -50,7 +50,7 @@ public class SteppedTestExecutor
         {
         try
             {
-            _context.runInitializers();
+            _context.initializePlugins();
             }
         catch (MuseExecutionError e)
             {

@@ -1,10 +1,10 @@
 package org.musetest.core.suite;
 
 import org.musetest.core.*;
-import org.musetest.core.context.initializers.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.test.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.util.*;
 
 import java.util.*;

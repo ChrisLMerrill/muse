@@ -1,7 +1,6 @@
-package org.musetest.core.context.initializers;
+package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
@@ -10,7 +9,7 @@ import javax.annotation.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class VariableListContextInitializer implements ContextInitializer
+public class VariableListInitializer implements TestPlugin
 	{
 	@Override
 	public String getType()
@@ -19,7 +18,7 @@ public class VariableListContextInitializer implements ContextInitializer
 		}
 
 	@Override
-	public void configure(@Nonnull ContextInitializerConfiguration configuration)
+	public void configure(@Nonnull TestPluginConfiguration configuration)
 		{
 		_configuration = configuration;
 		}
@@ -56,13 +55,13 @@ public class VariableListContextInitializer implements ContextInitializer
 		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME,null);
 		}
 
-	private ContextInitializerConfiguration _configuration;
+	private TestPluginConfiguration _configuration;
 
 	public final static String TYPE_ID = "varlist";
 	public final static String LIST_ID_PARAM = "listid";
 
 	@SuppressWarnings("unused") // used by reflection
-	public static class VariableListType extends ContextInitializerType
+	public static class VariableListType extends TestPluginType
 		{
 		@Override
 		public String getTypeId()

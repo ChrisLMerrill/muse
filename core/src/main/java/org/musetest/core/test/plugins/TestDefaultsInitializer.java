@@ -1,4 +1,4 @@
-package org.musetest.core.context.initializers;
+package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestDefaultsInitializer implements ContextInitializer
+public class TestDefaultsInitializer implements TestPlugin
     {
     public TestDefaultsInitializer(TestExecutionContext test_context)
         {
@@ -26,7 +26,7 @@ public class TestDefaultsInitializer implements ContextInitializer
 	    }
 
     @Override
-    public void configure(@Nonnull ContextInitializerConfiguration configuration)
+    public void configure(@Nonnull TestPluginConfiguration configuration)
 	    {
 	    // doesn't currently need configuration
 	    }

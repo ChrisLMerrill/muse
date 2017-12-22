@@ -274,7 +274,7 @@ public class StepTests
         SteppedTest test = new SteppedTest(test_step);
 
         TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
-        runner.getExecutionContext().addInitializer(new EventLogger());
+        runner.getExecutionContext().addTestPlugin(new EventLogger());
         runner.runTest();
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
@@ -283,7 +283,7 @@ public class StepTests
         }
 
     @Test
-    public void emptyCompoundStep() throws StepExecutionError
+    public void emptyCompoundStep()
         {
         StepConfiguration step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
         step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
@@ -298,7 +298,7 @@ public class StepTests
         }
 
     @Test
-    public void simpleCompoundStep() throws StepExecutionError
+    public void simpleCompoundStep()
         {
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
         ValueSourceConfiguration condition = ValueSourceConfiguration.forType(EqualityCondition.TYPE_ID);
@@ -341,7 +341,7 @@ public class StepTests
             }
 
         @Override
-        protected StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
+        protected StepExecutionResult executeImplementation(StepExecutionContext context)
             {
             return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
             }

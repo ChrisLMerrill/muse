@@ -1,8 +1,7 @@
-package org.musetest.core.context.initializers;
+package org.musetest.core.test.plugins;
 
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
-import org.musetest.core.values.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -16,7 +15,7 @@ public class ProjectVarsInitializerSysvarProvider implements SystemVariableProvi
         }
 
     @Override
-    public Object resolve(String name, MuseExecutionContext context) throws ValueSourceResolutionError
+    public Object resolve(String name, MuseExecutionContext context)
         {
         if (provides(name))
             {

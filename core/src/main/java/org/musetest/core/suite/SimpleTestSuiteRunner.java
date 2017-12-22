@@ -1,8 +1,8 @@
 package org.musetest.core.suite;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.execution.*;
+import org.musetest.core.test.plugins.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -13,9 +13,8 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     public MuseTestSuiteResult execute(MuseProject project, MuseTestSuite suite)
         {
         _project = project;
-        _suite = suite;
-        BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult(_suite);
-        for (TestConfiguration config : _suite.generateTestList(project))
+        BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult(suite);
+        for (TestConfiguration config : suite.generateTestList(project))
             suite_result.addTestResult(runTest(config));
 
         return suite_result;
@@ -25,15 +24,14 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     protected MuseTestResult runTest(TestConfiguration configuration)
         {
         TestRunner runner = TestRunnerFactory.createSynchronousRunner(_project, configuration.getTest());
-        for (ContextInitializer initializer : configuration.getInitializers())
-            runner.getExecutionContext().addInitializer(initializer);
+        for (TestPlugin plugin : configuration.getPlugins())
+            runner.getExecutionContext().addTestPlugin(plugin);
         runner.runTest();
         MuseTestResult result = runner.getResult();
         result.setConfiguration(configuration);
         return result;
         }
 
-    private MuseTestSuite _suite;
     private MuseProject _project;
     }
 

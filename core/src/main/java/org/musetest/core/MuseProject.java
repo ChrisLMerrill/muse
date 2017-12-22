@@ -2,11 +2,11 @@ package org.musetest.core;
 
 import org.musetest.builtins.value.property.*;
 import org.musetest.builtins.value.sysvar.*;
-import org.musetest.core.context.initializers.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -49,7 +49,7 @@ public interface MuseProject
     @SuppressWarnings("unused") // used by project navigator in UI
     ResourceTypes getResourceTypes();
     @SuppressWarnings("unused") // used by UI
-    ContextInitializerTypes getContextInitializerTypes();
+    TestPluginTypes getTestPluginTypes();
 
     /**
      * Command line options

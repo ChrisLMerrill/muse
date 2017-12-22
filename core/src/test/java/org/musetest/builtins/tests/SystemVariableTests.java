@@ -5,9 +5,9 @@ import org.musetest.builtins.tests.mocks.*;
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.context.initializers.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.values.*;
 
 import java.util.*;
@@ -75,7 +75,7 @@ public class SystemVariableTests
         }
 
     @Test
-    public void varlistInitializer() throws ValueSourceResolutionError
+    public void varlistInitializer()
         {
         final String id = UUID.randomUUID().toString();
         MuseExecutionContext context = new BaseExecutionContext(new SimpleProject());

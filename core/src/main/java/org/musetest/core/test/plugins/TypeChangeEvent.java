@@ -1,4 +1,4 @@
-package org.musetest.core.context.initializers;
+package org.musetest.core.test.plugins;
 
 import org.musetest.core.util.*;
 
@@ -7,16 +7,16 @@ import org.musetest.core.util.*;
  */
 public class TypeChangeEvent extends ChangeEvent
     {
-    public TypeChangeEvent(ContextInitializerConfiguration config, String old_type, String new_type)
+    public TypeChangeEvent(TestPluginConfiguration config, String old_type, String new_type)
         {
         super(config);
         _old_type = old_type;
         _new_type = new_type;
         }
 
-    public ContextInitializerConfiguration getConfig()
+    public TestPluginConfiguration getConfig()
 	    {
-	    return (ContextInitializerConfiguration) _target;
+	    return (TestPluginConfiguration) _target;
 	    }
 
     @SuppressWarnings("WeakerAccess")

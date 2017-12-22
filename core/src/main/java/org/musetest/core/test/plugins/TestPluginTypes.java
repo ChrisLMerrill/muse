@@ -1,4 +1,4 @@
-package org.musetest.core.context.initializers;
+package org.musetest.core.test.plugins;
 
 import org.musetest.core.resource.*;
 import org.slf4j.*;
@@ -8,21 +8,21 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ContextInitializerTypes
+public class TestPluginTypes
 	{
-	public ContextInitializerTypes(ClassLocator locator)
+	public TestPluginTypes(ClassLocator locator)
 		{
-		List<Class> implementors = locator.getImplementors(ContextInitializerType.class);
+		List<Class> implementors = locator.getImplementors(TestPluginType.class);
 		for (Class the_class : implementors)
 			{
 			try
 				{
 				Object obj = the_class.newInstance();
-				if (obj instanceof ContextInitializerType)
+				if (obj instanceof TestPluginType)
 					{
-					ContextInitializerType type = (ContextInitializerType) obj;
+					TestPluginType type = (TestPluginType) obj;
 					if (_types.get(type.getTypeId()) != null)
-						LOG.warn("Duplicate ContextInitializerType found for id: " + type.getTypeId());
+						LOG.warn("Duplicate TestPluginType found for id: " + type.getTypeId());
 					else
 						_types.put(type.getTypeId().toLowerCase(), type);
 					}
@@ -36,20 +36,20 @@ public class ContextInitializerTypes
 			}
 		}
 
-	public Collection<ContextInitializerType> getAll()
+	public Collection<TestPluginType> getAll()
 		{
 		return _types.values();
 		}
 
 	@SuppressWarnings("unused")  // used in UI
-	public ContextInitializerType findType(String type_id)
+	public TestPluginType findType(String type_id)
 		{
 		return _types.get(type_id);
 		}
 
-	private Map<String, ContextInitializerType> _types = new HashMap<>();
+	private Map<String, TestPluginType> _types = new HashMap<>();
 
-	private final static Logger LOG = LoggerFactory.getLogger(ContextInitializerTypes.class);
+	private final static Logger LOG = LoggerFactory.getLogger(TestPluginTypes.class);
 	}
 
 

@@ -1,7 +1,6 @@
-package org.musetest.core.context.initializers;
+package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 
 import javax.annotation.*;
 import java.util.*;
@@ -11,7 +10,7 @@ import java.util.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class VariableMapInitializer implements ContextInitializer
+public class VariableMapInitializer implements TestPlugin
     {
     public VariableMapInitializer(Map<String, Object> variables)
         {
@@ -25,13 +24,13 @@ public class VariableMapInitializer implements ContextInitializer
 	    }
 
     @Override
-    public void configure(@Nonnull ContextInitializerConfiguration configuration)
+    public void configure(@Nonnull TestPluginConfiguration configuration)
 	    {
 	    // doesn't currently need configuration
 	    }
 
     @Override
-    public void initialize(MuseExecutionContext context) throws MuseExecutionError
+    public void initialize(MuseExecutionContext context)
         {
         for (String name : _variables.keySet())
             context.setVariable(name, _variables.get(name));

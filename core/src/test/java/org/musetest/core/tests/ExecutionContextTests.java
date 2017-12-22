@@ -31,7 +31,7 @@ public class ExecutionContextTests
 
         // run the test
         DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        context.addInitializer(new EventLogger());
+        context.addTestPlugin(new EventLogger());
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
 

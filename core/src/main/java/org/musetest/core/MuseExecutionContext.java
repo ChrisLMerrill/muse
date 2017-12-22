@@ -1,8 +1,8 @@
 package org.musetest.core;
 
-import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.test.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
@@ -74,15 +74,15 @@ public interface MuseExecutionContext
     void cleanup();
 
     /**
-     * Adds an initializer to be run when context is initialized.
+     * Adds a plugin to the test.
      */
-    void addInitializer(ContextInitializer initializer);
+    void addTestPlugin(TestPlugin plugin);
 
     /**
-     * Run the configured ContextInitializers.
-     * @throws MuseExecutionError If an initalizer fails or if already initalized.
+     * Initialize the configured TestPlugins.
+     * @throws MuseExecutionError If a plugin fails or if already initialized.
      */
-    void runInitializers() throws MuseExecutionError;
+    void initializePlugins() throws MuseExecutionError;
 
 	/**
 	 * Get the DataCollectors configured for the test.

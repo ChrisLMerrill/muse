@@ -2,10 +2,10 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.core.*;
-import org.musetest.core.context.initializers.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.suite.*;
+import org.musetest.core.test.plugins.*;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public class ResourceTypeTests
         Collection<ResourceType> all = project.getResourceTypes().getPrimary();
 
         Assert.assertTrue(all.contains(new MuseTest.TestResourceType()));
-        Assert.assertTrue(all.contains(new ContextInitializersConfiguration.ContextInitializersConfigurationResourceType()));
+        Assert.assertTrue(all.contains(new TestPluginsConfiguration.TestPluginsConfigurationResourceType()));
         // subtype should not be found
         Assert.assertFalse(all.contains(new IdListTestSuite.IdListTestSuiteSubtype()));
         }

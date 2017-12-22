@@ -1,7 +1,7 @@
 package org.musetest.core.suite;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
+import org.musetest.core.test.plugins.*;
 
 import java.util.*;
 
@@ -17,10 +17,10 @@ public class TestConfiguration
         _test = test;
         }
 
-    public TestConfiguration(MuseTest test, ContextInitializer initializer)
+    public TestConfiguration(MuseTest test, TestPlugin plugin)
         {
         _test = test;
-        _initializers.add(initializer);
+        _plugins.add(plugin);
         }
 
     public MuseTest getTest()
@@ -40,13 +40,13 @@ public class TestConfiguration
         _name = name;
         }
 
-    public List<ContextInitializer> getInitializers()
+    public List<TestPlugin> getPlugins()
         {
-        return Collections.unmodifiableList(_initializers);
+        return Collections.unmodifiableList(_plugins);
         }
 
     private final MuseTest _test;
-    private final List<ContextInitializer> _initializers = new ArrayList<>();
+    private final List<TestPlugin> _plugins = new ArrayList<>();
     private String _name;
     }
 

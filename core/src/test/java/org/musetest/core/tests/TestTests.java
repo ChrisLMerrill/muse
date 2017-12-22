@@ -8,9 +8,8 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
 import org.musetest.core.project.*;
-import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.SteppedTest;
+import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
@@ -24,7 +23,7 @@ public class TestTests
         {
         SteppedTest test = setupLogTest(null);
 		final DefaultTestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
-		context.addInitializer(new EventLogger());
+		context.addTestPlugin(new EventLogger());
 		MuseTestResult result = test.execute(context);
 
         Assert.assertTrue(result.isPass());
@@ -162,12 +161,12 @@ public class TestTests
 	    StepConfiguration step = new StepConfiguration("mock-step")
 		    {
 		    @Override
-		    public MuseStep createStep(MuseProject project) throws MuseInstantiationException
+		    public MuseStep createStep(MuseProject project)
 			    {
 			    return new BaseStep(this)
 				    {
 				    @Override
-				    protected StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
+				    protected StepExecutionResult executeImplementation(StepExecutionContext context)
 					    {
 					    context.raiseEvent(event);
 					    return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

@@ -1,14 +1,10 @@
 package org.musetest.core.events;
 
 import org.musetest.core.*;
-import org.musetest.core.context.initializers.*;
 import org.musetest.core.datacollection.*;
-import org.musetest.core.events.matching.*;
+import org.musetest.core.test.plugins.*;
 
 import javax.annotation.*;
-import java.io.*;
-import java.text.*;
-import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -16,7 +12,7 @@ import java.util.*;
 public class EventLogger implements MuseEventListener, DataCollector
     {
 	@Override
-	public void initialize(MuseExecutionContext context) throws MuseExecutionError
+	public void initialize(MuseExecutionContext context)
 		{
 		context.addEventListener(this);
 		}
@@ -28,7 +24,7 @@ public class EventLogger implements MuseEventListener, DataCollector
 	    }
 
     @Override
-    public void configure(@Nonnull ContextInitializerConfiguration configuration)
+    public void configure(@Nonnull TestPluginConfiguration configuration)
 	    {
 	    // doesn't currently need configuration
 	    }
@@ -50,7 +46,7 @@ public class EventLogger implements MuseEventListener, DataCollector
     public final static String TYPE_ID = "event-logger";
 
     @SuppressWarnings("unused") // used by reflection
-  	public static class EventLoggerType extends ContextInitializerType
+  	public static class EventLoggerType extends TestPluginType
   		{
   		@Override
   		public String getTypeId()

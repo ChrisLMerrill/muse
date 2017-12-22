@@ -1,11 +1,8 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
-import org.musetest.core.context.initializers.*;
-import org.musetest.core.datacollection.*;
+import org.musetest.core.test.plugins.*;
 import org.slf4j.*;
-
-import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -19,13 +16,13 @@ public class DefaultTestExecutionContext extends BaseExecutionContext implements
 
 		try
 			{
-			ContextInitializers.setup(this);
+			TestPlugins.setup(this);
 			}
 		catch (MuseExecutionError e)
 			{
-			LOG.error("Unable to setup ContextInitializers due to: " + e.getMessage());
+			LOG.error("Unable to setup TestPlugins due to: " + e.getMessage());
 			}
-		addInitializer(new TestDefaultsInitializer(this));
+		addTestPlugin(new TestDefaultsInitializer(this));
 		}
 
 	@Override

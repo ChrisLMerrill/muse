@@ -1,4 +1,4 @@
-package org.musetest.core.context.initializers;
+package org.musetest.core.test.plugins;
 
 import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.*;
@@ -11,20 +11,20 @@ import org.musetest.core.values.*;
 import java.util.*;
 
 /**
- * Represents a set of ContextInitializerConfiguration. This should be asked if it should
- * be applied to a give test by calling isAppliedToTest(context). Then each of the initalizers
+ * Represents a set of TestPluginConfigurations. This should be asked if it should
+ * be applied to a given test by calling isAppliedToTest(context). Then each of the plugins
  * should be applied.
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@MuseTypeId("context-initializers")
-public class ContextInitializersConfiguration extends BaseMuseResource
+@MuseTypeId("test-plugins")
+public class TestPluginsConfiguration extends BaseMuseResource
 	{
 	@JsonIgnore
 	@Override
 	public ResourceType getType()
 		{
-		return new ContextInitializersConfigurationResourceType();
+		return new TestPluginsConfigurationResourceType();
 		}
 
 	boolean shouldApplyToTest(MuseExecutionContext context) throws MuseInstantiationException, ValueSourceResolutionError
@@ -43,7 +43,7 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 		String type = "<unknown>";
 		if (value != null)
 			type = value.getClass().getSimpleName();
-		context.raiseEvent(new MessageEvent(String.format("WARNING: ContextInitializersConfiguration expects isAppliedToTest condition to resolve to a boolean. Instead it is a %s with value '%s'. Treating this as %s.", type, value, guess)));
+		context.raiseEvent(new MessageEvent(String.format("WARNING: TestPluginsConfiguration expects isAppliedToTest condition to resolve to a boolean. Instead it is a %s with value '%s'. Treating this as %s.", type, value, guess)));
 		return guess;
 		}
 
@@ -59,25 +59,25 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 		_apply_to_test_condition = apply_to_test_condition;
 		}
 
-	public List<ContextInitializerConfiguration> getInitializers()
+	public List<TestPluginConfiguration> getPlugins()
 		{
-		if (_initializer_configs == null)
+		if (_configs == null)
 			return Collections.emptyList();
-		return _initializer_configs;
+		return _configs;
 		}
 
-	public synchronized void setInitializers(List<ContextInitializerConfiguration> initializer_configs)
+	public synchronized void setPlugins(List<TestPluginConfiguration> plugin_configs)
 		{
-		_initializer_configs = initializer_configs;
+		_configs = plugin_configs;
 		}
 
-	public synchronized void addConfiguration(ContextInitializerConfiguration config, int index)
+	public synchronized void addPlugin(TestPluginConfiguration config, int index)
 		{
-		if (_initializer_configs == null)
-			_initializer_configs = new ArrayList<>();
-		if (index < 0 || index > _initializer_configs.size())
-			throw new IllegalArgumentException(String.format("Can't add at index %d in a list of length %d", index, _initializer_configs.size()));
-		_initializer_configs.add(index, config);
+		if (_configs == null)
+			_configs = new ArrayList<>();
+		if (index < 0 || index > _configs.size())
+			throw new IllegalArgumentException(String.format("Can't add at index %d in a list of length %d", index, _configs.size()));
+		_configs.add(index, config);
 
 		if (_listeners != null)
 			{
@@ -87,22 +87,22 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 			}
 		}
 
-	public synchronized void addConfiguration(ContextInitializerConfiguration config)
+	public synchronized void addPlugin(TestPluginConfiguration config)
 		{
-		if (_initializer_configs == null)
-			_initializer_configs = new ArrayList<>();
-		addConfiguration(config, _initializer_configs.size());
+		if (_configs == null)
+			_configs = new ArrayList<>();
+		addPlugin(config, _configs.size());
 		}
 
-	public synchronized void removeConfiguration(ContextInitializerConfiguration config)
+	public synchronized void removeConfiguration(TestPluginConfiguration config)
 		{
-		if (_initializer_configs == null)
+		if (_configs == null)
 			return;
-		int index = _initializer_configs.indexOf(config);
+		int index = _configs.indexOf(config);
 		if (index < 0)
 			return;  // not in list
 
-		_initializer_configs.remove(config);
+		_configs.remove(config);
 		if (_listeners != null)
 			{
 			ConfigRemovedEvent event = new ConfigRemovedEvent(this, config, index);
@@ -112,7 +112,7 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 		}
 
 	private ValueSourceConfiguration _apply_to_test_condition = ValueSourceConfiguration.forValue(true);
-	private List<ContextInitializerConfiguration> _initializer_configs;
+	private List<TestPluginConfiguration> _configs;
 
 	public void addChangeListener(ChangeEventListener listener)
 		{
@@ -130,24 +130,24 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 
 	private transient Set<ChangeEventListener> _listeners;
 
-	public static class ContextInitializersConfigurationResourceType extends ResourceType
+	public static class TestPluginsConfigurationResourceType extends ResourceType
 		{
-		public ContextInitializersConfigurationResourceType()
+		public TestPluginsConfigurationResourceType()
 			{
-			super("context-initializer-configurations", "Context Initializer", ContextInitializersConfiguration.class);
+			super("test-plugins", "Test Plugin", TestPluginsConfiguration.class);
 			}
 		}
 
 	public static class ConfigAddedEvent extends ChangeEvent
 		{
-		ConfigAddedEvent(ContextInitializersConfiguration target, ContextInitializerConfiguration added, int index)
+		ConfigAddedEvent(TestPluginsConfiguration target, TestPluginConfiguration added, int index)
 			{
 			super(target);
 			_added = added;
 			_index = index;
 			}
 
-		public ContextInitializerConfiguration getAddedConfig()
+		public TestPluginConfiguration getAddedConfig()
 			{
 			return _added;
 			}
@@ -157,13 +157,13 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 			return _index;
 			}
 
-		private ContextInitializerConfiguration _added;
+		private TestPluginConfiguration _added;
 		private int _index;
 		}
 
 	public static class ConfigRemovedEvent extends ChangeEvent
 		{
-		ConfigRemovedEvent(ContextInitializersConfiguration target, ContextInitializerConfiguration removed, int index)
+		ConfigRemovedEvent(TestPluginsConfiguration target, TestPluginConfiguration removed, int index)
 			{
 			super(target);
 			_removed = removed;
@@ -175,12 +175,12 @@ public class ContextInitializersConfiguration extends BaseMuseResource
 			return _index;
 			}
 
-		public ContextInitializerConfiguration getRemovedConfig()
+		public TestPluginConfiguration getRemovedConfig()
 			{
 			return _removed;
 			}
 
-		private ContextInitializerConfiguration _removed;
+		private TestPluginConfiguration _removed;
 		private int _index;
 		}
 	}
