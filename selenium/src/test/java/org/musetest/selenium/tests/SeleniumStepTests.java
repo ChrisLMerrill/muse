@@ -33,8 +33,8 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void openAndCloseBrowser() throws ValueSourceResolutionError
-        {
+    public void openAndCloseBrowser()
+	    {
         TestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), new StepConfiguration(CloseBrowser.TYPE_ID));
         MuseMockDriver driver;
         try
