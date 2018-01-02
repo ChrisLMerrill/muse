@@ -49,5 +49,7 @@ public abstract class SuiteRunnerConfiguration extends GenericResourceConfigurat
 		}
 
 	public final static String TYPE_ID = "suite-runner";
-	private final static SuiteRunnerConfigurationType TYPE = new SuiteRunnerConfigurationType();
+
+	@SuppressWarnings("WeakerAccess")  // subtypes need access
+	public final static SuiteRunnerConfigurationType TYPE = new SuiteRunnerConfigurationType();
 	}
