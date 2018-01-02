@@ -5,6 +5,7 @@ import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.suite.*;
 
 import java.io.*;
 
@@ -56,21 +57,12 @@ public class CommandLineTestRunner implements MuseResourceRunner
 
 		if (output_folder != null)
 			{
-			String test_name = test.getId();
-			File base_file = new File(output_folder, test_name);
-			for (DataCollector collector : runner.getExecutionContext().getDataCollectors())
+			TestResultDataSaver saver = new TestToDiskSaver(output_folder);
+			boolean saved = saver.save(project, result, new TestConfiguration(test), runner.getExecutionContext());
+			if (!saved)
 				{
-				final File data_file = new File(output_folder, collector.getData().suggestFilename());
-				// TODO add numbers to the filenames to avoid overwriting other related files
-				// TODO get DataCollector metadata associated with this collector and store it?
-				try (FileOutputStream outstream = new FileOutputStream(data_file))
-					{
-					collector.getData().write(outstream);
-					}
-				catch (IOException e)
-					{
-					System.out.println(String.format("Unable to store results of test %s in %s due to: %s", test_name, data_file.getAbsolutePath(), e.getMessage()));
-					}
+				System.out.println("Unable to save test results. See the diagnostic logs for more information.");
+				return false;
 				}
 			}
 
