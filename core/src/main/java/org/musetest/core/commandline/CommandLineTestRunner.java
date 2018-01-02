@@ -1,13 +1,11 @@
 package org.musetest.core.commandline;
 
 import org.musetest.core.*;
-import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.suite.*;
-
-import java.io.*;
+import org.musetest.core.resultstorage.*;
+import org.musetest.core.variables.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -28,13 +26,9 @@ public class CommandLineTestRunner implements MuseResourceRunner
             return false;
         MuseTest test = (MuseTest) resource;
 
-        File output_folder = null;
-        if (output_path != null)
-        	output_folder = new File(output_path);
-
         TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
-        if (output_folder != null)
-        	runner.getExecutionContext().addTestPlugin(new EventLogger());
+        if (output_path != null)
+        	runner.getExecutionContext().setVariable(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, output_path, VariableScope.Execution);
         if (verbose)
             {
             System.out.println("--------------------------------------------------------------------------------");
@@ -54,17 +48,6 @@ public class CommandLineTestRunner implements MuseResourceRunner
             else
                 System.out.println(result.getFailureDescription());
             }
-
-		if (output_folder != null)
-			{
-			TestResultDataSaver saver = new TestToDiskSaver(output_folder);
-			boolean saved = saver.save(project, result, new TestConfiguration(test), runner.getExecutionContext());
-			if (!saved)
-				{
-				System.out.println("Unable to save test results. See the diagnostic logs for more information.");
-				return false;
-				}
-			}
 
         return true;
         }
