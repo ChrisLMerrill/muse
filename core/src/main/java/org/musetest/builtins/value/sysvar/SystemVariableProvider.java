@@ -4,7 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.values.*;
 
 /**
- * Provides system variable evaulation within a MuseExecutionContext
+ * Provides system variable evaluation within a MuseExecutionContext
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
