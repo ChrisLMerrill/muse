@@ -12,10 +12,10 @@ import java.util.*;
 public class SimpleTestSuite extends BaseMuseResource implements MuseTestSuite
     {
     @Override
-    public List<TestConfiguration> generateTestList(MuseProject project)
-        {
-        return _tests;
-        }
+    public Iterator<TestConfiguration> getTests(MuseProject project)
+	    {
+	    return _tests.iterator();
+	    }
 
     public void add(MuseTest test)
         {
@@ -30,5 +30,3 @@ public class SimpleTestSuite extends BaseMuseResource implements MuseTestSuite
 
     private List<TestConfiguration> _tests = new ArrayList<>();
     }
-
-

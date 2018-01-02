@@ -17,29 +17,36 @@ import java.util.*;
 public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
     {
     @Override
-    public List<TestConfiguration> generateTestList(MuseProject project)
-        {
-        List<TestConfiguration> tests = new ArrayList<>(_test_ids.size());
-        for (String id : _test_ids)
-            {
-            MuseResource resource = project.getResourceStorage().getResource(id);
-            if (resource == null)
-                {
-                LOG.error("Test with id {} was not found in the project", id);
-                tests.add(new TestConfiguration(new MissingTest(id)));
-                }
-            else if (resource instanceof MuseTest)
-                tests.add(new TestConfiguration((MuseTest)resource));
-            else if (resource instanceof MuseTestSuite)
-                tests.addAll(((MuseTestSuite)resource).generateTestList(project));
-            else
-                {
-                LOG.error("id {} is not a test or test suite", id);
-                tests.add(new TestConfiguration(new MissingTest(id)));
-                }
-            }
-        return tests;
-        }
+    public Iterator<TestConfiguration> getTests(MuseProject project)
+	    {
+	    List<TestConfiguration> direct_tests = new ArrayList<>(_test_ids.size());
+	    List<Iterator<TestConfiguration>> suite_iterators = new ArrayList<>();
+	    for (String id : _test_ids)
+		    {
+		    MuseResource resource = project.getResourceStorage().getResource(id);
+		    if (resource == null)
+			    {
+			    LOG.error("Test with id {} was not found in the project", id);
+			    direct_tests.add(new TestConfiguration(new MissingTest(id)));
+			    }
+		    else if (resource instanceof MuseTest)
+			    direct_tests.add(new TestConfiguration((MuseTest) resource));
+		    else if (resource instanceof MuseTestSuite)
+			    suite_iterators.add(((MuseTestSuite) resource).getTests(project));
+		    else
+			    {
+			    LOG.error("id {} is not a test or test suite", id);
+			    direct_tests.add(new TestConfiguration(new MissingTest(id)));
+			    }
+		    }
+
+	    CompoundTestConfigurationIterator all = new CompoundTestConfigurationIterator();
+	    all.add(direct_tests.iterator());
+	    for (Iterator<TestConfiguration> iterator : suite_iterators)
+	    	all.add(iterator);
+
+	    return all;
+	    }
 
     public List<String> getTestIds()
         {
@@ -52,7 +59,7 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
         _test_ids = ids;
         }
 
-    @SuppressWarnings("unused")  // public API
+    @SuppressWarnings({"unused", "UnusedReturnValue"})  // public API
     public boolean addTestId(String id)
         {
         boolean added = _test_ids.add(id);
@@ -110,5 +117,3 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
 
     private final static Logger LOG = LoggerFactory.getLogger(IdListTestSuite.class);
     }
-
-

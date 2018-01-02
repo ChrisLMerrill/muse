@@ -4,6 +4,8 @@ import org.musetest.core.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.test.plugins.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -14,8 +16,9 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         {
         _project = project;
         BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult(suite);
-        for (TestConfiguration config : suite.generateTestList(project))
-            suite_result.addTestResult(runTest(config));
+        final Iterator<TestConfiguration> tests = suite.getTests(project);
+        while (tests.hasNext())
+	        suite_result.addTestResult(runTest(tests.next()));
 
         return suite_result;
         }
@@ -34,5 +37,3 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 
     private MuseProject _project;
     }
-
-

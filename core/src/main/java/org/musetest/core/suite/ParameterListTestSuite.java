@@ -18,28 +18,28 @@ import java.util.*;
 public class ParameterListTestSuite extends BaseMuseResource implements MuseTestSuite
     {
     @Override
-    public List<TestConfiguration> generateTestList(MuseProject project)
-        {
-        MuseTest test = project.getResourceStorage().getResource(_testid, MuseTest.class);
-        if (test == null)
-            test = new MissingTest(_testid);
+    public Iterator<TestConfiguration> getTests(MuseProject project)
+	    {
+	    MuseTest test = project.getResourceStorage().getResource(_testid, MuseTest.class);
+	    if (test == null)
+		    test = new MissingTest(_testid);
 
-        List<TestConfiguration> tests = new ArrayList<>();
-        List<Map<String, Object>> parameters;
-        if (_parameters != null)
-            parameters = _parameters;
-        else if (_datatable_id != null)
-            parameters = createParametersFromDataTable(project);
-        else
-            throw new IllegalStateException("ParameterListTestSuite requires either the DataTableId or Parameters properties.");
-        for (Map<String, Object> param_set : parameters)
-            {
-            TestConfiguration config = new TestConfiguration(test, new VariableMapInitializer(param_set));
-            config.setName(String.format("%s (%s)", test.getDescription(), Stringifiers.find(param_set).toString()));
-            tests.add(config);
-            }
-        return tests;
-        }
+	    List<TestConfiguration> tests = new ArrayList<>();
+	    List<Map<String, Object>> parameters;
+	    if (_parameters != null)
+		    parameters = _parameters;
+	    else if (_datatable_id != null)
+		    parameters = createParametersFromDataTable(project);
+	    else
+		    throw new IllegalStateException("ParameterListTestSuite requires either the DataTableId or Parameters properties.");
+	    for (Map<String, Object> param_set : parameters)
+		    {
+		    TestConfiguration config = new TestConfiguration(test, new VariableMapInitializer(param_set));
+		    config.setName(String.format("%s (%s)", test.getDescription(), Stringifiers.find(param_set).toString()));
+		    tests.add(config);
+		    }
+	    return tests.iterator();
+	    }
 
     private List<Map<String, Object>> createParametersFromDataTable(MuseProject project)
         {

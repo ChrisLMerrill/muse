@@ -30,9 +30,8 @@ public class TestSuiteTests
         suite.add(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed")));
         suite.add(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "errored")));
 
-        Assert.assertEquals(3, suite.generateTestList(project).size());
-
         MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite);
+        Assert.assertEquals(3, result.getTestResults().size());
         Assert.assertEquals(1, result.getSuccessCount());
         Assert.assertEquals(1, result.getFailureCount());
         Assert.assertEquals(1, result.getErrorCount());
@@ -41,7 +40,10 @@ public class TestSuiteTests
     @Test
     public void executeSimpleSuiteById()
         {
-        MuseProject project = ProjectFactory.create(TestResources.getFile("projects/simpleSuite", getClass()), Collections.emptyMap());
+        final File file = TestResources.getFile("projects/simpleSuite", getClass());
+        if (file == null)
+        	throw new IllegalArgumentException("simpleSuite folder is missing (test resource)");
+        MuseProject project = ProjectFactory.create(file, Collections.emptyMap());
         MuseTestSuite suite = project.getResourceStorage().getResource("TestSuite", MuseTestSuite.class);
         Assert.assertNotNull(suite);
 
@@ -75,11 +77,10 @@ public class TestSuiteTests
         suite2.addTestId("suite1");
         project.getResourceStorage().addResource(suite2);
 
-        List<TestConfiguration> test_configs = suite2.generateTestList(project);
+        Iterator<TestConfiguration> tests = suite2.getTests(project);
 
-        Assert.assertEquals(2, test_configs.size());
-        Assert.assertEquals(test2, test_configs.get(0).getTest());
-        Assert.assertEquals(test1, test_configs.get(1).getTest());
+        Assert.assertEquals(test2, tests.next().getTest());
+        Assert.assertEquals(test1, tests.next().getTest());
         }
 
     @Test
@@ -120,8 +121,8 @@ public class TestSuiteTests
         }
 
     @Test
-    public void paramterizedTestSuite() throws IOException
-        {
+    public void paramterizedTestSuite()
+	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("suite").getResource();
         MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite);
@@ -140,5 +141,3 @@ public class TestSuiteTests
         Assert.assertEquals(3, result.getSuccessCount());
         }
     }
-
-

@@ -23,12 +23,12 @@ public abstract class SuiteRunnerConfiguration extends GenericResourceConfigurat
 	 * Used for JSON serialization. Use parameters() to get access to the sub-sources
 	 * for this configuration.
 	 */
-	public Map<String, ValueSourceConfiguration> getSources()
+	public Map<String, ValueSourceConfiguration> getParameters()
 		{
 		return _sources.getSourceMap();
 		}
 
-	public void setSources(Map<String, ValueSourceConfiguration> sources)
+	public void setParameters(Map<String, ValueSourceConfiguration> sources)
 		{
 		_sources.setSourceMap(sources);
 		}
@@ -42,12 +42,12 @@ public abstract class SuiteRunnerConfiguration extends GenericResourceConfigurat
 
 	public static class SuiteRunnerConfigurationType extends ResourceType
 		{
-		public SuiteRunnerConfigurationType()
+		SuiteRunnerConfigurationType()
 			{
 			super(TYPE_ID, "Test Suite Runner", SuiteRunnerConfiguration.class);
 			}
 		}
 
 	public final static String TYPE_ID = "suite-runner";
-	public final static SuiteRunnerConfigurationType TYPE = new SuiteRunnerConfigurationType();
+	private final static SuiteRunnerConfigurationType TYPE = new SuiteRunnerConfigurationType();
 	}

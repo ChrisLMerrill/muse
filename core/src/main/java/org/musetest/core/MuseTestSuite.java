@@ -12,7 +12,7 @@ import java.util.*;
  */
 public interface MuseTestSuite extends MuseResource
     {
-    List<TestConfiguration> generateTestList(MuseProject project);
+    Iterator<TestConfiguration> getTests(MuseProject project);
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     class TestSuiteResourceType extends ResourceType
@@ -23,4 +23,3 @@ public interface MuseTestSuite extends MuseResource
             }
         }
     }
-
