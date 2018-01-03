@@ -28,7 +28,11 @@ public class ResourceTypes
                         if (_subtypes.get(subtype.getTypeId()) != null)
                             LOG.warn("Duplicate ResourceSubtype found for id: " + subtype.getTypeId());
                         else
-                            _subtypes.put(subtype.getTypeId().toLowerCase(), subtype);
+	                        {
+	                        _subtypes.put(subtype.getTypeId().toLowerCase(), subtype);
+	                        if (!_primary_types.containsKey(subtype.getParentType().getTypeId()))
+		                        _primary_types.put(subtype.getParentType().getTypeId(), subtype.getParentType());
+	                        }
                         }
                     else
                         {
