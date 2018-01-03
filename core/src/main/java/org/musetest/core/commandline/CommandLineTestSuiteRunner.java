@@ -49,6 +49,9 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
 	            runner = config.createRunner(new BaseExecutionContext(project));  // TODO run initializers on this context?
 	            }
 
+            if (output_path != null)
+            	runner.setOutputPath(output_path);
+
             MuseTestSuiteResult result = runner.execute(project, suite);
             if (result.getFailureCount() == 0 && result.getErrorCount() == 0)
                 System.out.println(String.format("%d tests completed successfully.", result.getSuccessCount()));

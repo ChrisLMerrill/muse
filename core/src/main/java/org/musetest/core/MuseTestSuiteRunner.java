@@ -6,5 +6,6 @@ package org.musetest.core;
 public interface MuseTestSuiteRunner
     {
     MuseTestSuiteResult execute(MuseProject project, MuseTestSuite suite);
+    void setOutputPath(String path);
     }
 
