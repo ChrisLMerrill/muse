@@ -2,8 +2,6 @@ package org.musetest.core.commandline;
 
 import io.airlift.airline.*;
 import org.musetest.core.*;
-import org.musetest.core.resource.*;
-import org.musetest.core.resource.json.*;
 import org.musetest.core.resource.types.*;
 import org.slf4j.*;
 
@@ -17,6 +15,7 @@ import org.slf4j.*;
 @Command(name = "create", description = "Create a project resource (test, suite, page, ...)")
 public class CreateCommand extends MuseCommand
     {
+    @SuppressWarnings("WeakerAccess")
     @Arguments(description = "filename/ID of resource to create", required = true)
     public String resource_id;
 
@@ -32,7 +31,7 @@ public class CreateCommand extends MuseCommand
         if (type == null)
             resource_type = new MuseTest.TestResourceType();
         else
-            resource_type = (new ResourceTypes(project.getClassLocator())).forIdIgnoreCase(type);
+            resource_type = project.getResourceTypes().forIdIgnoreCase(type);
 
         if (resource_type == null)
             {
