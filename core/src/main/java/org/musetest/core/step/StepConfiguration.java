@@ -236,54 +236,37 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 	@JsonIgnore
 	public void setMetadataField(String name, Object value)
 		{
-		if (_metadata == null)
-			_metadata = new HashMap<>();
-		Object old_value = _metadata.get(name);
-		_metadata.put(name, value);
-		if (_metadata.size() == 0)
-			_metadata = null;
-
-		notifyListeners(new MetadataChangeEvent(this, name, old_value, value));
+		_metadata.setMetadataField(name, value);
 		}
 
 	@SuppressWarnings("WeakerAccess")  // UI usage
 	@JsonIgnore
 	public void removeMetadataField(String name)
 		{
-		if (_metadata != null)
-			{
-			Object old_value = _metadata.remove(name);
-			if (_metadata.size() == 0)
-				_metadata = null;
-			notifyListeners(new MetadataChangeEvent(this, name, old_value, null));
-			}
+		_metadata.removeMetadataField(name);
 		}
 
 	@JsonIgnore
 	public Object getMetadataField(String name)
 		{
-		if (_metadata == null)
-			return null;
-		return _metadata.get(name);
+		return _metadata.getMetadataField(name);
 		}
 
 	@Override
 	public Set<String> getMetadataFieldNames()
 		{
-		if (_metadata == null)
-			return Collections.emptySet();
-		return _metadata.keySet();
+		return _metadata.getMetadataFieldNames();
 		}
 
 	public Map<String, Object> getMetadata()
 		{
-		return _metadata;
+		return _metadata.getMap();
 		}
 
 	@SuppressWarnings("unused")  // required for JSON de/serialization
 	public void setMetadata(Map<String, Object> metadata)
 		{
-		_metadata = metadata;
+		_metadata.setMap(metadata);
 		}
 
 	@SuppressWarnings("unused")
@@ -301,8 +284,8 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 		Object value = getMetadataField(META_ID_OLD);
 		if (value != null)
 			{
-			_metadata.put(META_ID, value);
-			_metadata.remove(META_ID_OLD);
+			_metadata.setMetadataField(META_ID, value);
+			_metadata.removeMetadataField(META_ID_OLD);
 			}
 
 		value = getMetadataField(META_ID);
@@ -332,7 +315,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 		else if (meta instanceof List)
 			{
 			HashSet tags = new HashSet((List) meta);
-			_metadata.put(META_TAGS, tags);  // go direct - don't notify listeners.
+			_metadata.setMetadataField(META_TAGS, tags);  // go direct - don't notify listeners.
 			return tags;
 			}
 		else
@@ -474,7 +457,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
     private String _step_type;
     private Map<String, ValueSourceConfiguration> _sources = null;
     private List<StepConfiguration> _children = null;
-    private Map<String, Object> _metadata = null;
+    private MetadataContainer _metadata = new MetadataContainer(this, this::notifyListeners);
 
     private transient Set<ChangeEventListener> _listeners;
 
