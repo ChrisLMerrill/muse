@@ -11,14 +11,14 @@ import org.musetest.report.junit.*;
 import java.io.*;
 
 /**
- * Test the coversion of a MuseTestSuiteResult into a junit-format XML file
+ * Test the conversion of a MuseTestSuiteResult into a junit-format XML file
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class JunitReportTests
     {
     @Test
-    public void generateJunitXmlReport() throws IOException
+    public void generateJunitXmlReport()
         {
         BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult(new IdListTestSuite());
         suite_result.addTestResult(new BaseMuseTestResult(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "error"), "test 1"), new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "error")));
