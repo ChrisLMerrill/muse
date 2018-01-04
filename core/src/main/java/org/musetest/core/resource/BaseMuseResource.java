@@ -1,6 +1,7 @@
 package org.musetest.core.resource;
 
 import org.musetest.core.*;
+import org.musetest.core.util.*;
 
 import java.util.*;
 
@@ -54,8 +55,25 @@ public abstract class BaseMuseResource implements MuseResource
         return _tags.contains(tag);
         }
 
+    @Override
+    public ContainsMetadata metadata()
+	    {
+	    return _metadata;
+	    }
+
+    /**
+     * Expose the underlying metadata map for serialization purposes only. Use #metadata for accessing the metadata
+     */
+    public Map<String, Object> getMetadata() { return _metadata.getMap(); }
+
+    /**
+     * Expose the underlying metadata map for serialization purposes only. Use #metadata for accessing the metadata
+     */
+    public void setMetadata(Map<String, Object> map) { _metadata.setMap(map); }
+
     private String _id;
     private Set<String> _tags = new HashSet<>();
+    private MetadataContainer _metadata = new MetadataContainer();
     }
 
 

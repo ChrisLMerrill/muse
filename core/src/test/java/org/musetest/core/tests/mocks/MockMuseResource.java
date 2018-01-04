@@ -1,5 +1,6 @@
 package org.musetest.core.tests.mocks;
 
+import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.generic.*;
 import org.musetest.core.resource.types.*;
@@ -8,6 +9,7 @@ import org.musetest.core.values.descriptor.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@MuseTypeId("mock-resource")
 public class MockMuseResource extends BaseMuseResource
     {
     @Override

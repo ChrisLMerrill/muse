@@ -2,6 +2,7 @@ package org.musetest.core;
 
 import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.util.*;
 
 import java.io.*;
 
@@ -15,5 +16,6 @@ import java.io.*;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 public interface MuseResource extends Serializable, ResourceInfo
     {
+    ContainsMetadata metadata();
     }
 
