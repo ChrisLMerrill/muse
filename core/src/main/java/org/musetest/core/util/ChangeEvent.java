@@ -10,6 +10,11 @@ public abstract class ChangeEvent
         _target = target;
         }
 
+    public Object getTarget()
+	    {
+	    return _target;
+	    }
+    
     protected Object _target;
     }
 

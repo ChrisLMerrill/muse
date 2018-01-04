@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepConfiguration implements Serializable, ContainsNamedSources, Taggable
+public class StepConfiguration implements Serializable, ContainsNamedSources, Taggable, ContainsMetadata
 	{
 	public StepConfiguration()
 		{
@@ -267,6 +267,14 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 		return _metadata.get(name);
 		}
 
+	@Override
+	public Set<String> getMetadataFieldNames()
+		{
+		if (_metadata == null)
+			return Collections.emptySet();
+		return _metadata.keySet();
+		}
+
 	public Map<String, Object> getMetadata()
 		{
 		return _metadata;
@@ -323,8 +331,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 			return (Set) meta;
 		else if (meta instanceof List)
 			{
-			HashSet tags = new HashSet();
-			tags.addAll((List)meta);
+			HashSet tags = new HashSet((List) meta);
 			_metadata.put(META_TAGS, tags);  // go direct - don't notify listeners.
 			return tags;
 			}

@@ -1,15 +1,15 @@
 package org.musetest.core.step.events;
 
-import org.musetest.core.step.*;
+import org.musetest.core.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MetadataChangeEvent extends StepChangeEvent
+public class MetadataChangeEvent extends ChangeEvent
     {
-    public MetadataChangeEvent(StepConfiguration step, String name, Object old_value, Object new_value)
+    public MetadataChangeEvent(ContainsMetadata container, String name, Object old_value, Object new_value)
         {
-        super(step);
+        super(container);
         _name = name;
         _old_value = old_value;
         _new_value = new_value;
