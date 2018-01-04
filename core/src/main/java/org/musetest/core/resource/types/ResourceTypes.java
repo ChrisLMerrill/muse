@@ -37,7 +37,7 @@ public class ResourceTypes
                     else
                         {
                         if (_primary_types.get(type.getTypeId()) != null)
-                            LOG.warn("Duplicate ResourceType found for id: " + type.getTypeId());
+                            LOG.warn("Duplicate ResourceType found for id: " + type.getTypeId() + " in class " + the_class.getSimpleName());
                         else
                             _primary_types.put(type.getTypeId().toLowerCase(), type);
                         }
@@ -90,5 +90,3 @@ public class ResourceTypes
 
     private final static Logger LOG = LoggerFactory.getLogger(ResourceTypes.class);
     }
-
-
