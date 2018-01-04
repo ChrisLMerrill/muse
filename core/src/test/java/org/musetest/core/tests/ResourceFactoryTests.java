@@ -36,7 +36,7 @@ public class ResourceFactoryTests
         test.setId("test1");
         store.loadResource(new MockResourceOrigin(test));
 
-        final List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceAttributes(new MuseTest.TestResourceType()));
+        final List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTest.TestResourceType()));
         Assert.assertEquals(1, resources.size());
         Assert.assertEquals("test1", resources.get(0).getId());
         }

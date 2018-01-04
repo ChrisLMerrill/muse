@@ -63,7 +63,7 @@ public class ResourceStorageTests
         test.setId("Test2");
         project.getResourceStorage().addResource(test);
 
-        List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceAttributes(new MuseTest.TestResourceType()));
+        List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTest.TestResourceType()));
         Assert.assertEquals("Should find 2 resources", 2, resources.size());
         Assert.assertTrue("Should find one resource with id 'Test1'", resources.get(0).getId().equals("Test1") ^ resources.get(1).getId().equals("Test1"));
         Assert.assertTrue("Should find one resource with id 'Test2'", resources.get(0).getId().equals("Test2") ^ resources.get(1).getId().equals("Test2"));

@@ -10,14 +10,14 @@ import java.util.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ResourceAttributes
+public class ResourceQueryParameters
     {
-    public ResourceAttributes(ResourceType type)
+    public ResourceQueryParameters(ResourceType type)
         {
         _types.add(type);
         }
 
-    public ResourceAttributes(String id)
+    public ResourceQueryParameters(String id)
         {
         _id = id;
         }

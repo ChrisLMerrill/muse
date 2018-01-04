@@ -21,7 +21,7 @@ public interface ResourceStorage
     /**
      * Find resources matching the attributes.
      */
-    List<ResourceToken> findResources(ResourceAttributes attributes);
+    List<ResourceToken> findResources(ResourceQueryParameters attributes);
 
     /**
      * Get the resource with the id.

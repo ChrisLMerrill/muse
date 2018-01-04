@@ -65,7 +65,7 @@ public class InMemoryResourceStorage implements ResourceStorage
         }
 
     @Override
-    public List<ResourceToken> findResources(ResourceAttributes attributes)
+    public List<ResourceToken> findResources(ResourceQueryParameters attributes)
         {
         List<ResourceToken> matches = new ArrayList<>();
         for (MuseResource resource : _resources)
@@ -82,7 +82,7 @@ public class InMemoryResourceStorage implements ResourceStorage
     @Override
     public ResourceToken findResource(String id)
         {
-        List<ResourceToken> tokens = findResources(new ResourceAttributes(id));
+        List<ResourceToken> tokens = findResources(new ResourceQueryParameters(id));
         if (tokens.size() == 0)
             return null;
         else if (tokens.size() == 1)

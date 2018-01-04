@@ -15,7 +15,7 @@ public class TestPlugins
 	 */
 	public static void setup(MuseExecutionContext context) throws MuseExecutionError
 		{
-        final List<ResourceToken> resources = context.getProject().getResourceStorage().findResources(new ResourceAttributes(new TestPluginsConfiguration.TestPluginsConfigurationResourceType()));
+        final List<ResourceToken> resources = context.getProject().getResourceStorage().findResources(new ResourceQueryParameters(new TestPluginsConfiguration.TestPluginsConfigurationResourceType()));
         // TODO check the condition
         // TODO catch failures, continue applying plugins
         for (ResourceToken resource : resources)
