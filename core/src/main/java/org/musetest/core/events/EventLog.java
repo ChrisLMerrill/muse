@@ -1,5 +1,6 @@
 package org.musetest.core.events;
 
+import com.fasterxml.jackson.databind.*;
 import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.matching.*;
@@ -35,16 +36,14 @@ public class EventLog implements TestResultData
     @Override
     public String suggestFilename()
 	    {
-	    return getName() + ".txt";
+	    return getName() + ".json";
 	    }
 
     @Override
 	public void write(@Nonnull OutputStream outstream) throws IOException
 		{
-		print(new PrintStream(outstream));
-
-//		ObjectMapper mapper = new ObjectMapper();
-//		mapper.writerWithDefaultPrettyPrinter().writeValue(outstream, this);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.writerWithDefaultPrettyPrinter().writeValue(outstream, this);
 		}
 
 	public void add(MuseEvent event)
