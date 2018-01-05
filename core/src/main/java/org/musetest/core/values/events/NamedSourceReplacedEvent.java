@@ -13,11 +13,6 @@ public class NamedSourceReplacedEvent extends NamedSourceChangedEvent
         _new_source = new_source;
         }
 
-    public String getName()
-        {
-        return _name;
-        }
-
     @SuppressWarnings("WeakerAccess")
     public ValueSourceConfiguration getOldSource()
         {

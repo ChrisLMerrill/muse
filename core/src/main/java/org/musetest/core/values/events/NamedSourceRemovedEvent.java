@@ -15,12 +15,6 @@ public class NamedSourceRemovedEvent extends NamedSourceChangedEvent
         }
 
     @SuppressWarnings("WeakerAccess")
-    public String getName()
-        {
-        return _name;
-        }
-
-    @SuppressWarnings("WeakerAccess")
     public ValueSourceConfiguration getRemovedSource()
         {
         return _source;

@@ -13,12 +13,6 @@ public class NamedSourceAddedEvent extends NamedSourceChangedEvent
         }
 
     @SuppressWarnings("WeakerAccess")
-    public String getName()
-        {
-        return _name;
-        }
-
-    @SuppressWarnings("WeakerAccess")
     public ValueSourceConfiguration getAddedSource()
         {
         return _source;

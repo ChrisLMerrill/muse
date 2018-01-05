@@ -15,6 +15,11 @@ public abstract class NamedSourceChangedEvent extends ChangeEvent
 		_source = added_source;
 		}
 
+	public String getName()
+		{
+		return _name;
+		}
+
 	protected String _name;
 	ValueSourceConfiguration _source;
 	}
