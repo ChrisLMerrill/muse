@@ -14,5 +14,6 @@ public interface TestResultData
 	String suggestFilename();
 
 	void write(@Nonnull OutputStream outstream) throws IOException;
+	Object read(@Nonnull InputStream instream) throws IOException;
 	}
 
