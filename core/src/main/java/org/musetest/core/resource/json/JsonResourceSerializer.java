@@ -30,7 +30,7 @@ public class JsonResourceSerializer implements ResourceSerializer
         return resource.getId() + ".json";
         }
 
-    private ObjectMapper getMapper(TypeLocator locator)
+    public static ObjectMapper getMapper(TypeLocator locator)
         {
         return JsonMapperFactory.createMapper(locator);
         }
