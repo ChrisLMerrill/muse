@@ -23,7 +23,8 @@ public enum StepExecutionStatus
     /**
      * Step completed successfully, and requests that the current execution context be exited.
      */
-    RETURN,
+    @Deprecated
+    RETURN,       // no longer used?
 
     /**
      * Step was not able to execute successfully, due to an _unexpected_ code or configuration error.
@@ -33,5 +34,6 @@ public enum StepExecutionStatus
     /**
      * Step execution was interrupted by an outside actor (likely a human).
      */
-    INTERRUPTED,
+    @Deprecated
+    INTERRUPTED,   // no longer used?
     }
