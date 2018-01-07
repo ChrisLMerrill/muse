@@ -48,6 +48,12 @@ public class FileResourceOrigin implements ResourceOrigin
         }
 
     @Override
+    public String toString()
+	    {
+	    return getDescription();
+	    }
+
+    @Override
     public ResourceSerializer getSerializer()
         {
         return _serializer;
@@ -62,5 +68,3 @@ public class FileResourceOrigin implements ResourceOrigin
     private final File _file;
     private ResourceSerializer _serializer;
     }
-
-
