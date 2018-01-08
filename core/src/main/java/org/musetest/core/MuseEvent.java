@@ -86,6 +86,11 @@ public final class MuseEvent
         return _timestamp_nanos;
         }
 
+    public void setTimestampNanos(long  nanos)
+        {
+        _timestamp_nanos = nanos;
+        }
+
     public void addTag(String tag)
 	    {
 	    if (_tags == null)
