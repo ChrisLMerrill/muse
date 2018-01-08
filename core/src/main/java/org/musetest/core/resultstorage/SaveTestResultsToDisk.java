@@ -50,14 +50,18 @@ public class SaveTestResultsToDisk implements TestPlugin, Shuttable
 				}
 		for (DataCollector collector : _context.getDataCollectors())
 			{
-			final File data_file = new File(output_folder, collector.getData().suggestFilename());
-			try (FileOutputStream outstream = new FileOutputStream(data_file))
+			final TestResultData collected = collector.getData();
+			if (collected != null)
 				{
-				collector.getData().write(outstream);
-				}
-			catch (IOException e)
-				{
-				LOG.error(String.format("Unable to store results of test in %s due to: %s", data_file.getAbsolutePath(), e.getMessage()));
+				final File data_file = new File(output_folder, collected.suggestFilename());
+				try (FileOutputStream outstream = new FileOutputStream(data_file))
+					{
+					collected.write(outstream);
+					}
+				catch (IOException e)
+					{
+					LOG.error(String.format("Unable to store results of test in %s due to: %s", data_file.getAbsolutePath(), e.getMessage()));
+					}
 				}
 			}
 		}

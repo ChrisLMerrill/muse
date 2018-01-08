@@ -23,19 +23,20 @@ public class BaseMuseTestResult implements MuseTestResult
 
     public BaseMuseTestResult(MuseTest test, MuseExecutionContext context, MuseTestFailureDescription failure)
         {
-        _test = test;
-        for (DataCollector collector : context.getDataCollectors())
-        	_result_data.add(collector.getData());
-        if (failure != null)
-	        _failures.add(failure);
+        this(test, context, Collections.singletonList(failure));
         }
 
     public BaseMuseTestResult(MuseTest test, MuseExecutionContext context, List<MuseTestFailureDescription> failures)
         {
         _test = test;
         for (DataCollector collector : context.getDataCollectors())
-        	_result_data.add(collector.getData());
-        _failures.addAll(failures);
+	        {
+	        final TestResultData collected = collector.getData();
+	        if (collected != null)
+		        _result_data.add(collected);
+	        }
+        if (failures != null)
+            _failures.addAll(failures);
         }
 
     @Override
