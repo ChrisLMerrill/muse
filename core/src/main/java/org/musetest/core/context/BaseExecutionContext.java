@@ -95,7 +95,7 @@ public class BaseExecutionContext implements MuseExecutionContext
         if (scope.equals(VariableScope.Execution))
             {
             _vars.put(name, value);
-            raiseEvent(new SetVariableEvent(name, value, VariableScope.Execution));
+            raiseEvent(SetVariableEventType.create(name, value, VariableScope.Execution));
             }
         else
             LOG.error(String.format("Asked to set a variable in the '%s' scope: %s = %s", scope.name(), name, value));
@@ -182,5 +182,3 @@ public class BaseExecutionContext implements MuseExecutionContext
 
     private final static Logger LOG = LoggerFactory.getLogger(TestExecutionContext.class);
     }
-
-

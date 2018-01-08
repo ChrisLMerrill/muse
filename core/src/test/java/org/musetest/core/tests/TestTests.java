@@ -27,8 +27,8 @@ public class TestTests
 		MuseTestResult result = test.execute(context);
 
         Assert.assertTrue(result.isPass());
-        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(new StartTestEvent.StartTestEventType().getTypeId())).size());
-        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(new EndTestEvent.EndTestEventType().getTypeId())).size());
+        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(StartTestEventType.TYPE_ID)).size());
+        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(EndTestEventType.TYPE_ID)).size());
         }
 
     @Test
@@ -65,7 +65,7 @@ public class TestTests
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should stop after verify step
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 2);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     @Test
@@ -83,7 +83,7 @@ public class TestTests
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should run all steps
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 3);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
         }
 
     @Test
@@ -103,7 +103,7 @@ public class TestTests
         Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
 
         // should stop after verify step
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 2);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     /**
@@ -112,8 +112,8 @@ public class TestTests
     @Test
     public void failureEventStatusCausesTestFailureStatus()
         {
-        MuseEvent event = new MuseEvent(MessageEvent.MessageEventType.INSTANCE);
-        event.setStatus(EventStatus.Failure);
+        MuseEvent event = new MuseEvent(MessageEventType.INSTANCE);
+        event.addTag(MuseEvent.FAILURE);
         EventLogger logger = new EventLogger();
         MuseTestResult result = runEventRaisingTest(event, logger);
 
@@ -122,7 +122,7 @@ public class TestTests
         Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
 
         // it was not fatal, so all steps should run
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 3);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
         }
 
     /**
@@ -131,8 +131,8 @@ public class TestTests
     @Test
     public void errorEventStatusCausesTestErrorStatus()
         {
-        MuseEvent event = new MuseEvent(MessageEvent.MessageEventType.INSTANCE);
-        event.setStatus(EventStatus.Error);
+        MuseEvent event = new MuseEvent(MessageEventType.INSTANCE);
+        event.addTag(MuseEvent.ERROR);
         EventLogger logger = new EventLogger();
         MuseTestResult result = runEventRaisingTest(event, logger);
 
@@ -146,13 +146,13 @@ public class TestTests
     @Test
     public void eventTerminatePropertyCausesTermination()
         {
-        MuseEvent event = new MuseEvent(MessageEvent.MessageEventType.INSTANCE);
-        event.setTerminate(true);
+        MuseEvent event = new MuseEvent(MessageEventType.INSTANCE);
+        event.addTag(MuseEvent.TERMINATE);
         EventLogger logger = new EventLogger();
         runEventRaisingTest(event, logger);
 
         // second step should not run (technically 3rd, since the 2 are contained in compound step)
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)).size() == 2);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     private MuseTestResult runEventRaisingTest(MuseEvent event, EventLogger logger)
@@ -200,5 +200,3 @@ public class TestTests
         return new SteppedTest(main_step);
         }
     }
-
-

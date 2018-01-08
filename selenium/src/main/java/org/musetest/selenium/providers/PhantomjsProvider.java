@@ -5,7 +5,6 @@ import org.musetest.core.events.*;
 import org.musetest.core.util.*;
 import org.musetest.selenium.*;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.phantomjs.*;
 import org.openqa.selenium.remote.*;
 
@@ -30,13 +29,13 @@ public class PhantomjsProvider extends BaseLocalDriverProvider
         File path = getDriverLocation(context);
         if (path == null)
             {
-            context.raiseEvent(new MessageEvent("PhantomjsProvider would try to satisfy request for PhantomJS browser, but it was not configured with a path to the driver"));
+            context.raiseEvent(MessageEventType.create("PhantomjsProvider would try to satisfy request for PhantomJS browser, but it was not configured with a path to the driver"));
             return null;
             }
 
         if (!(path.exists()))
             {
-            context.raiseEvent(new MessageEvent("PhantomjsProvider would try to satisfy request for PhantomJS browser, but the configured path does not exist: " + path.getAbsolutePath()));
+            context.raiseEvent(MessageEventType.create("PhantomjsProvider would try to satisfy request for PhantomJS browser, but the configured path does not exist: " + path.getAbsolutePath()));
             return null;
             }
 
@@ -60,5 +59,3 @@ public class PhantomjsProvider extends BaseLocalDriverProvider
         return "PhantomJS";
         }
     }
-
-

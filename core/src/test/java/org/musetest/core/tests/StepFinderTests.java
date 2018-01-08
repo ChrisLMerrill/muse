@@ -2,6 +2,7 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.builtins.step.*;
+import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.mocks.*;
@@ -11,7 +12,6 @@ import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 
 import java.io.*;
-import java.lang.reflect.*;
 import java.util.*;
 
 /**
@@ -85,20 +85,17 @@ public class StepFinderTests
 	    {
 	    setupTestInContext();
 
-	    StepEvent event = new StepEvent(StepEvent.END_INSTANCE, _log_step, new MockStepExecutionContext());
-	    Assert.assertEquals(_log_step, new StepFinder(_context).by(event));
+	    MuseEvent event = EndStepEventType.create(_log_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE));
+	    Assert.assertTrue(event.hasAttribute(StepEventType.STEP_ID, _log_step.getStepId()));
 	    }
 
 	@Test
-	public void findByEventWithoutConfig() throws NoSuchFieldException, IllegalAccessException
+	public void findByEventWithoutConfig()
 		{
 	    setupTestInContext();
 
-	    StepEvent event = new StepEvent(StepEvent.END_INSTANCE, _log_step, new MockStepExecutionContext());
-	    Field field = event.getClass().getDeclaredField("_config");
-	    field.setAccessible(true);
-	    field.set(event, null);
-	    Assert.assertEquals(_log_step, new StepFinder(_context).by(event));
+	    MuseEvent event = EndStepEventType.create(_log_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE));
+	    Assert.assertTrue(event.hasAttribute(StepEventType.STEP_ID, _log_step.getStepId()));
 	    }
 
 	private void setupTestInContext()
@@ -119,5 +116,3 @@ public class StepFinderTests
 	private final static Long ROOT_ID = new Random().nextLong();
 	private final static Long LOG_ID = new Random().nextLong();
 	}
-
-

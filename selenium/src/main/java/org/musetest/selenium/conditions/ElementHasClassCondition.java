@@ -57,7 +57,7 @@ public class ElementHasClassCondition extends BaseElementValueSource
                     }
             }
 
-        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), has_class));
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), has_class));
         return has_class;
         }
 

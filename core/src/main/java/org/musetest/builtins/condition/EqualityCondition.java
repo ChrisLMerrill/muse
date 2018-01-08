@@ -1,7 +1,6 @@
 package org.musetest.builtins.condition;
 
 import org.musetest.core.*;
-import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -42,7 +41,7 @@ public class EqualityCondition extends BinaryCondition
         else
             result = Objects.equals(value1, value2);
 
-        context.raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s == %s) is %b", value1, value2, result)));
+        context.raiseEvent(ConditionEvaluatedEventType.create(String.format("Condition (%s == %s) is %b", value1, value2, result)));
         return result;
         }
 
@@ -86,5 +85,3 @@ public class EqualityCondition extends BinaryCondition
             }
         }
     }
-
-

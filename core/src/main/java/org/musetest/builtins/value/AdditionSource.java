@@ -76,7 +76,7 @@ public class AdditionSource extends BaseValueSource
         for (Object value : values)
             builder.append(value);
         String result = builder.toString();
-        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), result));
         return result;
         }
 
@@ -116,8 +116,7 @@ public class AdditionSource extends BaseValueSource
         private void addSources(List<ValueSourceConfiguration> list, ValueSourceConfiguration source)
             {
             if (AdditionSource.TYPE_ID.equals(source.getType()))
-                for (ValueSourceConfiguration subsource : source.getSourceList())
-                    list.add(subsource);
+	            list.addAll(source.getSourceList());
             else
                 list.add(source);
             }
@@ -150,5 +149,3 @@ public class AdditionSource extends BaseValueSource
             }
         }
     }
-
-

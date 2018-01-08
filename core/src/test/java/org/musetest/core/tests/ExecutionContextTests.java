@@ -5,7 +5,6 @@ import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
-import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
@@ -37,7 +36,10 @@ public class ExecutionContextTests
 
         // verify the resource was created and closed
         Assert.assertTrue("The step did not run", result.getLog().findEvents(event ->
-            event.getDescription().contains(EXECUTE_MESSAGE)).size() == 1);
+	        {
+	        final String description = EventTypes.DEFAULT.findType(event).getDescription(event);
+	        return description != null && description.contains(EXECUTE_MESSAGE);
+	        }).size() == 1);
         MockShuttable shuttable = (MockShuttable) context.getVariable(MockStepCreatesShuttable.SHUTTABLE_VAR_NAME);
         Assert.assertNotNull(shuttable);
         Assert.assertTrue(shuttable.isShutdown());
@@ -53,9 +55,9 @@ public class ExecutionContextTests
         AtomicReference<MuseEvent> event2 = new AtomicReference<>(null);
         context.addEventListener(event ->
 	        {
-	        if (event.getTypeId().equals(MessageEvent.MessageEventType.TYPE_ID))  // don't go into infinite loop
+	        if (event.getTypeId().equals(MessageEventType.TYPE_ID))  // don't go into infinite loop
 		        {
-		        final MockStepEvent second_event = new MockStepEvent(StepEvent.END_INSTANCE, step_config, new MockStepExecutionContext(context));
+		        MuseEvent second_event = StepEventType.create(EndStepEventType.TYPE_ID, step_config);
 		        event2.set(second_event);
 		        context.raiseEvent(second_event);
 		        }
@@ -66,7 +68,7 @@ public class ExecutionContextTests
         context.addEventListener(events::add);
 
         // raise an event
-        final MessageEvent event1 = new MessageEvent("message");
+        final MuseEvent event1 = MessageEventType.create("message");
         context.raiseEvent(event1);
 
         Assert.assertEquals(2, events.size());
@@ -74,5 +76,3 @@ public class ExecutionContextTests
         Assert.assertTrue(event2.get() == events.get(1));
         }
     }
-
-

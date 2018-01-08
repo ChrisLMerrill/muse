@@ -18,8 +18,8 @@ public class EventTests
     public void eventDescriptionMatcher()
         {
         EventMatcher matcher = new EventDescriptionMatcher("description");
-        Assert.assertTrue(matcher.matches(new MessageEvent("description")));
-        Assert.assertFalse(matcher.matches(new MessageEvent("asdf")));
+        Assert.assertTrue(matcher.matches(MessageEventType.create("description")));
+        Assert.assertFalse(matcher.matches(MessageEventType.create("asdf")));
         }
 
     @Test
@@ -27,15 +27,15 @@ public class EventTests
         {
         EventMatcher matcher = new EventTypeMatcher(ConditionEvaluatedEventType.TYPE_ID);
         Assert.assertTrue(matcher.matches(new MuseEvent(ConditionEvaluatedEventType.INSTANCE)));
-        Assert.assertFalse(matcher.matches(new MuseEvent(StepEvent.END_INSTANCE)));
+        Assert.assertFalse(matcher.matches(new MuseEvent(EndStepEventType.TYPE_ID)));
         }
 
     @Test
     public void stepResultStatusMatcher()
         {
         EventMatcher matcher = new StepResultStatusMatcher(StepExecutionStatus.ERROR);
-        Assert.assertTrue(matcher.matches(new StepEvent(StepEvent.END_INSTANCE, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR))));
-        Assert.assertFalse(matcher.matches(new StepEvent(StepEvent.END_INSTANCE, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE))));
+        Assert.assertTrue(matcher.matches(EndStepEventType.create(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR))));
+        Assert.assertFalse(matcher.matches(EndStepEventType.create(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE))));
         }
 
     @Test
@@ -48,5 +48,3 @@ public class EventTests
         Assert.assertTrue(type.getName().contains(type_id));
         }
     }
-
-

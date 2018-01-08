@@ -16,7 +16,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseInlineEditString("verify {condition}")
 @MuseStepIcon("glyph:FontAwesome:CHECK")
 @MuseStepShortDescription("Check the supplied condition")
-@MuseStepLongDescription("The 'condition' sub-source is resolved and evaluated as a boolean. If false, a VerifyFailureEvent is added to the test event log.")
+@MuseStepLongDescription("The 'condition' sub-source is resolved and evaluated as a boolean. If false, an event describing the failure is added to the test event log with a 'failure' tag.")
 @MuseSubsourceDescriptor(displayName = "Condition", description = "Condition to evaluate", type = SubsourceDescriptor.Type.Named, name = Verify.CONDITION_PARAM)
 @MuseSubsourceDescriptor(displayName = "Terminate", description = "If true, terminate the test on failure", type = SubsourceDescriptor.Type.Named, name = Verify.TERMINATE_PARAM, optional = true)
 public class Verify extends BaseStep
@@ -45,11 +45,7 @@ public class Verify extends BaseStep
             {
             // is this step configured to terminated on verify failure?
             Boolean terminate_value = getValue(_terminate, context, true, Boolean.class);
-            final boolean fatal = terminate_value != null && terminate_value;
-
-            VerifyFailureEvent event = new VerifyFailureEvent(_config, context, message);
-            event.setTerminate(fatal);
-            context.raiseEvent(event);
+            context.raiseEvent(VerifyFailureEventType.create(_config, message, terminate_value != null && terminate_value));
 
             return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "verify FAILED");
             }
@@ -64,5 +60,3 @@ public class Verify extends BaseStep
 
     public final static String TYPE_ID = Verify.class.getAnnotation(MuseTypeId.class).value();
     }
-
-

@@ -1,7 +1,6 @@
 package org.musetest.builtins.condition;
 
 import org.musetest.core.*;
-import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -39,7 +38,7 @@ public class LessThanCondition extends BinaryCondition
         else
             throw new ValueSourceResolutionError("LessThanCondition can operate on 2 integers or 2 strings. Instead received: " + value1 + "(" + value1.getClass().getSimpleName() + ") > " + value2 + "(" + value2.getClass().getSimpleName() + ")");
 
-        context.raiseEvent(new ConditionEvaluatedEvent(String.format("Condition (%s<%s) is %b", value1, value2, result)));
+        context.raiseEvent(ConditionEvaluatedEventType.create(String.format("Condition (%s<%s) is %b", value1, value2, result)));
         return result;
         }
 
@@ -61,5 +60,3 @@ public class LessThanCondition extends BinaryCondition
             }
         }
     }
-
-

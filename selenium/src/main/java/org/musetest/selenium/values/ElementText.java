@@ -7,7 +7,6 @@ import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.musetest.selenium.*;
-import org.musetest.selenium.conditions.*;
 import org.openqa.selenium.*;
 
 /**
@@ -33,7 +32,7 @@ public class ElementText extends BaseElementValueSource
         {
         WebElement element = resolveElementSource(context, true);
         String text = element.getText();
-        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), text));
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), text));
         return text;
         }
 

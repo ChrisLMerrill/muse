@@ -32,7 +32,7 @@ public class ElementEnabledCondition extends BaseElementValueSource
         {
         WebElement element = resolveElementSource(context, true);
         boolean enabled = element.isEnabled();
-        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), enabled));
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), enabled));
         return enabled;
         }
 

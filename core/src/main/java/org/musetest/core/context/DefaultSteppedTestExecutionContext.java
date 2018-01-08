@@ -68,7 +68,7 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
             if (variables != null)
                 {
                 variables.put(name,value);
-                raiseEvent(new SetVariableEvent(name, value, VariableScope.Local));
+                raiseEvent(SetVariableEventType.create(name, value, VariableScope.Local));
                 return;
                 }
             }
@@ -170,5 +170,3 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
 	private TestExecutionContext _parent_context;
     private StepExecutionContextStack _stack = new StepExecutionContextStack();
     }
-
-

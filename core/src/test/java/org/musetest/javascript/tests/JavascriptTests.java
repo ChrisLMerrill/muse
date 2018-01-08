@@ -135,18 +135,18 @@ public class JavascriptTests
         StepConfiguration config = new StepConfiguration(step_resource.getId());
         MuseStep step = config.createStep(project);
 
-        final List<MessageEvent> events = new ArrayList<>();
+        final List<MuseEvent> events = new ArrayList<>();
         DefaultSteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project, null));
         StepExecutionContext context = new SingleStepExecutionContext(test_context, config, true);
         test_context.addEventListener(event ->
             {
-            if (event instanceof MessageEvent)
-                events.add((MessageEvent) event);
+            if (event.getTypeId().equals(MessageEventType.TYPE_ID))
+                events.add(event);
             });
 
         Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
         Assert.assertEquals(1, events.size());
-        Assert.assertTrue(events.get(0).getDescription().contains("test message"));
+        Assert.assertTrue(EventTypes.DEFAULT.findType(events.get(0)).getDescription(events.get(0)).contains("test message"));
         }
 
     @Test
@@ -159,5 +159,3 @@ public class JavascriptTests
         Assert.assertEquals("abc1", result);
         }
     }
-
-

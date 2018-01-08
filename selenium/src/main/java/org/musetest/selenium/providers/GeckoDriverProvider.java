@@ -28,13 +28,13 @@ public class GeckoDriverProvider extends BaseLocalDriverProvider
         File path = getDriverLocation(context);
         if (path == null)
             {
-            context.raiseEvent(new MessageEvent("GeckoDriverProvider would try to satisfy request for Firefox browser, but it was not configured with a path to the driver"));
+            context.raiseEvent(MessageEventType.create("GeckoDriverProvider would try to satisfy request for Firefox browser, but it was not configured with a path to the driver"));
             return null;
             }
 
         if (!(path.exists()))
             {
-            context.raiseEvent(new MessageEvent("GeckoDriverProvider would try to satisfy request for Firefox browser, but the configured path does not exist: " + path.getAbsolutePath()));
+            context.raiseEvent(MessageEventType.create("GeckoDriverProvider would try to satisfy request for Firefox browser, but the configured path does not exist: " + path.getAbsolutePath()));
             return null;
             }
 
@@ -63,5 +63,3 @@ public class GeckoDriverProvider extends BaseLocalDriverProvider
         return "GeckoDriver";
         }
     }
-
-

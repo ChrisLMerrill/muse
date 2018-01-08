@@ -160,9 +160,9 @@ public class StepTests
         StepExecutionResult result = step.execute(new MockStepExecutionContext(test_context));
         Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
 
-        List<MuseEvent> events = logger.getData().findEvents(new EventTypeMatcher(VerifyFailureEvent.VerifyFailureEventType.TYPE_ID));
+        List<MuseEvent> events = logger.getData().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID));
         Assert.assertEquals(1, events.size());
-        Assert.assertEquals(fatal, events.get(0).isTerminateRequested());
+        Assert.assertEquals(fatal, events.get(0).hasTag(MuseEvent.TERMINATE));
         }
 
     @Test
@@ -279,7 +279,7 @@ public class StepTests
         MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
         // verify that the message step (which comes after the return) did not run
-        Assert.assertTrue(result.getLog().findEvents(new EventTypeMatcher(MessageEvent.MessageEventType.TYPE_ID)).size() == 0);
+        Assert.assertTrue(result.getLog().findEvents(new EventTypeMatcher(MessageEventType.TYPE_ID)).size() == 0);
         }
 
     @Test
@@ -347,5 +347,3 @@ public class StepTests
             }
         }
     }
-
-

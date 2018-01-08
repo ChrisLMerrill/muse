@@ -41,12 +41,12 @@ public class JavascriptStep extends BaseStep
             if (result instanceof StepExecutionResult)
                 return (StepExecutionResult) result;
             else
-                context.raiseEvent(new ScriptFailureEvent("Script did not return a StepExecutionResult. Instead, it returned: " + result, null));// TODO do something better than n/a
+                context.raiseEvent(ScriptFailureEventType.create("Script did not return a StepExecutionResult. Instead, it returned: " + result, null));
             }
         catch (Throwable t)
             {
             LOG.error("unable to execute script: ", t);
-            context.raiseEvent(new ScriptFailureEvent("Script threw an exception: " + t.getMessage(), t));  // TODO do something better than n/a
+            context.raiseEvent(ScriptFailureEventType.create("Script threw an exception: " + t.getMessage(), t));
             }
         return new BasicStepExecutionResult(StepExecutionStatus.FAILURE);
         }
@@ -56,5 +56,3 @@ public class JavascriptStep extends BaseStep
     public final static String EXECUTE_FUNCTION = "executeStep";
     private final static Logger LOG = LoggerFactory.getLogger(JavascriptStep.class);
     }
-
-

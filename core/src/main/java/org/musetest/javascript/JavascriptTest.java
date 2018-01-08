@@ -37,12 +37,12 @@ public class JavascriptTest extends BaseMuseTest
             if (result == null || result instanceof MuseTestFailureDescription)
                 return new BaseMuseTestResult(this, new EventLog(), (MuseTestFailureDescription) result);
             else
-                context.raiseEvent(new ScriptFailureEvent("Script did not return a MuseTestFailureDescription. Instead, it returned: " + result, null));
+                context.raiseEvent(ScriptFailureEventType.create("Script did not return a MuseTestFailureDescription. Instead, it returned: " + result, null));
             }
         catch (Throwable t)
             {
             LOG.error("unable to execute script: ", t);
-            context.raiseEvent(new ScriptFailureEvent("Script threw an exception: " + t.getMessage(), t));
+            context.raiseEvent(ScriptFailureEventType.create("Script threw an exception: " + t.getMessage(), t));
             }
         return new BaseMuseTestResult(this, new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "javascript implementation did not indicate success"));
         }
@@ -70,5 +70,3 @@ public class JavascriptTest extends BaseMuseTest
     public final static String FUNCTION_NAME = "executeTest";
     private final static Logger LOG = LoggerFactory.getLogger(JavascriptTest.class);
     }
-
-

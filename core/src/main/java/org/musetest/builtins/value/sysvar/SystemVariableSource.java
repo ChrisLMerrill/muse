@@ -40,7 +40,7 @@ public class SystemVariableSource extends BaseValueSource
         {
         String name = getValue(_name, context, false, String.class);
         Object value = context.getProject().getSystemVariableProviders().resolve(name, context);
-        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), value));
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), value));
         return value;
         }
 

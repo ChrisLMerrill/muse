@@ -43,7 +43,7 @@ public class TestPluginsConfiguration extends BaseMuseResource
 		String type = "<unknown>";
 		if (value != null)
 			type = value.getClass().getSimpleName();
-		context.raiseEvent(new MessageEvent(String.format("WARNING: TestPluginsConfiguration expects isAppliedToTest condition to resolve to a boolean. Instead it is a %s with value '%s'. Treating this as %s.", type, value, guess)));
+		context.raiseEvent(MessageEventType.create(String.format("WARNING: TestPluginsConfiguration expects isAppliedToTest condition to resolve to a boolean. Instead it is a %s with value '%s'. Treating this as %s.", type, value, guess)));
 		return guess;
 		}
 

@@ -17,12 +17,15 @@ public class StepResultStatusMatcher implements EventMatcher
     @Override
     public boolean matches(MuseEvent event)
         {
-        return event instanceof StepEvent
-            && event.getTypeId().equals(StepEvent.EndStepEventType.TYPE_ID)
-            && _status.equals(((StepEvent)event).getResult().getStatus());
+        if (!event.getTypeId().equals(EndStepEventType.TYPE_ID))
+        	return false;
+
+        if (_status.equals(StepExecutionStatus.ERROR))
+	        return event.hasTag(MuseEvent.ERROR);
+        if (_status.equals(StepExecutionStatus.FAILURE))
+	        return event.hasTag(MuseEvent.FAILURE);
+        return true;
         }
 
     private StepExecutionStatus _status;
     }
-
-

@@ -2,7 +2,6 @@ package org.musetest.builtins.condition;
 
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
-import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
@@ -39,7 +38,7 @@ public class GlobMatchCondition extends BaseValueSource
             {
             GlobPattern matcher = new GlobPattern(pattern);
             boolean matches = matcher.matches(target);
-            context.raiseEvent(new ConditionEvaluatedEvent(String.format("Glob pattern %s matches %s is %s", pattern, target, matches)));
+            context.raiseEvent(ConditionEvaluatedEventType.create(String.format("Glob pattern %s matches %s is %s", pattern, target, matches)));
             return matches;
             }
         catch (Exception e)

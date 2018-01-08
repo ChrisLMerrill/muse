@@ -37,7 +37,7 @@ public class SaveTestResultsToDisk implements TestPlugin, Shuttable
 		final Object output_folder_value = _context.getVariable(OUTPUT_FOLDER_VARIABLE_NAME);
 		if (output_folder_value == null)
 			{
-			_context.raiseEvent(new MessageEvent(String.format("Name of output folder was not provided (in variable %s). Results will not be stored.", OUTPUT_FOLDER_VARIABLE_NAME)));
+			_context.raiseEvent(MessageEventType.create(String.format("Name of output folder was not provided (in variable %s). Results will not be stored.", OUTPUT_FOLDER_VARIABLE_NAME)));
 			return;
 			}
 		String output_folder_path = output_folder_value.toString();
@@ -45,7 +45,7 @@ public class SaveTestResultsToDisk implements TestPlugin, Shuttable
 		if (!output_folder.exists())
 			if (!output_folder.mkdirs())
 				{
-				_context.raiseEvent(new MessageEvent(String.format("Unable to create output folder (%s). Results will not be stored.", output_folder_path)));
+				_context.raiseEvent(MessageEventType.create(String.format("Unable to create output folder (%s). Results will not be stored.", output_folder_path)));
 				return;
 				}
 		for (DataCollector collector : _context.getDataCollectors())

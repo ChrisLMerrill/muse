@@ -84,7 +84,7 @@ public class CallFunction extends CallMacroStep
             }
 
         BasicStepExecutionResult result = new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
-        context.raiseEvent(new StepEvent(StepEvent.END_INSTANCE, _config, context, result));
+        context.raiseEvent(EndStepEventType.create(_config, context, result));
         context.stepComplete(this, result);
         }
 
@@ -95,5 +95,3 @@ public class CallFunction extends CallMacroStep
 
     public final static String TYPE_ID = CallFunction.class.getAnnotation(MuseTypeId.class).value();
     }
-
-

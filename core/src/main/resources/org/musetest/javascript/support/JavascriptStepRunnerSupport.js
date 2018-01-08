@@ -7,7 +7,7 @@ STEP_RESOURCE = 'jsStep';   // declares the MuseResourceType for a Javascript st
 var StepExecutionStatus = Java.type("org.musetest.core.step.StepExecutionStatus");
 var BasicStepExecutionResult = Java.type("org.musetest.core.step.BasicStepExecutionResult");
 var StepExecutionContext = Java.type("org.musetest.core.context.StepExecutionContext");
-var MessageEvent = Java.type("org.musetest.core.events.MessageEvent");
+var MessageEventType = Java.type("org.musetest.core.events.MessageEventType");
 var System = Java.type('java.lang.System');
 
 function successResult(message)
@@ -35,5 +35,5 @@ function setVariable(name, value)
 
 function logMessage(message)
     {
-    __context.raiseEvent(new MessageEvent(message));
+    __context.raiseEvent(MessageEventType.create(message));
     }

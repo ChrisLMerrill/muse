@@ -28,13 +28,13 @@ public class IExploreDriverProvider extends BaseLocalDriverProvider
         File path = getDriverLocation(context);
         if (path == null)
             {
-            context.raiseEvent(new MessageEvent("IExploreDriverProvider would try to satisfy request for Internet Explorer browser, but it was not configured with a path to the driver"));
+            context.raiseEvent(MessageEventType.create("IExploreDriverProvider would try to satisfy request for Internet Explorer browser, but it was not configured with a path to the driver"));
             return null;
             }
 
         if (!(path.exists()))
             {
-            context.raiseEvent(new MessageEvent("IExploreDriverProvider would try to satisfy request for Internet Explorer browser, but the configured path does not exist: " + path.getAbsolutePath()));
+            context.raiseEvent(MessageEventType.create("IExploreDriverProvider would try to satisfy request for Internet Explorer browser, but the configured path does not exist: " + path.getAbsolutePath()));
             return null;
             }
 
@@ -57,5 +57,3 @@ public class IExploreDriverProvider extends BaseLocalDriverProvider
         return "InternetExplorerDriver";
         }
     }
-
-

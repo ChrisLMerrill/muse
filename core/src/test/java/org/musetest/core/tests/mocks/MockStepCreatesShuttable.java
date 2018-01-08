@@ -6,8 +6,6 @@ import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 import org.musetest.core.variables.*;
 
-import java.util.concurrent.atomic.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -21,12 +19,12 @@ public class MockStepCreatesShuttable extends BaseStep
         }
 
     @Override
-    protected StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
+    protected StepExecutionResult executeImplementation(StepExecutionContext context)
         {
         MockShuttable shuttable = new MockShuttable();
         context.setVariable(SHUTTABLE_VAR_NAME, shuttable, VariableScope.Execution);
         context.registerShuttable(shuttable);
-        context.raiseEvent(new MessageEvent(EXECUTE_MESSAGE));
+        context.raiseEvent(MessageEventType.create(EXECUTE_MESSAGE));
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }
 
@@ -34,5 +32,3 @@ public class MockStepCreatesShuttable extends BaseStep
     public final static String SHUTTABLE_VAR_NAME = "shuttable";
     public final static String TYPE_ID = MockStepCreatesShuttable.class.getAnnotation(MuseTypeId.class).value();
     }
-
-

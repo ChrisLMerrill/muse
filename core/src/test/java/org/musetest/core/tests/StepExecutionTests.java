@@ -100,7 +100,7 @@ public class StepExecutionTests
         executor.executeAll();
 
         EventLog log = test_context.getDataCollector(EventLogger.class).getData();
-        Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)));
+        Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)));
         Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));
         }
 
@@ -121,9 +121,7 @@ public class StepExecutionTests
         executor.executeAll();
 
         EventLog log = test_context.getDataCollector(EventLogger.class).getData();
-        Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StepEvent.StartStepEventType.TYPE_ID)));
+        Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)));
         Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));
         }
     }
-
-

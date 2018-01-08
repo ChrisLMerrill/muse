@@ -40,7 +40,7 @@ public class TestResultProducerTests
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "test123";
-        producer.eventRaised(new StepEvent(StepEvent.END_INSTANCE, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, reason)));
+        producer.eventRaised(EndStepEventType.create(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, reason)));
 
         MuseTestResult result = producer.getTestResult();
         Assert.assertFalse(result.isPass());
@@ -58,7 +58,7 @@ public class TestResultProducerTests
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "test123";
-        producer.eventRaised(new StepEvent(StepEvent.END_INSTANCE, new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.ERROR, reason)));
+        producer.eventRaised(EndStepEventType.create(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), new BasicStepExecutionResult(StepExecutionStatus.ERROR, reason)));
 
         MuseTestResult result = producer.getTestResult();
         Assert.assertFalse(result.isPass());
@@ -76,7 +76,7 @@ public class TestResultProducerTests
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         String reason = "verifyfail";
-        producer.eventRaised(new VerifyFailureEvent(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(new SimpleProject()), reason));
+        producer.eventRaised(VerifyFailureEventType.create(new StepConfiguration(LogMessage.TYPE_ID), reason, false));
 
         MuseTestResult result = producer.getTestResult();
         Assert.assertFalse(result.isPass());
@@ -85,5 +85,3 @@ public class TestResultProducerTests
         Assert.assertTrue(result.getOneLineDescription().toLowerCase().contains(reason));
         }
     }
-
-

@@ -29,13 +29,13 @@ public class EdgeDriverProvider extends BaseLocalDriverProvider
         File path = getDriverLocation(context);
         if (path == null)
             {
-            context.raiseEvent(new MessageEvent("EdgeDriverProvider would try to satisfy request for Firefox browser, but it was not configured with a path to the driver"));
+            context.raiseEvent(MessageEventType.create("EdgeDriverProvider would try to satisfy request for Firefox browser, but it was not configured with a path to the driver"));
             return null;
             }
 
         if (!(path.exists()))
             {
-            context.raiseEvent(new MessageEvent("EdgeDriverProvider would try to satisfy request for Internet Explorer browser, but the configured path does not exist: " + path.getAbsolutePath()));
+            context.raiseEvent(MessageEventType.create("EdgeDriverProvider would try to satisfy request for Internet Explorer browser, but the configured path does not exist: " + path.getAbsolutePath()));
             return null;
             }
 
@@ -58,5 +58,3 @@ public class EdgeDriverProvider extends BaseLocalDriverProvider
         return "EdgeDriver";
         }
     }
-
-

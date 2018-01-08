@@ -36,12 +36,12 @@ public class EvaluateJavascriptValueSource extends BaseValueSource
             {
             Object result = new JavascriptRunner().evalScript(script);
             if (result instanceof ProjectResourceValueSource)
-            context.raiseEvent(new ValueSourceResolvedEvent("JavaScript evaluation", result));
+            context.raiseEvent(ValueSourceResolvedEventType.create("JavaScript evaluation", result));
             return result;
             }
         catch (ScriptException e)
             {
-            context.raiseEvent(new ScriptFailureEvent("Unable to evaluate Javascript", e));
+            context.raiseEvent(ScriptFailureEventType.create("Unable to evaluate Javascript", e));
             return null;
             }
         }
@@ -77,7 +77,4 @@ public class EvaluateJavascriptValueSource extends BaseValueSource
             return EvaluateJavascriptValueSource.TYPE_ID;
             }
         }
-
     }
-
-

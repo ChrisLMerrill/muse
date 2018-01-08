@@ -23,7 +23,7 @@ import java.util.*;
 @MuseSubsourceDescriptor(displayName = "Return value", description = "The source to resolve and return to the caller", type = SubsourceDescriptor.Type.Named, name = ReturnStep.VALUE_PARAM)
 public class ReturnStep extends BaseStep
     {
-    public ReturnStep(StepConfiguration configuration, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public ReturnStep(StepConfiguration configuration, MuseProject project) throws MuseInstantiationException
         {
         super(configuration);
         _source = getValueSource(getConfiguration(), VALUE_PARAM, false, project);
@@ -61,7 +61,7 @@ public class ReturnStep extends BaseStep
             {
             StepExecutionContext popped_context = stack.peek();
             BasicStepExecutionResult result = new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
-            current_context.raiseEvent(new StepEvent(StepEvent.END_INSTANCE, popped_context.getCurrentStepConfiguration(), popped_context, result));
+            current_context.raiseEvent(EndStepEventType.create(popped_context.getCurrentStepConfiguration(), popped_context, result));
             popped_context.stepComplete(popped_context.getCurrentStep(), result);
             if (stack.peek() == popped_context)
                 stack.pop();  // ensure the context was popped, if completing the step wasn't enough
@@ -80,5 +80,3 @@ public class ReturnStep extends BaseStep
 
     public final static String TYPE_ID = ReturnStep.class.getAnnotation(MuseTypeId.class).value();
     }
-
-

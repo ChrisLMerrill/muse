@@ -28,13 +28,13 @@ public class ChromeDriverProvider extends BaseLocalDriverProvider
         File path = getDriverLocation(context);
         if (path == null)
             {
-            context.raiseEvent(new MessageEvent("ChromeDriverProvider would try to satisfy request for Chrome browser, but it was not configured with a path to the driver"));
+            context.raiseEvent(MessageEventType.create("ChromeDriverProvider would try to satisfy request for Chrome browser, but it was not configured with a path to the driver"));
             return null;
             }
 
         if (!(path.exists()))
             {
-            context.raiseEvent(new MessageEvent("ChromeDriverProvider would try to satisfy request for Chrome browser, but the configured path does not exist: " + path.getAbsolutePath()));
+            context.raiseEvent(MessageEventType.create("ChromeDriverProvider would try to satisfy request for Chrome browser, but the configured path does not exist: " + path.getAbsolutePath()));
             return null;
             }
 
@@ -57,5 +57,3 @@ public class ChromeDriverProvider extends BaseLocalDriverProvider
         return "ChromeDriver";
         }
     }
-
-

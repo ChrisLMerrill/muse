@@ -75,12 +75,12 @@ public class DateFormatValueSource extends BaseValueSource
             result = Long.toString(date.getTime());
         else
             result = formatter.format(date);
-        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), result));
         return result;
         }
 
-    private MuseValueSource _date = null;
-    private MuseValueSource _format = null;
+    private MuseValueSource _date;
+    private MuseValueSource _format;
 
     public final static String DATE_PARAM = "date";
     public final static String FORMAT_PARAM = "format";

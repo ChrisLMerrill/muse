@@ -48,7 +48,7 @@ public class PropertySource extends BaseValueSource
                 if (resolver.canResolve(target, name))
                     {
                     Object result = resolver.resolve(target, name);
-                    context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
+                    context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), result));
                     return result;
                     }
                 }
@@ -59,8 +59,8 @@ public class PropertySource extends BaseValueSource
         return null;
         }
 
-    private MuseValueSource _name = null;
-    private MuseValueSource _target = null;
+    private MuseValueSource _name ;
+    private MuseValueSource _target;
 
     public final static String NAME_PARAM = "name";
     public final static String TARGET_PARAM = "target";

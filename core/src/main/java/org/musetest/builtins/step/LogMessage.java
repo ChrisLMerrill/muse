@@ -6,7 +6,6 @@ import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.slf4j.*;
@@ -24,7 +23,7 @@ import org.slf4j.*;
 public class LogMessage extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection
-    public LogMessage(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public LogMessage(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
         _message = getValueSource(config, MESSAGE_PARAM, true, project);
@@ -39,7 +38,7 @@ public class LogMessage extends BaseStep
             message = "null";
         else
             message = value.toString();
-        context.raiseEvent(new MessageEvent(message));
+        context.raiseEvent(MessageEventType.create(message));
         LOG.info(message);
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }
@@ -51,5 +50,3 @@ public class LogMessage extends BaseStep
 
     private final static Logger LOG = LoggerFactory.getLogger(LogMessage.class);
     }
-
-

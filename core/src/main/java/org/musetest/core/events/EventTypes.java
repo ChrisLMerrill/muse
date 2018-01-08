@@ -1,8 +1,10 @@
 package org.musetest.core.events;
 
+import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.slf4j.*;
 
+import java.lang.reflect.*;
 import java.util.*;
 
 /**
@@ -10,12 +12,12 @@ import java.util.*;
  */
 public class EventTypes
 	{
-	public EventTypes(ClassLocator locator)
+	private EventTypes(ClassLocator locator)
 		{
 		List<Class> implementors = locator.getImplementors(EventType.class);
 		for (Class the_class : implementors)
 			{
-			if (the_class.equals(UnknownType.class))
+			if (the_class.equals(UnknownType.class) || Modifier.isAbstract(the_class.getModifiers()))
 				continue;
 			try
 				{
@@ -44,6 +46,11 @@ public class EventTypes
 		}
 
 	@SuppressWarnings("unused")  // used in UI
+	public EventType findType(MuseEvent event)
+		{
+		return findType(event.getTypeId());
+		}
+
 	public EventType findType(String type_id)
 		{
 		final EventType found = _types.get(type_id.toLowerCase());
@@ -55,15 +62,27 @@ public class EventTypes
 		return synthesized;
 		}
 
+	public static EventTypes get(MuseProject project)
+		{
+		EventTypes types = INSTANCES.get(project);
+		if (types == null)
+			{
+			types = new EventTypes(project.getClassLocator());
+			INSTANCES.put(project, types);
+			}
+		return types;
+		}
+
 	private Map<String, EventType> _types = new HashMap<>();
 
 	private final static Logger LOG = LoggerFactory.getLogger(EventType.class);
 
 	public final static EventTypes DEFAULT = new EventTypes(DefaultClassLocator.get());
+	private static Map<MuseProject, EventTypes> INSTANCES = new HashMap<>();
 
 	public final static class UnknownType extends EventType
 		{
-		public UnknownType(String type_id)
+		UnknownType(String type_id)
 			{
 			_type_id = type_id;
 			_name = "(" + _type_id + ")";

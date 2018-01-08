@@ -55,13 +55,11 @@ public class SteppedTestExecutor
         catch (MuseExecutionError e)
             {
             LOG.error("Unable to initialize the context", e);
-            final TestErrorEvent event = new TestErrorEvent("Unable to initialize the context");
-            event.setStatus(EventStatus.Failure);
-            _context.raiseEvent(event);
+            _context.raiseEvent(TestErrorEventType.create("Unable to initialize the context"));
             return false;
             }
 
-        _context.raiseEvent(new StartTestEvent(_test));
+        _context.raiseEvent(StartTestEventType.create(_test));
         return true;
         }
 
@@ -73,7 +71,7 @@ public class SteppedTestExecutor
     public void finishTest()
         {
 		final MuseTestResult result = _resulter.getTestResult();
-		_context.raiseEvent(new EndTestEvent(result.getOneLineDescription(), result.isPass()));
+		_context.raiseEvent(EndTestEventType.create(result.getOneLineDescription(), result.isPass()));
         try
             {
             _context.cleanup();
@@ -116,5 +114,3 @@ public class SteppedTestExecutor
 
     private final static Logger LOG = LoggerFactory.getLogger(SteppedTestExecutor.class);
     }
-
-

@@ -34,7 +34,7 @@ public class NotValueSource extends BaseValueSource
         if (value instanceof Boolean)
             {
             result = !(Boolean) value;
-            context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), result));
+            context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), result));
             return result;
             }
         else
@@ -77,5 +77,3 @@ public class NotValueSource extends BaseValueSource
             }
         }
     }
-
-

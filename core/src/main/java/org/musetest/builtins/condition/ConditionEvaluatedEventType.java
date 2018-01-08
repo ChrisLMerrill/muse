@@ -1,5 +1,6 @@
 package org.musetest.builtins.condition;
 
+import org.musetest.core.*;
 import org.musetest.core.events.*;
 
 /**
@@ -7,20 +8,19 @@ import org.musetest.core.events.*;
  */
 public class ConditionEvaluatedEventType extends EventType
 	{
-	@Override
-	public String getTypeId()
+	@SuppressWarnings("WeakerAccess")  // instantiated by reflection
+	public ConditionEvaluatedEventType()
 		{
-		return TYPE_ID;
+		super(TYPE_ID, "Condition Evaluated");
 		}
 
-	@Override
-	public String getName()
+	public static MuseEvent create(String description)
 		{
-		return "Condition Evaluated";
+		MuseEvent event = new MuseEvent(TYPE_ID);
+		event.setAttribute(MuseEvent.DESCRIPTION, description);
+		return event;
 		}
 
 	public final static String TYPE_ID = "condition-evaluated";
 	public final static EventType INSTANCE = new ConditionEvaluatedEventType();
 	}
-
-

@@ -28,12 +28,12 @@ public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSourc
         try
             {
             WebElement element = getDriver(context).findElement(createBy(context, locator_string));
-            context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), element));
+            context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), element));
             return element;
             }
         catch (NoSuchElementException e)
             {
-            context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), "element not found using locator string: " + locator_string));
+            context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), "element not found using locator string: " + locator_string));
             return null;
             }
         }

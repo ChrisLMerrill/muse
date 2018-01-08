@@ -44,7 +44,7 @@ public class VariableValueSource extends BaseValueSource
     public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         Object value = context.getVariable(_name.resolveValue(context).toString());
-        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), value));
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), value));
         return value;
         }
 

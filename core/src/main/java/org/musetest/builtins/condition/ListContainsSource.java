@@ -35,12 +35,12 @@ public class ListContainsSource extends BaseValueSource
         Object target = _target.resolveValue(context);
         List list = getValue(_list, context, false, List.class);
         boolean contains = list.contains(target);
-        context.raiseEvent(new ValueSourceResolvedEvent(getDescription(), contains));
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), contains));
         return contains;
         }
 
-    private MuseValueSource _list = null;
-    private MuseValueSource _target = null;
+    private MuseValueSource _list;
+    private MuseValueSource _target;
 
     public final static String LIST_PARAM = "list";
     public final static String TARGET_PARAM = "target";
