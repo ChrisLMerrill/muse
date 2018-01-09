@@ -132,9 +132,9 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
 		}
 
 	@Override
-	public void initializePlugins() throws MuseExecutionError
+	public void initializePlugins(MuseExecutionContext context) throws MuseExecutionError
 		{
-		_parent_context.initializePlugins();
+		_parent_context.initializePlugins(null);
 		}
 
 	@Override
@@ -149,8 +149,12 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
 		return _parent_context.getDataCollector(type);
 		}
 
+	@Override
+	public StepLocator getStepLocator()
+		{
+		return _parent_context.getStepLocator();
+		}
+
 	private StepsExecutionContext _parent_context;
 	private Map<String, Object> _step_vars = null;
 	}
-
-

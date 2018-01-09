@@ -26,11 +26,12 @@ public class StepExecutionTests
         SteppedTest test = new SteppedTest(step_a);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 		test_context.addTestPlugin(new EventLogger());
-		test_context.initializePlugins();
+		test_context.initializePlugins(null);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
 
+		//noinspection ConstantConditions
         Assert.assertNotNull("message step did not run", test_context.getDataCollector(EventLogger.class).getData().findFirstEvent(new EventDescriptionMatcher(message)));
         }
 
@@ -48,11 +49,12 @@ public class StepExecutionTests
         SteppedTest test = new SteppedTest(parent);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 		test_context.addTestPlugin(new EventLogger());
-		test_context.initializePlugins();
+		test_context.initializePlugins(null);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
 
+		//noinspection ConstantConditions
         Assert.assertNotNull("step didn't run", test_context.getDataCollector(EventLogger.class).getData().findFirstEvent(new EventDescriptionMatcher(message)));
         }
 
@@ -75,12 +77,13 @@ public class StepExecutionTests
         SteppedTest test = new SteppedTest(parent);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
         test_context.addTestPlugin(new EventLogger());
-		test_context.initializePlugins();
+		test_context.initializePlugins(null);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         executor.executeAll();
 
 		EventLog log = test_context.getDataCollector(EventLogger.class).getData();
+		//noinspection ConstantConditions
         Assert.assertNotNull("first step didn't run", log.findFirstEvent(new EventDescriptionMatcher(message1)));
         Assert.assertNotNull("second step didn't run", log.findFirstEvent(new EventDescriptionMatcher(message2)));
         }
@@ -93,13 +96,14 @@ public class StepExecutionTests
         SteppedTest test = new SteppedTest(step_a);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 		test_context.addTestPlugin(new EventLogger());
-		test_context.initializePlugins();
+		test_context.initializePlugins(null);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         test_context.addEventListener(new TerminateOnError(executor));
         executor.executeAll();
 
         EventLog log = test_context.getDataCollector(EventLogger.class).getData();
+		//noinspection ConstantConditions
         Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)));
         Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));
         }
@@ -114,14 +118,15 @@ public class StepExecutionTests
         SteppedTest test = new SteppedTest(step_a);
         DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 		test_context.addTestPlugin(new EventLogger());
-		test_context.initializePlugins();
+		test_context.initializePlugins(null);
 
         StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
         test_context.addEventListener(new TerminateOnError(executor));
         executor.executeAll();
 
         EventLog log = test_context.getDataCollector(EventLogger.class).getData();
-        Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)));
+		//noinspection ConstantConditions
+		Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)));
         Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));
         }
     }

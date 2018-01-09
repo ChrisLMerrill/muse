@@ -77,7 +77,7 @@ public class TestPluginTests
 		project.getResourceStorage().addResource(initializers);
 
 		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-		context.initializePlugins();
+		context.initializePlugins(null);
 
 		Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
 		Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
@@ -118,7 +118,7 @@ public class TestPluginTests
 
 		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
 		TestPlugins.applyConditionally(configurations, context);
-		context.initializePlugins();
+		context.initializePlugins(null);
 
 		Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
 		Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
@@ -179,7 +179,7 @@ public class TestPluginTests
 
 		MuseExecutionContext context = new BaseExecutionContext(project);
 		TestPlugins.applyConditionally(initializers, context);
-		context.initializePlugins();
+		context.initializePlugins(null);
 
 		Assert.assertEquals(last_value, context.getVariable(var_name));
 		}

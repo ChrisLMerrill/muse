@@ -1,5 +1,6 @@
 package org.musetest.core;
 
+import com.fasterxml.jackson.annotation.*;
 import org.musetest.core.events.*;
 
 import java.util.*;
@@ -22,6 +23,8 @@ public final class MuseEvent
         _type_id = typeid;
         }
 
+    public MuseEvent() {}
+
     /**
      * This is a convenience method only. Use getTypeId() and EventTypes.findType() to lookup the EventType.
      *
@@ -29,6 +32,7 @@ public final class MuseEvent
      * event types defined in extensions after de-serializing a saved event.
      */
     @Deprecated
+    @JsonIgnore
     public EventType getType()
         {
         if (_type != null)
@@ -48,6 +52,13 @@ public final class MuseEvent
 	    	return _type_id;
 	    }
 
+    @SuppressWarnings("unused")  // required for deserialization
+    public void setTypeId(String type_id)
+	    {
+	    _type_id = type_id;
+	    }
+
+    @JsonIgnore
     @Deprecated
     public String getDescription()
         {
@@ -55,6 +66,7 @@ public final class MuseEvent
         return attribute == null ? _type_id : attribute.toString();
         }
 
+    @JsonIgnore
     @Deprecated
     public EventStatus getStatus()
 	    {
@@ -69,6 +81,7 @@ public final class MuseEvent
 	    _status = status;
 	    }
 
+    @JsonIgnore
     @Deprecated
     public boolean isTerminateRequested()
         {
@@ -86,6 +99,7 @@ public final class MuseEvent
         return _timestamp_nanos;
         }
 
+    @SuppressWarnings("unused")  // required for deserialization
     public void setTimestampNanos(long  nanos)
         {
         _timestamp_nanos = nanos;
@@ -128,6 +142,7 @@ public final class MuseEvent
 	    return attribute == null ? null : attribute.toString();
 	    }
 
+    @SuppressWarnings("unused")  // convenience API for extensions and UI
     public boolean hasAttribute(String name, Object value)
 	    {
 	    return value.equals(getAttribute(name));

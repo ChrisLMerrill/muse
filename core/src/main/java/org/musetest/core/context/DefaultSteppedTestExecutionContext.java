@@ -3,6 +3,7 @@ package org.musetest.core.context;
 import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
+import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
 import org.musetest.core.test.plugins.*;
@@ -18,6 +19,8 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
     public DefaultSteppedTestExecutionContext(TestExecutionContext parent_context)
         {
         _parent_context = parent_context;
+        if (parent_context.getTest() instanceof SteppedTest)
+	        _step_locator.loadSteps(((SteppedTest) parent_context.getTest()).getStep());
         }
 
     @Override
@@ -144,9 +147,9 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         }
 
     @Override
-    public void initializePlugins() throws MuseExecutionError
+    public void initializePlugins(MuseExecutionContext context) throws MuseExecutionError
         {
-        _parent_context.initializePlugins();
+        _parent_context.initializePlugins(this);
         }
 
     @Override
@@ -167,6 +170,13 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
 		return _parent_context.getDataCollector(type);
 		}
 
-	private TestExecutionContext _parent_context;
+    @Override
+    public StepLocator getStepLocator()
+	    {
+	    return _step_locator;
+	    }
+
+    private TestExecutionContext _parent_context;
     private StepExecutionContextStack _stack = new StepExecutionContextStack();
+    private StepLocator _step_locator = new CachedLookupStepLocator();
     }

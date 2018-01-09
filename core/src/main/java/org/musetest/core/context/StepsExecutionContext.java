@@ -1,6 +1,7 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
+import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 
 /**
@@ -9,5 +10,6 @@ import org.musetest.core.steptest.*;
 public interface StepsExecutionContext extends MuseExecutionContext
     {
     StepExecutionContextStack getExecutionStack();
+    StepLocator getStepLocator();
     }
 

@@ -20,7 +20,7 @@ public class TestResultProducerTests
 		{
 		final MockTest test = new MockTest();
 		MockSteppedTestExecutionContext context = new MockSteppedTestExecutionContext(test);
-        context.initializePlugins();  // need to do this manually since we're not actually running a test
+        context.initializePlugins(null);  // need to do this manually since we're not actually running a test
         TestResultProducer producer = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
         MuseTestResult result = producer.getTestResult();

@@ -135,13 +135,15 @@ public class BaseExecutionContext implements MuseExecutionContext
         }
 
     @Override
-    public void initializePlugins() throws MuseExecutionError
+    public void initializePlugins(MuseExecutionContext context) throws MuseExecutionError
         {
+        if (context == null)
+        	context = this;
         if (_plugins_initialized)
             throw new MuseExecutionError("Context has been initialized...can't run it again.");
 
         for (TestPlugin plugin : _plugins)
-			plugin.initialize(this);
+			plugin.initialize(context);
 		_plugins_initialized = true;
 		}
 

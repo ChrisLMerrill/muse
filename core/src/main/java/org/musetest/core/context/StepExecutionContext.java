@@ -3,14 +3,13 @@ package org.musetest.core.context;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.*;
 
 import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public interface StepExecutionContext extends MuseExecutionContext
+public interface StepExecutionContext extends StepsExecutionContext
     {
     /**
      * Get the configuration source of the current step.
@@ -40,13 +39,6 @@ public interface StepExecutionContext extends MuseExecutionContext
      */
     Map<String,Object> getVariables();
 
-    /**
-     * The execution stack tracks hierarchical step context. Steps that affect that hierarchy (calling functions,
-     * returning, looping, etc) may use this to effect their changes.
-     */
-    StepExecutionContextStack getExecutionStack();
-
     @Override
     StepsExecutionContext getParent();
     }
-

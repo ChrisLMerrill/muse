@@ -81,8 +81,9 @@ public interface MuseExecutionContext
     /**
      * Initialize the configured TestPlugins.
      * @throws MuseExecutionError If a plugin fails or if already initialized.
+     * @param context The context to pass
      */
-    void initializePlugins() throws MuseExecutionError;
+    void initializePlugins(MuseExecutionContext context) throws MuseExecutionError;
 
 	/**
 	 * Get the DataCollectors configured for the test.
@@ -95,5 +96,16 @@ public interface MuseExecutionContext
 	 * @throws IllegalArgumentException if there are multiple collectors of that type.
 	 */
 	<T extends DataCollector> T getDataCollector(Class<T> type);
-    }
 
+    @SuppressWarnings("unused")  // convenience for extensions
+    static <T extends MuseExecutionContext> T findAncestor(MuseExecutionContext context, Class<T> type)
+	    {
+	    while (context != null)
+		    {
+		    if (type.isAssignableFrom(context.getClass()))
+		    	return (T) context;
+		    context = context.getParent();
+		    }
+	    return null;
+	    }
+    }

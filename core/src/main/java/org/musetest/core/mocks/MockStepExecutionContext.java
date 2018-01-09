@@ -159,9 +159,9 @@ public class MockStepExecutionContext implements StepExecutionContext
 		}
 
     @Override
-    public void initializePlugins() throws MuseExecutionError
+    public void initializePlugins(MuseExecutionContext context) throws MuseExecutionError
 		{
-		_test_context.initializePlugins();
+		_test_context.initializePlugins(null);
 		}
 
 	@Override
@@ -176,7 +176,19 @@ public class MockStepExecutionContext implements StepExecutionContext
 		return _test_context.getDataCollector(type);
 		}
 
-	private Map<String, Object> _variables = new HashMap<>();
+    @Override
+    public StepLocator getStepLocator()
+	    {
+	    if (_locator == null)
+		    {
+		    if (_test_context != null)
+		    	_locator = _test_context.getStepLocator();
+		    else
+			    _locator = new CachedLookupStepLocator();
+		    }
+	    return _locator;
+	    }
+
+    private Map<String, Object> _variables = new HashMap<>();
+    private StepLocator _locator;
     }
-
-
