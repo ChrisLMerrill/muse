@@ -3,6 +3,7 @@ package org.musetest.core.suite;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
+import org.musetest.core.test.*;
 
 import java.util.*;
 
@@ -19,7 +20,7 @@ public class SimpleTestSuite extends BaseMuseResource implements MuseTestSuite
 
     public void add(MuseTest test)
         {
-        _tests.add(new TestConfiguration(test));
+        _tests.add(new BasicTestConfiguration(test.getId()));
         }
 
     @Override

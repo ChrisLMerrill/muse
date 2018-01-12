@@ -18,6 +18,7 @@ public class TestPlugins
         final List<ResourceToken> resources = context.getProject().getResourceStorage().findResources(new ResourceQueryParameters(new TestPluginsConfiguration.TestPluginsConfigurationResourceType()));
         for (ResourceToken resource : resources)
         	applyConditionally((TestPluginsConfiguration) resource.getResource(), context);
+		context.addTestPlugin(new TestDefaultsInitializer());
         }
 
     public static void applyConditionally(TestPluginsConfiguration configs, MuseExecutionContext context) throws MuseExecutionError

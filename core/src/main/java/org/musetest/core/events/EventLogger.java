@@ -1,5 +1,6 @@
 package org.musetest.core.events;
 
+import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.test.plugins.*;
@@ -36,6 +37,7 @@ public class EventLogger implements MuseEventListener, DataCollector
         }
 
 	@Override
+	@NotNull
 	public EventLog getData()
 		{
 		return _log;

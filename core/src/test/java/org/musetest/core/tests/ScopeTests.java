@@ -2,9 +2,10 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.core.*;
-import org.musetest.core.context.*;
+import org.musetest.core.execution.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.storage.*;
+import org.musetest.core.test.*;
 import org.musetest.testutils.*;
 
 import java.io.*;
@@ -36,10 +37,10 @@ public class ScopeTests
         {
         File file = TestResources.getFile("projects/scopes", getClass());
         SimpleProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(file));
-        MuseTest test = project.getResourceStorage().getResource(test_name, MuseTest.class);
-        MuseTestResult result = test.execute(new DefaultTestExecutionContext(project, test));
+        TestConfiguration config = new BasicTestConfiguration(test_name);
+        final SimpleTestRunner runner = new SimpleTestRunner(project, config);
+        runner.runTest();
+        MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
         }
     }
-
-

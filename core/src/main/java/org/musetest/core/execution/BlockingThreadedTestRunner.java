@@ -2,6 +2,7 @@ package org.musetest.core.execution;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.test.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -10,7 +11,7 @@ import org.musetest.core.context.*;
 public class BlockingThreadedTestRunner extends ThreadedTestRunner
     {
     @SuppressWarnings("unused,WeakerAccess")  // part of public API
-    public BlockingThreadedTestRunner(MuseProject project, MuseTest test)
+    public BlockingThreadedTestRunner(MuseProject project, TestConfiguration test)
         {
         super(project, test);
         }

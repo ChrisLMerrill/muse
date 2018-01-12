@@ -3,7 +3,6 @@ package org.musetest.core.mocks;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
-import org.musetest.core.suite.*;
 import org.musetest.core.test.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;

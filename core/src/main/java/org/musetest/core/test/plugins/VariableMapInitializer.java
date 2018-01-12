@@ -1,6 +1,7 @@
 package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
+import org.musetest.core.variables.*;
 
 import javax.annotation.*;
 import java.util.*;
@@ -33,10 +34,8 @@ public class VariableMapInitializer implements TestPlugin
     public void initialize(MuseExecutionContext context)
         {
         for (String name : _variables.keySet())
-            context.setVariable(name, _variables.get(name));
+            context.setVariable(name, _variables.get(name), VariableScope.Execution);
         }
 
     private final Map<String, Object> _variables;
     }
-
-

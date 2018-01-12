@@ -1,7 +1,7 @@
 package org.musetest.core;
 
 import org.musetest.core.resource.types.*;
-import org.musetest.core.suite.*;
+import org.musetest.core.test.*;
 
 import java.util.*;
 

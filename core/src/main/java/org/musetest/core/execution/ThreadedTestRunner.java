@@ -2,6 +2,7 @@ package org.musetest.core.execution;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.test.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -9,6 +10,13 @@ import org.musetest.core.context.*;
 @SuppressWarnings("WeakerAccess")  // part of public API
 public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
     {
+    @SuppressWarnings("unused,WeakerAccess")  // part of public API
+    public ThreadedTestRunner(MuseProject project, TestConfiguration config)
+	    {
+	    super(project, config);
+	    _loader = project.getClassloader();
+	    }
+
     @SuppressWarnings("unused,WeakerAccess")  // part of public API
     public ThreadedTestRunner(MuseProject project, MuseTest test)
         {
@@ -46,5 +54,3 @@ public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
     ClassLoader _loader;
     protected Thread _thread;
     }
-
-

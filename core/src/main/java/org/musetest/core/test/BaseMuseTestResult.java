@@ -3,7 +3,6 @@ package org.musetest.core.test;
 import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
-import org.musetest.core.suite.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
@@ -26,6 +25,7 @@ public class BaseMuseTestResult implements MuseTestResult
         this(test, context, Collections.singletonList(failure));
         }
 
+    @SuppressWarnings("WeakerAccess")  // public API
     public BaseMuseTestResult(MuseTest test, MuseExecutionContext context, List<MuseTestFailureDescription> failures)
         {
         _test = test;
@@ -113,7 +113,7 @@ public class BaseMuseTestResult implements MuseTestResult
         {
         if (_config == null)
             return _test.getDescription();
-        return _config.getName();
+        return _config.name();
         }
 
     @Override

@@ -8,13 +8,13 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
-import org.musetest.core.execution.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
@@ -189,11 +189,8 @@ public class StepTests
         SteppedTest test = new SteppedTest(call_macro);
 
         // verify that the macro runs when the test is executed
-        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
         EventLogger logger = new EventLogger();
-        runner.getExecutionContext().addEventListener(logger);
-        runner.runTest();
-        MuseTestResult result = runner.getResult();
+        MuseTestResult result = TestRunHelper.runTest(project, test, logger);
         Assert.assertTrue(result.isPass());
         Assert.assertNotNull("message step didn't run", logger.getData().findFirstEvent(new EventDescriptionMatcher(message)));
         }
@@ -238,9 +235,7 @@ public class StepTests
         SteppedTest test = new SteppedTest(test_step);
 
         // verify that the return value is correct in the context (the function should have incremented by one
-        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
-        runner.runTest();
-        MuseTestResult result = runner.getResult();
+        MuseTestResult result = TestRunHelper.runTest(project, test);
         Assert.assertTrue(result.isPass());
         }
 
@@ -273,10 +268,7 @@ public class StepTests
         test_step.addChild(call_function);
         SteppedTest test = new SteppedTest(test_step);
 
-        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
-        runner.getExecutionContext().addTestPlugin(new EventLogger());
-        runner.runTest();
-        MuseTestResult result = runner.getResult();
+        MuseTestResult result = TestRunHelper.runTest(project, test, new EventLogger());
         Assert.assertTrue(result.isPass());
         // verify that the message step (which comes after the return) did not run
         Assert.assertTrue(result.getLog().findEvents(new EventTypeMatcher(MessageEventType.TYPE_ID)).size() == 0);
@@ -291,9 +283,7 @@ public class StepTests
 
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         SteppedTest test = new SteppedTest(step);
-        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
-        runner.runTest();
-        MuseTestResult result = runner.getResult();
+        MuseTestResult result = TestRunHelper.runTest(project, test);
         Assert.assertTrue(result.isPass());
         }
 
@@ -313,9 +303,7 @@ public class StepTests
 
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         SteppedTest test = new SteppedTest(main);
-        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
-        runner.runTest();
-        MuseTestResult result = runner.getResult();
+        MuseTestResult result = TestRunHelper.runTest(project, test);
         Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
         }
 

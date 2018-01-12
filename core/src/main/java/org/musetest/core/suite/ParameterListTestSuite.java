@@ -34,7 +34,8 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
 		    throw new IllegalStateException("ParameterListTestSuite requires either the DataTableId or Parameters properties.");
 	    for (Map<String, Object> param_set : parameters)
 		    {
-		    TestConfiguration config = new TestConfiguration(test, new VariableMapInitializer(param_set));
+		    BasicTestConfiguration config = new BasicTestConfiguration(_testid);
+		    config.addPlugin(new VariableMapInitializer(param_set));
 		    config.setName(String.format("%s (%s)", test.getDescription(), Stringifiers.find(param_set).toString()));
 		    tests.add(config);
 		    }

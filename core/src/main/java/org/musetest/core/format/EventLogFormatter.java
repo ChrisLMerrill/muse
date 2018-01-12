@@ -11,6 +11,7 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("unused")  // invoked via reflection
 public class EventLogFormatter implements Reformatter
 	{
 	@Override
@@ -36,7 +37,7 @@ public class EventLogFormatter implements Reformatter
 		try (FileInputStream instream = new FileInputStream(file))
 			{
 			EventLog log = JsonResourceSerializer.getMapper(new TypeLocator(project.getClassLocator())).readValue(instream, EventLog.class);
-			write(project, log, outstream);
+			write(log, outstream);
 			}
 		catch (IOException e)
 			{
@@ -44,7 +45,7 @@ public class EventLogFormatter implements Reformatter
 			}
 		}
 
-	private void write(MuseProject project, EventLog log, OutputStream outstream)
+	private void write(EventLog log, OutputStream outstream)
 		{
 		try
 			{
@@ -53,7 +54,8 @@ public class EventLogFormatter implements Reformatter
 				printstream = (PrintStream) outstream;
 			else
 				printstream = new PrintStream(outstream);
-			EventLogPrinter printer = new EventLogPrinter(printstream);
+			EventLogPrinter printer = new EventLogPrinter();
+			printer.setOutput(printstream);
 			for (MuseEvent event : log.getEvents())
 				printer.print(event);
 			}

@@ -25,15 +25,18 @@ import java.util.*;
 public class TestVariableTests
     {
     @Test
-    public void variableSetFromDefaults()
-        {
+    public void variableSetFromDefaults() throws MuseExecutionError
+	    {
         Map<String, ValueSourceConfiguration> default_vars = new HashMap<>();
         default_vars.put(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
 
         SteppedTest test = getTest();
         test.setDefaultVariables(default_vars);
 
-        MuseTestResult result = test.execute(new DefaultTestExecutionContext(new SimpleProject(), test));
+        final DefaultTestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
+        context.addTestPlugin(new TestDefaultsInitializer());
+        context.initializePlugins(null);
+        MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
         }
 
@@ -53,12 +56,12 @@ public class TestVariableTests
         config.setTypeId(VariableListInitializer.TYPE_ID);
         config.setApplyCondition(ValueSourceConfiguration.forValue(true));
         config.addParameter(VariableListInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
-        TestPluginsConfiguration configs = new TestPluginsConfiguration();
-        configs.setApplyToTestCondition(ValueSourceConfiguration.forValue(true));
-        configs.addPlugin(config);
 
         DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        TestPlugins.applyConditionally(configs, context);
+        final VariableListInitializer plugin = new VariableListInitializer();
+        plugin.configure(config);
+        context.addTestPlugin(plugin);
+        context.initializePlugins(null);
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());
         }
@@ -77,5 +80,3 @@ public class TestVariableTests
     private final static String VAR_NAME = "var1";
     private final static long VAR_VALUE = 3L;
     }
-
-

@@ -1,7 +1,7 @@
 package org.musetest.core;
 
 import org.musetest.core.events.*;
-import org.musetest.core.suite.*;
+import org.musetest.core.test.*;
 import org.musetest.core.variables.*;
 
 /**

@@ -2,6 +2,8 @@ package org.musetest.core.tests.utils;
 
 import org.musetest.core.*;
 import org.musetest.core.execution.*;
+import org.musetest.core.test.*;
+import org.musetest.core.test.plugins.*;
 
 /**
  * Provides simple shims for running a MuseTest for unit testing.
@@ -21,10 +23,17 @@ public class TestRunHelper
      */
     public static MuseTestResult runTest(MuseProject project, MuseTest test)
         {
-        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
+        TestRunner runner = new SimpleTestRunner(project, test);
+        runner.runTest();
+        return runner.getResult();
+        }
+
+    public static MuseTestResult runTest(MuseProject project, MuseTest test, TestPlugin plugin)
+        {
+        BasicTestConfiguration config = new BasicTestConfiguration(test);
+        config.addPlugin(plugin);
+        TestRunner runner = new SimpleTestRunner(project, config);
         runner.runTest();
         return runner.getResult();
         }
     }
-
-

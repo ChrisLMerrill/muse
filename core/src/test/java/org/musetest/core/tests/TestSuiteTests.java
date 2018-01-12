@@ -8,6 +8,7 @@ import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.suite.*;
+import org.musetest.core.test.*;
 import org.musetest.core.util.*;
 import org.musetest.core.variables.*;
 import org.musetest.testutils.*;
@@ -21,14 +22,26 @@ import java.util.*;
 public class TestSuiteTests
     {
     @Test
-    public void simpleSuite()
-        {
+    public void simpleSuite() throws IOException
+	    {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 
         SimpleTestSuite suite = new SimpleTestSuite();
-        suite.add(new MockTest());
-        suite.add(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed")));
-        suite.add(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "errored")));
+
+        final MockTest test1 = new MockTest();
+        test1.setId("test1");
+        project.getResourceStorage().addResource(test1);
+	    suite.add(test1);
+
+	    final MockTest test2 = new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed"));
+	    test2.setId("test2");
+        project.getResourceStorage().addResource(test2);
+	    suite.add(test2);
+
+	    final MockTest test3 = new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "errored"));
+	    test3.setId("test3");
+        project.getResourceStorage().addResource(test3);
+	    suite.add(test3);
 
         MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite);
         Assert.assertEquals(3, result.getTestResults().size());
@@ -79,8 +92,13 @@ public class TestSuiteTests
 
         Iterator<TestConfiguration> tests = suite2.getTests(project);
 
-        Assert.assertEquals(test2, tests.next().getTest());
-        Assert.assertEquals(test1, tests.next().getTest());
+        TestConfiguration config = tests.next();
+        config.withinProject(project);
+        Assert.assertEquals(test2, config.test());
+
+        config = tests.next();
+        config.withinProject(project);
+        Assert.assertEquals(test1, config.test());
         }
 
     @Test
@@ -121,7 +139,7 @@ public class TestSuiteTests
         }
 
     @Test
-    public void paramterizedTestSuite()
+    public void parameterizedTestSuite()
 	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("suite").getResource();

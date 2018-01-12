@@ -2,7 +2,6 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.builtins.step.*;
-import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
@@ -19,26 +18,17 @@ import org.musetest.core.variables.*;
 public class TestTests
     {
     @Test
-    public void eventGeneration()
-        {
+    public void eventGeneration() throws MuseExecutionError
+	    {
         SteppedTest test = setupLogTest(null);
 		final DefaultTestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
 		context.addTestPlugin(new EventLogger());
+		context.initializePlugins(null);
 		MuseTestResult result = test.execute(context);
 
         Assert.assertTrue(result.isPass());
         Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(StartTestEventType.TYPE_ID)).size());
         Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(EndTestEventType.TYPE_ID)).size());
-        }
-
-    @Test
-    public void initializationFailure()
-        {
-        SteppedTest test = setupLogTest(null);
-        test.setDefaultVariable("default1", ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID));
-        MuseTestResult result = test.execute(new DefaultTestExecutionContext(new SimpleProject(), test));
-
-        Assert.assertFalse(result.isPass());
         }
 
     @Test

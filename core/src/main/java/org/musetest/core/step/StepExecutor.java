@@ -80,7 +80,7 @@ public class StepExecutor
         if (!step_result.getStatus().equals(StepExecutionStatus.INCOMPLETE))
             _steps_in_progress.remove(step_config);
 
-        return true;
+        return !_steps_in_progress.isEmpty();
         }
 
     public StepConfiguration getNextStep()

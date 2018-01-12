@@ -5,7 +5,9 @@ import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resultstorage.*;
-import org.musetest.core.variables.*;
+import org.musetest.core.test.*;
+import org.musetest.core.test.plugins.*;
+import org.slf4j.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -24,24 +26,20 @@ public class CommandLineTestRunner implements MuseResourceRunner
         {
         if (!(resource instanceof MuseTest))
             return false;
+
         MuseTest test = (MuseTest) resource;
 
-        TestRunner runner = TestRunnerFactory.createSynchronousRunner(project, test);
+        BasicTestConfiguration config = new BasicTestConfiguration(test);
+        if (verbose)
+            config.addPlugin(new EventLogPrinter());
         if (output_path != null)
-        	runner.getExecutionContext().setVariable(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, output_path, VariableScope.Execution);
-        if (verbose)
-            {
-            System.out.println("--------------------------------------------------------------------------------");
-            final EventLogPrinter printer = new EventLogPrinter(System.out);
-            runner.getExecutionContext().addEventListener(printer::print);
-            }
+	        config.addPlugin(new VariableInitializer(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, output_path));
 
+        SimpleTestRunner runner = new SimpleTestRunner(project, config);
         runner.runTest();
-        MuseTestResult result = runner.getResult();
+        final MuseTestResult result = runner.getResult();
 
-        if (verbose)
-            System.out.println("--------------------------------------------------------------------------------");
-        else
+        if (!verbose)
             {
             if (result.isPass())
                 System.out.println(String.format("SUCCESS: Test '%s' completed successfully.", result.getTest().getDescription()));
@@ -51,4 +49,6 @@ public class CommandLineTestRunner implements MuseResourceRunner
 
         return true;
         }
+
+    private final static Logger LOG = LoggerFactory.getLogger(CommandLineTestRunner.class);
     }

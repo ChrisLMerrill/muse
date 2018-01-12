@@ -24,19 +24,14 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
 	    for (String id : _test_ids)
 		    {
 		    MuseResource resource = project.getResourceStorage().getResource(id);
-		    if (resource == null)
-			    {
-			    LOG.error("Test with id {} was not found in the project", id);
-			    direct_tests.add(new TestConfiguration(new MissingTest(id)));
-			    }
-		    else if (resource instanceof MuseTest)
-			    direct_tests.add(new TestConfiguration((MuseTest) resource));
+		    if (resource instanceof MuseTest)
+			    direct_tests.add(new BasicTestConfiguration(id));
 		    else if (resource instanceof MuseTestSuite)
 			    suite_iterators.add(((MuseTestSuite) resource).getTests(project));
 		    else
 			    {
-			    LOG.error("id {} is not a test or test suite", id);
-			    direct_tests.add(new TestConfiguration(new MissingTest(id)));
+			    LOG.error("Test with id {} was not found in the project", id);
+			    direct_tests.add(new BasicTestConfiguration(id));
 			    }
 		    }
 

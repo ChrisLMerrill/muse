@@ -1,6 +1,6 @@
 package org.musetest.core.resultstorage;
 
-import org.musetest.core.suite.*;
+import org.musetest.core.test.*;
 
 import java.io.*;
 import java.util.*;
@@ -25,7 +25,7 @@ public class TestSuiteOutputOnDisk
 
 	public String getOutputFolderName(TestConfiguration configuration)
 		{
-		String base_name = configuration.getTest().getId();
+		String base_name = configuration.test().getId();
 		int index = 0;
 		if (_output_folders.get(base_name) == null)
 			_output_folders.put(base_name, 0);

@@ -1,21 +1,22 @@
 package org.musetest.core.events;
 
 import org.musetest.core.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.util.*;
 
+import javax.annotation.*;
 import java.io.*;
 import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EventLogPrinter
+public class EventLogPrinter implements TestPlugin, MuseEventListener
     {
-    public EventLogPrinter(PrintStream out)
-        {
-        _out = out;
-        _indent_stack.push(" ");
-        }
+    public EventLogPrinter()
+	    {
+	    _indent_stack.push(" ");
+	    }
 
     @SuppressWarnings("WeakerAccess")  // public API
     public EventLogPrinter(PrintStream out, long first_event_nanos)
@@ -25,8 +26,40 @@ public class EventLogPrinter
         _indent_stack.push(" ");
         }
 
+    public void setOutput(PrintStream out)
+	    {
+	    _out = out;
+	    }
+
+    @Override
+    public String getType()
+	    {
+	    return null;
+	    }
+
+    @Override
+    public void initialize(MuseExecutionContext context)
+	    {
+	    context.addEventListener(this);
+	    }
+
+    @Override
+    public void configure(@Nonnull TestPluginConfiguration configuration)
+	    {
+
+	    }
+
+    @Override
+    public void eventRaised(MuseEvent event)
+	    {
+	    print(event);
+	    }
+
     public void print(MuseEvent event)
         {
+        if (_out == null)
+        	_out = System.out;
+
         if (_first_time == -1) // first time
             _first_time = event.getTimestampNanos();
 

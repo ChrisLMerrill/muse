@@ -5,9 +5,11 @@ import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
+import org.musetest.core.execution.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.test.*;
 import org.musetest.core.tests.mocks.*;
 
 import java.util.*;
@@ -29,9 +31,11 @@ public class ExecutionContextTests
         SteppedTest test = new SteppedTest(step);
 
         // run the test
-        DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        context.addTestPlugin(new EventLogger());
-        MuseTestResult result = test.execute(context);
+        BasicTestConfiguration test_config = new BasicTestConfiguration(test);
+        test_config.addPlugin(new EventLogger());
+        final SimpleTestRunner runner = new SimpleTestRunner(project, test_config);
+        runner.runTest();
+        MuseTestResult result = runner.getResult();
         Assert.assertTrue(result.isPass());
 
         // verify the resource was created and closed
@@ -40,7 +44,7 @@ public class ExecutionContextTests
 	        final String description = EventTypes.DEFAULT.findType(event).getDescription(event);
 	        return description != null && description.contains(EXECUTE_MESSAGE);
 	        }).size() == 1);
-        MockShuttable shuttable = (MockShuttable) context.getVariable(MockStepCreatesShuttable.SHUTTABLE_VAR_NAME);
+        MockShuttable shuttable = (MockShuttable) test_config.context().getVariable(MockStepCreatesShuttable.SHUTTABLE_VAR_NAME);
         Assert.assertNotNull(shuttable);
         Assert.assertTrue(shuttable.isShutdown());
         }

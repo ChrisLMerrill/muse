@@ -27,7 +27,7 @@ public class VariableListInitializer implements TestPlugin
 	public void initialize(MuseExecutionContext context) throws MuseExecutionError
 		{
 		// put the list name into the context (for evaluation by value sources if needed)
-		String list_id = BaseValueSource.getValue(_configuration.getParameters().get("listid").createSource(context.getProject()), context, false, String.class);
+		String list_id = BaseValueSource.getValue(_configuration.getParameters().get(LIST_ID_PARAM).createSource(context.getProject()), context, false, String.class);
 		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, list_id);
 
 		// evaluate the include condition to determine if the list in this initializer should be included
@@ -82,5 +82,3 @@ public class VariableListInitializer implements TestPlugin
 			}
 		}
 	}
-
-

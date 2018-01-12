@@ -13,16 +13,6 @@ public class DefaultTestExecutionContext extends BaseExecutionContext implements
 		{
 		super(project);
 		_test = test;
-
-		try
-			{
-			TestPlugins.setup(this);
-			}
-		catch (MuseExecutionError e)
-			{
-			LOG.error("Unable to setup TestPlugins due to: " + e.getMessage());
-			}
-		addTestPlugin(new TestDefaultsInitializer(this));
 		}
 
 	@Override

@@ -14,11 +14,6 @@ import java.util.*;
  */
 public class TestDefaultsInitializer implements TestPlugin
     {
-    public TestDefaultsInitializer(TestExecutionContext test_context)
-        {
-        _test_context = test_context;
-        }
-
     @Override
     public String getType()
 	    {
@@ -34,18 +29,28 @@ public class TestDefaultsInitializer implements TestPlugin
     @Override
     public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
-        Map<String, ValueSourceConfiguration> defaults = _test_context.getTest().getDefaultVariables();
+        final TestExecutionContext test_context = findTestContext(context);
+        Map<String, ValueSourceConfiguration> defaults = test_context.getTest().getDefaultVariables();
         if (defaults != null)
             for (String name : defaults.keySet())
                 if (context.getVariable(name, VariableScope.Execution) == null)
                     {
-                    MuseValueSource source = ValueSourceFactory.getDefault(_test_context.getProject()).createSource(defaults.get(name), _test_context.getProject());
+                    MuseValueSource source = ValueSourceFactory.getDefault(context.getProject()).createSource(defaults.get(name), context.getProject());
                     Object value = source.resolveValue(context);
                     context.setVariable(name, value, VariableScope.Execution);
                     }
         }
 
-    private TestExecutionContext _test_context;
+    private TestExecutionContext findTestContext(MuseExecutionContext context)
+	    {
+	    while (context != null)
+		    {
+		    if (context instanceof TestExecutionContext)
+		    	return (TestExecutionContext) context;
+		    context = context.getParent();
+		    }
+	    return null;
+	    }
     }
 
 

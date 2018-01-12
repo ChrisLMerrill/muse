@@ -6,7 +6,6 @@ import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.step.*;
 import org.musetest.core.test.*;
-import org.slf4j.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -19,16 +18,15 @@ public class SteppedTestExecutor
         _context = context;
         _test = test;
         _step_executor = new StepExecutor(test, context);
-        _resulter = new TestFailsOnErrorFailureOrInterrupt(test, context);
 
+        _resulter = new TestFailsOnErrorFailureOrInterrupt(test, context);  // should this be a test plugin?
         _context.addEventListener(_resulter);
         }
 
     @SuppressWarnings("WeakerAccess")  // allow external usage of this API
     public MuseTestResult executeAll()
         {
-        if (!startTest())
-            finishTest();
+        _context.raiseEvent(StartTestEventType.create(_test));
 
         try
             {
@@ -42,46 +40,16 @@ public class SteppedTestExecutor
             else
                 throw e;
             }
-        finishTest();
-        return getResult();
-        }
 
-    public boolean startTest()
-        {
-        try
-            {
-            _context.initializePlugins(null);
-            }
-        catch (MuseExecutionError e)
-            {
-            LOG.error("Unable to initialize the context", e);
-            _context.raiseEvent(TestErrorEventType.create("Unable to initialize the context"));
-            return false;
-            }
-
-        _context.raiseEvent(StartTestEventType.create(_test));
-        return true;
+        final MuseTestResult result = _resulter.getTestResult();
+        _context.raiseEvent(EndTestEventType.create(result.getOneLineDescription(), result.isPass()));
+        return result;
         }
 
 	public MuseTestResult getResult()
 		{
 		return _resulter.getTestResult();
 		}
-
-    public void finishTest()
-        {
-		final MuseTestResult result = _resulter.getTestResult();
-		_context.raiseEvent(EndTestEventType.create(result.getOneLineDescription(), result.isPass()));
-        try
-            {
-            _context.cleanup();
-            }
-        catch (Throwable e)
-            {
-            LOG.error("Exception during test cleanup:", e);
-            // regardless of exception here, we want to return the result.
-            }
-        }
 
     @SuppressWarnings("unused") // used in GUI
     public boolean executeNextStep()
@@ -111,6 +79,4 @@ public class SteppedTestExecutor
     private SteppedTest _test;
     private StepExecutor _step_executor;
     private TestResultProducer _resulter;
-
-    private final static Logger LOG = LoggerFactory.getLogger(SteppedTestExecutor.class);
     }

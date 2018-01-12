@@ -7,11 +7,12 @@ import java.util.*;
 
 /**
  * Represents an event recorded during execution of Muse steps.
- * Note that this corresponds to a specific serialized format. Hence, it is final. You should extend EventType instead.
+ * Note that this corresponds to a specific serialized format. Hence, it is should be considered final (it is not, so it
+ * can be mocked in unit tests). You should extend EventType instead.
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public final class MuseEvent
+public class MuseEvent
     {
     public MuseEvent(EventType type)
         {
