@@ -68,6 +68,8 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
                 return;
             for (File file : files)
                 {
+                if (file.isDirectory())
+                	continue;
                 FileResourceOrigin origin = new FileResourceOrigin(file);
                 try
                     {
@@ -111,6 +113,8 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
         if (lib.exists() && lib.isDirectory())
             jars = lib.listFiles((dir, name) ->
                 name.endsWith(".jar"));
+        if (jars == null)
+        	return;
         for (File jar : jars)
             {
             LOG.debug("Adding jar to project classpath: " + jar.getAbsolutePath());
@@ -123,6 +127,8 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
     private void findPackagesInFolders(List<String> packages, File folder, String base_package_name)
         {
         File[] subfolders = folder.listFiles();
+        if (subfolders == null)
+        	return;
         for (File subfolder : subfolders)
             {
             if (subfolder.isDirectory())
@@ -204,6 +210,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
 
         if (serializer == null)
             serializer = DefaultSerializers.get(resource);
+        //noinspection ConstantConditions  The above is eventually expected to be able to return something not null.
         if (serializer == null)
             return "Unable to find a serializer for a " + resource.getType().getName();
 
