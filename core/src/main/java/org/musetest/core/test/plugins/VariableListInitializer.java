@@ -24,7 +24,6 @@ public class VariableListInitializer extends BaseTestPlugin
 	@Override
 	public void initialize(MuseExecutionContext context) throws MuseExecutionError
 		{
-System.out.println("initializing...");
 		// put the list name into the context (for evaluation by value sources if needed)
 		String list_id = BaseValueSource.getValue(_configuration.getParameters().get(LIST_ID_PARAM).createSource(context.getProject()), context, false, String.class);
 		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, list_id);

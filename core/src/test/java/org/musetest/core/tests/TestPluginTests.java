@@ -7,15 +7,11 @@ import org.musetest.core.project.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.plugin.*;
 import org.musetest.core.test.plugins.*;
-import org.musetest.core.test.plugins.TypeChangeEvent;
-import org.musetest.core.util.*;
 import org.musetest.core.values.*;
-import org.musetest.core.values.events.*;
 import org.musetest.core.variables.*;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.atomic.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)

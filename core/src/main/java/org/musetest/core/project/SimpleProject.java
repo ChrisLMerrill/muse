@@ -8,7 +8,6 @@ import org.musetest.core.resource.storage.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;
-import org.musetest.core.test.plugins.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -59,14 +58,6 @@ public class SimpleProject implements MuseProject
             _resource_types = new ResourceTypes(getClassLocator());
         return _resource_types;
         }
-
-    @Override
-    public TestPluginTypes getTestPluginTypes()
-	    {
-	    if (_ci_types == null)
-		    _ci_types = new TestPluginTypes(getClassLocator());
-        return _ci_types;
-	    }
 
     @Override
     public ClassLoader getClassloader()
@@ -165,7 +156,6 @@ public class SimpleProject implements MuseProject
     private PropertyResolvers _resolvers;
     private SystemVariableProviders _sysvar_providers;
     private ResourceTypes _resource_types;
-    private TestPluginTypes _ci_types;
     private Map<String, String> _command_line_options;
     private String _name = "unnamed project";
     }

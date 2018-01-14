@@ -5,7 +5,6 @@ import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.test.*;
 import org.musetest.core.test.plugin.*;
-import org.musetest.core.test.plugins.*;
 import org.slf4j.*;
 
 import java.io.*;
@@ -81,28 +80,6 @@ public class SaveTestResultsToDisk implements TestPlugin, Shuttable
 	private MuseExecutionContext _context;
 
 	public final static String TYPE_ID = "save-testresult-to-disk";
-
-	@SuppressWarnings("unused") // used by reflection
-	public static class SaveTestResultsToDiskType extends TestPluginType
-		{
-		@Override
-		public String getTypeId()
-			{
-			return TYPE_ID;
-			}
-
-		@Override
-		public String getDisplayName()
-			{
-			return "Save results to disk";
-			}
-
-		@Override
-		public String getShortDescription()
-			{
-			return "Save all test result data to files in a folder";
-			}
-		}
 
 	public final static String OUTPUT_FOLDER_VARIABLE_NAME = "__output_folder__";
 
