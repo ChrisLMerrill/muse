@@ -4,10 +4,10 @@ import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.test.*;
+import org.musetest.core.test.plugin.*;
 import org.musetest.core.test.plugins.*;
 import org.slf4j.*;
 
-import javax.annotation.*;
 import java.io.*;
 
 /**
@@ -19,6 +19,18 @@ public class SaveTestResultsToDisk implements TestPlugin, Shuttable
 	public String getType()
 		{
 		return TYPE_ID;
+		}
+
+	@Override
+	public boolean applyAutomatically(MuseExecutionContext context)
+		{
+		return true;
+		}
+
+	@Override
+	public boolean applyToThisTest(MuseExecutionContext context)
+		{
+		return true;
 		}
 
 	@Override
@@ -64,12 +76,6 @@ public class SaveTestResultsToDisk implements TestPlugin, Shuttable
 					}
 				}
 			}
-		}
-
-	@Override
-	public void configure(@Nonnull TestPluginConfiguration configuration)
-		{
-
 		}
 
 	private MuseExecutionContext _context;

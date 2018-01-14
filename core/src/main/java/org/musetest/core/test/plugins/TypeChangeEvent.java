@@ -1,5 +1,6 @@
 package org.musetest.core.test.plugins;
 
+import org.musetest.core.test.plugin.*;
 import org.musetest.core.util.*;
 
 /**

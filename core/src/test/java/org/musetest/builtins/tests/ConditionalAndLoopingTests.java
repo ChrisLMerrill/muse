@@ -11,7 +11,7 @@ import org.musetest.core.events.matching.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.SteppedTest;
+import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
 import org.musetest.core.values.*;
 
@@ -110,7 +110,7 @@ public class ConditionalAndLoopingTests
 		SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 3L);
 		TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
 		EventLogger logger = new EventLogger();
-		context.addTestPlugin(logger);
+		context.addTestPlugin(new EventLogger());
 		MuseTestResult result = test.execute(context);
 		Assert.assertTrue(result.isPass());
 		Assert.assertNull("this should not be found", logger.getData().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)));

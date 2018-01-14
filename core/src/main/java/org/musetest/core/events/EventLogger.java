@@ -3,16 +3,25 @@ package org.musetest.core.events;
 import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
-import org.musetest.core.test.plugins.*;
-
-import javax.annotation.*;
+import org.musetest.core.resource.generic.*;
+import org.musetest.core.test.plugin.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EventLogger implements MuseEventListener, DataCollector
+public class EventLogger extends BaseTestPlugin implements MuseEventListener, DataCollector
     {
-	@Override
+    public EventLogger()
+	    {
+	    super(new EventLoggerConfiguration.EventLoggerType().create());
+	    }
+
+    public EventLogger(GenericResourceConfiguration configuration)
+	    {
+	    super(configuration);
+	    }
+
+    @Override
 	public void initialize(MuseExecutionContext context)
 		{
 		context.addEventListener(this);
@@ -22,12 +31,6 @@ public class EventLogger implements MuseEventListener, DataCollector
     public String getType()
 	    {
 	    return TYPE_ID;
-	    }
-
-    @Override
-    public void configure(@Nonnull TestPluginConfiguration configuration)
-	    {
-	    // doesn't currently need configuration
 	    }
 
     @Override
@@ -46,27 +49,4 @@ public class EventLogger implements MuseEventListener, DataCollector
 	private EventLog _log = new EventLog();
 
     public final static String TYPE_ID = "event-logger";
-
-    @SuppressWarnings("unused") // used by reflection
-  	public static class EventLoggerType extends TestPluginType
-  		{
-  		@Override
-  		public String getTypeId()
-  			{
-  			return TYPE_ID;
-  			}
-
-  		@Override
-  		public String getDisplayName()
-  			{
-  			return "Event Logger";
-  			}
-
-  		@Override
-  		public String getShortDescription()
-  			{
-  			return "Captures a log of test events";
-  			}
-  		}
-
     }

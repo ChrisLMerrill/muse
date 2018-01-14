@@ -1,10 +1,9 @@
 package org.musetest.core.events;
 
 import org.musetest.core.*;
-import org.musetest.core.test.plugins.*;
+import org.musetest.core.test.plugin.*;
 import org.musetest.core.util.*;
 
-import javax.annotation.*;
 import java.io.*;
 import java.util.*;
 
@@ -26,6 +25,18 @@ public class EventLogPrinter implements TestPlugin, MuseEventListener
         _indent_stack.push(" ");
         }
 
+    @Override
+    public boolean applyAutomatically(MuseExecutionContext context)
+	    {
+	    return true;
+	    }
+
+    @Override
+    public boolean applyToThisTest(MuseExecutionContext context)
+	    {
+	    return true;
+	    }
+
     public void setOutput(PrintStream out)
 	    {
 	    _out = out;
@@ -41,12 +52,6 @@ public class EventLogPrinter implements TestPlugin, MuseEventListener
     public void initialize(MuseExecutionContext context)
 	    {
 	    context.addEventListener(this);
-	    }
-
-    @Override
-    public void configure(@Nonnull TestPluginConfiguration configuration)
-	    {
-
 	    }
 
     @Override

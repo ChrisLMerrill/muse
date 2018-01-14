@@ -1,17 +1,14 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
-import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.storage.*;
-import org.musetest.core.test.plugins.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.util.*;
-import org.musetest.core.values.*;
 import org.musetest.testutils.*;
 
 import java.io.*;
@@ -67,26 +64,6 @@ public class ResourceFactoryTests
         Assert.assertEquals("data1.2" , table.getData("col2", 0));
         Assert.assertEquals("data2.1" , table.getDataRow(1)[0]);
         Assert.assertEquals("data2.2" , table.getDataRow(1)[1]);
-        }
-
-    @Test
-    public void loadTestPlugin() throws IOException
-	    {
-        MuseProject project = new SimpleProject();
-        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("test_files/test-plugin-config.json", getClass())), new FactoryLocator(project.getClassLocator()), project.getClassLocator());
-        Assert.assertEquals(1, resources.size());
-        Assert.assertTrue(resources.get(0) instanceof TestPluginsConfiguration);
-
-	    TestPluginsConfiguration configs = (TestPluginsConfiguration) resources.get(0);
-	    Assert.assertEquals(1, configs.getPlugins().size());
-	    Assert.assertEquals(ValueSourceConfiguration.forValue(true), configs.getApplyToTestCondition());
-
-	    TestPluginConfiguration config = configs.getPlugins().get(0);
-	    Assert.assertEquals("type1", config.getTypeId());
-	    ValueSourceConfiguration param1 = config.getSource("p1");
-	    Assert.assertEquals(StringValueSource.TYPE_ID, param1.getType());
-	    Assert.assertEquals("v1", param1.getValue());
-	    Assert.assertEquals(ValueSourceConfiguration.forValue(false), config.getApplyCondition());
         }
     }
 

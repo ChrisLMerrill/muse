@@ -9,6 +9,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.SteppedTest;
+import org.musetest.core.test.plugin.*;
 import org.musetest.core.test.plugins.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
@@ -52,14 +53,12 @@ public class TestVariableTests
         project.getResourceStorage().addResource(list);
         list.addVariable(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
 
-        TestPluginConfiguration config = new TestPluginConfiguration();
-        config.setTypeId(VariableListInitializer.TYPE_ID);
-        config.setApplyCondition(ValueSourceConfiguration.forValue(true));
-        config.addParameter(VariableListInitializer.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
+        VariableListInitializerConfiguration config = new VariableListInitializerConfiguration();
+        config.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
+        config.parameters().addSource(VariableListInitializerConfiguration.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
 
         DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        final VariableListInitializer plugin = new VariableListInitializer();
-        plugin.configure(config);
+        final VariableListInitializer plugin = config.createPlugin();
         context.addTestPlugin(plugin);
         context.initializePlugins(null);
         MuseTestResult result = test.execute(context);

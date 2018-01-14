@@ -1,9 +1,9 @@
 package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
+import org.musetest.core.test.plugin.*;
 import org.musetest.core.variables.*;
 
-import javax.annotation.*;
 import java.util.*;
 
 /**
@@ -25,9 +25,15 @@ public class VariableMapInitializer implements TestPlugin
 	    }
 
     @Override
-    public void configure(@Nonnull TestPluginConfiguration configuration)
+    public boolean applyAutomatically(MuseExecutionContext context)
 	    {
-	    // doesn't currently need configuration
+	    return true;
+	    }
+
+    @Override
+    public boolean applyToThisTest(MuseExecutionContext context)
+	    {
+	    return true;
 	    }
 
     @Override

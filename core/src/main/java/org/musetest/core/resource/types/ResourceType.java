@@ -2,6 +2,7 @@ package org.musetest.core.resource.types;
 
 import org.musetest.core.*;
 import org.musetest.core.resource.generic.*;
+import org.slf4j.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -50,6 +51,7 @@ public abstract class ResourceType
             }
         catch (Exception e)
             {
+            LOG.error("unable to instantiate resource: " + getInterfaceClass().getSimpleName(), e);
             return null;
             }
         }
@@ -70,6 +72,6 @@ public abstract class ResourceType
     private final String _name;
     private final Class _class;
     private ResourceDescriptor _descriptor = null;
+
+    private final static Logger LOG = LoggerFactory.getLogger(ResourceType.class);
     }
-
-

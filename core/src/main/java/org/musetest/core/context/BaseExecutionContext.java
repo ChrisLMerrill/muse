@@ -4,7 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.test.*;
-import org.musetest.core.test.plugins.*;
+import org.musetest.core.test.plugin.*;
 import org.musetest.core.variables.*;
 import org.slf4j.*;
 

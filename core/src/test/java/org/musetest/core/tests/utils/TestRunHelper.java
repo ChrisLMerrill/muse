@@ -3,7 +3,7 @@ package org.musetest.core.tests.utils;
 import org.musetest.core.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.test.*;
-import org.musetest.core.test.plugins.*;
+import org.musetest.core.test.plugin.*;
 
 /**
  * Provides simple shims for running a MuseTest for unit testing.

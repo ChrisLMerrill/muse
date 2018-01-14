@@ -1,6 +1,6 @@
 package org.musetest.core.datacollection;
 
-import org.musetest.core.test.plugins.*;
+import org.musetest.core.test.plugin.*;
 
 import javax.annotation.*;
 

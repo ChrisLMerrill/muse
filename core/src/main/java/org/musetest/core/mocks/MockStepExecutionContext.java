@@ -8,7 +8,7 @@ import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
-import org.musetest.core.test.plugins.*;
+import org.musetest.core.test.plugin.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
