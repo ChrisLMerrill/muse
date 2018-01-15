@@ -147,6 +147,11 @@ public class BaseExecutionContext implements MuseExecutionContext
 		_plugins_initialized = true;
 		}
 
+    public List<TestPlugin> getPlugins()
+	    {
+	    return _plugins;
+	    }
+
 	public List<DataCollector> getDataCollectors()
 		{
 		List<DataCollector> data_collectors = new ArrayList<>();

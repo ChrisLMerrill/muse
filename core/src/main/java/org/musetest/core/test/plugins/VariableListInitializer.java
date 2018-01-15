@@ -28,16 +28,13 @@ public class VariableListInitializer extends BaseTestPlugin
 		String list_id = BaseValueSource.getValue(_configuration.getParameters().get(LIST_ID_PARAM).createSource(context.getProject()), context, false, String.class);
 		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, list_id);
 
-		if (applyToThisTest(context))
+		// set the variables in the list into the context
+		VariableList list = context.getProject().getResourceStorage().getResource(list_id, VariableList.class);
+		for (String name : list.getVariables().keySet())
 			{
-			// set the variables in the list into the context
-			VariableList list = context.getProject().getResourceStorage().getResource(list_id, VariableList.class);
-			for (String name : list.getVariables().keySet())
-				{
-				ValueSourceConfiguration config = list.getVariables().get(name);
-				Object value = config.createSource(context.getProject()).resolveValue(context);
-				context.setVariable(name, value, VariableScope.Execution);
-				}
+			ValueSourceConfiguration config = list.getVariables().get(name);
+			Object value = config.createSource(context.getProject()).resolveValue(context);
+			context.setVariable(name, value, VariableScope.Execution);
 			}
 
 		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME,null);

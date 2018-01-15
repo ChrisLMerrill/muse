@@ -15,14 +15,28 @@ public abstract class BaseTestPlugin implements TestPlugin
 		}
 
 	@Override
-	public boolean applyAutomatically(MuseExecutionContext context) throws MuseExecutionError
+	public boolean addToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
+		{
+		if (automatic)
+			{
+			if (!applyAutomatically(context))
+				return false;
+			}
+		if (applyToThisTest(context))
+			{
+			context.addTestPlugin(this);
+			return true;
+			}
+		return false;
+		}
+
+	protected boolean applyAutomatically(MuseExecutionContext context) throws MuseExecutionError
 		{
 		MuseValueSource source = BaseValueSource.getValueSource(_configuration.parameters(), AUTO_APPLY_PARAM, true, context.getProject());
 		return BaseValueSource.getValue(source, context, false, Boolean.class);
 		}
 
-	@Override
-	public boolean applyToThisTest(MuseExecutionContext context) throws MuseExecutionError
+	protected boolean applyToThisTest(MuseExecutionContext context) throws MuseExecutionError
 		{
 		MuseValueSource source = BaseValueSource.getValueSource(_configuration.parameters(), APPLY_CONDITION_PARAM, true, context.getProject());
 		return BaseValueSource.getValue(source, context, false, Boolean.class);

@@ -30,14 +30,9 @@ public class VariableInitializer implements TestPlugin
 		}
 
 	@Override
-	public boolean applyAutomatically(MuseExecutionContext context)
+	public boolean addToContext(MuseExecutionContext context, boolean automatic)
 		{
-		return true;
-		}
-
-	@Override
-	public boolean applyToThisTest(MuseExecutionContext context)
-		{
+		context.addTestPlugin(this);
 		return true;
 		}
 

@@ -18,17 +18,9 @@ public class TestPlugins
 		{
         final List<ResourceToken> resources = context.getProject().getResourceStorage().findResources(new ResourceQueryParameters(new TestPluginConfiguration.TestPluginConfigurationResourceType()));
         for (ResourceToken resource : resources)
-        	applyConditionally((TestPluginConfiguration) resource.getResource(), context);
+	        ((TestPluginConfiguration) resource.getResource()).createPlugin().addToContext(context, true);
 		context.addTestPlugin(new TestDefaultsInitializer());
         }
-
-    public static void applyConditionally(TestPluginConfiguration config, MuseExecutionContext context) throws MuseExecutionError
-	    {
-	    final TestPlugin plugin = config.createPlugin();
-	    if (plugin.applyAutomatically(context))
-		    if (plugin.applyToThisTest(context))
-		        context.addTestPlugin(plugin);
-	    }
     }
 
 
