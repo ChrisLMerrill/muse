@@ -133,16 +133,33 @@ public class NamedSourceContainerTests
 
 	@Test
 	public void getSourceNames()
-	    {
-	    final NamedSourcesContainer container = new NamedSourcesContainer();
-	    container.addSource("name1", ValueSourceConfiguration.forValue("111"));
-	    container.addSource("name2", ValueSourceConfiguration.forValue("222"));
+		{
+		final NamedSourcesContainer container = new NamedSourcesContainer();
+		container.addSource("name1", ValueSourceConfiguration.forValue("111"));
+		container.addSource("name2", ValueSourceConfiguration.forValue("222"));
 
-	    Set<String> names = container.getSourceNames();
-	    Assert.assertEquals(2, names.size());
-	    Assert.assertTrue(names.contains("name1"));
-	    Assert.assertTrue(names.contains("name2"));
-	    }
+		Set<String> names = container.getSourceNames();
+		Assert.assertEquals(2, names.size());
+		Assert.assertTrue(names.contains("name1"));
+		Assert.assertTrue(names.contains("name2"));
+		}
+
+	@Test
+	public void subsourceChangeEvent()
+		{
+		final NamedSourcesContainer container = new NamedSourcesContainer();
+		final ValueSourceConfiguration source1 = ValueSourceConfiguration.forValue("111");
+		container.addSource("name1", source1);
+		container.addSource("name2", ValueSourceConfiguration.forValue("222"));
+
+		AtomicReference<ChangeEvent> ev_holder = new AtomicReference<>(null);
+		container.addChangeListener(ev_holder::set);
+		source1.setValue("newval");
+
+		// check the event
+		Assert.assertTrue(ev_holder.get() instanceof ValueChangeEvent);
+		ValueChangeEvent event = (ValueChangeEvent) ev_holder.get();
+		Assert.assertEquals("111", event.getOldValue());
+		Assert.assertEquals("newval", event.getNewValue());
+		}
 	}
-
-

@@ -17,7 +17,7 @@ public class NamedSourcesContainer implements ContainsNamedSources, Serializable
 		{
 		}
 
-	public NamedSourcesContainer(ValueSourceConfiguration parent)
+	NamedSourcesContainer(ValueSourceConfiguration parent)
 		{
 		_parent = parent;
 		}
@@ -117,9 +117,7 @@ public class NamedSourcesContainer implements ContainsNamedSources, Serializable
 	@SuppressWarnings({"unused", "WeakerAccess"})  // used by GUI
 	public Set<ChangeEventListener> getListeners()
 		{
-		HashSet<ChangeEventListener> new_set = new HashSet<>();
-		new_set.addAll(getListenersInternal());
-		return new_set;
+		return new HashSet<>(getListenersInternal());
 		}
 
 	private Set<ChangeEventListener> getListenersInternal()
@@ -154,7 +152,7 @@ public class NamedSourcesContainer implements ContainsNamedSources, Serializable
 		if (_source_map != null)
 			throw new IllegalArgumentException("This method only to be used for deserialization. Cannot call again");
 		_source_map = source_map;
-		_source_map.values().stream().filter(source -> source != null).forEach(source -> source.addChangeListener(getSubsourceListener()));
+		_source_map.values().stream().filter(Objects::nonNull).forEach(source -> source.addChangeListener(getSubsourceListener()));
 		}
 
 	@Override

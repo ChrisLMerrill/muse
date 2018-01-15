@@ -5,27 +5,10 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class IndexedSourceAddedEvent extends ValueSourceChangeEvent
+public class IndexedSourceAddedEvent extends IndexedSourceChangeEvent
     {
-    public IndexedSourceAddedEvent(ValueSourceConfiguration source, int index, ValueSourceConfiguration added_source)
+    public IndexedSourceAddedEvent(ContainsIndexedSources container, int index, ValueSourceConfiguration source)
         {
-        super(source);
-        _index = index;
-        _added_source = added_source;
+        super(container, index, source);
         }
-
-    public int getIndex()
-        {
-        return _index;
-        }
-
-    public ValueSourceConfiguration getAddedSource()
-        {
-        return _added_source;
-        }
-
-    private final int _index;
-    private final ValueSourceConfiguration _added_source;
     }
-
-

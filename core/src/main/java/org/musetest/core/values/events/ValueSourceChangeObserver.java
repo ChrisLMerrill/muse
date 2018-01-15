@@ -20,22 +20,8 @@ public class ValueSourceChangeObserver implements ChangeEventListener
         {
         if (!(event instanceof ValueSourceChangeEvent))
             return;
-        if (event instanceof IndexedSourceAddedEvent)
-            {
-            IndexedSourceAddedEvent e = (IndexedSourceAddedEvent) event;
-            indexedSubsourceAdded(e, e.getIndex(), e.getAddedSource());
-            }
-        else if (event instanceof IndexedSourceRemovedEvent)
-            {
-            IndexedSourceRemovedEvent e = (IndexedSourceRemovedEvent) event;
-            indexedSubsourceRemoved(e, e.getIndex(), e.getRemovedSource());
-            }
-        else if (event instanceof IndexedSourceReplacedEvent)
-            {
-            IndexedSourceReplacedEvent e = (IndexedSourceReplacedEvent) event;
-            indexedSubsourceReplaced(e, e.getIndex(), e.getOldSource(), e.getNewSource());
-            }
-        else if (event instanceof SingularSubsourceChangeEvent)
+
+        if (event instanceof SingularSubsourceChangeEvent)
             {
             SingularSubsourceChangeEvent e = (SingularSubsourceChangeEvent) event;
             singleSubsourceReplaced(e, e.getOldSource(), e.getNewSource());
@@ -58,9 +44,4 @@ public class ValueSourceChangeObserver implements ChangeEventListener
     protected void valueChanged(ValueChangeEvent event, Object old_value, Object new_value) {}
     protected void singleSubsourceReplaced(SingularSubsourceChangeEvent event, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source) {}
     protected void subsourceChanged(SubsourceModificationEvent event) {}
-    protected void indexedSubsourceAdded(IndexedSourceAddedEvent event, int index, ValueSourceConfiguration source) {}
-    protected void indexedSubsourceRemoved(IndexedSourceRemovedEvent event, int index, ValueSourceConfiguration source) {}
-    protected void indexedSubsourceReplaced(IndexedSourceReplacedEvent event, int index, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source) {}
     }
-
-

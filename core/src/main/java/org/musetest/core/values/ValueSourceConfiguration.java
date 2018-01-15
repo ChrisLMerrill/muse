@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill, Copyright 2015 (see LICENSE.txt for license details)
  */
-public class ValueSourceConfiguration implements Serializable, ContainsNamedSources
+public class ValueSourceConfiguration implements Serializable, ContainsNamedSources, ContainsIndexedSources
     {
     public ValueSourceConfiguration()
         {
@@ -114,18 +114,12 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public List<ValueSourceConfiguration> getSourceList()
         {
-        return _source_list;
+        return _indexed_sources.getSourceList();
         }
 
     public void setSourceList(List<ValueSourceConfiguration> source_list)
         {
-        if (_source_list != null)
-            for (ValueSourceConfiguration source : _source_list)
-                source.removeChangeListener(getSubsourceListener());
-        _source_list = source_list;
-        if (_source_list != null)
-            for (ValueSourceConfiguration source : _source_list)
-                source.addChangeListener(getSubsourceListener());
+        _indexed_sources.setSourceList(source_list);
         }
 
     public static ValueSourceConfiguration fromString(String string) throws IOException
@@ -136,10 +130,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public void addSource(ValueSourceConfiguration source)
         {
-        if (_source_list == null)
-            _source_list = new ArrayList<>();
-        int index = _source_list.size();
-        addSource(index, source);
+        _indexed_sources.addSource(source);
         }
 
     public void addSource(String name, ValueSourceConfiguration source)
@@ -149,12 +140,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public void addSource(int index, ValueSourceConfiguration source)
         {
-        if (_source_list == null)
-            _source_list = new ArrayList<>();
-
-        _source_list.add(index, source);
-        source.addChangeListener(getSubsourceListener());
-        notifyListeners(new IndexedSourceAddedEvent(this, index, source));
+        _indexed_sources.addSource(index, source);
         }
 
     public ValueSourceConfiguration getSource(String name)
@@ -164,9 +150,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public ValueSourceConfiguration getSource(int index)
         {
-        if (_source_list == null)
-            return null;
-        return _source_list.get(index);
+        return _indexed_sources.getSource(index);
         }
 
     public ValueSourceConfiguration removeSource(String name)
@@ -176,20 +160,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public ValueSourceConfiguration removeSource(int index)
         {
-        if (_source_list == null)
-            return null;
-
-        ValueSourceConfiguration removed = _source_list.remove(index);
-        if (_source_list.size() == 0)
-            _source_list = null;
-
-        if (removed != null)
-            {
-            removed.removeChangeListener(getSubsourceListener());
-            notifyListeners(new IndexedSourceRemovedEvent(this, index, removed));
-            }
-
-        return removed;
+        return _indexed_sources.removeSource(index);
         }
 
     public ValueSourceConfiguration replaceSource(String name, ValueSourceConfiguration new_source)
@@ -199,14 +170,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 
     public ValueSourceConfiguration replaceSource(int index, ValueSourceConfiguration new_source)
         {
-        ValueSourceConfiguration old_source = _source_list.set(index, new_source);
-        if (old_source == null)
-            throw new IllegalArgumentException(String.format("Cannot replace sub-source %d, it does not exist.", index));
-        old_source.removeChangeListener(getSubsourceListener());
-        if (new_source != null)
-            new_source.addChangeListener(getSubsourceListener());
-        notifyListeners(new IndexedSourceReplacedEvent(this, index, old_source, new_source));
-        return old_source;
+        return _indexed_sources.replaceSource(index, new_source);
         }
 
     public boolean renameSource(String old_name, String new_name)
@@ -231,10 +195,10 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
             return false;
 
         // a little extra work, because a null reference to a list is technically not the same as an empty list (but for our purposes, it is)
-        List<ValueSourceConfiguration> list = _source_list;
+        List<ValueSourceConfiguration> list = _indexed_sources.getSourceList();
         if (list == null)
             list = Collections.emptyList();
-        List<ValueSourceConfiguration> other_list = other._source_list;
+        List<ValueSourceConfiguration> other_list = other.getSourceList();
         if (other_list == null)
             other_list = Collections.emptyList();
         if (!Objects.equals(list, other_list))
@@ -247,11 +211,13 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
         {
         getListenersInternal().add(listener);
         _named_sources.addChangeListener(listener);
+        _indexed_sources.addChangeListener(listener);
         }
 
     public boolean removeChangeListener(ChangeEventListener listener)
         {
-        _named_sources.addChangeListener(listener);
+        _named_sources.removeChangeListener(listener);
+        _indexed_sources.removeChangeListener(listener);
         return getListenersInternal().remove(listener);
         }
 
@@ -265,9 +231,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
     @SuppressWarnings({"unused", "WeakerAccess"})  // used by GUI
     public Set<ChangeEventListener> getListeners()
         {
-        HashSet<ChangeEventListener> new_set = new HashSet<>();
-        new_set.addAll(getListenersInternal());
-        return new_set;
+        return new HashSet<>(getListenersInternal());
         }
 
     private Set<ChangeEventListener> getListenersInternal()
@@ -337,13 +301,13 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
             builder.append(_source.toString());
             first = false;
             }
-        if (_source_list != null && _source_list.size() > 0)
+        if (_indexed_sources != null && _indexed_sources.getSourceList().size() > 0)
             {
             if (!first)
                 builder.append(",");
             builder.append("list=[");
             boolean first_in_list = true;
-            for (ValueSourceConfiguration source : _source_list)
+            for (ValueSourceConfiguration source : _indexed_sources.getSourceList())
                 {
                 if (!first_in_list)
                     builder.append(",");
@@ -378,9 +342,8 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
     private Object _value;
     private ValueSourceConfiguration _source;
     private String _type;
-//    private Map<String, ValueSourceConfiguration> _source_map;
     private NamedSourcesContainer _named_sources = new NamedSourcesContainer(this);
-    private List<ValueSourceConfiguration> _source_list;
+    private IndexedSourcesContainer _indexed_sources = new IndexedSourcesContainer(this);
     private Map<String, Object> _metadata = null;
 
 
@@ -399,8 +362,6 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
             ValueSourceConfiguration modified = e.getSource();
             if (modified == _source)
                 mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, e);
-            else if (_source_list != null && _source_list.contains(modified))
-                mod_event = new SubsourceModificationEvent(ValueSourceConfiguration.this, _source_list.indexOf(modified), e);
             if (mod_event == null)
                 LOG.error("Received an event for an unknown subsource -- somebody forget to de-register a listener!");
             else

@@ -163,7 +163,7 @@ public class ValueSourceChangeListenerTests
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         final ValueSourceConfiguration new_subsource = ValueSourceConfiguration.forValue(123L);
         final AtomicBoolean notified = new AtomicBoolean(false);
-        source.addChangeListener(new ValueSourceChangeObserver()
+        source.addChangeListener(new IndexedSourceChangeObserver()
             {
             @Override
             public void indexedSubsourceAdded(IndexedSourceAddedEvent event, int index, ValueSourceConfiguration source)
@@ -183,7 +183,7 @@ public class ValueSourceChangeListenerTests
         final ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue(123L);
         final AtomicBoolean notified = new AtomicBoolean(false);
         source.addSource(subsource);
-        source.addChangeListener(new ValueSourceChangeObserver()
+        source.addChangeListener(new IndexedSourceChangeObserver()
             {
             @Override
             public void indexedSubsourceRemoved(IndexedSourceRemovedEvent event, int index, ValueSourceConfiguration source)
@@ -204,7 +204,7 @@ public class ValueSourceChangeListenerTests
         final ValueSourceConfiguration replacement_subsource = ValueSourceConfiguration.forValue(123L);
         source.addSource(original_subsource);
         final AtomicBoolean notified = new AtomicBoolean(false);
-        source.addChangeListener(new ValueSourceChangeObserver()
+        source.addChangeListener(new IndexedSourceChangeObserver()
             {
             @Override
             public void indexedSubsourceReplaced(IndexedSourceReplacedEvent event, int index, ValueSourceConfiguration old_source, ValueSourceConfiguration new_source)
@@ -406,5 +406,3 @@ public class ValueSourceChangeListenerTests
         Assert.assertTrue(notified.get());
         }
     }
-
-
