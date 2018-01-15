@@ -7,7 +7,6 @@ import org.musetest.core.*;
  */
 public interface TestPlugin
     {
-    String getType();  // the unique identifier for this type of plugin
     boolean addToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError;
     void initialize(MuseExecutionContext context) throws MuseExecutionError;
     }

@@ -27,7 +27,7 @@ public class CompoundPluginTests
 	    config.createPlugin().addToContext(context, true);
 
 	    Assert.assertEquals(1, context.getPlugins().size());
-	    Assert.assertTrue(context.getPlugins().get(0).getType().equals(MockPluginConfiguration.TYPE_ID));
+	    Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
 	    }
 
 	@Test
@@ -42,7 +42,7 @@ public class CompoundPluginTests
 	    config.createPlugin().addToContext(context, true);
 
 	    Assert.assertEquals(1, context.getPlugins().size());
-	    Assert.assertTrue(context.getPlugins().get(0).getType().equals(MockPluginConfiguration.TYPE_ID));
+		Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
 	    }
 
 	@Test
@@ -57,8 +57,8 @@ public class CompoundPluginTests
 	    config.createPlugin().addToContext(context, true);
 
 	    Assert.assertEquals(2, context.getPlugins().size());
-	    Assert.assertTrue(context.getPlugins().get(0).getType().equals(MockPluginConfiguration.TYPE_ID));
-	    Assert.assertTrue(context.getPlugins().get(1).getType().equals(MockPluginConfiguration.TYPE_ID));
+		Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
+		Assert.assertTrue(context.getPlugins().get(1) instanceof MockTestPlugin);
 	    }
 
 	@Before

@@ -17,12 +17,6 @@ public class VariableInitializer implements TestPlugin
 		}
 
 	@Override
-	public String getType()
-		{
-		return null;
-		}
-
-	@Override
 	public void initialize(MuseExecutionContext context)
 		{
 		for (String name : _variables.keySet())

@@ -16,12 +16,6 @@ public class CompoundPlugin extends BaseTestPlugin
 		}
 
 	@Override
-	public String getType()
-		{
-		return CompoundPluginConfiguration.TYPE_ID;
-		}
-
-	@Override
 	public boolean addToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
 		{
 		if (automatic && !applyAutomatically(context))

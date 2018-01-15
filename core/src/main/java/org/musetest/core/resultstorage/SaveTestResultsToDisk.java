@@ -14,11 +14,6 @@ import java.io.*;
  */
 public class SaveTestResultsToDisk implements TestPlugin, Shuttable
 	{
-	@Override
-	public String getType()
-		{
-		return TYPE_ID;
-		}
 
 	@Override
 	public boolean addToContext(MuseExecutionContext context, boolean automatic)

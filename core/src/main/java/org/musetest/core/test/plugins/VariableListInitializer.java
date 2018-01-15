@@ -16,12 +16,6 @@ public class VariableListInitializer extends BaseTestPlugin
 		}
 
 	@Override
-	public String getType()
-		{
-		return TYPE_ID;
-		}
-
-	@Override
 	public void initialize(MuseExecutionContext context) throws MuseExecutionError
 		{
 		// put the list name into the context (for evaluation by value sources if needed)

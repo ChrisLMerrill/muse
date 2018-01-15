@@ -19,12 +19,6 @@ public class VariableMapInitializer implements TestPlugin
         }
 
     @Override
-    public String getType()
-	    {
-	    return "variable-map";
-	    }
-
-    @Override
     public boolean addToContext(MuseExecutionContext context, boolean automatic)
 	    {
 	    context.addTestPlugin(this);

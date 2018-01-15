@@ -25,12 +25,6 @@ public class MockTestPlugin extends BaseTestPlugin
 		}
 
 	@Override
-	public String getType()
-		{
-		return MockPluginConfiguration.TYPE_ID;
-		}
-
-	@Override
 	protected boolean applyAutomatically(MuseExecutionContext context)
 		{
 		return _apply_auto;

@@ -28,12 +28,6 @@ public class EventLogger extends BaseTestPlugin implements MuseEventListener, Da
 		}
 
     @Override
-    public String getType()
-	    {
-	    return TYPE_ID;
-	    }
-
-    @Override
     public void eventRaised(MuseEvent event)
         {
         _log.add(event);

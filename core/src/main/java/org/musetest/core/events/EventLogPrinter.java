@@ -38,12 +38,6 @@ public class EventLogPrinter implements TestPlugin, MuseEventListener
 	    }
 
     @Override
-    public String getType()
-	    {
-	    return null;
-	    }
-
-    @Override
     public void initialize(MuseExecutionContext context)
 	    {
 	    context.addEventListener(this);

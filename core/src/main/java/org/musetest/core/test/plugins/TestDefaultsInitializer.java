@@ -14,11 +14,6 @@ import java.util.*;
  */
 public class TestDefaultsInitializer implements TestPlugin
     {
-    @Override
-    public String getType()
-	    {
-	    return "test-defaults";
-	    }
 
     @Override
     public boolean addToContext(MuseExecutionContext context, boolean automatic)
