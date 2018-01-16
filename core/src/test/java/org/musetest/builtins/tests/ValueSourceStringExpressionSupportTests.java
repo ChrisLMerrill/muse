@@ -9,7 +9,6 @@ import org.musetest.core.project.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.values.*;
 
-import java.text.*;
 import java.util.*;
 
 /**
@@ -216,7 +215,7 @@ public class ValueSourceStringExpressionSupportTests
         }
 
     @Test
-    public void dateFormat() throws ParseException
+    public void dateFormat()
         {
         DateFormatValueSource.StringExpressionSupport supporter = new DateFormatValueSource.StringExpressionSupport();
         ValueSourceConfiguration date_config = ValueSourceConfiguration.forValue("date");
@@ -252,7 +251,23 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(to_parse, stringified);
         }
 
+    @Test
+    public void listSource()
+        {
+        ValueSourceStringExpressionSupport supporter = new ListSource.StringExpressionSupport();
+        String to_parse = "[11,22]";
+        List<ValueSourceConfiguration> elements = new ArrayList<>();
+        elements.add(ValueSourceConfiguration.forValue(11L));
+        elements.add(ValueSourceConfiguration.forValue(22L));
+        ValueSourceConfiguration parsed = supporter.fromArrayExpression(elements, TEST_PROJECT);
+
+        Assert.assertEquals(ListSource.TYPE_ID, parsed.getType());
+        Assert.assertEquals(elements.get(0).getValue(), parsed.getSource(0).getValue());
+        Assert.assertEquals(elements.get(1).getValue(), parsed.getSource(1).getValue());
+
+        String stringified = supporter.toString(parsed, TEST_PROJECT);
+        Assert.assertEquals(to_parse, stringified);
+        }
+
     private static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStorage());
     }
-
-

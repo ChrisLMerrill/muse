@@ -120,7 +120,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void missingSubsourceProjectResourceValueSource() throws StepConfigurationError
+    public void missingSubsourceProjectResourceValueSource()
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
@@ -422,5 +422,21 @@ public class ValueSourceTests
         MuseValueSource source = matcher.createSource();
         Boolean result = (Boolean) source.resolveValue(new MockStepExecutionContext());
         Assert.assertTrue(result);
+        }
+    
+    @Test
+    public void listSource() throws MuseInstantiationException, ValueSourceResolutionError
+	    {
+        ValueSourceConfiguration list = ValueSourceConfiguration.forType(ListSource.TYPE_ID);
+        list.addSource(ValueSourceConfiguration.forValue(123));
+        list.addSource(ValueSourceConfiguration.forValue(456));
+        list.addSource(ValueSourceConfiguration.forValue(789));
+        MuseValueSource source = list.createSource();
+        List<Long> result = (List<Long>) source.resolveValue(new MockStepExecutionContext());
+
+        Assert.assertEquals(3, result.size());
+        Assert.assertEquals(123L, result.get(0).longValue());
+        Assert.assertEquals(456L, result.get(1).longValue());
+        Assert.assertEquals(789L, result.get(2).longValue());
         }
     }
