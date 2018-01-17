@@ -19,7 +19,6 @@ public class TestPlugins
         final List<ResourceToken> resources = context.getProject().getResourceStorage().findResources(new ResourceQueryParameters(new TestPluginConfiguration.TestPluginConfigurationResourceType()));
         for (ResourceToken resource : resources)
 	        ((TestPluginConfiguration) resource.getResource()).createPlugin().addToContext(context, true);
-		context.addTestPlugin(new TestDefaultsInitializer());
         }
     }
 

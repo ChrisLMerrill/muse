@@ -6,6 +6,7 @@ import org.musetest.core.execution.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.test.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.testutils.*;
 
 import java.io.*;
@@ -38,6 +39,7 @@ public class ScopeTests
         File file = TestResources.getFile("projects/scopes", getClass());
         SimpleProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(file));
         TestConfiguration config = new BasicTestConfiguration(test_name);
+        config.addPlugin(new TestDefaultsInitializerConfiguration().createPlugin());
         final SimpleTestRunner runner = new SimpleTestRunner(project, config);
         runner.runTest();
         MuseTestResult result = runner.getResult();

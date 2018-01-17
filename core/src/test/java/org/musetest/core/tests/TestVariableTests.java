@@ -35,7 +35,7 @@ public class TestVariableTests
         test.setDefaultVariables(default_vars);
 
         final DefaultTestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        context.addTestPlugin(new TestDefaultsInitializer());
+        context.addTestPlugin(new TestDefaultsInitializerConfiguration().createPlugin());
         context.initializePlugins(null);
         MuseTestResult result = test.execute(context);
         Assert.assertTrue(result.isPass());

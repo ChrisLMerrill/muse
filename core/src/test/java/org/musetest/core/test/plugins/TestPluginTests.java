@@ -25,7 +25,7 @@ public class TestPluginTests
 		test.setDefaultVariable("var1", ValueSourceConfiguration.forValue("value1"));
 		SimpleProject project = new SimpleProject();
 		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-		TestDefaultsInitializer initializer = new TestDefaultsInitializer();
+		TestDefaultsInitializer initializer = new TestDefaultsInitializerConfiguration().createPlugin();
 		initializer.initialize(context);
 
 		Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));

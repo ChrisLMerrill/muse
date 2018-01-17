@@ -2,6 +2,7 @@ package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.resource.generic.*;
 import org.musetest.core.test.plugin.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.factory.*;
@@ -12,24 +13,26 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestDefaultsInitializer implements TestPlugin
+public class TestDefaultsInitializer extends BaseTestPlugin
     {
-
-    @Override
-    public boolean addToContext(MuseExecutionContext context, boolean automatic)
+    public TestDefaultsInitializer(GenericResourceConfiguration configuration)
 	    {
-	    context.addTestPlugin(this);
-	    return true;
+	    super(configuration);
 	    }
 
     @Override
     public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
+        boolean overwrite = true;
+        MuseValueSource overwrite_source = BaseValueSource.getValueSource(_configuration.parameters(), AUTO_APPLY_PARAM, false, context.getProject());
+        if (overwrite_source != null)
+	        overwrite = BaseValueSource.getValue(overwrite_source, context, false, Boolean.class);
+
         final TestExecutionContext test_context = findTestContext(context);
         Map<String, ValueSourceConfiguration> defaults = test_context.getTest().getDefaultVariables();
         if (defaults != null)
             for (String name : defaults.keySet())
-                if (context.getVariable(name, VariableScope.Execution) == null)
+                if (overwrite || context.getVariable(name, VariableScope.Execution) == null)
                     {
                     MuseValueSource source = ValueSourceFactory.getDefault(context.getProject()).createSource(defaults.get(name), context.getProject());
                     Object value = source.resolveValue(context);
