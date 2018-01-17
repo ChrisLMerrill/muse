@@ -5,11 +5,14 @@ import org.musetest.core.resource.generic.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.test.plugin.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.descriptor.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("event-logger-plugin")
+@MuseSubsourceDescriptor(displayName = "Apply automatically?", description = "If this source resolves to true, this plugin configuration will be automatically applied to tests", type = SubsourceDescriptor.Type.Named, name = BaseTestPlugin.AUTO_APPLY_PARAM)
+@MuseSubsourceDescriptor(displayName = "Apply only if", description = "Apply only if this source this source resolves to true", type = SubsourceDescriptor.Type.Named, name = BaseTestPlugin.APPLY_CONDITION_PARAM)
 @SuppressWarnings("unused") // Instantiated by reflection
 public class EventLoggerConfiguration extends GenericResourceConfiguration implements TestPluginConfiguration
 	{
