@@ -52,7 +52,7 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
             if (output_path != null)
             	runner.setOutputPath(output_path);
 
-            MuseTestSuiteResult result = runner.execute(project, suite);
+            MuseTestSuiteResult result = runner.execute(project, suite, null);
             if (result.getFailureCount() == 0 && result.getErrorCount() == 0)
                 System.out.println(String.format("%d tests completed successfully.", result.getSuccessCount()));
             else if (result.getErrorCount() == 0)

@@ -3,6 +3,7 @@ package org.musetest.core.suite;
 import org.musetest.core.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.resultstorage.*;
+import org.musetest.core.suite.plugin.*;
 import org.musetest.core.test.*;
 import org.musetest.core.variables.*;
 
@@ -14,7 +15,7 @@ import java.util.*;
 public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     {
     @Override
-    public MuseTestSuiteResult execute(MuseProject project, MuseTestSuite suite)
+    public MuseTestSuiteResult execute(MuseProject project, MuseTestSuite suite, List<TestSuitePlugin> plugins)
         {
         _project = project;
         BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult(suite);
