@@ -12,8 +12,12 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class SaveTestResultsToDisk implements TestPlugin, Shuttable
+public class SaveTestResultsToDisk extends BaseTestPlugin implements Shuttable
 	{
+	SaveTestResultsToDisk(SaveTestResultsToDiskConfiguration configuration)
+		{
+		super(configuration);
+		}
 
 	@Override
 	public boolean addToContext(MuseExecutionContext context, boolean automatic)
@@ -30,7 +34,7 @@ public class SaveTestResultsToDisk implements TestPlugin, Shuttable
 		}
 
 	/**
-	 * Do the saving in here, instead of as a END_TEST event listener...because the EventLog may not have received all events, yet.
+	 * Do the saving in here, instead of as a END_TEST event listener...because the Collectors may not have received all events, yet.
 	 */
 	@Override
 	public void shutdown()
