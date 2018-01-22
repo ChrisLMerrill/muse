@@ -13,13 +13,15 @@ public class EndTestEventType extends EventType
 		super(TYPE_ID, "End Test");
 		}
 
-	public static MuseEvent create(String description, boolean pass)
+	@Override
+	public String getDescription(MuseEvent event)
 		{
-		MuseEvent event = new MuseEvent(TYPE_ID);
-		event.setAttribute(MuseEvent.DESCRIPTION, description);
-		if (!pass)
-			event.addTag(MuseEvent.FAILURE);
-		return event;
+		return "Test Complete";
+		}
+
+	public static MuseEvent create()
+		{
+		return new MuseEvent(TYPE_ID);
 		}
 
 	public static boolean isPass(MuseEvent event)
