@@ -37,19 +37,19 @@ public class JunitReportRenderer
                 if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
                     {
                     failure_type = "error";
-                    failure_message = HtmlEscapers.htmlEscaper().escape(result.getOneLineDescription());
+                    failure_message = result.getOneLineDescription();
                     }
                 else if (result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Failure))
                     {
                     failure_type = "failure";
-                    failure_message = HtmlEscapers.htmlEscaper().escape(result.getOneLineDescription());
+                    failure_message = result.getOneLineDescription();
                     }
                 }
 
             // write the output
-            writer.println(String.format("    <testcase classname=\"%s\" name=\"%s\">", suite_name, test_name));
+            writer.println(String.format("    <testcase classname=\"%s\" name=\"%s\">", HtmlEscapers.htmlEscaper().escape(suite_name), HtmlEscapers.htmlEscaper().escape(test_name)));
             if (failure_type != null)
-                writer.println(String.format("        <%s message=\"%s\"/>", failure_type, failure_message));
+                writer.println(String.format("        <%s message=\"%s\"/>", failure_type, HtmlEscapers.htmlEscaper().escape(failure_message)));
             EventLog log = result.getLog();
             if (log != null)
 	            {
