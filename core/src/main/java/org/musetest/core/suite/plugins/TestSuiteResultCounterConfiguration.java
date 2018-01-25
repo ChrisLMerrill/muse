@@ -35,7 +35,7 @@ public class TestSuiteResultCounterConfiguration extends GenericResourceConfigur
 	public static class TestSuiteResultCounterType extends ResourceSubtype
 		{
 		@Override
-		public MuseResource create()
+		public TestSuiteResultCounterConfiguration create()
 			{
 			final TestSuiteResultCounterConfiguration config = new TestSuiteResultCounterConfiguration();
 			config.parameters().addSource(BaseTestPlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));

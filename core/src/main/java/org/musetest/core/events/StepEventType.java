@@ -27,6 +27,8 @@ public abstract class StepEventType extends EventType
 		{
 		Long id = 0L;
 		Object value = event.getAttribute(STEP_ID);
+		if (value instanceof Long)
+			return (Long) value;
 		if (value != null)
 			{
 			try
@@ -41,6 +43,7 @@ public abstract class StepEventType extends EventType
 		return id;
 		}
 
+	@SuppressWarnings("WeakerAccess")  // public API
 	public final static String STEP_ID = "stepid";
 	@SuppressWarnings("WeakerAccess")  // public API
 	public final static String STEP_DESCRIPTION = "stepdesc";
