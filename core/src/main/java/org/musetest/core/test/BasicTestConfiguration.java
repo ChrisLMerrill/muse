@@ -44,7 +44,10 @@ public class BasicTestConfiguration implements TestConfiguration
     @Override
     public void withinProject(MuseProject project)
 	    {
-	    _project = project;
+	    if (_project == null)
+	        _project = project;
+	    else if (_project != project)
+	    	throw new IllegalArgumentException("Cannot use a config within a different project");
 	    }
 
     public TestExecutionContext context()

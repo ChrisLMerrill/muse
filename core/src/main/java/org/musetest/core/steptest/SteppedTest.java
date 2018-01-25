@@ -25,7 +25,7 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
         }
 
     @Override
-    protected MuseTestResult executeImplementation(TestExecutionContext context)
+    protected boolean executeImplementation(TestExecutionContext context)
         {
         if (!(context instanceof SteppedTestExecutionContext))
             context = new DefaultSteppedTestExecutionContext(context);

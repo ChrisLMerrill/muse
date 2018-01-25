@@ -11,8 +11,8 @@ import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
+import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
-import org.musetest.core.variables.*;
 import org.musetest.javascript.*;
 import org.musetest.javascript.factory.*;
 import org.musetest.testutils.*;
@@ -27,17 +27,21 @@ import java.util.*;
 public class JavascriptTests
     {
     @Test
-    public void javascriptTest()
-        {
-        MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_SUCCESS; } "));
-        TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        MuseTestResult result = test.execute(context);
-        Assert.assertTrue(result.isPass());
+    public void javascriptTestSuccess()
+	    {
+	    MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_SUCCESS; } "));
+	    test.setId("javascript-test");
+	    TestResult result = TestRunHelper.runTest(new SimpleProject(), test);
+	    Assert.assertTrue(result.isPass());
+	    }
 
-        test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_FAILURE; } "));
-        context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        result = test.execute(context);
-        Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
+    @Test
+    public void javascriptTestFailure()
+        {
+        MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return \"things went badly\"; } "));
+        test.setId("javascript-test");
+        TestResult result = TestRunHelper.runTest(new SimpleProject(), test);
+        Assert.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
         }
 
     @Test
@@ -57,7 +61,7 @@ public class JavascriptTests
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("javascriptTest.js", this.getClass())));
         Assert.assertEquals(1, resources.size());
         Assert.assertTrue(resources.get(0) instanceof MuseTest);
-        MuseTestResult result = ((MuseTest) resources.get(0)).execute(new DefaultTestExecutionContext(new SimpleProject(), null));
+        TestResult result = TestRunHelper.runTest(new SimpleProject(), (MuseTest) resources.get(0));
         Assert.assertTrue(result.isPass());
         }
 

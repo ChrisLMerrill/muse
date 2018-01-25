@@ -4,10 +4,8 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.suite.*;
-import org.musetest.core.variables.*;
-import org.musetest.report.junit.*;
 
-import java.io.*;
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -52,77 +50,9 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
             if (output_path != null)
             	runner.setOutputPath(output_path);
 
-            MuseTestSuiteResult result = runner.execute(project, suite, null);
-            if (result.getFailureCount() == 0 && result.getErrorCount() == 0)
-                System.out.println(String.format("%d tests completed successfully.", result.getSuccessCount()));
-            else if (result.getErrorCount() == 0)
-                System.out.println(String.format("%d tests failed and %d tests completed successfully.", result.getFailureCount(), result.getSuccessCount()));
-            else if (result.getFailureCount() == 0)
-                System.out.println(String.format("%d tests could not be executed due to errors and %d tests completed successfully.", result.getErrorCount(), result.getSuccessCount()));
-            else
-                System.out.println(String.format("%d tests could not be executed due to errors, %d tests failed and %d tests completed successfully.", result.getErrorCount(), result.getFailureCount(), result.getSuccessCount()));
-
-            if (result.getErrorCount() > 0 && verbose)
-                {
-                StringBuilder builder = new StringBuilder();
-                builder.append("Tests that could not be completed: ");
-                int counter = 0;
-                for (MuseTestResult test_result : result.getTestResults())
-                    if (test_result.getFailureDescription() != null && test_result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Error))
-                        {
-                        if (counter > 0)
-                            builder.append(", ");
-                        builder.append(test_result.getTest().getDescription());
-                        counter++;
-                        }
-                builder.append("\n");
-                System.out.println(builder.toString());
-                }
-            if (result.getFailureCount() > 0 && verbose)
-                {
-                StringBuilder builder = new StringBuilder();
-                builder.append("Failing tests: ");
-                int counter = 0;
-                for (MuseTestResult test_result : result.getTestResults())
-                    if (test_result.getFailureDescription().getFailureType().equals(MuseTestFailureDescription.FailureType.Failure))
-                        {
-                        if (counter > 0)
-                            builder.append(", ");
-                        builder.append(test_result.getTest().getDescription());
-                        counter++;
-                        }
-                builder.append("\n");
-                System.out.println(builder.toString());
-                }
-
-            if (result.getErrorCount() + result.getFailureCount() > 0 && verbose)
-                {
-                System.out.println("Test Logs (for failing and errored tests):");
-                for (MuseTestResult test_result : result.getTestResults())
-                    if (!(test_result.isPass()))
-                        System.out.println(buildResultDetails(test_result));
-                }
-
-            try
-                {
-                if (output_path != null)
-                    {
-                    JunitReportRenderer renderer = new JunitReportRenderer(result);
-                    File report_file = new File(output_path);
-                    if (report_file.isDirectory())
-                        report_file = new File(report_file, "testresults.xml");
-                    FileOutputStream outstream = new FileOutputStream(report_file);
-                    renderer.render(outstream);
-                    outstream.close();
-                    }
-                }
-            catch (IOException e)
-                {
-                System.err.println("Unable to write JUnit test report");
-                e.printStackTrace(System.err);
-                }
-            if (result.getErrorCount() > 0)
-                return false;
+            boolean success = runner.execute(project, suite, Collections.emptyList());
+            if (!success)
+	            System.out.println("Some tests could not be executed. See muse.log and the output files for more information.");
             }
         catch (Exception e)
             {
@@ -132,14 +62,4 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
             }
         return true;
         }
-
-    private String buildResultDetails(MuseTestResult result)
-        {
-        return "\n-------------------\n" +
-            "Test: " + result.getTest().getDescription() + "\n" +
-            result.getLog().toString() + "\n" +
-            "-------------------";
-        }
     }
-
-

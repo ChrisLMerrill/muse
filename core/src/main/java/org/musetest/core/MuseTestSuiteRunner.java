@@ -9,7 +9,7 @@ import java.util.*;
  */
 public interface MuseTestSuiteRunner
     {
-    MuseTestSuiteResult execute(MuseProject project, MuseTestSuite suite, List<TestSuitePlugin> plugins);
+    boolean execute(MuseProject project, MuseTestSuite suite, List<TestSuitePlugin> plugins);
     void setOutputPath(String path);
     }
 

@@ -37,14 +37,14 @@ public class CommandLineTestRunner implements MuseResourceRunner
 
         SimpleTestRunner runner = new SimpleTestRunner(project, config);
         runner.runTest();
-        final MuseTestResult result = runner.getResult();
+        final Boolean result = runner.completedNormally();
 
         if (!verbose)
             {
-            if (result.isPass())
-                System.out.println(String.format("SUCCESS: Test '%s' completed successfully.", result.getTest().getDescription()));
+            if (result)
+                System.out.println(String.format("SUCCESS: Test '%s' completed normally.", config.getName()));
             else
-                System.out.println(result.getFailureDescription());
+                System.out.println(String.format("ERROR: Test '%s' did not finish normally.", config.getName()));
             }
 
         return true;

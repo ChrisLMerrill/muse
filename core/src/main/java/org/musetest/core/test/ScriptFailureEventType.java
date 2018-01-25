@@ -12,7 +12,7 @@ public class ScriptFailureEventType extends EventType
 	@SuppressWarnings("WeakerAccess") // instantiated via reflection
 	public ScriptFailureEventType()
 		{
-		super(TYPE_ID, "Script Error");
+		super(TYPE_ID, "Script Failure");
 		}
 
 	public static MuseEvent create(String message, Throwable exception)
@@ -21,7 +21,7 @@ public class ScriptFailureEventType extends EventType
 		event.setAttribute(MuseEvent.DESCRIPTION, message);
 		if (exception != null)
 			event.setAttribute(STACKTRACE, new ExceptionStringifier().create(exception).toString());
-		event.addTag(MuseEvent.ERROR);
+		event.addTag(MuseEvent.FAILURE);
 		return event;
 		}
 

@@ -16,7 +16,7 @@ import java.util.*;
  */
 public interface MuseTest extends MuseResource
     {
-    MuseTestResult execute(TestExecutionContext context);
+    boolean execute(TestExecutionContext context);
 
     @JsonIgnore
     String getDescription();

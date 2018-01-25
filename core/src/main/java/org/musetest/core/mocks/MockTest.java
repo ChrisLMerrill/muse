@@ -26,68 +26,40 @@ public class MockTest extends BaseMuseTest
 
     public MockTest(MuseTestFailureDescription failure)
         {
+        _failure = new TestResult.Failure(TestResult.FailureType.valueOf(failure.getFailureType().name()), failure.getReason());
+        }
+
+    public MockTest(TestResult.Failure failure)
+        {
         _failure = failure;
         }
 
     public MockTest(MuseTestFailureDescription failure, String id)
         {
-        _failure = failure;
+        this(failure);
         setId(id);
         }
 
     @Override
-    protected MuseTestResult executeImplementation(TestExecutionContext context)
+    protected boolean executeImplementation(TestExecutionContext context)
         {
-        return new MuseTestResult()
-            {
-            @Override
-            public boolean isPass()
-                {
-                return _failure == null;
-                }
-
-            @Override
-            public MuseTestFailureDescription getFailureDescription()
-                {
-                return _failure;
-                }
-
-            @Override
-            public String getOneLineDescription()
-                {
-                return "mock test result";
-                }
-
-            @Override
-            public MuseTest getTest()
-                {
-                return MockTest.this;
-                }
-
-            @Override
-            public EventLog getLog()
-                {
-                return new EventLog();
-                }
-
-            @Override
-            public String getName()
-                {
-                return "MockTest";
-                }
-
-            @Override
-            public TestConfiguration getConfiguration()
-                {
-                return null;
-                }
-
-            @Override
-            public void setConfiguration(TestConfiguration config)
-                {
-
-                }
-            };
+        context.raiseEvent(StartTestEventType.create(this, getId()));
+        if (_failure != null)
+	        {
+	        final MuseEvent event = MessageEventType.create(_failure.getDescription());
+	        switch (_failure.getType())
+		        {
+		        case Error:
+			        event.addTag(MuseEvent.ERROR);
+			        break;
+		        case Failure:
+			        event.addTag(MuseEvent.FAILURE);
+			        break;
+		        }
+	        context.raiseEvent(event);
+	        }
+        context.raiseEvent(EndTestEventType.create());
+        return true;
         }
 
     @Override
@@ -108,7 +80,7 @@ public class MockTest extends BaseMuseTest
 
         }
 
-    private MuseTestFailureDescription _failure;
+    private TestResult.Failure _failure;
     }
 
 

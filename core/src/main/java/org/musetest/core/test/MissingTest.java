@@ -6,7 +6,6 @@ import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.values.*;
-import org.musetest.core.variables.*;
 
 import java.util.*;
 
@@ -21,9 +20,12 @@ public class MissingTest extends BaseMuseResource implements MuseTest
         }
 
     @Override
-    public MuseTestResult execute(TestExecutionContext context)
+    public boolean execute(TestExecutionContext context)
         {
-        return new BaseMuseTestResult(this, new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "test is missing"));
+        final MuseEvent event = StartTestEventType.create(this, getDescription());
+        event.addTag(MuseEvent.ERROR);
+        context.raiseEvent(event);
+        return false;
         }
 
     @Override

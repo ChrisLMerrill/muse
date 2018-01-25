@@ -12,6 +12,11 @@ import java.util.*;
  */
 public abstract class MockTestWithAction extends BaseMuseTest
     {
+    MockTestWithAction()
+	    {
+	    setId("mock-test-with-action");
+	    }
+
     @Override
     public Map<String, ValueSourceConfiguration> getDefaultVariables()
         {

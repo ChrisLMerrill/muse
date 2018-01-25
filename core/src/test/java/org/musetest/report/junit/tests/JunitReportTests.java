@@ -1,11 +1,8 @@
 package org.musetest.report.junit.tests;
 
 import org.junit.*;
-import org.musetest.core.events.*;
-import org.musetest.core.mocks.*;
+import org.musetest.core.*;
 import org.musetest.core.suite.*;
-import org.musetest.core.test.*;
-import org.musetest.core.variables.*;
 import org.musetest.report.junit.*;
 
 import java.io.*;
@@ -20,26 +17,20 @@ public class JunitReportTests
     @Test
     public void generateJunitXmlReport()
         {
-        BaseMuseTestSuiteResult suite_result = new BaseMuseTestSuiteResult(new IdListTestSuite());
-        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "error"), "test 1"), new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "error")));
-        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed"), "test 2"), new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed")));
-        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(null, "test 3"), new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "failed")));
-        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(null, "test 4"), new EventLog(), null));
-        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(null, "test 5"), new EventLog(), null));
-        suite_result.addTestResult(new BaseMuseTestResult(new MockTest(null, "test 6"), new EventLog(), null));
-        JunitReportRenderer suite = new JunitReportRenderer(suite_result);
+        JUnitReportData report_data = new JUnitReportData();
+        report_data.addResult(TestResult.create("test 1", "test1", "erred", TestResult.FailureType.Error, "erred"), null);
+        report_data.addResult(TestResult.create("test 2", "test2", "failed", TestResult.FailureType.Failure, "failed"), null);
+        report_data.addResult(TestResult.create("test 3", "test3", "success"), null);
+        report_data.setSuiteName("suite 1");
 
         ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-        suite.render(outstream);
+        report_data.write(outstream);
 
         String report_content = outstream.toString();
 
         Assert.assertTrue(report_content.contains("test 1"));
         Assert.assertTrue(report_content.contains("test 2"));
         Assert.assertTrue(report_content.contains("test 3"));
-        Assert.assertTrue(report_content.contains("test 4"));
-        Assert.assertTrue(report_content.contains("test 5"));
-        Assert.assertTrue(report_content.contains("test 6"));
         Assert.assertTrue(report_content.contains("<error"));
         Assert.assertTrue(report_content.contains("<failure"));
         }

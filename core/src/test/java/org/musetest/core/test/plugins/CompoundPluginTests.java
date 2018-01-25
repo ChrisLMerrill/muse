@@ -24,7 +24,7 @@ public class CompoundPluginTests
 	    config.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 
 	    BaseExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
-	    config.createPlugin().addToContext(context, true);
+	    config.createPlugin().shouldAddToTestContext(context, true);
 
 	    Assert.assertEquals(1, context.getPlugins().size());
 	    Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
@@ -39,7 +39,7 @@ public class CompoundPluginTests
 	    config.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 
 	    BaseExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
-	    config.createPlugin().addToContext(context, true);
+	    config.createPlugin().shouldAddToTestContext(context, true);
 
 	    Assert.assertEquals(1, context.getPlugins().size());
 		Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
@@ -54,7 +54,7 @@ public class CompoundPluginTests
 	    config.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 
 	    BaseExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
-	    config.createPlugin().addToContext(context, true);
+	    config.createPlugin().shouldAddToTestContext(context, true);
 
 	    Assert.assertEquals(2, context.getPlugins().size());
 		Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);

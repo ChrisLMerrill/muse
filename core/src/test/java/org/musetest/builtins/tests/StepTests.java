@@ -14,9 +14,9 @@ import org.musetest.core.resource.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
-import org.musetest.core.variables.*;
 
 import java.io.*;
 import java.util.*;
@@ -129,8 +129,11 @@ public class StepTests
         config.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(false));
         MuseStep step = config.createStep();
 
-        StepExecutionResult result = step.execute(new MockStepExecutionContext());
-        Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
+        final MockStepExecutionContext context = new MockStepExecutionContext();
+        EventLogger logger = new EventLogger();
+        context.addTestPlugin(logger);
+        step.execute(context);
+        Assert.assertNotNull(logger.getData().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
         }
 
     @Test
@@ -157,8 +160,8 @@ public class StepTests
             config.addSource(Verify.TERMINATE_PARAM, ValueSourceConfiguration.forValue(true));
         MuseStep step = config.createStep();
 
-        StepExecutionResult result = step.execute(new MockStepExecutionContext(test_context));
-        Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
+        step.execute(new MockStepExecutionContext(test_context));
+        Assert.assertNotNull(logger.getData().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
 
         List<MuseEvent> events = logger.getData().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID));
         Assert.assertEquals(1, events.size());
@@ -190,7 +193,7 @@ public class StepTests
 
         // verify that the macro runs when the test is executed
         EventLogger logger = new EventLogger();
-        MuseTestResult result = TestRunHelper.runTest(project, test, logger);
+        TestResult result = TestRunHelper.runTest(project, test, logger);
         Assert.assertTrue(result.isPass());
         Assert.assertNotNull("message step didn't run", logger.getData().findFirstEvent(new EventDescriptionMatcher(message)));
         }
@@ -235,7 +238,7 @@ public class StepTests
         SteppedTest test = new SteppedTest(test_step);
 
         // verify that the return value is correct in the context (the function should have incremented by one
-        MuseTestResult result = TestRunHelper.runTest(project, test);
+        TestResult result = TestRunHelper.runTest(project, test);
         Assert.assertTrue(result.isPass());
         }
 
@@ -268,10 +271,11 @@ public class StepTests
         test_step.addChild(call_function);
         SteppedTest test = new SteppedTest(test_step);
 
-        MuseTestResult result = TestRunHelper.runTest(project, test, new EventLogger());
+        final EventLogger logger = new EventLogger();
+        TestResult result = TestRunHelper.runTest(project, test, logger);
         Assert.assertTrue(result.isPass());
         // verify that the message step (which comes after the return) did not run
-        Assert.assertTrue(result.getLog().findEvents(new EventTypeMatcher(MessageEventType.TYPE_ID)).size() == 0);
+        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(MessageEventType.TYPE_ID)).size() == 0);
         }
 
     @Test
@@ -283,7 +287,7 @@ public class StepTests
 
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         SteppedTest test = new SteppedTest(step);
-        MuseTestResult result = TestRunHelper.runTest(project, test);
+        TestResult result = TestRunHelper.runTest(project, test);
         Assert.assertTrue(result.isPass());
         }
 
@@ -303,8 +307,9 @@ public class StepTests
 
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         SteppedTest test = new SteppedTest(main);
-        MuseTestResult result = TestRunHelper.runTest(project, test);
-        Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
+        TestResult result = TestRunHelper.runTest(project, test, new TestResultCollectorConfiguration().createPlugin());
+
+        Assert.assertFalse(result.isPass());
         }
 
     @Test

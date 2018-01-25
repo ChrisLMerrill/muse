@@ -8,7 +8,9 @@ import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.suite.*;
+import org.musetest.core.suite.plugins.*;
 import org.musetest.core.test.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.util.*;
 import org.musetest.core.variables.*;
 import org.musetest.testutils.*;
@@ -25,6 +27,9 @@ public class TestSuiteTests
     public void simpleSuite() throws IOException
 	    {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
+	    TestResultCollectorConfiguration result_collector = new TestResultCollectorConfiguration.TestResultCollectorConfigurationType().create();
+	    result_collector.setId("result-collector");
+	    project.getResourceStorage().addResource(result_collector);
 
         SimpleTestSuite suite = new SimpleTestSuite();
 
@@ -43,16 +48,18 @@ public class TestSuiteTests
         project.getResourceStorage().addResource(test3);
 	    suite.add(test3);
 
-        MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite, null);
-        Assert.assertEquals(3, result.getTestResults().size());
-        Assert.assertEquals(1, result.getSuccessCount());
-        Assert.assertEquals(1, result.getFailureCount());
-        Assert.assertEquals(1, result.getErrorCount());
+	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration().createPlugin();
+	    new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
+	    Assert.assertNotNull(counter.getData());
+        Assert.assertEquals(3, counter.getData().getTotalTests());
+        Assert.assertEquals(1, counter.getData().getSuccesses());
+        Assert.assertEquals(1, counter.getData().getFailures());
+        Assert.assertEquals(1, counter.getData().getErrors());
         }
 
     @Test
     public void executeSimpleSuiteById()
-        {
+	    {
         final File file = TestResources.getFile("projects/simpleSuite", getClass());
         if (file == null)
         	throw new IllegalArgumentException("simpleSuite folder is missing (test resource)");
@@ -60,10 +67,12 @@ public class TestSuiteTests
         MuseTestSuite suite = project.getResourceStorage().getResource("TestSuite", MuseTestSuite.class);
         Assert.assertNotNull(suite);
 
-        MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite, null);
-        Assert.assertEquals(1, result.getFailureCount());
-        Assert.assertEquals(1, result.getSuccessCount());
-        Assert.assertEquals(0, result.getErrorCount());
+	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration().createPlugin();
+        new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
+	    Assert.assertNotNull(counter.getData());
+        Assert.assertEquals(1, counter.getData().getFailures());
+        Assert.assertEquals(1, counter.getData().getSuccesses());
+        Assert.assertEquals(0, counter.getData().getErrors());
         }
 
     @Test
@@ -143,10 +152,12 @@ public class TestSuiteTests
 	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("suite").getResource();
-        MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite, null);
+	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration().createPlugin();
+        new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
 
-        Assert.assertEquals(1, result.getFailureCount());
-        Assert.assertEquals(2, result.getSuccessCount());
+	    Assert.assertNotNull(counter.getData());
+        Assert.assertEquals(1, counter.getData().getFailures());
+        Assert.assertEquals(2, counter.getData().getSuccesses());
         }
 
     @Test
@@ -154,8 +165,10 @@ public class TestSuiteTests
         {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("CsvSuite").getResource();
-        MuseTestSuiteResult result = new SimpleTestSuiteRunner().execute(project, suite, null);
+        final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration().createPlugin();
+        new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
 
-        Assert.assertEquals(3, result.getSuccessCount());
+        Assert.assertNotNull(counter.getData());
+        Assert.assertEquals(3, counter.getData().getSuccesses());
         }
     }

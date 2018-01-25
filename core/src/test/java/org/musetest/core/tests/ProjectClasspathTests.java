@@ -14,7 +14,7 @@ import java.util.*;
 public class ProjectClasspathTests
     {
     @Test
-    public void testStepLoadedFromProjectClassesFolder() throws ClassNotFoundException
+    public void testStepLoadedFromProjectClassesFolder()
         {
         MuseProject project = ProjectFactory.create(new File("src/test/other_resources/projects/classpath"), Collections.emptyMap());
         project.open();
@@ -26,12 +26,12 @@ public class ProjectClasspathTests
         // Running test directly may pass or fail, depending on when the FactoryLocator scanned the classpath.
         // E.g. in a unit test scenario, it has probably already happened (unless this class is the only test run)
         // so it would fail. But running it through the project ensures it will have the correct classpath.
-        MuseTestResult result = TestRunHelper.runTest(project, test);
+        TestResult result = TestRunHelper.runTest(project, test);
         Assert.assertTrue(result.isPass());
         }
 
     @Test
-    public void testStepLoadedFromProjectJar() throws ClassNotFoundException
+    public void testStepLoadedFromProjectJar()
         {
         MuseProject project = ProjectFactory.create(new File("src/test/other_resources/projects/classpath"), Collections.emptyMap());
         project.open();
@@ -43,7 +43,7 @@ public class ProjectClasspathTests
         // Running test directly may pass or fail, depending on when the FactoryLocator scanned the classpath.
         // E.g. in a unit test scenario, it has probably already happened (unless this class is the only test run)
         // so it would fail. But running it through the project ensures it will have the correct classpath.
-        MuseTestResult result = TestRunHelper.runTest(project, test);
+        TestResult result = TestRunHelper.runTest(project, test);
         Assert.assertTrue(result.isPass());
         }
     }

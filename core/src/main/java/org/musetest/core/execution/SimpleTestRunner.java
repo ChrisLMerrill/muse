@@ -6,7 +6,6 @@ import org.musetest.core.events.*;
 import org.musetest.core.test.*;
 import org.musetest.core.test.plugin.*;
 import org.musetest.core.test.plugins.*;
-import org.musetest.core.variables.*;
 import org.slf4j.*;
 
 import java.util.*;
@@ -39,11 +38,15 @@ public class SimpleTestRunner implements TestRunner
     public void runTest()
         {
         startTest();
-        _context.raiseEvent(StartTestEventType.create(_test));
-        setTestResult(_config.test().execute(_config.context()));
-        _context.raiseEvent(EndTestEventType.create(getResult().getOneLineDescription(), getResult().isPass()));
+        _completed_normally = _config.test().execute(_config.context());
         finishTest();
         }
+
+    @Override
+    public Boolean completedNormally()
+	    {
+	    return _completed_normally;
+	    }
 
     protected void startTest()
 	    {
@@ -62,7 +65,6 @@ public class SimpleTestRunner implements TestRunner
 		    final String message = "Unable to setup the test plugins due to: " + e.getMessage();
 		    LOG.error(message);
 		    this._context.raiseEvent(TestErrorEventType.create(message));
-		    setTestResult(new BaseMuseTestResult(_test, _context, new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, message)));
 		    }
 	    }
 
@@ -85,23 +87,11 @@ public class SimpleTestRunner implements TestRunner
         return _config.context();
         }
 
-    @Override
-    public MuseTestResult getResult()
-        {
-        return _result;
-        }
-
-    protected void setTestResult(MuseTestResult result)
-        {
-        _result = result;
-        }
-
     private TestConfiguration _config;
     protected MuseProject _project;
     protected TestExecutionContext _context;
     protected MuseTest _test;
-    private MuseTestResult _result;
-
+    protected Boolean _completed_normally;
 
     private class TestHolder implements TestConfiguration
 	    {
@@ -126,7 +116,7 @@ public class SimpleTestRunner implements TestRunner
 	    @Override
 	    public String name()
 		    {
-		    return null;
+		    return _test.getDescription();
 		    }
 
 	    @Override

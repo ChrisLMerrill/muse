@@ -1,6 +1,5 @@
 package org.musetest.core.execution;
 
-import org.musetest.core.*;
 import org.musetest.core.context.*;
 
 /**
@@ -12,9 +11,11 @@ import org.musetest.core.context.*;
 public interface TestRunner
     {
     TestExecutionContext getExecutionContext();
-
     void runTest();
 
-    MuseTestResult getResult();
+    /**
+     * Returns true if the test completed normally, false if it did not. Null if the test has not yet completed.
+     */
+    Boolean completedNormally();
     }
 

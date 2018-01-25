@@ -8,5 +8,5 @@ import org.musetest.core.test.plugin.*;
  */
 public interface TestSuitePlugin extends TestPlugin
 	{
-	boolean shouldAddToSuite(MuseExecutionContext context, MuseTestSuite suite, boolean automatic);
+	boolean shouldAddToSuite(MuseExecutionContext context, MuseTestSuite suite, boolean automatic) throws MuseExecutionError;
 	}

@@ -5,7 +5,6 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.step.*;
-import org.musetest.core.test.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -18,15 +17,12 @@ public class SteppedTestExecutor
         _context = context;
         _test = test;
         _step_executor = new StepExecutor(test, context);
-
-        _resulter = new TestFailsOnErrorFailureOrInterrupt(test, context);  // should this be a test plugin?
-        _context.addEventListener(_resulter);
         }
 
     @SuppressWarnings("WeakerAccess")  // allow external usage of this API
-    public MuseTestResult executeAll()
+    public boolean executeAll()
         {
-        _context.raiseEvent(StartTestEventType.create(_test));
+        _context.raiseEvent(StartTestEventType.create(_test, _test.getDescription()));
 
         try
             {
@@ -36,20 +32,17 @@ public class SteppedTestExecutor
             {
             //noinspection ConstantConditions
             if (e instanceof InterruptedException)
-                _context.raiseEvent(new MuseEvent(InterruptedEventType.TYPE));
+	            {
+	            _context.raiseEvent(new MuseEvent(InterruptedEventType.TYPE));
+	            return false;
+	            }
             else
                 throw e;
             }
 
-        final MuseTestResult result = _resulter.getTestResult();
-        _context.raiseEvent(EndTestEventType.create(result.getOneLineDescription(), result.isPass()));
-        return result;
+        _context.raiseEvent(EndTestEventType.create());
+        return true;
         }
-
-	public MuseTestResult getResult()
-		{
-		return _resulter.getTestResult();
-		}
 
     @SuppressWarnings("unused") // used in GUI
     public boolean executeNextStep()
@@ -78,5 +71,4 @@ public class SteppedTestExecutor
     private SteppedTestExecutionContext _context;
     private SteppedTest _test;
     private StepExecutor _step_executor;
-    private TestResultProducer _resulter;
     }

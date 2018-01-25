@@ -5,12 +5,12 @@ import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.SteppedTest;
+import org.musetest.core.steptest.*;
 import org.musetest.core.test.plugin.*;
 import org.musetest.core.test.plugins.*;
+import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
@@ -26,7 +26,7 @@ import java.util.*;
 public class TestVariableTests
     {
     @Test
-    public void variableSetFromDefaults() throws MuseExecutionError
+    public void variableSetFromDefaults()
 	    {
         Map<String, ValueSourceConfiguration> default_vars = new HashMap<>();
         default_vars.put(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
@@ -34,15 +34,11 @@ public class TestVariableTests
         SteppedTest test = getTest();
         test.setDefaultVariables(default_vars);
 
-        final DefaultTestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        context.addTestPlugin(new TestDefaultsInitializerConfiguration().createPlugin());
-        context.initializePlugins(null);
-        MuseTestResult result = test.execute(context);
-        Assert.assertTrue(result.isPass());
+        Assert.assertTrue(TestRunHelper.runTest(new SimpleProject(), test, new TestDefaultsInitializerConfiguration().createPlugin()).isPass());
         }
 
     @Test
-    public void variableSetFromProjectVariableList() throws IOException, MuseExecutionError
+    public void variableSetFromProjectVariableList() throws IOException
         {
         SteppedTest test = getTest();
         MuseProject project = new SimpleProject();
@@ -57,12 +53,7 @@ public class TestVariableTests
         config.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
         config.parameters().addSource(VariableListInitializerConfiguration.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
 
-        DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
-        final VariableListInitializer plugin = config.createPlugin();
-        context.addTestPlugin(plugin);
-        context.initializePlugins(null);
-        MuseTestResult result = test.execute(context);
-        Assert.assertTrue(result.isPass());
+        Assert.assertTrue(TestRunHelper.runTest(project, test, config.createPlugin()).isPass());
         }
 
     private SteppedTest getTest()

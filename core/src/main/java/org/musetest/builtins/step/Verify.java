@@ -47,7 +47,7 @@ public class Verify extends BaseStep
             Boolean terminate_value = getValue(_terminate, context, true, Boolean.class);
             context.raiseEvent(VerifyFailureEventType.create(_config, message, terminate_value != null && terminate_value));
 
-            return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "verify FAILED");
+            return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, "verify FAILED");
             }
         }
 

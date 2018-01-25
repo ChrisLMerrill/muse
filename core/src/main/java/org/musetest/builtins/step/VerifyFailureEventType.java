@@ -18,7 +18,7 @@ public class VerifyFailureEventType extends EventType
 	public static MuseEvent create(StepConfiguration config, String message, boolean fatal)
 		{
 		MuseEvent event = StepEventType.create(TYPE_ID, config);
-		event.setAttribute(EndStepEventType.STEP_FAILURE_DESCRIPTION, message);
+		event.setAttribute(MuseEvent.DESCRIPTION, message);
 		event.addTag(MuseEvent.FAILURE);
 		if (fatal)
 			event.addTag(MuseEvent.TERMINATE);

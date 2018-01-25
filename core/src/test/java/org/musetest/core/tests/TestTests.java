@@ -9,8 +9,9 @@ import org.musetest.core.events.matching.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.test.plugins.*;
+import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
-import org.musetest.core.variables.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -18,17 +19,14 @@ import org.musetest.core.variables.*;
 public class TestTests
     {
     @Test
-    public void eventGeneration() throws MuseExecutionError
+    public void eventGeneration()
 	    {
         SteppedTest test = setupLogTest(null);
-		final DefaultTestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
-		context.addTestPlugin(new EventLogger());
-		context.initializePlugins(null);
-		MuseTestResult result = test.execute(context);
-
+	    final EventLogger logger = new EventLogger();
+	    TestResult result = TestRunHelper.runTest(new SimpleProject(), test, logger);
         Assert.assertTrue(result.isPass());
-        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(StartTestEventType.TYPE_ID)).size());
-        Assert.assertEquals(1, result.getLog().findEvents(new EventTypeMatcher(EndTestEventType.TYPE_ID)).size());
+        Assert.assertEquals(1, logger.getData().findEvents(new EventTypeMatcher(StartTestEventType.TYPE_ID)).size());
+        Assert.assertEquals(1, logger.getData().findEvents(new EventTypeMatcher(EndTestEventType.TYPE_ID)).size());
         }
 
     @Test
@@ -36,7 +34,7 @@ public class TestTests
         {
         SteppedTest test = setupLogTest(null);
         test.getStep().removeSource(LogMessage.MESSAGE_PARAM);
-        MuseTestResult result = test.execute(new DefaultTestExecutionContext(new SimpleProject(), test));
+        TestResult result = TestRunHelper.runTest(new SimpleProject(), test);
 
         Assert.assertFalse(result.isPass());
         }
@@ -48,10 +46,7 @@ public class TestTests
         SteppedTest test = setupLogTest(step);
 
         EventLogger logger = new EventLogger();
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        test_context.addEventListener(logger);
-
-        MuseTestResult result = test.execute(test_context);
+        TestResult result = TestRunHelper.runTest(new SimpleProject(), test, logger);
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should stop after verify step
@@ -64,12 +59,9 @@ public class TestTests
         StepConfiguration step = new StepConfiguration(Verify.TYPE_ID);
         step.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(false)); // will cause a failure
         SteppedTest test = setupLogTest(step);
-
         EventLogger logger = new EventLogger();
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
-        test_context.addEventListener(logger);
 
-        MuseTestResult result = test.execute(test_context);
+        TestResult result = TestRunHelper.runTest(new SimpleProject(), test, logger);
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should run all steps
@@ -85,12 +77,13 @@ public class TestTests
         SteppedTest test = setupLogTest(step);
 
         EventLogger logger = new EventLogger();
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
+        final SimpleProject project = new SimpleProject();
+        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(project, test);
         test_context.addEventListener(logger);
 
-        MuseTestResult result = test.execute(test_context);
+        TestResult result = TestRunHelper.runTest(project, test, logger);
         Assert.assertFalse(result.isPass());  // test did not pass
-        Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
+        Assert.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
 
         // should stop after verify step
         Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
@@ -105,11 +98,10 @@ public class TestTests
         MuseEvent event = new MuseEvent(MessageEventType.INSTANCE);
         event.addTag(MuseEvent.FAILURE);
         EventLogger logger = new EventLogger();
-        MuseTestResult result = runEventRaisingTest(event, logger);
-
+        TestResult result = runEventRaisingTest(event, logger);
 
         Assert.assertFalse(result.isPass());  // test did not pass
-        Assert.assertEquals(MuseTestFailureDescription.FailureType.Failure, result.getFailureDescription().getFailureType());
+        Assert.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
 
         // it was not fatal, so all steps should run
         Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
@@ -124,10 +116,10 @@ public class TestTests
         MuseEvent event = new MuseEvent(MessageEventType.INSTANCE);
         event.addTag(MuseEvent.ERROR);
         EventLogger logger = new EventLogger();
-        MuseTestResult result = runEventRaisingTest(event, logger);
+        TestResult result = runEventRaisingTest(event, logger);
 
         Assert.assertFalse(result.isPass());  // test did not pass
-        Assert.assertEquals(MuseTestFailureDescription.FailureType.Error, result.getFailureDescription().getFailureType());
+        Assert.assertEquals(TestResult.FailureType.Error, result.getFailures().get(0).getType());
         }
 
     /**
@@ -145,7 +137,7 @@ public class TestTests
         Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
         }
 
-    private MuseTestResult runEventRaisingTest(MuseEvent event, EventLogger logger)
+    private TestResult runEventRaisingTest(MuseEvent event, EventLogger logger)
 	    {
 	    // Implement a step that generates an event with failure status
 	    StepConfiguration step = new StepConfiguration("mock-step")
@@ -169,7 +161,7 @@ public class TestTests
 	    DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
 	    test_context.addEventListener(logger);
 
-	    return test.execute(test_context);
+	    return TestRunHelper.runTest(new SimpleProject(), test, logger);
 	    }
 
     private static SteppedTest setupLogTest(StepConfiguration first_step)

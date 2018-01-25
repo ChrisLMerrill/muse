@@ -12,13 +12,13 @@ import java.util.*;
  */
 public class CompoundPlugin extends BaseTestPlugin
 	{
-	public CompoundPlugin(CompoundPluginConfiguration config)
+	CompoundPlugin(CompoundPluginConfiguration config)
 		{
 		super(config);
 		}
 
 	@Override
-	public boolean addToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
+	public boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
 		{
 		if (automatic && !applyAutomatically(context))
 			return false;
@@ -51,7 +51,7 @@ public class CompoundPlugin extends BaseTestPlugin
 			{
 			final ResourceToken resource = context.getProject().getResourceStorage().findResource(id);
 			if (resource.getResource() instanceof TestPluginConfiguration)
-				((TestPluginConfiguration)resource.getResource()).createPlugin().addToContext(context, false);
+				((TestPluginConfiguration)resource.getResource()).createPlugin().shouldAddToTestContext(context, false);
 			}
 		return true;
 		}

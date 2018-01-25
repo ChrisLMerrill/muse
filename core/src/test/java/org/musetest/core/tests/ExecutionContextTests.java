@@ -5,12 +5,12 @@ import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
-import org.musetest.core.execution.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
 import org.musetest.core.tests.mocks.*;
+import org.musetest.core.tests.utils.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.*;
@@ -32,14 +32,12 @@ public class ExecutionContextTests
 
         // run the test
         BasicTestConfiguration test_config = new BasicTestConfiguration(test);
-        test_config.addPlugin(new EventLogger());
-        final SimpleTestRunner runner = new SimpleTestRunner(project, test_config);
-        runner.runTest();
-        MuseTestResult result = runner.getResult();
+        final EventLogger logger = new EventLogger();
+        TestResult result = TestRunHelper.runTest(project, test_config, logger);
         Assert.assertTrue(result.isPass());
 
         // verify the resource was created and closed
-        Assert.assertTrue("The step did not run", result.getLog().findEvents(event ->
+        Assert.assertTrue("The step did not run", logger.getData().findEvents(event ->
 	        {
 	        final String description = EventTypes.DEFAULT.findType(event).getDescription(event);
 	        return description != null && description.contains(EXECUTE_MESSAGE);

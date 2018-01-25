@@ -15,7 +15,7 @@ public abstract class BaseTestPlugin implements TestPlugin
 		}
 
 	@Override
-	public boolean addToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
+	public boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
 		{
 		if (automatic)
 			{
@@ -30,6 +30,7 @@ public abstract class BaseTestPlugin implements TestPlugin
 		return false;
 		}
 
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	protected boolean applyAutomatically(MuseExecutionContext context) throws MuseExecutionError
 		{
 		MuseValueSource source = BaseValueSource.getValueSource(_configuration.parameters(), AUTO_APPLY_PARAM, true, context.getProject());

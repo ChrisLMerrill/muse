@@ -28,11 +28,11 @@ public class EndStepEventType extends StepEventType
 			{
 			case ERROR:
 				event.addTag(MuseEvent.ERROR);
-				event.setAttribute(STEP_FAILURE_DESCRIPTION, result.getDescription());
+				event.setAttribute(MuseEvent.DESCRIPTION, result.getDescription());
 				break;
 			case FAILURE:
 				event.addTag(MuseEvent.FAILURE);
-				event.setAttribute(STEP_FAILURE_DESCRIPTION, result.getDescription());
+				event.setAttribute(MuseEvent.DESCRIPTION, result.getDescription());
 				break;
 			case INCOMPLETE:
 				event.addTag(StepEventType.INCOMPLETE);
@@ -42,6 +42,4 @@ public class EndStepEventType extends StepEventType
 
 	public final static String TYPE_ID = "end-step";
 	public final static EventType INSTANCE = new EndStepEventType();
-
-	public final static String STEP_FAILURE_DESCRIPTION = "faildesc";
 	}

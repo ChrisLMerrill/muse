@@ -2,9 +2,9 @@ package org.musetest.core.test;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
-import org.musetest.core.variables.*;
 
 
 /**
@@ -13,19 +13,19 @@ import org.musetest.core.variables.*;
 public abstract class BaseMuseTest extends BaseMuseResource implements MuseTest
     {
     @Override
-    public MuseTestResult execute(TestExecutionContext context)
+    public boolean execute(TestExecutionContext context)
         {
-        MuseTestResult result;
         try
             {
-            result = executeImplementation(context);
+            executeImplementation(context);
+            return true;
             }
         catch (Throwable e)
             {
-            result = new BaseMuseTestResult(this, context, new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "An exception was thrown: " + e.getMessage()));
+            MuseEvent event = TestErrorEventType.create("An exception was thrown: " + e.getMessage());
+            context.raiseEvent(event);
+            return false;
             }
-
-        return result;
         }
 
     @Override
@@ -34,7 +34,7 @@ public abstract class BaseMuseTest extends BaseMuseResource implements MuseTest
         return getId();
         }
 
-    protected abstract MuseTestResult executeImplementation(TestExecutionContext context);
+    protected abstract boolean executeImplementation(TestExecutionContext context);
 
     @Override
     public ResourceType getType()

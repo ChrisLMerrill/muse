@@ -3,6 +3,7 @@ package org.musetest.core.resultstorage;
 import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
+import org.musetest.core.suite.plugin.*;
 import org.musetest.core.test.*;
 import org.musetest.core.test.plugin.*;
 import org.slf4j.*;
@@ -17,13 +18,6 @@ public class SaveTestResultsToDisk extends BaseTestPlugin implements Shuttable
 	SaveTestResultsToDisk(SaveTestResultsToDiskConfiguration configuration)
 		{
 		super(configuration);
-		}
-
-	@Override
-	public boolean addToContext(MuseExecutionContext context, boolean automatic)
-		{
-		context.addTestPlugin(this);
-		return true;
 		}
 
 	@Override
@@ -55,6 +49,9 @@ public class SaveTestResultsToDisk extends BaseTestPlugin implements Shuttable
 				}
 		for (DataCollector collector : _context.getDataCollectors())
 			{
+			if (collector instanceof TestSuitePlugin)
+				continue;  // test suite data is saved when the suite finishes
+
 			final TestResultData collected = collector.getData();
 			if (collected != null)
 				{

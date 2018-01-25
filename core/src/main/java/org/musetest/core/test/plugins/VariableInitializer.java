@@ -24,7 +24,7 @@ public class VariableInitializer implements TestPlugin
 		}
 
 	@Override
-	public boolean addToContext(MuseExecutionContext context, boolean automatic)
+	public boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic)
 		{
 		context.addTestPlugin(this);
 		return true;

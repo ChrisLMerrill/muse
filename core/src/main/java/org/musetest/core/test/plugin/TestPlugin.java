@@ -7,6 +7,6 @@ import org.musetest.core.*;
  */
 public interface TestPlugin
     {
-    boolean addToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError;
+    boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError;
     void initialize(MuseExecutionContext context) throws MuseExecutionError;
     }

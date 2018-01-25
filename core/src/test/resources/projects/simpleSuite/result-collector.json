@@ -1,0 +1,31 @@
+{
+  "type" : "test-result-collector",
+  "parameters" : {
+    "fail-on-failure" : {
+      "value" : true,
+      "type" : "boolean",
+      "sourceList" : [ ]
+    },
+    "apply-condition" : {
+      "value" : true,
+      "type" : "boolean",
+      "sourceList" : [ ]
+    },
+    "fail-on-error" : {
+      "value" : true,
+      "type" : "boolean",
+      "sourceList" : [ ]
+    },
+    "auto-apply" : {
+      "value" : true,
+      "type" : "boolean",
+      "sourceList" : [ ]
+    },
+    "fail-on-interrupt" : {
+      "value" : true,
+      "type" : "boolean",
+      "sourceList" : [ ]
+    }
+  },
+  "tags" : [ ]
+}

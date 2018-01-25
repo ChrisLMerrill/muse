@@ -106,7 +106,7 @@ public class ValueSourceTests
     public void projectResourceValueSource() throws MuseExecutionError, IOException
         {
         final String test_id = "test_id";
-        MuseTest test = new MockTest(null, test_id);
+        MuseTest test = new MockTest(test_id);
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         project.getResourceStorage().addResource(test);
 

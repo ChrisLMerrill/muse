@@ -6,7 +6,6 @@ import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.test.*;
 import org.musetest.core.values.*;
-import org.musetest.core.variables.*;
 import org.musetest.javascript.support.*;
 import org.slf4j.*;
 
@@ -24,27 +23,32 @@ public class JavascriptTest extends BaseMuseTest
         }
 
     @Override
-    protected MuseTestResult executeImplementation(TestExecutionContext context)
+    protected boolean executeImplementation(TestExecutionContext context)
         {
         JavascriptRunner runner = new JavascriptRunner();
         runner.getScriptEngine().put("TEST_SUCCESS", null);
-        runner.getScriptEngine().put("TEST_FAILURE", new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Failure, "javascript implementation reported failure"));
-        runner.getScriptEngine().put("TEST_ERROR", new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "javascript implementation reported error"));
+        runner.getScriptEngine().put("TEST_FAILURE", TestResult.create(getDescription(), getId(), "javascript implementation reported failure", TestResult.FailureType.Failure, "javascript implementation reported failure"));
+        runner.getScriptEngine().put("TEST_ERROR", TestResult.create(getDescription(), getId(), "javascript implementation reported failure", TestResult.FailureType.Error, "javascript implementation reported error"));
+        context.raiseEvent(StartTestEventType.create(this, getDescription()));
+        Boolean result = true;
         try
             {
             runner.evalScript(_origin);
-            Object result = ((Invocable)runner.getScriptEngine()).invokeFunction(FUNCTION_NAME, context);
-            if (result == null || result instanceof MuseTestFailureDescription)
-                return new BaseMuseTestResult(this, new EventLog(), (MuseTestFailureDescription) result);
-            else
-                context.raiseEvent(ScriptFailureEventType.create("Script did not return a MuseTestFailureDescription. Instead, it returned: " + result, null));
+            Object result_obj = ((Invocable)runner.getScriptEngine()).invokeFunction(FUNCTION_NAME, context);
+            if (result_obj != null)
+	            {
+	            context.raiseEvent(ScriptFailureEventType.create(result_obj.toString(), null));
+	            result = false;
+	            }
             }
         catch (Throwable t)
             {
-            LOG.error("unable to execute script: ", t);
-            context.raiseEvent(ScriptFailureEventType.create("Script threw an exception: " + t.getMessage(), t));
+            LOG.error("Script threw an exception", t);
+            result = false;
+            context.raiseEvent(TestErrorEventType.create("Script threw an exception: " + t.getMessage()));
             }
-        return new BaseMuseTestResult(this, new EventLog(), new MuseTestFailureDescription(MuseTestFailureDescription.FailureType.Error, "javascript implementation did not indicate success"));
+        context.raiseEvent(EndTestEventType.create());
+        return result;
         }
 
     @Override
