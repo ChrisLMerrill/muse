@@ -12,7 +12,7 @@ import java.util.*;
  */
 public abstract class MockTestWithAction extends BaseMuseTest
     {
-    MockTestWithAction()
+    protected MockTestWithAction()
 	    {
 	    setId("mock-test-with-action");
 	    }

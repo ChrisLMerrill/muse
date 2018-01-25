@@ -301,7 +301,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
             builder.append(_source.toString());
             first = false;
             }
-        if (_indexed_sources != null && _indexed_sources.getSourceList().size() > 0)
+        if (_indexed_sources.getSourceList() != null && _indexed_sources.getSourceList().size() > 0)
             {
             if (!first)
                 builder.append(",");

@@ -146,12 +146,17 @@ public class IndexedSourcesContainer implements ContainsIndexedSources, Serializ
 				source.removeChangeListener(getSubsourceListener());
 		_source_list = new_list;
 		if (_source_list != null)
-			for (ValueSourceConfiguration source : _source_list)
-				source.addChangeListener(getSubsourceListener());
+			{
+			if (_source_list.size() == 0)
+				_source_list = null;
+			else
+				for (ValueSourceConfiguration source : _source_list)
+					source.addChangeListener(getSubsourceListener());
+			}
 		}
 
 	private ValueSourceConfiguration _parent;
-	private List<ValueSourceConfiguration> _source_list = new ArrayList<>();
+	private List<ValueSourceConfiguration> _source_list = null;
 	private transient Set<ChangeEventListener> _listeners;
 	private transient SubsourceChangeListener _subsource_change_listener;
 

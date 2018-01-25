@@ -162,7 +162,7 @@ public class TestSuiteTests
 
     @Test
     public void parametersFromCsv()
-        {
+	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("CsvSuite").getResource();
         final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration().createPlugin();
