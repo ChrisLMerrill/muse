@@ -25,7 +25,7 @@ public class BasicTestConfiguration implements TestConfiguration
 
     public MuseTest test()
         {
-        if (_test == null)
+        if (_test == null && _project != null)
 	        {
 	        _test = _project.getResourceStorage().getResource(_test_id, MuseTest.class);
 	        if (_test == null)  // not found in project
@@ -59,7 +59,7 @@ public class BasicTestConfiguration implements TestConfiguration
 
     public String getName()
 	    {
-	    return _name;
+	    return name();
 	    }
     public void setName(String name)
         {
@@ -86,7 +86,7 @@ public class BasicTestConfiguration implements TestConfiguration
     private List<TestPlugin> _plugins;
 
     // these are set/cached for use at test execution time
-    private MuseProject _project;
+    private transient MuseProject _project;
     private MuseTest _test;
     private TestExecutionContext _context;
     }

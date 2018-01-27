@@ -1,5 +1,6 @@
 package org.musetest.core.test.plugin;
 
+import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.generic.*;
 import org.musetest.core.values.*;
@@ -9,7 +10,7 @@ import org.musetest.core.values.*;
  */
 public abstract class BaseTestPlugin implements TestPlugin
 	{
-	public BaseTestPlugin(GenericResourceConfiguration configuration)
+	public BaseTestPlugin(@NotNull GenericResourceConfiguration configuration)
 		{
 		_configuration = configuration;
 		}

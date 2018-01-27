@@ -42,9 +42,9 @@ public class CommandLineTestRunner implements MuseResourceRunner
         if (!verbose)
             {
             if (result)
-                System.out.println(String.format("SUCCESS: Test '%s' completed normally.", config.getName()));
+                System.out.println(String.format("SUCCESS: Test '%s' completed normally.", config.name()));
             else
-                System.out.println(String.format("ERROR: Test '%s' did not finish normally.", config.getName()));
+                System.out.println(String.format("ERROR: Test '%s' did not finish normally.", config.name()));
             }
 
         return true;
