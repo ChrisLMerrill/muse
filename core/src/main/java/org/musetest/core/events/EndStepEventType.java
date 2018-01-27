@@ -17,7 +17,10 @@ public class EndStepEventType extends StepEventType
 	@Override
 	public String getDescription(MuseEvent event)
 		{
-		return "Finished: " + event.getAttributeAsString(STEP_DESCRIPTION);
+		String description = "End: " + event.getAttributeAsString(STEP_DESCRIPTION);
+		if (event.hasTag(INCOMPLETE))
+			description += " (incomplete)";
+		return description;
 		}
 
 	public static MuseEvent create(StepConfiguration step, StepExecutionContext context, StepExecutionResult result)

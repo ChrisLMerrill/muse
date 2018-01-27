@@ -11,7 +11,7 @@ public abstract class EventType
 		{
 		}
 
-	public EventType(String typeid, String name)
+	public  EventType(String typeid, String name)
 		{
 		_typeid = typeid;
 		_name = name;

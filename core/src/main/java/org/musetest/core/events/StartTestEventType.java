@@ -16,7 +16,7 @@ public class StartTestEventType extends EventType
 	@Override
 	public String getDescription(MuseEvent event)
 		{
-		return "Starting test: " + event.getAttribute(MuseEvent.DESCRIPTION);
+		return "Start test: " + event.getAttribute(TEST_NAME);
 		}
 
 	public static MuseEvent create(String test_id, String name)

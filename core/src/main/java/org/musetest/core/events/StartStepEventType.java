@@ -18,7 +18,7 @@ public class StartStepEventType extends StepEventType
 	@Override
 	public String getDescription(MuseEvent event)
 		{
-		return "Starting: " + event.getAttributeAsString(STEP_DESCRIPTION);
+		return "Start: " + event.getAttributeAsString(STEP_DESCRIPTION);
 		}
 
 	public static MuseEvent create(StepConfiguration step, StepExecutionContext context)
