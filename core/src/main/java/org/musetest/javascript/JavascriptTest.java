@@ -29,7 +29,7 @@ public class JavascriptTest extends BaseMuseTest
         runner.getScriptEngine().put("TEST_SUCCESS", null);
         runner.getScriptEngine().put("TEST_FAILURE", TestResult.create(getDescription(), getId(), "javascript implementation reported failure", TestResult.FailureType.Failure, "javascript implementation reported failure"));
         runner.getScriptEngine().put("TEST_ERROR", TestResult.create(getDescription(), getId(), "javascript implementation reported failure", TestResult.FailureType.Error, "javascript implementation reported error"));
-        context.raiseEvent(StartTestEventType.create(this, getDescription()));
+        context.raiseEvent(StartTestEventType.create(getId(), getDescription()));
         Boolean result = true;
         try
             {

@@ -43,7 +43,7 @@ public class MockTest extends BaseMuseTest
     @Override
     protected boolean executeImplementation(TestExecutionContext context)
         {
-        context.raiseEvent(StartTestEventType.create(this, getId()));
+        context.raiseEvent(StartTestEventType.create(getId(), getId()));
         if (_failure != null)
 	        {
 	        final MuseEvent event = MessageEventType.create(_failure.getDescription());

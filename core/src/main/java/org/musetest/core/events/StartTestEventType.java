@@ -19,11 +19,10 @@ public class StartTestEventType extends EventType
 		return "Starting test: " + event.getAttribute(MuseEvent.DESCRIPTION);
 		}
 
-	public static MuseEvent create(MuseTest test, String name)
+	public static MuseEvent create(String test_id, String name)
 		{
 		MuseEvent event = new MuseEvent(TYPE_ID);
-		event.setAttribute(MuseEvent.DESCRIPTION, test.getDescription());
-		event.setAttribute(TEST_ID, test.getId());
+		event.setAttribute(TEST_ID, test_id);
 		event.setAttribute(TEST_NAME, name);
 		return event;
 		}

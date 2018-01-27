@@ -66,10 +66,12 @@ public class SimpleTestRunner implements TestRunner
 		    LOG.error(message);
 		    this._context.raiseEvent(TestErrorEventType.create(message));
 		    }
+	    _context.raiseEvent(StartTestEventType.create(_test.getId(), _config.name()));
 	    }
 
     protected void finishTest()
 	    {
+	    _context.raiseEvent(EndTestEventType.create());
 	    try
 	        {
 	        _config.context().cleanup();

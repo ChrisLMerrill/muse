@@ -71,7 +71,7 @@ public class TestResultTests
 	    TestResultCollector collector = new TestResultCollector(new TestResultCollectorConfiguration());
 	    final MockMuseExecutionContext context = new MockMuseExecutionContext();
 	    collector.initialize(context);
-		context.raiseEvent(StartTestEventType.create(_test, "test name"));
+		context.raiseEvent(StartTestEventType.create(_test.getId(), "test name"));
 
 		Assert.assertNotNull(collector.getData());
 	    Assert.assertEquals("test name", collector.getData().getName());

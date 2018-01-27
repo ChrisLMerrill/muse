@@ -22,7 +22,7 @@ public class MissingTest extends BaseMuseResource implements MuseTest
     @Override
     public boolean execute(TestExecutionContext context)
         {
-        final MuseEvent event = StartTestEventType.create(this, getDescription());
+        final MuseEvent event = StartTestEventType.create(getId(), getDescription());
         event.addTag(MuseEvent.ERROR);
         context.raiseEvent(event);
         return false;

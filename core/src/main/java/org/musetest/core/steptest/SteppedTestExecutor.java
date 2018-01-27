@@ -22,7 +22,7 @@ public class SteppedTestExecutor
     @SuppressWarnings("WeakerAccess")  // allow external usage of this API
     public boolean executeAll()
         {
-        _context.raiseEvent(StartTestEventType.create(_test, _test.getDescription()));
+//        _context.raiseEvent(StartTestEventType.create(_test, _test.getDescription()));
 
         try
             {
@@ -40,7 +40,7 @@ public class SteppedTestExecutor
                 throw e;
             }
 
-        _context.raiseEvent(EndTestEventType.create());
+//        _context.raiseEvent(EndTestEventType.create());
         return true;
         }
 
