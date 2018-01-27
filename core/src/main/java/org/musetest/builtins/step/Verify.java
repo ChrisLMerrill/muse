@@ -38,14 +38,13 @@ public class Verify extends BaseStep
             throw new IllegalArgumentException("The source of an Verify step must resolve to a boolean value. The source (" + _condition.getDescription() + ") resolved to " + value);
 
         boolean success = (Boolean) value;
-        String message = String.format("%s is %b", _condition.getDescription(), success);
         if (success)
             return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, "verify passed");
         else
             {
             // is this step configured to terminated on verify failure?
             Boolean terminate_value = getValue(_terminate, context, true, Boolean.class);
-            context.raiseEvent(VerifyFailureEventType.create(_config, message, terminate_value != null && terminate_value));
+            context.raiseEvent(VerifyFailureEventType.create(_config, String.format("Verify failure: %s is false", _condition.getDescription()), terminate_value != null && terminate_value));
 
             return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, "verify FAILED");
             }
