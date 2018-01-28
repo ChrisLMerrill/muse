@@ -36,7 +36,7 @@ public class MockStepExecutionContext implements StepExecutionContext
 
     public MockStepExecutionContext(MuseProject project)
         {
-        this(project, new MockTest());
+        this(project, new SteppedTest(new StepConfiguration("mock-step")));
         }
 
 	public MockStepExecutionContext(MuseProject project, MuseTest test)

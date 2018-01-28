@@ -19,8 +19,9 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
     public DefaultSteppedTestExecutionContext(TestExecutionContext parent_context)
         {
         _parent_context = parent_context;
-        if (parent_context.getTest() instanceof SteppedTest)
-	        _step_locator.loadSteps(((SteppedTest) parent_context.getTest()).getStep());
+        if (!(parent_context.getTest() instanceof SteppedTest))
+        	throw new IllegalArgumentException("Test must be a SteppedTest");
+        _step_locator.loadSteps(((SteppedTest) parent_context.getTest()).getStep());
         }
 
     @Override
@@ -153,9 +154,9 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         }
 
     @Override
-    public MuseTest getTest()
+    public SteppedTest getTest()
         {
-        return _parent_context.getTest();
+        return (SteppedTest) _parent_context.getTest();
         }
 
 	@Override

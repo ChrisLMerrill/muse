@@ -11,6 +11,7 @@ import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
+import org.musetest.core.steptest.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
 import org.musetest.javascript.*;
@@ -140,7 +141,7 @@ public class JavascriptTests
         MuseStep step = config.createStep(project);
 
         final List<MuseEvent> events = new ArrayList<>();
-        DefaultSteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project, null));
+        DefaultSteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration("mock-step"))));
         StepExecutionContext context = new SingleStepExecutionContext(test_context, config, true);
         test_context.addEventListener(event ->
             {
