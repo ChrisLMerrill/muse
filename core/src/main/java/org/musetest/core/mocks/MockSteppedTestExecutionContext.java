@@ -10,7 +10,7 @@ import org.musetest.core.steptest.*;
  */
 public class MockSteppedTestExecutionContext extends MockStepExecutionContext implements SteppedTestExecutionContext
 	{
-	public MockSteppedTestExecutionContext(MuseTest test)
+	public MockSteppedTestExecutionContext(SteppedTest test)
 		{
 		super(test);
 		}

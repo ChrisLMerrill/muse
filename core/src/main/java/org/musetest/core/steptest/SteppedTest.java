@@ -28,8 +28,8 @@ public class SteppedTest extends BaseMuseTest implements ContainsStep
     protected boolean executeImplementation(TestExecutionContext context)
         {
         if (!(context instanceof SteppedTestExecutionContext))
-            context = new DefaultSteppedTestExecutionContext(context);
-        SteppedTestExecutor executor = new SteppedTestExecutor(this, (SteppedTestExecutionContext)context);
+            throw new IllegalArgumentException("Must be provided a SteppedTestExuectionContext");
+        SteppedTestExecutor executor = new SteppedTestExecutor(this, (SteppedTestExecutionContext) context);
         context.addEventListener(new TerminateOnError(executor));
         return executor.executeAll();
         }

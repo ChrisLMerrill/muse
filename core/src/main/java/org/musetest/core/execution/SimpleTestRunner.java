@@ -21,17 +21,20 @@ public class SimpleTestRunner implements TestRunner
         {
         _project = project;
         _config = new TestHolder(test, TestExecutionContextFactory.create(project, test));
+        _config.withinProject(project);
         }
 
     public SimpleTestRunner(MuseProject project, TestConfiguration config)
 	    {
 	    _project = project;
 	    _config = config;
+	    _config.withinProject(project);
 	    }
 
     public SimpleTestRunner(TestExecutionContext context)
         {
         _config = new TestHolder(context.getTest(), context);
+        _config.withinProject(context.getProject());
         }
 
     @Override

@@ -151,7 +151,7 @@ public class StepTests
     private void verifyMaybeFatal(boolean fatal) throws MuseExecutionError
         {
         EventLogger logger = new EventLogger();
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration("mock-step")));
+        SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration("mock-step")));
         test_context.addEventListener(logger);
 
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);

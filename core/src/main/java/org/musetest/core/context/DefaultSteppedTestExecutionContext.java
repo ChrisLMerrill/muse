@@ -1,12 +1,9 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
-import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.test.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
@@ -14,32 +11,31 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionContext
+public class DefaultSteppedTestExecutionContext extends BaseExecutionContext implements SteppedTestExecutionContext
     {
+    public DefaultSteppedTestExecutionContext(MuseExecutionContext parent, SteppedTest test)
+	    {
+	    super(parent.getProject());
+	    _parent_context = parent;
+	    _test = test;
+	    }
+
+    public DefaultSteppedTestExecutionContext(MuseProject project, SteppedTest test)
+	    {
+	    super(project);
+	    _parent_context = null;
+	    _test = test;
+	    }
+
+    @Deprecated
     public DefaultSteppedTestExecutionContext(TestExecutionContext parent_context)
         {
+        super(parent_context.getProject());
         _parent_context = parent_context;
         if (!(parent_context.getTest() instanceof SteppedTest))
         	throw new IllegalArgumentException("Test must be a SteppedTest");
+        _test = (SteppedTest) parent_context.getTest();
         _step_locator.loadSteps(((SteppedTest) parent_context.getTest()).getStep());
-        }
-
-    @Override
-    public void raiseEvent(MuseEvent event)
-        {
-        _parent_context.raiseEvent(event);
-        }
-
-    @Override
-    public void addEventListener(MuseEventListener listener)
-        {
-        _parent_context.addEventListener(listener);
-        }
-
-    @Override
-    public void removeEventListener(MuseEventListener listener)
-        {
-        _parent_context.removeEventListener(listener);
         }
 
     private Object getLocalVariable(String name)
@@ -82,9 +78,13 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
     public Object getVariable(String name)
         {
         Object value = getLocalVariable(name);
-        if (value == null)
+        if (value != null)
+        	return value;
+
+        if (_parent_context != null)
             return _parent_context.getVariable(name);
-        return value;
+
+        return super.getVariable(name);
         }
 
     @Override
@@ -98,35 +98,29 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         {
         if (scope.equals(VariableScope.Local))
             return getLocalVariable(name);
-        else
+
+        if (_parent_context != null)
             return _parent_context.getVariable(name, scope);
+
+        return super.getVariable(name, scope);
         }
 
     @Override
     public void setVariable(String name, Object value, VariableScope scope)
         {
         if (scope.equals(VariableScope.Local))
-            setLocalVariable(name, value);
-        else
-            _parent_context.setVariable(name, value, scope);
-        }
+	        {
+	        setLocalVariable(name, value);
+	        return;
+	        }
 
-    @Override
-    public MuseProject getProject()
-        {
-        return _parent_context.getProject();
-        }
+        if (_parent_context != null)
+	        {
+	        _parent_context.setVariable(name, value, scope);
+	        return;
+	        }
 
-    @Override
-    public void registerShuttable(Shuttable shuttable)
-        {
-        _parent_context.registerShuttable(shuttable);
-        }
-
-    @Override
-    public void cleanup()
-        {
-        _parent_context.cleanup();
+        super.setVariable(name, value, scope);
         }
 
     @Override
@@ -136,40 +130,10 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
         }
 
     @Override
-    public MuseExecutionContext getParent()
-        {
-        return _parent_context;
-        }
-
-    @Override
-    public void addTestPlugin(TestPlugin initializer)
-        {
-        _parent_context.addTestPlugin(initializer);
-        }
-
-    @Override
-    public void initializePlugins(MuseExecutionContext context) throws MuseExecutionError
-        {
-        _parent_context.initializePlugins(this);
-        }
-
-    @Override
     public SteppedTest getTest()
         {
-        return (SteppedTest) _parent_context.getTest();
+        return _test;
         }
-
-	@Override
-	public List<DataCollector> getDataCollectors()
-		{
-		return _parent_context.getDataCollectors();
-		}
-
-	@Override
-	public <T extends DataCollector> T getDataCollector(Class<T> type)
-		{
-		return _parent_context.getDataCollector(type);
-		}
 
     @Override
     public StepLocator getStepLocator()
@@ -177,7 +141,8 @@ public class DefaultSteppedTestExecutionContext implements SteppedTestExecutionC
 	    return _step_locator;
 	    }
 
-    private TestExecutionContext _parent_context;
+    private final MuseExecutionContext _parent_context;
     private StepExecutionContextStack _stack = new StepExecutionContextStack();
     private StepLocator _step_locator = new CachedLookupStepLocator();
+    private final SteppedTest _test;
     }

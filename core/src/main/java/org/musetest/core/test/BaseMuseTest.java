@@ -17,8 +17,8 @@ public abstract class BaseMuseTest extends BaseMuseResource implements MuseTest
         {
         try
             {
-            executeImplementation(context);
-            return true;
+            return executeImplementation(context);
+//            return true;
             }
         catch (Throwable e)
             {

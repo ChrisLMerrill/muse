@@ -141,7 +141,7 @@ public class JavascriptTests
         MuseStep step = config.createStep(project);
 
         final List<MuseEvent> events = new ArrayList<>();
-        DefaultSteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration("mock-step"))));
+        SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(project, new SteppedTest(new StepConfiguration("mock-step")));
         StepExecutionContext context = new SingleStepExecutionContext(test_context, config, true);
         test_context.addEventListener(event ->
             {

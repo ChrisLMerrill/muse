@@ -10,9 +10,8 @@ public class TestExecutionContextFactory
 	{
 	public static TestExecutionContext create(MuseProject project, MuseTest test)
 		{
-		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
 		if (test instanceof SteppedTest)
-			context = new DefaultSteppedTestExecutionContext(context);
-		return context;
+			return new DefaultSteppedTestExecutionContext(project, (SteppedTest) test);
+		return new DefaultTestExecutionContext(project, test);
 		}
 	}

@@ -109,7 +109,7 @@ public class ConditionalAndLoopingTests
 	public void testWhileStepX0()
 		{
 		SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 3L);
-		TestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), test);
+		SteppedTestExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
 		EventLogger logger = new EventLogger();
 		context.addTestPlugin(new EventLogger());
 		context.addTestPlugin(new TestResultCollectorConfiguration().createPlugin());

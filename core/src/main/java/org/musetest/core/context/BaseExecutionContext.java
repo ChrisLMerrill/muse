@@ -19,6 +19,8 @@ public class BaseExecutionContext implements MuseExecutionContext
     {
     public BaseExecutionContext(MuseProject project)
         {
+        if (project == null)
+   	    	throw new IllegalArgumentException("Project cannot be null");
         _project = project;
         }
 

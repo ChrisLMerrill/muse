@@ -27,7 +27,7 @@ public class SeleniumStepTests
     @Test
     public void openBrowser() throws ValueSourceResolutionError
         {
-        TestExecutionContext context = runTestWithSteps(createOpenBrowserStep());
+        SteppedTestExecutionContext context = runTestWithSteps(createOpenBrowserStep());
         MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
         Assert.assertNotNull(driver);
         }
@@ -35,7 +35,7 @@ public class SeleniumStepTests
     @Test
     public void openAndCloseBrowser()
 	    {
-        TestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), new StepConfiguration(CloseBrowser.TYPE_ID));
+	    SteppedTestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), new StepConfiguration(CloseBrowser.TYPE_ID));
         MuseMockDriver driver;
         try
             {
@@ -54,7 +54,7 @@ public class SeleniumStepTests
         final String URL = "thetesturl";
         StepConfiguration goto_url = new StepConfiguration(GotoUrl.TYPE_ID);
         goto_url.addSource(GotoUrl.URL_PARAM, ValueSourceConfiguration.forValue(URL));
-        TestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), goto_url);
+        SteppedTestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), goto_url);
         MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
         Assert.assertEquals(URL, driver.getCurrentUrl());
         }
@@ -162,7 +162,7 @@ public class SeleniumStepTests
         Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
         }
 
-    private TestExecutionContext runTestWithSteps(StepConfiguration... steps)
+    private SteppedTestExecutionContext runTestWithSteps(StepConfiguration... steps)
         {
         MuseProject project = createSeleniumTestProject();
         SteppedTest test;
@@ -176,7 +176,7 @@ public class SeleniumStepTests
             test = new SteppedTest(root);
             }
 
-        DefaultTestExecutionContext context = new DefaultTestExecutionContext(project, test);
+        SteppedTestExecutionContext context = new DefaultSteppedTestExecutionContext(project, test);
         test.execute(context);
         return context;
         }

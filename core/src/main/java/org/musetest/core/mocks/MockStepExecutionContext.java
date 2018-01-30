@@ -29,7 +29,7 @@ public class MockStepExecutionContext implements StepExecutionContext
         this(new SimpleProject());
         }
 
-	public MockStepExecutionContext(MuseTest test)
+	public MockStepExecutionContext(SteppedTest test)
 		{
 		this(new SimpleProject(), test);
 		}
@@ -39,17 +39,16 @@ public class MockStepExecutionContext implements StepExecutionContext
         this(project, new SteppedTest(new StepConfiguration("mock-step")));
         }
 
-	public MockStepExecutionContext(MuseProject project, MuseTest test)
+	public MockStepExecutionContext(MuseProject project, SteppedTest test)
 		{
-		DefaultTestExecutionContext parent_context = new DefaultTestExecutionContext(project, test);
-		parent_context.addTestPlugin(new EventLogger());
-  		_test_context = new DefaultSteppedTestExecutionContext(parent_context);
+		_test_context = new DefaultSteppedTestExecutionContext(project, test);
+		_test_context.addTestPlugin(new EventLogger());
 		}
 
-    public MockStepExecutionContext(TestExecutionContext test_context)
+    public MockStepExecutionContext(SteppedTestExecutionContext test_context)
         {
 		test_context.addTestPlugin(new EventLogger());
-        _test_context = new DefaultSteppedTestExecutionContext(test_context);
+        _test_context = test_context;
         }
 
     final SteppedTestExecutionContext _test_context;

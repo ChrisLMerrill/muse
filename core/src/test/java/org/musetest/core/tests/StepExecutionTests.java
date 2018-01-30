@@ -24,11 +24,11 @@ public class StepExecutionTests
         step_a.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message));
 
         SteppedTest test = new SteppedTest(step_a);
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
+		SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
 		test_context.addTestPlugin(new EventLogger());
 		test_context.initializePlugins(null);
 
-        StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+		StepExecutor executor = new StepExecutor(test, test_context);
         executor.executeAll();
 
 		//noinspection ConstantConditions
@@ -47,11 +47,11 @@ public class StepExecutionTests
         parent.addChild(child);
 
         SteppedTest test = new SteppedTest(parent);
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
+        SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
 		test_context.addTestPlugin(new EventLogger());
 		test_context.initializePlugins(null);
 
-        StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+        StepExecutor executor = new StepExecutor(test, test_context);
         executor.executeAll();
 
 		//noinspection ConstantConditions
@@ -75,11 +75,11 @@ public class StepExecutionTests
         parent.addChild(child2);
 
         SteppedTest test = new SteppedTest(parent);
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
+        SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
         test_context.addTestPlugin(new EventLogger());
 		test_context.initializePlugins(null);
 
-        StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+        StepExecutor executor = new StepExecutor(test, test_context);
         executor.executeAll();
 
 		EventLog log = test_context.getDataCollector(EventLogger.class).getData();
@@ -94,11 +94,11 @@ public class StepExecutionTests
         StepConfiguration step_a = new StepConfiguration();
         step_a.setType("blahblah");
         SteppedTest test = new SteppedTest(step_a);
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
+		SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
 		test_context.addTestPlugin(new EventLogger());
 		test_context.initializePlugins(null);
 
-        StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+		StepExecutor executor = new StepExecutor(test, test_context);
         test_context.addEventListener(new TerminateOnError(executor));
         executor.executeAll();
 
@@ -116,11 +116,11 @@ public class StepExecutionTests
         step_a.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue(null));
 
         SteppedTest test = new SteppedTest(step_a);
-        DefaultTestExecutionContext test_context = new DefaultTestExecutionContext(new SimpleProject(), test);
+		SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
 		test_context.addTestPlugin(new EventLogger());
 		test_context.initializePlugins(null);
 
-        StepExecutor executor = new StepExecutor(test, new DefaultSteppedTestExecutionContext(test_context));
+		StepExecutor executor = new StepExecutor(test, test_context);
         test_context.addEventListener(new TerminateOnError(executor));
         executor.executeAll();
 
