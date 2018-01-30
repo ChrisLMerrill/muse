@@ -27,17 +27,6 @@ public class DefaultSteppedTestExecutionContext extends BaseExecutionContext imp
 	    _test = test;
 	    }
 
-    @Deprecated
-    public DefaultSteppedTestExecutionContext(TestExecutionContext parent_context)
-        {
-        super(parent_context.getProject());
-        _parent_context = parent_context;
-        if (!(parent_context.getTest() instanceof SteppedTest))
-        	throw new IllegalArgumentException("Test must be a SteppedTest");
-        _test = (SteppedTest) parent_context.getTest();
-        _step_locator.loadSteps(((SteppedTest) parent_context.getTest()).getStep());
-        }
-
     private Object getLocalVariable(String name)
         {
         // iterate the execution stack for the first variable scope and look for the variable there.
