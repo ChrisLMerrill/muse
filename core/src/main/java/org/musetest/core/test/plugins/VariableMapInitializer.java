@@ -1,7 +1,7 @@
 package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
-import org.musetest.core.test.plugin.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class VariableMapInitializer implements TestPlugin
+public class VariableMapInitializer implements MusePlugin
     {
     public VariableMapInitializer(Map<String, Object> variables)
         {
@@ -19,10 +19,9 @@ public class VariableMapInitializer implements TestPlugin
         }
 
     @Override
-    public boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic)
+    public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
 	    {
-	    context.addTestPlugin(this);
-	    return true;
+	    context.addPlugin(this);
 	    }
 
     @Override

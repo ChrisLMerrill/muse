@@ -9,7 +9,6 @@ import org.musetest.core.events.matching.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.test.plugins.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
 

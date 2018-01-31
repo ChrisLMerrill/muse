@@ -3,20 +3,26 @@ package org.musetest.core.events;
 import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.resource.generic.*;
-import org.musetest.core.test.plugin.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EventLogger extends BaseTestPlugin implements MuseEventListener, DataCollector
+public class EventLogger extends GenericConfigurablePlugin implements MuseEventListener, DataCollector
     {
     public EventLogger()
 	    {
 	    super(new EventLoggerConfiguration.EventLoggerType().create());
 	    }
 
-    public EventLogger(GenericResourceConfiguration configuration)
+    @Override
+    protected boolean applyToContextType(MuseExecutionContext context)
+	    {
+	    return true;
+	    }
+
+    EventLogger(GenericResourceConfiguration configuration)
 	    {
 	    super(configuration);
 	    }

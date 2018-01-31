@@ -131,7 +131,7 @@ public class StepTests
 
         final MockStepExecutionContext context = new MockStepExecutionContext();
         EventLogger logger = new EventLogger();
-        context.addTestPlugin(logger);
+        context.addPlugin(logger);
         step.execute(context);
         Assert.assertNotNull(logger.getData().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
         }

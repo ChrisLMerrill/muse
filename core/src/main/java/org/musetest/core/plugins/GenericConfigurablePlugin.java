@@ -1,6 +1,5 @@
-package org.musetest.core.test.plugin;
+package org.musetest.core.plugins;
 
-import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.generic.*;
 import org.musetest.core.values.*;
@@ -8,28 +7,28 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public abstract class BaseTestPlugin implements TestPlugin
+public abstract class GenericConfigurablePlugin implements MusePlugin
 	{
-	public BaseTestPlugin(@NotNull GenericResourceConfiguration configuration)
+	public GenericConfigurablePlugin(GenericResourceConfiguration configuration)
 		{
 		_configuration = configuration;
 		}
 
 	@Override
-	public boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
+	public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
 		{
+		if (!applyToContextType(context))
+			return;
 		if (automatic)
 			{
 			if (!applyAutomatically(context))
-				return false;
+				return;
 			}
 		if (applyToThisTest(context))
-			{
-			context.addTestPlugin(this);
-			return true;
-			}
-		return false;
+			context.addPlugin(this);
 		}
+
+	protected abstract boolean applyToContextType(MuseExecutionContext context);
 
 	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	protected boolean applyAutomatically(MuseExecutionContext context) throws MuseExecutionError

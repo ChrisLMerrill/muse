@@ -1,8 +1,8 @@
 package org.musetest.core;
 
 import org.musetest.core.datacollection.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.test.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
@@ -76,14 +76,18 @@ public interface MuseExecutionContext
     /**
      * Adds a plugin to the test.
      */
-    void addTestPlugin(TestPlugin plugin);
+    void addPlugin(MusePlugin plugin);
+
+    /**
+     * Gets the plugins that are applied to this context (but not the parents)
+     */
+    List<MusePlugin> getPlugins();
 
     /**
      * Initialize the configured TestPlugins.
      * @throws MuseExecutionError If a plugin fails or if already initialized.
-     * @param context The context to pass
      */
-    void initializePlugins(MuseExecutionContext context) throws MuseExecutionError;
+    void initializePlugins() throws MuseExecutionError;
 
 	/**
 	 * Get the DataCollectors configured for the test.

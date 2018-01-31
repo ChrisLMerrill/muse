@@ -1,8 +1,8 @@
 package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.resource.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.values.*;
 
 import java.util.*;
@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class CompoundPlugin extends BaseTestPlugin
+public class CompoundPlugin extends GenericConfigurablePlugin
 	{
 	CompoundPlugin(CompoundPluginConfiguration config)
 		{
@@ -18,13 +18,13 @@ public class CompoundPlugin extends BaseTestPlugin
 		}
 
 	@Override
-	public boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
+	public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
 		{
 		if (automatic && !applyAutomatically(context))
-			return false;
+			return;
 
 		if (!applyToThisTest(context))
-			return false;
+			return;
 
 		MuseValueSource source = BaseValueSource.getValueSource(_configuration.parameters(), CompoundPluginConfiguration.LISTS_PARAM, true, context.getProject());
 		Object id_list_obj = BaseValueSource.getValue(source, context, false);
@@ -50,9 +50,14 @@ public class CompoundPlugin extends BaseTestPlugin
 		for (String id : id_list)
 			{
 			final ResourceToken resource = context.getProject().getResourceStorage().findResource(id);
-			if (resource.getResource() instanceof TestPluginConfiguration)
-				((TestPluginConfiguration)resource.getResource()).createPlugin().shouldAddToTestContext(context, false);
+			if (resource.getResource() instanceof PluginConfiguration)
+				((PluginConfiguration)resource.getResource()).createPlugin().conditionallyAddToContext(context, false);
 			}
+		}
+
+	@Override
+	protected boolean applyToContextType(MuseExecutionContext context)
+		{
 		return true;
 		}
 

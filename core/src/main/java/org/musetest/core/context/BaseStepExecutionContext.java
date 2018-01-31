@@ -2,11 +2,11 @@ package org.musetest.core.context;
 
 import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
@@ -126,15 +126,21 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
 		}
 
 	@Override
-	public void addTestPlugin(TestPlugin plugin)
+	public void addPlugin(MusePlugin plugin)
 		{
-		_parent_context.addTestPlugin(plugin);
+		_parent_context.addPlugin(plugin);
 		}
 
 	@Override
-	public void initializePlugins(MuseExecutionContext context) throws MuseExecutionError
+	public List<MusePlugin> getPlugins()
 		{
-		_parent_context.initializePlugins(null);
+		return _parent_context.getPlugins();
+		}
+
+	@Override
+	public void initializePlugins() throws MuseExecutionError
+		{
+		_parent_context.initializePlugins();
 		}
 
 	@Override

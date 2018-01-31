@@ -2,8 +2,8 @@ package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.resource.generic.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.factory.*;
 import org.musetest.core.variables.*;
@@ -13,9 +13,9 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestDefaultsInitializer extends BaseTestPlugin
+public class TestDefaultsInitializer extends GenericConfigurableTestPlugin
     {
-    public TestDefaultsInitializer(GenericResourceConfiguration configuration)
+    TestDefaultsInitializer(GenericResourceConfiguration configuration)
 	    {
 	    super(configuration);
 	    }

@@ -2,7 +2,7 @@ package org.musetest.core.test;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.test.plugin.*;
+import org.musetest.core.plugins.*;
 
 import java.util.*;
 
@@ -66,14 +66,14 @@ public class BasicTestConfiguration implements TestConfiguration
         _name = name;
         }
 
-    public List<TestPlugin> plugins()
+    public List<MusePlugin> plugins()
         {
         if (_plugins == null)
         	return Collections.emptyList();
         return Collections.unmodifiableList(_plugins);
         }
 
-    public void addPlugin(TestPlugin plugin)
+    public void addPlugin(MusePlugin plugin)
 	    {
     	if (_plugins == null)
     		_plugins = new ArrayList<>();
@@ -83,7 +83,7 @@ public class BasicTestConfiguration implements TestConfiguration
     // these are configurations that would be persisted
     private String _test_id;
     private String _name;
-    private List<TestPlugin> _plugins;
+    private List<MusePlugin> _plugins;
 
     // these are set/cached for use at test execution time
     private transient MuseProject _project;

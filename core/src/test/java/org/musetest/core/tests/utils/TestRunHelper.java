@@ -2,8 +2,8 @@ package org.musetest.core.tests.utils;
 
 import org.musetest.core.*;
 import org.musetest.core.execution.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.test.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.test.plugins.*;
 
 /**
@@ -25,12 +25,12 @@ public class TestRunHelper
     public static TestResult runTest(MuseProject project, MuseTest test)
         {
         TestRunner runner = new SimpleTestRunner(project, test);
-        runner.getExecutionContext().addTestPlugin(new TestResultCollectorConfiguration().createPlugin());
+        runner.getExecutionContext().addPlugin(new TestResultCollectorConfiguration().createPlugin());
         runner.runTest();
         return TestResult.find(runner.getExecutionContext());
         }
 
-    public static TestResult runTest(MuseProject project, MuseTest test, TestPlugin plugin)
+    public static TestResult runTest(MuseProject project, MuseTest test, MusePlugin plugin)
         {
         BasicTestConfiguration config = new BasicTestConfiguration(test);
         config.addPlugin(new TestResultCollectorConfiguration().createPlugin());
@@ -40,7 +40,7 @@ public class TestRunHelper
         return TestResult.find(config.context());
         }
 
-    public static TestResult runTest(MuseProject project, TestConfiguration config, TestPlugin plugin)
+    public static TestResult runTest(MuseProject project, TestConfiguration config, MusePlugin plugin)
         {
         config.addPlugin(new TestResultCollectorConfiguration().createPlugin());
         if (plugin != null)

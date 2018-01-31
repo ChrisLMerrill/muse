@@ -111,8 +111,8 @@ public class ConditionalAndLoopingTests
 		SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 3L);
 		SteppedTestExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
 		EventLogger logger = new EventLogger();
-		context.addTestPlugin(new EventLogger());
-		context.addTestPlugin(new TestResultCollectorConfiguration().createPlugin());
+		context.addPlugin(new EventLogger());
+		context.addPlugin(new TestResultCollectorConfiguration().createPlugin());
 		boolean finished = test.execute(context);
 		Assert.assertTrue(finished);
 		TestResult result = TestResult.find(context);

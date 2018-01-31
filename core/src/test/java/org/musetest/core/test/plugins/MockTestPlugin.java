@@ -1,39 +1,27 @@
 package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
-import org.musetest.core.resource.generic.*;
-import org.musetest.core.resource.types.*;
-import org.musetest.core.test.plugin.*;
+import org.musetest.core.plugins.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MockTestPlugin extends BaseTestPlugin
+public class MockTestPlugin implements MusePlugin
 	{
-	public MockTestPlugin(boolean apply_auto, boolean apply_test)
+	MockTestPlugin(boolean apply_auto, boolean apply_test)
 		{
-		super(new GenericResourceConfiguration()
-			{
-			@Override
-			public ResourceType getType()
-				{
-				return new MockPluginConfiguration.MockPluginConfigurationType();
-				}
-			});
 		_apply_auto = apply_auto;
 		_apply_test = apply_test;
 		}
 
 	@Override
-	protected boolean applyAutomatically(MuseExecutionContext context)
+	public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
 		{
-		return _apply_auto;
-		}
+		if (!_apply_auto && automatic)
+			return;
 
-	@Override
-	protected boolean applyToThisTest(MuseExecutionContext context)
-		{
-		return _apply_test;
+		if (_apply_test)
+			context.addPlugin(this);
 		}
 
 	@Override

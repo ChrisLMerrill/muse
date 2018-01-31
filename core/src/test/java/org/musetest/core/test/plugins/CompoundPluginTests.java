@@ -4,8 +4,8 @@ import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.project.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.values.*;
 
 import java.io.*;
@@ -20,11 +20,11 @@ public class CompoundPluginTests
 		{
 	    CompoundPluginConfiguration config = new CompoundPluginConfiguration();
 	    config.parameters().addSource(CompoundPluginConfiguration.LISTS_PARAM, ValueSourceConfiguration.forValue("pl1"));
-	    config.parameters().addSource(BaseTestPlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
-	    config.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
+	    config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
+	    config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 
 	    BaseExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
-	    config.createPlugin().shouldAddToTestContext(context, true);
+	    config.createPlugin().conditionallyAddToContext(context, true);
 
 	    Assert.assertEquals(1, context.getPlugins().size());
 	    Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
@@ -35,11 +35,11 @@ public class CompoundPluginTests
 		{
 	    CompoundPluginConfiguration config = new CompoundPluginConfiguration();
 	    config.parameters().addSource(CompoundPluginConfiguration.LISTS_PARAM, ValueSourceConfiguration.forValue("pl2"));
-	    config.parameters().addSource(BaseTestPlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
-	    config.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
+	    config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
+	    config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 
 	    BaseExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
-	    config.createPlugin().shouldAddToTestContext(context, true);
+	    config.createPlugin().conditionallyAddToContext(context, true);
 
 	    Assert.assertEquals(1, context.getPlugins().size());
 		Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
@@ -50,11 +50,11 @@ public class CompoundPluginTests
 		{
 	    CompoundPluginConfiguration config = new CompoundPluginConfiguration();
 	    config.parameters().addSource(CompoundPluginConfiguration.LISTS_PARAM, ValueSourceConfiguration.forValue("pl1,pl2"));
-	    config.parameters().addSource(BaseTestPlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
-	    config.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
+	    config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
+	    config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 
 	    BaseExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
-	    config.createPlugin().shouldAddToTestContext(context, true);
+	    config.createPlugin().conditionallyAddToContext(context, true);
 
 	    Assert.assertEquals(2, context.getPlugins().size());
 		Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
@@ -64,17 +64,15 @@ public class CompoundPluginTests
 	@Before
 	public void setup() throws IOException
 		{
-		_plugin1 = new MockPluginConfiguration(true, true);
-		_plugin1.setId("pl1");
-		_plugin2 = new MockPluginConfiguration(true, true);
-		_plugin2.setId("pl2");
+		MockPluginConfiguration plugin1 = new MockPluginConfiguration(true, true);
+		plugin1.setId("pl1");
+		MockPluginConfiguration plugin2 = new MockPluginConfiguration(true, true);
+		plugin2.setId("pl2");
 
 		_project = new SimpleProject();
-		_project.getResourceStorage().addResource(_plugin1);
-		_project.getResourceStorage().addResource(_plugin2);
+		_project.getResourceStorage().addResource(plugin1);
+		_project.getResourceStorage().addResource(plugin2);
 		}
 
 	private SimpleProject _project;
-	private MockPluginConfiguration _plugin1;
-	private MockPluginConfiguration _plugin2;
 	}

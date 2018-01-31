@@ -2,7 +2,7 @@ package org.musetest.core.test;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.test.plugin.*;
+import org.musetest.core.plugins.*;
 
 import java.util.*;
 
@@ -17,10 +17,10 @@ import java.util.*;
 public interface TestConfiguration
     {
     void withinProject(MuseProject project);
-    void addPlugin(TestPlugin plugin);
+    void addPlugin(MusePlugin plugin);
 
     MuseTest test();
     String name();
     TestExecutionContext context();
-    List<TestPlugin> plugins();
+    List<MusePlugin> plugins();
     }

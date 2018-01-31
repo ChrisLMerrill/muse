@@ -4,13 +4,13 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
-import org.musetest.core.suite.plugin.*;
-import org.musetest.core.test.plugin.*;
+import org.musetest.core.plugins.*;
+import org.musetest.core.suite.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestSuiteResultCounter extends BaseTestPlugin implements TestSuitePlugin, DataCollector
+public class TestSuiteResultCounter extends GenericConfigurablePlugin implements DataCollector
 	{
 	TestSuiteResultCounter(TestSuiteResultCounterConfiguration config)
 		{
@@ -18,15 +18,9 @@ public class TestSuiteResultCounter extends BaseTestPlugin implements TestSuiteP
 		}
 
 	@Override
-	public boolean shouldAddToSuite(MuseExecutionContext context, MuseTestSuite suite, boolean automatic) throws MuseExecutionError
+	protected boolean applyToContextType(MuseExecutionContext context)
 		{
-		return super.shouldAddToTestContext(context, automatic);
-		}
-
-	@Override
-	public boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic)
-		{
-		return false;
+		return context instanceof TestSuiteExecutionContext;
 		}
 
 	@Override

@@ -5,10 +5,10 @@ import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.test.plugins.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
@@ -50,7 +50,7 @@ public class TestVariableTests
         list.addVariable(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
 
         VariableListInitializerConfiguration config = new VariableListInitializerConfiguration();
-        config.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
+        config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
         config.parameters().addSource(VariableListInitializerConfiguration.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
 
         Assert.assertTrue(TestRunHelper.runTest(project, test, config.createPlugin()).isPass());

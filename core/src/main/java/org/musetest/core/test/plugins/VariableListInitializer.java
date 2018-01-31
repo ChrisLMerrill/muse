@@ -1,14 +1,14 @@
 package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
-import org.musetest.core.test.plugin.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class VariableListInitializer extends BaseTestPlugin
+public class VariableListInitializer extends GenericConfigurablePlugin
 	{
 	VariableListInitializer(VariableListInitializerConfiguration configuration)
 		{
@@ -34,6 +34,12 @@ public class VariableListInitializer extends BaseTestPlugin
 		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME,null);
 		}
 
+	@Override
+	protected boolean applyToContextType(MuseExecutionContext context)
+		{
+		return true;
+		}
+
 	public final static String TYPE_ID = "varlist";
-	public final static String LIST_ID_PARAM = "listid";
+	private final static String LIST_ID_PARAM = "listid";
 	}

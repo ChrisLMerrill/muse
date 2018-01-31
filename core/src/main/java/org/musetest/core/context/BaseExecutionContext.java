@@ -3,8 +3,8 @@ package org.musetest.core.context;
 import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.test.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.variables.*;
 import org.slf4j.*;
 
@@ -129,27 +129,25 @@ public class BaseExecutionContext implements MuseExecutionContext
         }
 
     @Override
-    public void addTestPlugin(TestPlugin plugin)
-        {
+    public void addPlugin(MusePlugin plugin)
+	    {
         if (_plugins_initialized)
             throw new IllegalStateException("Context has been initialized...too late to add plugins.");
         _plugins.add(plugin);
         }
 
     @Override
-    public void initializePlugins(MuseExecutionContext context) throws MuseExecutionError
+    public void initializePlugins() throws MuseExecutionError
         {
-        if (context == null)
-        	context = this;
         if (_plugins_initialized)
             throw new MuseExecutionError("Context has been initialized...can't run it again.");
 
-        for (TestPlugin plugin : _plugins)
-			plugin.initialize(context);
+        for (MusePlugin plugin : _plugins)
+			plugin.initialize(this);
 		_plugins_initialized = true;
 		}
 
-    public List<TestPlugin> getPlugins()
+    public List<MusePlugin> getPlugins()
 	    {
 	    return _plugins;
 	    }
@@ -157,7 +155,7 @@ public class BaseExecutionContext implements MuseExecutionContext
 	public List<DataCollector> getDataCollectors()
 		{
 		List<DataCollector> data_collectors = new ArrayList<>();
-		for (TestPlugin plugin : _plugins)
+		for (MusePlugin plugin : _plugins)
 		if (plugin instanceof DataCollector)
 			data_collectors.add((DataCollector)plugin);
 		return data_collectors;
@@ -167,7 +165,7 @@ public class BaseExecutionContext implements MuseExecutionContext
 	public <T extends DataCollector> T getDataCollector(Class<T> type)
 		{
 		T the_collector = null;
-		for (TestPlugin plugin : _plugins)
+		for (MusePlugin plugin : _plugins)
 			{
 			if (type.isAssignableFrom(plugin.getClass()))
 				{
@@ -184,7 +182,7 @@ public class BaseExecutionContext implements MuseExecutionContext
     private Map<String, Object> _vars = new HashMap<>();
     protected List<MuseEventListener> _listeners = new ArrayList<>();
     private List<Shuttable> _shuttables = new ArrayList<>();
-    private List<TestPlugin> _plugins = new ArrayList<>();
+    private List<MusePlugin> _plugins = new ArrayList<>();
     private boolean _plugins_initialized = false;
     private Queue<MuseEvent> _event_queue = new ConcurrentLinkedQueue<>();
     private AtomicBoolean _events_processing = new AtomicBoolean(false);

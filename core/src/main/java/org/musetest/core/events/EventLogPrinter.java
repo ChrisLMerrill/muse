@@ -1,7 +1,7 @@
 package org.musetest.core.events;
 
 import org.musetest.core.*;
-import org.musetest.core.test.plugin.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.util.*;
 
 import java.io.*;
@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EventLogPrinter implements TestPlugin, MuseEventListener
+public class EventLogPrinter implements MusePlugin, MuseEventListener
     {
     public EventLogPrinter()
 	    {
@@ -26,10 +26,9 @@ public class EventLogPrinter implements TestPlugin, MuseEventListener
         }
 
     @Override
-    public boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic)
+    public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
 	    {
-	    context.addTestPlugin(this);
-	    return true;
+	    context.addPlugin(this);
 	    }
 
     public void setOutput(PrintStream out)

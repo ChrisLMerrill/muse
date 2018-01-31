@@ -4,8 +4,8 @@ import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.resource.generic.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.values.*;
 
 import javax.annotation.*;
@@ -13,7 +13,7 @@ import javax.annotation.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestResultCollector extends BaseTestPlugin implements DataCollector
+public class TestResultCollector extends GenericConfigurableTestPlugin implements DataCollector
 	{
 	public TestResultCollector(GenericResourceConfiguration configuration)
 		{

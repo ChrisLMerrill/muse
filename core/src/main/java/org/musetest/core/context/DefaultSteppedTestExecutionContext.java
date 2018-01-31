@@ -13,18 +13,12 @@ import java.util.*;
  */
 public class DefaultSteppedTestExecutionContext extends BaseExecutionContext implements SteppedTestExecutionContext
     {
-    public DefaultSteppedTestExecutionContext(MuseExecutionContext parent, SteppedTest test)
-	    {
-	    super(parent.getProject());
-	    _parent_context = parent;
-	    _test = test;
-	    }
-
     public DefaultSteppedTestExecutionContext(MuseProject project, SteppedTest test)
 	    {
 	    super(project);
 	    _parent_context = null;
 	    _test = test;
+	    _step_locator.loadSteps(test.getStep());
 	    }
 
     private Object getLocalVariable(String name)
@@ -128,6 +122,14 @@ public class DefaultSteppedTestExecutionContext extends BaseExecutionContext imp
     public StepLocator getStepLocator()
 	    {
 	    return _step_locator;
+	    }
+
+    @Override
+    public void raiseEvent(MuseEvent event)
+	    {
+	    if (event.getTypeId().equals(DynamicStepLoadingEventType.TYPE_ID))
+	    	_step_locator.loadSteps(DynamicStepLoadingEventType.getLoadedSteps(this));
+	    super.raiseEvent(event);
 	    }
 
     private final MuseExecutionContext _parent_context;

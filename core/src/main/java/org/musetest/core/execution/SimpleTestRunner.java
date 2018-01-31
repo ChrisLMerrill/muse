@@ -3,9 +3,8 @@ package org.musetest.core.execution;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.test.*;
-import org.musetest.core.test.plugin.*;
-import org.musetest.core.test.plugins.*;
 import org.slf4j.*;
 
 import java.util.*;
@@ -58,10 +57,11 @@ public class SimpleTestRunner implements TestRunner
 	    _context = _config.context();
 	    try
 		    {
-		    TestPlugins.setup(_context);
-		    for (TestPlugin plugin : _config.plugins())
-			    _context.addTestPlugin(plugin);
-		    _context.initializePlugins(null);
+
+		    Plugins.setup(_context);
+		    for (MusePlugin plugin : _config.plugins())
+			    _context.addPlugin(plugin);
+		    _context.initializePlugins();
 		    }
 	    catch (MuseExecutionError e)
 		    {
@@ -131,15 +131,14 @@ public class SimpleTestRunner implements TestRunner
 		    }
 
 	    @Override
-	    public List<TestPlugin> plugins()
+	    public void addPlugin(MusePlugin plugin)
 		    {
-		    return Collections.emptyList();
 		    }
 
 	    @Override
-	    public void addPlugin(TestPlugin plugin)
+	    public List<MusePlugin> plugins()
 		    {
-
+		    return Collections.emptyList();
 		    }
 
 	    MuseTest _test;

@@ -3,10 +3,9 @@ package org.musetest.core.test.plugins;
 import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.project.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.test.plugin.*;
-import org.musetest.core.test.plugins.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
@@ -64,14 +63,14 @@ public class TestPluginTests
 		project.getResourceStorage().addResource(list2);
 
 		VariableListInitializerConfiguration include2 = new VariableListInitializerConfiguration();
-		include2.parameters().addSource(BaseTestPlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
-		include2.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
+		include2.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
+		include2.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 		include2.parameters().addSource(VariableListInitializerConfiguration.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list2"));
 		project.getResourceStorage().addResource(include2);
 
 		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-		TestPlugins.setup(context);
-		context.initializePlugins(null);
+		Plugins.setup(context);
+		context.initializePlugins();
 
 		Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
 		Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
@@ -94,20 +93,20 @@ public class TestPluginTests
 		project.getResourceStorage().addResource(list2);
 
 		VariableListInitializerConfiguration include1 = new VariableListInitializerConfiguration();
-		include1.parameters().addSource(BaseTestPlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
-		include1.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(false));
+		include1.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
+		include1.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(false));
 		include1.parameters().addSource(VariableListInitializerConfiguration.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list1"));
 		project.getResourceStorage().addResource(include1);
 
 		VariableListInitializerConfiguration include2 = new VariableListInitializerConfiguration();
-		include2.parameters().addSource(BaseTestPlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
-		include2.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
+		include2.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
+		include2.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 		include2.parameters().addSource(VariableListInitializerConfiguration.LIST_ID_PARAM, ValueSourceConfiguration.forValue("list2"));
 		project.getResourceStorage().addResource(include2);
 
 		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
-		TestPlugins.setup(context);
-		context.initializePlugins(null);
+		Plugins.setup(context);
+		context.initializePlugins();
 
 		Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
 		Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));

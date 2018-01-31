@@ -1,13 +1,11 @@
 package org.musetest.core.datacollection;
 
-import org.musetest.core.test.plugin.*;
-
 import javax.annotation.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public interface DataCollector extends TestPlugin
+public interface DataCollector
 	{
 	/**
 	 * Get the test data that was collected. Null is allowed if the collector did not collect any data.

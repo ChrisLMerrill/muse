@@ -1,7 +1,7 @@
 package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
-import org.musetest.core.test.plugin.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.variables.*;
 
 import java.util.*;
@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class VariableInitializer implements TestPlugin
+public class VariableInitializer implements MusePlugin
 	{
 	public VariableInitializer(String name, Object value)
 		{
@@ -24,10 +24,9 @@ public class VariableInitializer implements TestPlugin
 		}
 
 	@Override
-	public boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic)
+	public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
 		{
-		context.addTestPlugin(this);
-		return true;
+		context.addPlugin(this);
 		}
 
 	private Map<String, Object> _variables = new HashMap<>();

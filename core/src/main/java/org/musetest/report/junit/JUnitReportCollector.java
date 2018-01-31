@@ -4,15 +4,15 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
-import org.musetest.core.suite.plugin.*;
-import org.musetest.core.test.plugin.*;
+import org.musetest.core.plugins.*;
+import org.musetest.core.suite.*;
 
 import javax.annotation.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class JUnitReportCollector extends BaseTestPlugin implements TestSuitePlugin, DataCollector
+public class JUnitReportCollector extends GenericConfigurablePlugin implements DataCollector
 	{
 	JUnitReportCollector(JUnitReportCollectorConfiguration configuration)
 		{
@@ -20,18 +20,9 @@ public class JUnitReportCollector extends BaseTestPlugin implements TestSuitePlu
 		}
 
 	@Override
-	public boolean shouldAddToSuite(MuseExecutionContext context, MuseTestSuite suite, boolean automatic) throws MuseExecutionError
+	protected boolean applyToContextType(MuseExecutionContext context)
 		{
-		final boolean add = super.shouldAddToTestContext(context, automatic);
-		if (add)
-			_data.setSuiteName(suite.getId());
-		return add;
-		}
-
-	@Override
-	public boolean shouldAddToTestContext(MuseExecutionContext context, boolean automatic)
-		{
-		return true;
+		return context instanceof TestSuiteExecutionContext;
 		}
 
 	@Nullable
@@ -44,7 +35,6 @@ public class JUnitReportCollector extends BaseTestPlugin implements TestSuitePlu
 	@Override
 	public void initialize(MuseExecutionContext context)
 		{
-System.out.println("JUnitReportCollector plugin has been initialized");
 		if (!(context instanceof TestExecutionContext))
 			return;
 		context.addEventListener(new EventListener((TestExecutionContext) context));

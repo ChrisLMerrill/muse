@@ -1,6 +1,6 @@
 package org.musetest.core;
 
-import org.musetest.core.suite.plugin.*;
+import org.musetest.core.plugins.*;
 
 import java.util.*;
 
@@ -9,7 +9,7 @@ import java.util.*;
  */
 public interface MuseTestSuiteRunner
     {
-    boolean execute(MuseProject project, MuseTestSuite suite, List<TestSuitePlugin> plugins);
+    boolean execute(MuseProject project, MuseTestSuite suite, List<MusePlugin> plugins);
     void setOutputPath(String path);
     }
 

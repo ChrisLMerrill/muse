@@ -1,10 +1,9 @@
 package org.musetest.report.junit;
 
 import org.musetest.core.*;
+import org.musetest.core.plugins.*;
 import org.musetest.core.resource.generic.*;
 import org.musetest.core.resource.types.*;
-import org.musetest.core.suite.plugin.*;
-import org.musetest.core.test.plugin.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -12,10 +11,10 @@ import org.musetest.core.values.descriptor.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("junit-report-plugin")
-@MuseSubsourceDescriptor(displayName = "Apply automatically?", description = "If this source resolves to true, this plugin configuration will be automatically applied to tests", type = SubsourceDescriptor.Type.Named, name = BaseTestPlugin.AUTO_APPLY_PARAM)
-@MuseSubsourceDescriptor(displayName = "Apply only if", description = "Apply only if this source this source resolves to true", type = SubsourceDescriptor.Type.Named, name = BaseTestPlugin.APPLY_CONDITION_PARAM)
+@MuseSubsourceDescriptor(displayName = "Apply automatically?", description = "If this source resolves to true, this plugin configuration will be automatically applied to tests", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.AUTO_APPLY_PARAM)
+@MuseSubsourceDescriptor(displayName = "Apply only if", description = "Apply only if this source this source resolves to true", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.APPLY_CONDITION_PARAM)
 @SuppressWarnings("unused") // Instantiated by reflection
-public class JUnitReportCollectorConfiguration extends GenericResourceConfiguration implements TestSuitePluginConfiguration
+public class JUnitReportCollectorConfiguration extends GenericResourceConfiguration implements PluginConfiguration
 	{
 	@Override
 	public JUnitReportCollector createPlugin()
@@ -38,15 +37,15 @@ public class JUnitReportCollectorConfiguration extends GenericResourceConfigurat
 		public JUnitReportCollectorConfiguration create()
 			{
 			final JUnitReportCollectorConfiguration config = new JUnitReportCollectorConfiguration();
-			config.parameters().addSource(BaseTestPlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
-			config.parameters().addSource(BaseTestPlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
+			config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
+			config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 			return config;
 			}
 
 		@SuppressWarnings("WeakerAccess")  // instantiated by reflection
 		public JUnitReportConfigurationType()
 			{
-			super(TYPE_ID, "JUnit Report", JUnitReportCollectorConfiguration.class, new TestSuitePluginConfiguration.TestSuitePluginConfigurationResourceType());
+			super(TYPE_ID, "JUnit Report", JUnitReportCollectorConfiguration.class, new PluginConfiguration.PluginConfigurationResourceType());
 			}
 		}
 	}
