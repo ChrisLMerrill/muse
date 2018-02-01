@@ -20,7 +20,7 @@ public class TestSuiteResultCounter extends GenericConfigurablePlugin implements
 	@Override
 	protected boolean applyToContextType(MuseExecutionContext context)
 		{
-		return context instanceof TestSuiteExecutionContext;
+		return context instanceof TestSuiteExecutionContext || context instanceof TestExecutionContext;
 		}
 
 	@Override

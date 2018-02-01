@@ -18,13 +18,13 @@ public class CompoundPlugin extends GenericConfigurablePlugin
 		}
 
 	@Override
-	public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
+	public boolean conditionallyAddToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
 		{
 		if (automatic && !applyAutomatically(context))
-			return;
+			return false;
 
 		if (!applyToThisTest(context))
-			return;
+			return false;
 
 		MuseValueSource source = BaseValueSource.getValueSource(_configuration.parameters(), CompoundPluginConfiguration.LISTS_PARAM, true, context.getProject());
 		Object id_list_obj = BaseValueSource.getValue(source, context, false);
@@ -53,6 +53,8 @@ public class CompoundPlugin extends GenericConfigurablePlugin
 			if (resource.getResource() instanceof PluginConfiguration)
 				((PluginConfiguration)resource.getResource()).createPlugin().conditionallyAddToContext(context, false);
 			}
+
+		return true;
 		}
 
 	@Override

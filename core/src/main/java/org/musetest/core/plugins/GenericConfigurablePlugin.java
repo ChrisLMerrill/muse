@@ -15,17 +15,20 @@ public abstract class GenericConfigurablePlugin implements MusePlugin
 		}
 
 	@Override
-	public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
+	public boolean conditionallyAddToContext(MuseExecutionContext context, boolean automatic) throws MuseExecutionError
 		{
 		if (!applyToContextType(context))
-			return;
+			return false;
 		if (automatic)
 			{
 			if (!applyAutomatically(context))
-				return;
+				return false;
 			}
-		if (applyToThisTest(context))
-			context.addPlugin(this);
+		if (!applyToThisTest(context))
+			return false;
+
+		context.addPlugin(this);
+		return true;
 		}
 
 	protected abstract boolean applyToContextType(MuseExecutionContext context);

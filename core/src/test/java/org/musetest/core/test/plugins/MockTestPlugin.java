@@ -15,13 +15,16 @@ public class MockTestPlugin implements MusePlugin
 		}
 
 	@Override
-	public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
+	public boolean conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
 		{
 		if (!_apply_auto && automatic)
-			return;
+			return false;
 
-		if (_apply_test)
-			context.addPlugin(this);
+		if (!_apply_test)
+			return false;
+
+		context.addPlugin(this);
+		return true;
 		}
 
 	@Override

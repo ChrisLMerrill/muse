@@ -24,9 +24,10 @@ public class VariableInitializer implements MusePlugin
 		}
 
 	@Override
-	public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
+	public boolean conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
 		{
 		context.addPlugin(this);
+		return true;
 		}
 
 	private Map<String, Object> _variables = new HashMap<>();

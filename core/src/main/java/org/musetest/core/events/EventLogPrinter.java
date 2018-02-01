@@ -26,9 +26,10 @@ public class EventLogPrinter implements MusePlugin, MuseEventListener
         }
 
     @Override
-    public void conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
+    public boolean conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
 	    {
 	    context.addPlugin(this);
+	    return true;
 	    }
 
     public void setOutput(PrintStream out)
