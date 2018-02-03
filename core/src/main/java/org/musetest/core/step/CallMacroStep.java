@@ -11,8 +11,6 @@ import org.slf4j.*;
 
 import java.util.*;
 
-import static org.musetest.core.step.DynamicStepLoadingEventType.STEP_LIST_VAR;
-
 /**
  * Executes the steps contained within a Macro.
  *
@@ -65,7 +63,6 @@ public class CallMacroStep extends ScopedGroup
             }
 
         context.getStepLocator().loadSteps(steps);
-        context.setVariable(STEP_LIST_VAR, steps, VariableScope.Execution);
         context.raiseEvent(DynamicStepLoadingEventType.create(_config, steps));
         return new ListOfStepsExecutionContext(context.getParent(), steps, isCreateNewVariableScope(), this);
         }

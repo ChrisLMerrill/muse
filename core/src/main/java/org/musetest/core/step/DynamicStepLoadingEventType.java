@@ -1,8 +1,8 @@
 package org.musetest.core.step;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.events.*;
-import org.musetest.core.variables.*;
 
 import java.util.*;
 
@@ -28,12 +28,20 @@ public class DynamicStepLoadingEventType extends EventType
 		}
 
 	@SuppressWarnings("unused")  // required for UI
-	public static List<StepConfiguration> getLoadedSteps(MuseExecutionContext context)
+	public static List<StepConfiguration> getLoadedSteps(MuseEvent event, MuseExecutionContext context)
 		{
-		final Object value = context.getVariable(STEP_LIST_VAR, VariableScope.Execution);
-		if (value instanceof List)
-			return (List) value;
-		return null;
+		List<Long> step_ids = (List<Long>) event.getAttribute(STEP_LIST);
+		if (step_ids == null)
+			throw new IllegalArgumentException("This event does not contain a step list.");
+
+		SteppedTestExecutionContext step_context = MuseExecutionContext.findAncestor(context, SteppedTestExecutionContext.class);
+		if (step_context == null)
+			throw new IllegalArgumentException("Can only do this in a SteppedTestExecutionContext");
+
+		List<StepConfiguration> steps = new ArrayList<>();
+		for (Long step_id : step_ids)
+			steps.add(step_context.getStepLocator().findStep(step_id));
+		return steps;
 		}
 
 	public final static String TYPE_ID = "load-steps";
@@ -41,6 +49,4 @@ public class DynamicStepLoadingEventType extends EventType
 
 	@SuppressWarnings("WeakerAccess") // public API
 	public final static String STEP_LIST = "steplist";
-	@SuppressWarnings("WeakerAccess") // public API
-	public final static String STEP_LIST_VAR = "_steplist";
 	}

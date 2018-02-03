@@ -128,7 +128,7 @@ public class DefaultSteppedTestExecutionContext extends BaseExecutionContext imp
     public void raiseEvent(MuseEvent event)
 	    {
 	    if (event.getTypeId().equals(DynamicStepLoadingEventType.TYPE_ID))
-	    	_step_locator.loadSteps(DynamicStepLoadingEventType.getLoadedSteps(this));
+	    	_step_locator.loadSteps(DynamicStepLoadingEventType.getLoadedSteps(event, this));
 	    super.raiseEvent(event);
 	    }
 
