@@ -16,7 +16,7 @@ import java.util.*;
 @MuseStepIcon("glyph:FontAwesome:BARS")
 @MuseStepTypeGroup("Structure")
 @MuseStepShortDescription("Group of steps")
-@MuseStepLongDescription("Visually group a collection of steps together under a single parent. The grouping has no effect on execution - they are exceuted in same scope as the siblings to their parent. It is intended as an aid to visual maintenance of the tests.")
+@MuseStepLongDescription("Visually group a collection of steps together under a single parent. The grouping has no effect on execution - they are executed in same scope as the siblings to their parent. It is intended as an aid to visual maintenance of the tests.")
 public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfStepsCompletionListener
     {
     @SuppressWarnings("unused") // called via reflection
@@ -92,7 +92,7 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
      * @param context The context of the current execution
      * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
-    protected void beforeChildrenExecuted(StepExecutionContext context) throws StepExecutionError
+    protected void beforeChildrenExecuted(StepExecutionContext context) throws MuseExecutionError
         {
         }
 
@@ -102,7 +102,7 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
      * @param context The context of the current execution
      * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
-    protected void afterChildrenExecuted(StepExecutionContext context) throws StepExecutionError
+    protected void afterChildrenExecuted(StepExecutionContext context) throws MuseExecutionError
         {
         }
 

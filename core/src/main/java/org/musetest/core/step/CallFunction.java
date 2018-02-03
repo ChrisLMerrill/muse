@@ -59,7 +59,7 @@ public class CallFunction extends CallMacroStep
         }
 
     @Override
-    protected void beforeChildrenExecuted(StepExecutionContext context) throws StepExecutionError
+    protected void beforeChildrenExecuted(StepExecutionContext context) throws MuseExecutionError
         {
         super.beforeChildrenExecuted(context);
 
