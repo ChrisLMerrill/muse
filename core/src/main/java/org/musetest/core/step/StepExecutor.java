@@ -5,6 +5,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.*;
 import org.slf4j.*;
 
 import java.util.*;
@@ -60,11 +61,18 @@ public class StepExecutor
         catch (StepConfigurationError error)
             {
             error_message = "step error due to configuration problem: " + error.getMessage();
+            _context.raiseEvent(TestErrorEventType.create("Step configuration problem: " + error.getMessage()));
             }
         catch (StepExecutionError error)
             {
             error_message = "step failed to execute: " + error.getMessage();
+            _context.raiseEvent(TestErrorEventType.create("Step execution problem: " + error.getMessage()));
             }
+        catch (ValueSourceResolutionError error)
+	        {
+	        error_message = "unable to evalute value source: " + error.getMessage();
+            _context.raiseEvent(TestErrorEventType.create("Unable to resolve value source: " + error.getMessage()));
+	        }
         catch (Throwable t)
             {
             LOG.error("Unexpected error caught while executing step", t);

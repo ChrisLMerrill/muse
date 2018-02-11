@@ -18,8 +18,19 @@ public class EndStepEventType extends StepEventType
 	public String getDescription(MuseEvent event)
 		{
 		String description = "End: " + event.getAttributeAsString(STEP_DESCRIPTION);
-		if (event.hasTag(INCOMPLETE))
+
+		// look for error
+		String error_message = null;
+		if (event.hasTag(MuseEvent.ERROR))
+			error_message = " -- ERROR: ";
+		if (event.hasTag(MuseEvent.FAILURE))
+			error_message = " -- FAILURE: ";
+
+		if (error_message != null)
+			description += error_message + event.getAttributeAsString(MuseEvent.DESCRIPTION);
+		else if (event.hasTag(INCOMPLETE))
 			description += " (incomplete)";
+		
 		return description;
 		}
 
