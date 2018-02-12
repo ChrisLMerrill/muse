@@ -50,25 +50,43 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
 	@Override
 	public Object getVariable(String name)
 		{
+		if (_step_vars != null)
+			{
+			Object value = _step_vars.get(name);
+			if (value != null)
+				return value;
+			}
 		return _parent_context.getVariable(name);
 		}
 
 	@Override
 	public void setVariable(String name, Object value)
 		{
-		_parent_context.setVariable(name, value);
+		if (_step_vars != null)
+			_step_vars.put(name, value);
+		else
+			_parent_context.setVariable(name, value);
 		}
 
 	@Override
 	public Object getVariable(String name, VariableScope scope)
 		{
+		if (_step_vars != null && VariableScope.Local.equals(scope))
+			{
+			Object value = _step_vars.get(name);
+			if (value != null)
+				return value;
+			}
 		return _parent_context.getVariable(name, scope);
 		}
 
 	@Override
 	public void setVariable(String name, Object value, VariableScope scope)
 		{
-		_parent_context.setVariable(name, value, scope);
+		if (_step_vars != null && VariableScope.Local.equals(scope))
+			_step_vars.put(name, value);
+		else
+			_parent_context.setVariable(name, value, scope);
 		}
 
 	@Override
