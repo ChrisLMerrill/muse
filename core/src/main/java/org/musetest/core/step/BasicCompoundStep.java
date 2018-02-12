@@ -27,7 +27,7 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
         }
 
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
+    protected StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         _context = context;
         if (shouldEnter(context))

@@ -3,7 +3,6 @@ package org.musetest.core.step;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
-import org.musetest.core.resource.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -34,7 +33,7 @@ import java.util.*;
 public class CallFunction extends CallMacroStep
     {
     @SuppressWarnings("unused") // called via reflection
-    public CallFunction(StepConfiguration config, MuseProject project) throws MuseInstantiationException
+    public CallFunction(StepConfiguration config, MuseProject project)
         {
         super(config, project);
         _config = config;
@@ -43,18 +42,20 @@ public class CallFunction extends CallMacroStep
     @Override
     protected boolean shouldEnter(StepExecutionContext context) throws MuseExecutionError
         {
+        boolean enter = super.shouldEnter(context);
+        if (!enter)
+        	return false;
+
         Map<String, ValueSourceConfiguration> sources = _config.getSources();
         // resolve the parameters (sources) to be passed to the function BEFORE the new variable scope is created.
-        _values_to_pass = new HashMap<>();
         for (String name : sources.keySet())
             {
             if (name.equals(ID_PARAM) || name.equals(RETURN_PARAM))
                 continue;
-            Object value = sources.get(name).createSource(_project).resolveValue(context);
-            _values_to_pass.put(name, value);
+            resolveAndAddParameter(name, sources.get(name), context);
             }
 
-        return super.shouldEnter(context);
+        return true;
         }
 
     @Override
@@ -87,8 +88,15 @@ public class CallFunction extends CallMacroStep
         context.stepComplete(this, result);
         }
 
+    @SuppressWarnings("WeakerAccess") // allow subclasses to use this
+    protected void resolveAndAddParameter(String name, ValueSourceConfiguration value_source, MuseExecutionContext context) throws MuseExecutionError
+	    {
+	    Object value = value_source.createSource(_project).resolveValue(context);
+	    _values_to_pass.put(name, value);
+	    }
+
     private StepConfiguration _config;
-    private Map<String, Object> _values_to_pass;
+    private Map<String, Object> _values_to_pass = new HashMap<>();
 
     public final static String RETURN_PARAM = "return";
 

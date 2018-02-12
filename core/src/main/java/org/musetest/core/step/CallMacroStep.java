@@ -1,13 +1,12 @@
 package org.musetest.core.step;
 
+import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.resource.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
-import org.musetest.core.variables.*;
-import org.slf4j.*;
 
 import java.util.*;
 
@@ -32,25 +31,20 @@ import java.util.*;
 public class CallMacroStep extends ScopedGroup
     {
     @SuppressWarnings("unused") // called via reflection
-    public CallMacroStep(StepConfiguration config, MuseProject project) throws MuseInstantiationException
+    public CallMacroStep(StepConfiguration config, MuseProject project)
         {
         super(config, project);
         _config = config;
         _project = project;
-        _id = getValueSource(config, ID_PARAM, true, project);
         }
 
     @Override
     protected StepExecutionContext createStepExecutionContextForChildren(StepExecutionContext context) throws MuseExecutionError
         {
-        Object id_obj = _id.resolveValue(context);
-        if (id_obj == null)
-            throw new StepExecutionError("id source resolved to null");
-        else if (!(id_obj instanceof String))
-            LOG.warn("id source did not resolve to a string. using toString() = " + id_obj.toString());
-        ContainsStep resource = _project.getResourceStorage().getResource(id_obj.toString(), ContainsStep.class);
-        if (resource == null)
-            throw new StepExecutionError("unable to locate id " + id_obj.toString());
+        String id = getStepsId(context);
+        ContainsStep resource = _project.getResourceStorage().getResource(id, ContainsStep.class);
+   	    if (resource == null)
+   	        throw new StepExecutionError("unable to locate project resource, id=" + id);
 
         StepConfiguration step = resource.getStep();
         List<StepConfiguration> steps;
@@ -67,6 +61,17 @@ public class CallMacroStep extends ScopedGroup
         return new ListOfStepsExecutionContext(context.getParent(), steps, isCreateNewVariableScope(), this);
         }
 
+    /**
+     * Get the id of the project resource that contains the steps that should be run.
+     */
+    @NotNull
+    @SuppressWarnings("WeakerAccess")
+    protected String getStepsId(StepExecutionContext context) throws MuseExecutionError
+	    {
+	    MuseValueSource id_source = getValueSource(_config, ID_PARAM, true, context.getProject());
+	    return BaseValueSource.getValue(id_source, context, false, String.class);
+	    }
+
     @Override
     protected boolean isCreateNewVariableScope()
         {
@@ -75,10 +80,8 @@ public class CallMacroStep extends ScopedGroup
 
     protected MuseProject _project;
     private StepConfiguration _config;
-    private MuseValueSource _id;
 
     public final static String ID_PARAM = "id";
     public final static String TYPE_ID = CallMacroStep.class.getAnnotation(MuseTypeId.class).value();
 
-    private final static Logger LOG = LoggerFactory.getLogger(CallMacroStep.class);
     }
