@@ -43,6 +43,32 @@ public class IdListTestSuite extends BaseMuseResource implements MuseTestSuite
 	    return all;
 	    }
 
+    @Override
+    public Integer getTotalTestCount(MuseProject project)
+	    {
+	    Integer total = 0;
+	    boolean possibly_infinite = false;
+
+	    for (String id : _test_ids)
+		    {
+		    MuseResource resource = project.getResourceStorage().getResource(id);
+		    if (resource instanceof MuseTest)
+			    total++;
+		    else if (resource instanceof MuseTestSuite)
+			    {
+			    Integer suite_count = ((MuseTestSuite)resource).getTotalTestCount(project);
+			    if (suite_count == null)
+			    	possibly_infinite = true;
+			    else
+			    	total += suite_count;
+			    }
+		    }
+
+	    if (total == 0 && possibly_infinite)
+	    	return null;
+	    return total;
+	    }
+
     public List<String> getTestIds()
         {
         return Collections.unmodifiableList(_test_ids);

@@ -18,6 +18,12 @@ public class SimpleTestSuite extends BaseMuseResource implements MuseTestSuite
 	    return _tests.iterator();
 	    }
 
+    @Override
+    public Integer getTotalTestCount(MuseProject project)
+	    {
+	    return _tests.size();
+	    }
+
     public void add(MuseTest test)
         {
         _tests.add(new BasicTestConfiguration(test.getId()));

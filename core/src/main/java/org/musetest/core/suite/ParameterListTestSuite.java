@@ -42,17 +42,20 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
 	    return tests.iterator();
 	    }
 
+    @Override
+    public Integer getTotalTestCount(MuseProject project)
+	    {
+	    if (_parameters == null)
+		    return getDataTable(project).getNumberRows();
+	    else
+	    	return _parameters.size();
+	    }
+
     private List<Map<String, Object>> createParametersFromDataTable(MuseProject project)
         {
         List<Map<String, Object>> param_list = new ArrayList<>();
 
-        ResourceToken token = project.getResourceStorage().findResource(_datatable_id);
-        if (token == null)
-            throw new IllegalStateException("DataTable not found in the project: " + _datatable_id);
-        if (!(token.getResource() instanceof DataTable))
-            throw new IllegalStateException("ParameterListTestSuite requires the DataTableId corresponds to a DataTable resource in the project");
-
-        DataTable table = (DataTable) token.getResource();
+        DataTable table = getDataTable(project);
         String[] names = table.getColumnNames();
         for (int row = 0; row < table.getNumberRows(); row++)
             {
@@ -64,6 +67,17 @@ public class ParameterListTestSuite extends BaseMuseResource implements MuseTest
 
         return param_list;
         }
+
+    private DataTable getDataTable(MuseProject project)
+	    {
+	    ResourceToken token = project.getResourceStorage().findResource(_datatable_id);
+	    if (token == null)
+	        throw new IllegalStateException("DataTable not found in the project: " + _datatable_id);
+	    if (!(token.getResource() instanceof DataTable))
+	        throw new IllegalStateException("ParameterListTestSuite requires the DataTableId corresponds to a DataTable resource in the project");
+
+	    return (DataTable) token.getResource();
+	    }
 
     @Override
     public ResourceType getType()

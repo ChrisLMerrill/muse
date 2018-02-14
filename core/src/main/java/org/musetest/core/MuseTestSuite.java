@@ -14,6 +14,11 @@ public interface MuseTestSuite extends MuseResource
     {
     Iterator<TestConfiguration> getTests(MuseProject project);
 
+    /**
+     * Returns null if the test suite cannot calculate its total (e.g. it could execute infinitely).
+     */
+    Integer getTotalTestCount(MuseProject project);
+
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     class TestSuiteResourceType extends ResourceType
         {

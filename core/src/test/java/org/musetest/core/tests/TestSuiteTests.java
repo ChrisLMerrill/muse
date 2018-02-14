@@ -48,6 +48,8 @@ public class TestSuiteTests
         project.getResourceStorage().addResource(test3);
 	    suite.add(test3);
 
+	    Assert.assertEquals(3L, suite.getTotalTestCount(project).longValue());
+
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
 	    new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
 	    Assert.assertNotNull(counter.getData());
@@ -66,6 +68,8 @@ public class TestSuiteTests
         MuseProject project = ProjectFactory.create(file, Collections.emptyMap());
         MuseTestSuite suite = project.getResourceStorage().getResource("TestSuite", MuseTestSuite.class);
         Assert.assertNotNull(suite);
+
+	    Assert.assertEquals(2L, suite.getTotalTestCount(project).longValue());
 
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
         new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
@@ -98,6 +102,8 @@ public class TestSuiteTests
         suite2.addTestId("test2");
         suite2.addTestId("suite1");
         project.getResourceStorage().addResource(suite2);
+
+        Assert.assertEquals(2L, suite2.getTotalTestCount(project).longValue());
 
         Iterator<TestConfiguration> tests = suite2.getTests(project);
 
@@ -152,6 +158,7 @@ public class TestSuiteTests
 	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("suite").getResource();
+	    Assert.assertEquals(3L, suite.getTotalTestCount(project).longValue());
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
         new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
 
@@ -165,6 +172,7 @@ public class TestSuiteTests
 	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("CsvSuite").getResource();
+	    Assert.assertEquals(3L, suite.getTotalTestCount(project).longValue());
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
         new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
 
