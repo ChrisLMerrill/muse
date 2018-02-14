@@ -1,5 +1,6 @@
 package org.musetest.core.suite;
 
+import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
@@ -7,7 +8,6 @@ import org.musetest.core.execution.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.resultstorage.*;
 import org.musetest.core.test.*;
-import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 import org.slf4j.*;
 
@@ -102,12 +102,19 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         MuseExecutionContext test_context = configuration.context();
         setupTestPlugins(manual_plugins, auto_plugins, test_context);
 
-        SimpleTestRunner runner = new SimpleTestRunner(_project, configuration);
+        SimpleTestRunner runner = createRunner(configuration);
         if (_output != null)
 	        runner.getExecutionContext().setVariable(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, _output.getOutputFolderName(configuration), VariableScope.Execution);
         runner.runTest();
         return runner.completedNormally();
         }
+
+    @NotNull
+    @SuppressWarnings("WeakerAccess")  // overridden in GUI.
+    protected SimpleTestRunner createRunner(TestConfiguration configuration)
+	    {
+	    return new SimpleTestRunner(_project, configuration);
+	    }
 
     @SuppressWarnings("WeakerAccess")  // used by subclasses in extensions
     protected void setupTestPlugins(List<MusePlugin> manual_plugins, List<MusePlugin> auto_plugins, MuseExecutionContext test_context)
