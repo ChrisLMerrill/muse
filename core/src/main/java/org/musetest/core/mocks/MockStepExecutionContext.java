@@ -107,6 +107,12 @@ public class MockStepExecutionContext implements StepExecutionContext
         }
 
     @Override
+    public String createVariable(String prefix, Object value)
+	    {
+	    return null;
+	    }
+
+    @Override
     public void raiseEvent(MuseEvent event)
         {
         _test_context.raiseEvent(event);

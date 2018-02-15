@@ -69,6 +69,12 @@ public interface MuseExecutionContext
     void setVariable(String name, Object value, VariableScope scope);
 
     /**
+     * Creates a variable using a generated name (that does not already exist) starting with the prefix provided. The
+     * value parameter is stored and the generated name is returned.
+     */
+    String createVariable(String prefix, Object value);
+
+    /**
      * Cleanup any test resources. E.g. Shuttable
      */
     void cleanup();

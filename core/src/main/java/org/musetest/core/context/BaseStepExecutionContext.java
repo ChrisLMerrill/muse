@@ -21,6 +21,7 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
 		_parent_context = parent_context;
 		if (new_variable_scope)
 			_step_vars = new HashMap<>();
+		_var_creator = new AutomaticVariableCreator(name -> getVariable(name) != null);
 		}
 
 	@Override
@@ -87,6 +88,14 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
 			_step_vars.put(name, value);
 		else
 			_parent_context.setVariable(name, value, scope);
+		}
+
+	@Override
+	public String createVariable(String prefix, Object value)
+		{
+		String name = _var_creator.createNextName(prefix);
+		setVariable(name, value);
+		return name;
 		}
 
 	@Override
@@ -181,4 +190,5 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
 
 	private StepsExecutionContext _parent_context;
 	private Map<String, Object> _step_vars = null;
+	private final AutomaticVariableCreator _var_creator;
 	}
