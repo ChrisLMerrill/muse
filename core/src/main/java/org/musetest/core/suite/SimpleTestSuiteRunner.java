@@ -23,26 +23,26 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     public boolean execute(MuseProject project, MuseTestSuite suite, List<MusePlugin> manual_plugins)
         {
         _project = project;
-        TestSuiteExecutionContext context = new DefaultTestSuiteExecutionContext(project, suite);
+        _context = new DefaultTestSuiteExecutionContext(project, suite);
 
-        List<MusePlugin> auto_plugins = Plugins.setup(context);
+        List<MusePlugin> auto_plugins = Plugins.setup(_context);
         for (MusePlugin plugin : manual_plugins)
-        	context.addPlugin(plugin);
+        	_context.addPlugin(plugin);
 
         try
 	        {
-	        context.initializePlugins();
+	        _context.initializePlugins();
 	        }
         catch (MuseExecutionError e)
 	        {
-	        context.raiseEvent(TestErrorEventType.create("Unable to initialize test suite plugins due to: " + e.getMessage()));
+	        _context.raiseEvent(TestErrorEventType.create("Unable to initialize test suite plugins due to: " + e.getMessage()));
 	        return false;
 	        }
 
         boolean suite_success = runTests(suite, manual_plugins, auto_plugins);
 
         // this is just for should be for the plugins installed into local context!
-        if (!savePluginData(context))
+        if (!savePluginData(_context))
         	suite_success = false;
 
         return suite_success;
@@ -51,6 +51,7 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     @SuppressWarnings("WeakerAccess")  // intended to be overridden by implementations with more complex methods (e.g. parallel)
     protected boolean runTests(MuseTestSuite suite, List<MusePlugin> manual_plugins, List<MusePlugin> auto_plugins)
 	    {
+	    _context.raiseEvent(StartSuiteEventType.create());
 	    boolean suite_success = true;
 	    final Iterator<TestConfiguration> tests = suite.getTests(_project);
 	    while (tests.hasNext())
@@ -59,6 +60,7 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 		    if (!test_success)
 			    suite_success = false;
 		    }
+	    _context.raiseEvent(EndSuiteEventType.create());
 	    return suite_success;
 	    }
 
@@ -105,9 +107,26 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         SimpleTestRunner runner = createRunner(configuration);
         if (_output != null)
 	        runner.getExecutionContext().setVariable(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, _output.getOutputFolderName(configuration), VariableScope.Execution);
+        MuseEvent start_event = raiseTestStartEvent(configuration);
         runner.runTest();
+        raiseTestEndEvent(start_event);
         return runner.completedNormally();
         }
+
+    protected MuseEvent raiseTestStartEvent(TestConfiguration configuration)
+	    {
+	    final MuseEvent start_event = StartSuiteTestEventType.create(_context.createVariable("testconfig", configuration));
+	    _context.raiseEvent(start_event);
+	    return start_event;
+	    }
+
+	protected void raiseTestEndEvent(MuseEvent start_event)
+		{
+		final String config_var_name = StartSuiteTestEventType.getConfigVariableName(start_event);
+		final MuseEvent end_event = EndSuiteTestEventType.create(config_var_name);
+		_context.raiseEvent(end_event);
+        _context.setVariable(config_var_name, null);
+		}
 
     @NotNull
     @SuppressWarnings("WeakerAccess")  // overridden in GUI.
@@ -143,6 +162,7 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     private String _output_path = null;
     @SuppressWarnings("WeakerAccess")  // available to subclasses
     protected TestSuiteOutputOnDisk _output = null;
+    private TestSuiteExecutionContext _context;
 
     private final static Logger LOG = LoggerFactory.getLogger(SimpleTestSuiteRunner.class);
     }

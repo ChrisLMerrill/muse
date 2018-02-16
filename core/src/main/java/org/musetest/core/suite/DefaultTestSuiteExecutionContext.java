@@ -8,7 +8,7 @@ import org.musetest.core.context.*;
  */
 public class DefaultTestSuiteExecutionContext extends BaseExecutionContext implements TestSuiteExecutionContext
 	{
-	DefaultTestSuiteExecutionContext(MuseProject project, MuseTestSuite suite)
+	public DefaultTestSuiteExecutionContext(MuseProject project, MuseTestSuite suite)
 		{
 		super(project);
 		_suite = suite;
