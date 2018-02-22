@@ -36,8 +36,9 @@ public class ResourceTypes
                         }
                     else
                         {
-                        if (_primary_types.get(type.getTypeId()) != null)
-                            LOG.warn("Duplicate ResourceType found for id: " + type.getTypeId() + " in class " + the_class.getSimpleName());
+                        final ResourceType existing = _primary_types.get(type.getTypeId());
+                        if (existing != null && !(type.getInterfaceClass().equals(existing.getInterfaceClass())))
+                            LOG.warn(String.format("Duplicate ResourceType found for id: %s using class %s. Already registered with class %s", type.getTypeId(), the_class.getSimpleName(), existing.getInterfaceClass().getSimpleName()));
                         else
                             _primary_types.put(type.getTypeId().toLowerCase(), type);
                         }
