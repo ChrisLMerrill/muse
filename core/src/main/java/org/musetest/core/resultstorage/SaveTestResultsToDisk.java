@@ -22,6 +22,14 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 	@Override
 	public void initialize(MuseExecutionContext context)
 		{
+		_location_provider = Plugins.findType(LocalStorageLocationProvider.class, context);
+		if (_location_provider == null)
+			{
+			final String message = "No plugin was found providing LocalStorageLocationProvider services. Don't know where to store results to disk. Results will NOT be saved.";
+			context.raiseEvent(MessageEventType.create(message));
+			LOG.error(message);
+			return;
+			}
 		context.registerShuttable(this);
 		_context = context;
 		}
@@ -32,20 +40,7 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 	@Override
 	public void shutdown()
 		{
-		final Object output_folder_value = _context.getVariable(OUTPUT_FOLDER_VARIABLE_NAME);
-		if (output_folder_value == null)
-			{
-			_context.raiseEvent(MessageEventType.create(String.format("Name of output folder was not provided (in variable %s). Results will not be stored.", OUTPUT_FOLDER_VARIABLE_NAME)));
-			return;
-			}
-		String output_folder_path = output_folder_value.toString();
-		File output_folder = new File(output_folder_path);
-		if (!output_folder.exists())
-			if (!output_folder.mkdirs())
-				{
-				_context.raiseEvent(MessageEventType.create(String.format("Unable to create output folder (%s). Results will not be stored.", output_folder_path)));
-				return;
-				}
+		File output_folder = _location_provider.getBaseFolder();
 		for (DataCollector collector : _context.getDataCollectors())
 			{
 			final TestResultData collected = collector.getData();
@@ -65,6 +60,7 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 		}
 
 	private MuseExecutionContext _context;
+	private LocalStorageLocationProvider _location_provider;
 
 	public final static String TYPE_ID = "save-testresult-to-disk";
 

@@ -34,6 +34,15 @@ public class Plugins
 		return applied_plugins;
         }
 
+    public static <T> T findType(Class<T> type, MuseExecutionContext context)
+	    {
+	    for (MusePlugin plugin : context.getPlugins())
+	    	if (type.isInstance(plugin))
+	    		return (T) plugin;
+	    return null;
+	    }
+
+
     private final static Logger LOG = LoggerFactory.getLogger(Plugins.class);
     }
 

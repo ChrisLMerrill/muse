@@ -57,10 +57,9 @@ public class SimpleTestRunner implements TestRunner
 	    _context = _config.context();
 	    try
 		    {
-
-		    Plugins.setup(_context);
 		    for (MusePlugin plugin : _config.plugins())
 			    _context.addPlugin(plugin);
+		    Plugins.setup(_context);
 		    _context.initializePlugins();
 		    }
 	    catch (MuseExecutionError e)
