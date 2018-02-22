@@ -15,7 +15,7 @@ public class CommandLineOptionSysvarProvider implements SystemVariableProvider
         }
 
     @Override
-    public Object resolve(String name, MuseExecutionContext context) throws ValueSourceResolutionError
+    public Object resolve(String name, MuseExecutionContext context)
         {
         if (provides(name))
             return context.getProject().getCommandLineOptions();

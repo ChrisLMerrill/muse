@@ -1,11 +1,10 @@
 package org.musetest.core.resultstorage;
 
 import org.musetest.core.*;
-import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
-import org.musetest.core.test.*;
-import org.slf4j.*;
+import org.musetest.core.resource.*;
+import org.musetest.core.values.*;
 
 import java.io.*;
 
@@ -20,15 +19,10 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 		}
 
 	@Override
-	public void initialize(MuseExecutionContext context)
+	public void initialize(MuseExecutionContext context) throws MuseInstantiationException, ValueSourceResolutionError
 		{
-		final Object output_folder_value = context.getVariable(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME);
-		if (output_folder_value == null)
-			{
-			context.raiseEvent(MessageEventType.create(String.format("Name of output folder was not provided (in variable %s). Results will not be stored.", SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME)));
-			return;
-			}
-		String output_folder_path = output_folder_value.toString();
+		MuseValueSource output_folder_source = BaseValueSource.getValueSource(_configuration.parameters(), LocalStorageLocationPluginConfiguration.BASE_LOCATION_PARAM_NAME, true, context.getProject());
+		String output_folder_path = BaseValueSource.getValue(output_folder_source, context, false, String.class);
 		_output_folder = new File(output_folder_path);
 		if (!_output_folder.exists())
 			if (!_output_folder.mkdirs())
