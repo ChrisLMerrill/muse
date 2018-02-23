@@ -86,7 +86,7 @@ public class SystemVariableTests
         }
 
     @Test
-    public void commandLineOptions() throws ValueSourceResolutionError
+    public void commandLineOptions()
         {
         final String name = "command1";
         final String value = "option1";
@@ -99,6 +99,15 @@ public class SystemVariableTests
         Object resolved = provider.resolve("clo", new DefaultTestExecutionContext(project, new MockTest()));
         Assert.assertTrue(resolved instanceof Map);
         Assert.assertEquals(((Map) resolved).get(name), value);
+        }
+
+    @Test
+    public void executionId() throws ValueSourceResolutionError
+	    {
+        final MuseProject project = new SimpleProject();
+	    final BaseExecutionContext context = new BaseExecutionContext(project);
+	    String id = (String) project.getSystemVariableProviders().resolve(ExecutionIdProvider.VARNAME, context);
+        Assert.assertNotNull(id);
         }
     }
 

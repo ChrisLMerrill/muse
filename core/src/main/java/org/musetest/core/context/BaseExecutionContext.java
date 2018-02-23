@@ -23,6 +23,7 @@ public class BaseExecutionContext implements MuseExecutionContext
 			throw new IllegalArgumentException("Project cannot be null");
 		_project = project;
 		_var_creator = new AutomaticVariableCreator(name -> getVariable(name) != null);
+		setVariable(EXECUTION_ID_VARNAME, Long.toString(System.currentTimeMillis()), VariableScope.Execution);
 		}
 
 	/**
@@ -198,4 +199,6 @@ public class BaseExecutionContext implements MuseExecutionContext
 	private AtomicBoolean _events_processing = new AtomicBoolean(false);
 
 	private final static Logger LOG = LoggerFactory.getLogger(TestExecutionContext.class);
+
+	public final static String EXECUTION_ID_VARNAME = "__exeuction_id__";
 	}
