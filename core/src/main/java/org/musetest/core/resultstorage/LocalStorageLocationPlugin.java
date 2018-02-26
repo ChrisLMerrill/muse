@@ -1,9 +1,11 @@
 package org.musetest.core.resultstorage;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.resource.*;
+import org.musetest.core.suite.*;
 import org.musetest.core.values.*;
 
 import java.io.*;
@@ -21,6 +23,10 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 	@Override
 	public void initialize(MuseExecutionContext context) throws MuseInstantiationException, ValueSourceResolutionError
 		{
+		if (_intialized)
+			return;
+
+		_intialized = true;
 		MuseValueSource output_folder_source = BaseValueSource.getValueSource(_configuration.parameters(), LocalStorageLocationPluginConfiguration.BASE_LOCATION_PARAM_NAME, true, context.getProject());
 		String output_folder_path = BaseValueSource.getValue(output_folder_source, context, false, String.class);
 		_output_folder = new File(output_folder_path);
@@ -32,10 +38,20 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 		}
 
 	@Override
+	protected boolean applyToContextType(MuseExecutionContext context)
+		{
+		if (Plugins.findType(this.getClass(), context) != null)
+			return false;
+
+		return context instanceof TestSuiteExecutionContext || context instanceof TestExecutionContext;
+		}
+
+	@Override
 	public File getBaseFolder()
 		{
 		return _output_folder;
 		}
 
 	private File _output_folder = null;
+	private boolean _intialized = false;
 	}

@@ -39,7 +39,11 @@ public class Plugins
 	    for (MusePlugin plugin : context.getPlugins())
 	    	if (type.isInstance(plugin))
 	    		return (T) plugin;
-	    return null;
+
+	    if (context.getParent() == null)
+	        return null;
+	    else
+	    	return findType(type, context.getParent());  // recursively look in ancestor contexts
 	    }
 
 
