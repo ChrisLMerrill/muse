@@ -5,6 +5,7 @@ import org.musetest.core.*;
 import org.musetest.core.step.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
+import org.musetest.core.values.strings.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -52,7 +53,7 @@ public class UnknownStepDescriptor implements StepDescriptor
                 ValueSourceConfiguration source = step.getSources().get(source_name);
                 builder.append(source_name);
                 builder.append("=");
-                builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source));
+                builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source, new StepExpressionContext(getProject(), step)));
                 first = false;
                 }
             }

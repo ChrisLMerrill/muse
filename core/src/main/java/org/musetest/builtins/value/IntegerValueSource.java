@@ -82,7 +82,7 @@ public class IntegerValueSource extends BaseValueSource
             }
 
         @Override
-        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+        public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
             {
             if (config.getType().equals(IntegerValueSource.TYPE_ID))
                 {

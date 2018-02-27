@@ -37,7 +37,7 @@ public abstract class BaseArgumentedValueSourceStringSupport extends BaseValueSo
         }
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+    public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
         {
         if (getTypeId().equals(config.getType()))
             {
@@ -46,7 +46,7 @@ public abstract class BaseArgumentedValueSourceStringSupport extends BaseValueSo
             builder.append('(');
 
             if (getNumberArguments() == 1 && storeSingleArgumentAsSingleSubsource())
-                builder.append(project.getValueSourceStringExpressionSupporters().toString(config.getSource()));
+                builder.append(context.getProject().getValueSourceStringExpressionSupporters().toString(config.getSource(), context));
             else if (storeArgumentsNamed())
                 {
                 String[] names = getArgumentNamesChecked();
@@ -54,7 +54,7 @@ public abstract class BaseArgumentedValueSourceStringSupport extends BaseValueSo
                     {
                     if (i > 0)
                         builder.append(',');
-                    builder.append(project.getValueSourceStringExpressionSupporters().toString(config.getSource(names[i])));
+                    builder.append(context.getProject().getValueSourceStringExpressionSupporters().toString(config.getSource(names[i]), context));
                     }
                 }
             else
@@ -66,7 +66,7 @@ public abstract class BaseArgumentedValueSourceStringSupport extends BaseValueSo
                         {
                         if (arguments > 0)
                             builder.append(',');
-                        builder.append(project.getValueSourceStringExpressionSupporters().toString(argument));
+                        builder.append(context.getProject().getValueSourceStringExpressionSupporters().toString(argument, context));
                         arguments++;
                         }
                 }

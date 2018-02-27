@@ -2,6 +2,7 @@ package org.musetest.core.values.descriptor;
 
 import org.musetest.core.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.strings.*;
 import org.slf4j.*;
 
 /**
@@ -43,13 +44,13 @@ public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
         }
 
     @Override
-    public String getInstanceDescription(ValueSourceConfiguration config)
-        {
+    public String getInstanceDescription(ValueSourceConfiguration source, StringExpressionContext context)
+	    {
         MuseStringExpressionSupportImplementation supporter_annotation = (MuseStringExpressionSupportImplementation) _source_class.getAnnotation(MuseStringExpressionSupportImplementation.class);
         if (supporter_annotation != null)
             try
                 {
-                return ((ValueSourceStringExpressionSupport) supporter_annotation.value().newInstance()).toString(config, _project);
+                return ((ValueSourceStringExpressionSupport) supporter_annotation.value().newInstance()).toString(source, context);
                 }
             catch (InstantiationException | IllegalAccessException e)
                 {

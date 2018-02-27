@@ -4,6 +4,7 @@ import org.musetest.core.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.strings.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -22,13 +23,14 @@ public class IncrementVariableDescriptor extends AnnotatedStepDescriptor
         if (step.getSources() != null)
             {
             ValueSourceConfiguration name_source = step.getSources().get(IncrementVariable.NAME_PARAM);
+            final StepExpressionContext step_context = getContext(step);
             if (name_source != null)
-                builder.append(_project.getValueSourceDescriptors().get(name_source).getInstanceDescription(name_source));
+                builder.append(_project.getValueSourceDescriptors().get(name_source).getInstanceDescription(name_source, step_context));
             ValueSourceConfiguration amount_source = step.getSources().get(IncrementVariable.AMOUNT_PARAM);
             if (amount_source != null)
                 {
                 builder.append(" by ");
-                builder.append(_project.getValueSourceDescriptors().get(amount_source).getInstanceDescription(amount_source));
+                builder.append(_project.getValueSourceDescriptors().get(amount_source).getInstanceDescription(amount_source, step_context));
                 }
             }
         return builder.toString();

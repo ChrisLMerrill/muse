@@ -42,7 +42,7 @@ public class NullValueSource extends BaseValueSource
             }
 
         @Override
-        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+        public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
             {
             if (NullValueSource.TYPE_ID.equals(config.getType()))
                 return NULL;

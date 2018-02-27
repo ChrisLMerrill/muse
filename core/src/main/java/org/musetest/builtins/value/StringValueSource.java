@@ -76,7 +76,7 @@ public class StringValueSource extends BaseValueSource
             }
 
         @Override
-        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+        public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
             {
             if (config.getType().equals(StringValueSource.TYPE_ID))
                 {

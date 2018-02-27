@@ -3,6 +3,7 @@ package org.musetest.core.values;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
+import org.musetest.core.values.strings.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -28,7 +29,7 @@ public abstract class BaseValueSource implements MuseValueSource
     @Override
     public String getDescription()
         {
-        return _project.getValueSourceDescriptors().get(_config.getType()).getInstanceDescription(_config);
+        return _project.getValueSourceDescriptors().get(_config.getType()).getInstanceDescription(_config, new RootStringExpressionContext(_project));
         }
 
     /**

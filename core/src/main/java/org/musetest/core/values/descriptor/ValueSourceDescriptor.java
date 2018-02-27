@@ -12,11 +12,14 @@ public interface ValueSourceDescriptor
     String getType();
     String getName();
     String getShortDescription();
-    String getInstanceDescription(ValueSourceConfiguration source);
+    String getInstanceDescription(ValueSourceConfiguration source, StringExpressionContext context);
     String getGroupName();
     String getLongDescription();
     String getDocumentationDescription();
     SubsourceDescriptor[] getSubsourceDescriptors();
+
+    @Deprecated
+    String getInstanceDescription(ValueSourceConfiguration source);
     }
 
 

@@ -71,13 +71,13 @@ public class VariableValueSource extends BaseValueSource
             }
 
         @Override
-        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+        public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
             {
             if (config.getType().equals(VariableValueSource.TYPE_ID))
                 if (config.getValue() instanceof String)
                     return OPERATOR + "\"" + config.getValue().toString() + "\"";
                 else
-                    return OPERATOR + project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1);
+                    return OPERATOR + context.getProject().getValueSourceStringExpressionSupporters().toString(config.getSource(), context,depth + 1);
             return null;
             }
 

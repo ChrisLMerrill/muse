@@ -83,7 +83,7 @@ public class BooleanValueSource extends BaseValueSource
             }
 
         @Override
-        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+        public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
             {
             if (config.getType().equals(BooleanValueSource.TYPE_ID))
                 {

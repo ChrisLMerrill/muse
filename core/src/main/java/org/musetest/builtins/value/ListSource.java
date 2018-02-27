@@ -81,7 +81,7 @@ public class ListSource extends BaseValueSource
             }
 
         @Override
-        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+        public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
             {
             if (config.getType().equals(ListSource.TYPE_ID))
                 {
@@ -92,7 +92,7 @@ public class ListSource extends BaseValueSource
                     if (!first)
                         builder.append(",");
 
-                    String stringified = project.getValueSourceStringExpressionSupporters().toString(sub_source, depth + 1);
+                    String stringified = context.getProject().getValueSourceStringExpressionSupporters().toString(sub_source, context, depth + 1);
                     if (stringified == null)
                         return null;
                     builder.append(stringified);

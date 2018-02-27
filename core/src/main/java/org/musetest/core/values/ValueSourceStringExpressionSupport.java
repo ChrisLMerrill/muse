@@ -21,6 +21,6 @@ public interface ValueSourceStringExpressionSupport
     ValueSourceConfiguration fromArrayExpression(List<ValueSourceConfiguration> elements, MuseProject project);
     ValueSourceConfiguration fromBinaryExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project);
     ValueSourceConfiguration fromDotExpression(ValueSourceConfiguration left, ValueSourceConfiguration right, MuseProject project);
-    String toString(ValueSourceConfiguration config, MuseProject project);
-    String toString(ValueSourceConfiguration config, MuseProject project, int depth);
+    String toString(ValueSourceConfiguration config, StringExpressionContext context);
+    String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth);
     }

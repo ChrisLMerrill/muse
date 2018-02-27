@@ -2,6 +2,7 @@ package org.musetest.core.values.descriptor;
 
 import org.musetest.core.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.strings.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -35,10 +36,18 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
 
     @Override
     public String getInstanceDescription(ValueSourceConfiguration source)
+	    {
+	    return getInstanceDescription(source, new RootStringExpressionContext(_project));
+	    }
+
+    @Override
+    public String getInstanceDescription(ValueSourceConfiguration source, StringExpressionContext context)
         {
         StringBuilder builder = new StringBuilder(getName());
         builder.append(": ");
         boolean first = true;
+
+        StringExpressionContext source_context = new ValueSourceExpressionContext(context, source);
         if (source.getValue() != null)
             {
             builder.append(source.getValue());
@@ -46,30 +55,30 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
             }
         if (source.getSource() != null)
             {
-            appendSourceDescription(builder, source.getSource(), first);
+            appendSourceDescription(builder, source.getSource(), first, source_context);
             first = false;
             }
         if (source.getSourceList() != null && source.getSourceList().size() > 0)
             {
             for (ValueSourceConfiguration list_source : source.getSourceList())
                 {
-                appendSourceDescription(builder, list_source, first);
+                appendSourceDescription(builder, list_source, first, source_context);
                 first = false;
                 }
             }
         for (String source_name : source.getSourceNames())
             {
-            appendSourceDescription(builder, source.getSource(source_name), first);
+            appendSourceDescription(builder, source.getSource(source_name), first, source_context);
             first = false;
             }
         return builder.toString();
         }
 
-    private void appendSourceDescription(StringBuilder builder, ValueSourceConfiguration source, boolean first)
+    private void appendSourceDescription(StringBuilder builder, ValueSourceConfiguration source, boolean first, StringExpressionContext context)
         {
         if (!first)
             builder.append(", ");
-        builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source));
+        builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source, context));
         }
 
     @Override

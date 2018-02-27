@@ -25,10 +25,10 @@ public abstract class ElementByLocatorValueSourceStringExpressionSupport extends
         }
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+    public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
         {
         if (config.getType().equals(_muse_type_id))
-            return String.format("<%s:%s>", _string_expression_type_id, project.getValueSourceStringExpressionSupporters().toString(config.getSource(), depth + 1));
+            return String.format("<%s:%s>", _string_expression_type_id, context.getProject().getValueSourceStringExpressionSupporters().toString(config.getSource(), context,depth + 1));
         return null;
         }
 

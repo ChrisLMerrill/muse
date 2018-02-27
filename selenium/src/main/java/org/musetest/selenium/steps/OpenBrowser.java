@@ -6,9 +6,9 @@ import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.test.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
+import org.musetest.core.values.strings.*;
 import org.musetest.selenium.*;
 import org.openqa.selenium.*;
 import org.slf4j.*;
@@ -28,9 +28,10 @@ import org.slf4j.*;
 public class OpenBrowser extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection
-    public OpenBrowser(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public OpenBrowser(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
+        _project = project;
         _browser = getValueSource(config, BROWSER_PARAM, true, project);
         _provider = getValueSource(config, PROVIDER_PARAM, true, project);
         }
@@ -40,24 +41,25 @@ public class OpenBrowser extends BaseStep
         {
         // find the provider
         WebDriverProviderConfiguration provider = getValue(_provider, context, false, WebDriverProviderConfiguration.class);
+        final StepExpressionContext expression_context = new StepExpressionContext(_project, getConfiguration());
         if (provider == null)
             {
             ValueSourceConfiguration provider_config = getConfiguration().getSource(PROVIDER_PARAM);
-            throw new StepConfigurationError("Unable to locate WebdriverProvider from source: " + context.getProject().getValueSourceDescriptors().get(provider_config).getInstanceDescription(provider_config));
+            throw new StepConfigurationError("Unable to locate WebdriverProvider from source: " + context.getProject().getValueSourceDescriptors().get(provider_config).getInstanceDescription(provider_config, expression_context));
             }
 
         SeleniumBrowserCapabilities capabilities = getValue(_browser, context, false, SeleniumBrowserCapabilities.class);
         if (capabilities == null)
             {
             ValueSourceConfiguration browser_config = getConfiguration().getSource(PROVIDER_PARAM);
-            throw new StepConfigurationError("Unable to locate SeleniumBrowserCapabilities from source: " + context.getProject().getValueSourceDescriptors().get(browser_config).getInstanceDescription(browser_config));
+            throw new StepConfigurationError("Unable to locate SeleniumBrowserCapabilities from source: " + context.getProject().getValueSourceDescriptors().get(browser_config).getInstanceDescription(browser_config, expression_context));
             }
 
         WebDriver driver = provider.getDriver(capabilities, context);
         if (driver == null)
             {
             ValueSourceConfiguration provider_config = getConfiguration().getSource(PROVIDER_PARAM);
-            throw new StepConfigurationError(String.format("The WebdriverProvider (%s) was not able to provide a browser matching the specified capabilities (%s).", context.getProject().getValueSourceDescriptors().get(provider_config).getInstanceDescription(provider_config), capabilities.toDesiredCapabilities().toString()));
+            throw new StepConfigurationError(String.format("The WebdriverProvider (%s) was not able to provide a browser matching the specified capabilities (%s).", context.getProject().getValueSourceDescriptors().get(provider_config).getInstanceDescription(provider_config, expression_context), capabilities.toDesiredCapabilities().toString()));
             }
 
         BrowserStepExecutionContext.putDriver(driver, context);
@@ -77,8 +79,9 @@ public class OpenBrowser extends BaseStep
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }
 
-    private MuseValueSource _browser;
-    private MuseValueSource _provider;
+    private final MuseValueSource _browser;
+    private final MuseValueSource _provider;
+    private final MuseProject _project;
 
     public final static String BROWSER_PARAM = "browser";
     public final static String PROVIDER_PARAM = "provider";

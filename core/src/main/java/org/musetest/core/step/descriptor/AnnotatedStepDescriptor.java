@@ -5,6 +5,7 @@ import org.musetest.core.step.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
+import org.musetest.core.values.strings.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -16,6 +17,7 @@ public class AnnotatedStepDescriptor extends DefaultStepDescriptor
         {
         super(step_class, project);
         _step_class = step_class;
+        _root_context = new RootStringExpressionContext(project);
         }
 
     @Override
@@ -77,12 +79,12 @@ public class AnnotatedStepDescriptor extends DefaultStepDescriptor
                     String name = key.substring(NAMED_SOURCE_KEY_START.length(), key.length() - 1);
                     ValueSourceConfiguration source = step.getSources().get(name);
                     if (source != null)
-                        return _project.getValueSourceDescriptors().get(source).getInstanceDescription(source);
+                        return _project.getValueSourceDescriptors().get(source).getInstanceDescription(source, getContext(step));
                     }
                 else if (step.getSource(key) != null)
                     {
                     ValueSourceConfiguration source = step.getSources().get(key);
-                    return _project.getValueSourceDescriptors().get(source).getInstanceDescription(source);
+                    return _project.getValueSourceDescriptors().get(source).getInstanceDescription(source, getContext(step));
                     }
                 return "?" + key + "?";
                 });
@@ -91,6 +93,11 @@ public class AnnotatedStepDescriptor extends DefaultStepDescriptor
 
         return super.getShortDescription(step);
         }
+
+    protected StepExpressionContext getContext(StepConfiguration step)
+	    {
+	    return new StepExpressionContext(_root_context, step);
+	    }
 
     @Override
     public String getInlineEditString()
@@ -129,10 +136,9 @@ public class AnnotatedStepDescriptor extends DefaultStepDescriptor
         return descriptors;
         }
 
-    final private Class _step_class;
+    private final Class _step_class;
+    private final RootStringExpressionContext _root_context;
 
     public final static String NAMED_SOURCE_KEY_START = "source(";
     public final static String NAMED_SOURCE_KEY_END = ")";
     }
-
-

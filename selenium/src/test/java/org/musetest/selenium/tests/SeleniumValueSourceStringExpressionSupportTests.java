@@ -4,6 +4,7 @@ import org.junit.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.strings.*;
 import org.musetest.selenium.conditions.*;
 import org.musetest.selenium.locators.*;
 import org.musetest.selenium.values.*;
@@ -40,7 +41,7 @@ public class SeleniumValueSourceStringExpressionSupportTests
         ValueSourceConfiguration sub_source = ValueSourceConfiguration.forValue("abc");
         config.setSource(sub_source);
 
-        String stringified = PROJECT.getValueSourceStringExpressionSupporters().toString(config);
+        String stringified = PROJECT.getValueSourceStringExpressionSupporters().toString(config, new RootStringExpressionContext(PROJECT));
         Assert.assertEquals(String.format("%s(\"%s\")", function_name, "abc"), stringified);
 
         ArrayList<ValueSourceConfiguration> arguments = new ArrayList<>();

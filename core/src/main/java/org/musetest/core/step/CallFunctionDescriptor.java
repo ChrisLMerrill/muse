@@ -3,6 +3,7 @@ package org.musetest.core.step;
 import org.musetest.core.*;
 import org.musetest.core.step.descriptor.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.strings.*;
 
 import java.util.*;
 
@@ -29,7 +30,7 @@ public class CallFunctionDescriptor extends AnnotatedStepDescriptor
         if (return_source != null)
             {
             builder.append("$");
-            builder.append(getProject().getValueSourceDescriptors().get(return_source).getInstanceDescription(return_source));
+            builder.append(getProject().getValueSourceDescriptors().get(return_source).getInstanceDescription(return_source, new StepExpressionContext(getProject(), step)));
             builder.append(" = ");
             }
 
@@ -48,7 +49,7 @@ public class CallFunctionDescriptor extends AnnotatedStepDescriptor
                 builder.append(name);
                 builder.append("=");
                 ValueSourceConfiguration named_source = step.getSource(name);
-                builder.append(getProject().getValueSourceDescriptors().get(named_source).getInstanceDescription(named_source));
+                builder.append(getProject().getValueSourceDescriptors().get(named_source).getInstanceDescription(named_source, getContext(step)));
                 first = false;
                 }
 

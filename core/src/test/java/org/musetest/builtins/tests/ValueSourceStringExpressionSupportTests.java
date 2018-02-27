@@ -8,6 +8,7 @@ import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.strings.*;
 
 import java.util.*;
 
@@ -75,7 +76,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(type, parsed.getType());
         Assert.assertEquals(content, parsed.getValue());
 
-        String stringified = support.toString(parsed, null);
+        String stringified = support.toString(parsed, new RootStringExpressionContext(new SimpleProject()));
         Assert.assertEquals(string_content, stringified);
         }
 
@@ -92,7 +93,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(left, config.getSourceList().get(0));
         Assert.assertEquals(right, config.getSourceList().get(1));
 
-        String stringified = supporter.toString(config, TEST_PROJECT);
+        String stringified = supporter.toString(config, new RootStringExpressionContext(TEST_PROJECT));
         Assert.assertEquals("123 + 456", stringified);
         }
 
@@ -112,7 +113,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(right, config.getSourceList().get(1));
         Assert.assertEquals(far_right, config.getSourceList().get(2));
 
-        String stringified = supporter.toString(config, TEST_PROJECT);
+        String stringified = supporter.toString(config, new RootStringExpressionContext(TEST_PROJECT));
         Assert.assertEquals("123 + 456 + 789", stringified);
         }
 
@@ -135,7 +136,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(right, config.getSourceList().get(2));
         Assert.assertEquals(far_right, config.getSourceList().get(3));
 
-        String stringified = supporter.toString(config, TEST_PROJECT);
+        String stringified = supporter.toString(config, new RootStringExpressionContext(TEST_PROJECT));
         Assert.assertEquals("11 + 22 + 33 + 44", stringified);
         }
 
@@ -194,7 +195,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(left, parsed.getSource(BinaryCondition.LEFT_PARAM).getValue());
         Assert.assertEquals(right, parsed.getSource(BinaryCondition.RIGHT_PARAM).getValue());
 
-        String stringified = supporter.toString(parsed, TEST_PROJECT);
+        String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
         Assert.assertEquals(to_parse, stringified);
         }
 
@@ -210,7 +211,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(NotValueSource.TYPE_ID, parsed.getType());
         Assert.assertEquals(subsource, parsed.getSource());
 
-        String stringified = supporter.toString(parsed, TEST_PROJECT);
+        String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
         Assert.assertEquals("not(true)", stringified);
         }
 
@@ -230,7 +231,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(date_config, parsed.getSource(DateFormatValueSource.DATE_PARAM));
         Assert.assertEquals(format_config, parsed.getSource(DateFormatValueSource.FORMAT_PARAM));
 
-        String stringified = supporter.toString(parsed, TEST_PROJECT);
+        String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
         Assert.assertEquals("formatDate(\"date\",\"format\")", stringified);
         }
 
@@ -247,7 +248,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(left, parsed.getSource(PropertySource.TARGET_PARAM).getValue());
         Assert.assertEquals(right, parsed.getSource(PropertySource.NAME_PARAM).getValue());
 
-        String stringified = supporter.toString(parsed, TEST_PROJECT);
+        String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
         Assert.assertEquals(to_parse, stringified);
         }
 
@@ -265,7 +266,7 @@ public class ValueSourceStringExpressionSupportTests
         Assert.assertEquals(elements.get(0).getValue(), parsed.getSource(0).getValue());
         Assert.assertEquals(elements.get(1).getValue(), parsed.getSource(1).getValue());
 
-        String stringified = supporter.toString(parsed, TEST_PROJECT);
+        String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
         Assert.assertEquals(to_parse, stringified);
         }
 

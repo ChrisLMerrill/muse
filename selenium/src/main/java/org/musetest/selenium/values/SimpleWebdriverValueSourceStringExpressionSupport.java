@@ -26,7 +26,7 @@ public abstract class SimpleWebdriverValueSourceStringExpressionSupport extends 
         }
 
     @Override
-    public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+    public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
         {
         if (_muse_type.equals(config.getType()))
             return "<" + _name + ">";

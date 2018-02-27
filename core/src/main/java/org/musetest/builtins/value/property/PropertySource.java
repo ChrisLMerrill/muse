@@ -80,12 +80,12 @@ public class PropertySource extends BaseValueSource
             }
 
         @Override
-        public String toString(ValueSourceConfiguration config, MuseProject project, int depth)
+        public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
             {
             if (config.getType().equals(PropertySource.TYPE_ID))
                 {
-                String target = project.getValueSourceStringExpressionSupporters().toString(config.getSource(PropertySource.TARGET_PARAM), depth + 1);
-                String name = project.getValueSourceStringExpressionSupporters().toString(config.getSource(PropertySource.NAME_PARAM), depth + 1);
+                String target = context.getProject().getValueSourceStringExpressionSupporters().toString(config.getSource(PropertySource.TARGET_PARAM), context, depth + 1);
+                String name = context.getProject().getValueSourceStringExpressionSupporters().toString(config.getSource(PropertySource.NAME_PARAM), context, depth + 1);
                 String expression = String.format("%s.%s", target, name);
                 if (depth == 0)
                     return expression;
