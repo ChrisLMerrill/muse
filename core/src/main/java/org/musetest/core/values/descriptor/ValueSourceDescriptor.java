@@ -17,9 +17,6 @@ public interface ValueSourceDescriptor
     String getLongDescription();
     String getDocumentationDescription();
     SubsourceDescriptor[] getSubsourceDescriptors();
-
-    @Deprecated
-    String getInstanceDescription(ValueSourceConfiguration source);
     }
 
 
