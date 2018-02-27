@@ -35,12 +35,6 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
         }
 
     @Override
-    public String getInstanceDescription(ValueSourceConfiguration source)
-	    {
-	    return getInstanceDescription(source, new RootStringExpressionContext(_project));
-	    }
-
-    @Override
     public String getInstanceDescription(ValueSourceConfiguration source, StringExpressionContext context)
         {
         StringBuilder builder = new StringBuilder(getName());
