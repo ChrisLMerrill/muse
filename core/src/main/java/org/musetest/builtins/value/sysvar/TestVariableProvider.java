@@ -22,15 +22,13 @@ public class TestVariableProvider implements SystemVariableProvider
         {
         if (SYSVAR_NAME.equals(name))
             {
-            MuseExecutionContext top_context = context;
-            while (top_context.getParent() != null)
-                top_context = top_context.getParent();
-
-            if (top_context instanceof TestExecutionContext)
-                return new TestVariableProxy(((TestExecutionContext)top_context).getTest());
+            TestExecutionContext test_context = MuseExecutionContext.findAncestor(context, TestExecutionContext.class);
+            if (test_context == null)
+	            throw new ValueSourceResolutionError("Cannot get the test variable - not executed within the context of a test.");
+            return new TestVariableProxy(test_context.getTest());
             }
 
-        throw new ValueSourceResolutionError("Cannot get the test variable - not executed within the context of a test.");
+        throw new ValueSourceResolutionError("Cannot provide this value. Did you check provides() first?");
         }
 
     public final static String SYSVAR_NAME = "test";
