@@ -1,7 +1,6 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
-import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.test.*;
@@ -160,31 +159,6 @@ public class BaseExecutionContext implements MuseExecutionContext
 	public List<MusePlugin> getPlugins()
 		{
 		return _plugins;
-		}
-
-	public List<DataCollector> getDataCollectors()
-		{
-		List<DataCollector> data_collectors = new ArrayList<>();
-		for (MusePlugin plugin : _plugins)
-			if (plugin instanceof DataCollector)
-				data_collectors.add((DataCollector) plugin);
-		return data_collectors;
-		}
-
-	@Override
-	public <T extends DataCollector> T getDataCollector(Class<T> type)
-		{
-		T the_collector = null;
-		for (MusePlugin plugin : _plugins)
-			{
-			if (type.isAssignableFrom(plugin.getClass()))
-				{
-				if (the_collector != null)
-					throw new IllegalArgumentException("Cannot use this method when there are more than one DataCollectors of the desired type");
-				the_collector = (T) plugin;
-				}
-			}
-		return the_collector;
 		}
 
 	private final MuseProject _project;

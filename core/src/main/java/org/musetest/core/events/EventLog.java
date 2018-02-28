@@ -117,7 +117,7 @@ public class EventLog implements TestResultData
 
 	public static EventLog find(MuseExecutionContext context)
 		{
-		for (DataCollector collector : context.getDataCollectors())
+		for (DataCollector collector : DataCollectors.list(context))
 			if (collector.getData() instanceof EventLog)
 				return (EventLog) collector.getData();
 		return null;

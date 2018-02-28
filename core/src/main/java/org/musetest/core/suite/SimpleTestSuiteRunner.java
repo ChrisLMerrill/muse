@@ -69,7 +69,7 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 	    if (_output_path != null)
 		    {
 		    File output_folder = new File(_output_path);
-		    for (DataCollector collector : context.getDataCollectors())
+		    for (DataCollector collector : DataCollectors.list(context))
 			    {
 			    final TestResultData data = collector.getData();
 			    if (data != null)

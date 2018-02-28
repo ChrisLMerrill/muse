@@ -54,7 +54,7 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
 				{
 				TestResult result = TestResult.find(_context);
 				if (result != null)
-					_data.addResult(result, _context.getDataCollector(EventLogger.class).getData());
+					_data.addResult(result, DataCollectors.find(_context, EventLogger.class).getData());
 				_context.removeEventListener(this);
 				}
 			}

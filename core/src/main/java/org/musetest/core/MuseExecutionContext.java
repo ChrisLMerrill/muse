@@ -1,6 +1,5 @@
 package org.musetest.core;
 
-import org.musetest.core.datacollection.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.test.*;
 import org.musetest.core.variables.*;
@@ -94,18 +93,6 @@ public interface MuseExecutionContext
      * @throws MuseExecutionError If a plugin fails or if already initialized.
      */
     void initializePlugins() throws MuseExecutionError;
-
-	/**
-	 * Get the DataCollectors configured for the test.
-	 */
-	List<DataCollector> getDataCollectors();
-
-	/**
-	 * Gets the single collector of the specified type.
-	 *
-	 * @throws IllegalArgumentException if there are multiple collectors of that type.
-	 */
-	<T extends DataCollector> T getDataCollector(Class<T> type);
 
     @SuppressWarnings("unused")  // convenience for extensions
     static <T extends MuseExecutionContext> T findAncestor(MuseExecutionContext context, Class<T> type)

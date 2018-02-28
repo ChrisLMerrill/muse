@@ -4,6 +4,7 @@ import org.junit.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
 import org.musetest.core.project.*;
@@ -32,7 +33,7 @@ public class StepExecutionTests
         executor.executeAll();
 
 		//noinspection ConstantConditions
-        Assert.assertNotNull("message step did not run", test_context.getDataCollector(EventLogger.class).getData().findFirstEvent(new EventDescriptionMatcher(message)));
+        Assert.assertNotNull("message step did not run", DataCollectors.find(test_context, EventLogger.class).getData().findFirstEvent(new EventDescriptionMatcher(message)));
         }
 
     @Test
@@ -55,7 +56,7 @@ public class StepExecutionTests
         executor.executeAll();
 
 		//noinspection ConstantConditions
-        Assert.assertNotNull("step didn't run", test_context.getDataCollector(EventLogger.class).getData().findFirstEvent(new EventDescriptionMatcher(message)));
+        Assert.assertNotNull("step didn't run", DataCollectors.find(test_context, EventLogger.class).getData().findFirstEvent(new EventDescriptionMatcher(message)));
         }
 
     @Test
@@ -82,7 +83,7 @@ public class StepExecutionTests
         StepExecutor executor = new StepExecutor(test, test_context);
         executor.executeAll();
 
-		EventLog log = test_context.getDataCollector(EventLogger.class).getData();
+		EventLog log = DataCollectors.find(test_context, EventLogger.class).getData();
 		//noinspection ConstantConditions
         Assert.assertNotNull("first step didn't run", log.findFirstEvent(new EventDescriptionMatcher(message1)));
         Assert.assertNotNull("second step didn't run", log.findFirstEvent(new EventDescriptionMatcher(message2)));
@@ -102,7 +103,7 @@ public class StepExecutionTests
         test_context.addEventListener(new TerminateOnError(executor));
         executor.executeAll();
 
-        EventLog log = test_context.getDataCollector(EventLogger.class).getData();
+        EventLog log = DataCollectors.find(test_context, EventLogger.class).getData();
 		//noinspection ConstantConditions
         Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)));
         Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));
@@ -124,7 +125,7 @@ public class StepExecutionTests
         test_context.addEventListener(new TerminateOnError(executor));
         executor.executeAll();
 
-        EventLog log = test_context.getDataCollector(EventLogger.class).getData();
+        EventLog log = DataCollectors.find(test_context, EventLogger.class).getData();
 		//noinspection ConstantConditions
 		Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)));
         Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));

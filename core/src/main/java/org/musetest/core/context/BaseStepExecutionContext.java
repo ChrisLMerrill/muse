@@ -1,7 +1,6 @@
 package org.musetest.core.context;
 
 import org.musetest.core.*;
-import org.musetest.core.datacollection.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
@@ -168,18 +167,6 @@ abstract class BaseStepExecutionContext implements StepExecutionContext
 	public void initializePlugins() throws MuseExecutionError
 		{
 		_parent_context.initializePlugins();
-		}
-
-	@Override
-	public List<DataCollector> getDataCollectors()
-		{
-		return _parent_context.getDataCollectors();
-		}
-
-	@Override
-	public <T extends DataCollector> T getDataCollector(Class<T> type)
-		{
-		return _parent_context.getDataCollector(type);
 		}
 
 	@Override

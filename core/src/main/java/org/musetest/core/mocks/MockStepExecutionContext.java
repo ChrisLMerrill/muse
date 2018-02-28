@@ -175,18 +175,6 @@ public class MockStepExecutionContext implements StepExecutionContext
 		_test_context.initializePlugins();
 		}
 
-	@Override
-	public List<DataCollector> getDataCollectors()
-		{
-		return _test_context.getDataCollectors();
-		}
-
-	@Override
-	public <T extends DataCollector> T getDataCollector(Class<T> type)
-		{
-		return _test_context.getDataCollector(type);
-		}
-
     @Override
     public StepLocator getStepLocator()
 	    {

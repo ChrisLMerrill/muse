@@ -41,7 +41,7 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 	public void shutdown()
 		{
 		File output_folder = _location_provider.getBaseFolder();
-		for (DataCollector collector : _context.getDataCollectors())
+		for (DataCollector collector : DataCollectors.list(_context))
 			{
 			final TestResultData collected = collector.getData();
 			if (collected != null)

@@ -143,7 +143,7 @@ public class TestResult implements TestResultData
 
 	public static TestResult find(TestExecutionContext context)
 		{
-		for (DataCollector collector : context.getDataCollectors())
+		for (DataCollector collector : DataCollectors.list(context))
 			if (collector.getData() instanceof TestResult)
 				return (TestResult) collector.getData();
 		return null;
