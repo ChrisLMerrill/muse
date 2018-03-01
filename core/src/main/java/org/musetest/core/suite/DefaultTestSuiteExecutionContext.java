@@ -10,7 +10,13 @@ public class DefaultTestSuiteExecutionContext extends BaseExecutionContext imple
 	{
 	public DefaultTestSuiteExecutionContext(MuseProject project, MuseTestSuite suite)
 		{
-		super(project);
+		super(project, ContextVariableScope.Suite);
+		_suite = suite;
+		}
+
+	public DefaultTestSuiteExecutionContext(MuseExecutionContext parent, MuseTestSuite suite)
+		{
+		super(parent, ContextVariableScope.Suite);
 		_suite = suite;
 		}
 
@@ -22,5 +28,3 @@ public class DefaultTestSuiteExecutionContext extends BaseExecutionContext imple
 
 	private MuseTestSuite _suite;
 	}
-
-

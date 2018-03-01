@@ -26,31 +26,9 @@ public class WebDriverProviderTests
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
         Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
-        WebDriver driver = driver_providers.getDriver(new SeleniumBrowserCapabilities(MuseMockProvider.MUSE_BROWSER), new BaseExecutionContext(new SimpleProject()));
+        WebDriver driver = driver_providers.getDriver(new SeleniumBrowserCapabilities(MuseMockProvider.MUSE_BROWSER), new ProjectExecutionContext(new SimpleProject()));
         Assert.assertTrue(driver instanceof MuseMockDriver);
         }
-
-/*
-    @Test
-    public void closeShuttables() throws URISyntaxException, InterruptedException, ValueSourceResolutionError
-        {
-        MuseProject project = SeleniumStepTests.createSeleniumTestProject();
-        StepConfiguration open_step = SeleniumStepTests.createOpenBrowserStep();
-        SteppedTest test = new SteppedTest(open_step);
-        InteractiveTestController controller = new InteractiveTestController();
-        controller.runPastStep(new SteppedTestProviderImpl(project, test), open_step);
-        new TestStateBlocker(controller).blockUntil(InteractiveTestState.PAUSED);
-
-        MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(controller.getTestRunner().getExecutionContext());
-        Assert.assertNotNull(driver);
-
-        controller.resume();
-        new TestStateBlocker(controller).blockUntil(InteractiveTestState.IDLE);
-
-        Thread.sleep(50); // allow time for the test executor thread to finish and driver to stop.
-        Assert.assertTrue(driver._is_quitted);
-        }
-*/
 
     /**
      * Ensure the serialization format remains compatible
@@ -244,7 +222,4 @@ public class WebDriverProviderTests
         Assert.assertEquals(1, listener._removed_index.longValue());
         Assert.assertEquals(provider2, listener._removed_provider);
         }
-
     }
-
-

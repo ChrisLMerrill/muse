@@ -1,6 +1,7 @@
 package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
@@ -28,7 +29,7 @@ public class VariableListInitializer extends GenericConfigurablePlugin
 			{
 			ValueSourceConfiguration config = list.getVariables().get(name);
 			Object value = config.createSource(context.getProject()).resolveValue(context);
-			context.setVariable(name, value, VariableScope.Execution);
+			context.setVariable(name, value, ContextVariableScope.Execution);
 			}
 
 		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME,null);

@@ -9,7 +9,6 @@ import org.musetest.javascript.*;
 import org.slf4j.*;
 
 import javax.script.*;
-import java.io.*;
 import java.util.*;
 
 /**
@@ -18,7 +17,7 @@ import java.util.*;
 public class TestFromJavascriptResourceFactory implements FromJavascriptResourceFactory
     {
     @Override
-    public List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine) throws IOException
+    public List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine)
         {
         List<MuseResource> resources = new ArrayList<>();
 
@@ -30,7 +29,7 @@ public class TestFromJavascriptResourceFactory implements FromJavascriptResource
         Invocable inv = (Invocable) engine;
         try
             {
-            inv.invokeFunction(JavascriptTest.FUNCTION_NAME, new BaseExecutionContext(new SimpleProject()));
+            inv.invokeFunction(JavascriptTest.FUNCTION_NAME, new ProjectExecutionContext(new SimpleProject()));
             resources.add(new JavascriptTest(origin));
             }
         catch (ScriptException e)
@@ -48,5 +47,3 @@ public class TestFromJavascriptResourceFactory implements FromJavascriptResource
 
     private final static Logger LOG = LoggerFactory.getLogger(TestFromJavascriptResourceFactory.class);
     }
-
-

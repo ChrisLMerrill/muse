@@ -2,7 +2,6 @@ package org.musetest.core.mocks;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.project.*;
@@ -77,12 +76,6 @@ public class MockStepExecutionContext implements StepExecutionContext
         }
 
     @Override
-    public Map<String, Object> getVariables()
-        {
-        return _variables;
-        }
-
-    @Override
     public Object getVariable(String name)
         {
         return _variables.get(name);
@@ -95,13 +88,13 @@ public class MockStepExecutionContext implements StepExecutionContext
         }
 
     @Override
-    public Object getVariable(String name, VariableScope scope)
+    public Object getVariable(String name, VariableQueryScope scope)
         {
         return _variables.get(name);
         }
 
     @Override
-    public void setVariable(String name, Object value, VariableScope scope)
+    public void setVariable(String name, Object value, ContextVariableScope scope)
         {
         _variables.put(name, value);
         }
@@ -186,6 +179,12 @@ public class MockStepExecutionContext implements StepExecutionContext
 			    _locator = new CachedLookupStepLocator();
 		    }
 	    return _locator;
+	    }
+
+    @Override
+    public ContextVariableScope getVariableScope()
+	    {
+	    return ContextVariableScope.Execution;
 	    }
 
     private Map<String, Object> _variables = new HashMap<>();

@@ -23,7 +23,7 @@ public class CompoundPluginTests
 	    config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
 	    config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 
-	    BaseExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
+		DefaultTestExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
 	    config.createPlugin().conditionallyAddToContext(context, true);
 
 	    Assert.assertEquals(1, context.getPlugins().size());
@@ -38,7 +38,7 @@ public class CompoundPluginTests
 	    config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
 	    config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 
-	    BaseExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
+		DefaultTestExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
 	    config.createPlugin().conditionallyAddToContext(context, true);
 
 	    Assert.assertEquals(1, context.getPlugins().size());
@@ -53,7 +53,7 @@ public class CompoundPluginTests
 	    config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
 	    config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 
-	    BaseExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
+		DefaultTestExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
 	    config.createPlugin().conditionallyAddToContext(context, true);
 
 	    Assert.assertEquals(2, context.getPlugins().size());

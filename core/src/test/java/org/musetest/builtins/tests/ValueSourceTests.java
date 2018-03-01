@@ -325,11 +325,11 @@ public class ValueSourceTests
 
         config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("xyz"));
         MuseValueSource source = config.createSource(project);
-        Assert.assertFalse((boolean) source.resolveValue(new BaseExecutionContext(project)));
+        Assert.assertFalse((boolean) source.resolveValue(new ProjectExecutionContext(project)));
 
         config.replaceSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("abc"));
         source = config.createSource(project);
-        Assert.assertTrue((boolean) source.resolveValue(new BaseExecutionContext(project)));
+        Assert.assertTrue((boolean) source.resolveValue(new ProjectExecutionContext(project)));
         }
 
     @Test
@@ -342,7 +342,7 @@ public class ValueSourceTests
 
         // resolve the source
         MuseValueSource source = config.createSource(project);
-        Object value = source.resolveValue(new BaseExecutionContext(project));
+        Object value = source.resolveValue(new ProjectExecutionContext(project));
 
         Assert.assertEquals(5, value);
         }

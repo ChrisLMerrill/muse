@@ -1,5 +1,6 @@
 package org.musetest.core;
 
+import org.musetest.core.context.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.test.*;
 import org.musetest.core.variables.*;
@@ -60,12 +61,12 @@ public interface MuseExecutionContext
      *
      * @return the value assigned to the variable name. null if not found.
      */
-    Object getVariable(String name, VariableScope scope);
+    Object getVariable(String name, VariableQueryScope scope);
 
     /**
      * Set the value of a variable in the specified variable scope.
      */
-    void setVariable(String name, Object value, VariableScope scope);
+    void setVariable(String name, Object value, ContextVariableScope scope);
 
     /**
      * Creates a variable using a generated name (that does not already exist) starting with the prefix provided. The
@@ -105,4 +106,6 @@ public interface MuseExecutionContext
 		    }
 	    return null;
 	    }
+
+    ContextVariableScope getVariableScope();
     }

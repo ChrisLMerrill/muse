@@ -1,6 +1,7 @@
 package org.musetest.selenium;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 import org.openqa.selenium.*;
@@ -15,7 +16,7 @@ public class BrowserStepExecutionContext
     {
     public static WebDriver getDriver(MuseExecutionContext context) throws ValueSourceResolutionError
         {
-        Object value = context.getVariable(DEFAULT_DRIVER_VARIABLE_NAME, VariableScope.Execution);
+        Object value = context.getVariable(DEFAULT_DRIVER_VARIABLE_NAME, VariableQueryScope.Execution);
         if (value == null)
             throw new ValueSourceResolutionError("Browser driver not found - use the \"Open Browser\" step first.");
 
@@ -27,10 +28,8 @@ public class BrowserStepExecutionContext
 
     public static void putDriver(WebDriver driver, MuseExecutionContext context)
         {
-        context.setVariable(DEFAULT_DRIVER_VARIABLE_NAME, driver, VariableScope.Execution);
+        context.setVariable(DEFAULT_DRIVER_VARIABLE_NAME, driver, ContextVariableScope.Execution);
         }
 
     private final static String DEFAULT_DRIVER_VARIABLE_NAME = "_webdriver";
     }
-
-

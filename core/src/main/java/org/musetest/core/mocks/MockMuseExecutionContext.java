@@ -16,7 +16,7 @@ public class MockMuseExecutionContext extends BaseExecutionContext
 	{
 	public MockMuseExecutionContext()
 		{
-		super(new SimpleProject());
+		super(new SimpleProject(), ContextVariableScope.Project);
 		}
 
 	public List<MuseEventListener> getListeners()
@@ -24,5 +24,3 @@ public class MockMuseExecutionContext extends BaseExecutionContext
 		return _listeners;
 		}
 	}
-
-

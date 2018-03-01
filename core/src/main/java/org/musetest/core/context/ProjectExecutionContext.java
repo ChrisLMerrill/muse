@@ -1,7 +1,6 @@
-package org.musetest.core.project;
+package org.musetest.core.context;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -10,6 +9,7 @@ public class ProjectExecutionContext extends BaseExecutionContext
 	{
 	public ProjectExecutionContext(MuseProject project)
 		{
-		super(project);
+		super(project, ContextVariableScope.Project);
+		setVariable(EXECUTION_ID_VARNAME, Long.toString(System.currentTimeMillis()), ContextVariableScope.Project);
 		}
 	}

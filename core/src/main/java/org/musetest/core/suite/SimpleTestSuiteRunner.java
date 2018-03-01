@@ -2,13 +2,13 @@ package org.musetest.core.suite;
 
 import org.jetbrains.annotations.*;
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.resultstorage.*;
 import org.musetest.core.test.*;
-import org.musetest.core.variables.*;
 import org.slf4j.*;
 
 import java.io.*;
@@ -106,13 +106,14 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 
         SimpleTestRunner runner = createRunner(configuration);
         if (_output != null)
-	        runner.getExecutionContext().setVariable(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, _output.getOutputFolderName(configuration), VariableScope.Execution);
+	        runner.getExecutionContext().setVariable(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, _output.getOutputFolderName(configuration), ContextVariableScope.Execution);
         MuseEvent start_event = raiseTestStartEvent(configuration);
         runner.runTest();
         raiseTestEndEvent(start_event);
         return runner.completedNormally();
         }
 
+    @SuppressWarnings("WeakerAccess")  // extensions may override
     protected MuseEvent raiseTestStartEvent(TestConfiguration configuration)
 	    {
 	    final MuseEvent start_event = StartSuiteTestEventType.create(_context.createVariable("testconfig", configuration));
@@ -120,6 +121,7 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 	    return start_event;
 	    }
 
+    @SuppressWarnings("WeakerAccess")  // extensions may override
 	protected void raiseTestEndEvent(MuseEvent start_event)
 		{
 		final String config_var_name = StartSuiteTestEventType.getConfigVariableName(start_event);

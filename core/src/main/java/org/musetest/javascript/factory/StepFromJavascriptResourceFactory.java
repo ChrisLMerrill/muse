@@ -9,7 +9,6 @@ import org.musetest.javascript.*;
 import org.slf4j.*;
 
 import javax.script.*;
-import java.io.*;
 import java.util.*;
 
 /**
@@ -19,7 +18,7 @@ import java.util.*;
 public class StepFromJavascriptResourceFactory implements FromJavascriptResourceFactory
     {
     @Override
-    public List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine) throws IOException
+    public List<MuseResource> createResources(ResourceOrigin origin, ResourceType type, ScriptEngine engine)
         {
         List<MuseResource> resources = new ArrayList<>();
 
@@ -27,7 +26,7 @@ public class StepFromJavascriptResourceFactory implements FromJavascriptResource
         Invocable inv = (Invocable) engine;
         try
             {
-            inv.invokeFunction(JavascriptStep.EXECUTE_FUNCTION, new BaseExecutionContext(new SimpleProject()));
+            inv.invokeFunction(JavascriptStep.EXECUTE_FUNCTION, new ProjectExecutionContext(new SimpleProject()));
             }
         catch (ScriptException e)
             {
@@ -44,5 +43,3 @@ public class StepFromJavascriptResourceFactory implements FromJavascriptResource
 
     private final static Logger LOG = LoggerFactory.getLogger(StepFromJavascriptResourceFactory.class);
     }
-
-

@@ -1,7 +1,6 @@
 package org.musetest.core.commandline;
 
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.suite.*;
 
@@ -44,7 +43,7 @@ public class CommandLineTestSuiteRunner implements MuseResourceRunner
 		            return false;
 		            }
 	            SuiteRunnerConfiguration config = (SuiteRunnerConfiguration) token.getResource();
-	            runner = config.createRunner(new BaseExecutionContext(project));  // TODO run initializers on this context?
+	            runner = config.createRunner(new DefaultTestSuiteExecutionContext(project, suite));
 	            }
 
             if (output_path != null)

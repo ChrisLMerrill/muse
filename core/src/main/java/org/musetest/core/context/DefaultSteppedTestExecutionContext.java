@@ -13,10 +13,16 @@ import java.util.*;
  */
 public class DefaultSteppedTestExecutionContext extends BaseExecutionContext implements SteppedTestExecutionContext
     {
+    public DefaultSteppedTestExecutionContext(MuseExecutionContext parent, SteppedTest test)
+	    {
+	    super(parent, ContextVariableScope.Execution);
+	    _test = test;
+	    _step_locator.loadSteps(test.getStep());
+	    }
+
     public DefaultSteppedTestExecutionContext(MuseProject project, SteppedTest test)
 	    {
-	    super(project);
-	    _parent_context = null;
+	    super(new ProjectExecutionContext(project), ContextVariableScope.Execution);
 	    _test = test;
 	    _step_locator.loadSteps(test.getStep());
 	    }
@@ -28,33 +34,29 @@ public class DefaultSteppedTestExecutionContext extends BaseExecutionContext imp
         while (iterator.hasNext())
             {
             StepExecutionContext context = iterator.next();
-            Map<String, Object> variables = context.getVariables();
-            if (variables != null)
-                {
-                Object value = variables.get(name);
-                if (value != null)
-                    return value;
-                break;
-                }
+            final ContextVariableScope context_scope = context.getVariableScope();
+            if (ContextVariableScope.Local.equals(context_scope))
+	            return context.getVariable(name, VariableQueryScope.Local);
             }
         return null;
         }
 
-    private void setLocalVariable(String name, Object value)
+    private boolean setLocalVariable(String name, Object value)
         {
         // iterate the execution stack for the first variable scope and set the variable there.
         Iterator<StepExecutionContext> iterator = _stack.iterator();
         while (iterator.hasNext())
-            {
-            StepExecutionContext context = iterator.next();
-            Map<String, Object> variables = context.getVariables();
-            if (variables != null)
-                {
-                variables.put(name,value);
-                raiseEvent(SetVariableEventType.create(name, value, VariableScope.Local));
-                return;
-                }
-            }
+	        {
+	        StepExecutionContext context = iterator.next();
+	        final ContextVariableScope context_scope = context.getVariableScope();
+	        if (ContextVariableScope.Local.equals(context_scope))
+		        {
+		        context.setVariable(name, value);
+		        raiseEvent(SetVariableEventType.create(name, value, ContextVariableScope.Local));
+		        return true;
+		        }
+	        }
+        return false;
         }
 
     @Override
@@ -64,42 +66,31 @@ public class DefaultSteppedTestExecutionContext extends BaseExecutionContext imp
         if (value != null)
         	return value;
 
-        if (_parent_context != null)
-            return _parent_context.getVariable(name);
-
         return super.getVariable(name);
         }
 
     @Override
     public void setVariable(String name, Object value)
         {
-        setLocalVariable(name, value);
+        if (!setLocalVariable(name, value))
+        	setVariable(name, value, ContextVariableScope.Execution);
         }
 
     @Override
-    public Object getVariable(String name, VariableScope scope)
+    public Object getVariable(String name, VariableQueryScope scope)
         {
-        if (scope.equals(VariableScope.Local))
+        if (scope.equals(VariableQueryScope.Local))
             return getLocalVariable(name);
-
-        if (_parent_context != null)
-            return _parent_context.getVariable(name, scope);
 
         return super.getVariable(name, scope);
         }
 
     @Override
-    public void setVariable(String name, Object value, VariableScope scope)
+    public void setVariable(String name, Object value, ContextVariableScope scope)
         {
-        if (scope.equals(VariableScope.Local))
+        if (scope.equals(ContextVariableScope.Local))
 	        {
 	        setLocalVariable(name, value);
-	        return;
-	        }
-
-        if (_parent_context != null)
-	        {
-	        _parent_context.setVariable(name, value, scope);
 	        return;
 	        }
 
@@ -132,7 +123,6 @@ public class DefaultSteppedTestExecutionContext extends BaseExecutionContext imp
 	    super.raiseEvent(event);
 	    }
 
-    private final MuseExecutionContext _parent_context;
     private StepExecutionContextStack _stack = new StepExecutionContextStack();
     private StepLocator _step_locator = new CachedLookupStepLocator();
     private final SteppedTest _test;

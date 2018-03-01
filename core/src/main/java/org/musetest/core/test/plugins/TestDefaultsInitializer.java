@@ -32,11 +32,11 @@ public class TestDefaultsInitializer extends GenericConfigurableTestPlugin
         Map<String, ValueSourceConfiguration> defaults = test_context.getTest().getDefaultVariables();
         if (defaults != null)
             for (String name : defaults.keySet())
-                if (overwrite || context.getVariable(name, VariableScope.Execution) == null)
+                if (overwrite || context.getVariable(name, VariableQueryScope.Any) == null)
                     {
                     MuseValueSource source = ValueSourceFactory.getDefault(context.getProject()).createSource(defaults.get(name), context.getProject());
                     Object value = source.resolveValue(context);
-                    context.setVariable(name, value, VariableScope.Execution);
+                    context.setVariable(name, value, ContextVariableScope.Execution);
                     }
         }
 
@@ -51,5 +51,3 @@ public class TestDefaultsInitializer extends GenericConfigurableTestPlugin
 	    return null;
 	    }
     }
-
-

@@ -1,8 +1,8 @@
 package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.plugins.*;
-import org.musetest.core.variables.*;
 
 import java.util.*;
 
@@ -31,5 +31,5 @@ public class VariableInitializer implements MusePlugin
 		}
 
 	private Map<String, Object> _variables = new HashMap<>();
-	private VariableScope _scope = VariableScope.Execution;
+	private ContextVariableScope _scope = ContextVariableScope.Execution;
 	}

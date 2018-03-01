@@ -68,5 +68,3 @@ public class ListOfStepsExecutionContext extends BaseStepExecutionContext
     private List<StepConfiguration> _steps;
     private ListOfStepsCompletionListener _listener;
     }
-
-

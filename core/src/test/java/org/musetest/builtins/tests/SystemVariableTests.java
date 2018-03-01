@@ -27,7 +27,7 @@ public class SystemVariableTests
         environment.setVariable(var_name, value);
         EnvironmentSysvarProvider.overrideImplementation(project, environment);
 
-        Object env = project.getSystemVariableProviders().resolve(EnvironmentSysvarProvider.VARNAME1, new BaseExecutionContext(project));
+        Object env = project.getSystemVariableProviders().resolve(EnvironmentSysvarProvider.VARNAME1, new ProjectExecutionContext(project));
         Assert.assertTrue(env instanceof EnvironmentPropertiesProvider);
         Assert.assertEquals(value, ((EnvironmentPropertiesProvider)env).getVars().get(var_name));
         }
@@ -42,7 +42,7 @@ public class SystemVariableTests
         environment.setProperty(var_name, value);
         EnvironmentSysvarProvider.overrideImplementation(project, environment);
 
-        Object env = project.getSystemVariableProviders().resolve(EnvironmentSysvarProvider.VARNAME1, new BaseExecutionContext(project));
+        Object env = project.getSystemVariableProviders().resolve(EnvironmentSysvarProvider.VARNAME1, new ProjectExecutionContext(project));
         Assert.assertTrue(env instanceof EnvironmentPropertiesProvider);
         Assert.assertEquals(value, ((EnvironmentPropertiesProvider)env).getProps().get(var_name));
         }
@@ -56,7 +56,7 @@ public class SystemVariableTests
         environment.setUsername(value);
         EnvironmentSysvarProvider.overrideImplementation(project, environment);
 
-        Object env = project.getSystemVariableProviders().resolve(EnvironmentSysvarProvider.VARNAME1, new BaseExecutionContext(project));
+        Object env = project.getSystemVariableProviders().resolve(EnvironmentSysvarProvider.VARNAME1, new ProjectExecutionContext(project));
         Assert.assertTrue(env instanceof EnvironmentPropertiesProvider);
         Assert.assertEquals(value, ((EnvironmentPropertiesProvider)env).getUsername());
         }
@@ -78,7 +78,7 @@ public class SystemVariableTests
     public void varlistInitializer()
         {
         final String id = UUID.randomUUID().toString();
-        MuseExecutionContext context = new BaseExecutionContext(new SimpleProject());
+        MuseExecutionContext context = new ProjectExecutionContext(new SimpleProject());
         context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, id);
         ProjectVarsInitializerSysvarProvider provider = new ProjectVarsInitializerSysvarProvider();
 
@@ -105,10 +105,8 @@ public class SystemVariableTests
     public void executionId() throws ValueSourceResolutionError
 	    {
         final MuseProject project = new SimpleProject();
-	    final BaseExecutionContext context = new BaseExecutionContext(project);
+	    final BaseExecutionContext context = new ProjectExecutionContext(project);
 	    String id = (String) project.getSystemVariableProviders().resolve(ExecutionIdProvider.VARNAME, context);
         Assert.assertNotNull(id);
         }
     }
-
-

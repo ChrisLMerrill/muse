@@ -2,7 +2,6 @@ package org.musetest.builtins.value.sysvar;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
 
 /**
@@ -20,11 +19,9 @@ public class ExecutionIdProvider implements SystemVariableProvider
     public Object resolve(String name, MuseExecutionContext context)
         {
         if (provides(name))
-            return context.getVariable(BaseExecutionContext.EXECUTION_ID_VARNAME, VariableScope.Execution);
+            return context.getVariable(BaseExecutionContext.EXECUTION_ID_VARNAME, VariableQueryScope.Project);
         return null;
         }
 
     public final static String VARNAME = "ExecutionId";
     }
-
-

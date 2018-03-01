@@ -1,7 +1,7 @@
 package org.musetest.core.events;
 
 import org.musetest.core.*;
-import org.musetest.core.variables.*;
+import org.musetest.core.context.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -14,7 +14,7 @@ public class SetVariableEventType extends EventType
 		super(TYPE_ID, "Set Variable");
 		}
 
-	public static MuseEvent create(String name, Object value, VariableScope scope)
+	public static MuseEvent create(String name, Object value, ContextVariableScope scope)
 		{
 		MuseEvent event = new MuseEvent(TYPE_ID);
 		event.setAttribute(NAME, name);

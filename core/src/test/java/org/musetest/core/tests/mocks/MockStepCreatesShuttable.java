@@ -4,7 +4,6 @@ import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.step.*;
-import org.musetest.core.variables.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -22,7 +21,7 @@ public class MockStepCreatesShuttable extends BaseStep
     protected StepExecutionResult executeImplementation(StepExecutionContext context)
         {
         MockShuttable shuttable = new MockShuttable();
-        context.setVariable(SHUTTABLE_VAR_NAME, shuttable, VariableScope.Execution);
+        context.setVariable(SHUTTABLE_VAR_NAME, shuttable, ContextVariableScope.Execution);
         context.registerShuttable(shuttable);
         context.raiseEvent(MessageEventType.create(EXECUTE_MESSAGE));
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

@@ -14,18 +14,25 @@ import java.util.concurrent.atomic.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class BaseExecutionContext implements MuseExecutionContext
+public abstract class BaseExecutionContext implements MuseExecutionContext
 	{
-	public BaseExecutionContext(MuseProject project)
+	protected BaseExecutionContext(MuseProject project, ContextVariableScope scope)
 		{
-		if (project == null)
-			throw new IllegalArgumentException("Project cannot be null");
+		_parent = null;
+		_scope = scope;
 		_project = project;
 		_var_creator = new AutomaticVariableCreator(name -> getVariable(name) != null);
-		setVariable(EXECUTION_ID_VARNAME, Long.toString(System.currentTimeMillis()), VariableScope.Execution);
 		}
 
-	/**
+	protected BaseExecutionContext(MuseExecutionContext parent, ContextVariableScope scope)
+		{
+		_parent = parent;
+		_scope = scope;
+		_project = parent.getProject();
+		_var_creator = new AutomaticVariableCreator(name -> getVariable(name) != null);
+		}
+
+    /**
 	 * Send an event to all event listeners.
 	 * <p>
 	 * This is not really intended to be threadsafe, but it is intended for re-entrant safety.
@@ -75,33 +82,42 @@ public class BaseExecutionContext implements MuseExecutionContext
 	@Override
 	public Object getVariable(String name)
 		{
-		return getVariable(name, VariableScope.Execution);
+		return getVariable(name, VariableQueryScope.Any);
 		}
 
 	@Override
 	public void setVariable(String name, Object value)
 		{
-		setVariable(name, value, VariableScope.Execution);
+		setVariable(name, value, _scope);
 		}
 
 	@Override
-	public Object getVariable(String name, VariableScope scope)
+	public Object getVariable(String name, VariableQueryScope scope)
 		{
-		if (scope.equals(VariableScope.Execution))
-			return _vars.get(name);
+		if (scope.appliesToScope(_scope))
+			{
+			Object value = _vars.get(name);
+			if (value != null || !(scope.equals(VariableQueryScope.Any) || scope.equals(VariableQueryScope.AnyButLocal)))
+				return value;
+			}
+		if (_parent != null)
+			return getParent().getVariable(name, scope.equals(VariableQueryScope.Any) && _scope.equals(ContextVariableScope.Local) ? VariableQueryScope.AnyButLocal : scope);
 		return null;
 		}
 
 	@Override
-	public void setVariable(String name, Object value, VariableScope scope)
+	public void setVariable(String name, Object value, ContextVariableScope scope)
 		{
-		if (scope.equals(VariableScope.Execution))
+		if (scope.equals(_scope))
 			{
 			_vars.put(name, value);
-			raiseEvent(SetVariableEventType.create(name, value, VariableScope.Execution));
+			raiseEvent(SetVariableEventType.create(name, value, scope));
+			return;
 			}
+		if (_parent != null)
+			_parent.setVariable(name, value, scope);
 		else
-			LOG.error(String.format("Asked to set a variable in the '%s' scope: %s = %s", scope.name(), name, value));
+			LOG.error(String.format("Asked to set a variable (%s = %s) in the '%s' scope. This context has scope %s and no parent to delegate to for the requested scope.", name, value, scope.name(), _scope.name()));
 		}
 
 	@Override
@@ -134,7 +150,7 @@ public class BaseExecutionContext implements MuseExecutionContext
 	@Override
 	public MuseExecutionContext getParent()
 		{
-		return null;
+		return _parent;
 		}
 
 	@Override
@@ -161,8 +177,16 @@ public class BaseExecutionContext implements MuseExecutionContext
 		return _plugins;
 		}
 
+	@Override
+	public ContextVariableScope getVariableScope()
+		{
+		return _scope;
+		}
+
+	private final MuseExecutionContext _parent;
 	private final MuseProject _project;
 	private final AutomaticVariableCreator _var_creator;
+	private final ContextVariableScope _scope;
 
 	private Map<String, Object> _vars = new HashMap<>();
 	protected List<MuseEventListener> _listeners = new ArrayList<>();
