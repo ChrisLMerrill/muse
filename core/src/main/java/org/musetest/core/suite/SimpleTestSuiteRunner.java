@@ -25,13 +25,9 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         _project = project;
         _context = new DefaultTestSuiteExecutionContext(new ProjectExecutionContext(project), suite);
 
-        List<MusePlugin> auto_plugins = Plugins.setup(_context);
+        Plugins.setup(_context);
         for (MusePlugin plugin : manual_plugins)
         	_context.addPlugin(plugin);
-
-        List<MusePlugin> suite_plugins = new ArrayList<>();
-        suite_plugins.addAll(auto_plugins);
-        suite_plugins.addAll(manual_plugins);
 
         try
 	        {
@@ -43,7 +39,9 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 	        return false;
 	        }
 
-        boolean suite_success = runTests(suite, suite_plugins);
+        _context.raiseEvent(StartSuiteEventType.create(suite));
+        boolean suite_success = runTests(suite);
+        _context.raiseEvent(EndSuiteEventType.create(suite));
 
         // this is just for should be for the plugins installed into local context!
         if (!savePluginData(_context))
@@ -53,18 +51,16 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         }
 
     @SuppressWarnings("WeakerAccess")  // intended to be overridden by implementations with more complex methods (e.g. parallel)
-    protected boolean runTests(MuseTestSuite suite, List<MusePlugin> suite_plugins)
+    protected boolean runTests(MuseTestSuite suite)
 	    {
-	    _context.raiseEvent(StartSuiteEventType.create());
 	    boolean suite_success = true;
 	    final Iterator<TestConfiguration> tests = suite.getTests(_project);
 	    while (tests.hasNext())
 		    {
-		    final boolean test_success = runTest(tests.next(), suite_plugins);
+		    final boolean test_success = runTest(tests.next());
 		    if (!test_success)
 			    suite_success = false;
 		    }
-	    _context.raiseEvent(EndSuiteEventType.create());
 	    return suite_success;
 	    }
 
@@ -94,17 +90,10 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 	    return true;
 	    }
 
-    @Override
-    public void setOutputPath(String path)
-	    {
-	    _output_path = path;
-	    _output = new TestSuiteOutputOnDisk(path);
-	    }
-
     @SuppressWarnings("WeakerAccess")  // external API
-    protected boolean runTest(TestConfiguration configuration, List<MusePlugin> suite_plugins)
+    protected boolean runTest(TestConfiguration configuration)
         {
-        for (MusePlugin plugin : suite_plugins)
+        for (MusePlugin plugin : _context.getPlugins())
    		    configuration.addPlugin(plugin);
         SimpleTestRunner runner = createRunner(configuration);
         MuseEvent start_event = raiseTestStartEvent(configuration);
@@ -112,6 +101,13 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         raiseTestEndEvent(start_event);
         return runner.completedNormally();
         }
+
+    @Override
+    public void setOutputPath(String path)
+	    {
+	    _output_path = path;
+	    _output = new TestSuiteOutputOnDisk(path);
+	    }
 
     @SuppressWarnings("WeakerAccess")  // extensions may override
     protected MuseEvent raiseTestStartEvent(TestConfiguration configuration)

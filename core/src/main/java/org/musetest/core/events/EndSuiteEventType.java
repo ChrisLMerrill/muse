@@ -19,9 +19,11 @@ public class EndSuiteEventType extends EventType
 		return "Suite Complete";
 		}
 
-	public static MuseEvent create()
+	public static MuseEvent create(MuseTestSuite suite)
 		{
-		return new MuseEvent(TYPE_ID);
+		final MuseEvent event = new MuseEvent(TYPE_ID);
+		event.setAttribute(MuseEvent.DESCRIPTION, suite.getId());
+		return event;
 		}
 
 	public final static String TYPE_ID = "end-suite";
