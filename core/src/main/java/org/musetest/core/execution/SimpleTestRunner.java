@@ -15,25 +15,15 @@ import java.util.*;
 @SuppressWarnings("WeakerAccess")  // part of public API
 public class SimpleTestRunner implements TestRunner
     {
-    @SuppressWarnings("WeakerAccess")  // part of public API
-    public SimpleTestRunner(MuseProject project, MuseTest test)
-        {
-        _project = project;
-        _config = new TestHolder(test, TestExecutionContextFactory.create(project, test));
-        _config.withinProject(project);
-        }
-
-    public SimpleTestRunner(MuseProject project, TestConfiguration config)
+    public SimpleTestRunner(MuseExecutionContext context, TestConfiguration config)
 	    {
-	    _project = project;
+	    _context = context;
 	    _config = config;
-	    _config.withinProject(project);
 	    }
 
     public SimpleTestRunner(TestExecutionContext context)
         {
         _config = new TestHolder(context.getTest(), context);
-        _config.withinProject(context.getProject());
         }
 
     @Override
@@ -52,28 +42,28 @@ public class SimpleTestRunner implements TestRunner
 
     protected void startTest()
 	    {
-	    _config.withinProject(_project);
+	    _config.withinContext(_context);
 	    _test = _config.test();
-	    _context = _config.context();
+	    _test_context = _config.context();
 	    try
 		    {
 		    for (MusePlugin plugin : _config.plugins())
-			    _context.addPlugin(plugin);
-		    Plugins.setup(_context);
-		    _context.initializePlugins();
+			    _test_context.addPlugin(plugin);
+		    Plugins.setup(_test_context);
+		    _test_context.initializePlugins();
 		    }
 	    catch (MuseExecutionError e)
 		    {
 		    final String message = "Unable to setup the test plugins due to: " + e.getMessage();
 		    LOG.error(message);
-		    this._context.raiseEvent(TestErrorEventType.create(message));
+		    this._test_context.raiseEvent(TestErrorEventType.create(message));
 		    }
-	    _context.raiseEvent(StartTestEventType.create(_test.getId(), _config.name()));
+	    _test_context.raiseEvent(StartTestEventType.create(_test.getId(), _config.name()));
 	    }
 
     protected void finishTest()
 	    {
-	    _context.raiseEvent(EndTestEventType.create());
+	    _test_context.raiseEvent(EndTestEventType.create());
 	    try
 	        {
 	        _config.context().cleanup();
@@ -92,8 +82,8 @@ public class SimpleTestRunner implements TestRunner
         }
 
     private TestConfiguration _config;
-    protected MuseProject _project;
-    protected TestExecutionContext _context;
+    protected MuseExecutionContext _context;
+    protected TestExecutionContext _test_context;
     protected MuseTest _test;
     protected Boolean _completed_normally;
 
@@ -106,7 +96,7 @@ public class SimpleTestRunner implements TestRunner
 		    }
 
 	    @Override
-	    public void withinProject(MuseProject project)
+	    public void withinContext(MuseExecutionContext parent_context)
 		    {
 
 		    }

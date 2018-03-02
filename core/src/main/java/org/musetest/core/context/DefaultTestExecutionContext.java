@@ -9,7 +9,12 @@ public class DefaultTestExecutionContext extends BaseExecutionContext implements
 	{
 	public DefaultTestExecutionContext(MuseProject project, MuseTest test)
 		{
-		super(new ProjectExecutionContext(project), ContextVariableScope.Execution);
+		this(new ProjectExecutionContext(project), test);
+		}
+
+	public DefaultTestExecutionContext(MuseExecutionContext parent_context, MuseTest test)
+		{
+		super(parent_context, ContextVariableScope.Execution);
 		_test = test;
 		}
 

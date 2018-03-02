@@ -11,18 +11,11 @@ import org.musetest.core.test.*;
 public class ThreadedTestRunner extends SimpleTestRunner implements Runnable
     {
     @SuppressWarnings("unused,WeakerAccess")  // part of public API
-    public ThreadedTestRunner(MuseProject project, TestConfiguration config)
+    public ThreadedTestRunner(MuseExecutionContext context, TestConfiguration config)
 	    {
-	    super(project, config);
-	    _loader = project.getClassloader();
+	    super(context, config);
+	    _loader = context.getProject().getClassloader();
 	    }
-
-    @SuppressWarnings("unused,WeakerAccess")  // part of public API
-    public ThreadedTestRunner(MuseProject project, MuseTest test)
-        {
-        super(project, test);
-        _loader = project.getClassloader();
-        }
 
     @SuppressWarnings("unused,WeakerAccess")  // part of public API
     public ThreadedTestRunner(TestExecutionContext context)

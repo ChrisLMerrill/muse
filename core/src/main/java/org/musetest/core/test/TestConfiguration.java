@@ -16,7 +16,7 @@ import java.util.*;
  */
 public interface TestConfiguration
     {
-    void withinProject(MuseProject project);
+    void withinContext(MuseExecutionContext parent_context);
     void addPlugin(MusePlugin plugin);
 
     MuseTest test();

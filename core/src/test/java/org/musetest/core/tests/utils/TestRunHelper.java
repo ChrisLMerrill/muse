@@ -1,6 +1,7 @@
 package org.musetest.core.tests.utils;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.test.*;
@@ -24,8 +25,9 @@ public class TestRunHelper
      */
     public static TestResult runTest(MuseProject project, MuseTest test)
         {
-        TestRunner runner = new SimpleTestRunner(project, test);
-        runner.getExecutionContext().addPlugin(new TestResultCollectorConfiguration().createPlugin());
+        BasicTestConfiguration config = new BasicTestConfiguration(test);
+        TestRunner runner = new SimpleTestRunner(new ProjectExecutionContext(project), config);
+        config.addPlugin(new TestResultCollectorConfiguration().createPlugin());
         runner.runTest();
         return TestResult.find(runner.getExecutionContext());
         }
@@ -35,7 +37,7 @@ public class TestRunHelper
         BasicTestConfiguration config = new BasicTestConfiguration(test);
         config.addPlugin(new TestResultCollectorConfiguration().createPlugin());
         config.addPlugin(plugin);
-        TestRunner runner = new SimpleTestRunner(project, config);
+        TestRunner runner = new SimpleTestRunner(new ProjectExecutionContext(project), config);
         runner.runTest();
         return TestResult.find(config.context());
         }
@@ -45,7 +47,7 @@ public class TestRunHelper
         config.addPlugin(new TestResultCollectorConfiguration().createPlugin());
         if (plugin != null)
             config.addPlugin(plugin);
-        TestRunner runner = new SimpleTestRunner(project, config);
+        TestRunner runner = new SimpleTestRunner(new ProjectExecutionContext(project), config);
         runner.runTest();
         return TestResult.find(config.context());
         }

@@ -2,6 +2,7 @@ package org.musetest.core.tests;
 
 import org.junit.*;
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
@@ -108,11 +109,11 @@ public class TestSuiteTests
         Iterator<TestConfiguration> tests = suite2.getTests(project);
 
         TestConfiguration config = tests.next();
-        config.withinProject(project);
+        config.withinContext(new ProjectExecutionContext(project));
         Assert.assertEquals(test2, config.test());
 
         config = tests.next();
-        config.withinProject(project);
+        config.withinContext(new ProjectExecutionContext(project));
         Assert.assertEquals(test1, config.test());
         }
 

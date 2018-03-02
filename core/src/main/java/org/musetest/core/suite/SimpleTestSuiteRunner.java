@@ -23,11 +23,15 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     public boolean execute(MuseProject project, MuseTestSuite suite, List<MusePlugin> manual_plugins)
         {
         _project = project;
-        _context = new DefaultTestSuiteExecutionContext(project, suite);
+        _context = new DefaultTestSuiteExecutionContext(new ProjectExecutionContext(project), suite);
 
         List<MusePlugin> auto_plugins = Plugins.setup(_context);
         for (MusePlugin plugin : manual_plugins)
         	_context.addPlugin(plugin);
+
+        List<MusePlugin> suite_plugins = new ArrayList<>();
+        suite_plugins.addAll(auto_plugins);
+        suite_plugins.addAll(manual_plugins);
 
         try
 	        {
@@ -39,7 +43,7 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 	        return false;
 	        }
 
-        boolean suite_success = runTests(suite, manual_plugins, auto_plugins);
+        boolean suite_success = runTests(suite, suite_plugins);
 
         // this is just for should be for the plugins installed into local context!
         if (!savePluginData(_context))
@@ -49,14 +53,14 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         }
 
     @SuppressWarnings("WeakerAccess")  // intended to be overridden by implementations with more complex methods (e.g. parallel)
-    protected boolean runTests(MuseTestSuite suite, List<MusePlugin> manual_plugins, List<MusePlugin> auto_plugins)
+    protected boolean runTests(MuseTestSuite suite, List<MusePlugin> suite_plugins)
 	    {
 	    _context.raiseEvent(StartSuiteEventType.create());
 	    boolean suite_success = true;
 	    final Iterator<TestConfiguration> tests = suite.getTests(_project);
 	    while (tests.hasNext())
 		    {
-		    final boolean test_success = runTest(tests.next(), manual_plugins, auto_plugins);
+		    final boolean test_success = runTest(tests.next(), suite_plugins);
 		    if (!test_success)
 			    suite_success = false;
 		    }
@@ -98,15 +102,11 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 	    }
 
     @SuppressWarnings("WeakerAccess")  // external API
-    protected boolean runTest(TestConfiguration configuration, List<MusePlugin> manual_plugins, List<MusePlugin> auto_plugins)
+    protected boolean runTest(TestConfiguration configuration, List<MusePlugin> suite_plugins)
         {
-        configuration.withinProject(_project);
-        MuseExecutionContext test_context = configuration.context();
-        setupTestPlugins(manual_plugins, auto_plugins, test_context);
-
+        for (MusePlugin plugin : suite_plugins)
+   		    configuration.addPlugin(plugin);
         SimpleTestRunner runner = createRunner(configuration);
-        if (_output != null)
-	        runner.getExecutionContext().setVariable(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, _output.getOutputFolderName(configuration), ContextVariableScope.Execution);
         MuseEvent start_event = raiseTestStartEvent(configuration);
         runner.runTest();
         raiseTestEndEvent(start_event);
@@ -134,37 +134,14 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
     @SuppressWarnings("WeakerAccess")  // overridden in GUI.
     protected SimpleTestRunner createRunner(TestConfiguration configuration)
 	    {
-	    return new SimpleTestRunner(_project, configuration);
-	    }
-
-    @SuppressWarnings("WeakerAccess")  // used by subclasses in extensions
-    protected void setupTestPlugins(List<MusePlugin> manual_plugins, List<MusePlugin> auto_plugins, MuseExecutionContext test_context)
-	    {
-	    for (MusePlugin plugin : auto_plugins)
-		    try
-			    {
-			    plugin.conditionallyAddToContext(test_context, true);
-			    }
-		    catch (MuseExecutionError e)
-			    {
-			    test_context.raiseEvent(TestErrorEventType.create("Unable to install plugin " + plugin.getClass().getSimpleName() + " due to " + e.getMessage()));
-			    }
-	    for (MusePlugin plugin : manual_plugins)
-		    try
-			    {
-			    plugin.conditionallyAddToContext(test_context, false);
-			    }
-		    catch (MuseExecutionError e)
-			    {
-			    test_context.raiseEvent(TestErrorEventType.create("Unable to install plugin " + plugin.getClass().getSimpleName() + " due to " + e.getMessage()));
-			    }
+	    return new SimpleTestRunner(_context, configuration);
 	    }
 
     protected MuseProject _project;
     private String _output_path = null;
     @SuppressWarnings("WeakerAccess")  // available to subclasses
     protected TestSuiteOutputOnDisk _output = null;
-    private TestSuiteExecutionContext _context;
+    protected TestSuiteExecutionContext _context;
 
     private final static Logger LOG = LoggerFactory.getLogger(SimpleTestSuiteRunner.class);
     }

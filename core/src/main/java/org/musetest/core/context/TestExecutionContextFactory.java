@@ -8,10 +8,10 @@ import org.musetest.core.steptest.*;
  */
 public class TestExecutionContextFactory
 	{
-	public static TestExecutionContext create(MuseProject project, MuseTest test)
+	public static TestExecutionContext create(MuseExecutionContext context, MuseTest test)
 		{
 		if (test instanceof SteppedTest)
-			return new DefaultSteppedTestExecutionContext(project, (SteppedTest) test);
-		return new DefaultTestExecutionContext(project, test);
+			return new DefaultSteppedTestExecutionContext(context, (SteppedTest) test);
+		return new DefaultTestExecutionContext(context, test);
 		}
 	}

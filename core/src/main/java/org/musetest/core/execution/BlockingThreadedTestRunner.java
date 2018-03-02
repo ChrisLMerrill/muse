@@ -11,9 +11,9 @@ import org.musetest.core.test.*;
 public class BlockingThreadedTestRunner extends ThreadedTestRunner
     {
     @SuppressWarnings("unused,WeakerAccess")  // part of public API
-    public BlockingThreadedTestRunner(MuseProject project, TestConfiguration test)
+    public BlockingThreadedTestRunner(MuseExecutionContext context, TestConfiguration test)
         {
-        super(project, test);
+        super(context, test);
         }
 
     @SuppressWarnings("unused,WeakerAccess")  // part of public API
@@ -32,7 +32,7 @@ public class BlockingThreadedTestRunner extends ThreadedTestRunner
             }
         catch (InterruptedException e)
             {
-            _context.raiseEvent(new MuseEvent(InterruptedEventType.TYPE));
+            _test_context.raiseEvent(new MuseEvent(InterruptedEventType.TYPE));
             }
         }
     }

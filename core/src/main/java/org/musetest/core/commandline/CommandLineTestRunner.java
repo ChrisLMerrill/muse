@@ -1,6 +1,7 @@
 package org.musetest.core.commandline;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.resource.*;
@@ -35,7 +36,7 @@ public class CommandLineTestRunner implements MuseResourceRunner
         if (output_path != null)
 	        config.addPlugin(new VariableInitializer(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, output_path));
 
-        SimpleTestRunner runner = new SimpleTestRunner(project, config);
+        SimpleTestRunner runner = new SimpleTestRunner(new ProjectExecutionContext(project), config);
         runner.runTest();
         final Boolean result = runner.completedNormally();
 

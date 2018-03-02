@@ -25,9 +25,9 @@ public class BasicTestConfiguration implements TestConfiguration
 
     public MuseTest test()
         {
-        if (_test == null && _project != null)
+        if (_test == null && _parent_context != null)
 	        {
-	        _test = _project.getResourceStorage().getResource(_test_id, MuseTest.class);
+	        _test = _parent_context.getProject().getResourceStorage().getResource(_test_id, MuseTest.class);
 	        if (_test == null)  // not found in project
 	        	_test = new MissingTest(_test_id);
 	        }
@@ -42,18 +42,18 @@ public class BasicTestConfiguration implements TestConfiguration
         }
 
     @Override
-    public void withinProject(MuseProject project)
+    public void withinContext(MuseExecutionContext parent_context)
 	    {
-	    if (_project == null)
-	        _project = project;
-	    else if (_project != project)
-	    	throw new IllegalArgumentException("Cannot use a config within a different project");
+	    if (_parent_context == null)
+	        _parent_context = parent_context;
+	    else if (!_parent_context.equals(parent_context))
+	    	throw new IllegalArgumentException("Cannot use a config within a 2nd context");
 	    }
 
     public TestExecutionContext context()
 	    {
 	    if (_context == null)
-	    	_context = TestExecutionContextFactory.create(_project, test());
+	    	_context = TestExecutionContextFactory.create(_parent_context, test());
 	    return _context;
 	    }
 
@@ -86,7 +86,7 @@ public class BasicTestConfiguration implements TestConfiguration
     private List<MusePlugin> _plugins;
 
     // these are set/cached for use at test execution time
-    private transient MuseProject _project;
+    private transient MuseExecutionContext _parent_context;
     private MuseTest _test;
     private TestExecutionContext _context;
     }
