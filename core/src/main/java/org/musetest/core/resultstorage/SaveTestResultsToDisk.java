@@ -1,6 +1,7 @@
 package org.musetest.core.resultstorage;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
@@ -40,7 +41,7 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 	@Override
 	public void shutdown()
 		{
-		File output_folder = _location_provider.getBaseFolder();
+		File output_folder = _location_provider.getTestFolder(MuseExecutionContext.findAncestor(_context, TestExecutionContext.class).getTest());
 		for (DataCollector collector : DataCollectors.list(_context))
 			{
 			final TestResultData collected = collector.getData();

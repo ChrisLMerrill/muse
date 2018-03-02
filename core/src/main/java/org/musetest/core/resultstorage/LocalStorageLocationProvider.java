@@ -1,5 +1,7 @@
 package org.musetest.core.resultstorage;
 
+import org.musetest.core.*;
+
 import java.io.*;
 
 /**
@@ -8,6 +10,7 @@ import java.io.*;
 public interface LocalStorageLocationProvider
 	{
 	File getBaseFolder();
+	File getTestFolder(MuseTest test);
 	}
 
 
