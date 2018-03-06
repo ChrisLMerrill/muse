@@ -1,6 +1,7 @@
 package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
+import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
@@ -49,9 +50,21 @@ public class CompoundPlugin extends GenericConfigurablePlugin
 
 		for (String id : id_list)
 			{
-			final ResourceToken resource = context.getProject().getResourceStorage().findResource(id);
-			if (resource.getResource() instanceof PluginConfiguration)
-				((PluginConfiguration)resource.getResource()).createPlugin().conditionallyAddToContext(context, false);
+			final ResourceToken token = context.getProject().getResourceStorage().findResource(id);
+			if (token == null)
+				{
+				final MuseEvent event = MessageEventType.create("Unable to find plugin: " + id);
+				event.addTag(MuseEvent.ERROR);
+				context.raiseEvent(event);
+				}
+			else if (token.getResource() instanceof PluginConfiguration)
+				((PluginConfiguration)token.getResource()).createPlugin().conditionallyAddToContext(context, false);
+			else
+				{
+				final MuseEvent event = MessageEventType.create(String.format("Resource %s is a %s. A PluginConfiguration is required", id, token.getResource().getType()));
+				event.addTag(MuseEvent.ERROR);
+				context.raiseEvent(event);
+				}
 			}
 
 		return true;
