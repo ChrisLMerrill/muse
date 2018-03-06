@@ -8,9 +8,9 @@ import org.musetest.core.values.*;
  */
 public class WrongTypeError extends ValueSourceResolutionError
     {
-    public WrongTypeError(MuseValueSource source, Object value)
+    public WrongTypeError(MuseValueSource source, Object value, Class type)
         {
-        super("The value returned by the value source (" + source.getDescription() + "), was not the expected type: " + value.getClass().getSimpleName());
+        super(String.format("The value returned by the value source (%s), was not the expected type: %s. A %s was expected", source.getDescription(), value.getClass().getSimpleName(), type.getSimpleName()));
         }
     }
 

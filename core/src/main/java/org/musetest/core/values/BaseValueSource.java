@@ -118,7 +118,7 @@ public abstract class BaseValueSource implements MuseValueSource
             return (T) value;
         if (type.equals(String.class))
             return (T) value.toString();
-        throw new WrongTypeError(source, value);
+        throw new WrongTypeError(source, value, type);
         }
 
     /**
