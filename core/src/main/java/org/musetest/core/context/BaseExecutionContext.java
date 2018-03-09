@@ -40,7 +40,7 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	 * will queue the event and continue to deliver them in the order they were raised.
 	 */
 	@Override
-	public void raiseEvent(MuseEvent event)
+	public synchronized void raiseEvent(MuseEvent event)
 		{
 		// put it into a queue
 		_event_queue.add(event);
