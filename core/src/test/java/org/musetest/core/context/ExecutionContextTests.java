@@ -14,6 +14,7 @@ import org.musetest.core.tests.mocks.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.variables.*;
 
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 
@@ -211,6 +212,33 @@ public class ExecutionContextTests
 		Assert.assertTrue(event1 == events.get(0));
 		Assert.assertTrue(event2.get() == events.get(1));
 		}
+
+	@Test
+	public void getTestExecutionId()
+		{
+	    MuseTest test = new MockTest("test1");
+	    TestExecutionContext context = new DefaultTestExecutionContext(_context, test);
+	    String id = context.getTestExecutionId();
+	    Assert.assertNotNull(id);
+		Assert.assertEquals(test.getId(), context.getTestExecutionId());
+
+		Assert.assertEquals(id, new DefaultTestExecutionContext(_context, test).getTestExecutionId()); // should always generate the same
+	    }
+
+	@Test
+	public void getTestExecutionIdInSuite()
+	    {
+	    MuseTestSuite suite = new SimpleTestSuite();
+	    suite.setId("suite1");
+	    TestSuiteExecutionContext suite_context = new DefaultTestSuiteExecutionContext(_context, suite);
+	    MuseTest test = new MockTest("test1");
+	    TestExecutionContext context = new DefaultTestExecutionContext(suite_context, test);
+	    String id1 = context.getTestExecutionId();
+	    Assert.assertNotNull(id1);
+		Assert.assertTrue(context.getTestExecutionId().length() >= test.getId().length());
+
+	    Assert.assertNotEquals(id1, new DefaultTestExecutionContext(_context, test).getTestExecutionId()); // should be unique for each test context
+	    }
 
 	@Before
 	public void setup()

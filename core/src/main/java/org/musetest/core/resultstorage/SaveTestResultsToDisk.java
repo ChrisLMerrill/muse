@@ -41,7 +41,11 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 	@Override
 	public void shutdown()
 		{
-		File output_folder = _location_provider.getTestFolder(MuseExecutionContext.findAncestor(_context, TestExecutionContext.class).getTest());
+		File output_folder;
+		if (_context instanceof TestExecutionContext)
+			output_folder = _location_provider.getTestFolder((TestExecutionContext) _context);
+		else
+			output_folder = _location_provider.getBaseFolder();
 		for (DataCollector collector : DataCollectors.list(_context))
 			{
 			final TestResultData collected = collector.getData();

@@ -1,6 +1,7 @@
 package org.musetest.core.suite;
 
 import org.musetest.core.*;
+import org.musetest.core.context.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -8,6 +9,8 @@ import org.musetest.core.*;
 public interface TestSuiteExecutionContext extends MuseExecutionContext
 	{
 	MuseTestSuite getSuite();
+
+	String getTextExecutionId(DefaultTestExecutionContext test_context);
 	}
 
 

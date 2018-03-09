@@ -9,7 +9,6 @@ import org.musetest.core.suite.*;
 import org.musetest.core.values.*;
 
 import java.io.*;
-import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -53,19 +52,9 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 		}
 
 	@Override
-	synchronized public File getTestFolder(MuseTest test)
+	synchronized public File getTestFolder(TestExecutionContext context)
 		{
-		String base_name = test.getId();
-		int index = 0;
-		if (_test_folder_counts.get(base_name) == null)
-			_test_folder_counts.put(base_name, 0);
-		else
-			{
-			index = _test_folder_counts.get(base_name) + 1;
-			_test_folder_counts.put(base_name, index);
-			}
-
-		final File folder = new File(_output_folder, base_name + "." + index);
+		final File folder = new File(_output_folder, context.getTestExecutionId());
 		if (!folder.mkdir())
 			_context.raiseEvent(MessageEventType.create(String.format("Unable to create output folder (%s). Results will not be stored.", folder.getAbsolutePath())));
 		return folder;
@@ -74,5 +63,4 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 	private MuseExecutionContext _context;
 	private File _output_folder = null;
 	private boolean _initialized = false;
-	private Map<String, Integer> _test_folder_counts = new HashMap<>();
 	}

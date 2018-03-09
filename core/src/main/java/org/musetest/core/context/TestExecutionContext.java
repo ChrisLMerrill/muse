@@ -8,4 +8,5 @@ import org.musetest.core.*;
 public interface TestExecutionContext extends MuseExecutionContext
     {
     MuseTest getTest();
+    String getTestExecutionId();
     }

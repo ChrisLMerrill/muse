@@ -11,19 +11,17 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class DefaultSteppedTestExecutionContext extends BaseExecutionContext implements SteppedTestExecutionContext
+public class DefaultSteppedTestExecutionContext extends DefaultTestExecutionContext implements SteppedTestExecutionContext
     {
     public DefaultSteppedTestExecutionContext(MuseExecutionContext parent, SteppedTest test)
 	    {
-	    super(parent, ContextVariableScope.Execution);
-	    _test = test;
+	    super(parent, test);
 	    _step_locator.loadSteps(test.getStep());
 	    }
 
     public DefaultSteppedTestExecutionContext(MuseProject project, SteppedTest test)
 	    {
-	    super(new ProjectExecutionContext(project), ContextVariableScope.Execution);
-	    _test = test;
+	    super(new ProjectExecutionContext(project), test);
 	    _step_locator.loadSteps(test.getStep());
 	    }
 
@@ -106,7 +104,7 @@ public class DefaultSteppedTestExecutionContext extends BaseExecutionContext imp
     @Override
     public SteppedTest getTest()
         {
-        return _test;
+        return (SteppedTest) _test;
         }
 
     @Override
@@ -125,5 +123,4 @@ public class DefaultSteppedTestExecutionContext extends BaseExecutionContext imp
 
     private StepExecutionContextStack _stack = new StepExecutionContextStack();
     private StepLocator _step_locator = new CachedLookupStepLocator();
-    private final SteppedTest _test;
     }

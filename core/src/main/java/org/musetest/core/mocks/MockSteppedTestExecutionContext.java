@@ -1,6 +1,5 @@
 package org.musetest.core.mocks;
 
-import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
@@ -20,7 +19,11 @@ public class MockSteppedTestExecutionContext extends MockStepExecutionContext im
 		super(new SteppedTest(new StepConfiguration("mock-step")));
 		}
 
-
+	@Override
+	public String getTestExecutionId()
+		{
+		return getTest().getId();
+		}
 
 	@Override
 	public SteppedTest getTest()
