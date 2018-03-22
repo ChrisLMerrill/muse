@@ -79,11 +79,16 @@ public class Wait extends BaseStep
     private MuseValueSource _fail;
     private MuseValueSource _message;
 
-    final static String CONDITION_PARAM = "condition";
-    final static String MAX_DURATION_PARAM = "duration";
-    final static String CHECK_FREQUENCY_PARAM = "frequency";
-    final static String FAIL_PARAM = "fail";
-    final static String MESSAGE_PARAM = "message";
+    @SuppressWarnings("WeakerAccess")
+    public final static String CONDITION_PARAM = "condition";
+    @SuppressWarnings("WeakerAccess")
+    public final static String MAX_DURATION_PARAM = "duration";
+    @SuppressWarnings("WeakerAccess")
+    public final static String CHECK_FREQUENCY_PARAM = "frequency";
+    @SuppressWarnings("WeakerAccess")
+    public final static String FAIL_PARAM = "fail";
+    @SuppressWarnings("WeakerAccess")
+    public final static String MESSAGE_PARAM = "message";
 
     public final static String TYPE_ID = Wait.class.getAnnotation(MuseTypeId.class).value();
     }
