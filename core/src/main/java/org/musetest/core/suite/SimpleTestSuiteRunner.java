@@ -35,7 +35,9 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 	        }
         catch (MuseExecutionError e)
 	        {
-	        _context.raiseEvent(TestErrorEventType.create("Unable to initialize test suite plugins due to: " + e.getMessage()));
+	        final String message = "Unable to initialize test suite plugins due to: " + e.getMessage();
+	        System.err.println(message);
+	        _context.raiseEvent(TestErrorEventType.create(message));
 	        return false;
 	        }
 
