@@ -24,6 +24,7 @@ public class StartTestEventType extends EventType
 		MuseEvent event = new MuseEvent(TYPE_ID);
 		event.setAttribute(TEST_ID, test_id);
 		event.setAttribute(TEST_NAME, name);
+		event.setAttribute(START_TIME, System.currentTimeMillis());
 		return event;
 		}
 
@@ -31,4 +32,5 @@ public class StartTestEventType extends EventType
 	public final static EventType INSTANCE = new StartTestEventType();
 	public final static String TEST_NAME = "name";
 	public final static String TEST_ID = "test-id";
+	private final static String START_TIME = "start-time";
 	}
