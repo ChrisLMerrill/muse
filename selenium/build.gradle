@@ -4,7 +4,7 @@ apply plugin: 'java'
 dependencies
     {
     compile project(':muse-core')
-    compile 'org.seleniumhq.selenium:selenium-java:3.5.3'
+    compile 'org.seleniumhq.selenium:selenium-java:3.11.0'
 
     testCompile project(':muse-core').sourceSets.test.output
     }
