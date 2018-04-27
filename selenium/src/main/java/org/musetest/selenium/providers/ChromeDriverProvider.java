@@ -40,8 +40,19 @@ public class ChromeDriverProvider extends BaseLocalDriverProvider
 
         synchronized (ChromeDriverProvider.class)
             {
+            ChromeOptions options = new ChromeOptions();
+            if (getArguments() != null)
+            	options.addArguments(getArguments());
+
+            DesiredCapabilities desired = DesiredCapabilities.chrome();
+            if (capabilities.getVersion() != null && capabilities.getVersion().length() > 0)
+                desired.setVersion(capabilities.getVersion());
+            if (capabilities.getPlatform() != null && capabilities.getPlatform().length() > 0)
+                desired.setPlatform(Platform.fromString(capabilities.getPlatform()));
+            options.merge(desired);
+
             System.setProperty("webdriver.chrome.driver", path.getAbsolutePath());
-            return new ChromeDriver(capabilities.toDesiredCapabilities());
+            return new ChromeDriver(options);
             }
         }
 

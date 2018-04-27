@@ -7,6 +7,7 @@ import org.musetest.selenium.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.edge.*;
 import org.openqa.selenium.remote.*;
+import org.slf4j.*;
 
 import java.io.*;
 
@@ -41,8 +42,20 @@ public class EdgeDriverProvider extends BaseLocalDriverProvider
 
         synchronized (EdgeDriverProvider.class)
             {
+
+            DesiredCapabilities desired = DesiredCapabilities.edge();
+            if (capabilities.getVersion() != null && capabilities.getVersion().length() > 0)
+                desired.setVersion(capabilities.getVersion());
+            if (capabilities.getPlatform() != null && capabilities.getPlatform().length() > 0)
+                desired.setPlatform(Platform.fromString(capabilities.getPlatform()));
+
+            EdgeOptions options = new EdgeOptions();
+            options.merge(desired);
+            if (getArguments() != null)
+            	LOG.error("Unable to set arguments for EdgeDriver: arguments are not supported by EdgeDriver");
+
             System.setProperty("webdriver.edge.driver", path.getAbsolutePath());
-            return new EdgeDriver(capabilities.toDesiredCapabilities());
+            return new EdgeDriver(options);
             }
         }
 
@@ -57,4 +70,6 @@ public class EdgeDriverProvider extends BaseLocalDriverProvider
         {
         return "EdgeDriver";
         }
+
+    private final static Logger LOG = LoggerFactory.getLogger(EdgeDriverProvider.class);
     }

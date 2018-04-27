@@ -64,6 +64,18 @@ public abstract class BaseLocalDriverProvider implements WebDriverProvider
             listener.absolutePathChanged(old_path, _absolute_path);
         }
 
+    @SuppressWarnings("unused") // required for Json de/serialization
+    public void setArguments(String[] arguments)
+	    {
+	    _arguments = arguments;
+	    }
+
+    @SuppressWarnings("unused") // required for Json de/serialization
+    public String[] getArguments()
+	    {
+	    return _arguments;
+	    }
+
     File getDriverLocation(MuseExecutionContext context)
         {
         if (_relative_path != null)
@@ -108,6 +120,7 @@ public abstract class BaseLocalDriverProvider implements WebDriverProvider
     private OperatingSystem _os;
     private String _relative_path;
     private String _absolute_path;
+    private String[] _arguments;
 
     private transient Set<ChangeListener> _listeners = new HashSet<>();
 
