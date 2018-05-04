@@ -38,7 +38,7 @@ public class GlobMatchCondition extends BaseValueSource
             {
             GlobPattern matcher = new GlobPattern(pattern);
             boolean matches = matcher.matches(target);
-            context.raiseEvent(ConditionEvaluatedEventType.create(String.format("Glob pattern %s matches %s is %s", pattern, target, matches)));
+            context.raiseEvent(ConditionEvaluatedEventType.create(String.format("Glob pattern '%s' matches '%s' is %s", pattern, target, matches)));
             return matches;
             }
         catch (Exception e)

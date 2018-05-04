@@ -46,12 +46,12 @@ public class RegexMatchCondition extends BaseValueSource
             else
                 regex = Pattern.compile(pattern);
             boolean matches = regex.matcher(target).matches();
-            context.raiseEvent(ConditionEvaluatedEventType.create(String.format("RegEx pattern %s matches %s is %s", pattern, target, matches)));
+            context.raiseEvent(ConditionEvaluatedEventType.create(String.format("RegEx pattern '%s' matches '%s' is %s", pattern, target, matches)));
             return matches;
             }
         catch (Exception e)
             {
-            throw new ValueSourceResolutionError(String.format("Unable to execute RegEx pattern match %s on %s: %s", pattern, target, e.getMessage()), e);
+            throw new ValueSourceResolutionError(String.format("Unable to execute RegEx pattern match '%s' on '%s': %s", pattern, target, e.getMessage()), e);
             }
         }
 
