@@ -67,8 +67,8 @@ public class EventLog implements TestResultData
 			return;
 			}
 
-		out.println("Event log (started " + DateFormat.getDateTimeInstance().format(new Date(_events.get(0).getTimestampNanos())) + "):");
-		EventLogPrinter printer = new EventLogPrinter(out, _events.get(0).getTimestampNanos());
+		out.println("Event log (started " + DateFormat.getDateTimeInstance().format(new Date(_events.get(0).getTimestamp())) + "):");
+		EventLogPrinter printer = new EventLogPrinter(out);
 		for (MuseEvent event : _events)
 			printer.print(event);
 		}

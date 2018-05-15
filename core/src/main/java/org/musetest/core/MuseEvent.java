@@ -95,15 +95,15 @@ public class MuseEvent
 	    _terminate = terminate;
 	    }
 
-    public long getTimestampNanos()
+    public long getTimestamp()
         {
-        return _timestamp_nanos;
+        return _timestamp;
         }
 
     @SuppressWarnings("unused")  // required for deserialization
-    public void setTimestampNanos(long  nanos)
+    public void setTimestamp(long ms)
         {
-        _timestamp_nanos = nanos;
+        _timestamp = ms;
         }
 
     public void addTag(String tag)
@@ -190,7 +190,7 @@ public class MuseEvent
 	    }
 
     private String _type_id;
-    private long _timestamp_nanos = System.nanoTime();
+    private long _timestamp = System.currentTimeMillis();
     private Map<String, Object> _attributes = null;
     private List<String> _tags = null;
 

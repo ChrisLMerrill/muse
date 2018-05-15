@@ -18,10 +18,9 @@ public class EventLogPrinter implements MusePlugin, MuseEventListener
 	    }
 
     @SuppressWarnings("WeakerAccess")  // public API
-    public EventLogPrinter(PrintStream out, long first_event_nanos)
+    public EventLogPrinter(PrintStream out)
         {
         _out = out;
-        _first_time = first_event_nanos;
         _indent_stack.push(" ");
         }
 
@@ -54,10 +53,7 @@ public class EventLogPrinter implements MusePlugin, MuseEventListener
         if (_out == null)
         	_out = System.out;
 
-        if (_first_time == -1) // first time
-            _first_time = event.getTimestampNanos();
-
-        _out.print(DurationFormat.formatMinutesSeconds(event.getTimestampNanos() - _first_time));
+        _out.print(DurationFormat.formatMinutesSeconds(event.getTimestamp()));
 
         if (event.getTypeId().equals(EndStepEventType.TYPE_ID) && !event.hasTag(StepEventType.INCOMPLETE) && _indent_stack.size() > 1)  // never pop the first indent (something else has gone wrong).
             _indent_stack.pop();
@@ -70,7 +66,6 @@ public class EventLogPrinter implements MusePlugin, MuseEventListener
         }
 
     private PrintStream _out;
-    private long _first_time = -1;
     private Stack<String> _indent_stack = new Stack<>();
     private EventTypes _types = EventTypes.DEFAULT;
     }
