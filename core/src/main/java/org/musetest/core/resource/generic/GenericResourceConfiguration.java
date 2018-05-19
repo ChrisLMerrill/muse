@@ -1,5 +1,7 @@
 package org.musetest.core.resource.generic;
 
+import com.fasterxml.jackson.annotation.*;
+import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 
@@ -34,4 +36,23 @@ public abstract class GenericResourceConfiguration extends BaseMuseResource
 		}
 
 	private NamedSourcesContainer _parameters = new NamedSourcesContainer();
+
+	@SuppressWarnings("unused")  // expect extensions to use this
+	@JsonIgnore
+	protected boolean isParameterTrue(MuseExecutionContext context, String name)
+		{
+		if (_parameters != null)
+			{
+			try
+				{
+				MuseValueSource source = BaseValueSource.getValueSource(_parameters, name, true, context.getProject());
+				return BaseValueSource.getValue(source, context, false, Boolean.class);
+				}
+			catch (MuseInstantiationException | ValueSourceResolutionError e)
+				{
+				return false;
+				}
+			}
+		return false;
+		}
 	}
