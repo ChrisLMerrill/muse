@@ -13,6 +13,7 @@ import org.musetest.core.test.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.variables.*;
+import org.musetest.tests.utils.*;
 
 import java.io.*;
 import java.util.*;
@@ -220,9 +221,6 @@ public class ExecutionContextTests
 	    TestExecutionContext context = new DefaultTestExecutionContext(_context, test);
 	    String id = context.getTestExecutionId();
 	    Assert.assertNotNull(id);
-		Assert.assertEquals(test.getId(), context.getTestExecutionId());
-
-		Assert.assertEquals(id, new DefaultTestExecutionContext(_context, test).getTestExecutionId()); // should always generate the same
 	    }
 
 	@Test

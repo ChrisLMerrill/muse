@@ -28,12 +28,17 @@ public class DefaultTestExecutionContext extends BaseExecutionContext implements
 	@Override
 	public String getTestExecutionId()
 		{
-		TestSuiteExecutionContext suite_context = MuseExecutionContext.findAncestor(this, TestSuiteExecutionContext.class);
-		if (suite_context != null)
-			return suite_context.getTextExecutionId(this);
-		else
-			return _test.getId();
+		if (_test_id == null)
+			{
+			TestSuiteExecutionContext suite_context = MuseExecutionContext.findAncestor(this, TestSuiteExecutionContext.class);
+			if (suite_context != null)
+				_test_id = suite_context.getTextExecutionId(this);
+			else
+				_test_id = Long.toString(System.currentTimeMillis());
+			}
+		return _test_id;
 		}
 
 	protected final MuseTest _test;
+	private String _test_id;
 	}

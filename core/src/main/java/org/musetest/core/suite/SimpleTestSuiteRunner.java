@@ -125,7 +125,6 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 		final String config_var_name = StartSuiteTestEventType.getConfigVariableName(start_event);
 		final MuseEvent end_event = EndSuiteTestEventType.create(config_var_name);
 		_context.raiseEvent(end_event);
-        _context.setVariable(config_var_name, null);
 		}
 
     @NotNull

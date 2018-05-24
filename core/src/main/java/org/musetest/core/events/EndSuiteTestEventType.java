@@ -19,19 +19,18 @@ public class EndSuiteTestEventType extends EventType
 		return "Test Complete";
 		}
 
+	@SuppressWarnings("unused")  // for use by extensions
 	public static String getConfigVariableName(MuseEvent event)
 		{
-		return event.getAttribute(CONFIG_VAR_NAME).toString();
+		return event.getAttribute(StartSuiteTestEventType.CONFIG_VAR_NAME).toString();
 		}
 
 	public static MuseEvent create(String config_var_name)
 		{
 		final MuseEvent event = new MuseEvent(TYPE_ID);
-		event.setAttribute(CONFIG_VAR_NAME, config_var_name);
+		event.setAttribute(StartSuiteTestEventType.CONFIG_VAR_NAME, config_var_name);
 		return event;
 		}
 
 	public final static String TYPE_ID = "end-suite-test";
-
-	public final static String CONFIG_VAR_NAME = "config";
 	}
