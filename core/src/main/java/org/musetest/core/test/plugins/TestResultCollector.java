@@ -9,6 +9,7 @@ import org.musetest.core.resource.generic.*;
 import org.musetest.core.values.*;
 
 import javax.annotation.*;
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -20,9 +21,13 @@ public class TestResultCollector extends GenericConfigurableTestPlugin implement
 		super(configuration);
 		}
 
-	@Nullable
 	@Override
-	public TestResult getData()
+	public List<TestResultData> getData()
+		{
+		return Collections.singletonList(_result);
+		}
+
+	public TestResult getResult()
 		{
 		return _result;
 		}

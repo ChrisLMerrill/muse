@@ -73,13 +73,13 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 		    File output_folder = new File(_output_path);
 		    for (DataCollector collector : DataCollectors.list(context))
 			    {
-			    final TestResultData data = collector.getData();
-			    if (data != null)
+			    final List<TestResultData> data = collector.getData();
+			    for (TestResultData datum : data)
 				    {
-				    File output = new File(output_folder, data.suggestFilename());
+				    File output = new File(output_folder, datum.suggestFilename());
 				    try (FileOutputStream outstream = new FileOutputStream(output))
 					    {
-					    data.write(outstream);
+					    datum.write(outstream);
 					    }
 				    catch (IOException e)
 					    {

@@ -24,8 +24,8 @@ public class TestTests
 	    final EventLogger logger = new EventLogger();
 	    TestResult result = TestRunHelper.runTest(new SimpleProject(), test, logger);
         Assert.assertTrue(result.isPass());
-        Assert.assertEquals(1, logger.getData().findEvents(new EventTypeMatcher(StartTestEventType.TYPE_ID)).size());
-        Assert.assertEquals(1, logger.getData().findEvents(new EventTypeMatcher(EndTestEventType.TYPE_ID)).size());
+        Assert.assertEquals(1, logger.getLog().findEvents(new EventTypeMatcher(StartTestEventType.TYPE_ID)).size());
+        Assert.assertEquals(1, logger.getLog().findEvents(new EventTypeMatcher(EndTestEventType.TYPE_ID)).size());
         }
 
     @Test
@@ -49,7 +49,7 @@ public class TestTests
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should stop after verify step
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assert.assertTrue(logger.getLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     @Test
@@ -64,7 +64,7 @@ public class TestTests
         Assert.assertFalse(result.isPass());  // test marked as failure
 
         // should run all steps
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
+        Assert.assertTrue(logger.getLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
         }
 
     @Test
@@ -85,7 +85,7 @@ public class TestTests
         Assert.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
 
         // should stop after verify step
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assert.assertTrue(logger.getLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     /**
@@ -103,7 +103,7 @@ public class TestTests
         Assert.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
 
         // it was not fatal, so all steps should run
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
+        Assert.assertTrue(logger.getLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
         }
 
     /**
@@ -133,7 +133,7 @@ public class TestTests
         runEventRaisingTest(event, logger);
 
         // second step should not run (technically 3rd, since the 2 are contained in compound step)
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assert.assertTrue(logger.getLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     private TestResult runEventRaisingTest(MuseEvent event, EventLogger logger)

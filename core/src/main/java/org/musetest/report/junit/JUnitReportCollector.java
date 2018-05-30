@@ -8,6 +8,7 @@ import org.musetest.core.plugins.*;
 import org.musetest.core.suite.*;
 
 import javax.annotation.*;
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -27,9 +28,9 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
 
 	@Nullable
 	@Override
-	public TestResultData getData()
+	public List<TestResultData> getData()
 		{
-		return _data;
+		return Collections.singletonList(_data);
 		}
 
 	@Override
@@ -54,7 +55,7 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
 				{
 				TestResult result = TestResult.find(_context);
 				if (result != null)
-					_data.addResult(result, DataCollectors.find(_context, EventLogger.class).getData());
+					_data.addResult(result, EventLog.find(_context));
 				_context.removeEventListener(this);
 				}
 			}

@@ -144,8 +144,9 @@ public class TestResult implements TestResultData
 	public static TestResult find(TestExecutionContext context)
 		{
 		for (DataCollector collector : DataCollectors.list(context))
-			if (collector.getData() instanceof TestResult)
-				return (TestResult) collector.getData();
+			for (TestResultData data : collector.getData())
+				if (data instanceof TestResult)
+					return (TestResult) data;
 		return null;
 		}
 

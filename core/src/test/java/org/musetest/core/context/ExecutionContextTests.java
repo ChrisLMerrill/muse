@@ -13,13 +13,11 @@ import org.musetest.core.test.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.variables.*;
-import org.musetest.tests.utils.*;
 
-import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 
-import static org.musetest.core.tests.mocks.MockStepCreatesShuttable.EXECUTE_MESSAGE;
+import static org.musetest.core.tests.mocks.MockStepCreatesShuttable.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -173,7 +171,7 @@ public class ExecutionContextTests
 		Assert.assertTrue(result.isPass());
 
 		// verify the resource was created and closed
-		Assert.assertTrue("The step did not run", logger.getData().findEvents(event ->
+		Assert.assertTrue("The step did not run", logger.getLog().findEvents(event ->
 			{
 			final String description = EventTypes.DEFAULT.findType(event).getDescription(event);
 			return description != null && description.contains(EXECUTE_MESSAGE);

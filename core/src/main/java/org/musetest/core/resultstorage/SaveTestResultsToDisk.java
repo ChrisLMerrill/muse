@@ -48,13 +48,12 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 			output_folder = _location_provider.getBaseFolder();
 		for (DataCollector collector : DataCollectors.list(_context))
 			{
-			final TestResultData collected = collector.getData();
-			if (collected != null)
+			for (TestResultData data : collector.getData())
 				{
-				final File data_file = new File(output_folder, collected.suggestFilename());
+				final File data_file = new File(output_folder, data.suggestFilename());
 				try (FileOutputStream outstream = new FileOutputStream(data_file))
 					{
-					collected.write(outstream);
+					data.write(outstream);
 					}
 				catch (IOException e)
 					{

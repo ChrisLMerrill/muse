@@ -7,6 +7,8 @@ import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.suite.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -24,7 +26,12 @@ public class TestSuiteResultCounter extends GenericConfigurablePlugin implements
 		}
 
 	@Override
-	public TestSuiteResultCounts getData()
+	public List<TestResultData> getData()
+		{
+		return Collections.singletonList(_counts);
+		}
+
+	public TestSuiteResultCounts getResult()
 		{
 		return _counts;
 		}

@@ -53,11 +53,11 @@ public class TestSuiteTests
 
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
 	    new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
-	    Assert.assertNotNull(counter.getData());
-        Assert.assertEquals(3, counter.getData().getTotalTests());
-        Assert.assertEquals(1, counter.getData().getSuccesses());
-        Assert.assertEquals(1, counter.getData().getFailures());
-        Assert.assertEquals(1, counter.getData().getErrors());
+	    Assert.assertNotNull(counter.getResult());
+        Assert.assertEquals(3, counter.getResult().getTotalTests());
+        Assert.assertEquals(1, counter.getResult().getSuccesses());
+        Assert.assertEquals(1, counter.getResult().getFailures());
+        Assert.assertEquals(1, counter.getResult().getErrors());
         }
 
     @Test
@@ -74,10 +74,10 @@ public class TestSuiteTests
 
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
         new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
-	    Assert.assertNotNull(counter.getData());
-        Assert.assertEquals(1, counter.getData().getFailures());
-        Assert.assertEquals(1, counter.getData().getSuccesses());
-        Assert.assertEquals(0, counter.getData().getErrors());
+	    Assert.assertNotNull(counter.getResult());
+        Assert.assertEquals(1, counter.getResult().getFailures());
+        Assert.assertEquals(1, counter.getResult().getSuccesses());
+        Assert.assertEquals(0, counter.getResult().getErrors());
         }
 
     @Test
@@ -163,9 +163,9 @@ public class TestSuiteTests
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
         new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
 
-	    Assert.assertNotNull(counter.getData());
-        Assert.assertEquals(1, counter.getData().getFailures());
-        Assert.assertEquals(2, counter.getData().getSuccesses());
+	    Assert.assertNotNull(counter.getResult());
+        Assert.assertEquals(1, counter.getResult().getFailures());
+        Assert.assertEquals(2, counter.getResult().getSuccesses());
         }
 
     @Test
@@ -177,7 +177,7 @@ public class TestSuiteTests
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
         new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
 
-        Assert.assertNotNull(counter.getData());
-        Assert.assertEquals(3, counter.getData().getSuccesses());
+        Assert.assertNotNull(counter.getResult());
+        Assert.assertEquals(3, counter.getResult().getSuccesses());
         }
     }

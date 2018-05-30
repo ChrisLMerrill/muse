@@ -133,7 +133,7 @@ public class StepTests
         EventLogger logger = new EventLogger();
         context.addPlugin(logger);
         step.execute(context);
-        Assert.assertNotNull(logger.getData().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
+        Assert.assertNotNull(logger.getLog().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
         }
 
     @Test
@@ -161,9 +161,9 @@ public class StepTests
         MuseStep step = config.createStep();
 
         step.execute(new MockStepExecutionContext(test_context));
-        Assert.assertNotNull(logger.getData().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
+        Assert.assertNotNull(logger.getLog().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
 
-        List<MuseEvent> events = logger.getData().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID));
+        List<MuseEvent> events = logger.getLog().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID));
         Assert.assertEquals(1, events.size());
         Assert.assertEquals(fatal, events.get(0).hasTag(MuseEvent.TERMINATE));
         }
@@ -195,7 +195,7 @@ public class StepTests
         EventLogger logger = new EventLogger();
         TestResult result = TestRunHelper.runTest(project, test, logger);
         Assert.assertTrue(result.isPass());
-        Assert.assertNotNull("message step didn't run", logger.getData().findFirstEvent(new EventDescriptionMatcher(message)));
+        Assert.assertNotNull("message step didn't run", logger.getLog().findFirstEvent(new EventDescriptionMatcher(message)));
         }
 
     /**
@@ -275,7 +275,7 @@ public class StepTests
         TestResult result = TestRunHelper.runTest(project, test, logger);
         Assert.assertTrue(result.isPass());
         // verify that the message step (which comes after the return) did not run
-        Assert.assertTrue(logger.getData().findEvents(new EventTypeMatcher(MessageEventType.TYPE_ID)).size() == 0);
+        Assert.assertTrue(logger.getLog().findEvents(new EventTypeMatcher(MessageEventType.TYPE_ID)).size() == 0);
         }
 
     @Test
