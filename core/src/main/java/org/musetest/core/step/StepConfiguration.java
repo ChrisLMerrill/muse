@@ -514,6 +514,16 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 	    }
 
     @SuppressWarnings("unused")  // public API
+    public static StepConfiguration create(MuseProject project, StepDescriptor descriptor)
+	    {
+	    StepConfiguration config = new StepConfiguration(descriptor.getType());
+	    for (SubsourceDescriptor source_descriptor : descriptor.getSubsourceDescriptors())
+	    	config.addSource(source_descriptor.getName(), source_descriptor.getDefault());
+	    config.setMetadataField(StepConfiguration.META_ID, IdGenerator.get(project).generateLongId());
+	    return config;
+	    }
+
+    @SuppressWarnings("unused")  // public API
     public static StepConfiguration copy(StepConfiguration old, MuseProject project)
 	    {
 	    StepConfiguration new_config = Copy.withJavaSerialization(old);

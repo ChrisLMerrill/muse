@@ -17,8 +17,8 @@ import org.musetest.core.values.descriptor.*;
 @MuseStepIcon("glyph:FontAwesome:CHECK")
 @MuseStepShortDescription("Check the supplied condition")
 @MuseStepLongDescription("The 'condition' sub-source is resolved and evaluated as a boolean. If false, an event describing the failure is added to the test event log with a 'failure' tag.")
-@MuseSubsourceDescriptor(displayName = "Condition", description = "Condition to evaluate", type = SubsourceDescriptor.Type.Named, name = Verify.CONDITION_PARAM)
-@MuseSubsourceDescriptor(displayName = "Terminate", description = "If true, terminate the test on failure", type = SubsourceDescriptor.Type.Named, name = Verify.TERMINATE_PARAM, optional = true)
+@MuseSubsourceDescriptor(displayName = "Condition", description = "Condition to evaluate", type = SubsourceDescriptor.Type.Named, name = Verify.CONDITION_PARAM, defaultValue = "true")
+@MuseSubsourceDescriptor(displayName = "Terminate", description = "If true, terminate the test on failure", type = SubsourceDescriptor.Type.Named, name = Verify.TERMINATE_PARAM, optional = true, defaultValue = "true")
 public class Verify extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection

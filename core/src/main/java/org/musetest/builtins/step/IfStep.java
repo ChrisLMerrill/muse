@@ -5,7 +5,6 @@ import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.descriptor.*;
 
 import java.util.*;
@@ -20,10 +19,10 @@ import java.util.*;
 @MuseStepTypeGroup("Conditionals & Looping")
 @MuseStepShortDescription("If (condition) is true, execute the child steps")
 @MuseStepLongDescription("The 'condition' source is resolved evaluated as a boolean. If true, the child steps will be executed.")
-@MuseSubsourceDescriptor(displayName = "Condition", description = "Source to evaluate (expects a boolean)", type = SubsourceDescriptor.Type.Named, name = IfStep.CONDITION_PARAM)
+@MuseSubsourceDescriptor(displayName = "Condition", description = "Source to evaluate (expects a boolean)", type = SubsourceDescriptor.Type.Named, name = IfStep.CONDITION_PARAM, defaultValue = "true")
 public class IfStep extends BasicCompoundStep
     {
-    public IfStep(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public IfStep(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
         _condition = getValueSource(config, CONDITION_PARAM, false, project);

@@ -18,4 +18,5 @@ public @interface MuseSubsourceDescriptor
     int index() default -1;
     boolean optional() default false;
     Class resolutionType() default Object.class;
+    String defaultValue() default "";
     }

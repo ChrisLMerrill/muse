@@ -1,5 +1,7 @@
 package org.musetest.core.values.descriptor;
 
+import org.musetest.core.values.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -25,6 +27,7 @@ public class SimpleSubsourceDescriptor implements SubsourceDescriptor
         _optional = annotation.optional();
         _type = annotation.type();
         _resolution_type = annotation.resolutionType();
+        _default_value_string = annotation.defaultValue();
         }
 
     @Override
@@ -87,6 +90,12 @@ public class SimpleSubsourceDescriptor implements SubsourceDescriptor
         return builder.toString();
         }
 
+    @Override
+    public ValueSourceConfiguration getDefault()
+	    {
+	    return ValueSourceConfiguration.parsePrimitive(_default_value_string);
+	    }
+
     private String _display_name;
     private String _name;
     private String _description;
@@ -94,6 +103,7 @@ public class SimpleSubsourceDescriptor implements SubsourceDescriptor
     private boolean _optional;
     private Type _type;
     private Class _resolution_type;
+    private String _default_value_string;
     }
 
 

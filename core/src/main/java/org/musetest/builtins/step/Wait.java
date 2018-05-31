@@ -17,11 +17,11 @@ import org.musetest.core.values.descriptor.*;
 @MuseStepIcon("glyph:FontAwesome:HOURGLASS_ALT")
 @MuseStepShortDescription("Wait for (condition) to be true...")
 @MuseStepLongDescription("The 'condition' source is resolved and evaluated as a boolean. If it is false, the step will pause for 'period' ms and then re-resolve and evaluate the source, repeating the behavior up to 'count' times. No action is taken if the condition is still false at the end.")
-@MuseSubsourceDescriptor(displayName = "Condition", description = "Source to evaluate (expects a boolean)", type = SubsourceDescriptor.Type.Named, name = Wait.CONDITION_PARAM)
-@MuseSubsourceDescriptor(displayName = "Max duration", description = "The maximum amount of time to wait for the condition to be true (in milliseconds). Default is 30 seconds", type = SubsourceDescriptor.Type.Named, name = Wait.MAX_DURATION_PARAM, optional = true)
-@MuseSubsourceDescriptor(displayName = "Re-check frequency", description = "The amount of time to wait between re-checking the condition. Default is 500ms.", type = SubsourceDescriptor.Type.Named, name = Wait.CHECK_FREQUENCY_PARAM, optional = true)
-@MuseSubsourceDescriptor(displayName = "Fail on false", description = "When set to true, the Wait will report a failure if the condition is still false when the maximum number of checks have been made.", type = SubsourceDescriptor.Type.Named, name = Wait.FAIL_PARAM, optional = true)
-@MuseSubsourceDescriptor(displayName = "Fail message", description = "An optional message to be used when this wait fails ('Fail on false' option must be turned on).", type = SubsourceDescriptor.Type.Named, name = Wait.MESSAGE_PARAM, optional = true)
+@MuseSubsourceDescriptor(displayName = "Condition", description = "Source to evaluate (expects a boolean)", type = SubsourceDescriptor.Type.Named, name = Wait.CONDITION_PARAM, defaultValue = "true")
+@MuseSubsourceDescriptor(displayName = "Max duration", description = "The maximum amount of time to wait for the condition to be true (in milliseconds). Default is 30 seconds", type = SubsourceDescriptor.Type.Named, name = Wait.MAX_DURATION_PARAM, optional = true, defaultValue = "30000")
+@MuseSubsourceDescriptor(displayName = "Re-check frequency", description = "The amount of time to wait between re-checking the condition. Default is 500ms.", type = SubsourceDescriptor.Type.Named, name = Wait.CHECK_FREQUENCY_PARAM, optional = true, defaultValue = "500")
+@MuseSubsourceDescriptor(displayName = "Fail on false", description = "When set to true, the Wait will report a failure if the condition is still false when the maximum number of checks have been made.", type = SubsourceDescriptor.Type.Named, name = Wait.FAIL_PARAM, optional = true, defaultValue = "true")
+@MuseSubsourceDescriptor(displayName = "Fail message", description = "An optional message to be used when this wait fails ('Fail on false' option must be turned on).", type = SubsourceDescriptor.Type.Named, name = Wait.MESSAGE_PARAM, optional = true, defaultValue = "enter a message")
 @SuppressWarnings("unused")  // instantiated via reflection
 public class Wait extends BaseStep
     {

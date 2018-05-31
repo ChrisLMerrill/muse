@@ -17,9 +17,9 @@ import java.util.regex.*;
 @MuseValueSourceShortDescription("Matches a string against a RegEx pattern")
 @MuseValueSourceLongDescription("Accepts a Regular Expression pattern and matches it against the target string. Returns true on match. Supports Java-style RegEx format.")
 @MuseStringExpressionSupportImplementation(RegexMatchCondition.StringExpressionSupport.class)
-@MuseSubsourceDescriptor(displayName = "Pattern", description = "The pattern to use", type = SubsourceDescriptor.Type.Named, name = RegexMatchCondition.PATTERN_PARAM)
-@MuseSubsourceDescriptor(displayName = "Target", description = "The string to check", type = SubsourceDescriptor.Type.Named, name = RegexMatchCondition.TARGET_PARAM)
-@MuseSubsourceDescriptor(displayName = "Case insensitive", description = "Should case be ignored when matching?", type = SubsourceDescriptor.Type.Named, name = RegexMatchCondition.CASE_PARAM, optional = true)
+@MuseSubsourceDescriptor(displayName = "Pattern", description = "The pattern to use", type = SubsourceDescriptor.Type.Named, name = RegexMatchCondition.PATTERN_PARAM, defaultValue = "pattern")
+@MuseSubsourceDescriptor(displayName = "Target", description = "The string to check", type = SubsourceDescriptor.Type.Named, name = RegexMatchCondition.TARGET_PARAM, defaultValue = "target string")
+@MuseSubsourceDescriptor(displayName = "Case insensitive", description = "Should case be ignored when matching? (default is false)", type = SubsourceDescriptor.Type.Named, name = RegexMatchCondition.CASE_PARAM, optional = true, defaultValue = "true")
 public class RegexMatchCondition extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

@@ -1,6 +1,7 @@
 package org.musetest.builtins.tests.mocks;
 
 import org.musetest.core.*;
+import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
 /**
@@ -60,6 +61,12 @@ public class TestValueSourceDescriptor extends DefaultValueSourceDescriptor
                 {
                 return null;
                 }
+
+            @Override
+            public ValueSourceConfiguration getDefault()
+	            {
+	            return null;
+	            }
 
             @Override
             public String getOneLineSummary()

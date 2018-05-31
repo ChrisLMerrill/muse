@@ -17,7 +17,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseStepIcon("glyph:FontAwesome:HOURGLASS_ALT")
 @MuseStepShortDescription("Wait for a specific duration")
 @MuseStepLongDescription("The 'duration' source is resolved and evaluated as an integer. Wait for 'duration' seconds.")
-@MuseSubsourceDescriptor(displayName = "Duration", description = "How many seconds to wait (expects an integer)", type = SubsourceDescriptor.Type.Named, name = WaitTimed.DURATION_PARAM)
+@MuseSubsourceDescriptor(displayName = "Duration", description = "How many seconds to wait (expects an integer)", type = SubsourceDescriptor.Type.Named, name = WaitTimed.DURATION_PARAM, defaultValue = "5")
 
 @SuppressWarnings("unused,WeakerAccess")  // instantiated via reflection, public API
 public class WaitTimed extends BaseStep

@@ -456,5 +456,29 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
         return config;
         }
 
+    public static ValueSourceConfiguration parsePrimitive(String string)
+	    {
+	    switch (string.toLowerCase())
+		    {
+		    case "null":
+			    return ValueSourceConfiguration.forValue(null);
+		    case "true":
+			    return ValueSourceConfiguration.forValue(true);
+		    case "false":
+			    return ValueSourceConfiguration.forValue(false);
+		    }
+	    try
+		    {
+		    return ValueSourceConfiguration.forValue(Long.parseLong(string));
+		    }
+	    catch (NumberFormatException e)
+		    {
+		    // ok
+		    }
+	    if (string.length() == 0)
+	    	return ValueSourceConfiguration.forValue("new value");
+		return ValueSourceConfiguration.forValue(string);
+	    }
+
     private final static Logger LOG = LoggerFactory.getLogger(ValueSourceConfiguration.class);
     }

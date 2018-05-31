@@ -1,5 +1,7 @@
 package org.musetest.core.values.descriptor;
 
+import org.musetest.core.values.*;
+
 /**
  * Provides metadata about a sub-source of a MuseValueSource or a MuseStep
  *
@@ -15,6 +17,7 @@ public interface SubsourceDescriptor
     Type getType();
     Class getResolutionType();
     String getOneLineSummary();
+    ValueSourceConfiguration getDefault();
 
     enum Type
         {

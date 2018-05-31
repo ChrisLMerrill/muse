@@ -16,8 +16,8 @@ import java.util.*;
 @MuseValueSourceShortDescription("Compare two sources for equality")
 @MuseValueSourceLongDescription("Compare two sources, return true if equal. Object.equals() is used for the comparison.")
 @MuseStringExpressionSupportImplementation(EqualityCondition.StringExpressionSupport.class)
-@MuseSubsourceDescriptor(displayName = "Left", description = "Left operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.LEFT_PARAM)
-@MuseSubsourceDescriptor(displayName = "Right", description = "Right operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.RIGHT_PARAM)
+@MuseSubsourceDescriptor(displayName = "Left", description = "Left operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.LEFT_PARAM, defaultValue = "true")
+@MuseSubsourceDescriptor(displayName = "Right", description = "Right operand", type = SubsourceDescriptor.Type.Named, name = BinaryCondition.RIGHT_PARAM, defaultValue = "false")
 public class EqualityCondition extends BinaryCondition
     {
     @SuppressWarnings("unused")  // used via reflection

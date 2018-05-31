@@ -5,7 +5,6 @@ import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.descriptor.*;
 
 /**
@@ -18,10 +17,10 @@ import org.musetest.core.values.descriptor.*;
 @MuseStepTypeGroup("Conditionals & Looping")
 @MuseStepShortDescription("While (condition) is true, execute the child steps")
 @MuseStepLongDescription("The 'condition' source is resolved evaluated as a boolean. If true, the child steps will be executed. After they are executed, the source will be evaluated again. This repeats until the 'condition' source resolves to false.")
-@MuseSubsourceDescriptor(displayName = "Condition", description = "Source to evaluate (expects a boolean)", type = SubsourceDescriptor.Type.Named, name = WhileStep.CONDITION_PARAM)
+@MuseSubsourceDescriptor(displayName = "Condition", description = "Source to evaluate (expects a boolean)", type = SubsourceDescriptor.Type.Named, name = WhileStep.CONDITION_PARAM, defaultValue = "true")
 public class WhileStep extends BasicCompoundStep
     {
-    public WhileStep(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public WhileStep(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
         _condition = getValueSource(config, CONDITION_PARAM, true, project);
