@@ -1,16 +1,19 @@
 package org.musetest.selenium.mocks;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.logging.*;
 import org.slf4j.*;
+import org.slf4j.Logger;
 
 import java.lang.reflect.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MuseMockDriver implements WebDriver
+public class MuseMockDriver implements WebDriver, TakesScreenshot
     {
     @Override
     public void get(String url)
@@ -50,7 +53,7 @@ public class MuseMockDriver implements WebDriver
     @Override
     public String getPageSource()
         {
-        return null;
+        return new String(_html);
         }
 
     @Override
@@ -173,7 +176,82 @@ public class MuseMockDriver implements WebDriver
     @Override
     public Options manage()
         {
-        return null;
+        return new Options()
+	        {
+	        @Override
+	        public void addCookie(Cookie cookie)
+		        {
+
+		        }
+
+	        @Override
+	        public void deleteCookieNamed(String name)
+		        {
+
+		        }
+
+	        @Override
+	        public void deleteCookie(Cookie cookie)
+		        {
+
+		        }
+
+	        @Override
+	        public void deleteAllCookies()
+		        {
+
+		        }
+
+	        @Override
+	        public Set<Cookie> getCookies()
+		        {
+		        return null;
+		        }
+
+	        @Override
+	        public Cookie getCookieNamed(String name)
+		        {
+		        return null;
+		        }
+
+	        @Override
+	        public Timeouts timeouts()
+		        {
+		        return null;
+		        }
+
+	        @Override
+	        public ImeHandler ime()
+		        {
+		        return null;
+		        }
+
+	        @Override
+	        public Window window()
+		        {
+		        return null;
+		        }
+
+	        @Override
+	        public Logs logs()
+		        {
+		        return new Logs()
+			        {
+			        @Override
+			        public LogEntries get(String logType)
+				        {
+				        LogEntry entry = new LogEntry(Level.ALL, System.currentTimeMillis(), new String(_log));
+				        return new LogEntries(Collections.singleton(entry));
+				        }
+
+			        @Override
+			        public Set<String> getAvailableLogTypes()
+				        {
+				        return Collections.singleton("only-one");
+				        }
+			        };
+		        }
+	        };
         }
 
     public void addXpathElement(String xpath, WebElement element)
@@ -211,6 +289,29 @@ public class MuseMockDriver implements WebDriver
             }
         }
 
+    public void putScreenshot(byte[] bytes)
+	    {
+	    _screenshot = bytes;
+	    }
+
+    public void putHtml(byte[] bytes)
+	    {
+	    _html = bytes;
+	    }
+
+    public void putLog(byte[] bytes)
+	    {
+	    _log = bytes;
+	    }
+
+    @Override
+    public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException
+	    {
+	    if (target.equals(OutputType.BYTES))
+	    	return (X) _screenshot;
+	    return null;
+	    }
+
     public boolean _is_quitted = false;
     private String _current_url = null;
     private String _title = null;
@@ -219,7 +320,11 @@ public class MuseMockDriver implements WebDriver
     private Map<String, WebElement> _xpath_elements = new HashMap<>();
     private Map<String, WebElement> _id_elements = new HashMap<>();
 
-    final static Logger LOG = LoggerFactory.getLogger(MuseMockDriver.class);
+    private byte[] _screenshot;
+    private byte[] _html;
+    private byte[] _log = "".getBytes();
+
+    private final static Logger LOG = LoggerFactory.getLogger(MuseMockDriver.class);
     }
 
 
