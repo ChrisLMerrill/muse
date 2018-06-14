@@ -163,9 +163,9 @@ public class MockStepExecutionContext implements StepExecutionContext
 	    }
 
     @Override
-    public void initializePlugins() throws MuseExecutionError
+    public int initializePlugins() throws MuseExecutionError
 		{
-		_test_context.initializePlugins();
+		return _test_context.initializePlugins();
 		}
 
     @Override

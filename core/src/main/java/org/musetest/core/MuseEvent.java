@@ -198,6 +198,7 @@ public class MuseEvent
     public final static String ERROR = "error";
     public final static String FAILURE = "failure";
     public final static String DESCRIPTION = "description";
+    public final static String ERROR_MESSAGE = "error-msg";
 
     @Deprecated
     private EventStatus _status = EventStatus.Normal;

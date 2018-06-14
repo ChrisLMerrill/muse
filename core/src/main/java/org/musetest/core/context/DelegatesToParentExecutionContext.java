@@ -130,9 +130,9 @@ public abstract class DelegatesToParentExecutionContext implements MuseExecution
 		}
 
 	@Override
-	public void initializePlugins() throws MuseExecutionError
+	public int initializePlugins() throws MuseExecutionError
 		{
-		_parent.initializePlugins();
+		return _parent.initializePlugins();
 		}
 
 	@Override

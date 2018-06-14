@@ -65,6 +65,18 @@ public class EventLogPrinter implements MusePlugin, MuseEventListener
             _indent_stack.push(_indent_stack.peek() + "  ");
         }
 
+    @Override
+    public String getId()
+	    {
+	    return "no/id";
+	    }
+
+    @Override
+    public void shutdown()
+	    {
+
+	    }
+
     private PrintStream _out;
     private Stack<String> _indent_stack = new Stack<>();
     private EventTypes _types = EventTypes.DEFAULT;

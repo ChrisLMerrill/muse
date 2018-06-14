@@ -10,6 +10,7 @@ import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.suite.*;
 import org.musetest.core.test.*;
+import org.musetest.core.test.plugins.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.variables.*;
@@ -172,10 +173,10 @@ public class ExecutionContextTests
 
 		// verify the resource was created and closed
 		Assert.assertTrue("The step did not run", logger.getLog().findEvents(event ->
-			{
-			final String description = EventTypes.DEFAULT.findType(event).getDescription(event);
-			return description != null && description.contains(EXECUTE_MESSAGE);
-			}).size() == 1);
+		{
+		final String description = EventTypes.DEFAULT.findType(event).getDescription(event);
+		return description != null && description.contains(EXECUTE_MESSAGE);
+		}).size() == 1);
 		MockShuttable shuttable = (MockShuttable) test_config.context().getVariable(MockStepCreatesShuttable.SHUTTABLE_VAR_NAME);
 		Assert.assertNotNull(shuttable);
 		Assert.assertTrue(shuttable.isShutdown());
@@ -190,14 +191,14 @@ public class ExecutionContextTests
 		// install an event listener that raises an event in response to another event
 		AtomicReference<MuseEvent> event2 = new AtomicReference<>(null);
 		context.addEventListener(event ->
+		{
+		if (event.getTypeId().equals(MessageEventType.TYPE_ID))  // don't go into infinite loop
 			{
-			if (event.getTypeId().equals(MessageEventType.TYPE_ID))  // don't go into infinite loop
-				{
-				MuseEvent second_event = StepEventType.create(EndStepEventType.TYPE_ID, step_config);
-				event2.set(second_event);
-				context.raiseEvent(second_event);
-				}
-			});
+			MuseEvent second_event = StepEventType.create(EndStepEventType.TYPE_ID, step_config);
+			event2.set(second_event);
+			context.raiseEvent(second_event);
+			}
+		});
 
 		// install an event listener to track the event ordering
 		final List<MuseEvent> events = new ArrayList<>();
@@ -215,26 +216,125 @@ public class ExecutionContextTests
 	@Test
 	public void getTestExecutionId()
 		{
-	    MuseTest test = new MockTest("test1");
-	    TestExecutionContext context = new DefaultTestExecutionContext(_context, test);
-	    String id = context.getTestExecutionId();
-	    Assert.assertNotNull(id);
-	    }
+		MuseTest test = new MockTest("test1");
+		TestExecutionContext context = new DefaultTestExecutionContext(_context, test);
+		String id = context.getTestExecutionId();
+		Assert.assertNotNull(id);
+		}
 
 	@Test
 	public void getTestExecutionIdInSuite()
-	    {
-	    MuseTestSuite suite = new SimpleTestSuite();
-	    suite.setId("suite1");
-	    TestSuiteExecutionContext suite_context = new DefaultTestSuiteExecutionContext(_context, suite);
-	    MuseTest test = new MockTest("test1");
-	    TestExecutionContext context = new DefaultTestExecutionContext(suite_context, test);
-	    String id1 = context.getTestExecutionId();
-	    Assert.assertNotNull(id1);
+		{
+		MuseTestSuite suite = new SimpleTestSuite();
+		suite.setId("suite1");
+		TestSuiteExecutionContext suite_context = new DefaultTestSuiteExecutionContext(_context, suite);
+		MuseTest test = new MockTest("test1");
+		TestExecutionContext context = new DefaultTestExecutionContext(suite_context, test);
+		String id1 = context.getTestExecutionId();
+		Assert.assertNotNull(id1);
 		Assert.assertTrue(context.getTestExecutionId().length() >= test.getId().length());
 
-	    Assert.assertNotEquals(id1, new DefaultTestExecutionContext(_context, test).getTestExecutionId()); // should be unique for each test context
-	    }
+		Assert.assertNotEquals(id1, new DefaultTestExecutionContext(_context, test).getTestExecutionId()); // should be unique for each test context
+		}
+
+	@Test
+	public void successfulPluginInitEvent() throws MuseExecutionError
+		{
+		MockContext context = new MockContext();
+		AtomicBoolean is_shutdown = new AtomicBoolean(false);
+		MockTestPlugin success_plugin = new MockTestPlugin(true, true)
+			{
+			@Override
+			public void shutdown()
+				{
+				is_shutdown.set(true);
+				}
+			};
+		success_plugin._id = "success-plugin";
+
+		context.addPlugin(success_plugin);
+		int fail_count = context.initializePlugins();
+		Assert.assertEquals(0, fail_count);
+		Assert.assertEquals(1, context._events_raised.size());
+		final MuseEvent event = context._events_raised.get(0);
+		Assert.assertEquals(PluginInitializedEventType.TYPE_ID, event.getTypeId());
+		Assert.assertFalse(event.hasTag(MuseEvent.ERROR));
+		Assert.assertFalse(event.hasTag(MuseEvent.FAILURE));
+		Assert.assertTrue(event.getDescription().contains(success_plugin.getId()));
+
+		context.cleanup();
+		Assert.assertTrue(is_shutdown.get());
+		}
+
+	@Test
+	public void failedPluginInitEvent() throws MuseExecutionError
+		{
+		MockContext context = new MockContext();
+		AtomicBoolean is_shutdown = new AtomicBoolean(false);
+		MockTestPlugin fail_plugin = new MockTestPlugin(true, true)
+			{
+			@Override
+			public void shutdown()
+				{
+				is_shutdown.set(true);
+				}
+
+			@Override
+			public void initialize(MuseExecutionContext context) throws MuseExecutionError
+				{
+				throw new MuseExecutionError("failed");
+				}
+			};
+		fail_plugin._id = "fail-plugin";
+
+		context.addPlugin(fail_plugin);
+		int fail_count = context.initializePlugins();
+		Assert.assertEquals(1, fail_count);
+		Assert.assertEquals(1, context._events_raised.size());
+		final MuseEvent event = context._events_raised.get(0);
+		Assert.assertEquals(PluginInitializedEventType.TYPE_ID, event.getTypeId());
+		Assert.assertTrue(event.hasTag(MuseEvent.ERROR));
+		Assert.assertTrue(event.getDescription().contains(fail_plugin.getId()));
+		Assert.assertTrue(new PluginInitializedEventType().getDescription(event).contains("failed"));
+
+		context.cleanup();
+		Assert.assertFalse(is_shutdown.get());  // failed plugins aren't shutdown()
+		}
+
+	@Test
+	public void pluginShutdownOrder() throws MuseExecutionError
+		{
+		MockContext context = new MockContext();
+		List<String> shutdown_plugin_ids = new ArrayList<>();
+		MockTestPlugin plugin1 = new MockTestPlugin(true, true)
+			{
+			@Override
+			public void shutdown()
+				{
+				shutdown_plugin_ids.add(getId());
+				}
+			};
+		plugin1._id = "plugin1";
+		context.addPlugin(plugin1);
+
+		MockTestPlugin plugin2 = new MockTestPlugin(true, true)
+			{
+			@Override
+			public void shutdown()
+				{
+				shutdown_plugin_ids.add(getId());
+				}
+			};
+		plugin2._id = "plugin2";
+		context.addPlugin(plugin2);
+
+		Assert.assertEquals(0, context.initializePlugins());
+
+		context.cleanup();
+		Assert.assertEquals(2, shutdown_plugin_ids.size());
+		Assert.assertEquals("plugin2", shutdown_plugin_ids.get(0));
+		Assert.assertEquals("plugin1", shutdown_plugin_ids.get(1));
+		}
 
 	@Before
 	public void setup()

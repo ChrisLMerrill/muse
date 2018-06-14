@@ -19,4 +19,10 @@ public abstract class GenericConfigurableTestPlugin extends GenericConfigurableP
 		{
 		return context instanceof TestExecutionContext;
 		}
+
+	@Override
+	public void shutdown()
+		{
+
+		}
 	}

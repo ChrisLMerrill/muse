@@ -92,8 +92,9 @@ public interface MuseExecutionContext
     /**
      * Initialize the configured TestPlugins.
      * @throws MuseExecutionError If a plugin fails or if already initialized.
+     * @return The number of plugins that failed to initialize successfully.
      */
-    void initializePlugins() throws MuseExecutionError;
+    int initializePlugins() throws MuseExecutionError;
 
     @SuppressWarnings("unused")  // convenience for extensions
     static <T extends MuseExecutionContext> T findAncestor(MuseExecutionContext context, Class<T> type)

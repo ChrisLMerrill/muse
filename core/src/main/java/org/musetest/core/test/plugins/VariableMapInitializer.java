@@ -32,5 +32,17 @@ public class VariableMapInitializer implements MusePlugin
             context.setVariable(name, _variables.get(name), ContextVariableScope.Execution);
         }
 
+    @Override
+    public String getId()
+	    {
+	    return "no/id";
+	    }
+
+    @Override
+    public void shutdown()
+	    {
+
+	    }
+
     private final Map<String, Object> _variables;
     }

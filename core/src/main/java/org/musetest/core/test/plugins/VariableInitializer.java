@@ -30,6 +30,18 @@ public class VariableInitializer implements MusePlugin
 		return true;
 		}
 
+	@Override
+	public String getId()
+		{
+		return "no/id";
+		}
+
+	@Override
+	public void shutdown()
+		{
+
+		}
+
 	private Map<String, Object> _variables = new HashMap<>();
 	private ContextVariableScope _scope = ContextVariableScope.Execution;
 	}

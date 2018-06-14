@@ -31,6 +31,12 @@ public abstract class GenericConfigurablePlugin implements MusePlugin
 		return true;
 		}
 
+	@Override
+	public void shutdown()
+		{
+
+		}
+
 	protected abstract boolean applyToContextType(MuseExecutionContext context);
 
 	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
@@ -46,10 +52,14 @@ public abstract class GenericConfigurablePlugin implements MusePlugin
 		return BaseValueSource.getValue(source, context, false, Boolean.class);
 		}
 
+	@Override
+	public String getId()
+		{
+		return _configuration.getId();
+		}
+
 	protected GenericResourceConfiguration _configuration;
 
 	public final static String AUTO_APPLY_PARAM = "auto-apply";
 	public final static String APPLY_CONDITION_PARAM = "apply-condition";
 	}
-
-

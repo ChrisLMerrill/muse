@@ -8,7 +8,7 @@ import org.musetest.core.plugins.*;
  */
 public class MockTestPlugin implements MusePlugin
 	{
-	MockTestPlugin(boolean apply_auto, boolean apply_test)
+	public MockTestPlugin(boolean apply_auto, boolean apply_test)
 		{
 		_apply_auto = apply_auto;
 		_apply_test = apply_test;
@@ -28,13 +28,26 @@ public class MockTestPlugin implements MusePlugin
 		}
 
 	@Override
-	public void initialize(MuseExecutionContext context)
+	public void initialize(MuseExecutionContext context) throws MuseExecutionError
+		{
+
+		}
+
+	@Override
+	public String getId()
+		{
+		return _id;
+		}
+
+	@Override
+	public void shutdown()
 		{
 
 		}
 
 	private final boolean _apply_auto;
 	private final boolean _apply_test;
+	public String _id = "no/id";
 	}
 
 

@@ -143,6 +143,10 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	@Override
 	public void cleanup()
 		{
+		List<MusePlugin> to_shutdown = new ArrayList<>(_initialized_plugins);
+		Collections.reverse(to_shutdown);
+		for (MusePlugin plugin : to_shutdown)
+			plugin.shutdown();
 		_shuttables.forEach(Shuttable::shutdown);
 		_listeners.clear();
 		}
@@ -156,20 +160,34 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	@Override
 	public void addPlugin(MusePlugin plugin)
 		{
-		if (_plugins_initialized)
+		if (_initialized_plugins != null)
 			throw new IllegalStateException("Context has been initialized...too late to add plugins.");
 		_plugins.add(plugin);
 		}
 
 	@Override
-	public void initializePlugins() throws MuseExecutionError
+	public int initializePlugins() throws MuseExecutionError
 		{
-		if (_plugins_initialized)
+		if (_initialized_plugins != null)
 			throw new MuseExecutionError("Context has been initialized...can't run it again.");
 
+		_initialized_plugins = new ArrayList<>();
 		for (MusePlugin plugin : _plugins)
-			plugin.initialize(this);
-		_plugins_initialized = true;
+			{
+			try
+				{
+				plugin.initialize(this);
+				raiseEvent(PluginInitializedEventType.create(plugin));
+				_initialized_plugins.add(plugin);
+				}
+			catch (Throwable e)
+				{
+				LOG.error(String.format("Unable to initialize plugin %s (of type %s)", plugin.getId(), plugin.getClass().getSimpleName()), e);
+				raiseEvent(PluginInitializedEventType.create(plugin, e.getMessage()));
+				}
+			}
+
+		return _plugins.size() - _initialized_plugins.size();
 		}
 
 	public List<MusePlugin> getPlugins()
@@ -192,7 +210,7 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	protected List<MuseEventListener> _listeners = new ArrayList<>();
 	private List<Shuttable> _shuttables = new ArrayList<>();
 	private List<MusePlugin> _plugins = new ArrayList<>();
-	private boolean _plugins_initialized = false;
+	private List<MusePlugin> _initialized_plugins = null;
 	private Queue<MuseEvent> _event_queue = new ConcurrentLinkedQueue<>();
 	private AtomicBoolean _events_processing = new AtomicBoolean(false);
 
