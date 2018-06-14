@@ -47,41 +47,42 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 
 	private void collect(MuseExecutionContext context, MuseEvent event)
 		{
+		final WebDriver driver;
 		try
 			{
-			final WebDriver driver = BrowserStepExecutionContext.getDriver(context);
-
-			// capture screenshot
-			if (_collect_screenshot)
-				{
-				if (driver instanceof TakesScreenshot)
-					_data.add(new ScreenshotData(((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES)));
-				}
-
-			// capture HTML
-			if (_collect_html)
-				_data.add(new HtmlData(driver.getPageSource().getBytes()));
-
-			// capture logs
-			if (_collect_logs)
-				{
-				final Logs logs = driver.manage().logs();
-				for (String type : logs.getAvailableLogTypes())
-					{
-					StringBuilder builder = new StringBuilder();
-					for (LogEntry entry : logs.get(type).getAll())
-						{
-						if (builder.length() > 0)
-							builder.append("\n");
-						builder.append(entry.toString());
-						}
-					_data.add(new LogData(type, builder.toString().getBytes()));
-					}
-				}
+			driver = BrowserStepExecutionContext.getDriver(context);
 			}
 		catch (ValueSourceResolutionError e)
 			{
-			LOG.error("Unable to get WebDriver for capture", e);
+			return;  // no driver...no capture
+			}
+
+		// capture screenshot
+		if (_collect_screenshot)
+			{
+			if (driver instanceof TakesScreenshot)
+				_data.add(new ScreenshotData(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+			}
+
+		// capture HTML
+		if (_collect_html)
+			_data.add(new HtmlData(driver.getPageSource().getBytes()));
+
+		// capture logs
+		if (_collect_logs)
+			{
+			final Logs logs = driver.manage().logs();
+			for (String type : logs.getAvailableLogTypes())
+				{
+				StringBuilder builder = new StringBuilder();
+				for (LogEntry entry : logs.get(type).getAll())
+					{
+					if (builder.length() > 0)
+						builder.append("\n");
+					builder.append(entry.toString());
+					}
+				_data.add(new LogData(type, builder.toString().getBytes()));
+				}
 			}
 		}
 
@@ -92,7 +93,7 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 		}
 
 	private MuseExecutionContext _context;
-	private WebdriverCapturePluginConfiguration	_config;
+	private WebdriverCapturePluginConfiguration _config;
 	private boolean _collect_on_fail = false;
 	private boolean _collect_on_error = false;
 	private boolean _collect_on_success = false;
