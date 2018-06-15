@@ -75,10 +75,14 @@ public class EventLogWriter extends GenericConfigurablePlugin implements MuseEve
 	private void writeEvent(MuseEvent event) throws IOException
 		{
 		OutputStream outstream = getOutputStream();
+		if (_events_written > 0)
+			{
+			outstream.write(',');
+			outstream.write('\n');
+			}
 		getMapper().writerWithDefaultPrettyPrinter().writeValue(outstream, event);
-		outstream.write(',');
-		outstream.write('\n');
 		outstream.flush();
+		_events_written++;
 		if (_printer != null)
 			_printer.print(event);
 		}
@@ -111,6 +115,7 @@ public class EventLogWriter extends GenericConfigurablePlugin implements MuseEve
 		flushWaitingEvents();
 		try
 			{
+			_outstream.write(']');
 			_outstream.close();
 			_print_stream.close();
 			}
@@ -159,6 +164,14 @@ public class EventLogWriter extends GenericConfigurablePlugin implements MuseEve
 					}
 				}
 			_outstream = new FileOutputStream(_file);
+			try
+				{
+				_outstream.write('[');
+				}
+			catch (IOException e)
+				{
+				LOG.error("Unable to write to log file " + _file.getPath(), e);
+				}
 			_printer = new EventLogPrinter(_print_stream);
 			}
 		return _outstream;
@@ -191,6 +204,7 @@ public class EventLogWriter extends GenericConfigurablePlugin implements MuseEve
 	private PrintStream  _print_stream = null;
 	private ObjectMapper _mapper = null;
 	private List<MuseEvent> _unwritten_events = new ArrayList<>();
+	private int _events_written = 0;
 
 
 	public final static String TYPE_ID = "event-logger";
