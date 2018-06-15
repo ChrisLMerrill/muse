@@ -55,8 +55,9 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 	synchronized public File getTestFolder(TestExecutionContext context)
 		{
 		final File folder = new File(_output_folder, context.getTestExecutionId());
-		if (!folder.mkdir())
-			_context.raiseEvent(MessageEventType.create(String.format("Unable to create output folder (%s). Results will not be stored.", folder.getAbsolutePath())));
+		if (!folder.exists())
+			if (!folder.mkdir())
+				_context.raiseEvent(MessageEventType.create(String.format("Unable to create output folder (%s). Results will not be stored.", folder.getAbsolutePath())));
 		return folder;
 		}
 
