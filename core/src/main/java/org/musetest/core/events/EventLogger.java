@@ -77,6 +77,7 @@ public class EventLogger extends GenericConfigurablePlugin implements MuseEventL
 		outstream.write(',');
 		outstream.write('\n');
 		outstream.flush();
+		_printer.print(event);
 		}
 
 	private void flushWaitingEvents()
@@ -105,6 +106,15 @@ public class EventLogger extends GenericConfigurablePlugin implements MuseEventL
 	public void shutdown()
 		{
 		flushWaitingEvents();
+		try
+			{
+			_outstream.close();
+			_print_stream.close();
+			}
+		catch (IOException e)
+			{
+			// nothing we can do about this now.
+			}
 		}
 
 	public EventLog getLog()
@@ -135,11 +145,18 @@ public class EventLogger extends GenericConfigurablePlugin implements MuseEventL
 						}
 
 				if (folder == null)
+					{
 					_file = new File(PARTIAL_EVENT_FILE);
+					_print_stream = new PrintStream(new FileOutputStream(new File(READABLE_EVENT_FILE)));
+					}
 				else
+					{
 					_file = new File(folder, PARTIAL_EVENT_FILE);
+					_print_stream = new PrintStream(new FileOutputStream(new File(folder, READABLE_EVENT_FILE)));
+					}
 				}
 			_outstream = new FileOutputStream(_file);
+			_printer = new EventLogPrinter(_print_stream);
 			}
 		return _outstream;
 		}
@@ -167,12 +184,15 @@ public class EventLogger extends GenericConfigurablePlugin implements MuseEventL
 	private EventLog _log = new EventLog();
 	private File _file = null;
 	private OutputStream _outstream = null;
+	private EventLogPrinter _printer = null;
+	private PrintStream  _print_stream = null;
 	private ObjectMapper _mapper = null;
 	private List<MuseEvent> _unwritten_events = new ArrayList<>();
 
 
 	public final static String TYPE_ID = "event-logger";
 	private final static String PARTIAL_EVENT_FILE = "events.json";
+	private final static String READABLE_EVENT_FILE = "events.txt";
 
 	private final static Logger LOG = LoggerFactory.getLogger(EventLogger.class);
 	}

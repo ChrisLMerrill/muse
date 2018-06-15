@@ -59,7 +59,11 @@ public class EventLogPrinter implements MusePlugin, MuseEventListener
             _indent_stack.pop();
         if (!_indent_stack.isEmpty()) // this should never happen, but just in case...avoid an exception
             _out.print(_indent_stack.peek());
-        _out.println(_types.findType(event).getDescription(event));
+        final EventType type = _types.findType(event);
+        String description = type.getDescription(event);
+        if (description == null)
+	        description = type.getName();
+        _out.println(description);
 
         if (event.getTypeId().equals(StartStepEventType.TYPE_ID))
             _indent_stack.push(_indent_stack.peek() + "  ");
