@@ -7,9 +7,8 @@ import java.util.concurrent.*;
  */
 public class DurationFormat
     {
-    public static String formatMinutesSeconds(long duration_nanos)
+    public static String formatMinutesSeconds(long milliseconds)
         {
-        long milliseconds = duration_nanos / 1000000;
         long min = TimeUnit.MILLISECONDS.toMinutes(milliseconds) % 60;
         long sec = TimeUnit.MILLISECONDS.toSeconds(milliseconds) % 60;
         long ms = milliseconds % 1000;
