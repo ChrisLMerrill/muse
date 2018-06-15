@@ -9,7 +9,6 @@ import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.suite.*;
-import org.musetest.core.test.*;
 import org.musetest.core.test.plugins.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.tests.utils.*;
@@ -166,18 +165,18 @@ public class ExecutionContextTests
 		SteppedTest test = new SteppedTest(step);
 
 		// run the test
-		BasicTestConfiguration test_config = new BasicTestConfiguration(test);
-		final EventLogger logger = new EventLogger();
-		TestResult result = TestRunHelper.runTest(project, test_config, logger);
+		final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
+	    TestResult result = TestResult.find(context);
+        Assert.assertNotNull(result);
 		Assert.assertTrue(result.isPass());
 
 		// verify the resource was created and closed
-		Assert.assertTrue("The step did not run", logger.getLog().findEvents(event ->
-		{
-		final String description = EventTypes.DEFAULT.findType(event).getDescription(event);
-		return description != null && description.contains(EXECUTE_MESSAGE);
-		}).size() == 1);
-		MockShuttable shuttable = (MockShuttable) test_config.context().getVariable(MockStepCreatesShuttable.SHUTTABLE_VAR_NAME);
+		Assert.assertTrue("The step did not run", context.getEventLog().findEvents(event ->
+			{
+			final String description = EventTypes.DEFAULT.findType(event).getDescription(event);
+			return description != null && description.contains(EXECUTE_MESSAGE);
+			}).size() == 1);
+		MockShuttable shuttable = (MockShuttable) context.getVariable(MockStepCreatesShuttable.SHUTTABLE_VAR_NAME);
 		Assert.assertNotNull(shuttable);
 		Assert.assertTrue(shuttable.isShutdown());
 		}

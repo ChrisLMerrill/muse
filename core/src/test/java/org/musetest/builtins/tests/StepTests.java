@@ -14,7 +14,6 @@ import org.musetest.core.resource.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
-import org.musetest.core.test.plugins.*;
 import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
 
@@ -130,10 +129,8 @@ public class StepTests
         MuseStep step = config.createStep();
 
         final MockStepExecutionContext context = new MockStepExecutionContext();
-        EventLogger logger = new EventLogger();
-        context.addPlugin(logger);
         step.execute(context);
-        Assert.assertNotNull(logger.getLog().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
+        Assert.assertNotNull(context.getEventLog().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
         }
 
     @Test
@@ -192,10 +189,11 @@ public class StepTests
         SteppedTest test = new SteppedTest(call_macro);
 
         // verify that the macro runs when the test is executed
-        EventLogger logger = new EventLogger();
-        TestResult result = TestRunHelper.runTest(project, test, logger);
+        final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
+        TestResult result = TestResult.find(context);
+        Assert.assertNotNull(result);
         Assert.assertTrue(result.isPass());
-        Assert.assertNotNull("message step didn't run", logger.getLog().findFirstEvent(new EventDescriptionMatcher(message)));
+        Assert.assertNotNull("message step didn't run", context.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)));
         }
 
     /**
@@ -238,7 +236,9 @@ public class StepTests
         SteppedTest test = new SteppedTest(test_step);
 
         // verify that the return value is correct in the context (the function should have incremented by one
-        TestResult result = TestRunHelper.runTest(project, test);
+        final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
+        TestResult result = TestResult.find(context);
+        Assert.assertNotNull(result);
         Assert.assertTrue(result.isPass());
         }
 
@@ -271,11 +271,12 @@ public class StepTests
         test_step.addChild(call_function);
         SteppedTest test = new SteppedTest(test_step);
 
-        final EventLogger logger = new EventLogger();
-        TestResult result = TestRunHelper.runTest(project, test, logger);
+        final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
+        TestResult result = TestResult.find(context);
+        Assert.assertNotNull(result);
         Assert.assertTrue(result.isPass());
         // verify that the message step (which comes after the return) did not run
-        Assert.assertTrue(logger.getLog().findEvents(new EventTypeMatcher(MessageEventType.TYPE_ID)).size() == 0);
+        Assert.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(MessageEventType.TYPE_ID)).size() == 0);
         }
 
     @Test
@@ -287,7 +288,9 @@ public class StepTests
 
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         SteppedTest test = new SteppedTest(step);
-        TestResult result = TestRunHelper.runTest(project, test);
+        final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
+        TestResult result = TestResult.find(context);
+        Assert.assertNotNull(result);
         Assert.assertTrue(result.isPass());
         }
 
@@ -307,8 +310,9 @@ public class StepTests
 
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         SteppedTest test = new SteppedTest(main);
-        TestResult result = TestRunHelper.runTest(project, test, new TestResultCollectorConfiguration().createPlugin());
-
+        final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
+        TestResult result = TestResult.find(context);
+        Assert.assertNotNull(result);
         Assert.assertFalse(result.isPass());
         }
 

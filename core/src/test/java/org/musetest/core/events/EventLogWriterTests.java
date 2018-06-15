@@ -16,18 +16,18 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EventLoggerTests
+public class EventLogWriterTests
 	{
 	@Test
 	public void writeEventsAsTheyAreReceived() throws MuseExecutionError, IOException
 		{
 		MuseExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
-		EventLogger logger = new EventLogger();
-		context.addPlugin(logger);
+		EventLogWriter writer = new EventLogWriter();
+		context.addPlugin(writer);
 		context.initializePlugins();
 
 		File log = File.createTempFile("muse", "log.txt");
-		logger.setLogFile(log);
+		writer.setLogFile(log);
 
 		// nothing will be written until the start event is received
 		context.raiseEvent(StartTestEventType.create("test1", "Test #1"));
@@ -44,56 +44,56 @@ public class EventLoggerTests
 		}
 
 	@Test
-	public void writeToDefaultLocation() throws MuseExecutionError, IOException
+	public void writeToDefaultLocation() throws MuseExecutionError
 		{
 		MuseExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
-		EventLogger logger = new EventLogger();
-		context.addPlugin(logger);
+		EventLogWriter writer = new EventLogWriter();
+		context.addPlugin(writer);
 		context.initializePlugins();
 
 		// nothing will be written until the start event is received
 		context.raiseEvent(StartTestEventType.create("test1", "Test #1"));
 
-		File log = logger.getLogfile();
+		File log = writer.getLogfile();
 		Assert.assertTrue(log.exists());
 		Assert.assertTrue(log.length() > 0);
-		Assert.assertEquals(log.getPath(), new File("EventLog.json").getPath());
+		Assert.assertEquals(log.getPath(), new File("events.json").getPath());
 		}
 
 	@Test
 	public void writeToConfiguredLocalStorageLocation() throws MuseExecutionError
 		{
 		MuseExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
-		EventLogger logger = new EventLogger();
-		context.addPlugin(logger);
+		EventLogWriter writer = new EventLogWriter();
+		context.addPlugin(writer);
 		context.addPlugin(new StoragePlugin());
 		context.initializePlugins();
 
 		// nothing will be written until the start event is received
 		context.raiseEvent(StartTestEventType.create("test1", "Test #1"));
 
-		File log = logger.getLogfile();
+		File log = writer.getLogfile();
 		Assert.assertTrue(log.exists());
 		Assert.assertTrue(log.length() > 0);
-		Assert.assertEquals(log.getPath(), new File(new File(System.getProperty("java.io.tmpdir")), "EventLog.json").getPath());
+		Assert.assertEquals(log.getPath(), new File(new File(System.getProperty("java.io.tmpdir")), "events.json").getPath());
 		}
 
 	@Test
 	public void cacheEventsUntilTestStart() throws MuseExecutionError
 		{
 		MuseExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
-		EventLogger logger = new EventLogger();
-		context.addPlugin(logger);
+		EventLogWriter writer = new EventLogWriter();
+		context.addPlugin(writer);
 		context.addPlugin(new StoragePlugin());
 		context.initializePlugins();
 
 		context.raiseEvent(MessageEventType.create("message1"));
-		File log = logger.getLogfile();
+		File log = writer.getLogfile();
 		Assert.assertNull(log);
 
 		// cached events are written when the start event is received
 		context.raiseEvent(StartTestEventType.create("test1", "Test #1"));
-		log = logger.getLogfile();
+		log = writer.getLogfile();
 		Assert.assertTrue(log.exists());
 		}
 

@@ -41,12 +41,12 @@ public class MockStepExecutionContext implements StepExecutionContext
 	public MockStepExecutionContext(MuseProject project, SteppedTest test)
 		{
 		_test_context = new DefaultSteppedTestExecutionContext(project, test);
-		_test_context.addPlugin(new EventLogger());
+//		_test_context.addPlugin(new EventLogWriter());
 		}
 
     public MockStepExecutionContext(SteppedTestExecutionContext test_context)
         {
-		test_context.addPlugin(new EventLogger());
+//		test_context.addPlugin(new EventLogger());
         _test_context = test_context;
         }
 
@@ -146,6 +146,12 @@ public class MockStepExecutionContext implements StepExecutionContext
         {
         _test_context.removeEventListener(listener);
         }
+
+    @Override
+    public EventLog getEventLog()
+	    {
+	    return _test_context.getEventLog();
+	    }
 
     @Override
     public void cleanup() {}

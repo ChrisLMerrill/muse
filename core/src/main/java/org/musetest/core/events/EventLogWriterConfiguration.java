@@ -14,38 +14,38 @@ import org.musetest.core.values.descriptor.*;
 @MuseSubsourceDescriptor(displayName = "Apply automatically?", description = "If this source resolves to true, this plugin configuration will be automatically applied to tests", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.AUTO_APPLY_PARAM)
 @MuseSubsourceDescriptor(displayName = "Apply only if", description = "Apply only if this source this source resolves to true", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.APPLY_CONDITION_PARAM)
 @SuppressWarnings("unused") // Instantiated by reflection
-public class EventLoggerConfiguration extends GenericResourceConfiguration implements PluginConfiguration
+public class EventLogWriterConfiguration extends GenericResourceConfiguration implements PluginConfiguration
 	{
 	@Override
 	public MusePlugin createPlugin()
 		{
-		return new EventLogger(this);
+		return new EventLogWriter(this);
 		}
 
 	@Override
 	public ResourceType getType()
 		{
-		return new EventLoggerType();
+		return new EventLogWriterType();
 		}
 
-	public final static String TYPE_ID = EventLoggerConfiguration.class.getAnnotation(MuseTypeId.class).value();
+	public final static String TYPE_ID = EventLogWriterConfiguration.class.getAnnotation(MuseTypeId.class).value();
 
 	@SuppressWarnings("unused") // used by reflection
-	public static class EventLoggerType extends ResourceSubtype
+	public static class EventLogWriterType extends ResourceSubtype
 		{
 		@Override
-		public EventLoggerConfiguration create()
+		public EventLogWriterConfiguration create()
 			{
-			final EventLoggerConfiguration config = new EventLoggerConfiguration();
+			final EventLogWriterConfiguration config = new EventLogWriterConfiguration();
 			config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
 			config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
 			return config;
 			}
 
 		@SuppressWarnings("WeakerAccess")  // instantiated by reflection
-		public EventLoggerType()
+		public EventLogWriterType()
 			{
-			super(TYPE_ID, "Event Logger", EventLoggerConfiguration.class, new PluginConfigurationResourceType());
+			super(TYPE_ID, "Event Log Writer", EventLogWriterConfiguration.class, new PluginConfigurationResourceType());
 			}
 		}
 	}

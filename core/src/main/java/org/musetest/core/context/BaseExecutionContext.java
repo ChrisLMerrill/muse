@@ -22,6 +22,7 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 		_scope = scope;
 		_project = project;
 		_var_creator = new AutomaticVariableCreator(name -> getVariable(name) != null);
+		_listeners.add(_logger);
 		}
 
 	protected BaseExecutionContext(MuseExecutionContext parent, ContextVariableScope scope)
@@ -30,6 +31,7 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 		_scope = scope;
 		_project = parent.getProject();
 		_var_creator = new AutomaticVariableCreator(name -> getVariable(name) != null);
+		_listeners.add(_logger);
 		}
 
     /**
@@ -77,6 +79,12 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	public void removeEventListener(MuseEventListener listener)
 		{
 		_listeners.remove(listener);
+		}
+
+	@Override
+	public EventLog getEventLog()
+		{
+		return _logger.getLog();
 		}
 
 	@Override
@@ -213,6 +221,7 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	private List<MusePlugin> _initialized_plugins = null;
 	private Queue<MuseEvent> _event_queue = new ConcurrentLinkedQueue<>();
 	private AtomicBoolean _events_processing = new AtomicBoolean(false);
+	private EventLogger _logger = new EventLogger();
 
 	private final static Logger LOG = LoggerFactory.getLogger(TestExecutionContext.class);
 

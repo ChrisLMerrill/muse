@@ -1,6 +1,7 @@
 package org.musetest.core;
 
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.test.*;
 import org.musetest.core.variables.*;
@@ -20,6 +21,8 @@ public interface MuseExecutionContext
     void addEventListener(MuseEventListener listener);
 
     void removeEventListener(MuseEventListener listener);
+
+    EventLog getEventLog();
 
     /**
      * Register a resource that should be closed/shutdown when the highest-level context (that

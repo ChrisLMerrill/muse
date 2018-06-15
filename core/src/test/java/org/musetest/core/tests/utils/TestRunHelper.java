@@ -23,6 +23,15 @@ public class TestRunHelper
      *
      * @return the test result
      */
+    public static TestExecutionContext runTestReturnContext(MuseProject project, MuseTest test)
+        {
+        BasicTestConfiguration config = new BasicTestConfiguration(test);
+        TestRunner runner = new SimpleTestRunner(new ProjectExecutionContext(project), config);
+        config.addPlugin(new TestResultCollectorConfiguration().createPlugin());
+        runner.runTest();
+        return runner.getExecutionContext();
+        }
+
     public static TestResult runTest(MuseProject project, MuseTest test)
         {
         BasicTestConfiguration config = new BasicTestConfiguration(test);

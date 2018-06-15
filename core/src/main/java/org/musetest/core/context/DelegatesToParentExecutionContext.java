@@ -41,6 +41,12 @@ public abstract class DelegatesToParentExecutionContext implements MuseExecution
 		}
 
 	@Override
+	public EventLog getEventLog()
+		{
+		return _parent.getEventLog();
+		}
+
+	@Override
 	public void registerShuttable(Shuttable shuttable)
 		{
 		_parent.registerShuttable(shuttable);

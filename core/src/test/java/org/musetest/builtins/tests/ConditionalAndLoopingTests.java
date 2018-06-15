@@ -50,8 +50,9 @@ public class ConditionalAndLoopingTests
 
 		TestResult result = runTest(new SteppedTest(main));
 		Assert.assertTrue(result.isPass());
-		Assert.assertNotNull("The conditional that should have run, did not", _logger.getLog().findFirstEvent(new EventDescriptionMatcher(should_run_message)));
-		Assert.assertNull("The conditional that should not have run, did run", _logger.getLog().findFirstEvent(new EventDescriptionMatcher(should_not_run_message)));
+		EventLog log = _test_config.context().getEventLog();
+		Assert.assertNotNull("The conditional that should have run, did not", log.findFirstEvent(new EventDescriptionMatcher(should_run_message)));
+		Assert.assertNull("The conditional that should not have run, did run", log.findFirstEvent(new EventDescriptionMatcher(should_not_run_message)));
 		Assert.assertEquals(null, _test_config.context().getVariable("ran2"));
 		}
 
@@ -60,10 +61,11 @@ public class ConditionalAndLoopingTests
 		{
 		TestResult result = runTest(createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 0L));
 		Assert.assertTrue(result.isPass());
-		Assert.assertNotNull("first message is missing", _logger.getLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)));
-		Assert.assertNotNull("second message is missing", _logger.getLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)));
-		Assert.assertNotNull("third message is missing", _logger.getLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)));
-		Assert.assertNull("this message shouldn't be there", _logger.getLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 4)));
+		EventLog log = _test_config.context().getEventLog();
+		Assert.assertNotNull("first message is missing", log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)));
+		Assert.assertNotNull("second message is missing", log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)));
+		Assert.assertNotNull("third message is missing", log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)));
+		Assert.assertNull("this message shouldn't be there", log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 4)));
 		}
 
 	private SteppedTest createLoopTest(String counter_var_name, String message_prefix, Object initial_value)
@@ -101,8 +103,8 @@ public class ConditionalAndLoopingTests
 		{
 		TestResult result = runTest(createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 2L));
 		Assert.assertTrue(result.isPass());
-		Assert.assertNull("this should not be found", _logger.getLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)));
-		Assert.assertNotNull("first message is missing", _logger.getLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)));
+		Assert.assertNull("this should not be found", _test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)));
+		Assert.assertNotNull("first message is missing", _test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)));
 		}
 
 	@Test
@@ -110,27 +112,22 @@ public class ConditionalAndLoopingTests
 		{
 		SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 3L);
 		SteppedTestExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
-		EventLogger logger = new EventLogger();
-		context.addPlugin(new EventLogger());
 		context.addPlugin(new TestResultCollectorConfiguration().createPlugin());
 		boolean finished = test.execute(context);
 		Assert.assertTrue(finished);
 		TestResult result = TestResult.find(context);
 		Assert.assertNotNull(result);
 		Assert.assertTrue(result.isPass());
-		Assert.assertNull("this should not be found", logger.getLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)));
+		Assert.assertNull("this should not be found", context.getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)));
 		}
 
 	private TestResult runTest(MuseTest test)
 		{
 		_test_config = new BasicTestConfiguration(test);
-		_logger = new EventLogger();
-		_test_config.addPlugin(_logger);
 		_test_config.addPlugin(new TestResultCollectorConfiguration().createPlugin());
 		return TestRunHelper.runTest(new SimpleProject(), _test_config, null);
 		}
 
-	private EventLogger _logger;
 	private TestConfiguration _test_config;
 
 	private final static String COUNTER_NAME = "counter";
