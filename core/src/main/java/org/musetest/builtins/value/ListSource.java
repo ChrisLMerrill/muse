@@ -54,12 +54,6 @@ public class ListSource extends BaseValueSource
         return values;
         }
 
-    @Override
-    public String getDescription()
-        {
-        return null;
-        }
-
     public MuseValueSource[] getSources()
         {
         return _sources;
