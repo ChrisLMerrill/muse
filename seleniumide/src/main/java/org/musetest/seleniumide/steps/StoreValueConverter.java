@@ -12,7 +12,7 @@ import org.musetest.seleniumide.values.*;
 public class StoreValueConverter implements StepConverter
     {
     @Override
-    public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
+    public StepConfiguration convertStep(String base_url, String command, String param1, String param2) throws UnsupportedError
         {
         if (!STORE.equals(command))
             return null;

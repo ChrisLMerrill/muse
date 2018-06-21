@@ -11,7 +11,7 @@ import org.musetest.seleniumide.*;
 public class NavigateConverter implements StepConverter
     {
     @Override
-    public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
+    public StepConfiguration convertStep(String base_url, String command, String param1, String param2) throws UnsupportedError
         {
         if (command.equals(BACK) || command.equals(BACK_AND_WAIT))
             return new StepConfiguration(NavigateBack.TYPE_ID);

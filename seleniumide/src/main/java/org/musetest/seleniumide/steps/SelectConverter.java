@@ -13,7 +13,7 @@ import org.musetest.seleniumide.locators.*;
 public class SelectConverter implements StepConverter
     {
     @Override
-    public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
+    public StepConfiguration convertStep(String base_url, String command, String param1, String param2) throws UnsupportedError
         {
         if (command.equals(SELECT))
             {

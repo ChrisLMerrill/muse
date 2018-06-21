@@ -14,7 +14,7 @@ import org.musetest.seleniumide.values.*;
 public class SendKeysConverter implements StepConverter
     {
     @Override
-    public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
+    public StepConfiguration convertStep(String base_url, String command, String param1, String param2) throws UnsupportedError
         {
         if (!TYPE.equals(command) && !SENDKEYS.equals(command))
             return null;

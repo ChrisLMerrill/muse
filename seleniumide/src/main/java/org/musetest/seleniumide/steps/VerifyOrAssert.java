@@ -13,7 +13,7 @@ import org.musetest.seleniumide.conditions.*;
 public class VerifyOrAssert implements StepConverter
     {
     @Override
-    public StepConfiguration convertStep(TestConverter test_converter, String command, String param1, String param2) throws UnsupportedError
+    public StepConfiguration convertStep(String test_converter, String command, String param1, String param2) throws UnsupportedError
         {
         if (command.startsWith(VERIFY) || command.startsWith(ASSERT))
             {

@@ -4,7 +4,6 @@ import org.musetest.builtins.step.*;
 import org.musetest.core.step.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.conditions.*;
-import org.musetest.selenium.steps.*;
 import org.musetest.seleniumide.*;
 import org.musetest.seleniumide.locators.*;
 
@@ -15,7 +14,7 @@ import org.musetest.seleniumide.locators.*;
 public class VerifyElementPresent implements StepConverter
     {
     @Override
-    public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
+    public StepConfiguration convertStep(String base_url, String command, String param1, String param2) throws UnsupportedError
         {
         if (command.equals(VERIFY) || command.equals(ASSERT))
             {

@@ -68,7 +68,7 @@ public class TestConverter
         String failure_message = null;
         try
             {
-            StepConfiguration step = _converters.convertStep(this, command, param1, param2);
+            StepConfiguration step = _converters.convertStep(getBaseUrl(), command, param1, param2);
             if (step != null)
                 {
                 _test.getStep().addChild(step);

@@ -12,9 +12,9 @@ import org.musetest.seleniumide.locators.*;
 public class ClickConverter implements StepConverter
     {
     @Override
-    public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
+    public StepConfiguration convertStep(String base_url, String command, String param1, String param2) throws UnsupportedError
         {
-        if (command.equals(CLICK) || command.equals(CLICK_AND_WAIT))
+        if (command.equals(CLICK) || command.equals(CLICK_AND_WAIT) || command.equals(CLICK_AT))
             {
             StepConfiguration step = new StepConfiguration(ClickElement.TYPE_ID);
             step.addSource(ClickElement.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
@@ -25,6 +25,7 @@ public class ClickConverter implements StepConverter
 
     private static final String CLICK = "click";
     private static final String CLICK_AND_WAIT = "clickAndWait";
+    private static final String CLICK_AT = "clickAt";
     }
 
 

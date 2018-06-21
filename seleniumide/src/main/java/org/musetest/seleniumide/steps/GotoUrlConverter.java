@@ -12,7 +12,7 @@ import org.musetest.seleniumide.*;
 public class GotoUrlConverter implements StepConverter
     {
     @Override
-    public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2)
+    public StepConfiguration convertStep(String base_url, String command, String param1, String param2)
         {
         if (command.equals(OPEN))
             {
@@ -20,7 +20,7 @@ public class GotoUrlConverter implements StepConverter
             if (path.startsWith("/"))
                 path = path.substring(1);
             StepConfiguration step = new StepConfiguration(GotoUrl.TYPE_ID);
-            step.addSource(GotoUrl.URL_PARAM, ValueSourceConfiguration.forValue(converter.getBaseUrl() + path));
+            step.addSource(GotoUrl.URL_PARAM, ValueSourceConfiguration.forValue(base_url + path));
             return step;
             }
         return null;

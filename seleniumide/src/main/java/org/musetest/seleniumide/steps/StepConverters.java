@@ -20,11 +20,11 @@ public class StepConverters implements StepConverter
         }
 
     @Override
-    public StepConfiguration convertStep(TestConverter test_converter, String command, String param1, String param2) throws UnsupportedError
+    public StepConfiguration convertStep(String base_url, String command, String param1, String param2) throws UnsupportedError
         {
         for (StepConverter converter : _converters)
             {
-            StepConfiguration step = converter.convertStep(test_converter, command, param1, param2);
+            StepConfiguration step = converter.convertStep(base_url, command, param1, param2);
             if (step != null)
                 return step;
             }

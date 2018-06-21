@@ -12,7 +12,7 @@ import org.musetest.seleniumide.*;
 public class PauseConverter implements StepConverter
     {
     @Override
-    public StepConfiguration convertStep(TestConverter converter, String command, String param1, String param2) throws UnsupportedError
+    public StepConfiguration convertStep(String base_url, String command, String param1, String param2) throws UnsupportedError
         {
         if (command.equals(PAUSE))
             {
