@@ -10,7 +10,7 @@ import org.musetest.seleniumide.steps.*;
  */
 public class SideTestConverter
 	{
-	public ConversionResult convert(SideTest side_test, SideProject project) throws UnsupportedError
+	public ConversionResult convert(SideTest side_test, SideProject project)
 		{
 		final SteppedTest muse_test = new SteppedTest();
 		StepConfiguration main_step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
@@ -25,7 +25,6 @@ public class SideTestConverter
 			try
 				{
 				StepConfiguration step = converters.convertStep(project.getUrl(), command.getCommand(), command.getTarget(), command.getValue());
-				result._total_steps++;
 				if (step != null)
 					{
 					main_step.addChild(step);
