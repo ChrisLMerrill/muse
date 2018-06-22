@@ -17,7 +17,7 @@ import java.util.*;
 public class SaveTestResultsToDiskTests
 	{
 	@Test
-	public void storeFile() throws IOException
+	public void storeFiles() throws IOException
 		{
 		final File folder = FileUtils.createTempFolder("musetest", null);
 		MockStorageLocationProvider location_plugin = new MockStorageLocationProvider(folder, folder);
@@ -28,6 +28,7 @@ public class SaveTestResultsToDiskTests
 		context.addPlugin(save_plugin);
 
 		context.addPlugin(new MockTestResultProducer(Collections.singletonList(new MockTestResultData("saved.txt", "result-data".getBytes()))));
+		context.addPlugin(new MockTestResultProducer(Collections.singletonList(new MockTestResultData("saved.txt", "result-data2".getBytes()))));
 
 		save_plugin.initialize(context);
 		save_plugin.shutdown();
@@ -35,6 +36,10 @@ public class SaveTestResultsToDiskTests
 		final File saved = new File(folder, "saved.txt");
 		Assert.assertTrue(saved.exists());
 		Assert.assertEquals("result-data", FileUtils.readFileAsString(saved));
+
+		final File saved2 = new File(folder, "saved2.txt");
+		Assert.assertTrue(saved2.exists());
+		Assert.assertEquals("result-data2", FileUtils.readFileAsString(saved2));
 	    }
 	}
 
