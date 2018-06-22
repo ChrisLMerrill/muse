@@ -74,6 +74,7 @@ public interface MuseExecutionContext
     /**
      * Creates a variable using a generated name (that does not already exist) starting with the prefix provided. The
      * value parameter is stored and the generated name is returned.
+     * @return Returns the name the object was store under.
      */
     String createVariable(String prefix, Object value);
 

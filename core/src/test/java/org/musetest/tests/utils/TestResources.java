@@ -1,6 +1,6 @@
-package org.musetest.testutils;
+package org.musetest.tests.utils;
 
-import com.google.common.io.*;
+import org.musetest.core.util.*;
 
 import java.io.*;
 import java.net.*;
@@ -28,21 +28,10 @@ public class TestResources
 
 	public static String getFileAsString(String path, Class source_class)
 		{
-		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 		final File file = getFile(path, source_class);
 		if (file == null)
 			return String.format("File does not exist. Looked for %s relative to class %s", path, source_class.getSimpleName());
-		try (InputStream instream = new FileInputStream(file))
-			{
-			ByteStreams.copy(instream, bytes);
-			String content = bytes.toString();
-			bytes.close();
-			return content;
-			}
-		catch (IOException e)
-			{
-			return String.format("Unable to read file %s. Exception says %s", file.getName(), e.getMessage());
-			}
+		return FileUtils.readFileAsString(file);
 		}
     }
 

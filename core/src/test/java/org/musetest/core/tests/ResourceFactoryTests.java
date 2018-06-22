@@ -9,7 +9,7 @@ import org.musetest.core.resource.origin.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.tests.mocks.*;
 import org.musetest.core.util.*;
-import org.musetest.testutils.*;
+import org.musetest.tests.utils.*;
 
 import java.io.*;
 import java.util.*;

@@ -16,7 +16,7 @@ import org.musetest.core.tests.utils.*;
 import org.musetest.core.values.*;
 import org.musetest.javascript.*;
 import org.musetest.javascript.factory.*;
-import org.musetest.testutils.*;
+import org.musetest.tests.utils.*;
 
 import javax.script.*;
 import java.io.*;

@@ -6,7 +6,7 @@ import org.musetest.core.resource.storage.*;
 import org.musetest.core.test.*;
 import org.musetest.core.test.plugins.*;
 import org.musetest.core.tests.utils.*;
-import org.musetest.testutils.*;
+import org.musetest.tests.utils.*;
 
 import java.io.*;
 

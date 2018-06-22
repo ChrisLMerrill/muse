@@ -14,7 +14,7 @@ import org.musetest.core.test.*;
 import org.musetest.core.test.plugins.*;
 import org.musetest.core.util.*;
 import org.musetest.core.variables.*;
-import org.musetest.testutils.*;
+import org.musetest.tests.utils.*;
 
 import java.io.*;
 import java.util.*;

@@ -1,5 +1,6 @@
 package org.musetest.core.resultstorage;
 
+import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
@@ -50,7 +51,7 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 			{
 			for (TestResultData data : collector.getData())
 				{
-				final File data_file = new File(output_folder, data.suggestFilename());
+				final File data_file = getResultFile(output_folder, data);
 				try (FileOutputStream outstream = new FileOutputStream(data_file))
 					{
 					data.write(outstream);
@@ -61,6 +62,22 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 					}
 				}
 			}
+		}
+
+	@NotNull
+	private File getResultFile(File output_folder, TestResultData data)
+		{
+		File file = new File(output_folder, data.suggestFilename());
+		int index = 2;
+		while (file.exists())
+			file = new File(output_folder, createIndexedFilename(data.suggestFilename(), index));
+		return file;
+		}
+
+	private String createIndexedFilename(String starting_name, int index)
+		{
+		int period = starting_name.lastIndexOf('.');
+		return starting_name.substring(0, period) + index + starting_name.substring(period, starting_name.length());
 		}
 
 	private MuseExecutionContext _context;

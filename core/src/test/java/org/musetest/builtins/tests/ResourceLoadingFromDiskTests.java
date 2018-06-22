@@ -7,7 +7,7 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.step.*;
-import org.musetest.testutils.*;
+import org.musetest.tests.utils.*;
 
 import java.io.*;
 import java.util.*;
