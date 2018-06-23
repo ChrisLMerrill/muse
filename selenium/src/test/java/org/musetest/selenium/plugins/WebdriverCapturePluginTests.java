@@ -28,14 +28,13 @@ public class WebdriverCapturePluginTests
 	    final MuseEvent event = MessageEventType.create("message");
 	    event.addTag(MuseEvent.FAILURE);
 	    _context.raiseEvent(event);
-		checkForAll3Outputs();
+		checkForBothOutputs();
 	    }
 
-	private void checkForAll3Outputs() throws IOException
+	private void checkForBothOutputs() throws IOException
 		{
 		boolean screenshot_found = false;
 		boolean html_found = false;
-		boolean log_found = false;
 		for (TestResultData data : _plugin.getData())
 			{
 			if (data instanceof ScreenshotData)
@@ -48,16 +47,10 @@ public class WebdriverCapturePluginTests
 				html_found = true;
 				Assert.assertTrue(Arrays.equals(HTML_BYTES, getBytes(data)));
 				}
-			else if (data instanceof LogData)
-				{
-				log_found = true;
-				Assert.assertTrue(new String(getBytes(data)).contains(new String(LOG_BYTES)));
-				}
 			}
 
 		Assert.assertTrue("screenshot not captured", screenshot_found);
 		Assert.assertTrue("HTML not captured", html_found);
-		Assert.assertTrue("log not captured", log_found);
 		}
 
 	private byte[] getBytes(TestResultData data) throws IOException
@@ -74,7 +67,7 @@ public class WebdriverCapturePluginTests
 	    final MuseEvent event = MessageEventType.create("message");
 	    event.addTag(MuseEvent.ERROR);
 	    _context.raiseEvent(event);
-		checkForAll3Outputs();
+		checkForBothOutputs();
 	    }
 
 	@Test
@@ -120,8 +113,7 @@ public class WebdriverCapturePluginTests
 	public void captureOnlyLogs()
 	    {
 	    setupPlugin(true, true, false, false, true);
-	    MuseEvent event = MessageEventType.create("message");
-	    event.addTag(MuseEvent.ERROR);
+	    MuseEvent event = EndTestEventType.create();
 	    _context.raiseEvent(event);
 
 	    Assert.assertEquals(1, _plugin.getData().size());
