@@ -33,6 +33,17 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 			return;
 			}
 		context.registerShuttable(this);
+		context.addEventListener(event ->
+			{
+			if (TestResultStoredEventType.TYPE_ID.equals(event.getTypeId()))
+				{
+				Object data = _context.getVariable(event.getAttributeAsString(TestResultStoredEventType.VARIABLE_NAME));
+				if (data instanceof TestResultData)
+					storeResult((TestResultData)data);
+				else
+					LOG.error(String.format("Unable to save test result. Variable %s is not a TestResultData", event.getAttributeAsString(TestResultStoredEventType.VARIABLE_NAME)));
+				}
+			});
 		_context = context;
 		}
 
@@ -42,26 +53,36 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 	@Override
 	public void shutdown()
 		{
-		File output_folder;
-		if (_context instanceof TestExecutionContext)
-			output_folder = _location_provider.getTestFolder((TestExecutionContext) _context);
-		else
-			output_folder = _location_provider.getBaseFolder();
 		for (DataCollector collector : DataCollectors.list(_context))
 			{
 			for (TestResultData data : collector.getData())
-				{
-				final File data_file = getResultFile(output_folder, data);
-				try (FileOutputStream outstream = new FileOutputStream(data_file))
-					{
-					data.write(outstream);
-					}
-				catch (IOException e)
-					{
-					LOG.error(String.format("Unable to store results of test in %s due to: %s", data_file.getAbsolutePath(), e.getMessage()));
-					}
-				}
+				storeResult(data);
 			}
+		}
+
+	private void storeResult(TestResultData data)
+		{
+		final File data_file = getResultFile(getOutputFolder(), data);
+		try (FileOutputStream outstream = new FileOutputStream(data_file))
+			{
+			data.write(outstream);
+			}
+		catch (IOException e)
+			{
+			LOG.error(String.format("Unable to store results of test in %s due to: %s", data_file.getAbsolutePath(), e.getMessage()));
+			}
+		}
+
+	private File getOutputFolder()
+		{
+		if (_output_folder == null)
+			{
+			if (_context instanceof TestExecutionContext)
+				_output_folder = _location_provider.getTestFolder((TestExecutionContext) _context);
+			else
+				_output_folder = _location_provider.getBaseFolder();
+			}
+		return _output_folder;
 		}
 
 	@NotNull
@@ -82,6 +103,7 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 
 	private MuseExecutionContext _context;
 	private LocalStorageLocationProvider _location_provider;
+	private File _output_folder = null;
 
 	public final static String TYPE_ID = "save-testresult-to-disk";
 
