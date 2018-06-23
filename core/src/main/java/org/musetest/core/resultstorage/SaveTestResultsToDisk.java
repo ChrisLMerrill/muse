@@ -91,7 +91,7 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 		File file = new File(output_folder, data.suggestFilename());
 		int index = 2;
 		while (file.exists())
-			file = new File(output_folder, createIndexedFilename(data.suggestFilename(), index));
+			file = new File(output_folder, createIndexedFilename(data.suggestFilename(), index++));
 		return file;
 		}
 

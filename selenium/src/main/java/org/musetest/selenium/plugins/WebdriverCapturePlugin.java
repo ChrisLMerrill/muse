@@ -5,6 +5,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
+import org.musetest.core.resultstorage.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.musetest.selenium.steps.*;
@@ -72,12 +73,20 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 		if (_collect_screenshot)
 			{
 			if (driver instanceof TakesScreenshot)
-				_data.add(new ScreenshotData(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+				{
+				final TestResultData data = new ScreenshotData(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
+				final String varname = _context.createVariable("screenshot", data);
+				_context.raiseEvent(TestResultStoredEventType.create(varname, "screenshot"));
+				}
 			}
 
 		// capture HTML
 		if (_collect_html)
-			_data.add(new HtmlData(driver.getPageSource().getBytes()));
+			{
+			final HtmlData data = new HtmlData(driver.getPageSource().getBytes());
+			final String varname = _context.createVariable("screenshot", data);
+			_context.raiseEvent(TestResultStoredEventType.create(varname, "page HTML"));
+			}
 		}
 
 	private WebDriver getDriver()

@@ -45,9 +45,29 @@ public class SaveTestResultsToDiskTests
 	    _context.setVariable("result1", result, ContextVariableScope.Execution);
 	    _context.raiseEvent(TestResultStoredEventType.create("result1", "the_result"));
 
+	    // test a second event with same filename
+	    TestResultData result2 = new MockTestResultData("saved.txt", "result-data2".getBytes());
+	    _context.setVariable("result1", result2, ContextVariableScope.Execution);
+	    _context.raiseEvent(TestResultStoredEventType.create("result1", "the_result"));
+
+	    // test a third event with same filename
+	    TestResultData result3 = new MockTestResultData("saved.txt", "result-data3".getBytes());
+	    _context.setVariable("result1", result3, ContextVariableScope.Execution);
+	    _context.raiseEvent(TestResultStoredEventType.create("result1", "the_result"));
+
 	    final File saved = new File(_folder, "saved.txt");
         Assert.assertTrue(saved.exists());
         Assert.assertEquals("result-data", FileUtils.readFileAsString(saved));
+
+        // verify the second result is store (not overwriting 1st file)
+	    final File saved2 = new File(_folder, "saved2.txt");
+        Assert.assertTrue(saved2.exists());
+        Assert.assertEquals("result-data2", FileUtils.readFileAsString(saved2));
+
+        // verify the second result is store (not overwriting 1st file)
+	    final File saved3 = new File(_folder, "saved3.txt");
+        Assert.assertTrue(saved3.exists());
+        Assert.assertEquals("result-data3", FileUtils.readFileAsString(saved3));
 	    }
 
 	@Before

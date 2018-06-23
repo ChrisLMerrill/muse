@@ -7,6 +7,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.project.*;
+import org.musetest.core.resultstorage.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
@@ -28,29 +29,38 @@ public class WebdriverCapturePluginTests
 	    final MuseEvent event = MessageEventType.create("message");
 	    event.addTag(MuseEvent.FAILURE);
 	    _context.raiseEvent(event);
-		checkForBothOutputs();
+		checkForHtmlCaptureEvent(1);
+		checkForScreenshotCaptureEvent();
 	    }
 
-	private void checkForBothOutputs() throws IOException
+	private void checkForScreenshotCaptureEvent() throws IOException
 		{
 		boolean screenshot_found = false;
-		boolean html_found = false;
-		for (TestResultData data : _plugin.getData())
-			{
-			if (data instanceof ScreenshotData)
+		for (MuseEvent event : _storage_events)
+			if (event.getAttributeAsString(TestResultStoredEventType.RESULT_DESCRIPTION).toLowerCase().contains("screenshot"))
 				{
-				screenshot_found = true;
+				TestResultData data = (TestResultData) _context.getVariable(event.getAttributeAsString(TestResultStoredEventType.VARIABLE_NAME));
+				Assert.assertNotNull(data);
 				Assert.assertTrue(Arrays.equals(SCREENSHOT_BYTES, getBytes(data)));
+				screenshot_found = true;
 				}
-			else if (data instanceof HtmlData)
-				{
-				html_found = true;
-				Assert.assertTrue(Arrays.equals(HTML_BYTES, getBytes(data)));
-				}
-			}
 
 		Assert.assertTrue("screenshot not captured", screenshot_found);
-		Assert.assertTrue("HTML not captured", html_found);
+		}
+
+	private void checkForHtmlCaptureEvent(int count) throws IOException
+		{
+		int html_found = 0;
+		for (MuseEvent event : _storage_events)
+			if (event.getAttribute(TestResultStoredEventType.RESULT_DESCRIPTION).toString().toLowerCase().contains("html"))
+				{
+				TestResultData data = (TestResultData) _context.getVariable(event.getAttributeAsString(TestResultStoredEventType.VARIABLE_NAME));
+				Assert.assertNotNull(data);
+				Assert.assertTrue(Arrays.equals(HTML_BYTES, getBytes(data)));
+				html_found++;
+				}
+
+		Assert.assertTrue("HTML not captured", html_found == count);
 		}
 
 	private byte[] getBytes(TestResultData data) throws IOException
@@ -67,11 +77,12 @@ public class WebdriverCapturePluginTests
 	    final MuseEvent event = MessageEventType.create("message");
 	    event.addTag(MuseEvent.ERROR);
 	    _context.raiseEvent(event);
-		checkForBothOutputs();
+		checkForHtmlCaptureEvent(1);
+		checkForScreenshotCaptureEvent();
 	    }
 
 	@Test
-	public void testCaptureTwice()
+	public void testCaptureTwice() throws IOException
 	    {
 	    setupPlugin(true, true, false, true, false);
 	    MuseEvent event = MessageEventType.create("message");
@@ -82,31 +93,29 @@ public class WebdriverCapturePluginTests
 	    event.addTag(MuseEvent.FAILURE);
 	    _context.raiseEvent(event);
 
-	    Assert.assertEquals(2, _plugin.getData().size());
+	    checkForHtmlCaptureEvent(2);
 	    }
 
 	@Test
-	public void captureOnlyScreenshot()
+	public void captureOnlyScreenshot()  throws IOException
 	    {
 	    setupPlugin(true, true, true, false, false);
 	    MuseEvent event = MessageEventType.create("message");
 	    event.addTag(MuseEvent.ERROR);
 	    _context.raiseEvent(event);
 
-	    Assert.assertEquals(1, _plugin.getData().size());
-	    Assert.assertTrue(_plugin.getData().get(0) instanceof ScreenshotData);
+        checkForScreenshotCaptureEvent();
 	    }
 
 	@Test
-	public void captureOnlyHtml()
+	public void captureOnlyHtml() throws IOException
 	    {
 	    setupPlugin(true, true, false, true, false);
 	    MuseEvent event = MessageEventType.create("message");
 	    event.addTag(MuseEvent.ERROR);
 	    _context.raiseEvent(event);
 
-	    Assert.assertEquals(1, _plugin.getData().size());
-	    Assert.assertTrue(_plugin.getData().get(0) instanceof HtmlData);
+	    checkForHtmlCaptureEvent(1);
 	    }
 
 	@Test
@@ -152,11 +161,17 @@ public class WebdriverCapturePluginTests
 		_driver.putScreenshot(SCREENSHOT_BYTES);
 		_driver.putHtml(HTML_BYTES);
 		_driver.putLog(LOG_BYTES);
+		_context.addEventListener((event) ->
+			{
+			if (TestResultStoredEventType.TYPE_ID.equals(event.getTypeId()))
+				_storage_events.add(event);
+			});
 		}
 
 	private MuseMockDriver _driver = new MuseMockDriver();
 	private SteppedTestExecutionContext _context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
 	private WebdriverCapturePlugin _plugin;
+	private List<MuseEvent> _storage_events = new ArrayList<>();
 
 	private final static byte[] SCREENSHOT_BYTES = "screenshot".getBytes();
 	private final static byte[] HTML_BYTES = "content".getBytes();
