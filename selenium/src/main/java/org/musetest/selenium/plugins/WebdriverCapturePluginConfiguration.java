@@ -19,6 +19,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseSubsourceDescriptor(displayName = "Collect HTML", description = "Collect the HTML page source if this source is true", type = SubsourceDescriptor.Type.Named, name = WebdriverCapturePluginConfiguration.COLLECT_HTML_PARAM, optional = true, defaultValue = "true")
 @MuseSubsourceDescriptor(displayName = "Collect logs", description = "Collect the Webdriver logs if this source is true", type = SubsourceDescriptor.Type.Named, name = WebdriverCapturePluginConfiguration.COLLECT_LOGS_PARAM, optional = true, defaultValue = "true")
 @MuseSubsourceDescriptor(displayName = "Collect screenshot", description = "Collect a screenshot if this source is true", type = SubsourceDescriptor.Type.Named, name = WebdriverCapturePluginConfiguration.COLLECT_SCREENSHOT_PARAM, optional = true, defaultValue = "true")
+@MuseSubsourceDescriptor(displayName = "Ignore duplicates", description = "Do not collect screenshot or HTML if it has not changed since the last capture.", type = SubsourceDescriptor.Type.Named, name = WebdriverCapturePluginConfiguration.IGNORE_DUPLICATES_PARAM, optional = true, defaultValue = "true")
 public class WebdriverCapturePluginConfiguration extends GenericResourceConfiguration implements PluginConfiguration
 	{
 	@Override
@@ -63,6 +64,13 @@ public class WebdriverCapturePluginConfiguration extends GenericResourceConfigur
 		return isParameterTrue(context, COLLECT_LOGS_PARAM);
 		}
 
+	public boolean isIgnoreDuplicates(MuseExecutionContext context)
+		{
+		if (_parameters.getSource(IGNORE_DUPLICATES_PARAM) == null)
+			return true;
+		return isParameterTrue(context, IGNORE_DUPLICATES_PARAM);
+		}
+
 	public final static String TYPE_ID = WebdriverCapturePluginConfiguration.class.getAnnotation(MuseTypeId.class).value();
 	public final static String COLLECT_ON_FAIL_PARAM = "collect-on-fail";
 	public final static String COLLECT_ON_ERROR_PARAM = "collect-on-error";
@@ -70,6 +78,7 @@ public class WebdriverCapturePluginConfiguration extends GenericResourceConfigur
 	public final static String COLLECT_HTML_PARAM = "collect-html";
 	public final static String COLLECT_LOGS_PARAM = "collect-logs";
 	public final static String COLLECT_SCREENSHOT_PARAM = "collect-screenshot";
+	public final static String IGNORE_DUPLICATES_PARAM = "ignore-duplicates";
 
 	public static class CaptureOnFailurePluginConfigurationType extends ResourceSubtype
 		{

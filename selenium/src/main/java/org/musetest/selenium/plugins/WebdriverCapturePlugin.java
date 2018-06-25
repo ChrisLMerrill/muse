@@ -1,5 +1,6 @@
 package org.musetest.selenium.plugins;
 
+import net.openhft.hashing.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
@@ -39,6 +40,7 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 			_collect_html = _config.isCollectHtml(_context);
 			_collect_screenshot = _config.isCollectScreenshot(_context);
 			_collect_logs = _config.isCollectLogs(_context);
+			_ignore_duplicates = _config.isIgnoreDuplicates(_context);
 			}
 		else
 			LOG.error("WebdriverCapturePlugin can only be used in a SteppedTestExecutionContext. But was initialized into a " + context.getClass().getSimpleName());
@@ -74,19 +76,51 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 			{
 			if (driver instanceof TakesScreenshot)
 				{
-				final TestResultData data = new ScreenshotData(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES));
-				final String varname = _context.createVariable("screenshot", data);
-				_context.raiseEvent(TestResultStoredEventType.create(varname, "screenshot"));
+				final byte[] screenshot_bytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+				if (shouldSaveScreenshot(screenshot_bytes))
+					{
+					final TestResultData data = new ScreenshotData(screenshot_bytes);
+					final String varname = _context.createVariable("screenshot", data);
+					_context.raiseEvent(TestResultStoredEventType.create(varname, "screenshot"));
+					}
 				}
 			}
 
 		// capture HTML
 		if (_collect_html)
 			{
-			final HtmlData data = new HtmlData(driver.getPageSource().getBytes());
-			final String varname = _context.createVariable("screenshot", data);
-			_context.raiseEvent(TestResultStoredEventType.create(varname, "page HTML"));
+			final byte[] html_bytes = driver.getPageSource().getBytes();
+			if (shouldSaveHtml(html_bytes))
+				{
+				final HtmlData data = new HtmlData(html_bytes);
+				final String varname = _context.createVariable("html", data);
+				_context.raiseEvent(TestResultStoredEventType.create(varname, "page HTML"));
+				}
 			}
+		}
+
+	private boolean shouldSaveScreenshot(byte[] screenshot)
+		{
+		if (!_ignore_duplicates)
+			return true;
+
+		final long new_hash = LongHashFunction.xx().hashBytes(screenshot);
+		if (new_hash == _last_screenshot_hash)
+			return false;
+		_last_screenshot_hash = new_hash;
+		return true;
+		}
+
+	private boolean shouldSaveHtml(byte[] html)
+		{
+		if (!_ignore_duplicates)
+			return true;
+
+		final long new_hash = LongHashFunction.xx().hashBytes(html);
+		if (new_hash == _last_HTML_hash)
+			return false;
+		_last_HTML_hash = new_hash;
+		return true;
 		}
 
 	private WebDriver getDriver()
@@ -139,7 +173,10 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 	private boolean _collect_html = false;
 	private boolean _collect_screenshot = false;
 	private boolean _collect_logs = false;
+	private boolean _ignore_duplicates = false;
 	private boolean _logs_collected = false;
+	private long _last_screenshot_hash = 0L;
+	private long _last_HTML_hash = 0L;
 
 	private List<TestResultData> _data = new ArrayList<>();
 
