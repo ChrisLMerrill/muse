@@ -40,7 +40,7 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 				_output_folder = null;
 				}
 		if (_output_folder != null)
-			context.raiseEvent(MessageEventType.create(String.format("Will store results locally at %s.", _output_folder.getAbsolutePath())));
+			context.raiseEvent(MessageEventType.create("Local storage location is: " + _output_folder.getAbsolutePath()));
 		}
 
 	@Override
