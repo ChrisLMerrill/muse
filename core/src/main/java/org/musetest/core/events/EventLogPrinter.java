@@ -5,6 +5,7 @@ import org.musetest.core.plugins.*;
 import org.musetest.core.util.*;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 /**
@@ -51,9 +52,15 @@ public class EventLogPrinter implements MusePlugin, MuseEventListener
     public void print(MuseEvent event)
         {
         if (_out == null)
-        	_out = System.out;
+	        _out = System.out;
 
-        _out.print(DurationFormat.formatMinutesSeconds(event.getTimestamp()));
+        if (_first_event_timestamp == 0)
+            {
+	        _out.println("First event raised at " + DateFormat.getDateTimeInstance().format(new Date(event.getTimestamp())));
+	        _first_event_timestamp = event.getTimestamp();
+	        }
+
+        _out.print(DurationFormat.formatMinutesSeconds(event.getTimestamp() - _first_event_timestamp));
 
         if (event.getTypeId().equals(EndStepEventType.TYPE_ID) && !event.hasTag(StepEventType.INCOMPLETE) && _indent_stack.size() > 1)  // never pop the first indent (something else has gone wrong).
             _indent_stack.pop();
@@ -84,4 +91,5 @@ public class EventLogPrinter implements MusePlugin, MuseEventListener
     private PrintStream _out;
     private Stack<String> _indent_stack = new Stack<>();
     private EventTypes _types = EventTypes.DEFAULT;
+    private long _first_event_timestamp = 0;
     }
