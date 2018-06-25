@@ -80,7 +80,7 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 				if (shouldSaveScreenshot(screenshot_bytes))
 					{
 					final TestResultData data = new ScreenshotData(screenshot_bytes);
-					final String varname = _context.createVariable("screenshot", data);
+					final String varname = _context.createVariable("_captured_screenshot", data);
 					_context.raiseEvent(TestResultStoredEventType.create(varname, "screenshot"));
 					}
 				}
@@ -93,7 +93,7 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 			if (shouldSaveHtml(html_bytes))
 				{
 				final HtmlData data = new HtmlData(html_bytes);
-				final String varname = _context.createVariable("html", data);
+				final String varname = _context.createVariable("_captured_html", data);
 				_context.raiseEvent(TestResultStoredEventType.create(varname, "page HTML"));
 				}
 			}
