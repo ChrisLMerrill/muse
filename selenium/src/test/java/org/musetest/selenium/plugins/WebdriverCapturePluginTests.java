@@ -196,18 +196,12 @@ public class WebdriverCapturePluginTests
 	private void setupPlugin(boolean on_failure, boolean on_error, boolean capture_screenshot, boolean capture_html, boolean capture_logs, boolean record_duplicates)
 		{
 		WebdriverCapturePluginConfiguration config = new WebdriverCapturePluginConfiguration();
-		if (on_failure)
-			config.parameters().addSource(WebdriverCapturePluginConfiguration.COLLECT_ON_FAIL_PARAM, ValueSourceConfiguration.forValue(true));
-		if (on_error)
-			config.parameters().addSource(WebdriverCapturePluginConfiguration.COLLECT_ON_ERROR_PARAM, ValueSourceConfiguration.forValue(true));
-		if (capture_screenshot)
-			config.parameters().addSource(WebdriverCapturePluginConfiguration.COLLECT_SCREENSHOT_PARAM, ValueSourceConfiguration.forValue(true));
-		if (capture_html)
-			config.parameters().addSource(WebdriverCapturePluginConfiguration.COLLECT_HTML_PARAM, ValueSourceConfiguration.forValue(true));
-		if (capture_logs)
-			config.parameters().addSource(WebdriverCapturePluginConfiguration.COLLECT_LOGS_PARAM, ValueSourceConfiguration.forValue(true));
-		if (record_duplicates)
-			config.parameters().addSource(WebdriverCapturePluginConfiguration.IGNORE_DUPLICATES_PARAM, ValueSourceConfiguration.forValue(false));
+		config.parameters().addSource(WebdriverCapturePluginConfiguration.COLLECT_ON_FAIL_PARAM, ValueSourceConfiguration.forValue(on_failure));
+		config.parameters().addSource(WebdriverCapturePluginConfiguration.COLLECT_ON_ERROR_PARAM, ValueSourceConfiguration.forValue(on_error));
+		config.parameters().addSource(WebdriverCapturePluginConfiguration.COLLECT_SCREENSHOT_PARAM, ValueSourceConfiguration.forValue(capture_screenshot));
+		config.parameters().addSource(WebdriverCapturePluginConfiguration.COLLECT_HTML_PARAM, ValueSourceConfiguration.forValue(capture_html));
+		config.parameters().addSource(WebdriverCapturePluginConfiguration.COLLECT_LOGS_PARAM, ValueSourceConfiguration.forValue(capture_logs));
+		config.parameters().addSource(WebdriverCapturePluginConfiguration.IGNORE_DUPLICATES_PARAM, ValueSourceConfiguration.forValue(!record_duplicates));
 		_plugin = new WebdriverCapturePlugin(config);
 		_plugin.initialize(_context);
 		}
