@@ -26,7 +26,7 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 	public void initialize(MuseExecutionContext context)
 		{
 		_save_at_end = _configuration.isSaveResultsAtEnd(context);
-		_save_immediate = _configuration.isSaveResultsImmmediately(context);
+		boolean save_immediate = _configuration.isSaveResultsImmmediately(context);
 		_delete_data = _configuration.isDeleteDataAfterImmedateSave(context);
 
 		_location_provider = Plugins.findType(LocalStorageLocationProvider.class, context);
@@ -38,7 +38,7 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 			return;
 			}
 		context.registerShuttable(this);
-		if (_save_immediate)
+		if (save_immediate)
 			context.addEventListener(event ->
 				{
 				if (TestResultStoredEventType.TYPE_ID.equals(event.getTypeId()))
@@ -47,11 +47,11 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 					Object data = _context.getVariable(var_name);
 					if (data instanceof TestResultData)
 						{
-						if (storeResult((TestResultData)data) && _delete_data)
+						if (storeResult((TestResultData)data, "$" + var_name) && _delete_data)
 							_context.setVariable(var_name, null);
 						}
 					else
-						LOG.error(String.format("Unable to save test result. Variable %s is not a TestResultData", var_name));
+						LOG.error(String.format("Unable to save test result because $%s is not a TestResultData", var_name));
 					}
 				});
 		_context = context;
@@ -67,20 +67,22 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 			for (DataCollector collector : DataCollectors.list(_context))
 				{
 				for (TestResultData data : collector.getData())
-					storeResult(data);
+					storeResult(data, collector.getClass().getSimpleName());
 				}
 		}
 
-	private boolean storeResult(TestResultData data)
+	private boolean storeResult(TestResultData data, String from_description)
 		{
 		final File data_file = getResultFile(getOutputFolder(), data);
 		try (FileOutputStream outstream = new FileOutputStream(data_file))
 			{
 			data.write(outstream);
+			_context.raiseEvent(MessageEventType.create(String.format("Stored %s from %s to %s", data, from_description, data_file.getAbsolutePath())));
 			return true;
 			}
 		catch (IOException e)
 			{
+			_context.raiseEvent(MessageEventType.create(String.format("Unable to store %s from %s to %s because: %s", data, from_description, data_file.getAbsolutePath(), e.getMessage())));
 			LOG.error(String.format("Unable to store results of test in %s due to: %s", data_file.getAbsolutePath(), e.getMessage()));
 			return false;
 			}
@@ -118,7 +120,6 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 	private MuseExecutionContext _context;
 	private LocalStorageLocationProvider _location_provider;
 	private File _output_folder = null;
-	private boolean _save_immediate = true;
 	private boolean _save_at_end = true;
 	private boolean _delete_data = true;
 
