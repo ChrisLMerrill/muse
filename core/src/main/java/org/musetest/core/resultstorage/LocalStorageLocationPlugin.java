@@ -33,7 +33,14 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 		_output_folder = new File(output_folder_path);
 		if (!_output_folder.exists())
 			if (!_output_folder.mkdirs())
-				context.raiseEvent(MessageEventType.create(String.format("Unable to create output folder (%s). Results will not be stored.", output_folder_path)));
+				{
+				final MuseEvent event = MessageEventType.create(String.format("Unable to create output folder (%s). Results will not be stored.", output_folder_path));
+				event.addTag(MuseEvent.ERROR);
+				context.raiseEvent(event);
+				_output_folder = null;
+				}
+		if (_output_folder != null)
+			context.raiseEvent(MessageEventType.create(String.format("Will store results locally at %s.", _output_folder.getAbsolutePath())));
 		}
 
 	@Override
