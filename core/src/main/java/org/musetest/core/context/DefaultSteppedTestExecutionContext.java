@@ -50,7 +50,6 @@ public class DefaultSteppedTestExecutionContext extends DefaultTestExecutionCont
 	        if (ContextVariableScope.Local.equals(context_scope))
 		        {
 		        context.setVariable(name, value);
-		        raiseEvent(SetVariableEventType.create(name, value, ContextVariableScope.Local));
 		        return true;
 		        }
 	        }
