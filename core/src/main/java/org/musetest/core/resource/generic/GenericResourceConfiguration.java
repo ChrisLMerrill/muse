@@ -35,7 +35,7 @@ public abstract class GenericResourceConfiguration extends BaseMuseResource
 		return _parameters;
 		}
 
-	private NamedSourcesContainer _parameters = new NamedSourcesContainer();
+	protected NamedSourcesContainer _parameters = new NamedSourcesContainer();
 
 	@SuppressWarnings("unused")  // expect extensions to use this
 	@JsonIgnore
