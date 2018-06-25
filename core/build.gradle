@@ -7,7 +7,6 @@ dependencies
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.6'  // JSON de/serialization
     compile 'commons-io:commons-io:2.5'
     compile 'net.sf.opencsv:opencsv:2.3'
-    compile 'net.openhft:zero-allocation-hashing:0.8'
 
     compile 'ch.qos.logback:logback-classic:1.1.9'
     compile 'ch.qos.logback:logback-core:1.1.9'
