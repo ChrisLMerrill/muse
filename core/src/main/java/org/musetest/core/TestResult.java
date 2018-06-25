@@ -209,4 +209,10 @@ public class TestResult implements TestResultData
 		private FailureType _type;
 		private String _description;
 		}
+
+	@Override
+	public String toString()
+		{
+		return String.format("TestResult (%s)", getSummary());
+		}
 	}
