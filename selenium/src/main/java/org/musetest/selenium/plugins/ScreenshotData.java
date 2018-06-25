@@ -11,7 +11,7 @@ import java.io.*;
  */
 public class ScreenshotData implements TestResultData
 	{
-	public ScreenshotData(byte[] bytes)
+	ScreenshotData(byte[] bytes)
 		{
 		_bytes = bytes;
 		}
@@ -41,9 +41,15 @@ public class ScreenshotData implements TestResultData
 		}
 
 	@Override
-	public Object read(@Nonnull InputStream instream) throws IOException
+	public Object read(@Nonnull InputStream instream)
 		{
 		return null;
+		}
+
+	@Override
+	public String toString()
+		{
+		return "(screenshot)";
 		}
 
 	private final byte[] _bytes;

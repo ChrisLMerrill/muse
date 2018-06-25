@@ -11,7 +11,7 @@ import java.io.*;
  */
 public class HtmlData implements TestResultData
 	{
-	public HtmlData(byte[] bytes)
+	HtmlData(byte[] bytes)
 		{
 		_bytes = bytes;
 		}
@@ -41,9 +41,15 @@ public class HtmlData implements TestResultData
 		}
 
 	@Override
-	public Object read(@Nonnull InputStream instream) throws IOException
+	public Object read(@Nonnull InputStream instream)
 		{
 		return null;
+		}
+
+	@Override
+	public String toString()
+		{
+		return "(html data)";
 		}
 
 	private final byte[] _bytes;
