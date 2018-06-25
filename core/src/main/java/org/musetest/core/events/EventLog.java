@@ -106,11 +106,7 @@ public class EventLog implements TestResultData
 	@Override
 	public String toString()
 		{
-		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-		PrintStream printer = new PrintStream(bytes);
-		print(printer);
-		printer.flush();
-		return bytes.toString();
+		return String.format("Event log (%d events)", _events.size());
 		}
 
 	private List<MuseEvent> _events = new ArrayList<>();
