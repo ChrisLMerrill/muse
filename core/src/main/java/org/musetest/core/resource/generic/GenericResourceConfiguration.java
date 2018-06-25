@@ -41,6 +41,13 @@ public abstract class GenericResourceConfiguration extends BaseMuseResource
 	@JsonIgnore
 	protected boolean isParameterTrue(MuseExecutionContext context, String name)
 		{
+		return isParameterTrue(context, name, false);
+		}
+
+	@SuppressWarnings("unused")  // expect extensions to use this
+	@JsonIgnore
+	protected boolean isParameterTrue(MuseExecutionContext context, String name, boolean default_value)
+		{
 		if (_parameters != null)
 			{
 			try
@@ -50,9 +57,9 @@ public abstract class GenericResourceConfiguration extends BaseMuseResource
 				}
 			catch (MuseInstantiationException | ValueSourceResolutionError e)
 				{
-				return false;
+				return default_value;
 				}
 			}
-		return false;
+		return default_value;
 		}
 	}
