@@ -59,9 +59,9 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 					{
 					listener.eventRaised(queued_event);
 					}
-				catch (Exception e)
+				catch (Throwable t)
 					{
-					LOG.error("TextExecutionContext.raiseEvent(): Exception while passing event to listeners: ", e);
+					LOG.error(String.format("TextExecutionContext.raiseEvent(): Exception while passing event (%s) to listener (%s): ", event.getTypeId(), listener.getClass().getSimpleName()), t);
 					}
 				}
 			}
