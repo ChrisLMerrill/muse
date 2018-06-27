@@ -70,6 +70,8 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 	private void collectScreenshotAndPageContent()
 		{
 		WebDriver driver = getDriver();
+		if (driver == null)
+			return;
 
 		// capture screenshot
 		if (_collect_screenshot)
