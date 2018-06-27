@@ -191,7 +191,10 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 			catch (Throwable e)
 				{
 				LOG.error(String.format("Unable to initialize plugin %s (of type %s)", plugin.getId(), plugin.getClass().getSimpleName()), e);
-				raiseEvent(PluginInitializedEventType.create(plugin, e.getMessage()));
+				String message = e.getMessage();
+				if (message == null)
+					message = e.getClass().getSimpleName();
+				raiseEvent(PluginInitializedEventType.create(plugin, message));
 				}
 			}
 
