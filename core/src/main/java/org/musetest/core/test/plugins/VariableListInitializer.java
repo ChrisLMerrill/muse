@@ -2,6 +2,7 @@ package org.musetest.core.test.plugins;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.values.*;
 import org.musetest.core.variables.*;
@@ -19,20 +20,25 @@ public class VariableListInitializer extends GenericConfigurablePlugin
 	@Override
 	public void initialize(MuseExecutionContext context) throws MuseExecutionError
 		{
-		// put the list name into the context (for evaluation by value sources if needed)
+		// find the list
 		String list_id = BaseValueSource.getValue(_configuration.getParameters().get(LIST_ID_PARAM).createSource(context.getProject()), context, false, String.class);
-		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, list_id);
+		VariableList list = context.getProject().getResourceStorage().getResource(list_id, VariableList.class);
+		if (list == null)
+			{
+			context.raiseEvent(TestErrorEventType.create(String.format("Unable to initialize variables from list '%s' because it was not found in the project.", list_id)));
+			return;
+			}
 
 		// set the variables in the list into the context
-		VariableList list = context.getProject().getResourceStorage().getResource(list_id, VariableList.class);
+		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, list_id);
 		for (String name : list.getVariables().keySet())
 			{
 			ValueSourceConfiguration config = list.getVariables().get(name);
 			Object value = config.createSource(context.getProject()).resolveValue(context);
 			context.setVariable(name, value, ContextVariableScope.Execution);
 			}
-
 		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME,null);
+
 		}
 
 	@Override
