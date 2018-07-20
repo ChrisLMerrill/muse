@@ -130,18 +130,6 @@ public class SimpleTestRunner implements TestRunner
 		    return Collections.emptyList();
 		    }
 
-	    @Override
-	    public void addContextCreationListener(ContextCreationListener listener)
-		    {
-		    listener.contextCreated(_context);
-		    }
-
-	    @Override
-	    public void removeContextCreationListener(ContextCreationListener listener)
-		    {
-
-		    }
-
 	    MuseTest _test;
 	    TestExecutionContext _context;
 	    }
