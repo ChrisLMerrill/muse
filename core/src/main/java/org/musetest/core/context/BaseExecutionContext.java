@@ -3,6 +3,7 @@ package org.musetest.core.context;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
+import org.musetest.core.suite.*;
 import org.musetest.core.test.*;
 import org.musetest.core.variables.*;
 import org.slf4j.*;
@@ -116,7 +117,9 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	@Override
 	public void setVariable(String name, Object value, ContextVariableScope scope)
 		{
-		if (scope.equals(_scope))
+		if (scope.equals(_scope)
+			|| (scope.equals(ContextVariableScope.Execution) && this instanceof TestSuiteExecutionContext)
+			|| (scope.equals(ContextVariableScope.Execution) && this instanceof TestExecutionContext && !(_parent instanceof TestSuiteExecutionContext)))
 			{
 			_vars.put(name, value);
 			raiseEvent(SetVariableEventType.create(name, value, scope));

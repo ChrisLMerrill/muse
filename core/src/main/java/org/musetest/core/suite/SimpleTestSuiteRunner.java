@@ -3,15 +3,11 @@ package org.musetest.core.suite;
 import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.plugins.*;
-import org.musetest.core.resultstorage.*;
 import org.musetest.core.test.*;
-import org.slf4j.*;
 
-import java.io.*;
 import java.util.*;
 
 /**
@@ -45,9 +41,7 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
         boolean suite_success = runTests(suite);
         _context.raiseEvent(EndSuiteEventType.create(suite));
 
-        // this is just for should be for the plugins installed into local context!
-        if (!savePluginData(_context))
-        	suite_success = false;
+        _context.cleanup();
 
         return suite_success;
         }
@@ -66,49 +60,20 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 	    return suite_success;
 	    }
 
-    private boolean savePluginData(TestSuiteExecutionContext context)
-	    {
-	    if (_output_path != null)
-		    {
-		    File output_folder = new File(_output_path);
-		    for (DataCollector collector : DataCollectors.list(context))
-			    {
-			    final List<TestResultData> data = collector.getData();
-			    for (TestResultData datum : data)
-				    {
-				    File output = new File(output_folder, datum.suggestFilename());
-				    try (FileOutputStream outstream = new FileOutputStream(output))
-					    {
-					    datum.write(outstream);
-					    }
-				    catch (IOException e)
-					    {
-					    LOG.error(String.format("Unable to write test result data (%s) to disk (%s)", data.getClass().getSimpleName(), output.getAbsolutePath()), e);
-					    return false;
-					    }
-				    }
-			    }
-		    }
-	    return true;
-	    }
-
     @SuppressWarnings("WeakerAccess")  // external API
     protected boolean runTest(TestConfiguration configuration)
         {
-        for (MusePlugin plugin : _context.getPlugins())
-   		    configuration.addPlugin(plugin);
         SimpleTestRunner runner = createRunner(configuration);
         MuseEvent start_event = raiseTestStartEvent(configuration);
         runner.runTest();
         raiseTestEndEvent(start_event);
+        _context.setVariable(StartSuiteTestEventType.getConfigVariableName(start_event), null);
         return runner.completedNormally();
         }
 
     @Override
     public void setOutputPath(String path)
 	    {
-	    _output_path = path;
-	    _output = new TestSuiteOutputOnDisk(path);
 	    }
 
     @SuppressWarnings("WeakerAccess")  // extensions may override
@@ -135,10 +100,6 @@ public class SimpleTestSuiteRunner implements MuseTestSuiteRunner
 	    }
 
     protected MuseProject _project;
-    private String _output_path = null;
     @SuppressWarnings("WeakerAccess")  // available to subclasses
-    protected TestSuiteOutputOnDisk _output = null;
     protected TestSuiteExecutionContext _context;
-
-    private final static Logger LOG = LoggerFactory.getLogger(SimpleTestSuiteRunner.class);
     }

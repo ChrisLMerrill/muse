@@ -6,7 +6,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
 import org.musetest.core.events.*;
 import org.musetest.core.plugins.*;
-import org.musetest.core.test.*;
+import org.musetest.core.suite.*;
 import org.slf4j.*;
 
 import java.io.*;
@@ -14,12 +14,18 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin implements Shuttable
+public class SaveTestResultsToDisk extends GenericConfigurablePlugin
 	{
 	SaveTestResultsToDisk(SaveTestResultsToDiskConfiguration configuration)
 		{
 		super(configuration);
 		_configuration = configuration;
+		}
+
+	@Override
+	protected boolean applyToContextType(MuseExecutionContext context)
+		{
+		return context instanceof TestSuiteExecutionContext || context instanceof TestExecutionContext;
 		}
 
 	@Override
@@ -37,7 +43,6 @@ public class SaveTestResultsToDisk extends GenericConfigurableTestPlugin impleme
 			LOG.error(message);
 			return;
 			}
-		context.registerShuttable(this);
 		if (save_immediate)
 			context.addEventListener(event ->
 				{
