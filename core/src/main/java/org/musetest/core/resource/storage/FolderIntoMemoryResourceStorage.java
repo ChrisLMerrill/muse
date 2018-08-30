@@ -4,7 +4,6 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
 import org.musetest.core.util.*;
-import org.musetest.extensions.registry.*;
 import org.reflections.*;
 import org.slf4j.*;
 
@@ -249,12 +248,14 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
             }
         }
 
+/*
     @Override
     public ExtensionRegistry getExtensionRegistry()
         {
         return new ExtensionRegistry(new File(_folder, ExtensionRegistry.DEFAULT_FOLDER));
         }
 
+*/
     private File _folder;
     private List<File> _class_locations = new ArrayList<>();
     private List<String> _packages = new ArrayList<>();

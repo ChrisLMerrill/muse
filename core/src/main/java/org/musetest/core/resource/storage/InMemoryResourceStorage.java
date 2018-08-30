@@ -4,7 +4,6 @@ import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
 import org.musetest.core.util.*;
-import org.musetest.extensions.registry.*;
 import org.slf4j.*;
 
 import java.io.*;
@@ -186,12 +185,6 @@ public class InMemoryResourceStorage implements ResourceStorage
     public boolean removeResourceListener(ProjectResourceListener listener)
         {
         return _listeners.remove(listener);
-        }
-
-    @Override
-    public ExtensionRegistry getExtensionRegistry()
-        {
-        return null;
         }
 
     private List<MuseResource> _resources = new ArrayList<>();
