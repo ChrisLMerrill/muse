@@ -2,8 +2,6 @@ package org.musetest.core.values.descriptor;
 
 import org.musetest.core.*;
 import org.musetest.core.values.*;
-import org.musetest.core.values.strings.*;
-import org.slf4j.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -46,17 +44,10 @@ public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
     @Override
     public String getInstanceDescription(ValueSourceConfiguration source, StringExpressionContext context)
 	    {
-        MuseStringExpressionSupportImplementation supporter_annotation = (MuseStringExpressionSupportImplementation) _source_class.getAnnotation(MuseStringExpressionSupportImplementation.class);
-        if (supporter_annotation != null)
-            try
-                {
-                return ((ValueSourceStringExpressionSupport) supporter_annotation.value().newInstance()).toString(source, context);
-                }
-            catch (InstantiationException | IllegalAccessException e)
-                {
-                LOG.error("Unable to use expression supporter for generating instance description", e);
-                // ok, use the alternative
-                }
+	    ValueSourceStringExpressionSupporters supporters = new ValueSourceStringExpressionSupporters(context.getProject());
+        String editable_string = supporters.toString(source, context);
+        if (editable_string != null)
+            return editable_string;
 
         return super.getShortDescription();
         }
@@ -79,8 +70,6 @@ public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
             return super.getSubsourceDescriptors();
         return descriptors;
         }
-
-    private final static Logger LOG = LoggerFactory.getLogger(AnnotatedValueSourceDescriptor.class);
     }
 
 
