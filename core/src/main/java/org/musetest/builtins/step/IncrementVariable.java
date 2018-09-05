@@ -5,7 +5,6 @@ import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.descriptor.*;
 
 /**
@@ -23,7 +22,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseSubsourceDescriptor(displayName = "Amount", description = "Amount to increment by (default is 1)", type = SubsourceDescriptor.Type.Named, name = IncrementVariable.AMOUNT_PARAM, optional = true)
 public class IncrementVariable extends BaseStep
     {
-    public IncrementVariable(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public IncrementVariable(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
         _name = getValueSource(config, NAME_PARAM, true, project);
