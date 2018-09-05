@@ -9,7 +9,7 @@ import org.musetest.core.values.*;
 @SuppressWarnings("unchecked")
 public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
     {
-    AnnotatedValueSourceDescriptor(String type, Class<? extends MuseValueSource> source_class, MuseProject project)
+    public AnnotatedValueSourceDescriptor(String type, Class<? extends MuseValueSource> source_class, MuseProject project)
         {
         super(type, source_class, project);
         }
