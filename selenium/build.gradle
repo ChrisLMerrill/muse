@@ -4,8 +4,19 @@ apply plugin: 'java'
 dependencies
     {
     compile project(':muse-core')
-    compile 'org.seleniumhq.selenium:selenium-java:3.11.0'
     compile 'net.openhft:zero-allocation-hashing:0.8'
+
+    // When updating the version, be sure to update the version of okhttp-urlconnection, below, to match (because
+    // selenium includes okhttp but not the corresponding okhttp-urlconnection, which is needed by the muse-okhttp extension).
+    // If the muse-okhttp loads the url-connection jar on its own, the classloader denies access to a package-protected
+    // method (IllegalAccessError)
+    compile 'org.seleniumhq.selenium:selenium-java:3.14.0'
+
+    // HACK: Selenium uses OkHttp, but not the urlconnection extension. When it gets dynamically loaded on the
+    // classpath by the project loader (for the muse-okhttp extension), it can't access a method in OkHttp that has
+    // package access. So until selenium is separated from muse-core and loaded as a project extension, this needs to
+    // be included for the okhttp-urlconnection lib to be usable. It is a hack, but a small one (33k).
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.10.0'
 
     testCompile project(':muse-core').sourceSets.test.output
     }
