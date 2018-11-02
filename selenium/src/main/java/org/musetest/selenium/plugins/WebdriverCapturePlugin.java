@@ -145,19 +145,26 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 			return;
 		if (_collect_logs)
 			{
-			final Logs logs = getDriver().manage().logs();
-			for (String type : logs.getAvailableLogTypes())
-				{
-				StringBuilder builder = new StringBuilder();
-				for (LogEntry entry : logs.get(type).getAll())
-					{
-					if (builder.length() > 0)
-						builder.append("\n");
-					builder.append(entry.toString());
-					}
-				_data.add(new LogData(type, builder.toString().getBytes()));
-				}
-			_logs_collected = true;
+            try
+                {
+                final Logs logs = getDriver().manage().logs();
+                for (String type : logs.getAvailableLogTypes())
+                    {
+                    StringBuilder builder = new StringBuilder();
+                    for (LogEntry entry : logs.get(type).getAll())
+                        {
+                        if (builder.length() > 0)
+                            builder.append("\n");
+                        builder.append(entry.toString());
+                        }
+                    _data.add(new LogData(type, builder.toString().getBytes()));
+                    }
+                }
+            catch (Exception e)
+                {
+                LOG.error("Unable to access WebDriver logs", e);
+                }
+            _logs_collected = true;
 			}
 		}
 
