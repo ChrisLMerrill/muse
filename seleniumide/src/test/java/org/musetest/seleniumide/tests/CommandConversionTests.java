@@ -8,15 +8,13 @@ import org.musetest.selenium.steps.*;
 import org.musetest.seleniumide.*;
 import org.musetest.seleniumide.steps.*;
 
-import java.io.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class CommandConversionTests
+class CommandConversionTests
     {
     @Test
-    public void storeVariable() throws UnsupportedError
+    void storeVariable() throws UnsupportedError
         {
         StepConfiguration step = StepConverters.get().convertStep("", "store", "var1", "value2");
         Assertions.assertEquals(StoreVariable.TYPE_ID, step.getType(), "converted step does not have the correct type");
@@ -25,7 +23,7 @@ public class CommandConversionTests
         }
 
     @Test
-    public void selectByLabel() throws UnsupportedError
+    void selectByLabel() throws UnsupportedError
         {
         StepConfiguration step = StepConverters.get().convertStep("", "select", "id=InputMonth", "label=04");
         Assertions.assertEquals(SelectOptionByText.TYPE_ID, step.getType());
@@ -35,7 +33,7 @@ public class CommandConversionTests
         }
 
     @Test
-    public void selectByIndex() throws UnsupportedError
+    void selectByIndex() throws UnsupportedError
         {
         StepConfiguration step = StepConverters.get().convertStep("", "select", "id=InputDay", "index=2");
         Assertions.assertEquals(SelectOptionByIndex.TYPE_ID, step.getType());

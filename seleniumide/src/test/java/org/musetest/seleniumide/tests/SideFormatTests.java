@@ -1,9 +1,7 @@
 package org.musetest.seleniumide.tests;
 
 import com.fasterxml.jackson.databind.*;
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.selenium.steps.*;
@@ -14,10 +12,10 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class SideFormatTests
+class SideFormatTests
 	{
 	@Test
-	public void parseSideFile() throws IOException
+    void parseSideFile() throws IOException
 		{
 	    ObjectMapper mapper = new ObjectMapper();
 	    SideProject project = mapper.readValue(getClass().getResourceAsStream("/LoginLogout.side"), SideProject.class);
@@ -41,7 +39,7 @@ public class SideFormatTests
 	    }
 
 	@Test
-	public void convertTests() throws IOException, UnsupportedError
+    void convertTests() throws IOException
 		{
 	    ObjectMapper mapper = new ObjectMapper();
 	    SideProject project = mapper.readValue(getClass().getResourceAsStream("/LoginLogout.side"), SideProject.class);

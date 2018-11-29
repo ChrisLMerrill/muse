@@ -1,8 +1,6 @@
 package org.musetest.seleniumide.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.value.*;
 import org.musetest.core.values.*;
 import org.musetest.javascript.*;
@@ -11,10 +9,10 @@ import org.musetest.seleniumide.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ValueConverterTests
+class ValueConverterTests
     {
     @Test
-    public void simpleText()
+    void simpleText()
         {
         final String content = "abc123";
         ValueSourceConfiguration source = ValueConverters.get().convert(content);
@@ -23,7 +21,7 @@ public class ValueConverterTests
         }
 
     @Test
-    public void variableReference()
+    void variableReference()
         {
         final String content = "${var1}";
         ValueSourceConfiguration source = ValueConverters.get().convert(content);
@@ -33,7 +31,7 @@ public class ValueConverterTests
         }
 
     @Test
-    public void evaluateJavascript()
+    void evaluateJavascript()
         {
         final String content = "javascript{'var' + 1;}";
         ValueSourceConfiguration source = ValueConverters.get().convert(content);

@@ -1,8 +1,6 @@
 package org.musetest.builtins.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.value.property.*;
 import org.musetest.core.*;
 

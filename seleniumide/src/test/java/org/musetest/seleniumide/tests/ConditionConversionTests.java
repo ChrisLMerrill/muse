@@ -1,8 +1,6 @@
 package org.musetest.seleniumide.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.values.*;
@@ -13,10 +11,10 @@ import org.musetest.seleniumide.conditions.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ConditionConversionTests
+class ConditionConversionTests
     {
     @Test
-    public void exactMatch() throws UnsupportedError
+    void exactMatch() throws UnsupportedError
         {
         ConditionConverter converter = ConditionConverters.getInstance().find("Text");
         ValueSourceConfiguration condition = converter.createConditionSource("id=123", "abc");
@@ -27,7 +25,7 @@ public class ConditionConversionTests
         }
 
     @Test
-    public void inferredGlobMatch() throws UnsupportedError
+    void inferredGlobMatch() throws UnsupportedError
         {
         ConditionConverter converter = ConditionConverters.getInstance().find("Text");
         ValueSourceConfiguration condition = converter.createConditionSource("id=123", "a?c");
@@ -36,7 +34,7 @@ public class ConditionConversionTests
         }
 
     @Test
-    public void explicitGlobMatch() throws UnsupportedError
+    void explicitGlobMatch() throws UnsupportedError
         {
         ConditionConverter converter = ConditionConverters.getInstance().find("Text");
         ValueSourceConfiguration condition = converter.createConditionSource("id=123", "glob:a*c");
@@ -45,7 +43,7 @@ public class ConditionConversionTests
         }
 
     @Test
-    public void regexpMatch() throws UnsupportedError
+    void regexpMatch() throws UnsupportedError
         {
         ConditionConverter converter = ConditionConverters.getInstance().find("Text");
         ValueSourceConfiguration condition = converter.createConditionSource("id=123", "regexp:a.*c");

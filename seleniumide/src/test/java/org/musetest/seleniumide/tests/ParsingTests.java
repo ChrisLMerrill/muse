@@ -3,19 +3,17 @@ package org.musetest.seleniumide.tests;
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ParsingTests
+class ParsingTests
     {
     @Test
-    public void parseExample() throws IOException
+    void parseExample() throws IOException
         {
         Document doc = Jsoup.parse(getClass().getResourceAsStream("/example.html"), "UTF-8", "http://example.com/");
         Assertions.assertNotNull(doc);

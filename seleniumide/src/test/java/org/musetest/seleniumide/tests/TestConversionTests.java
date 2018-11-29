@@ -1,10 +1,8 @@
 package org.musetest.seleniumide.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.step.*;
-import org.musetest.core.steptest.SteppedTest;
+import org.musetest.core.steptest.*;
 import org.musetest.selenium.locators.*;
 import org.musetest.selenium.steps.*;
 import org.musetest.seleniumide.*;
@@ -15,10 +13,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestConversionTests
+class TestConversionTests
     {
     @Test
-    public void convertExample() throws IOException, UnsupportedError
+    void convertExample() throws IOException, UnsupportedError
         {
         TestConverter converter = new TestConverter(getClass().getResourceAsStream("/example.html"));
         SteppedTest test = converter.convert()._test;

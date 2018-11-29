@@ -1,8 +1,6 @@
 package org.musetest.seleniumide.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.step.*;
@@ -18,10 +16,10 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class VerifyAssertConversionTests
+class VerifyAssertConversionTests
     {
     @Test
-    public void verifyAndAssertElementExists() throws IOException, UnsupportedError
+    void verifyAndAssertElementExists() throws IOException, UnsupportedError
         {
         TestConverter converter = new TestConverter(getClass().getResourceAsStream("/verify.html"));
         SteppedTest test = converter.convert()._test;
@@ -44,7 +42,7 @@ public class VerifyAssertConversionTests
         }
 
     @Test
-    public void elementTextEquality() throws IOException, UnsupportedError
+    void elementTextEquality() throws IOException, UnsupportedError
         {
         TestConverter converter = new TestConverter(getClass().getResourceAsStream("/verify2.html"));
         SteppedTest test = converter.convert()._test;

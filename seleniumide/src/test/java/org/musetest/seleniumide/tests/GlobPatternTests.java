@@ -1,17 +1,15 @@
 package org.musetest.seleniumide.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class GlobPatternTests
+class GlobPatternTests
     {
     @Test
-    public void isPattern()
+    void isPattern()
         {
         Assertions.assertFalse(new GlobPattern("abc123").hasWildcard());
         Assertions.assertTrue(new GlobPattern("abc?123").hasWildcard());
@@ -20,7 +18,7 @@ public class GlobPatternTests
         }
 
     @Test
-    public void starMatch()
+    void starMatch()
         {
         GlobPattern pattern = new GlobPattern("a*a");
         Assertions.assertTrue(pattern.matches("aba"));
@@ -30,7 +28,7 @@ public class GlobPatternTests
         }
 
     @Test
-    public void questionMatch()
+    void questionMatch()
         {
         GlobPattern pattern = new GlobPattern("a?a");
         Assertions.assertTrue(pattern.matches("aba"));
@@ -39,7 +37,7 @@ public class GlobPatternTests
         }
 
     @Test
-    public void numericRangeMatch()
+    void numericRangeMatch()
         {
         GlobPattern pattern = new GlobPattern("a[0-9]z");
         Assertions.assertTrue(pattern.matches("a2z"));
@@ -48,7 +46,7 @@ public class GlobPatternTests
         }
 
     @Test
-    public void alphaRangeMatch()
+    void alphaRangeMatch()
         {
         GlobPattern pattern = new GlobPattern("1[a-z]9");
         Assertions.assertTrue(pattern.matches("1a9"));
@@ -59,7 +57,7 @@ public class GlobPatternTests
         }
 
     @Test
-    public void alphanumericRangeMatch()
+    void alphanumericRangeMatch()
         {
         GlobPattern pattern = new GlobPattern("$[a-zA-Z0-9]$");
         Assertions.assertTrue(pattern.matches("$a$"));
