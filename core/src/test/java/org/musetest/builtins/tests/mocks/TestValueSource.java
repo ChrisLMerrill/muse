@@ -1,7 +1,6 @@
 package org.musetest.builtins.tests.mocks;
 
 import org.musetest.core.*;
-import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 
 /**
@@ -12,7 +11,7 @@ import org.musetest.core.values.descriptor.*;
 public class TestValueSource implements MuseValueSource
     {
     @Override
-    public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
+    public Object resolveValue(MuseExecutionContext context)
         {
         return null;
         }

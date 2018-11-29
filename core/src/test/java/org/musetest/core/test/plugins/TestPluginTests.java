@@ -15,10 +15,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestPluginTests
+class TestPluginTests
 	{
 	@Test
-	public void testDefaultsInitializer() throws MuseExecutionError
+    void testDefaultsInitializer() throws MuseExecutionError
 		{
 		MuseTest test = new SteppedTest();
 		test.setDefaultVariable("var1", ValueSourceConfiguration.forValue("value1"));
@@ -31,7 +31,7 @@ public class TestPluginTests
 		}
 
 	@Test
-	public void allProjectVariables() throws IOException
+    void allProjectVariables() throws IOException
 		{
 		MuseTest test = new SteppedTest();
 		SimpleProject project = new SimpleProject();
@@ -47,7 +47,7 @@ public class TestPluginTests
 		}
 
 	@Test
-	public void filteredProjectVariables() throws MuseExecutionError, IOException
+    void filteredProjectVariables() throws MuseExecutionError, IOException
 		{
 		MuseTest test = new SteppedTest();
 		SimpleProject project = new SimpleProject();
@@ -73,11 +73,11 @@ public class TestPluginTests
 		context.initializePlugins();
 
 		Assertions.assertEquals("value2", context.getVariable("var2"), "variable missing");
-		Assertions.assertEquals(null, context.getVariable("var1"), "variable present, but should not be");
+        Assertions.assertNull(context.getVariable("var1"), "variable present, but should not be");
 		}
 
 	@Test
-	public void filteredByVarlistId() throws MuseExecutionError, IOException
+    void filteredByVarlistId() throws MuseExecutionError, IOException
 		{
 		MuseTest test = new SteppedTest();
 		SimpleProject project = new SimpleProject();
@@ -109,11 +109,11 @@ public class TestPluginTests
 		context.initializePlugins();
 
 		Assertions.assertEquals("value2", context.getVariable("var2"), "variable missing");
-		Assertions.assertEquals(null, context.getVariable("var1"), "variable present, but should not be");
+        Assertions.assertNull(context.getVariable("var1"), "variable present, but should not be");
 		}
 
 	@Test
-	public void variableMapInitializer()
+    void variableMapInitializer()
 		{
 		MuseTest test = new SteppedTest();
 		SimpleProject project = new SimpleProject();

@@ -1,9 +1,7 @@
 package org.musetest.core.events;
 
 import org.apache.commons.io.*;
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -18,10 +16,10 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EventLogWriterTests
+class EventLogWriterTests
 	{
 	@Test
-	public void writeEventsAsTheyAreReceived() throws MuseExecutionError, IOException
+    void writeEventsAsTheyAreReceived() throws MuseExecutionError, IOException
 		{
 		MuseExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
 		EventLogWriter writer = new EventLogWriter();
@@ -46,7 +44,7 @@ public class EventLogWriterTests
 		}
 
 	@Test
-	public void writeToDefaultLocation() throws MuseExecutionError
+    void writeToDefaultLocation() throws MuseExecutionError
 		{
 		MuseExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
 		EventLogWriter writer = new EventLogWriter();
@@ -63,7 +61,7 @@ public class EventLogWriterTests
 		}
 
 	@Test
-	public void writeToConfiguredLocalStorageLocation() throws MuseExecutionError
+    void writeToConfiguredLocalStorageLocation() throws MuseExecutionError
 		{
 		MuseExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
 		EventLogWriter writer = new EventLogWriter();
@@ -81,7 +79,7 @@ public class EventLogWriterTests
 		}
 
 	@Test
-	public void cacheEventsUntilTestStart() throws MuseExecutionError
+    void cacheEventsUntilTestStart() throws MuseExecutionError
 		{
 		MuseExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
 		EventLogWriter writer = new EventLogWriter();

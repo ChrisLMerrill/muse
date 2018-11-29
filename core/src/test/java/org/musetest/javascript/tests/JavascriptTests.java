@@ -1,8 +1,6 @@
 package org.musetest.javascript.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
@@ -27,10 +25,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class JavascriptTests
+class JavascriptTests
     {
     @Test
-    public void javascriptTestSuccess()
+    void javascriptTestSuccess()
 	    {
 	    MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_SUCCESS; } "));
 	    test.setId("javascript-test");
@@ -39,7 +37,7 @@ public class JavascriptTests
 	    }
 
     @Test
-    public void javascriptTestFailure()
+    void javascriptTestFailure()
         {
         MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return \"things went badly\"; } "));
         test.setId("javascript-test");
@@ -48,7 +46,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void javascriptNotATest() throws ScriptException, IOException
+    void javascriptNotATest() throws ScriptException
         {
         TestFromJavascriptResourceFactory factory = new TestFromJavascriptResourceFactory();
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
@@ -59,7 +57,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void loadJavascriptTestFromFile() throws IOException
+    void loadJavascriptTestFromFile() throws IOException
         {
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("javascriptTest.js", this.getClass())));
         Assertions.assertEquals(1, resources.size());
@@ -69,7 +67,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void loadJavascriptStepFromFile() throws IOException, MuseExecutionError
+    void loadJavascriptStepFromFile() throws IOException, MuseExecutionError
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "javascriptStep.js");
@@ -107,7 +105,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void getAndSetVariablesInJavascriptStep() throws IOException, MuseExecutionError
+    void getAndSetVariablesInJavascriptStep() throws IOException, MuseExecutionError
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "getSetVariables.js");
@@ -121,7 +119,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void accessValueSourcesInJavascriptStep() throws IOException, MuseExecutionError
+    void accessValueSourcesInJavascriptStep() throws IOException, MuseExecutionError
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "AccessSources.js");
@@ -134,7 +132,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void logMessageInJavascriptStep() throws IOException, MuseExecutionError
+    void logMessageInJavascriptStep() throws IOException, MuseExecutionError
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         JavascriptStepResource step_resource = loadJavascriptStepFromFileIntoProject(project, "LogMessage.js");
@@ -157,7 +155,7 @@ public class JavascriptTests
         }
 
     @Test
-    public void evaluateJavascriptValueSource() throws MuseInstantiationException, ValueSourceResolutionError
+    void evaluateJavascriptValueSource() throws MuseInstantiationException, ValueSourceResolutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forTypeWithSource(EvaluateJavascriptValueSource.TYPE_ID, "'abc' + 1;");
         SimpleProject project = new SimpleProject();

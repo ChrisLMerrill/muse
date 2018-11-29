@@ -1,8 +1,6 @@
 package org.musetest.core.resultstorage;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.step.*;
 import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
@@ -17,10 +15,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class SaveTestResultsToDiskTests
+class SaveTestResultsToDiskTests
 	{
 	@Test
-	public void saveResultsFromPluginsAtShutdown()
+    void saveResultsFromPluginsAtShutdown()
 		{
 		_context.addPlugin(new MockTestResultProducer(Collections.singletonList(new MockTestResultData("saved.txt", "result-data".getBytes()))));
 		_context.addPlugin(new MockTestResultProducer(Collections.singletonList(new MockTestResultData("saved.txt", "result-data2".getBytes()))));
@@ -39,7 +37,7 @@ public class SaveTestResultsToDiskTests
 	    }
 
 	@Test
-	public void saveResultsFromEvents()
+    void saveResultsFromEvents()
 	    {
 	    _save_plugin.initialize(_context);
 
@@ -76,7 +74,7 @@ public class SaveTestResultsToDiskTests
 	    }
 
 	@BeforeEach
-	public void setup() throws IOException
+    void setup() throws IOException
 		{
 		_folder = FileUtils.createTempFolder("musetest", null);
 		MockStorageLocationProvider location_plugin = new MockStorageLocationProvider(_folder, _folder);

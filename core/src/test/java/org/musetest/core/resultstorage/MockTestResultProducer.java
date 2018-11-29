@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MockTestResultProducer implements DataCollector, MusePlugin
+class MockTestResultProducer implements DataCollector, MusePlugin
 	{
 	@Override
 	public boolean conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
@@ -35,7 +35,7 @@ public class MockTestResultProducer implements DataCollector, MusePlugin
 		return "MockTestResultProducer";
 		}
 
-	public MockTestResultProducer(List<TestResultData> data)
+	MockTestResultProducer(List<TestResultData> data)
 		{
 		_data = data;
 		}

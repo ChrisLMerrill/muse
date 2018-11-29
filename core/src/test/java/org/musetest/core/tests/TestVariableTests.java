@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
@@ -25,10 +23,10 @@ import java.util.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestVariableTests
+class TestVariableTests
     {
     @Test
-    public void variableSetFromDefaults()
+    void variableSetFromDefaults()
 	    {
         Map<String, ValueSourceConfiguration> default_vars = new HashMap<>();
         default_vars.put(VAR_NAME, ValueSourceConfiguration.forValue(VAR_VALUE));
@@ -40,7 +38,7 @@ public class TestVariableTests
         }
 
     @Test
-    public void variableSetFromProjectVariableList() throws IOException
+    void variableSetFromProjectVariableList() throws IOException
         {
         SteppedTest test = getTest();
         MuseProject project = new SimpleProject();

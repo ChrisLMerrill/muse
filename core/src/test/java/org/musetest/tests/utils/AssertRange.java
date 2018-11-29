@@ -5,7 +5,7 @@ import org.junit.jupiter.api.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class AssertRange
+class AssertRange
 	{
 	public static void assertNearly(Long expected, Long actual, Long acceptable_variance)
 		{
@@ -15,7 +15,7 @@ public class AssertRange
 
 
 	// copied from Assert because it is package-protected :(
-	static String format(String message, Object expected, Object actual)
+	private static String format(String message, Object expected, Object actual)
 		{
 		String formatted = "";
 		if (message != null && !message.equals(""))

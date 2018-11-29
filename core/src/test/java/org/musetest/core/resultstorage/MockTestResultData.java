@@ -8,9 +8,9 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MockTestResultData implements TestResultData
+class MockTestResultData implements TestResultData
 	{
-	public MockTestResultData(String filename, byte[] data)
+	MockTestResultData(String filename, byte[] data)
 		{
 		_filename = filename;
 		_data = data;

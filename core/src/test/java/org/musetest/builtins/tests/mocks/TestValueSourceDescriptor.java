@@ -74,7 +74,7 @@ public class TestValueSourceDescriptor extends DefaultValueSourceDescriptor
                 return null;
                 }
             };
-        return null;  // TODO
+        return descriptors;
         }
 
 

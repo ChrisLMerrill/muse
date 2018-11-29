@@ -9,15 +9,15 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class PropertyResolverTests
+class PropertyResolverTests
     {
     @Test
-    public void reflectionResolverByMethodName() throws MuseExecutionError
+    void reflectionResolverByMethodName() throws MuseExecutionError
         {
         // calls the "length" method on String
-        final Object target = "1234567";
+        final String target = "1234567";
         final String name = "length";
-        final Object result = ((String)target).length();
+        final Object result = target.length();
 
         PropertyResolver resolver = new MethodByReflectionResolver();
         Assertions.assertTrue(resolver.canResolve(target, name));
@@ -25,7 +25,7 @@ public class PropertyResolverTests
         }
 
     @Test
-    public void reflectionResolverByBeanGetter() throws MuseExecutionError
+    void reflectionResolverByBeanGetter() throws MuseExecutionError
         {
         // calls getClass() method on an object
         final Object target = "blah";
@@ -38,7 +38,7 @@ public class PropertyResolverTests
         }
 
     @Test
-    public void reflectionResolverByField() throws MuseExecutionError
+    void reflectionResolverByField() throws MuseExecutionError
         {
         class ObjectWithField
             {
@@ -57,7 +57,7 @@ public class PropertyResolverTests
         }
 
     @Test
-    public void mapResolver() throws MuseExecutionError
+    void mapResolver() throws MuseExecutionError
         {
         Map<String, Object> map = new HashMap<>();
         final String name = "thename";

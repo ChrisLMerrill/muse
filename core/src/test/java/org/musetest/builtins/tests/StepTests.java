@@ -23,7 +23,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepTests
+class StepTests
     {
     /**
      * Ok...how do you test that something has been sent to the diagnostic log?  So this test doesn't actually test
@@ -33,7 +33,7 @@ public class StepTests
      * see if this worked. My apologies :(
      */
     @Test
-    public void logMessage() throws MuseExecutionError
+    void logMessage() throws MuseExecutionError
         {
         // this should log a message indicating there was no message parameter
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
@@ -55,7 +55,7 @@ public class StepTests
         }
 
     @Test
-    public void storeStringVariable() throws MuseExecutionError
+    void storeStringVariable() throws MuseExecutionError
         {
         StepConfiguration config = new StepConfiguration(StoreVariable.TYPE_ID);
         config.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
@@ -68,7 +68,7 @@ public class StepTests
         }
 
     @Test
-    public void storeIntegerVariable() throws MuseExecutionError
+    void storeIntegerVariable() throws MuseExecutionError
         {
         StepConfiguration config = new StepConfiguration(StoreVariable.TYPE_ID);
         config.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var_int"));
@@ -81,7 +81,7 @@ public class StepTests
         }
 
     @Test
-    public void incrementVariableBy1() throws MuseExecutionError
+    void incrementVariableBy1() throws MuseExecutionError
         {
         StepConfiguration config = new StepConfiguration(IncrementVariable.TYPE_ID);
         config.addSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
@@ -94,7 +94,7 @@ public class StepTests
         }
 
     @Test
-    public void incrementVariableByN() throws MuseExecutionError
+    void incrementVariableByN() throws MuseExecutionError
         {
         Long start_value = 101L;
         Long amount = 7L;
@@ -111,7 +111,7 @@ public class StepTests
         }
 
     @Test
-    public void verifySuccess() throws MuseExecutionError
+    void verifySuccess() throws MuseExecutionError
         {
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
         config.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
@@ -122,7 +122,7 @@ public class StepTests
         }
 
     @Test
-    public void verifyFailed() throws MuseExecutionError
+    void verifyFailed() throws MuseExecutionError
         {
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
         config.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(false));
@@ -134,13 +134,13 @@ public class StepTests
         }
 
     @Test
-    public void verifyFatal() throws MuseExecutionError
+    void verifyFatal() throws MuseExecutionError
         {
         verifyMaybeFatal(true);
         }
 
     @Test
-    public void verifyNotFatal() throws MuseExecutionError
+    void verifyNotFatal() throws MuseExecutionError
         {
         verifyMaybeFatal(false);
         }
@@ -166,7 +166,7 @@ public class StepTests
         }
 
     @Test
-    public void callMacro() throws IOException
+    void callMacro() throws IOException
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 
@@ -200,7 +200,7 @@ public class StepTests
      * Ensure parameters are passed to a function and the return value is passed back.
      */
     @Test
-    public void callFunction() throws IOException
+    void callFunction() throws IOException
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 
@@ -246,7 +246,7 @@ public class StepTests
      * Ensure that return exits the function immediately and following steps are not executed.
      */
     @Test
-    public void returnEarlyFromFunction() throws IOException
+    void returnEarlyFromFunction() throws IOException
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 
@@ -280,7 +280,7 @@ public class StepTests
         }
 
     @Test
-    public void emptyCompoundStep()
+    void emptyCompoundStep()
         {
         StepConfiguration step = new StepConfiguration(BasicCompoundStep.TYPE_ID);
         step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue("var1"));
@@ -295,7 +295,7 @@ public class StepTests
         }
 
     @Test
-    public void simpleCompoundStep()
+    void simpleCompoundStep()
         {
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
         ValueSourceConfiguration condition = ValueSourceConfiguration.forType(EqualityCondition.TYPE_ID);
@@ -317,7 +317,7 @@ public class StepTests
         }
 
     @Test
-    public void nullSubsourceWithDefaultValue() throws ValueSourceResolutionError
+    void nullSubsourceWithDefaultValue() throws ValueSourceResolutionError
         {
         MockStep step = new MockStep();
         String result = step.getValue(null, new MockStepExecutionContext(), String.class, "default_value");

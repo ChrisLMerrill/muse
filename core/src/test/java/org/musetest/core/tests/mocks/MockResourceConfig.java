@@ -22,12 +22,12 @@ public class MockResourceConfig extends GenericResourceConfiguration
 
 	class MockResourceType extends ResourceType
 		{
-		public MockResourceType()
+		MockResourceType()
 			{
 			super("mock-resource-type", "Mock Resource", MockResourceConfig.class);
 			}
 		}
-	final ResourceType TYPE = new MockResourceType();
+	private final ResourceType TYPE = new MockResourceType();
 	}
 
 

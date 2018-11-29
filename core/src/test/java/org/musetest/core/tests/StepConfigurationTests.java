@@ -19,10 +19,10 @@ import java.util.concurrent.atomic.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")
-public class StepConfigurationTests
+class StepConfigurationTests
     {
     @Test
-    public void serializable()
+    void serializable()
         {
         StepConfiguration original = new StepConfiguration(LogMessage.TYPE_ID);
         original.addSource("name1", ValueSourceConfiguration.forValue("value1"));
@@ -32,7 +32,7 @@ public class StepConfigurationTests
         }
 
     @Test
-    public void idNotLong()
+    void idNotLong()
         {
         StepConfiguration config = new StepConfiguration("steptype");
         Assertions.assertNull(config.getStepId());
@@ -46,7 +46,7 @@ public class StepConfigurationTests
         }
 
     @Test
-    public void changeType()
+    void changeType()
         {
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
         final String new_type = Wait.TYPE_ID;
@@ -66,7 +66,7 @@ public class StepConfigurationTests
         }
 
     @Test
-    public void removeListener()
+    void removeListener()
         {
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
         final String new_type = Wait.TYPE_ID;
@@ -88,7 +88,7 @@ public class StepConfigurationTests
         }
 
     @Test
-    public void changeMetadata()
+    void changeMetadata()
         {
         final String description1 = "step description";
         final String description2 = "this is a step";
@@ -118,7 +118,7 @@ public class StepConfigurationTests
         }
 
     @Test
-    public void addRemoveSource()
+    void addRemoveSource()
         {
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
         final ValueSourceConfiguration old_source = ValueSourceConfiguration.forValue("old message");
@@ -162,7 +162,7 @@ public class StepConfigurationTests
         }
 
     @Test
-    public void changeSource()
+    void changeSource()
         {
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
         final ValueSourceConfiguration source = ValueSourceConfiguration.forValue("old message");
@@ -205,7 +205,7 @@ public class StepConfigurationTests
      * does registration of listeners happen correctly when the step is not directly modified (simply comes into being via serialization)
      */
     @Test
-    public void changeEventFromDeserializedStepConfig()
+    void changeEventFromDeserializedStepConfig()
         {
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
         ValueSourceConfiguration source = ValueSourceConfiguration.forValue("old message");
@@ -229,7 +229,7 @@ public class StepConfigurationTests
         }
 
     @Test
-    public void changeSubsource()
+    void changeSubsource()
         {
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("value #1");
@@ -251,7 +251,7 @@ public class StepConfigurationTests
         }
 
     @Test
-    public void addChildStep()
+    void addChildStep()
         {
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
 
@@ -270,12 +270,12 @@ public class StepConfigurationTests
         StepConfiguration added_step = new StepConfiguration(Verify.TYPE_ID);
         step.addChild(added_step);
 
-        Assertions.assertTrue(added.get() == added_step);
+        Assertions.assertSame(added.get(), added_step);
         Assertions.assertEquals(0, (int) added_index.get());
         }
 
     @Test
-    public void removeChildStep()
+    void removeChildStep()
         {
         StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
         StepConfiguration step_to_remove = new StepConfiguration(Verify.TYPE_ID);
@@ -295,12 +295,12 @@ public class StepConfigurationTests
 
         step.removeChild(step_to_remove);
 
-        Assertions.assertTrue(removed.get() == step_to_remove);
+        Assertions.assertSame(removed.get(), step_to_remove);
         Assertions.assertEquals(0, (int) removed_index.get());
         }
 
     @Test
-    public void findParent()
+    void findParent()
         {
         StepConfiguration root = new StepConfiguration("root");
         root.addChild(new StepConfiguration("child1"));
@@ -313,12 +313,12 @@ public class StepConfigurationTests
         child2.addChild(child22);
 
         Assertions.assertNull(root.findParentOf(new StepConfiguration("not_in_tree")));
-        Assertions.assertTrue(root == root.findParentOf(child2));
-        Assertions.assertTrue(child2 == root.findParentOf(child22));
+        Assertions.assertSame(root, root.findParentOf(child2));
+        Assertions.assertSame(child2, root.findParentOf(child22));
         }
 
     @Test
-    public void findByStepId()
+    void findByStepId()
         {
         MuseProject project = new SimpleProject();
         StepConfiguration root = new StepConfiguration("root");
@@ -339,14 +339,14 @@ public class StepConfigurationTests
         child2.addChild(child22);
 
         Assertions.assertNull(root.findByStepId(0L));
-        Assertions.assertTrue(root == root.findByStepId(root.getStepId()));
-        Assertions.assertTrue(child1 == root.findByStepId(child1.getStepId()));
-        Assertions.assertTrue(child2 == root.findByStepId(child2.getStepId()));
-        Assertions.assertTrue(child22 == root.findByStepId(child22.getStepId()));
+        Assertions.assertSame(root, root.findByStepId(root.getStepId()));
+        Assertions.assertSame(child1, root.findByStepId(child1.getStepId()));
+        Assertions.assertSame(child2, root.findByStepId(child2.getStepId()));
+        Assertions.assertSame(child22, root.findByStepId(child22.getStepId()));
         }
 
     @Test
-    public void tags()
+    void tags()
         {
         StepConfiguration step = new StepConfiguration("step-type");
         final String tag1 = "tagname";

@@ -1,9 +1,7 @@
 package org.musetest.core;
 
 import org.jetbrains.annotations.*;
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.mocks.*;
@@ -18,19 +16,19 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestResultTests
+class TestResultTests
 	{
 	@Test
-	public void equality()
+    void equality()
 	    {
 	    TestResult result1 = createResult();
 	    TestResult result2 = createResult();
 
-	    Assertions.assertTrue(result1.equals(result2));
+        Assertions.assertEquals(result1, result2);
 	    }
 
 	@Test
-	public void serialization() throws IOException
+    void serialization() throws IOException
 		{
 	    TestResult result = createResult();
 	    ByteArrayOutputStream outstream = new ByteArrayOutputStream();
@@ -38,7 +36,7 @@ public class TestResultTests
 	    ByteArrayInputStream instream = new ByteArrayInputStream(outstream.toByteArray());
 	    TestResult copy = new TestResult().read(instream);
 
-		Assertions.assertTrue(copy.equals(result));
+        Assertions.assertEquals(copy, result);
 	    }
 
 	@NotNull
@@ -58,7 +56,7 @@ public class TestResultTests
 		}
 
 	@Test
-	public void collectSuccessfulResult()
+    void collectSuccessfulResult()
 		{
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE)));
 
@@ -68,7 +66,7 @@ public class TestResultTests
 	    }
 
 	@Test
-	public void collectDetails() throws MuseExecutionError
+    void collectDetails() throws MuseExecutionError
 		{
 	    TestResultCollector collector = new TestResultCollector(new TestResultCollectorConfiguration());
 	    final MockMuseExecutionContext context = new MockMuseExecutionContext();
@@ -81,7 +79,7 @@ public class TestResultTests
 	    }
 
 	@Test
-	public void collectFailureResult()
+    void collectFailureResult()
 		{
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "failed the test")));
 
@@ -91,7 +89,7 @@ public class TestResultTests
 	    }
 
 	@Test
-	public void collectErrorResult()
+    void collectErrorResult()
 		{
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR, "failed the test")));
 
@@ -101,7 +99,7 @@ public class TestResultTests
 	    }
 
 	@Test
-	public void collectMultipleFailures()
+    void collectMultipleFailures()
 		{
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE)));
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "failed the test")));
@@ -113,7 +111,7 @@ public class TestResultTests
 	    }
 
 	@Test
-	public void honorFailOnErrorSetting() throws MuseExecutionError
+    void honorFailOnErrorSetting() throws MuseExecutionError
 		{
 	    _collector = createCollector(false, null, null);
 	    _collector.initialize(_context);
@@ -125,7 +123,7 @@ public class TestResultTests
 	    }
 
 	@Test
-	public void honorFailOnFailureSetting() throws MuseExecutionError
+    void honorFailOnFailureSetting() throws MuseExecutionError
 		{
 	    _collector = createCollector(null, false, null);
 	    _collector.initialize(_context);
@@ -137,7 +135,7 @@ public class TestResultTests
 	    }
 
 	@Test
-	public void honorFailOnInterruptSetting() throws MuseExecutionError
+    void honorFailOnInterruptSetting() throws MuseExecutionError
 		{
 	    _collector = createCollector(null, null, false);
 	    _collector.initialize(_context);
@@ -161,7 +159,7 @@ public class TestResultTests
 		}
 
 	@BeforeEach
-	public void setup() throws MuseExecutionError
+    void setup() throws MuseExecutionError
 		{
 		_collector = createCollector(null, null, null);
 		_context = new MockMuseExecutionContext();

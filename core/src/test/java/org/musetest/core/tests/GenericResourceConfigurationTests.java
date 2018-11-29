@@ -15,10 +15,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class GenericResourceConfigurationTests
+class GenericResourceConfigurationTests
 	{
 	@Test
-	public void saveAndLoadResource() throws IOException
+    void saveAndLoadResource() throws IOException
 		{
 	    MockResourceConfig config = new MockResourceConfig();
 	    config.setId("testMRC1");
@@ -36,7 +36,7 @@ public class GenericResourceConfigurationTests
 		}
 
 	@Test
-	public void serialization() throws IOException
+    void serialization() throws IOException
 		{
 	    MockResourceConfig config = new MockResourceConfig();
 	    config.parameters().addSource("param1", ValueSourceConfiguration.forValue("value1"));
@@ -57,13 +57,13 @@ public class GenericResourceConfigurationTests
 		}
 
     @BeforeEach
-    public void setup() throws IOException
+    void setup() throws IOException
         {
         _project_folder = Files.createTempDirectory("musetest").toFile();
         }
 
     @AfterEach
-    public void teardown()
+    void teardown()
         {
         _project_folder.deleteOnExit();
         }

@@ -1,8 +1,6 @@
 package org.musetest.builtins.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.tests.mocks.*;
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
@@ -17,10 +15,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class SystemVariableTests
+class SystemVariableTests
     {
     @Test
-    public void environmentVariable() throws ValueSourceResolutionError
+    void environmentVariable() throws ValueSourceResolutionError
         {
         MuseProject project = new SimpleProject();
         MockEnvironmentProperties environment = new MockEnvironmentProperties();
@@ -35,7 +33,7 @@ public class SystemVariableTests
         }
 
     @Test
-    public void environmentJavaProperties() throws ValueSourceResolutionError
+    void environmentJavaProperties() throws ValueSourceResolutionError
         {
         MuseProject project = new SimpleProject();
         MockEnvironmentProperties environment = new MockEnvironmentProperties();
@@ -50,7 +48,7 @@ public class SystemVariableTests
         }
 
     @Test
-    public void environmentUsername() throws ValueSourceResolutionError
+    void environmentUsername() throws ValueSourceResolutionError
         {
         MuseProject project = new SimpleProject();
         MockEnvironmentProperties environment = new MockEnvironmentProperties();
@@ -64,7 +62,7 @@ public class SystemVariableTests
         }
 
     @Test
-    public void testTags() throws ValueSourceResolutionError
+    void testTags() throws ValueSourceResolutionError
         {
         MuseTest test = new MockTest();
         final String tag = UUID.randomUUID().toString();
@@ -77,7 +75,7 @@ public class SystemVariableTests
         }
 
     @Test
-    public void varlistInitializer()
+    void varlistInitializer()
         {
         final String id = UUID.randomUUID().toString();
         MuseExecutionContext context = new ProjectExecutionContext(new SimpleProject());
@@ -88,7 +86,7 @@ public class SystemVariableTests
         }
 
     @Test
-    public void commandLineOptions()
+    void commandLineOptions()
         {
         final String name = "command1";
         final String value = "option1";
@@ -104,7 +102,7 @@ public class SystemVariableTests
         }
 
     @Test
-    public void executionId() throws ValueSourceResolutionError
+    void executionId() throws ValueSourceResolutionError
 	    {
         final MuseProject project = new SimpleProject();
 	    final BaseExecutionContext context = new ProjectExecutionContext(project);

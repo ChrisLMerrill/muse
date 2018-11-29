@@ -14,10 +14,10 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepExecutionTests
+class StepExecutionTests
     {
     @Test
-    public void singleStep() throws MuseExecutionError
+    void singleStep() throws MuseExecutionError
 		{
         final String message = "this is the message";
         StepConfiguration step_a = new StepConfiguration(LogMessage.TYPE_ID);
@@ -35,7 +35,7 @@ public class StepExecutionTests
         }
 
     @Test
-    public void singleNestedStep() throws MuseExecutionError
+    void singleNestedStep() throws MuseExecutionError
 		{
         StepConfiguration parent = new StepConfiguration();
         parent.setType("compound");
@@ -57,7 +57,7 @@ public class StepExecutionTests
         }
 
     @Test
-    public void twoNestedSteps() throws MuseExecutionError
+    void twoNestedSteps() throws MuseExecutionError
 		{
         StepConfiguration parent = new StepConfiguration();
         parent.setType("compound");
@@ -86,7 +86,7 @@ public class StepExecutionTests
         }
 
     @Test
-    public void stepMissingParameter() throws MuseExecutionError
+    void stepMissingParameter() throws MuseExecutionError
 		{
         StepConfiguration step_a = new StepConfiguration();
         step_a.setType("blahblah");
@@ -105,7 +105,7 @@ public class StepExecutionTests
         }
 
     @Test
-    public void stepParameterResolvesToNull() throws MuseExecutionError
+    void stepParameterResolvesToNull() throws MuseExecutionError
 		{
         StepConfiguration step_a = new StepConfiguration();
         step_a.setType("blahblah");

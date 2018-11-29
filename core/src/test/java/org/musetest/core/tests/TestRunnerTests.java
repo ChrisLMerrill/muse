@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.project.*;
@@ -12,10 +10,10 @@ import org.musetest.core.tests.utils.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestRunnerTests
+class TestRunnerTests
     {
     @Test
-    public void runtimeException()
+    void runtimeException()
         {
         MuseProject project = new SimpleProject();
         MuseTest test = new MockTestWithAction()

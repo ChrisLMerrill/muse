@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.generic.*;
@@ -13,24 +11,24 @@ import org.musetest.core.values.descriptor.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ResourceDescriptorTests
+class ResourceDescriptorTests
 	{
 	@Test
-	public void findResourceType()
+    void findResourceType()
 	    {
 	    final ResourceType type = _project.getResourceTypes().forResourceClass(MockMuseResource.class);
 	    Assertions.assertEquals(type, new MockMuseResource.MockResourceType());
 	    }
 
 	@Test
-	public void findResourceSubType()
+    void findResourceSubType()
 	    {
 	    final ResourceType type = _project.getResourceTypes().forResourceClass(MockMuseSubResource.class);
 	    Assertions.assertEquals(type, new MockMuseSubResource.MockResourceSubType());
 	    }
 
 	@Test
-	public void findImplementedDescriptor()
+    void findImplementedDescriptor()
 	    {
 	    ResourceDescriptor descriptor = new MockMuseResource.MockResourceType().getDescriptor();
 	    Assertions.assertEquals(MockMuseResource.SHORT_DESCRIPTION, descriptor.getShortDescription());
@@ -42,7 +40,7 @@ public class ResourceDescriptorTests
 	    }
 
 	@Test
-	public void findAnnotatedDescriptor()
+    void findAnnotatedDescriptor()
 	    {
 	    ResourceDescriptor descriptor = new MockMuseSubResource.MockResourceSubType().getDescriptor();
 	    Assertions.assertEquals(MockMuseSubResource.SHORT_DESCRIPTION, descriptor.getShortDescription());

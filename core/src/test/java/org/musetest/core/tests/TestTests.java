@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -17,10 +15,10 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestTests
+class TestTests
     {
     @Test
-    public void eventGeneration()
+    void eventGeneration()
 	    {
         SteppedTest test = setupLogTest(null);
 	    final TestExecutionContext context = TestRunHelper.runTestReturnContext(new SimpleProject(), test);
@@ -32,7 +30,7 @@ public class TestTests
         }
 
     @Test
-    public void stepSetupFailure()
+    void stepSetupFailure()
         {
         SteppedTest test = setupLogTest(null);
         test.getStep().removeSource(LogMessage.MESSAGE_PARAM);
@@ -44,7 +42,7 @@ public class TestTests
         }
 
     @Test
-    public void stopOnError()
+    void stopOnError()
         {
         StepConfiguration step = new StepConfiguration(Verify.TYPE_ID); // will cause an error - condition param is missing
         SteppedTest test = setupLogTest(step);
@@ -55,11 +53,11 @@ public class TestTests
         Assertions.assertFalse(result.isPass());  // test marked as failure
 
         // should stop after verify step
-        Assertions.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assertions.assertEquals(2, context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size());
         }
 
     @Test
-    public void continueOnVerifyFailure()
+    void continueOnVerifyFailure()
         {
         StepConfiguration step = new StepConfiguration(Verify.TYPE_ID);
         step.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(false)); // will cause a failure
@@ -71,11 +69,11 @@ public class TestTests
         Assertions.assertFalse(result.isPass());  // test marked as failure
 
         // should run all steps
-        Assertions.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
+        Assertions.assertEquals(3, context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size());
         }
 
     @Test
-    public void stopOnVerifyWithTerminateOption()
+    void stopOnVerifyWithTerminateOption()
         {
         StepConfiguration step = new StepConfiguration(Verify.TYPE_ID);
         step.addSource(Verify.CONDITION_PARAM, ValueSourceConfiguration.forValue(false)); // will cause a failure
@@ -89,14 +87,14 @@ public class TestTests
         Assertions.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
 
         // should stop after verify step
-        Assertions.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assertions.assertEquals(2, context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size());
         }
 
     /**
      * An event that has failure status causes the test result to have failure status
      */
     @Test
-    public void failureEventStatusCausesTestFailureStatus()
+    void failureEventStatusCausesTestFailureStatus()
         {
         MuseEvent event = new MuseEvent(MessageEventType.INSTANCE);
         event.addTag(MuseEvent.FAILURE);
@@ -106,14 +104,14 @@ public class TestTests
         Assertions.assertEquals(TestResult.FailureType.Failure, _result.getFailures().get(0).getType());
 
         // it was not fatal, so all steps should run
-        Assertions.assertTrue(_context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
+        Assertions.assertEquals(3, _context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size());
         }
 
     /**
      * An event that has error status causes the test result to have error status. And test Terminates
      */
     @Test
-    public void errorEventStatusCausesTestErrorStatus()
+    void errorEventStatusCausesTestErrorStatus()
         {
         MuseEvent event = new MuseEvent(MessageEventType.INSTANCE);
         event.addTag(MuseEvent.ERROR);
@@ -127,14 +125,14 @@ public class TestTests
      * An event that has error status causes the test result to have error status. And test Terminates
      */
     @Test
-    public void eventTerminatePropertyCausesTermination()
+    void eventTerminatePropertyCausesTermination()
         {
         MuseEvent event = new MuseEvent(MessageEventType.INSTANCE);
         event.addTag(MuseEvent.TERMINATE);
         runEventRaisingTest(event);
 
         // second step should not run (technically 3rd, since the 2 are contained in compound step)
-        Assertions.assertTrue(_context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assertions.assertEquals(2, _context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size());
         }
 
     private void runEventRaisingTest(MuseEvent event)

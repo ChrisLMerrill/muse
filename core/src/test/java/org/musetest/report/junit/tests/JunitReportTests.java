@@ -1,8 +1,6 @@
 package org.musetest.report.junit.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.report.junit.*;
 
@@ -13,10 +11,10 @@ import java.io.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class JunitReportTests
+class JunitReportTests
     {
     @Test
-    public void generateJunitXmlReport()
+    void generateJunitXmlReport()
         {
         JUnitReportData report_data = new JUnitReportData();
         report_data.addResult(TestResult.create("test 1", "test1", "erred", TestResult.FailureType.Error, "erred"), null);

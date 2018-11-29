@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.tests.utils.*;
@@ -13,10 +11,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ProjectClasspathTests
+class ProjectClasspathTests
     {
     @Test
-    public void testStepLoadedFromProjectClassesFolder()
+    void testStepLoadedFromProjectClassesFolder()
         {
         MuseProject project = ProjectFactory.create(new File("src/test/other_resources/projects/classpath"), Collections.emptyMap());
         project.open();
@@ -33,7 +31,7 @@ public class ProjectClasspathTests
         }
 
     @Test
-    public void testStepLoadedFromProjectJar()
+    void testStepLoadedFromProjectJar()
         {
         MuseProject project = ProjectFactory.create(new File("src/test/other_resources/projects/classpath"), Collections.emptyMap());
         project.open();

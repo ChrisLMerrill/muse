@@ -1,7 +1,6 @@
 package org.musetest.builtins.tests.mocks;
 
 import org.musetest.core.*;
-import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 
 /**
@@ -10,13 +9,14 @@ import org.musetest.core.values.*;
 @MuseTypeId("mock-source")
 public class MockValueSource implements MuseValueSource
     {
-    public MockValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+    @SuppressWarnings("unused")
+    public MockValueSource(ValueSourceConfiguration config, MuseProject project)
         {
         _config = config;
         }
 
     @Override
-    public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
+    public Object resolveValue(MuseExecutionContext context)
         {
         return _config.getValue();
         }

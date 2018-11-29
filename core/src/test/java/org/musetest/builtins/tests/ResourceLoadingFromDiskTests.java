@@ -1,9 +1,6 @@
 package org.musetest.builtins.tests;
 
-
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
@@ -17,10 +14,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ResourceLoadingFromDiskTests
+class ResourceLoadingFromDiskTests
     {
     @Test
-    public void testLoadingMacroStep() throws IOException
+    void testLoadingMacroStep() throws IOException
         {
         File file = TestResources.getFile("test_files/MacroStep.json", this.getClass());
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(file));

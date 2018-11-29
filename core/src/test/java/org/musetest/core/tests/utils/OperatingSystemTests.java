@@ -1,17 +1,15 @@
 package org.musetest.core.tests.utils;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class OperatingSystemTests
+class OperatingSystemTests
     {
     @Test
-    public void recognizeWindows10()
+    void recognizeWindows10()
         {
         System.setProperty("os.name", "Windows 10");
         OperatingSystem.detect();
@@ -19,7 +17,7 @@ public class OperatingSystemTests
         }
 
     @Test
-    public void recognizeWindows8()
+    void recognizeWindows8()
         {
         System.setProperty("os.name", "Windows 8");
         OperatingSystem.detect();
@@ -27,7 +25,7 @@ public class OperatingSystemTests
         }
 
     @Test
-    public void recognizeWindows7()
+    void recognizeWindows7()
         {
         System.setProperty("os.name", "Windows 7");
         OperatingSystem.detect();
@@ -35,7 +33,7 @@ public class OperatingSystemTests
         }
 
     @Test
-    public void recognizeMacOS()
+    void recognizeMacOS()
         {
         System.setProperty("os.name", "Mac OS X");
         OperatingSystem.detect();
@@ -43,7 +41,7 @@ public class OperatingSystemTests
         }
 
     @Test
-    public void recognizeLinux()
+    void recognizeLinux()
         {
         System.setProperty("os.name", "Linux");
         OperatingSystem.detect();
@@ -51,13 +49,13 @@ public class OperatingSystemTests
         }
 
     @BeforeEach
-    public void saveOsName()
+    void saveOsName()
         {
         _original_os_name = System.getProperty("os.name");
         }
     private String _original_os_name;
     @AfterEach
-    public void restoreOsName()
+    void restoreOsName()
         {
         System.setProperty("os.name", _original_os_name);
         }

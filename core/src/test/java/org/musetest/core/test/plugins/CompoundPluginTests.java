@@ -1,8 +1,6 @@
 package org.musetest.core.test.plugins;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
@@ -15,10 +13,10 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class CompoundPluginTests
+class CompoundPluginTests
 	{
 	@Test
-	public void apply1Plugin() throws MuseExecutionError
+    void apply1Plugin() throws MuseExecutionError
 		{
 	    CompoundPluginConfiguration config = new CompoundPluginConfiguration();
 	    config.parameters().addSource(CompoundPluginConfiguration.LISTS_PARAM, ValueSourceConfiguration.forValue("pl1"));
@@ -33,7 +31,7 @@ public class CompoundPluginTests
 	    }
 
 	@Test
-	public void ignoreAutoApply() throws MuseExecutionError
+    void ignoreAutoApply() throws MuseExecutionError
 		{
 	    CompoundPluginConfiguration config = new CompoundPluginConfiguration();
 	    config.parameters().addSource(CompoundPluginConfiguration.LISTS_PARAM, ValueSourceConfiguration.forValue("pl2"));
@@ -48,7 +46,7 @@ public class CompoundPluginTests
 	    }
 
 	@Test
-	public void apply2Plugins() throws MuseExecutionError
+    void apply2Plugins() throws MuseExecutionError
 		{
 	    CompoundPluginConfiguration config = new CompoundPluginConfiguration();
 	    config.parameters().addSource(CompoundPluginConfiguration.LISTS_PARAM, ValueSourceConfiguration.forValue("pl1,pl2"));
@@ -64,7 +62,7 @@ public class CompoundPluginTests
 	    }
 
 	@BeforeEach
-	public void setup() throws IOException
+    void setup() throws IOException
 		{
 		MockPluginConfiguration plugin1 = new MockPluginConfiguration(true, true);
 		plugin1.setId("pl1");

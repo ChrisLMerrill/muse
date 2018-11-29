@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
@@ -14,10 +12,10 @@ import org.musetest.core.step.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EventTests
+class EventTests
     {
     @Test
-    public void eventDescriptionMatcher()
+    void eventDescriptionMatcher()
         {
         EventMatcher matcher = new EventDescriptionMatcher("description");
         Assertions.assertTrue(matcher.matches(MessageEventType.create("description")));
@@ -25,7 +23,7 @@ public class EventTests
         }
 
     @Test
-    public void eventTypeMatcher()
+    void eventTypeMatcher()
         {
         EventMatcher matcher = new EventTypeMatcher(ConditionEvaluatedEventType.TYPE_ID);
         Assertions.assertTrue(matcher.matches(new MuseEvent(ConditionEvaluatedEventType.INSTANCE)));
@@ -33,7 +31,7 @@ public class EventTests
         }
 
     @Test
-    public void stepResultStatusMatcher()
+    void stepResultStatusMatcher()
         {
         EventMatcher matcher = new StepResultStatusMatcher(StepExecutionStatus.ERROR);
         Assertions.assertTrue(matcher.matches(EndStepEventType.create(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR))));
@@ -41,7 +39,7 @@ public class EventTests
         }
 
     @Test
-    public void unknownEventType()
+    void unknownEventType()
         {
         final String type_id = "unknown-type";
         EventType type = EventTypes.DEFAULT.findType(type_id);

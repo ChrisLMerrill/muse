@@ -13,10 +13,10 @@ import java.io.*;
  * @author Christopher L Merrill, Copyright 2015 (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")
-public class ValueSourceConfigTests
+class ValueSourceConfigTests
     {
     @Test
-    public void stringSource() throws IOException, MuseInstantiationException
+    void stringSource() throws IOException, MuseInstantiationException
         {
         MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"string\", \"value\":\"abc\" }").createSource(null);
         Assertions.assertTrue(source instanceof StringValueSource);
@@ -24,7 +24,7 @@ public class ValueSourceConfigTests
         }
 
     @Test
-    public void stringSourceMissingValue() throws IOException, MuseInstantiationException
+    void stringSourceMissingValue() throws IOException
         {
         try
             {
@@ -34,19 +34,19 @@ public class ValueSourceConfigTests
             {
             return; // this is ok
             }
-        Assertions.assertTrue(false, "Should have thrown an exception");
+        Assertions.fail("Should have thrown an exception");
         }
 
     @Test
-    public void integerSource() throws IOException, MuseInstantiationException
+    void integerSource() throws IOException, MuseInstantiationException
         {
         MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"integer\", \"value\":123 }").createSource(null);
         Assertions.assertTrue(source instanceof IntegerValueSource);
-        Assertions.assertEquals(new Long(123), ((IntegerValueSource)source).getValue());
+        Assertions.assertEquals(Long.valueOf(123), ((IntegerValueSource)source).getValue());
         }
 
     @Test
-    public void booleanSource() throws IOException, MuseInstantiationException
+    void booleanSource() throws IOException, MuseInstantiationException
         {
         MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"boolean\", \"value\":true }").createSource(null);
         Assertions.assertTrue(source instanceof BooleanValueSource);
@@ -54,7 +54,7 @@ public class ValueSourceConfigTests
         }
 
     @Test
-    public void variableSource() throws IOException, MuseInstantiationException
+    void variableSource() throws IOException, MuseInstantiationException
         {
         MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"variable\", \"value\":\"X\" }").createSource(null);
         Assertions.assertTrue(source instanceof VariableValueSource);
@@ -64,7 +64,7 @@ public class ValueSourceConfigTests
         }
 
     @Test
-    public void variableSourceWithValueSource() throws IOException, MuseInstantiationException
+    void variableSourceWithValueSource() throws IOException, MuseInstantiationException
         {
         MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"variable\", \"source\":{\"type\":\"string\", \"value\":\"X\"} }").createSource(null);
         Assertions.assertTrue(source instanceof VariableValueSource);
@@ -74,7 +74,7 @@ public class ValueSourceConfigTests
         }
 
     @Test
-    public void equalsCondition() throws IOException, MuseInstantiationException
+    void equalsCondition() throws IOException, MuseInstantiationException
         {
         MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"equals\", \"sourceMap\":{\"left\":{ \"type\":\"string\", \"value\":\"abc\" }, \"right\":{ \"type\":\"integer\", \"value\":1 }}}").createSource(null);
         Assertions.assertTrue(source instanceof EqualityCondition);
@@ -85,41 +85,41 @@ public class ValueSourceConfigTests
 
         MuseValueSource right = ((EqualityCondition) source).getRight();
         Assertions.assertTrue(right instanceof IntegerValueSource);
-        Assertions.assertEquals(new Long(1L), ((IntegerValueSource)right).getValue());
+        Assertions.assertEquals(Long.valueOf(1L), ((IntegerValueSource)right).getValue());
         }
 
     @Test
-    public void greaterThanCondition() throws IOException, MuseInstantiationException
+    void greaterThanCondition() throws IOException, MuseInstantiationException
         {
         MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"greaterthan\", \"sourceMap\":{\"left\":{ \"type\":\"integer\", \"value\":7 }, \"right\":{ \"type\":\"integer\", \"value\":1 }}}").createSource(null);
         Assertions.assertTrue(source instanceof GreaterThanCondition);
 
         MuseValueSource left_source = ((GreaterThanCondition) source).getLeft();
         Assertions.assertTrue(left_source instanceof IntegerValueSource);
-        Assertions.assertEquals(new Long(7L), ((IntegerValueSource)left_source).getValue());
+        Assertions.assertEquals(Long.valueOf(7L), ((IntegerValueSource)left_source).getValue());
 
         MuseValueSource right = ((GreaterThanCondition) source).getRight();
         Assertions.assertTrue(right instanceof IntegerValueSource);
-        Assertions.assertEquals(new Long(1L), ((IntegerValueSource)right).getValue());
+        Assertions.assertEquals(Long.valueOf(1L), ((IntegerValueSource)right).getValue());
         }
 
     @Test
-    public void lessThanCondition() throws IOException, MuseInstantiationException
+    void lessThanCondition() throws IOException, MuseInstantiationException
         {
         MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"lessthan\", \"sourceMap\":{\"left\":{ \"type\":\"integer\", \"value\":7 }, \"right\":{ \"type\":\"integer\", \"value\":1 }}}").createSource(null);
         Assertions.assertTrue(source instanceof LessThanCondition);
 
         MuseValueSource left_source = ((LessThanCondition) source).getLeft();
         Assertions.assertTrue(left_source instanceof IntegerValueSource);
-        Assertions.assertEquals(new Long(7L), ((IntegerValueSource)left_source).getValue());
+        Assertions.assertEquals(Long.valueOf(7L), ((IntegerValueSource)left_source).getValue());
 
         MuseValueSource right = ((LessThanCondition) source).getRight();
         Assertions.assertTrue(right instanceof IntegerValueSource);
-        Assertions.assertEquals(new Long(1L), ((IntegerValueSource)right).getValue());
+        Assertions.assertEquals(Long.valueOf(1L), ((IntegerValueSource)right).getValue());
         }
 
     @Test
-    public void concatenation() throws IOException, MuseInstantiationException
+    void concatenation() throws IOException, MuseInstantiationException
         {
         MuseValueSource source = ValueSourceConfiguration.fromString("{ \"type\":\"add\", \"sourceList\":[{ \"type\":\"string\", \"value\":\"abc\" },{ \"type\":\"integer\", \"value\":1 },{ \"type\":\"boolean\", \"value\":true }]}").createSource(null);
         Assertions.assertTrue(source instanceof AdditionSource);
@@ -131,7 +131,7 @@ public class ValueSourceConfigTests
 
         MuseValueSource second = ((AdditionSource) source).getSources()[1];
         Assertions.assertTrue(second instanceof IntegerValueSource);
-        Assertions.assertEquals(new Long(1L), ((IntegerValueSource)second).getValue());
+        Assertions.assertEquals(Long.valueOf(1L), ((IntegerValueSource)second).getValue());
 
         MuseValueSource third = ((AdditionSource) source).getSources()[2];
         Assertions.assertTrue(third instanceof BooleanValueSource);
@@ -139,7 +139,7 @@ public class ValueSourceConfigTests
         }
 
     @Test
-    public void cantAddNullNamedSource()
+    void cantAddNullNamedSource()
         {
         ValueSourceConfiguration configuration = ValueSourceConfiguration.forType(StringValueSource.TYPE_ID);
         try

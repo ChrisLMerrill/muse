@@ -13,11 +13,11 @@ import java.nio.file.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class FolderIntoMemoryResourceStorageTests
+class FolderIntoMemoryResourceStorageTests
     {
     @SuppressWarnings("ConstantConditions")
     @Test
-    public void addAndDeleteResourceFile() throws IOException
+    void addAndDeleteResourceFile() throws IOException
         {
         Assertions.assertEquals(0, _folder.listFiles().length);
         MuseResource resource = createResource();
@@ -34,13 +34,13 @@ public class FolderIntoMemoryResourceStorageTests
 
     @SuppressWarnings("ConstantConditions")
     @Test
-    public void overwriteExistingResourceFile() throws IOException
+    void overwriteExistingResourceFile() throws IOException
         {
         // create initial resource
         _project.getResourceStorage().addResource(createResource());
 
         // get timestamp and size of existing resource
-        file = _folder.listFiles()[0];
+        File file = _folder.listFiles()[0];
         long modified = file.lastModified();
         long size = file.length();
 
@@ -64,14 +64,14 @@ public class FolderIntoMemoryResourceStorageTests
         }
 
     @BeforeEach
-    public void setup() throws IOException
+    void setup() throws IOException
         {
         _folder = Files.createTempDirectory("museproject").toFile();
         _project = new SimpleProject(new FolderIntoMemoryResourceStorage(_folder));
         }
 
     @AfterEach
-    public void teardown()
+    void teardown()
         {
         _folder.deleteOnExit();
         }
@@ -85,9 +85,8 @@ public class FolderIntoMemoryResourceStorageTests
 
     private SimpleProject _project;
     private File _folder;
-    private File file;
 
-    public final static String RESOURCE_1_ID = "resource1";
+    private final static String RESOURCE_1_ID = "resource1";
     }
 
 

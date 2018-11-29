@@ -11,10 +11,10 @@ import java.util.concurrent.atomic.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class NamedSourceContainerTests
+class NamedSourceContainerTests
 	{
 	@Test
-	public void addSource()
+    void addSource()
 		{
 		final ValueSourceConfiguration source = ValueSourceConfiguration.forValue("v1");
 		final String name = "s1";
@@ -32,12 +32,12 @@ public class NamedSourceContainerTests
 		}
 
 	@Test
-	public void setNullSource()
+    void setNullSource()
 		{
 		try
 			{
 			new NamedSourcesContainer().addSource("abc", null);
-			Assertions.assertTrue(false, "Should have thrown an exception");
+            Assertions.fail("Should have thrown an exception");
 			}
 		catch (IllegalArgumentException e)
 			{
@@ -46,14 +46,14 @@ public class NamedSourceContainerTests
 		}
 
 	@Test
-	public void setDuplicateSource()
+    void setDuplicateSource()
 		{
 		try
 			{
 			final NamedSourcesContainer container = new NamedSourcesContainer();
 			container.addSource("abc", ValueSourceConfiguration.forValue("111"));
 			container.addSource("abc", ValueSourceConfiguration.forValue("222"));
-			Assertions.assertTrue(false, "Should have thrown an exception");
+            Assertions.fail("Should have thrown an exception");
 			}
 		catch (IllegalArgumentException e)
 			{
@@ -62,7 +62,7 @@ public class NamedSourceContainerTests
 		}
 
 	@Test
-	public void removeSource()
+    void removeSource()
 		{
 		final NamedSourcesContainer container = new NamedSourcesContainer();
 		final ValueSourceConfiguration source = ValueSourceConfiguration.forValue("111");
@@ -73,7 +73,7 @@ public class NamedSourceContainerTests
 
 		ValueSourceConfiguration removed = container.removeSource(name);
 
-		Assertions.assertTrue(removed == source);  // looking for reference equality here
+        Assertions.assertSame(removed, source);  // looking for reference equality here
 		Assertions.assertNull(container.getSource(name));
 
 		// check the event
@@ -84,7 +84,7 @@ public class NamedSourceContainerTests
 		}
 
 	@Test
-	public void renameSource()
+    void renameSource()
 		{
 		final NamedSourcesContainer container = new NamedSourcesContainer();
 		final ValueSourceConfiguration source = ValueSourceConfiguration.forValue("111");
@@ -98,7 +98,7 @@ public class NamedSourceContainerTests
 
 		Assertions.assertTrue(renamed);
 		Assertions.assertNull(container.getSource(name));
-		Assertions.assertTrue(source == container.getSource(new_name));  // looking for reference equality
+        Assertions.assertSame(source, container.getSource(new_name));  // looking for reference equality
 
 		// check the event
 		Assertions.assertTrue(ev_holder.get() instanceof NamedSourceRenamedEvent);
@@ -108,7 +108,7 @@ public class NamedSourceContainerTests
 		}
 
 	@Test
-	public void replaceSource()
+    void replaceSource()
 		{
 		final NamedSourcesContainer container = new NamedSourcesContainer();
 		final ValueSourceConfiguration source = ValueSourceConfiguration.forValue("111");
@@ -120,8 +120,8 @@ public class NamedSourceContainerTests
 
 		ValueSourceConfiguration replaced_source = container.replaceSource(name, new_source);
 
-		Assertions.assertTrue(source == replaced_source);  // looking for reference equality
-		Assertions.assertTrue(new_source == container.getSource(name));  // looking for reference equality
+        Assertions.assertSame(source, replaced_source);  // looking for reference equality
+        Assertions.assertSame(new_source, container.getSource(name));  // looking for reference equality
 
 		// check the event
 		Assertions.assertTrue(ev_holder.get() instanceof NamedSourceReplacedEvent);
@@ -132,7 +132,7 @@ public class NamedSourceContainerTests
 		}
 
 	@Test
-	public void getSourceNames()
+    void getSourceNames()
 		{
 		final NamedSourcesContainer container = new NamedSourcesContainer();
 		container.addSource("name1", ValueSourceConfiguration.forValue("111"));
@@ -145,7 +145,7 @@ public class NamedSourceContainerTests
 		}
 
 	@Test
-	public void subsourceChangeEvent()
+    void subsourceChangeEvent()
 		{
 		final NamedSourcesContainer container = new NamedSourcesContainer();
 		final ValueSourceConfiguration source1 = ValueSourceConfiguration.forValue("111");

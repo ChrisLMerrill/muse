@@ -22,16 +22,16 @@ import static org.musetest.core.tests.mocks.MockStepCreatesShuttable.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ExecutionContextTests
+class ExecutionContextTests
 	{
 	@Test
-	public void projectContextEvents()
+    void projectContextEvents()
 		{
 		checkReceiveEvents(new ProjectExecutionContext(_project));
 		}
 
 	@Test
-	public void testContextEvents()
+    void testContextEvents()
 		{
 		final DefaultTestExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
 
@@ -40,7 +40,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void steppedTestContextEvents()
+    void steppedTestContextEvents()
 		{
 		final DefaultSteppedTestExecutionContext context = new DefaultSteppedTestExecutionContext(_project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
 
@@ -49,7 +49,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void singleStepContextEvents()
+    void singleStepContextEvents()
 		{
 		final StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
 		StepsExecutionContext parent = new DefaultSteppedTestExecutionContext(_project, new SteppedTest(step));
@@ -60,7 +60,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void listOfStepsContextReceivesEvents()
+    void listOfStepsContextReceivesEvents()
 		{
 		final StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
 		StepsExecutionContext parent = new DefaultSteppedTestExecutionContext(_project, new SteppedTest(step));
@@ -102,7 +102,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void getProject()
+    void getProject()
 		{
 		ProjectExecutionContext context = new ProjectExecutionContext(_project);
         Assertions.assertSame(_project, context.getProject());
@@ -111,7 +111,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void variableScoping()
+    void variableScoping()
 		{
 		// set same variable in multiple contexts to different values
 		MuseExecutionContext project_context = new ProjectExecutionContext(_project);
@@ -139,7 +139,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void createVariable()
+    void createVariable()
 		{
 		String varname = _context.createVariable("varprefix-", "value");
 		Assertions.assertTrue(varname.startsWith("varprefix-"));
@@ -147,7 +147,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void createVariableTwice()
+    void createVariableTwice()
 		{
 		String varname1 = _context.createVariable("varprefix-", "value1");
 		String varname2 = _context.createVariable("varprefix-", "value2");
@@ -157,7 +157,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void shutShuttables()
+    void shutShuttables()
 		{
 		// create a test with a step that creates a Shuttable resource
 		MuseProject project = new SimpleProject();
@@ -182,7 +182,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void queueNewEventsDuringProcessing()
+    void queueNewEventsDuringProcessing()
 		{
 		final StepConfiguration step_config = new StepConfiguration(LogMessage.TYPE_ID);
 		DefaultTestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), new SteppedTest(step_config));
@@ -213,7 +213,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void getTestExecutionId()
+    void getTestExecutionId()
 		{
 		MuseTest test = new MockTest("test1");
 		TestExecutionContext context = new DefaultTestExecutionContext(_context, test);
@@ -222,7 +222,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void getTestExecutionIdInSuite()
+    void getTestExecutionIdInSuite()
 		{
 		MuseTestSuite suite = new SimpleTestSuite();
 		suite.setId("suite1");
@@ -237,7 +237,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void successfulPluginInitEvent() throws MuseExecutionError
+    void successfulPluginInitEvent() throws MuseExecutionError
 		{
 		MockContext context = new MockContext();
 		AtomicBoolean is_shutdown = new AtomicBoolean(false);
@@ -266,7 +266,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void failedPluginInitEvent() throws MuseExecutionError
+    void failedPluginInitEvent() throws MuseExecutionError
 		{
 		MockContext context = new MockContext();
 		AtomicBoolean is_shutdown = new AtomicBoolean(false);
@@ -301,7 +301,7 @@ public class ExecutionContextTests
 		}
 
 	@Test
-	public void pluginShutdownOrder() throws MuseExecutionError
+    void pluginShutdownOrder() throws MuseExecutionError
 		{
 		MockContext context = new MockContext();
 		List<String> shutdown_plugin_ids = new ArrayList<>();
@@ -336,7 +336,7 @@ public class ExecutionContextTests
 		}
 
 	@BeforeEach
-	public void setup()
+    void setup()
 		{
 		_project = new SimpleProject();
 		_context = new ProjectExecutionContext(_project);

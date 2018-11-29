@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.project.*;
@@ -14,10 +12,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ResourceTypeTests
+class ResourceTypeTests
     {
     @Test
-    public void findPrimaryTypes() // not Subtypes
+    void findPrimaryTypes() // not Subtypes
         {
         MuseProject project = new SimpleProject();
         Collection<ResourceType> all = project.getResourceTypes().getPrimary();
@@ -29,7 +27,7 @@ public class ResourceTypeTests
         }
 
     @Test
-    public void findSubtypeOf()
+    void findSubtypeOf()
         {
         MuseProject project = new SimpleProject();
         Collection<ResourceSubtype> found = project.getResourceTypes().getSubtypesOf(new MuseTestSuite.TestSuiteResourceType());

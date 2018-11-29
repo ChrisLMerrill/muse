@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.util.*;
@@ -15,10 +13,10 @@ import java.util.concurrent.atomic.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @SuppressWarnings("unused")
-public class ValueSourceChangeListenerTests
+class ValueSourceChangeListenerTests
     {
     @Test
-    public void changeType()
+    void changeType()
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(NotValueSource.TYPE_ID);
         final AtomicBoolean notified = new AtomicBoolean(false);
@@ -36,7 +34,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void changeValue()
+    void changeValue()
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forValue("abc");
         final AtomicBoolean notified = new AtomicBoolean(false);
@@ -54,7 +52,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void changeSubsource()
+    void changeSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         final ValueSourceConfiguration old_subsource = ValueSourceConfiguration.forValue("abc");
@@ -75,7 +73,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void addNamedSubsource()
+    void addNamedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         final String new_name = "new_source";
@@ -95,7 +93,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void removedNamedSubsource()
+    void removedNamedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         final String removed_name = "old_source";
@@ -116,7 +114,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void renameNamedSubsource()
+    void renameNamedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         final String name1 = "old_source";
@@ -138,7 +136,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void replaceNamedSubsource()
+    void replaceNamedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         final String source_name = "source_name";
@@ -160,7 +158,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void addIndexedSubsource()
+    void addIndexedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         final ValueSourceConfiguration new_subsource = ValueSourceConfiguration.forValue(123L);
@@ -179,7 +177,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void removeIndexedSubsource()
+    void removeIndexedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         final ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue(123L);
@@ -199,7 +197,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void replaceIndexedSubsource()
+    void replaceIndexedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         final ValueSourceConfiguration original_subsource = ValueSourceConfiguration.forValue("abc");
@@ -220,7 +218,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void removeListener()
+    void removeListener()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(IntegerValueSource.TYPE_ID);
         final AtomicBoolean notified = new AtomicBoolean(false);
@@ -243,7 +241,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void oropagateEventFromSingleSubsource()
+    void oropagateEventFromSingleSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("var1");
@@ -285,7 +283,7 @@ public class ValueSourceChangeListenerTests
         }
 
     @Test
-    public void oropagateEventFromIndexedSubsource()
+    void oropagateEventFromIndexedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("var1");
@@ -323,11 +321,11 @@ public class ValueSourceChangeListenerTests
         notification.set(null);
         source.removeSource(0);
         subsource.setValue("changed3");
-        Assertions.assertEquals(null, notification.get());
+        Assertions.assertNull(notification.get());
         }
 
     @Test
-    public void propagateEventFromNamedSubsource()
+    void propagateEventFromNamedSubsource()
         {
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(VariableValueSource.TYPE_ID);
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("var1");
@@ -379,7 +377,7 @@ public class ValueSourceChangeListenerTests
      * does registration of listeners happen correctly when the source is not directly modified (simply comes into being via serialization)
      */
     @Test
-    public void changeEventFromDeserializedStepConfig()
+    void changeEventFromDeserializedStepConfig()
         {
         ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue("sub1");
         ValueSourceConfiguration source = ValueSourceConfiguration.forType(LogMessage.TYPE_ID);

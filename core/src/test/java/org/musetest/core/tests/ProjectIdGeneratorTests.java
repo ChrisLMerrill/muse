@@ -1,17 +1,15 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.project.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ProjectIdGeneratorTests
+class ProjectIdGeneratorTests
 	{
 	@Test
-	public void generateUniqueIds()
+    void generateUniqueIds()
 	    {
 	    SimpleProject project = new SimpleProject();
 

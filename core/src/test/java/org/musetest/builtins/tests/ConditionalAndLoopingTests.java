@@ -19,10 +19,10 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ConditionalAndLoopingTests
+class ConditionalAndLoopingTests
 	{
 	@Test
-	public void testIfStep()
+    void testIfStep()
 		{
 		StepConfiguration main = new StepConfiguration("compound");
 
@@ -53,13 +53,13 @@ public class ConditionalAndLoopingTests
 		EventLog log = _test_config.context().getEventLog();
 		Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(should_run_message)), "The conditional that should have run, did not");
 		Assertions.assertNull(log.findFirstEvent(new EventDescriptionMatcher(should_not_run_message)), "The conditional that should not have run, did run");
-		Assertions.assertEquals(null, _test_config.context().getVariable("ran2"));
+        Assertions.assertNull(_test_config.context().getVariable("ran2"));
 		}
 
 	@Test
-	public void testWhileStepX3()
+    void testWhileStepX3()
 		{
-		TestResult result = runTest(createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 0L));
+		TestResult result = runTest(createLoopTest(0L));
 		Assertions.assertTrue(result.isPass());
 		EventLog log = _test_config.context().getEventLog();
 		Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)), "first message is missing");
@@ -68,29 +68,29 @@ public class ConditionalAndLoopingTests
 		Assertions.assertNull(log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 4)), "this message shouldn't be there");
 		}
 
-	private SteppedTest createLoopTest(String counter_var_name, String message_prefix, Object initial_value)
+	private SteppedTest createLoopTest(Object initial_value)
 		{
 		StepConfiguration main = new StepConfiguration("compound");
 
 		StepConfiguration store_step = new StepConfiguration(StoreVariable.TYPE_ID);
-		store_step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue(counter_var_name));
+		store_step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue(ConditionalAndLoopingTests.COUNTER_NAME));
 		store_step.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(initial_value));
 		main.addChild(store_step);
 
 		StepConfiguration while_step = new StepConfiguration(WhileStep.TYPE_ID);
 		ValueSourceConfiguration condition = ValueSourceConfiguration.forType(LessThanCondition.TYPE_ID);
-		condition.addSource(EqualityCondition.LEFT_PARAM, ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(counter_var_name)));
+		condition.addSource(EqualityCondition.LEFT_PARAM, ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(ConditionalAndLoopingTests.COUNTER_NAME)));
 		condition.addSource(EqualityCondition.RIGHT_PARAM, ValueSourceConfiguration.forValue(3L));
 		while_step.addSource(WhileStep.CONDITION_PARAM, condition);
 
 		StepConfiguration increment_step = new StepConfiguration(IncrementVariable.TYPE_ID);
-		increment_step.addSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue(counter_var_name));
+		increment_step.addSource(IncrementVariable.NAME_PARAM, ValueSourceConfiguration.forValue(ConditionalAndLoopingTests.COUNTER_NAME));
 		while_step.addChild(increment_step);
 
 		StepConfiguration log_step = new StepConfiguration(LogMessage.TYPE_ID);
 		ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
-		config.addSource(ValueSourceConfiguration.forValue(message_prefix));
-		config.addSource(ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(counter_var_name)));
+		config.addSource(ValueSourceConfiguration.forValue(ConditionalAndLoopingTests.MESSAGE_PREFIX));
+		config.addSource(ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(ConditionalAndLoopingTests.COUNTER_NAME)));
 		log_step.addSource(LogMessage.MESSAGE_PARAM, config);
 		while_step.addChild(log_step);
 
@@ -99,18 +99,18 @@ public class ConditionalAndLoopingTests
 		}
 
 	@Test
-	public void testWhileStepX1()
+    void testWhileStepX1()
 		{
-		TestResult result = runTest(createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 2L));
+		TestResult result = runTest(createLoopTest(2L));
 		Assertions.assertTrue(result.isPass());
 		Assertions.assertNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)), "this should not be found");
 		Assertions.assertNotNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)), "first message is missing");
 		}
 
 	@Test
-	public void testWhileStepX0()
+    void testWhileStepX0()
 		{
-		SteppedTest test = createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 3L);
+		SteppedTest test = createLoopTest(3L);
 		SteppedTestExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
 		context.addPlugin(new TestResultCollectorConfiguration().createPlugin());
 		boolean finished = test.execute(context);

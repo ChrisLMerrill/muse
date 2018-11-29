@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
@@ -24,10 +22,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TestSuiteTests
+class TestSuiteTests
     {
     @Test
-    public void simpleSuite() throws IOException
+    void simpleSuite() throws IOException
 	    {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
 	    TestResultCollectorConfiguration result_collector = new TestResultCollectorConfiguration.TestResultCollectorConfigurationType().create();
@@ -63,7 +61,7 @@ public class TestSuiteTests
         }
 
     @Test
-    public void executeSimpleSuiteById()
+    void executeSimpleSuiteById()
 	    {
         final File file = TestResources.getFile("projects/simpleSuite", getClass());
         if (file == null)
@@ -83,7 +81,7 @@ public class TestSuiteTests
         }
 
     @Test
-    public void generateConfigWithSubsuites() throws IOException
+    void generateConfigWithSubsuites() throws IOException
         {
         MuseProject project = new SimpleProject();
 
@@ -120,7 +118,7 @@ public class TestSuiteTests
         }
 
     @Test
-    public void loadTestSuiteFromJSON() throws IOException
+    void loadTestSuiteFromJSON() throws IOException
         {
         File file = TestResources.getFile("TestSuite.json", this.getClass());
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(file), new FactoryLocator(null), DefaultClassLocator.get());
@@ -131,7 +129,7 @@ public class TestSuiteTests
         }
 
     @Test
-    public void loadParameterizedSuiteFromJson() throws IOException
+    void loadParameterizedSuiteFromJson() throws IOException
         {
         File file = TestResources.getFile("projects/parameterizedSuite/suite.json", this.getClass());
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(file), new FactoryLocator(null), DefaultClassLocator.get());
@@ -157,7 +155,7 @@ public class TestSuiteTests
         }
 
     @Test
-    public void parameterizedTestSuite()
+    void parameterizedTestSuite()
 	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("suite").getResource();
@@ -171,7 +169,7 @@ public class TestSuiteTests
         }
 
     @Test
-    public void parametersFromCsv()
+    void parametersFromCsv()
 	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("CsvSuite").getResource();

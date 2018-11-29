@@ -25,10 +25,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ValueSourceTests
+class ValueSourceTests
     {
     @Test
-    public void stringConstantSource() throws MuseExecutionError
+    void stringConstantSource() throws MuseExecutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forValue("abc");
         MuseValueSource source = config.createSource();
@@ -36,7 +36,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void integerConstantSource() throws MuseExecutionError
+    void integerConstantSource() throws MuseExecutionError
         {
         MuseValueSource source = ValueSourceConfiguration.forValue(456L).createSource();
         Object value = source.resolveValue(null);
@@ -45,14 +45,14 @@ public class ValueSourceTests
         }
 
     @Test
-    public void booleanConstantSource() throws MuseExecutionError
+    void booleanConstantSource() throws MuseExecutionError
         {
         Assertions.assertTrue((Boolean) ValueSourceConfiguration.forValue(true).createSource().resolveValue(null));
         Assertions.assertFalse((Boolean) ValueSourceConfiguration.forValue(false).createSource().resolveValue(null));
         }
 
     @Test
-    public void variableValueSource() throws MuseExecutionError
+    void variableValueSource() throws MuseExecutionError
         {
         MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("abc")).createSource();
         StepExecutionContext context = new MockStepExecutionContext();
@@ -61,7 +61,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void variableValueSourceWithVariableName() throws MuseExecutionError
+    void variableValueSourceWithVariableName() throws MuseExecutionError
         {
         ValueSourceConfiguration varname_holding_the_varname = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue("varname"));
         MuseValueSource source = ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, varname_holding_the_varname).createSource();
@@ -72,7 +72,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void stringConcatenation() throws MuseExecutionError
+    void stringConcatenation() throws MuseExecutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
         config.addSource(ValueSourceConfiguration.forValue("abc"));
@@ -83,7 +83,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void mixedConcatenation() throws MuseExecutionError
+    void mixedConcatenation() throws MuseExecutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
         config.addSource(ValueSourceConfiguration.forValue("abc"));
@@ -93,7 +93,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void additionOfNumbers() throws MuseExecutionError
+    void additionOfNumbers() throws MuseExecutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
         config.addSource(ValueSourceConfiguration.forValue(1L));
@@ -103,7 +103,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void projectResourceValueSource() throws MuseExecutionError, IOException
+    void projectResourceValueSource() throws MuseExecutionError, IOException
         {
         final String test_id = "test_id";
         MuseTest test = new MockTest(test_id);
@@ -120,7 +120,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void missingSubsourceProjectResourceValueSource()
+    void missingSubsourceProjectResourceValueSource()
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
@@ -139,7 +139,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void misconfiguredProjectResourceValueSource() throws MuseInstantiationException
+    void misconfiguredProjectResourceValueSource() throws MuseInstantiationException
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
@@ -160,7 +160,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void missingProjectResourceValueSource() throws MuseInstantiationException
+    void missingProjectResourceValueSource() throws MuseInstantiationException
         {
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ProjectResourceValueSource.TYPE_ID);
@@ -181,7 +181,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void notTrue() throws MuseExecutionError
+    void notTrue() throws MuseExecutionError
         {
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(true);
         MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
@@ -189,7 +189,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void notFalse() throws MuseExecutionError
+    void notFalse() throws MuseExecutionError
         {
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(false);
         MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
@@ -197,7 +197,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void notNull() throws MuseInstantiationException
+    void notNull() throws MuseInstantiationException
         {
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(null);
         MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
@@ -217,7 +217,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void notString() throws MuseInstantiationException
+    void notString() throws MuseInstantiationException
         {
         ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue("string");
         MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
@@ -237,7 +237,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void formatNullDateParamAndFormatParams() throws MuseExecutionError
+    void formatNullDateParamAndFormatParams() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(null, null, null);
         long time = Long.parseLong(result.toString());
@@ -245,7 +245,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void formatNullDateAndFormatParam() throws MuseExecutionError
+    void formatNullDateAndFormatParam() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null, null);
         long time = Long.parseLong(result.toString());
@@ -253,7 +253,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void formatNullDateParamAndFormat() throws MuseExecutionError
+    void formatNullDateParamAndFormat() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forType(NullValueSource.TYPE_ID), null);
         long time = Long.parseLong(result.toString());
@@ -261,7 +261,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void formatNow() throws MuseExecutionError
+    void formatNow() throws MuseExecutionError
         {
         String expected = new SimpleDateFormat(NOW_DATE_FORMAT).format(new Date());
         Object result = resolveDateFormatSource(null, ValueSourceConfiguration.forValue(NOW_DATE_FORMAT), null);
@@ -269,7 +269,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void formatDate() throws MuseExecutionError, ParseException
+    void formatDate() throws MuseExecutionError, ParseException
         {
         String expected = "05291998123456";
         Date parsed = new SimpleDateFormat(NOW_DATE_FORMAT).parse(expected);
@@ -297,7 +297,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void toStringFormatting()
+    void toStringFormatting()
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(LogMessage.TYPE_ID);
         config.setValue("value");
@@ -314,7 +314,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void listContainsSource() throws MuseInstantiationException, ValueSourceResolutionError
+    void listContainsSource() throws MuseInstantiationException, ValueSourceResolutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(ListContainsSource.TYPE_ID);
         List<String> list = new ArrayList<>();
@@ -333,7 +333,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void propertySource() throws MuseInstantiationException, ValueSourceResolutionError
+    void propertySource() throws MuseInstantiationException, ValueSourceResolutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
         config.addSource(PropertySource.NAME_PARAM, ValueSourceConfiguration.forValue("length"));
@@ -348,7 +348,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void systemVariableSource() throws MuseInstantiationException, ValueSourceResolutionError
+    void systemVariableSource() throws MuseInstantiationException, ValueSourceResolutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(SystemVariableSource.TYPE_ID);
         config.setSource(ValueSourceConfiguration.forValue(MockSystemVariable.NAME));
@@ -362,13 +362,13 @@ public class ValueSourceTests
         }
 
     @Test
-    public void randomNumber1to5() throws MuseInstantiationException, ValueSourceResolutionError
+    void randomNumber1to5() throws MuseInstantiationException, ValueSourceResolutionError
         {
         testRandom(1, 5, 50);
         }
 
     @Test
-    public void randomNumber0to11() throws MuseInstantiationException, ValueSourceResolutionError
+    void randomNumber0to11() throws MuseInstantiationException, ValueSourceResolutionError
         {
         testRandom(0, 11, 100);
         }
@@ -391,7 +391,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void globMatchCondition() throws MuseInstantiationException, ValueSourceResolutionError
+    void globMatchCondition() throws MuseInstantiationException, ValueSourceResolutionError
         {
         ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(GlobMatchCondition.TYPE_ID);
         matcher.addSource(GlobMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a*z"));
@@ -402,7 +402,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void regexMatchCondition() throws MuseInstantiationException, ValueSourceResolutionError
+    void regexMatchCondition() throws MuseInstantiationException, ValueSourceResolutionError
         {
         ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(RegexMatchCondition.TYPE_ID);
         matcher.addSource(RegexMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a.*z"));
@@ -413,7 +413,7 @@ public class ValueSourceTests
         }
 
     @Test
-    public void regexMatchCaseInsensitive() throws MuseInstantiationException, ValueSourceResolutionError
+    void regexMatchCaseInsensitive() throws MuseInstantiationException, ValueSourceResolutionError
         {
         ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(RegexMatchCondition.TYPE_ID);
         matcher.addSource(RegexMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a.*z"));
@@ -425,7 +425,7 @@ public class ValueSourceTests
         }
     
     @Test
-    public void listSource() throws MuseInstantiationException, ValueSourceResolutionError
+    void listSource() throws MuseInstantiationException, ValueSourceResolutionError
 	    {
         ValueSourceConfiguration list = ValueSourceConfiguration.forType(ListSource.TYPE_ID);
         list.addSource(ValueSourceConfiguration.forValue(123));

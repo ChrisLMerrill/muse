@@ -7,7 +7,7 @@ import org.musetest.core.resource.types.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MockPluginConfiguration extends BaseMuseResource implements PluginConfiguration
+class MockPluginConfiguration extends BaseMuseResource implements PluginConfiguration
 	{
 	MockPluginConfiguration(boolean apply_auto, boolean apply_test)
 		{
@@ -30,9 +30,9 @@ public class MockPluginConfiguration extends BaseMuseResource implements PluginC
 	private final boolean _apply_auto;
 	private final boolean _apply_test;
 
-	public final static String TYPE_ID = "mock-plugin";
+	private final static String TYPE_ID = "mock-plugin";
 
-	public static class MockPluginConfigurationType extends ResourceType
+	static class MockPluginConfigurationType extends ResourceType
 		{
 		@SuppressWarnings("WeakerAccess")  // instantiated by reflection
 		public MockPluginConfigurationType()

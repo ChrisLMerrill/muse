@@ -9,9 +9,9 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MockStorageLocationProvider implements MusePlugin, LocalStorageLocationProvider
+class MockStorageLocationProvider implements MusePlugin, LocalStorageLocationProvider
 	{
-	public MockStorageLocationProvider(File base_folder, File test_folder)
+	MockStorageLocationProvider(File base_folder, File test_folder)
 		{
 		_base_folder = base_folder;
 		_test_folder = test_folder;

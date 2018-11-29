@@ -1,9 +1,7 @@
 package org.musetest.builtins.tests;
 
 import kotlin.*;
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -16,10 +14,10 @@ import org.musetest.core.values.strings.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class NameValuePairTests
+class NameValuePairTests
     {
     @Test
-    public void returnValue() throws MuseInstantiationException, ValueSourceResolutionError
+    void returnValue() throws MuseInstantiationException, ValueSourceResolutionError
         {
         MuseValueSource source = _config.createSource(_project);
         Object result = source.resolveValue(new ProjectExecutionContext(_project));
@@ -31,7 +29,7 @@ public class NameValuePairTests
         }
 
     @Test
-    public void instanceDescription()
+    void instanceDescription()
         {
         String description = new ValueSourceDescriptors(_project).get(_config).getInstanceDescription(_config, new RootStringExpressionContext(_project));
         Assertions.assertTrue(description.contains("name1"));
@@ -39,7 +37,7 @@ public class NameValuePairTests
         }
 
     @BeforeEach
-    public void setup()
+    void setup()
         {
         _project = new SimpleProject();
         _config = ValueSourceConfiguration.forType(NameValuePair.TYPE_ID);

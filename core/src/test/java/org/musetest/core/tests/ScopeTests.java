@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.test.*;
@@ -15,22 +13,22 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ScopeTests
+class ScopeTests
     {
     @Test
-    public void scopedGroupVariableVisibility()
+    void scopedGroupVariableVisibility()
         {
         runTestAndCheckForSuccess("scopedGroup");
         }
 
     @Test
-    public void functionCallVariableScope()
+    void functionCallVariableScope()
         {
         runTestAndCheckForSuccess("functionScope");
         }
 
     @Test
-    public void functionCallPassParameters()
+    void functionCallPassParameters()
         {
         runTestAndCheckForSuccess("functionVariablePassing");
         }

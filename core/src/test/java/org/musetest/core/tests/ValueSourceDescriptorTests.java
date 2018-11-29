@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.builtins.tests.mocks.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
@@ -11,10 +9,10 @@ import org.musetest.core.values.descriptor.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ValueSourceDescriptorTests
+class ValueSourceDescriptorTests
     {
     @Test
-    public void testDescriptorImplementation()
+    void testDescriptorImplementation()
         {
         // Test that we can lookup a descriptor and get the right implementation class
         SimpleProject project = new SimpleProject();
@@ -24,7 +22,7 @@ public class ValueSourceDescriptorTests
         }
 
     @Test
-    public void testAnnotatedDescriptorImplementation()
+    void testAnnotatedDescriptorImplementation()
         {
         // Test that we can lookup a descriptor and get the right implementation class
         SimpleProject project = new SimpleProject();
@@ -50,7 +48,7 @@ public class ValueSourceDescriptorTests
         Assertions.assertEquals(SubsourceDescriptor.Type.Named, sub.getType());
         Assertions.assertEquals("name1", sub.getName());
         Assertions.assertEquals(-1, sub.getIndex());
-        Assertions.assertEquals(false, sub.isOptional());
+        Assertions.assertFalse(sub.isOptional());
         Assertions.assertEquals(Object.class, sub.getResolutionType());
 
         // an optional indexed sub-source descriptor
@@ -59,7 +57,7 @@ public class ValueSourceDescriptorTests
         Assertions.assertEquals("sub-description2", sub.getDescription());
         Assertions.assertEquals(SubsourceDescriptor.Type.Value, sub.getType());
         Assertions.assertEquals("", sub.getName());
-        Assertions.assertEquals(true, sub.isOptional());
+        Assertions.assertTrue(sub.isOptional());
         Assertions.assertEquals(String.class, sub.getResolutionType());
 
         }

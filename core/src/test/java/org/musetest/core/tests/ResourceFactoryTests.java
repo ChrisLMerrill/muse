@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
@@ -19,7 +17,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ResourceFactoryTests
+class ResourceFactoryTests
     {
     /**
      * Test the dynamic scanning for ResourceFactories by pushing in a ResourceOrigin that
@@ -27,7 +25,7 @@ public class ResourceFactoryTests
      * built into Muse Core). Ensure that a resource is loaded and accessible.
      */
     @Test
-    public void testResourceFactoryLoading()
+    void testResourceFactoryLoading()
         {
         InMemoryResourceStorage store = new InMemoryResourceStorage();
         MuseProject project = new SimpleProject(store);
@@ -41,7 +39,7 @@ public class ResourceFactoryTests
         }
 
     @Test
-    public void testOpenProjectWithFileResource()
+    void testOpenProjectWithFileResource()
         {
         FolderIntoMemoryResourceStorage store = new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/empty", getClass()));
         MuseProject project = new SimpleProject(store);
@@ -50,7 +48,7 @@ public class ResourceFactoryTests
         }
 
     @Test
-    public void loadCsvDataTable() throws IOException
+    void loadCsvDataTable() throws IOException
         {
         MuseProject project = new SimpleProject();
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("test_files/DataTable.csv", getClass())), new FactoryLocator(project.getClassLocator()), project.getClassLocator());

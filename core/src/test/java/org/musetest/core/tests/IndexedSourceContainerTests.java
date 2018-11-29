@@ -11,10 +11,10 @@ import java.util.concurrent.atomic.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class IndexedSourceContainerTests
+class IndexedSourceContainerTests
 	{
 	@Test
-	public void addAndGetSource()
+    void addAndGetSource()
 		{
 		final ValueSourceConfiguration source = ValueSourceConfiguration.forValue("v1");
 
@@ -31,13 +31,13 @@ public class IndexedSourceContainerTests
 		}
 
 	@Test
-	public void getNonexistentSource()
+    void getNonexistentSource()
 		{
 		Assertions.assertNull(new IndexedSourcesContainer().getSource(5));
 		}
 
 	@Test
-	public void addNullSource()
+    void addNullSource()
 		{
 		try
 			{
@@ -51,7 +51,7 @@ public class IndexedSourceContainerTests
 		}
 
 	@Test
-	public void insertNullSource()
+    void insertNullSource()
 		{
 		try
 			{
@@ -65,7 +65,7 @@ public class IndexedSourceContainerTests
 		}
 
 	@Test
-	public void replaceWithNullSource()
+    void replaceWithNullSource()
 		{
 		try
 			{
@@ -79,7 +79,7 @@ public class IndexedSourceContainerTests
 		}
 
 	@Test
-	public void replaceNonExistentSource()
+    void replaceNonExistentSource()
 		{
 		try
 			{
@@ -93,7 +93,7 @@ public class IndexedSourceContainerTests
 		}
 
 	@Test
-	public void insertSourceAtStart()
+    void insertSourceAtStart()
 	    {
 	    setupListOf3();
 	    _container.addSource(0, ValueSourceConfiguration.forValue("new"));
@@ -106,7 +106,7 @@ public class IndexedSourceContainerTests
 	    }
 	
 	@Test
-	public void insertSourceAtEnd()
+    void insertSourceAtEnd()
 	    {
 	    setupListOf3();
 	    _container.addSource(3, ValueSourceConfiguration.forValue("new"));
@@ -119,7 +119,7 @@ public class IndexedSourceContainerTests
 	    }
 	
 	@Test
-	public void insertSourceInMiddle()
+    void insertSourceInMiddle()
 	    {
 	    setupListOf3();
 	    _container.addSource(1, ValueSourceConfiguration.forValue("new"));
@@ -132,7 +132,7 @@ public class IndexedSourceContainerTests
 	    }
 	
 	@Test
-	public void removeSource()
+    void removeSource()
 		{
 		final IndexedSourcesContainer container = new IndexedSourcesContainer();
 		final ValueSourceConfiguration source = ValueSourceConfiguration.forValue("111");
@@ -153,13 +153,13 @@ public class IndexedSourceContainerTests
 		}
 
 	@Test
-	public void removeNonexistentSource()
+    void removeNonexistentSource()
 		{
 		Assertions.assertNull(new IndexedSourcesContainer().removeSource(0));
 		}
 
 	@Test
-	public void replaceSource()
+    void replaceSource()
 		{
 		final IndexedSourcesContainer container = new IndexedSourcesContainer();
 		final ValueSourceConfiguration source = ValueSourceConfiguration.forValue("111");
@@ -182,7 +182,7 @@ public class IndexedSourceContainerTests
 		}
 
 	@Test
-	public void getSources()
+    void getSources()
 	    {
 	    final IndexedSourcesContainer container = new IndexedSourcesContainer();
 	    container.addSource(ValueSourceConfiguration.forValue("111"));
@@ -195,7 +195,7 @@ public class IndexedSourceContainerTests
 	    }
 
 	@Test
-	public void changeSubsource()
+    void changeSubsource()
 		{
 		setupListOf3();
 		AtomicReference<ChangeEvent> ev_holder = new AtomicReference<>(null);

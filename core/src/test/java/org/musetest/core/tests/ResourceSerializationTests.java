@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.tests.mocks.*;
@@ -13,10 +11,10 @@ import java.nio.file.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ResourceSerializationTests
+class ResourceSerializationTests
 	{
 	@Test
-	public void storeAndRestoreMetadata() throws IOException
+    void storeAndRestoreMetadata() throws IOException
 		{
 	    MockMuseResource resource = new MockMuseResource();
 	    final String field_name = "NAME";
@@ -34,13 +32,13 @@ public class ResourceSerializationTests
 	    }
 
 	@BeforeEach
-	public void setup() throws IOException
+    void setup() throws IOException
 		{
 		_folder = Files.createTempDirectory("muse-unit-test-").toFile();
 		}
 
 	@AfterEach
-	public void teardown()
+    void teardown()
 		{
 		_folder.deleteOnExit();
 		}

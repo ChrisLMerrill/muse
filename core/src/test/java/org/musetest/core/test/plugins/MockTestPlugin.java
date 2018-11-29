@@ -8,7 +8,8 @@ import org.musetest.core.plugins.*;
  */
 public class MockTestPlugin implements MusePlugin
 	{
-	public MockTestPlugin(boolean apply_auto, boolean apply_test)
+	@SuppressWarnings("WeakerAccess")
+    public MockTestPlugin(boolean apply_auto, boolean apply_test)
 		{
 		_apply_auto = apply_auto;
 		_apply_test = apply_test;

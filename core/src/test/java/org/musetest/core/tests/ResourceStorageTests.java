@@ -15,10 +15,10 @@ import java.util.concurrent.atomic.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ResourceStorageTests
+class ResourceStorageTests
     {
     @Test
-    public void findResourceByIdAndType() throws IOException
+    void findResourceByIdAndType() throws IOException
         {
         MuseProject project = new SimpleProject();
 
@@ -29,7 +29,7 @@ public class ResourceStorageTests
         }
 
     @Test
-    public void findSingleResourceById() throws IOException
+    void findSingleResourceById() throws IOException
         {
         MuseProject project = new SimpleProject();
 
@@ -51,7 +51,7 @@ public class ResourceStorageTests
         }
 
     @Test
-    public void findMultipleResourcesByType() throws IOException
+    void findMultipleResourcesByType() throws IOException
         {
         MuseProject project = new SimpleProject();
 
@@ -70,7 +70,7 @@ public class ResourceStorageTests
         }
 
     @Test
-    public void addAndRemoveResourceEvents() throws IOException
+    void addAndRemoveResourceEvents() throws IOException
         {
         MuseProject project = new SimpleProject();
         MuseTest test = new MockTest();
@@ -110,7 +110,7 @@ public class ResourceStorageTests
         }
 
     @Test
-    public void refuseToAddDuplicateResource() throws IOException
+    void refuseToAddDuplicateResource() throws IOException
         {
         MuseProject project = new SimpleProject();
         MuseTest test = new MockTest();
@@ -131,7 +131,7 @@ public class ResourceStorageTests
         }
 
     @Test
-    public void addInvalidFilename()
+    void addInvalidFilename()
         {
         Assertions.assertFalse(new FilenameValidator().isValid("test<1>"), "bad filename would have been accepted");
         }

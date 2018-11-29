@@ -1,8 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.project.*;
@@ -15,23 +13,23 @@ import org.musetest.core.values.descriptor.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepDescriptorTests
+class StepDescriptorTests
     {
     @Test
-    public void unknownStepType()
+    void unknownStepType()
         {
         final String type = "unknown_step_type";
         StepDescriptor descriptor = new StepDescriptors(project).get(type);
         Assertions.assertTrue(descriptor instanceof UnknownStepDescriptor);
         Assertions.assertEquals(type, descriptor.getType());
         Assertions.assertEquals(type, descriptor.getName());
-        Assertions.assertEquals(null, descriptor.getShortDescription());
+        Assertions.assertNull(descriptor.getShortDescription());
         Assertions.assertEquals(UnknownStepDescriptor.ICON, descriptor.getIconDescriptor());
         Assertions.assertNull(descriptor.getInlineEditString());
         }
 
     @Test
-    public void locateDescriptorByImplementationClass()
+    void locateDescriptorByImplementationClass()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(AnnotatedTestStep.class);
         Assertions.assertNotNull(descriptor);
@@ -39,7 +37,7 @@ public class StepDescriptorTests
         }
 
     @Test
-    public void annotatedDescriptor()
+    void annotatedDescriptor()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(AnnotatedTestStep.class);
         Assertions.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseTypeId.class).value(), descriptor.getType());
@@ -50,18 +48,18 @@ public class StepDescriptorTests
         }
 
     @Test
-    public void unannotatedCustomType()
+    void unannotatedCustomType()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(DummyStepType.class);
         Assertions.assertEquals(DummyStepType.class.getSimpleName(), descriptor.getType());
         Assertions.assertEquals(DummyStepType.class.getSimpleName(), descriptor.getName());
-        Assertions.assertEquals(null, descriptor.getShortDescription());
+        Assertions.assertNull(descriptor.getShortDescription());
         Assertions.assertEquals(UnknownStepDescriptor.ICON, descriptor.getIconDescriptor());
         Assertions.assertNull(descriptor.getInlineEditString());
         }
 
     @Test
-    public void customDescriptorImplementationLookup()
+    void customDescriptorImplementationLookup()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(WithCustomDescriptor.class);
         Assertions.assertTrue(descriptor instanceof  TestStepDescriptor);
@@ -73,14 +71,14 @@ public class StepDescriptorTests
         }
 
     @Test
-    public void unknownDescriptorShortDescriptionWithConfiguration()
+    void unknownDescriptorShortDescriptionWithConfiguration()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get("unknown1");
         testDescriptorAutoShortDescription(descriptor);
         }
 
     @Test
-    public void defaultDescriptorShortDescriptionWithConfiguration()
+    void defaultDescriptorShortDescriptionWithConfiguration()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(DummyStepType.class);
         testDescriptorAutoShortDescription(descriptor);
@@ -98,7 +96,7 @@ public class StepDescriptorTests
         }
 
     @Test
-    public void annotatedDescriptorShortDescriptionWithConfiguration()
+    void annotatedDescriptorShortDescriptionWithConfiguration()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(AnnotatedTestStep.class);
         StepConfiguration step_config = new StepConfiguration(AnnotatedTestStep.class.getAnnotation(MuseTypeId.class).value());
@@ -108,7 +106,7 @@ public class StepDescriptorTests
         }
 
     @Test
-    public void customDescriptorShortDescriptionWithConfiguration()
+    void customDescriptorShortDescriptionWithConfiguration()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(WithCustomDescriptor.class);
         StepConfiguration step_config = new StepConfiguration(TestStepDescriptor.TYPE);
@@ -118,7 +116,7 @@ public class StepDescriptorTests
         }
 
     @Test
-    public void customDescriptionOverridesGenericShortDescription()
+    void customDescriptionOverridesGenericShortDescription()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(AnnotatedTestStep.class);
         StepConfiguration step_config = new StepConfiguration("doesn't matter");
@@ -130,7 +128,7 @@ public class StepDescriptorTests
         }
 
     @Test
-    public void stepSubsourceDescriptors()
+    void stepSubsourceDescriptors()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(AnnotatedTestStep.class);
         SubsourceDescriptor[] descriptors = descriptor.getSubsourceDescriptors();

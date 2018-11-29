@@ -11,10 +11,10 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ClassScanningTests
+class ClassScanningTests
     {
     @Test
-    public void testReflectionsClassScanning()
+    void testReflectionsClassScanning()
         {
         try
             {
