@@ -1,6 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.storage.*;
@@ -19,17 +19,17 @@ public class FolderIntoMemoryResourceStorageTests
     @Test
     public void addAndDeleteResourceFile() throws IOException
         {
-        Assert.assertEquals(0, _folder.listFiles().length);
+        Assertions.assertEquals(0, _folder.listFiles().length);
         MuseResource resource = createResource();
 
         // add a resource creates a file
         _project.getResourceStorage().addResource(resource);
-        Assert.assertEquals(1, _folder.listFiles().length);
-        Assert.assertTrue(_folder.listFiles()[0].getName().startsWith(resource.getId()));
+        Assertions.assertEquals(1, _folder.listFiles().length);
+        Assertions.assertTrue(_folder.listFiles()[0].getName().startsWith(resource.getId()));
 
         // removing resource deletes file...
         _project.getResourceStorage().removeResource(_project.getResourceStorage().findResource(resource.getId()));
-        Assert.assertEquals(0, _folder.listFiles().length);
+        Assertions.assertEquals(0, _folder.listFiles().length);
         }
 
     @SuppressWarnings("ConstantConditions")
@@ -52,25 +52,25 @@ public class FolderIntoMemoryResourceStorageTests
         try
             {
             _project.getResourceStorage().addResource(replacement);
-            Assert.assertTrue("Exception should have been thrown", false);
+            Assertions.fail("Exception should have been thrown");
             }
         catch (IllegalArgumentException e)
             {
             // expected
             }
 
-        Assert.assertEquals(modified, file.lastModified());
-        Assert.assertEquals(size, file.length());
+        Assertions.assertEquals(modified, file.lastModified());
+        Assertions.assertEquals(size, file.length());
         }
 
-    @Before
+    @BeforeEach
     public void setup() throws IOException
         {
         _folder = Files.createTempDirectory("museproject").toFile();
         _project = new SimpleProject(new FolderIntoMemoryResourceStorage(_folder));
         }
 
-    @After
+    @AfterEach
     public void teardown()
         {
         _folder.deleteOnExit();

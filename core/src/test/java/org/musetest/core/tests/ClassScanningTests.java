@@ -1,6 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.core.*;
 import org.musetest.core.tests.mocks.*;
 import org.reflections.*;
@@ -27,7 +27,7 @@ public class ClassScanningTests
         Reflections reflections = new Reflections("org.musetest.core.tests.mocks");
         Set<Class<? extends MuseResourceFactory>> factories = reflections.getSubTypesOf(MuseResourceFactory.class);
 
-        Assert.assertTrue("Did not find the MockResourceFactory", factories.contains(MockResourceFactory.class));
+        Assertions.assertTrue(factories.contains(MockResourceFactory.class), "Did not find the MockResourceFactory");
         }
     }
 

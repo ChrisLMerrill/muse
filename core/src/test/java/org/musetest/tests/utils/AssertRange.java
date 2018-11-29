@@ -1,6 +1,6 @@
 package org.musetest.tests.utils;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -10,7 +10,7 @@ public class AssertRange
 	public static void assertNearly(Long expected, Long actual, Long acceptable_variance)
 		{
 		if (expected < actual - acceptable_variance || actual + acceptable_variance < expected)
-			Assert.fail(format(String.format("Value was not +/- %d", acceptable_variance), expected, actual));
+			Assertions.fail(format(String.format("Value was not +/- %d", acceptable_variance), expected, actual));
 		}
 
 

@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
@@ -49,15 +51,15 @@ public class TestSuiteTests
         project.getResourceStorage().addResource(test3);
 	    suite.add(test3);
 
-	    Assert.assertEquals(3L, suite.getTotalTestCount(project).longValue());
+	    Assertions.assertEquals(3L, suite.getTotalTestCount(project).longValue());
 
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
 	    new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
-	    Assert.assertNotNull(counter.getResult());
-        Assert.assertEquals(3, counter.getResult().getTotalTests());
-        Assert.assertEquals(1, counter.getResult().getSuccesses());
-        Assert.assertEquals(1, counter.getResult().getFailures());
-        Assert.assertEquals(1, counter.getResult().getErrors());
+	    Assertions.assertNotNull(counter.getResult());
+        Assertions.assertEquals(3, counter.getResult().getTotalTests());
+        Assertions.assertEquals(1, counter.getResult().getSuccesses());
+        Assertions.assertEquals(1, counter.getResult().getFailures());
+        Assertions.assertEquals(1, counter.getResult().getErrors());
         }
 
     @Test
@@ -68,16 +70,16 @@ public class TestSuiteTests
         	throw new IllegalArgumentException("simpleSuite folder is missing (test resource)");
         MuseProject project = ProjectFactory.create(file, Collections.emptyMap());
         MuseTestSuite suite = project.getResourceStorage().getResource("TestSuite", MuseTestSuite.class);
-        Assert.assertNotNull(suite);
+        Assertions.assertNotNull(suite);
 
-	    Assert.assertEquals(2L, suite.getTotalTestCount(project).longValue());
+	    Assertions.assertEquals(2L, suite.getTotalTestCount(project).longValue());
 
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
         new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
-	    Assert.assertNotNull(counter.getResult());
-        Assert.assertEquals(1, counter.getResult().getFailures());
-        Assert.assertEquals(1, counter.getResult().getSuccesses());
-        Assert.assertEquals(0, counter.getResult().getErrors());
+	    Assertions.assertNotNull(counter.getResult());
+        Assertions.assertEquals(1, counter.getResult().getFailures());
+        Assertions.assertEquals(1, counter.getResult().getSuccesses());
+        Assertions.assertEquals(0, counter.getResult().getErrors());
         }
 
     @Test
@@ -104,17 +106,17 @@ public class TestSuiteTests
         suite2.addTestId("suite1");
         project.getResourceStorage().addResource(suite2);
 
-        Assert.assertEquals(2L, suite2.getTotalTestCount(project).longValue());
+        Assertions.assertEquals(2L, suite2.getTotalTestCount(project).longValue());
 
         Iterator<TestConfiguration> tests = suite2.getTests(project);
 
         TestConfiguration config = tests.next();
         config.withinContext(new ProjectExecutionContext(project));
-        Assert.assertEquals(test2, config.test());
+        Assertions.assertEquals(test2, config.test());
 
         config = tests.next();
         config.withinContext(new ProjectExecutionContext(project));
-        Assert.assertEquals(test1, config.test());
+        Assertions.assertEquals(test1, config.test());
         }
 
     @Test
@@ -123,9 +125,9 @@ public class TestSuiteTests
         File file = TestResources.getFile("TestSuite.json", this.getClass());
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(file), new FactoryLocator(null), DefaultClassLocator.get());
 
-        Assert.assertEquals(1, resources.size());
-        Assert.assertTrue(resources.get(0) instanceof IdListTestSuite);
-        Assert.assertEquals(2, ((IdListTestSuite)resources.get(0)).getTestIds().size());
+        Assertions.assertEquals(1, resources.size());
+        Assertions.assertTrue(resources.get(0) instanceof IdListTestSuite);
+        Assertions.assertEquals(2, ((IdListTestSuite)resources.get(0)).getTestIds().size());
         }
 
     @Test
@@ -134,24 +136,24 @@ public class TestSuiteTests
         File file = TestResources.getFile("projects/parameterizedSuite/suite.json", this.getClass());
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(file), new FactoryLocator(null), DefaultClassLocator.get());
 
-        Assert.assertEquals(1, resources.size());
-        Assert.assertTrue(resources.get(0) instanceof ParameterListTestSuite);
+        Assertions.assertEquals(1, resources.size());
+        Assertions.assertTrue(resources.get(0) instanceof ParameterListTestSuite);
         ParameterListTestSuite suite = (ParameterListTestSuite) resources.get(0);
-        Assert.assertEquals(3, suite.getParameters().size());
+        Assertions.assertEquals(3, suite.getParameters().size());
 
-        Assert.assertEquals("checkSum", suite.getTestId());
+        Assertions.assertEquals("checkSum", suite.getTestId());
 
-        Assert.assertEquals(2L, suite.getParameters().get(0).get("x1"));
-        Assert.assertEquals(5L, suite.getParameters().get(0).get("x2"));
-        Assert.assertEquals(7L, suite.getParameters().get(0).get("sum"));
+        Assertions.assertEquals(2L, suite.getParameters().get(0).get("x1"));
+        Assertions.assertEquals(5L, suite.getParameters().get(0).get("x2"));
+        Assertions.assertEquals(7L, suite.getParameters().get(0).get("sum"));
 
-        Assert.assertEquals(1L, suite.getParameters().get(1).get("x1"));
-        Assert.assertEquals(3L, suite.getParameters().get(1).get("x2"));
-        Assert.assertEquals(4L, suite.getParameters().get(1).get("sum"));
+        Assertions.assertEquals(1L, suite.getParameters().get(1).get("x1"));
+        Assertions.assertEquals(3L, suite.getParameters().get(1).get("x2"));
+        Assertions.assertEquals(4L, suite.getParameters().get(1).get("sum"));
 
-        Assert.assertEquals(1L, suite.getParameters().get(2).get("x1"));
-        Assert.assertEquals(0L, suite.getParameters().get(2).get("x2"));
-        Assert.assertEquals(9L, suite.getParameters().get(2).get("sum"));
+        Assertions.assertEquals(1L, suite.getParameters().get(2).get("x1"));
+        Assertions.assertEquals(0L, suite.getParameters().get(2).get("x2"));
+        Assertions.assertEquals(9L, suite.getParameters().get(2).get("sum"));
         }
 
     @Test
@@ -159,13 +161,13 @@ public class TestSuiteTests
 	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("suite").getResource();
-	    Assert.assertEquals(3L, suite.getTotalTestCount(project).longValue());
+	    Assertions.assertEquals(3L, suite.getTotalTestCount(project).longValue());
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
         new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
 
-	    Assert.assertNotNull(counter.getResult());
-        Assert.assertEquals(1, counter.getResult().getFailures());
-        Assert.assertEquals(2, counter.getResult().getSuccesses());
+	    Assertions.assertNotNull(counter.getResult());
+        Assertions.assertEquals(1, counter.getResult().getFailures());
+        Assertions.assertEquals(2, counter.getResult().getSuccesses());
         }
 
     @Test
@@ -173,11 +175,11 @@ public class TestSuiteTests
 	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
         MuseTestSuite suite = (MuseTestSuite) project.getResourceStorage().findResource("CsvSuite").getResource();
-	    Assert.assertEquals(3L, suite.getTotalTestCount(project).longValue());
+	    Assertions.assertEquals(3L, suite.getTotalTestCount(project).longValue());
 	    final TestSuiteResultCounter counter = new TestSuiteResultCounterConfiguration.TestSuiteResultCounterType().create().createPlugin();
         new SimpleTestSuiteRunner().execute(project, suite, Collections.singletonList(counter));
 
-        Assert.assertNotNull(counter.getResult());
-        Assert.assertEquals(3, counter.getResult().getSuccesses());
+        Assertions.assertNotNull(counter.getResult());
+        Assertions.assertEquals(3, counter.getResult().getSuccesses());
         }
     }

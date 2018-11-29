@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
@@ -34,7 +36,7 @@ public class TestVariableTests
         SteppedTest test = getTest();
         test.setDefaultVariables(default_vars);
 
-        Assert.assertTrue(TestRunHelper.runTest(new SimpleProject(), test, new TestDefaultsInitializerConfiguration().createPlugin()).isPass());
+        Assertions.assertTrue(TestRunHelper.runTest(new SimpleProject(), test, new TestDefaultsInitializerConfiguration().createPlugin()).isPass());
         }
 
     @Test
@@ -53,7 +55,7 @@ public class TestVariableTests
         config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
         config.parameters().addSource(VariableListInitializerConfiguration.LIST_ID_PARAM, ValueSourceConfiguration.forValue(list_id));
 
-        Assert.assertTrue(TestRunHelper.runTest(project, test, config.createPlugin()).isPass());
+        Assertions.assertTrue(TestRunHelper.runTest(project, test, config.createPlugin()).isPass());
         }
 
     private SteppedTest getTest()

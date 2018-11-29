@@ -2,6 +2,8 @@ package org.musetest.core;
 
 import org.jetbrains.annotations.*;
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.events.*;
 import org.musetest.core.execution.*;
 import org.musetest.core.mocks.*;
@@ -24,7 +26,7 @@ public class TestResultTests
 	    TestResult result1 = createResult();
 	    TestResult result2 = createResult();
 
-	    Assert.assertTrue(result1.equals(result2));
+	    Assertions.assertTrue(result1.equals(result2));
 	    }
 
 	@Test
@@ -36,7 +38,7 @@ public class TestResultTests
 	    ByteArrayInputStream instream = new ByteArrayInputStream(outstream.toByteArray());
 	    TestResult copy = new TestResult().read(instream);
 
-		Assert.assertTrue(copy.equals(result));
+		Assertions.assertTrue(copy.equals(result));
 	    }
 
 	@NotNull
@@ -60,9 +62,9 @@ public class TestResultTests
 		{
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE)));
 
-		Assert.assertEquals(1, _collector.getData().size());
-	    Assert.assertTrue(_collector.getResult().isPass());
-	    Assert.assertEquals(0, _collector.getResult().getFailures().size());
+		Assertions.assertEquals(1, _collector.getData().size());
+	    Assertions.assertTrue(_collector.getResult().isPass());
+	    Assertions.assertEquals(0, _collector.getResult().getFailures().size());
 	    }
 
 	@Test
@@ -73,9 +75,9 @@ public class TestResultTests
 	    collector.initialize(context);
 		context.raiseEvent(StartTestEventType.create(_test.getId(), "test name"));
 
-		Assert.assertEquals(1, _collector.getData().size());
-	    Assert.assertEquals("test name", collector.getResult().getName());
-	    Assert.assertEquals("test1", collector.getResult().getTestId());
+		Assertions.assertEquals(1, _collector.getData().size());
+	    Assertions.assertEquals("test name", collector.getResult().getName());
+	    Assertions.assertEquals("test1", collector.getResult().getTestId());
 	    }
 
 	@Test
@@ -83,9 +85,9 @@ public class TestResultTests
 		{
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "failed the test")));
 
-		Assert.assertEquals(1, _collector.getData().size());
-		Assert.assertEquals(1, _collector.getResult().getFailures().size());
-	    Assert.assertFalse(_collector.getResult().isPass());
+		Assertions.assertEquals(1, _collector.getData().size());
+		Assertions.assertEquals(1, _collector.getResult().getFailures().size());
+	    Assertions.assertFalse(_collector.getResult().isPass());
 	    }
 
 	@Test
@@ -93,9 +95,9 @@ public class TestResultTests
 		{
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR, "failed the test")));
 
-		Assert.assertEquals(1, _collector.getData().size());
-	    Assert.assertFalse(_collector.getResult().isPass());
-	    Assert.assertEquals(1, _collector.getResult().getFailures().size());
+		Assertions.assertEquals(1, _collector.getData().size());
+	    Assertions.assertFalse(_collector.getResult().isPass());
+	    Assertions.assertEquals(1, _collector.getResult().getFailures().size());
 	    }
 
 	@Test
@@ -105,9 +107,9 @@ public class TestResultTests
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "failed the test")));
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR, "failed the test")));
 
-		Assert.assertEquals(1, _collector.getData().size());
-	    Assert.assertFalse(_collector.getResult().isPass());
-	    Assert.assertEquals(2, _collector.getResult().getFailures().size());
+		Assertions.assertEquals(1, _collector.getData().size());
+	    Assertions.assertFalse(_collector.getResult().isPass());
+	    Assertions.assertEquals(2, _collector.getResult().getFailures().size());
 	    }
 
 	@Test
@@ -117,9 +119,9 @@ public class TestResultTests
 	    _collector.initialize(_context);
 	    _context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR, "failed the test")));
 
-		Assert.assertEquals(1, _collector.getData().size());
-	    Assert.assertTrue(_collector.getResult().isPass());
-	    Assert.assertEquals(0, _collector.getResult().getFailures().size());
+		Assertions.assertEquals(1, _collector.getData().size());
+	    Assertions.assertTrue(_collector.getResult().isPass());
+	    Assertions.assertEquals(0, _collector.getResult().getFailures().size());
 	    }
 
 	@Test
@@ -129,9 +131,9 @@ public class TestResultTests
 	    _collector.initialize(_context);
 		_context.raiseEvent(EndStepEventType.create(_step, new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "failed the test")));
 
-		Assert.assertEquals(1, _collector.getData().size());
-	    Assert.assertTrue(_collector.getResult().isPass());
-	    Assert.assertEquals(0, _collector.getResult().getFailures().size());
+		Assertions.assertEquals(1, _collector.getData().size());
+	    Assertions.assertTrue(_collector.getResult().isPass());
+	    Assertions.assertEquals(0, _collector.getResult().getFailures().size());
 	    }
 
 	@Test
@@ -141,9 +143,9 @@ public class TestResultTests
 	    _collector.initialize(_context);
 		_context.raiseEvent(new MuseEvent(new InterruptedEventType()));
 
-		Assert.assertEquals(1, _collector.getData().size());
-	    Assert.assertTrue(_collector.getResult().isPass());
-	    Assert.assertEquals(0, _collector.getResult().getFailures().size());
+		Assertions.assertEquals(1, _collector.getData().size());
+	    Assertions.assertTrue(_collector.getResult().isPass());
+	    Assertions.assertEquals(0, _collector.getResult().getFailures().size());
 	    }
 
 	private TestResultCollector createCollector(Boolean fail_on_error, Boolean fail_on_failure, Boolean fail_on_interrupt)
@@ -158,7 +160,7 @@ public class TestResultTests
 		return new TestResultCollector(configuration);
 		}
 
-	@Before
+	@BeforeEach
 	public void setup() throws MuseExecutionError
 		{
 		_collector = createCollector(null, null, null);

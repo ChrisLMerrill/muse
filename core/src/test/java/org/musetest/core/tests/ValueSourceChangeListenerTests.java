@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.util.*;
@@ -30,7 +32,7 @@ public class ValueSourceChangeListenerTests
                 }
             });
         config.setType(VariableValueSource.TYPE_ID);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -48,7 +50,7 @@ public class ValueSourceChangeListenerTests
                 }
             });
         config.setValue(123L);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -69,7 +71,7 @@ public class ValueSourceChangeListenerTests
                 }
             });
         source.setSource(new_subsource);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -89,7 +91,7 @@ public class ValueSourceChangeListenerTests
                 }
             });
         source.addSource(new_name, new_subsource);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -110,7 +112,7 @@ public class ValueSourceChangeListenerTests
                 }
             });
         source.removeSource(removed_name);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -132,7 +134,7 @@ public class ValueSourceChangeListenerTests
                 }
             });
         source.renameSource(name1, name2);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -154,7 +156,7 @@ public class ValueSourceChangeListenerTests
                 }
             });
         source.replaceSource(source_name, replacement_subsource);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -173,7 +175,7 @@ public class ValueSourceChangeListenerTests
                 }
             });
         source.addSource(new_subsource);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -193,7 +195,7 @@ public class ValueSourceChangeListenerTests
                 }
             });
         source.removeSource(0);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -214,7 +216,7 @@ public class ValueSourceChangeListenerTests
                 }
             });
         source.replaceSource(0, replacement_subsource);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -232,12 +234,12 @@ public class ValueSourceChangeListenerTests
             };
         source.addChangeListener(listener);
         source.setType(BooleanValueSource.TYPE_ID);
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
 
         notified.set(false);
         source.removeChangeListener(listener);
         source.setType(StringValueSource.TYPE_ID);
-        Assert.assertFalse(notified.get());
+        Assertions.assertFalse(notified.get());
         }
 
     @Test
@@ -259,27 +261,27 @@ public class ValueSourceChangeListenerTests
 
         source.addChangeListener(listener);
         subsource.setValue("var-changed");
-        Assert.assertNotNull(notification.get());
-        Assert.assertEquals(source, notification.get().getSource());
-        Assert.assertEquals(SubsourceModificationEvent.SubsourceClass.Single, notification.get().getModificationClass());
-        Assert.assertNotNull(notification.get().getModificationEvent());
-        Assert.assertEquals(subsource, notification.get().getModificationEvent().getSource());
+        Assertions.assertNotNull(notification.get());
+        Assertions.assertEquals(source, notification.get().getSource());
+        Assertions.assertEquals(SubsourceModificationEvent.SubsourceClass.Single, notification.get().getModificationClass());
+        Assertions.assertNotNull(notification.get().getModificationEvent());
+        Assertions.assertEquals(subsource, notification.get().getModificationEvent().getSource());
 
         // change the source and ensure we get the event on the new, but not the old
         notification.set(null);
         ValueSourceConfiguration subsource2 = ValueSourceConfiguration.forValue("var2");
         source.setSource(subsource2);
         subsource.setValue("value2");
-        Assert.assertNull(notification.get());
+        Assertions.assertNull(notification.get());
         subsource2.setValue("value3");
-        Assert.assertNotNull(notification.get());
-        Assert.assertEquals(subsource2, notification.get().getModificationEvent().getSource());
+        Assertions.assertNotNull(notification.get());
+        Assertions.assertEquals(subsource2, notification.get().getModificationEvent().getSource());
 
         // now remove the source and ensure further changes to not fire events on the former parent
         notification.set(null);
         source.setSource(null);
         subsource.setValue("value3");
-        Assert.assertNull(notification.get());
+        Assertions.assertNull(notification.get());
         }
 
     @Test
@@ -301,27 +303,27 @@ public class ValueSourceChangeListenerTests
 
         source.addChangeListener(listener);
         subsource.setValue("var-changed");
-        Assert.assertNotNull(notification.get());
-        Assert.assertEquals(source, notification.get().getSource());
-        Assert.assertEquals(SubsourceModificationEvent.SubsourceClass.Indexed, notification.get().getModificationClass());
-        Assert.assertEquals(0, notification.get().getSubsourceIndex());
-        Assert.assertNotNull(notification.get().getModificationEvent());
-        Assert.assertEquals(subsource, notification.get().getModificationEvent().getSource());
+        Assertions.assertNotNull(notification.get());
+        Assertions.assertEquals(source, notification.get().getSource());
+        Assertions.assertEquals(SubsourceModificationEvent.SubsourceClass.Indexed, notification.get().getModificationClass());
+        Assertions.assertEquals(0, notification.get().getSubsourceIndex());
+        Assertions.assertNotNull(notification.get().getModificationEvent());
+        Assertions.assertEquals(subsource, notification.get().getModificationEvent().getSource());
 
         // now test the event after we replace the source and then modify it
         notification.set(null);
         ValueSourceConfiguration subsource2 = ValueSourceConfiguration.forValue("var2");
         source.replaceSource(0, subsource2);
         subsource.setValue("ignorethis");
-        Assert.assertNull(notification.get());
+        Assertions.assertNull(notification.get());
         subsource2.setValue("changed2");
-        Assert.assertEquals(subsource2, notification.get().getModificationEvent().getSource());
+        Assertions.assertEquals(subsource2, notification.get().getModificationEvent().getSource());
 
         // now test the event after we remove the source and then modify it
         notification.set(null);
         source.removeSource(0);
         subsource.setValue("changed3");
-        Assert.assertEquals(null, notification.get());
+        Assertions.assertEquals(null, notification.get());
         }
 
     @Test
@@ -344,33 +346,33 @@ public class ValueSourceChangeListenerTests
 
         source.addChangeListener(listener);
         subsource.setValue("var-changed");
-        Assert.assertNotNull(notification.get());
-        Assert.assertEquals(source, notification.get().getSource());
-        Assert.assertEquals(SubsourceModificationEvent.SubsourceClass.Named, notification.get().getModificationClass());
-        Assert.assertEquals(name, notification.get().getSubsourceName());
-        Assert.assertNotNull(notification.get().getModificationEvent());
-        Assert.assertEquals(subsource, notification.get().getModificationEvent().getSource());
+        Assertions.assertNotNull(notification.get());
+        Assertions.assertEquals(source, notification.get().getSource());
+        Assertions.assertEquals(SubsourceModificationEvent.SubsourceClass.Named, notification.get().getModificationClass());
+        Assertions.assertEquals(name, notification.get().getSubsourceName());
+        Assertions.assertNotNull(notification.get().getModificationEvent());
+        Assertions.assertEquals(subsource, notification.get().getModificationEvent().getSource());
 
         // now test the event after we re-add another source with the same name and then modify it
         notification.set(null);
         ValueSourceConfiguration subsource2 = ValueSourceConfiguration.forValue("var2");
         source.replaceSource(name, subsource2);
         subsource.setValue("ignorethis");
-        Assert.assertNull(notification.get());
+        Assertions.assertNull(notification.get());
         subsource2.setValue("changed2");
-        Assert.assertEquals(subsource2, notification.get().getModificationEvent().getSource());
+        Assertions.assertEquals(subsource2, notification.get().getModificationEvent().getSource());
 
         // use the replace() method to replace the source and check for correct notification
         notification.set(null);
         ValueSourceConfiguration subsource3 = ValueSourceConfiguration.forValue("var3");
         source.replaceSource(name, subsource3);
         subsource3.setValue("changed3");
-        Assert.assertEquals(subsource3, notification.get().getModificationEvent().getSource());
+        Assertions.assertEquals(subsource3, notification.get().getModificationEvent().getSource());
 
         // remove the source and modify - should not get another notification
         notification.set(null);
         source.removeSource(name);
-        Assert.assertNull(notification.get());
+        Assertions.assertNull(notification.get());
         }
 
     /**
@@ -403,6 +405,6 @@ public class ValueSourceChangeListenerTests
             });
 
         subsource.setValue("value2");
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
     }

@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
@@ -18,24 +20,24 @@ public class EventTests
     public void eventDescriptionMatcher()
         {
         EventMatcher matcher = new EventDescriptionMatcher("description");
-        Assert.assertTrue(matcher.matches(MessageEventType.create("description")));
-        Assert.assertFalse(matcher.matches(MessageEventType.create("asdf")));
+        Assertions.assertTrue(matcher.matches(MessageEventType.create("description")));
+        Assertions.assertFalse(matcher.matches(MessageEventType.create("asdf")));
         }
 
     @Test
     public void eventTypeMatcher()
         {
         EventMatcher matcher = new EventTypeMatcher(ConditionEvaluatedEventType.TYPE_ID);
-        Assert.assertTrue(matcher.matches(new MuseEvent(ConditionEvaluatedEventType.INSTANCE)));
-        Assert.assertFalse(matcher.matches(new MuseEvent(EndStepEventType.TYPE_ID)));
+        Assertions.assertTrue(matcher.matches(new MuseEvent(ConditionEvaluatedEventType.INSTANCE)));
+        Assertions.assertFalse(matcher.matches(new MuseEvent(EndStepEventType.TYPE_ID)));
         }
 
     @Test
     public void stepResultStatusMatcher()
         {
         EventMatcher matcher = new StepResultStatusMatcher(StepExecutionStatus.ERROR);
-        Assert.assertTrue(matcher.matches(EndStepEventType.create(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR))));
-        Assert.assertFalse(matcher.matches(EndStepEventType.create(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE))));
+        Assertions.assertTrue(matcher.matches(EndStepEventType.create(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.ERROR))));
+        Assertions.assertFalse(matcher.matches(EndStepEventType.create(new StepConfiguration(LogMessage.TYPE_ID), new MockStepExecutionContext(), new BasicStepExecutionResult(StepExecutionStatus.COMPLETE))));
         }
 
     @Test
@@ -43,8 +45,8 @@ public class EventTests
         {
         final String type_id = "unknown-type";
         EventType type = EventTypes.DEFAULT.findType(type_id);
-        Assert.assertNotNull(type);
-        Assert.assertEquals(type_id, type.getTypeId());
-        Assert.assertTrue(type.getName().contains(type_id));
+        Assertions.assertNotNull(type);
+        Assertions.assertEquals(type_id, type.getTypeId());
+        Assertions.assertTrue(type.getName().contains(type_id));
         }
     }

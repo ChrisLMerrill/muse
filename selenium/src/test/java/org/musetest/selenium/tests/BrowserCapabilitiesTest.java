@@ -2,6 +2,8 @@ package org.musetest.selenium.tests;
 
 import com.fasterxml.jackson.databind.*;
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.resource.json.*;
 import org.musetest.core.util.*;
@@ -24,9 +26,9 @@ public class BrowserCapabilitiesTest
 
         DesiredCapabilities capabilities = sel_caps.toDesiredCapabilities();
 
-        Assert.assertEquals(BrowserType.FIREFOX, capabilities.getBrowserName());
-        Assert.assertEquals(Platform.LINUX, capabilities.getPlatform());
-        Assert.assertEquals("7.1", capabilities.getVersion());
+        Assertions.assertEquals(BrowserType.FIREFOX, capabilities.getBrowserName());
+        Assertions.assertEquals(Platform.LINUX, capabilities.getPlatform());
+        Assertions.assertEquals("7.1", capabilities.getVersion());
         }
     }
 

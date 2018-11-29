@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
@@ -34,8 +36,8 @@ public class ResourceFactoryTests
         store.loadResource(new MockResourceOrigin(test));
 
         final List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTest.TestResourceType()));
-        Assert.assertEquals(1, resources.size());
-        Assert.assertEquals("test1", resources.get(0).getId());
+        Assertions.assertEquals(1, resources.size());
+        Assertions.assertEquals("test1", resources.get(0).getId());
         }
 
     @Test
@@ -44,7 +46,7 @@ public class ResourceFactoryTests
         FolderIntoMemoryResourceStorage store = new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/empty", getClass()));
         MuseProject project = new SimpleProject(store);
         MuseResource resource = project.getResourceStorage().getResource("not_done_yet", MockMuseResource.class);
-        Assert.assertNull(resource);
+        Assertions.assertNull(resource);
         }
 
     @Test
@@ -52,18 +54,18 @@ public class ResourceFactoryTests
         {
         MuseProject project = new SimpleProject();
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("test_files/DataTable.csv", getClass())), new FactoryLocator(project.getClassLocator()), project.getClassLocator());
-        Assert.assertEquals(1, resources.size());
-        Assert.assertTrue(resources.get(0) instanceof DataTable);
+        Assertions.assertEquals(1, resources.size());
+        Assertions.assertTrue(resources.get(0) instanceof DataTable);
 
         DataTable table = (DataTable) resources.get(0);
-        Assert.assertEquals(2, table.getNumberColumns());
-        Assert.assertEquals("col1", table.getColumnNames()[0]);
-        Assert.assertEquals("col2", table.getColumnNames()[1]);
-        Assert.assertEquals(2, table.getNumberRows());
-        Assert.assertEquals("data1.1" , table.getData(0, 0));
-        Assert.assertEquals("data1.2" , table.getData("col2", 0));
-        Assert.assertEquals("data2.1" , table.getDataRow(1)[0]);
-        Assert.assertEquals("data2.2" , table.getDataRow(1)[1]);
+        Assertions.assertEquals(2, table.getNumberColumns());
+        Assertions.assertEquals("col1", table.getColumnNames()[0]);
+        Assertions.assertEquals("col2", table.getColumnNames()[1]);
+        Assertions.assertEquals(2, table.getNumberRows());
+        Assertions.assertEquals("data1.1" , table.getData(0, 0));
+        Assertions.assertEquals("data1.2" , table.getData("col2", 0));
+        Assertions.assertEquals("data2.1" , table.getDataRow(1)[0]);
+        Assertions.assertEquals("data2.2" , table.getDataRow(1)[1]);
         }
     }
 

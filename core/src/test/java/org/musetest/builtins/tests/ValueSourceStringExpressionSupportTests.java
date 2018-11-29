@@ -1,6 +1,8 @@
 package org.musetest.builtins.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
 import org.musetest.builtins.value.property.*;
@@ -73,11 +75,11 @@ public class ValueSourceStringExpressionSupportTests
     private void testParseFromAndToString(ValueSourceStringExpressionSupport support, String string_content, String type, Object content)
         {
         ValueSourceConfiguration parsed = support.fromLiteral(string_content, null);
-        Assert.assertEquals(type, parsed.getType());
-        Assert.assertEquals(content, parsed.getValue());
+        Assertions.assertEquals(type, parsed.getType());
+        Assertions.assertEquals(content, parsed.getValue());
 
         String stringified = support.toString(parsed, new RootStringExpressionContext(new SimpleProject()));
-        Assert.assertEquals(string_content, stringified);
+        Assertions.assertEquals(string_content, stringified);
         }
 
     @Test
@@ -88,13 +90,13 @@ public class ValueSourceStringExpressionSupportTests
         AdditionSource.StringExpressionSupport supporter = new AdditionSource.StringExpressionSupport();
         ValueSourceConfiguration config = supporter.fromBinaryExpression(left, "+", right, TEST_PROJECT);
 
-        Assert.assertNotNull(config);
-        Assert.assertEquals(AdditionSource.TYPE_ID, config.getType());
-        Assert.assertEquals(left, config.getSourceList().get(0));
-        Assert.assertEquals(right, config.getSourceList().get(1));
+        Assertions.assertNotNull(config);
+        Assertions.assertEquals(AdditionSource.TYPE_ID, config.getType());
+        Assertions.assertEquals(left, config.getSourceList().get(0));
+        Assertions.assertEquals(right, config.getSourceList().get(1));
 
         String stringified = supporter.toString(config, new RootStringExpressionContext(TEST_PROJECT));
-        Assert.assertEquals("123 + 456", stringified);
+        Assertions.assertEquals("123 + 456", stringified);
         }
 
     @Test
@@ -107,14 +109,14 @@ public class ValueSourceStringExpressionSupportTests
         ValueSourceConfiguration config = supporter.fromBinaryExpression(left, "+", right, TEST_PROJECT);
         config = supporter.fromBinaryExpression(config, "+", far_right, TEST_PROJECT);
 
-        Assert.assertNotNull(config);
-        Assert.assertEquals(AdditionSource.TYPE_ID, config.getType());
-        Assert.assertEquals(left, config.getSourceList().get(0));
-        Assert.assertEquals(right, config.getSourceList().get(1));
-        Assert.assertEquals(far_right, config.getSourceList().get(2));
+        Assertions.assertNotNull(config);
+        Assertions.assertEquals(AdditionSource.TYPE_ID, config.getType());
+        Assertions.assertEquals(left, config.getSourceList().get(0));
+        Assertions.assertEquals(right, config.getSourceList().get(1));
+        Assertions.assertEquals(far_right, config.getSourceList().get(2));
 
         String stringified = supporter.toString(config, new RootStringExpressionContext(TEST_PROJECT));
-        Assert.assertEquals("123 + 456 + 789", stringified);
+        Assertions.assertEquals("123 + 456 + 789", stringified);
         }
 
     @Test
@@ -129,15 +131,15 @@ public class ValueSourceStringExpressionSupportTests
         config = supporter.fromBinaryExpression(config, "+", right, TEST_PROJECT);
         config = supporter.fromBinaryExpression(config, "+", far_right, TEST_PROJECT);
 
-        Assert.assertNotNull(config);
-        Assert.assertEquals(AdditionSource.TYPE_ID, config.getType());
-        Assert.assertEquals(far_left, config.getSourceList().get(0));
-        Assert.assertEquals(left, config.getSourceList().get(1));
-        Assert.assertEquals(right, config.getSourceList().get(2));
-        Assert.assertEquals(far_right, config.getSourceList().get(3));
+        Assertions.assertNotNull(config);
+        Assertions.assertEquals(AdditionSource.TYPE_ID, config.getType());
+        Assertions.assertEquals(far_left, config.getSourceList().get(0));
+        Assertions.assertEquals(left, config.getSourceList().get(1));
+        Assertions.assertEquals(right, config.getSourceList().get(2));
+        Assertions.assertEquals(far_right, config.getSourceList().get(3));
 
         String stringified = supporter.toString(config, new RootStringExpressionContext(TEST_PROJECT));
-        Assert.assertEquals("11 + 22 + 33 + 44", stringified);
+        Assertions.assertEquals("11 + 22 + 33 + 44", stringified);
         }
 
     @Test
@@ -145,12 +147,12 @@ public class ValueSourceStringExpressionSupportTests
         {
         ValueSourceConfiguration string_source = ValueSourceConfiguration.forValue("var1");
         ValueSourceConfiguration config = new VariableValueSource.StringExpressionSupport().fromPrefixedExpression("$", string_source, TEST_PROJECT);
-        Assert.assertNotNull(config);
+        Assertions.assertNotNull(config);
 
-        Assert.assertEquals(VariableValueSource.TYPE_ID, config.getType());
-        Assert.assertNotNull(config.getSource());
-        Assert.assertEquals(StringValueSource.TYPE_ID, config.getSource().getType());
-        Assert.assertEquals("var1", config.getSource().getValue());
+        Assertions.assertEquals(VariableValueSource.TYPE_ID, config.getType());
+        Assertions.assertNotNull(config.getSource());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, config.getSource().getType());
+        Assertions.assertEquals("var1", config.getSource().getValue());
         }
 
     @Test
@@ -158,12 +160,12 @@ public class ValueSourceStringExpressionSupportTests
         {
         ValueSourceConfiguration string_source = ValueSourceConfiguration.forValue("res1");
         ValueSourceConfiguration config = new ProjectResourceValueSource.StringExpressionSupport().fromPrefixedExpression("#", string_source, TEST_PROJECT);
-        Assert.assertNotNull(config);
+        Assertions.assertNotNull(config);
 
-        Assert.assertEquals(ProjectResourceValueSource.TYPE_ID, config.getType());
-        Assert.assertNotNull(config.getSource());
-        Assert.assertEquals(StringValueSource.TYPE_ID, config.getSource().getType());
-        Assert.assertEquals("res1", config.getSource().getValue());
+        Assertions.assertEquals(ProjectResourceValueSource.TYPE_ID, config.getType());
+        Assertions.assertNotNull(config.getSource());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, config.getSource().getType());
+        Assertions.assertEquals("res1", config.getSource().getValue());
         }
 
     @Test
@@ -191,12 +193,12 @@ public class ValueSourceStringExpressionSupportTests
         String to_parse = String.format("\"%s\" %s \"%s\"", left, supporter.getOperator(), right);
         ValueSourceConfiguration parsed = supporter.fromBinaryExpression(ValueSourceConfiguration.forValue(left), supporter.getOperator(), ValueSourceConfiguration.forValue(right), TEST_PROJECT);
 
-        Assert.assertEquals(supporter.getSourceType(), parsed.getType());
-        Assert.assertEquals(left, parsed.getSource(BinaryCondition.LEFT_PARAM).getValue());
-        Assert.assertEquals(right, parsed.getSource(BinaryCondition.RIGHT_PARAM).getValue());
+        Assertions.assertEquals(supporter.getSourceType(), parsed.getType());
+        Assertions.assertEquals(left, parsed.getSource(BinaryCondition.LEFT_PARAM).getValue());
+        Assertions.assertEquals(right, parsed.getSource(BinaryCondition.RIGHT_PARAM).getValue());
 
         String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
-        Assert.assertEquals(to_parse, stringified);
+        Assertions.assertEquals(to_parse, stringified);
         }
 
     @Test
@@ -208,11 +210,11 @@ public class ValueSourceStringExpressionSupportTests
         arguments.add(subsource);
         ValueSourceConfiguration parsed = supporter.fromArgumentedExpression(supporter.getName(), arguments, TEST_PROJECT);
 
-        Assert.assertEquals(NotValueSource.TYPE_ID, parsed.getType());
-        Assert.assertEquals(subsource, parsed.getSource());
+        Assertions.assertEquals(NotValueSource.TYPE_ID, parsed.getType());
+        Assertions.assertEquals(subsource, parsed.getSource());
 
         String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
-        Assert.assertEquals("not(true)", stringified);
+        Assertions.assertEquals("not(true)", stringified);
         }
 
     @Test
@@ -227,12 +229,12 @@ public class ValueSourceStringExpressionSupportTests
 
         ValueSourceConfiguration parsed = supporter.fromArgumentedExpression(supporter.getName(), arguments, TEST_PROJECT);
 
-        Assert.assertEquals(DateFormatValueSource.TYPE_ID, parsed.getType());
-        Assert.assertEquals(date_config, parsed.getSource(DateFormatValueSource.DATE_PARAM));
-        Assert.assertEquals(format_config, parsed.getSource(DateFormatValueSource.FORMAT_PARAM));
+        Assertions.assertEquals(DateFormatValueSource.TYPE_ID, parsed.getType());
+        Assertions.assertEquals(date_config, parsed.getSource(DateFormatValueSource.DATE_PARAM));
+        Assertions.assertEquals(format_config, parsed.getSource(DateFormatValueSource.FORMAT_PARAM));
 
         String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
-        Assert.assertEquals("formatDate(\"date\",\"format\")", stringified);
+        Assertions.assertEquals("formatDate(\"date\",\"format\")", stringified);
         }
 
     @Test
@@ -244,12 +246,12 @@ public class ValueSourceStringExpressionSupportTests
         String to_parse = String.format("\"%s\".\"%s\"", left, right);
         ValueSourceConfiguration parsed = supporter.fromDotExpression(ValueSourceConfiguration.forValue(left), ValueSourceConfiguration.forValue(right), TEST_PROJECT);
 
-        Assert.assertEquals(PropertySource.TYPE_ID, parsed.getType());
-        Assert.assertEquals(left, parsed.getSource(PropertySource.TARGET_PARAM).getValue());
-        Assert.assertEquals(right, parsed.getSource(PropertySource.NAME_PARAM).getValue());
+        Assertions.assertEquals(PropertySource.TYPE_ID, parsed.getType());
+        Assertions.assertEquals(left, parsed.getSource(PropertySource.TARGET_PARAM).getValue());
+        Assertions.assertEquals(right, parsed.getSource(PropertySource.NAME_PARAM).getValue());
 
         String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
-        Assert.assertEquals(to_parse, stringified);
+        Assertions.assertEquals(to_parse, stringified);
         }
 
     @Test
@@ -262,12 +264,12 @@ public class ValueSourceStringExpressionSupportTests
         elements.add(ValueSourceConfiguration.forValue(22L));
         ValueSourceConfiguration parsed = supporter.fromArrayExpression(elements, TEST_PROJECT);
 
-        Assert.assertEquals(ListSource.TYPE_ID, parsed.getType());
-        Assert.assertEquals(elements.get(0).getValue(), parsed.getSource(0).getValue());
-        Assert.assertEquals(elements.get(1).getValue(), parsed.getSource(1).getValue());
+        Assertions.assertEquals(ListSource.TYPE_ID, parsed.getType());
+        Assertions.assertEquals(elements.get(0).getValue(), parsed.getSource(0).getValue());
+        Assertions.assertEquals(elements.get(1).getValue(), parsed.getSource(1).getValue());
 
         String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
-        Assert.assertEquals(to_parse, stringified);
+        Assertions.assertEquals(to_parse, stringified);
         }
 
     private static MuseProject TEST_PROJECT = new SimpleProject(new InMemoryResourceStorage());

@@ -1,6 +1,6 @@
 package org.musetest.selenium.tests;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -29,7 +29,7 @@ public class SeleniumStepTests
         {
         SteppedTestExecutionContext context = runTestWithSteps(createOpenBrowserStep());
         MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
-        Assert.assertNotNull(driver);
+        Assertions.assertNotNull(driver);
         }
 
     @Test
@@ -40,7 +40,7 @@ public class SeleniumStepTests
         try
             {
             driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
-            Assert.assertNull(driver);
+            Assertions.assertNull(driver);
             }
         catch (ValueSourceResolutionError valueSourceResolutionError)
             {
@@ -56,7 +56,7 @@ public class SeleniumStepTests
         goto_url.addSource(GotoUrl.URL_PARAM, ValueSourceConfiguration.forValue(URL));
         SteppedTestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), goto_url);
         MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
-        Assert.assertEquals(URL, driver.getCurrentUrl());
+        Assertions.assertEquals(URL, driver.getCurrentUrl());
         }
 
     @Test
@@ -74,8 +74,8 @@ public class SeleniumStepTests
         click.addSource(ClickElement.ELEMENT_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
         MuseStep step = click.createStep();
         StepExecutionResult result = step.execute(context);
-        Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
-        Assert.assertTrue(element1.isClicked());
+        Assertions.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
+        Assertions.assertTrue(element1.isClicked());
         }
 
     @Test
@@ -93,9 +93,9 @@ public class SeleniumStepTests
         switch_to.addSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
         MuseStep step = switch_to.createStep();
         StepExecutionResult result = step.execute(context);
-        Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
+        Assertions.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
 
-        Assert.assertEquals(element1, driver.getTarget());
+        Assertions.assertEquals(element1, driver.getTarget());
         }
 
     /**
@@ -105,7 +105,7 @@ public class SeleniumStepTests
     public void executeScript() throws MuseExecutionError
         {
         StepExecutionResult result = executeScriptStep(new ScriptableMockDriver(), "a valid script");
-        Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
+        Assertions.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
         }
 
     /**
@@ -115,7 +115,7 @@ public class SeleniumStepTests
     public void executeScriptThrowsExeception() throws MuseExecutionError
         {
         StepExecutionResult result = executeScriptStep(new ScriptableMockDriver(), ScriptableMockDriver.THROW_EXCEPTION);
-        Assert.assertEquals(StepExecutionStatus.ERROR, result.getStatus());
+        Assertions.assertEquals(StepExecutionStatus.ERROR, result.getStatus());
         }
 
     /**
@@ -133,7 +133,7 @@ public class SeleniumStepTests
             {
             error = stepExecutionError;
             }
-        Assert.assertNotNull(error);
+        Assertions.assertNotNull(error);
         }
 
     private StepExecutionResult executeScriptStep(WebDriver driver, String script) throws MuseExecutionError
@@ -159,7 +159,7 @@ public class SeleniumStepTests
         switch_to.addSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forValue(true)); // not a valid type
         MuseStep step = switch_to.createStep(null);
         StepExecutionResult result = step.execute(context);
-        Assert.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
+        Assertions.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
         }
 
     private SteppedTestExecutionContext runTestWithSteps(StepConfiguration... steps)
@@ -192,7 +192,7 @@ public class SeleniumStepTests
                 }
             catch (URISyntaxException e)
                 {
-                Assert.assertTrue("illegal syntax in File-to-URL conversion ??", false);
+                Assertions.fail("illegal syntax in File-to-URL conversion ??");
                 }
             File folder = file.getParentFile();
             MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(folder));

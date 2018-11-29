@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.project.*;
 
 /**
@@ -16,9 +18,9 @@ public class ProjectIdGeneratorTests
 	    long id1 = IdGenerator.get(project).generateLongId();
 	    long id2 = IdGenerator.get(project).generateLongId();
 
-	    Assert.assertTrue(id1 != 0);
-	    Assert.assertTrue(id2 != 0);
-	    Assert.assertTrue(id1 != id2);
+	    Assertions.assertTrue(id1 != 0);
+	    Assertions.assertTrue(id2 != 0);
+	    Assertions.assertTrue(id1 != id2);
 	    }
 	}
 

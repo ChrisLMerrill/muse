@@ -1,6 +1,8 @@
 package org.musetest.builtins.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.value.property.*;
 import org.musetest.core.*;
 
@@ -20,8 +22,8 @@ public class PropertyResolverTests
         final Object result = ((String)target).length();
 
         PropertyResolver resolver = new MethodByReflectionResolver();
-        Assert.assertTrue(resolver.canResolve(target, name));
-        Assert.assertEquals(result, resolver.resolve(target, name));
+        Assertions.assertTrue(resolver.canResolve(target, name));
+        Assertions.assertEquals(result, resolver.resolve(target, name));
         }
 
     @Test
@@ -33,8 +35,8 @@ public class PropertyResolverTests
         final Object result = target.getClass();
 
         PropertyResolver resolver = new MethodByReflectionResolver();
-        Assert.assertTrue(resolver.canResolve(target, name));
-        Assert.assertEquals(result, resolver.resolve(target, name));
+        Assertions.assertTrue(resolver.canResolve(target, name));
+        Assertions.assertEquals(result, resolver.resolve(target, name));
         }
 
     @Test
@@ -52,8 +54,8 @@ public class PropertyResolverTests
         target.field1 = result;
 
         PropertyResolver resolver = new FieldByReflectionResolver();
-        Assert.assertTrue(resolver.canResolve(target, name));
-        Assert.assertEquals(result, resolver.resolve(target, name));
+        Assertions.assertTrue(resolver.canResolve(target, name));
+        Assertions.assertEquals(result, resolver.resolve(target, name));
         }
 
     @Test
@@ -65,9 +67,9 @@ public class PropertyResolverTests
         map.put(name, result);
 
         PropertyResolver resolver = new MapResolver();
-        Assert.assertTrue(resolver.canResolve(map, name));
-        Assert.assertEquals(result, resolver.resolve(map, name));
-        Assert.assertNull(resolver.resolve(map, "not-exists"));
+        Assertions.assertTrue(resolver.canResolve(map, name));
+        Assertions.assertEquals(result, resolver.resolve(map, name));
+        Assertions.assertNull(resolver.resolve(map, "not-exists"));
         }
     }
 

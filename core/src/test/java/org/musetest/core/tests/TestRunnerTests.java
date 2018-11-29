@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.project.*;
@@ -25,8 +27,8 @@ public class TestRunnerTests
                 }
             };
         TestResult result = TestRunHelper.runTest(project, test);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(TestResult.FailureType.Error, result.getFailures().get(0).getType());
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(TestResult.FailureType.Error, result.getFailures().get(0).getType());
         }
 
     }

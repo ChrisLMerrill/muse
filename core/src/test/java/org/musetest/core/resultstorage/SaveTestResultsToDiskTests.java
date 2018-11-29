@@ -1,6 +1,8 @@
 package org.musetest.core.resultstorage;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.step.*;
 import org.musetest.core.context.*;
 import org.musetest.core.datacollection.*;
@@ -27,13 +29,13 @@ public class SaveTestResultsToDiskTests
 		_save_plugin.shutdown();
 
 		final File saved = new File(_folder, "saved.txt");
-		Assert.assertTrue(saved.exists());
-		Assert.assertEquals("result-data", FileUtils.readFileAsString(saved));
+		Assertions.assertTrue(saved.exists());
+		Assertions.assertEquals("result-data", FileUtils.readFileAsString(saved));
 
 		// test results with duplicate names do not overwrite each other
 		final File saved2 = new File(_folder, "saved2.txt");
-		Assert.assertTrue(saved2.exists());
-		Assert.assertEquals("result-data2", FileUtils.readFileAsString(saved2));
+		Assertions.assertTrue(saved2.exists());
+		Assertions.assertEquals("result-data2", FileUtils.readFileAsString(saved2));
 	    }
 
 	@Test
@@ -56,24 +58,24 @@ public class SaveTestResultsToDiskTests
 	    _context.raiseEvent(TestResultStoredEventType.create("result3", "the_result"));
 
 	    final File saved = new File(_folder, "saved.txt");
-        Assert.assertTrue(saved.exists());
-        Assert.assertEquals("result-data", FileUtils.readFileAsString(saved));
-        Assert.assertNull(_context.getVariable("result1"));  // was the data removed from the context?
+        Assertions.assertTrue(saved.exists());
+        Assertions.assertEquals("result-data", FileUtils.readFileAsString(saved));
+        Assertions.assertNull(_context.getVariable("result1"));  // was the data removed from the context?
 
         // verify the second result is store (not overwriting 1st file)
 	    final File saved2 = new File(_folder, "saved2.txt");
-        Assert.assertTrue(saved2.exists());
-        Assert.assertEquals("result-data2", FileUtils.readFileAsString(saved2));
-	    Assert.assertNull(_context.getVariable("result2"));
+        Assertions.assertTrue(saved2.exists());
+        Assertions.assertEquals("result-data2", FileUtils.readFileAsString(saved2));
+	    Assertions.assertNull(_context.getVariable("result2"));
 
         // verify the second result is store (not overwriting 1st file)
 	    final File saved3 = new File(_folder, "saved3.txt");
-        Assert.assertTrue(saved3.exists());
-        Assert.assertEquals("result-data3", FileUtils.readFileAsString(saved3));
-	    Assert.assertNull(_context.getVariable("result3"));
+        Assertions.assertTrue(saved3.exists());
+        Assertions.assertEquals("result-data3", FileUtils.readFileAsString(saved3));
+	    Assertions.assertNull(_context.getVariable("result3"));
 	    }
 
-	@Before
+	@BeforeEach
 	public void setup() throws IOException
 		{
 		_folder = FileUtils.createTempFolder("musetest", null);

@@ -1,6 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -31,7 +31,7 @@ public class StepExecutionTests
         executor.executeAll();
 
 		//noinspection ConstantConditions
-        Assert.assertNotNull("message step did not run", test_context.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)));
+        Assertions.assertNotNull(test_context.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)), "message step did not run");
         }
 
     @Test
@@ -53,7 +53,7 @@ public class StepExecutionTests
         executor.executeAll();
 
 		//noinspection ConstantConditions
-        Assert.assertNotNull("step didn't run", test_context.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)));
+        Assertions.assertNotNull(test_context.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)), "step didn't run");
         }
 
     @Test
@@ -81,8 +81,8 @@ public class StepExecutionTests
 
 		EventLog log = test_context.getEventLog();
 		//noinspection ConstantConditions
-        Assert.assertNotNull("first step didn't run", log.findFirstEvent(new EventDescriptionMatcher(message1)));
-        Assert.assertNotNull("second step didn't run", log.findFirstEvent(new EventDescriptionMatcher(message2)));
+        Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(message1)), "first step didn't run");
+        Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(message2)), "second step didn't run");
         }
 
     @Test
@@ -100,8 +100,8 @@ public class StepExecutionTests
 
 		EventLog log = test_context.getEventLog();
 		//noinspection ConstantConditions
-        Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)));
-        Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));
+        Assertions.assertNotNull(log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)), "step didn't start");
+        Assertions.assertNotNull(log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)), "step should have failed");
         }
 
     @Test
@@ -121,7 +121,7 @@ public class StepExecutionTests
 
 		EventLog log = test_context.getEventLog();
 		//noinspection ConstantConditions
-		Assert.assertNotNull("step didn't start", log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)));
-        Assert.assertNotNull("step should have failed", log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)));
+		Assertions.assertNotNull(log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)), "step didn't start");
+        Assertions.assertNotNull(log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)), "step should have failed");
         }
     }

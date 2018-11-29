@@ -1,6 +1,8 @@
 package org.musetest.seleniumide.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.value.*;
 import org.musetest.core.values.*;
 import org.musetest.javascript.*;
@@ -16,8 +18,8 @@ public class ValueConverterTests
         {
         final String content = "abc123";
         ValueSourceConfiguration source = ValueConverters.get().convert(content);
-        Assert.assertEquals(StringValueSource.TYPE_ID, source.getType());
-        Assert.assertEquals(content, source.getValue());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, source.getType());
+        Assertions.assertEquals(content, source.getValue());
         }
 
     @Test
@@ -25,9 +27,9 @@ public class ValueConverterTests
         {
         final String content = "${var1}";
         ValueSourceConfiguration source = ValueConverters.get().convert(content);
-        Assert.assertEquals(VariableValueSource.TYPE_ID, source.getType());
-        Assert.assertEquals(StringValueSource.TYPE_ID, source.getSource().getType());
-        Assert.assertEquals("var1", source.getSource().getValue());
+        Assertions.assertEquals(VariableValueSource.TYPE_ID, source.getType());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, source.getSource().getType());
+        Assertions.assertEquals("var1", source.getSource().getValue());
         }
 
     @Test
@@ -35,9 +37,9 @@ public class ValueConverterTests
         {
         final String content = "javascript{'var' + 1;}";
         ValueSourceConfiguration source = ValueConverters.get().convert(content);
-        Assert.assertEquals(EvaluateJavascriptValueSource.TYPE_ID, source.getType());
-        Assert.assertEquals(StringValueSource.TYPE_ID, source.getSource().getType());
-        Assert.assertEquals("'var' + 1;", source.getSource().getValue());
+        Assertions.assertEquals(EvaluateJavascriptValueSource.TYPE_ID, source.getType());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, source.getSource().getType());
+        Assertions.assertEquals("'var' + 1;", source.getSource().getValue());
         }
     }
 

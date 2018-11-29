@@ -1,6 +1,6 @@
 buildscript
     {
-    ext.kotlin_version = '1.2.0'
+    ext.kotlin_version = '1.3.10'
     repositories
         {
         mavenCentral()
@@ -32,10 +32,10 @@ subprojects
     //noinspection GroovyAssignabilityCheck
     dependencies
         {
-        compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         compile 'io.github.microutils:kotlin-logging:1.4.6'
 
-        testCompile 'junit:junit:4+'
+        testCompile 'org.junit.jupiter:junit-jupiter-api:5.3.2'
         }
 
     task copyTestResources(type: Copy) {
@@ -101,4 +101,3 @@ if (JavaVersion.current().isJava8Compatible()) {
 task wrapper(type: Wrapper) {
     gradleVersion = '4.2'
 }
-

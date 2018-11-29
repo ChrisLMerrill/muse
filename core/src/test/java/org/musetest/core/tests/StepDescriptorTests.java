@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.project.*;
@@ -20,54 +22,54 @@ public class StepDescriptorTests
         {
         final String type = "unknown_step_type";
         StepDescriptor descriptor = new StepDescriptors(project).get(type);
-        Assert.assertTrue(descriptor instanceof UnknownStepDescriptor);
-        Assert.assertEquals(type, descriptor.getType());
-        Assert.assertEquals(type, descriptor.getName());
-        Assert.assertEquals(null, descriptor.getShortDescription());
-        Assert.assertEquals(UnknownStepDescriptor.ICON, descriptor.getIconDescriptor());
-        Assert.assertNull(descriptor.getInlineEditString());
+        Assertions.assertTrue(descriptor instanceof UnknownStepDescriptor);
+        Assertions.assertEquals(type, descriptor.getType());
+        Assertions.assertEquals(type, descriptor.getName());
+        Assertions.assertEquals(null, descriptor.getShortDescription());
+        Assertions.assertEquals(UnknownStepDescriptor.ICON, descriptor.getIconDescriptor());
+        Assertions.assertNull(descriptor.getInlineEditString());
         }
 
     @Test
     public void locateDescriptorByImplementationClass()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(AnnotatedTestStep.class);
-        Assert.assertNotNull(descriptor);
-        Assert.assertTrue(descriptor instanceof AnnotatedStepDescriptor);
+        Assertions.assertNotNull(descriptor);
+        Assertions.assertTrue(descriptor instanceof AnnotatedStepDescriptor);
         }
 
     @Test
     public void annotatedDescriptor()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(AnnotatedTestStep.class);
-        Assert.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseTypeId.class).value(), descriptor.getType());
-        Assert.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseStepName.class).value(), descriptor.getName());
-        Assert.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseStepShortDescription.class).value(), descriptor.getShortDescription());
-        Assert.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseStepIcon.class).value(), descriptor.getIconDescriptor());
-        Assert.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseInlineEditString.class).value(), descriptor.getInlineEditString());
+        Assertions.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseTypeId.class).value(), descriptor.getType());
+        Assertions.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseStepName.class).value(), descriptor.getName());
+        Assertions.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseStepShortDescription.class).value(), descriptor.getShortDescription());
+        Assertions.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseStepIcon.class).value(), descriptor.getIconDescriptor());
+        Assertions.assertEquals(AnnotatedTestStep.class.getAnnotation(MuseInlineEditString.class).value(), descriptor.getInlineEditString());
         }
 
     @Test
     public void unannotatedCustomType()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(DummyStepType.class);
-        Assert.assertEquals(DummyStepType.class.getSimpleName(), descriptor.getType());
-        Assert.assertEquals(DummyStepType.class.getSimpleName(), descriptor.getName());
-        Assert.assertEquals(null, descriptor.getShortDescription());
-        Assert.assertEquals(UnknownStepDescriptor.ICON, descriptor.getIconDescriptor());
-        Assert.assertNull(descriptor.getInlineEditString());
+        Assertions.assertEquals(DummyStepType.class.getSimpleName(), descriptor.getType());
+        Assertions.assertEquals(DummyStepType.class.getSimpleName(), descriptor.getName());
+        Assertions.assertEquals(null, descriptor.getShortDescription());
+        Assertions.assertEquals(UnknownStepDescriptor.ICON, descriptor.getIconDescriptor());
+        Assertions.assertNull(descriptor.getInlineEditString());
         }
 
     @Test
     public void customDescriptorImplementationLookup()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(WithCustomDescriptor.class);
-        Assert.assertTrue(descriptor instanceof  TestStepDescriptor);
-        Assert.assertEquals(TestStepDescriptor.TYPE, descriptor.getType());
-        Assert.assertEquals(TestStepDescriptor.NAME, descriptor.getName());
-        Assert.assertEquals(TestStepDescriptor.SHORT_DESCRIPTION, descriptor.getShortDescription());
-        Assert.assertEquals(TestStepDescriptor.ICON, descriptor.getIconDescriptor());
-        Assert.assertEquals(TestStepDescriptor.TEST_STEP, descriptor.getInlineEditString());
+        Assertions.assertTrue(descriptor instanceof  TestStepDescriptor);
+        Assertions.assertEquals(TestStepDescriptor.TYPE, descriptor.getType());
+        Assertions.assertEquals(TestStepDescriptor.NAME, descriptor.getName());
+        Assertions.assertEquals(TestStepDescriptor.SHORT_DESCRIPTION, descriptor.getShortDescription());
+        Assertions.assertEquals(TestStepDescriptor.ICON, descriptor.getIconDescriptor());
+        Assertions.assertEquals(TestStepDescriptor.TEST_STEP, descriptor.getInlineEditString());
         }
 
     @Test
@@ -91,8 +93,8 @@ public class StepDescriptorTests
         final String value = "value1";
         step_config.addSource(source, ValueSourceConfiguration.forValue(value));
         String short_description = descriptor.getShortDescription(step_config);
-        Assert.assertTrue(short_description.contains(source));
-        Assert.assertTrue(short_description.contains(value));
+        Assertions.assertTrue(short_description.contains(source));
+        Assertions.assertTrue(short_description.contains(value));
         }
 
     @Test
@@ -102,7 +104,7 @@ public class StepDescriptorTests
         StepConfiguration step_config = new StepConfiguration(AnnotatedTestStep.class.getAnnotation(MuseTypeId.class).value());
         final String value = "abc";
         step_config.addSource(AnnotatedTestStep.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
-        Assert.assertTrue(descriptor.getShortDescription(step_config).contains(value));
+        Assertions.assertTrue(descriptor.getShortDescription(step_config).contains(value));
         }
 
     @Test
@@ -112,7 +114,7 @@ public class StepDescriptorTests
         StepConfiguration step_config = new StepConfiguration(TestStepDescriptor.TYPE);
         final String value = "xyz";
         step_config.addSource(TestStepDescriptor.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
-        Assert.assertTrue(descriptor.getShortDescription(step_config).contains(value));
+        Assertions.assertTrue(descriptor.getShortDescription(step_config).contains(value));
         }
 
     @Test
@@ -124,7 +126,7 @@ public class StepDescriptorTests
         step_config.setMetadataField(StepConfiguration.META_DESCRIPTION, description);
         final String value = "xyz";
         step_config.addSource(TestStepDescriptor.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
-        Assert.assertEquals(description, descriptor.getShortDescription(step_config));
+        Assertions.assertEquals(description, descriptor.getShortDescription(step_config));
         }
 
     @Test
@@ -132,13 +134,13 @@ public class StepDescriptorTests
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(AnnotatedTestStep.class);
         SubsourceDescriptor[] descriptors = descriptor.getSubsourceDescriptors();
-        Assert.assertEquals(1, descriptors.length);
+        Assertions.assertEquals(1, descriptors.length);
 
         SubsourceDescriptor param = descriptors[0];
-        Assert.assertEquals("param1", param.getDisplayName());
-        Assert.assertEquals("param1-description", param.getDescription());
-        Assert.assertEquals(SubsourceDescriptor.Type.Named, param.getType());
-        Assert.assertEquals("p1", param.getName());
+        Assertions.assertEquals("param1", param.getDisplayName());
+        Assertions.assertEquals("param1-description", param.getDescription());
+        Assertions.assertEquals(SubsourceDescriptor.Type.Named, param.getType());
+        Assertions.assertEquals("p1", param.getName());
         }
 
     private class DummyStepType implements MuseStep

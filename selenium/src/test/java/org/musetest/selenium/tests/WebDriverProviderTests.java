@@ -1,7 +1,7 @@
 package org.musetest.selenium.tests;
 
 import com.fasterxml.jackson.databind.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.project.*;
@@ -25,9 +25,9 @@ public class WebDriverProviderTests
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
-        Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
+        Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriver driver = driver_providers.getDriver(new SeleniumBrowserCapabilities(MuseMockProvider.MUSE_BROWSER), new ProjectExecutionContext(new SimpleProject()));
-        Assert.assertTrue(driver instanceof MuseMockDriver);
+        Assertions.assertTrue(driver instanceof MuseMockDriver);
         }
 
     /**
@@ -39,16 +39,16 @@ public class WebDriverProviderTests
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
-        Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
+        Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
         for (WebDriverProvider provider : provider_list.getProviders())
             if (provider instanceof ChromeDriverProvider)
                 {
-                Assert.assertEquals("path-to\\chromedriver.exe", ((ChromeDriverProvider) provider).getRelativePath());
+                Assertions.assertEquals("path-to\\chromedriver.exe", ((ChromeDriverProvider) provider).getRelativePath());
                 return;
                 }
 
-        Assert.assertTrue("no provider found for Chrome", false);
+        Assertions.fail("no provider found for Chrome");
         }
 
     /**
@@ -60,16 +60,16 @@ public class WebDriverProviderTests
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
-        Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
+        Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
         for (WebDriverProvider provider : provider_list.getProviders())
             if (provider instanceof GeckoDriverProvider)
                 {
-                Assert.assertEquals("path-to\\geckodriver.exe", ((GeckoDriverProvider) provider).getRelativePath());
+                Assertions.assertEquals("path-to\\geckodriver.exe", ((GeckoDriverProvider) provider).getRelativePath());
                 return;
                 }
 
-        Assert.assertTrue("no provider found for Chrome", false);
+        Assertions.fail("no provider found for Chrome");
         }
 
     /**
@@ -81,16 +81,16 @@ public class WebDriverProviderTests
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
-        Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
+        Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
         for (WebDriverProvider provider : provider_list.getProviders())
             if (provider instanceof IExploreDriverProvider)
                 {
-                Assert.assertEquals("path-to\\iexploredriver.exe", ((IExploreDriverProvider) provider).getRelativePath());
+                Assertions.assertEquals("path-to\\iexploredriver.exe", ((IExploreDriverProvider) provider).getRelativePath());
                 return;
                 }
 
-        Assert.assertTrue("no provider found for IE", false);
+        Assertions.fail("no provider found for IE");
         }
 
     /**
@@ -102,13 +102,13 @@ public class WebDriverProviderTests
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
-        Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
+        Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
         for (WebDriverProvider provider : provider_list.getProviders())
             if (provider instanceof GeckoDriverProvider)
                 return;
 
-        Assert.assertTrue("no provider found for Firefox", false);
+        Assertions.fail("no provider found for Firefox");
         }
 
     /**
@@ -120,13 +120,13 @@ public class WebDriverProviderTests
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
-        Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
+        Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
         for (WebDriverProvider provider : provider_list.getProviders())
             if (provider instanceof SafariDriverProvider)
                 return;
 
-        Assert.assertTrue("no provider found for Safari", false);
+        Assertions.fail("no provider found for Safari");
         }
 
     /**
@@ -138,16 +138,16 @@ public class WebDriverProviderTests
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("remote-provider.json"), WebDriverProviderConfiguration.class);
 
-        Assert.assertTrue(driver_providers instanceof WebDriverProviderList);
+        Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
         WebDriverProviderList provider_list = (WebDriverProviderList) driver_providers;
         WebDriverProvider provider = provider_list.getProviders().get(0);
         if (provider instanceof RemoteDriverProvider)
             {
-            Assert.assertEquals("http://url/of/driver/service", ((RemoteDriverProvider) provider).getUrl());
+            Assertions.assertEquals("http://url/of/driver/service", ((RemoteDriverProvider) provider).getUrl());
             return;
             }
 
-        Assert.assertTrue("remote provider not found", false);
+        Assertions.fail("remote provider not found");
         }
 
     @Test
@@ -180,14 +180,14 @@ public class WebDriverProviderTests
         RemoteDriverProvider new_provider = new RemoteDriverProvider();
         list.add(new_provider);
 
-        Assert.assertEquals(0, listener._added_index.longValue());
-        Assert.assertEquals(new_provider, listener._added_provider);
+        Assertions.assertEquals(0, listener._added_index.longValue());
+        Assertions.assertEquals(new_provider, listener._added_provider);
 
         // remove listener
         listener.reset();
         list.removeListener(listener);
         list.add(new_provider);
-        Assert.assertEquals(null, listener._added_provider);
+        Assertions.assertNull(listener._added_provider);
         }
 
     @Test
@@ -219,7 +219,7 @@ public class WebDriverProviderTests
 
         list.remove(provider2);
 
-        Assert.assertEquals(1, listener._removed_index.longValue());
-        Assert.assertEquals(provider2, listener._removed_provider);
+        Assertions.assertEquals(1, listener._removed_index.longValue());
+        Assertions.assertEquals(provider2, listener._removed_provider);
         }
     }

@@ -2,6 +2,8 @@ package org.musetest.core.events;
 
 import org.apache.commons.io.*;
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -33,14 +35,14 @@ public class EventLogWriterTests
 		context.raiseEvent(StartTestEventType.create("test1", "Test #1"));
 		context.raiseEvent(MessageEventType.create("message1"));
 
-		Assert.assertTrue(log.exists());
-		Assert.assertTrue(log.length() > 0);
-		Assert.assertTrue(new String(FileUtils.readFileToByteArray(log)).contains("message1"));
+		Assertions.assertTrue(log.exists());
+		Assertions.assertTrue(log.length() > 0);
+		Assertions.assertTrue(new String(FileUtils.readFileToByteArray(log)).contains("message1"));
 
 		final long length = log.length();
 		context.raiseEvent(MessageEventType.create("message2"));
-		Assert.assertTrue(log.length() > length);
-		Assert.assertTrue(new String(FileUtils.readFileToByteArray(log)).contains("message2"));
+		Assertions.assertTrue(log.length() > length);
+		Assertions.assertTrue(new String(FileUtils.readFileToByteArray(log)).contains("message2"));
 		}
 
 	@Test
@@ -55,9 +57,9 @@ public class EventLogWriterTests
 		context.raiseEvent(StartTestEventType.create("test1", "Test #1"));
 
 		File log = writer.getLogfile();
-		Assert.assertTrue(log.exists());
-		Assert.assertTrue(log.length() > 0);
-		Assert.assertEquals(log.getPath(), new File("events.json").getPath());
+		Assertions.assertTrue(log.exists());
+		Assertions.assertTrue(log.length() > 0);
+		Assertions.assertEquals(log.getPath(), new File("events.json").getPath());
 		}
 
 	@Test
@@ -73,9 +75,9 @@ public class EventLogWriterTests
 		context.raiseEvent(StartTestEventType.create("test1", "Test #1"));
 
 		File log = writer.getLogfile();
-		Assert.assertTrue(log.exists());
-		Assert.assertTrue(log.length() > 0);
-		Assert.assertEquals(log.getPath(), new File(new File(System.getProperty("java.io.tmpdir")), "events.json").getPath());
+		Assertions.assertTrue(log.exists());
+		Assertions.assertTrue(log.length() > 0);
+		Assertions.assertEquals(log.getPath(), new File(new File(System.getProperty("java.io.tmpdir")), "events.json").getPath());
 		}
 
 	@Test
@@ -89,12 +91,12 @@ public class EventLogWriterTests
 
 		context.raiseEvent(MessageEventType.create("message1"));
 		File log = writer.getLogfile();
-		Assert.assertNull(log);
+		Assertions.assertNull(log);
 
 		// cached events are written when the start event is received
 		context.raiseEvent(StartTestEventType.create("test1", "Test #1"));
 		log = writer.getLogfile();
-		Assert.assertTrue(log.exists());
+		Assertions.assertTrue(log.exists());
 		}
 
 	class StoragePlugin implements LocalStorageLocationProvider, MusePlugin

@@ -1,6 +1,8 @@
 package org.musetest.core.test.plugins;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
@@ -26,8 +28,8 @@ public class CompoundPluginTests
 		DefaultTestExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
 	    config.createPlugin().conditionallyAddToContext(context, true);
 
-	    Assert.assertEquals(1, context.getPlugins().size());
-	    Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
+	    Assertions.assertEquals(1, context.getPlugins().size());
+	    Assertions.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
 	    }
 
 	@Test
@@ -41,8 +43,8 @@ public class CompoundPluginTests
 		DefaultTestExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
 	    config.createPlugin().conditionallyAddToContext(context, true);
 
-	    Assert.assertEquals(1, context.getPlugins().size());
-		Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
+	    Assertions.assertEquals(1, context.getPlugins().size());
+		Assertions.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
 	    }
 
 	@Test
@@ -56,12 +58,12 @@ public class CompoundPluginTests
 		DefaultTestExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
 	    config.createPlugin().conditionallyAddToContext(context, true);
 
-	    Assert.assertEquals(2, context.getPlugins().size());
-		Assert.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
-		Assert.assertTrue(context.getPlugins().get(1) instanceof MockTestPlugin);
+	    Assertions.assertEquals(2, context.getPlugins().size());
+		Assertions.assertTrue(context.getPlugins().get(0) instanceof MockTestPlugin);
+		Assertions.assertTrue(context.getPlugins().get(1) instanceof MockTestPlugin);
 	    }
 
-	@Before
+	@BeforeEach
 	public void setup() throws IOException
 		{
 		MockPluginConfiguration plugin1 = new MockPluginConfiguration(true, true);

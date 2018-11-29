@@ -1,6 +1,8 @@
 package org.musetest.seleniumide.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.values.*;
@@ -18,10 +20,10 @@ public class ConditionConversionTests
         {
         ConditionConverter converter = ConditionConverters.getInstance().find("Text");
         ValueSourceConfiguration condition = converter.createConditionSource("id=123", "abc");
-        Assert.assertEquals(EqualityCondition.TYPE_ID, condition.getType());
-        Assert.assertEquals(ElementText.TYPE_ID, condition.getSource(EqualityCondition.LEFT_PARAM).getType());
-        Assert.assertEquals(StringValueSource.TYPE_ID, condition.getSource(EqualityCondition.RIGHT_PARAM).getType());
-        Assert.assertEquals("abc", condition.getSource(EqualityCondition.RIGHT_PARAM).getValue());
+        Assertions.assertEquals(EqualityCondition.TYPE_ID, condition.getType());
+        Assertions.assertEquals(ElementText.TYPE_ID, condition.getSource(EqualityCondition.LEFT_PARAM).getType());
+        Assertions.assertEquals(StringValueSource.TYPE_ID, condition.getSource(EqualityCondition.RIGHT_PARAM).getType());
+        Assertions.assertEquals("abc", condition.getSource(EqualityCondition.RIGHT_PARAM).getValue());
         }
 
     @Test
@@ -29,8 +31,8 @@ public class ConditionConversionTests
         {
         ConditionConverter converter = ConditionConverters.getInstance().find("Text");
         ValueSourceConfiguration condition = converter.createConditionSource("id=123", "a?c");
-        Assert.assertEquals(GlobMatchCondition.TYPE_ID, condition.getType());
-        Assert.assertEquals("a?c", condition.getSource(GlobMatchCondition.PATTERN_PARAM).getValue());
+        Assertions.assertEquals(GlobMatchCondition.TYPE_ID, condition.getType());
+        Assertions.assertEquals("a?c", condition.getSource(GlobMatchCondition.PATTERN_PARAM).getValue());
         }
 
     @Test
@@ -38,8 +40,8 @@ public class ConditionConversionTests
         {
         ConditionConverter converter = ConditionConverters.getInstance().find("Text");
         ValueSourceConfiguration condition = converter.createConditionSource("id=123", "glob:a*c");
-        Assert.assertEquals(GlobMatchCondition.TYPE_ID, condition.getType());
-        Assert.assertEquals("a*c", condition.getSource(GlobMatchCondition.PATTERN_PARAM).getValue());
+        Assertions.assertEquals(GlobMatchCondition.TYPE_ID, condition.getType());
+        Assertions.assertEquals("a*c", condition.getSource(GlobMatchCondition.PATTERN_PARAM).getValue());
         }
 
     @Test
@@ -47,8 +49,8 @@ public class ConditionConversionTests
         {
         ConditionConverter converter = ConditionConverters.getInstance().find("Text");
         ValueSourceConfiguration condition = converter.createConditionSource("id=123", "regexp:a.*c");
-        Assert.assertEquals(RegexMatchCondition.TYPE_ID, condition.getType());
-        Assert.assertEquals("a.*c", condition.getSource(RegexMatchCondition.PATTERN_PARAM).getValue());
+        Assertions.assertEquals(RegexMatchCondition.TYPE_ID, condition.getType());
+        Assertions.assertEquals("a.*c", condition.getSource(RegexMatchCondition.PATTERN_PARAM).getValue());
         }
     }
 

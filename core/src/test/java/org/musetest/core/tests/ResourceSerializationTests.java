@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.resource.storage.*;
 import org.musetest.core.tests.mocks.*;
@@ -28,16 +30,16 @@ public class ResourceSerializationTests
 
 		FolderIntoMemoryResourceStorage new_storage = new FolderIntoMemoryResourceStorage(_folder);
 		MuseResource restored = new_storage.findResource(resource_id).getResource();
-		Assert.assertEquals(field_value, restored.metadata().getMetadataField(field_name));
+		Assertions.assertEquals(field_value, restored.metadata().getMetadataField(field_name));
 	    }
 
-	@Before
+	@BeforeEach
 	public void setup() throws IOException
 		{
 		_folder = Files.createTempDirectory("muse-unit-test-").toFile();
 		}
 
-	@After
+	@AfterEach
 	public void teardown()
 		{
 		_folder.deleteOnExit();

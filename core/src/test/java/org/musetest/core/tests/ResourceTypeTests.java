@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.plugins.*;
 import org.musetest.core.project.*;
@@ -20,10 +22,10 @@ public class ResourceTypeTests
         MuseProject project = new SimpleProject();
         Collection<ResourceType> all = project.getResourceTypes().getPrimary();
 
-        Assert.assertTrue(all.contains(new MuseTest.TestResourceType()));
-        Assert.assertTrue(all.contains(new PluginConfiguration.PluginConfigurationResourceType()));
+        Assertions.assertTrue(all.contains(new MuseTest.TestResourceType()));
+        Assertions.assertTrue(all.contains(new PluginConfiguration.PluginConfigurationResourceType()));
         // subtype should not be found
-        Assert.assertFalse(all.contains(new IdListTestSuite.IdListTestSuiteSubtype()));
+        Assertions.assertFalse(all.contains(new IdListTestSuite.IdListTestSuiteSubtype()));
         }
 
     @Test
@@ -31,9 +33,9 @@ public class ResourceTypeTests
         {
         MuseProject project = new SimpleProject();
         Collection<ResourceSubtype> found = project.getResourceTypes().getSubtypesOf(new MuseTestSuite.TestSuiteResourceType());
-        Assert.assertEquals(2, found.size());
-        Assert.assertTrue(found.contains(new ParameterListTestSuite.ParameterListTestSuiteSubtype()));
-        Assert.assertTrue(found.contains(new IdListTestSuite.IdListTestSuiteSubtype()));
+        Assertions.assertEquals(2, found.size());
+        Assertions.assertTrue(found.contains(new ParameterListTestSuite.ParameterListTestSuiteSubtype()));
+        Assertions.assertTrue(found.contains(new IdListTestSuite.IdListTestSuiteSubtype()));
         }
     }
 

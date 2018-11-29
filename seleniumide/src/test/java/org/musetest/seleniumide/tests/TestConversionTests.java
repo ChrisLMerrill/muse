@@ -1,6 +1,8 @@
 package org.musetest.seleniumide.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.SteppedTest;
 import org.musetest.selenium.locators.*;
@@ -23,28 +25,28 @@ public class TestConversionTests
 
         List<StepConfiguration> steps = test.getStep().getChildren();
 
-        Assert.assertEquals(OpenBrowser.TYPE_ID, steps.get(0).getType());
+        Assertions.assertEquals(OpenBrowser.TYPE_ID, steps.get(0).getType());
 
-        Assert.assertEquals(GotoUrl.TYPE_ID, steps.get(1).getType());
-        Assert.assertEquals("http://www.example.com/login/", steps.get(1).getSource(GotoUrl.URL_PARAM).getValue());
+        Assertions.assertEquals(GotoUrl.TYPE_ID, steps.get(1).getType());
+        Assertions.assertEquals("http://www.example.com/login/", steps.get(1).getSource(GotoUrl.URL_PARAM).getValue());
 
-        Assert.assertEquals(SendKeys.TYPE_ID, steps.get(2).getType());
-        Assert.assertEquals("user@example.com", steps.get(2).getSource(SendKeys.KEYS_PARAM).getValue());
-        Assert.assertEquals(NameElementValueSource.TYPE_ID, steps.get(2).getSource(SendKeys.ELEMENT_PARAM).getType());
-        Assert.assertEquals("username", steps.get(2).getSource(SendKeys.ELEMENT_PARAM).getSource().getValue());
+        Assertions.assertEquals(SendKeys.TYPE_ID, steps.get(2).getType());
+        Assertions.assertEquals("user@example.com", steps.get(2).getSource(SendKeys.KEYS_PARAM).getValue());
+        Assertions.assertEquals(NameElementValueSource.TYPE_ID, steps.get(2).getSource(SendKeys.ELEMENT_PARAM).getType());
+        Assertions.assertEquals("username", steps.get(2).getSource(SendKeys.ELEMENT_PARAM).getSource().getValue());
 
-        Assert.assertEquals(SendKeys.TYPE_ID, steps.get(3).getType());
-        Assert.assertEquals("mypass", steps.get(3).getSource(SendKeys.KEYS_PARAM).getValue());
-        Assert.assertEquals(IdElementValueSource.TYPE_ID, steps.get(3).getSource(SendKeys.ELEMENT_PARAM).getType());
-        Assert.assertEquals("password", steps.get(3).getSource(SendKeys.ELEMENT_PARAM).getSource().getValue());
+        Assertions.assertEquals(SendKeys.TYPE_ID, steps.get(3).getType());
+        Assertions.assertEquals("mypass", steps.get(3).getSource(SendKeys.KEYS_PARAM).getValue());
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, steps.get(3).getSource(SendKeys.ELEMENT_PARAM).getType());
+        Assertions.assertEquals("password", steps.get(3).getSource(SendKeys.ELEMENT_PARAM).getSource().getValue());
 
-        Assert.assertEquals(ClickElement.TYPE_ID, steps.get(4).getType());
-        Assert.assertEquals(XPathElementValueSource.TYPE_ID, steps.get(4).getSource(SendKeys.ELEMENT_PARAM).getType());
-        Assert.assertEquals("//div[@id='login_panel']/input[3]", steps.get(4).getSource(SendKeys.ELEMENT_PARAM).getSource().getValue());
+        Assertions.assertEquals(ClickElement.TYPE_ID, steps.get(4).getType());
+        Assertions.assertEquals(XPathElementValueSource.TYPE_ID, steps.get(4).getSource(SendKeys.ELEMENT_PARAM).getType());
+        Assertions.assertEquals("//div[@id='login_panel']/input[3]", steps.get(4).getSource(SendKeys.ELEMENT_PARAM).getSource().getValue());
 
-        Assert.assertEquals(ClickElement.TYPE_ID, steps.get(5).getType());
-        Assert.assertEquals(CssElementValueSource.TYPE_ID, steps.get(5).getSource(SendKeys.ELEMENT_PARAM).getType());
-        Assert.assertEquals("a.login > span", steps.get(5).getSource(SendKeys.ELEMENT_PARAM).getSource().getValue());
+        Assertions.assertEquals(ClickElement.TYPE_ID, steps.get(5).getType());
+        Assertions.assertEquals(CssElementValueSource.TYPE_ID, steps.get(5).getSource(SendKeys.ELEMENT_PARAM).getType());
+        Assertions.assertEquals("a.login > span", steps.get(5).getSource(SendKeys.ELEMENT_PARAM).getSource().getValue());
         }
     }
 

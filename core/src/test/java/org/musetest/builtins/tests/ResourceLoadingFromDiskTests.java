@@ -2,6 +2,8 @@ package org.musetest.builtins.tests;
 
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
@@ -22,19 +24,19 @@ public class ResourceLoadingFromDiskTests
         {
         File file = TestResources.getFile("test_files/MacroStep.json", this.getClass());
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(file));
-        Assert.assertEquals(1, resources.size());
+        Assertions.assertEquals(1, resources.size());
         MuseResource resource = resources.get(0);
-        Assert.assertEquals(new Macro.MacroResourceType(), resource.getType());
-        Assert.assertEquals("MacroStep", resource.getId());
+        Assertions.assertEquals(new Macro.MacroResourceType(), resource.getType());
+        Assertions.assertEquals("MacroStep", resource.getId());
 
-        Assert.assertTrue(resource instanceof Macro);
+        Assertions.assertTrue(resource instanceof Macro);
         Macro macro = (Macro) resource;
 
         StepConfiguration main_step = macro.getStep();
-        Assert.assertEquals(BasicCompoundStep.TYPE_ID, main_step.getType());
-        Assert.assertEquals(2, main_step.getChildren().size());
-        Assert.assertEquals(LogMessage.TYPE_ID, main_step.getChildren().get(0).getType());
-        Assert.assertEquals(StoreVariable.TYPE_ID, main_step.getChildren().get(1).getType());
+        Assertions.assertEquals(BasicCompoundStep.TYPE_ID, main_step.getType());
+        Assertions.assertEquals(2, main_step.getChildren().size());
+        Assertions.assertEquals(LogMessage.TYPE_ID, main_step.getChildren().get(0).getType());
+        Assertions.assertEquals(StoreVariable.TYPE_ID, main_step.getChildren().get(1).getType());
         }
     }
 

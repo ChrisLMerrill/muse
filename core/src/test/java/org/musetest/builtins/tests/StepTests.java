@@ -1,6 +1,6 @@
 package org.musetest.builtins.tests;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
@@ -40,7 +40,7 @@ public class StepTests
         try
             {
             MuseStep step = config.createStep();
-            Assert.assertTrue("createStep() should have thrown an error due to a missing parameter", false);
+            Assertions.fail("createStep() should have thrown an error due to a missing parameter");
 
             step.execute(new MockStepExecutionContext());
             }
@@ -64,7 +64,7 @@ public class StepTests
         StepExecutionContext context = new MockStepExecutionContext();
         MuseStep step = config.createStep();
         step.execute(context);
-        Assert.assertEquals("abc", context.getVariable("var1"));
+        Assertions.assertEquals("abc", context.getVariable("var1"));
         }
 
     @Test
@@ -77,7 +77,7 @@ public class StepTests
         MuseStep step = config.createStep();
         StepExecutionContext context = new MockStepExecutionContext();
         step.execute(context);
-        Assert.assertEquals(191L, context.getVariable("var_int"));
+        Assertions.assertEquals(191L, context.getVariable("var_int"));
         }
 
     @Test
@@ -90,7 +90,7 @@ public class StepTests
         StepExecutionContext context = new MockStepExecutionContext();
         context.setVariable("var1", 3L);
         step.execute(context);
-        Assert.assertEquals(4L, context.getVariable("var1"));
+        Assertions.assertEquals(4L, context.getVariable("var1"));
         }
 
     @Test
@@ -107,7 +107,7 @@ public class StepTests
         StepExecutionContext context = new MockStepExecutionContext();
         context.setVariable("var1", start_value);
         step.execute(context);
-        Assert.assertEquals(start_value + amount, context.getVariable("var1"));
+        Assertions.assertEquals(start_value + amount, context.getVariable("var1"));
         }
 
     @Test
@@ -118,7 +118,7 @@ public class StepTests
         MuseStep step = config.createStep();
 
         StepExecutionResult result = step.execute(new MockStepExecutionContext());
-        Assert.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
+        Assertions.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
         }
 
     @Test
@@ -130,7 +130,7 @@ public class StepTests
 
         final MockStepExecutionContext context = new MockStepExecutionContext();
         step.execute(context);
-        Assert.assertNotNull(context.getEventLog().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
+        Assertions.assertNotNull(context.getEventLog().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
         }
 
     @Test
@@ -158,11 +158,11 @@ public class StepTests
         MuseStep step = config.createStep();
 
         step.execute(new MockStepExecutionContext(test_context));
-        Assert.assertNotNull(logger.getLog().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
+        Assertions.assertNotNull(logger.getLog().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID)));
 
         List<MuseEvent> events = logger.getLog().findEvents(new EventTypeMatcher(VerifyFailureEventType.TYPE_ID));
-        Assert.assertEquals(1, events.size());
-        Assert.assertEquals(fatal, events.get(0).hasTag(MuseEvent.TERMINATE));
+        Assertions.assertEquals(1, events.size());
+        Assertions.assertEquals(fatal, events.get(0).hasTag(MuseEvent.TERMINATE));
         }
 
     @Test
@@ -191,9 +191,9 @@ public class StepTests
         // verify that the macro runs when the test is executed
         final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
         TestResult result = TestResult.find(context);
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result.isPass());
-        Assert.assertNotNull("message step didn't run", context.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)));
+        Assertions.assertNotNull(result);
+        Assertions.assertTrue(result.isPass());
+        Assertions.assertNotNull(context.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)), "message step didn't run");
         }
 
     /**
@@ -238,8 +238,8 @@ public class StepTests
         // verify that the return value is correct in the context (the function should have incremented by one
         final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
         TestResult result = TestResult.find(context);
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result.isPass());
+        Assertions.assertNotNull(result);
+        Assertions.assertTrue(result.isPass());
         }
 
     /**
@@ -273,10 +273,10 @@ public class StepTests
 
         final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
         TestResult result = TestResult.find(context);
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result.isPass());
+        Assertions.assertNotNull(result);
+        Assertions.assertTrue(result.isPass());
         // verify that the message step (which comes after the return) did not run
-        Assert.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(MessageEventType.TYPE_ID)).size() == 0);
+        Assertions.assertEquals(0, context.getEventLog().findEvents(new EventTypeMatcher(MessageEventType.TYPE_ID)).size());
         }
 
     @Test
@@ -290,8 +290,8 @@ public class StepTests
         SteppedTest test = new SteppedTest(step);
         final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
         TestResult result = TestResult.find(context);
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result.isPass());
+        Assertions.assertNotNull(result);
+        Assertions.assertTrue(result.isPass());
         }
 
     @Test
@@ -312,8 +312,8 @@ public class StepTests
         SteppedTest test = new SteppedTest(main);
         final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
         TestResult result = TestResult.find(context);
-        Assert.assertNotNull(result);
-        Assert.assertFalse(result.isPass());
+        Assertions.assertNotNull(result);
+        Assertions.assertFalse(result.isPass());
         }
 
     @Test
@@ -321,7 +321,7 @@ public class StepTests
         {
         MockStep step = new MockStep();
         String result = step.getValue(null, new MockStepExecutionContext(), String.class, "default_value");
-        Assert.assertEquals("default_value", result);
+        Assertions.assertEquals("default_value", result);
         }
 
     class MockStep extends BaseStep

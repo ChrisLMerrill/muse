@@ -1,6 +1,8 @@
 package org.musetest.selenium.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.values.*;
@@ -42,34 +44,34 @@ public class SeleniumValueSourceStringExpressionSupportTests
         config.setSource(sub_source);
 
         String stringified = PROJECT.getValueSourceStringExpressionSupporters().toString(config, new RootStringExpressionContext(PROJECT));
-        Assert.assertEquals(String.format("%s(\"%s\")", function_name, "abc"), stringified);
+        Assertions.assertEquals(String.format("%s(\"%s\")", function_name, "abc"), stringified);
 
         ArrayList<ValueSourceConfiguration> arguments = new ArrayList<>();
         arguments.add(sub_source);
         ValueSourceConfiguration parsed_config = support_class.newInstance().fromArgumentedExpression(function_name, arguments, PROJECT);
 
-        Assert.assertEquals(config, parsed_config);
+        Assertions.assertEquals(config, parsed_config);
         }
 
     @Test
     public void pageTitleStringExpressionSupport()
         {
         ValueSourceConfiguration config = new PageTitleValueSource.StringExpressionSupport().fromElementExpression(PageTitleValueSource.StringExpressionSupport.NAME, new ArrayList<>(), null);
-        Assert.assertEquals(PageTitleValueSource.TYPE_ID, config.getType());
+        Assertions.assertEquals(PageTitleValueSource.TYPE_ID, config.getType());
         }
 
     @Test
     public void pageSourceStringExpressionSupport()
         {
         ValueSourceConfiguration config = new PageSourceValueSource.StringExpressionSupport().fromElementExpression(PageSourceValueSource.StringExpressionSupport.NAME, new ArrayList<>(), null);
-        Assert.assertEquals(PageSourceValueSource.TYPE_ID, config.getType());
+        Assertions.assertEquals(PageSourceValueSource.TYPE_ID, config.getType());
         }
 
     @Test
     public void currentUrlStringExpressionSupport()
         {
         ValueSourceConfiguration config = new CurrentUrlValueSource.StringExpressionSupport().fromElementExpression(CurrentUrlValueSource.StringExpressionSupport.NAME, new ArrayList<>(), null);
-        Assert.assertEquals(CurrentUrlValueSource.TYPE_ID, config.getType());
+        Assertions.assertEquals(CurrentUrlValueSource.TYPE_ID, config.getType());
         }
 
     @Test
@@ -108,8 +110,8 @@ public class SeleniumValueSourceStringExpressionSupportTests
         List<ValueSourceConfiguration> arguments = new ArrayList<>();
         arguments.add(argument);
         ValueSourceConfiguration config = parser.fromElementExpression(expression_id, arguments, null);
-        Assert.assertEquals(muse_type_id, config.getType());
-        Assert.assertEquals(argument, config.getSource());
+        Assertions.assertEquals(muse_type_id, config.getType());
+        Assertions.assertEquals(argument, config.getSource());
         }
 
     private final static MuseProject PROJECT = new SimpleProject();

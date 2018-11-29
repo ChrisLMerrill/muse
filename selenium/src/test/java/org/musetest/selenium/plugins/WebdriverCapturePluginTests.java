@@ -1,6 +1,6 @@
 package org.musetest.selenium.plugins;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -59,16 +59,16 @@ public class WebdriverCapturePluginTests
 	    _driver.putScreenshot("screenshot1".getBytes());
 	    raiseErrorEvent();
 
-		Assert.assertEquals(1, _storage_events.size());
+		Assertions.assertEquals(1, _storage_events.size());
 	    checkForScreenshotCaptureEvent("screenshot1".getBytes());
 
 		_driver.putScreenshot("screenshot1".getBytes());
 	    raiseErrorEvent();
-	    Assert.assertEquals("duplicate screenshot was captured", 1, _storage_events.size());
+	    Assertions.assertEquals(1, _storage_events.size(), "duplicate screenshot was captured");
 
 		_driver.putScreenshot("screenshot2".getBytes());
 	    raiseErrorEvent();
-	    Assert.assertEquals("second (different) screenshot was NOT captured", 2, _storage_events.size());
+	    Assertions.assertEquals(2, _storage_events.size(), "second (different) screenshot was NOT captured");
 		checkForScreenshotCaptureEvent("screenshot2".getBytes());
 	    }
 
@@ -79,16 +79,16 @@ public class WebdriverCapturePluginTests
 	    _driver.putHtml("html1".getBytes());
 	    raiseErrorEvent();
 
-		Assert.assertEquals(1, _storage_events.size());
+		Assertions.assertEquals(1, _storage_events.size());
 		checkForHtmlCaptureEvent("html1".getBytes());
 
 		_driver.putHtml("html1".getBytes());
 	    raiseErrorEvent();
-	    Assert.assertEquals("duplicate HTML was captured", 1, _storage_events.size());
+	    Assertions.assertEquals(1, _storage_events.size(), "duplicate HTML was captured");
 
 		_driver.putHtml("html2".getBytes());
 	    raiseErrorEvent();
-	    Assert.assertEquals("second (different) HTML was NOT captured", 2, _storage_events.size());
+	    Assertions.assertEquals(2, _storage_events.size(), "second (different) HTML was NOT captured");
 		checkForHtmlCaptureEvent("html2".getBytes());
 	    }
 
@@ -124,8 +124,8 @@ public class WebdriverCapturePluginTests
 	    MuseEvent event = EndTestEventType.create();
 	    _context.raiseEvent(event);
 
-	    Assert.assertEquals(1, _plugin.getData().size());
-	    Assert.assertTrue(_plugin.getData().get(0) instanceof LogData);
+	    Assertions.assertEquals(1, _plugin.getData().size());
+	    Assertions.assertTrue(_plugin.getData().get(0) instanceof LogData);
 	    }
 
 	@Test
@@ -133,7 +133,7 @@ public class WebdriverCapturePluginTests
 	    {
 	    setupPlugin(false, false, true, true, true, false);
 	    _context.raiseEvent(MessageEventType.create("message"));
-	    Assert.assertEquals(0, _plugin.getData().size());
+	    Assertions.assertEquals(0, _plugin.getData().size());
 	    }
 
 	private void checkForScreenshotCaptureEvent() throws IOException
@@ -148,12 +148,12 @@ public class WebdriverCapturePluginTests
 			if (event.getAttributeAsString(TestResultStoredEventType.RESULT_DESCRIPTION).toLowerCase().contains("screenshot"))
 				{
 				TestResultData data = (TestResultData) _context.getVariable(event.getAttributeAsString(TestResultStoredEventType.VARIABLE_NAME));
-				Assert.assertNotNull(data);
+				Assertions.assertNotNull(data);
 				if (Arrays.equals(screenshot, getBytes(data)))
 					screenshot_found = true;
 				}
 
-		Assert.assertTrue("screenshot not captured", screenshot_found);
+		Assertions.assertTrue(screenshot_found, "screenshot not captured");
 		}
 
 	private void checkForHtmlCaptureEvent(int count) throws IOException
@@ -163,12 +163,12 @@ public class WebdriverCapturePluginTests
 			if (event.getAttribute(TestResultStoredEventType.RESULT_DESCRIPTION).toString().toLowerCase().contains("html"))
 				{
 				TestResultData data = (TestResultData) _context.getVariable(event.getAttributeAsString(TestResultStoredEventType.VARIABLE_NAME));
-				Assert.assertNotNull(data);
+				Assertions.assertNotNull(data);
 				if (Arrays.equals(HTML_BYTES, getBytes(data)))
 					html_found++;
 				}
 
-		Assert.assertEquals("HTML not captured", count, html_found);
+		Assertions.assertEquals(count, html_found, "HTML not captured");
 		}
 
 	private void checkForHtmlCaptureEvent(byte[] content) throws IOException
@@ -178,12 +178,12 @@ public class WebdriverCapturePluginTests
 			if (event.getAttribute(TestResultStoredEventType.RESULT_DESCRIPTION).toString().toLowerCase().contains("html"))
 				{
 				TestResultData data = (TestResultData) _context.getVariable(event.getAttributeAsString(TestResultStoredEventType.VARIABLE_NAME));
-				Assert.assertNotNull(data);
+				Assertions.assertNotNull(data);
 				if (Arrays.equals(content, getBytes(data)))
 					html_found++;
 				}
 
-		Assert.assertEquals("HTML not captured", 1, html_found);
+		Assertions.assertEquals(1, html_found, "HTML not captured");
 		}
 
 	private byte[] getBytes(TestResultData data) throws IOException
@@ -206,7 +206,7 @@ public class WebdriverCapturePluginTests
 		_plugin.initialize(_context);
 		}
 
-	@Before
+	@BeforeEach
 	public void setup()
 		{
 		BrowserStepExecutionContext.putDriver(_driver, _context);

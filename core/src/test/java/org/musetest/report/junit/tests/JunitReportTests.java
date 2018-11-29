@@ -1,8 +1,9 @@
 package org.musetest.report.junit.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
-import org.musetest.core.suite.*;
 import org.musetest.report.junit.*;
 
 import java.io.*;
@@ -28,11 +29,11 @@ public class JunitReportTests
 
         String report_content = outstream.toString();
 
-        Assert.assertTrue(report_content.contains("test 1"));
-        Assert.assertTrue(report_content.contains("test 2"));
-        Assert.assertTrue(report_content.contains("test 3"));
-        Assert.assertTrue(report_content.contains("<error"));
-        Assert.assertTrue(report_content.contains("<failure"));
+        Assertions.assertTrue(report_content.contains("test 1"));
+        Assertions.assertTrue(report_content.contains("test 2"));
+        Assertions.assertTrue(report_content.contains("test 3"));
+        Assertions.assertTrue(report_content.contains("<error"));
+        Assertions.assertTrue(report_content.contains("<failure"));
         }
     }
 

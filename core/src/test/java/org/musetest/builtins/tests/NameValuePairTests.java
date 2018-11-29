@@ -2,6 +2,8 @@ package org.musetest.builtins.tests;
 
 import kotlin.*;
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -22,21 +24,21 @@ public class NameValuePairTests
         MuseValueSource source = _config.createSource(_project);
         Object result = source.resolveValue(new ProjectExecutionContext(_project));
 
-        Assert.assertTrue(result instanceof Pair);
+        Assertions.assertTrue(result instanceof Pair);
         Pair pair = (Pair) result;
-        Assert.assertEquals("name1", pair.getFirst());
-        Assert.assertEquals("value1", pair.getSecond());
+        Assertions.assertEquals("name1", pair.getFirst());
+        Assertions.assertEquals("value1", pair.getSecond());
         }
 
     @Test
     public void instanceDescription()
         {
         String description = new ValueSourceDescriptors(_project).get(_config).getInstanceDescription(_config, new RootStringExpressionContext(_project));
-        Assert.assertTrue(description.contains("name1"));
-        Assert.assertTrue(description.contains("value1"));
+        Assertions.assertTrue(description.contains("name1"));
+        Assertions.assertTrue(description.contains("value1"));
         }
 
-    @Before
+    @BeforeEach
     public void setup()
         {
         _project = new SimpleProject();

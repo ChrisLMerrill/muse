@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.tests.utils.*;
@@ -21,13 +23,13 @@ public class ProjectClasspathTests
 
         // was the project able to load resources using classes from the project classpath?
         MuseTest test = project.getResourceStorage().getResource("TestUsesCustomJavaStep", MuseTest.class);
-        Assert.assertNotNull(test);
+        Assertions.assertNotNull(test);
 
         // Running test directly may pass or fail, depending on when the FactoryLocator scanned the classpath.
         // E.g. in a unit test scenario, it has probably already happened (unless this class is the only test run)
         // so it would fail. But running it through the project ensures it will have the correct classpath.
         TestResult result = TestRunHelper.runTest(project, test);
-        Assert.assertTrue(result.isPass());
+        Assertions.assertTrue(result.isPass());
         }
 
     @Test
@@ -38,13 +40,13 @@ public class ProjectClasspathTests
 
         // was the project able to load resources using classes from the project classpath?
         MuseTest test = project.getResourceStorage().getResource("TestUsesCustomJavaStepFromJar", MuseTest.class);
-        Assert.assertNotNull(test);
+        Assertions.assertNotNull(test);
 
         // Running test directly may pass or fail, depending on when the FactoryLocator scanned the classpath.
         // E.g. in a unit test scenario, it has probably already happened (unless this class is the only test run)
         // so it would fail. But running it through the project ensures it will have the correct classpath.
         TestResult result = TestRunHelper.runTest(project, test);
-        Assert.assertTrue(result.isPass());
+        Assertions.assertTrue(result.isPass());
         }
     }
 

@@ -1,6 +1,8 @@
 package org.musetest.core.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
@@ -23,10 +25,10 @@ public class TestTests
         SteppedTest test = setupLogTest(null);
 	    final TestExecutionContext context = TestRunHelper.runTestReturnContext(new SimpleProject(), test);
 	    TestResult result = TestResult.find(context);
-	    Assert.assertNotNull(result);
-        Assert.assertTrue(result.isPass());
-        Assert.assertEquals(1, context.getEventLog().findEvents(new EventTypeMatcher(StartTestEventType.TYPE_ID)).size());
-        Assert.assertEquals(1, context.getEventLog().findEvents(new EventTypeMatcher(EndTestEventType.TYPE_ID)).size());
+	    Assertions.assertNotNull(result);
+        Assertions.assertTrue(result.isPass());
+        Assertions.assertEquals(1, context.getEventLog().findEvents(new EventTypeMatcher(StartTestEventType.TYPE_ID)).size());
+        Assertions.assertEquals(1, context.getEventLog().findEvents(new EventTypeMatcher(EndTestEventType.TYPE_ID)).size());
         }
 
     @Test
@@ -37,8 +39,8 @@ public class TestTests
         final TestExecutionContext context = TestRunHelper.runTestReturnContext(new SimpleProject(), test);
         TestResult result = TestResult.find(context);
 
-        Assert.assertNotNull(result);
-        Assert.assertFalse(result.isPass());
+        Assertions.assertNotNull(result);
+        Assertions.assertFalse(result.isPass());
         }
 
     @Test
@@ -49,11 +51,11 @@ public class TestTests
 
         final TestExecutionContext context = TestRunHelper.runTestReturnContext(new SimpleProject(), test);
         TestResult result = TestResult.find(context);
-        Assert.assertNotNull(result);
-        Assert.assertFalse(result.isPass());  // test marked as failure
+        Assertions.assertNotNull(result);
+        Assertions.assertFalse(result.isPass());  // test marked as failure
 
         // should stop after verify step
-        Assert.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assertions.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     @Test
@@ -65,11 +67,11 @@ public class TestTests
 
         final TestExecutionContext context = TestRunHelper.runTestReturnContext(new SimpleProject(), test);
         TestResult result = TestResult.find(context);
-        Assert.assertNotNull(result);
-        Assert.assertFalse(result.isPass());  // test marked as failure
+        Assertions.assertNotNull(result);
+        Assertions.assertFalse(result.isPass());  // test marked as failure
 
         // should run all steps
-        Assert.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
+        Assertions.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
         }
 
     @Test
@@ -82,12 +84,12 @@ public class TestTests
 
         final TestExecutionContext context = TestRunHelper.runTestReturnContext(new SimpleProject(), test);
         TestResult result = TestResult.find(context);
-        Assert.assertNotNull(result);  // test did not pass
-        Assert.assertFalse(result.isPass());  // test did not pass
-        Assert.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
+        Assertions.assertNotNull(result);  // test did not pass
+        Assertions.assertFalse(result.isPass());  // test did not pass
+        Assertions.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
 
         // should stop after verify step
-        Assert.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assertions.assertTrue(context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     /**
@@ -100,11 +102,11 @@ public class TestTests
         event.addTag(MuseEvent.FAILURE);
         runEventRaisingTest(event);
 
-        Assert.assertFalse(_result.isPass());  // test did not pass
-        Assert.assertEquals(TestResult.FailureType.Failure, _result.getFailures().get(0).getType());
+        Assertions.assertFalse(_result.isPass());  // test did not pass
+        Assertions.assertEquals(TestResult.FailureType.Failure, _result.getFailures().get(0).getType());
 
         // it was not fatal, so all steps should run
-        Assert.assertTrue(_context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
+        Assertions.assertTrue(_context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 3);
         }
 
     /**
@@ -117,8 +119,8 @@ public class TestTests
         event.addTag(MuseEvent.ERROR);
         runEventRaisingTest(event);
 
-        Assert.assertFalse(_result.isPass());  // test did not pass
-        Assert.assertEquals(TestResult.FailureType.Error, _result.getFailures().get(0).getType());
+        Assertions.assertFalse(_result.isPass());  // test did not pass
+        Assertions.assertEquals(TestResult.FailureType.Error, _result.getFailures().get(0).getType());
         }
 
     /**
@@ -132,7 +134,7 @@ public class TestTests
         runEventRaisingTest(event);
 
         // second step should not run (technically 3rd, since the 2 are contained in compound step)
-        Assert.assertTrue(_context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
+        Assertions.assertTrue(_context.getEventLog().findEvents(new EventTypeMatcher(StartStepEventType.TYPE_ID)).size() == 2);
         }
 
     private void runEventRaisingTest(MuseEvent event)

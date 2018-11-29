@@ -1,6 +1,6 @@
 package org.musetest.core.context;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
@@ -79,13 +79,13 @@ public class ExecutionContextTests
 		context.addEventListener(listener);
 		context.raiseEvent(MessageEventType.create("message1"));
 
-		Assert.assertEquals(1, events_received.size());
-		Assert.assertEquals(MessageEventType.TYPE_ID, events_received.get(0).getTypeId());
+		Assertions.assertEquals(1, events_received.size());
+		Assertions.assertEquals(MessageEventType.TYPE_ID, events_received.get(0).getTypeId());
 
 		context.removeEventListener(listener);
 		context.raiseEvent(MessageEventType.create("message2"));
 		events_received.clear();
-		Assert.assertEquals(0, events_received.size());
+		Assertions.assertEquals(0, events_received.size());
 		}
 
 	private void checkParentEventPropogation(MuseExecutionContext child_context, boolean propogates_to_parent)
@@ -96,7 +96,7 @@ public class ExecutionContextTests
 		child_context.getParent().addEventListener(listener);
 		child_context.raiseEvent(MessageEventType.create("message1"));
 
-		Assert.assertEquals(propogates_to_parent, 1 == events_received.size());
+		Assertions.assertEquals(propogates_to_parent, 1 == events_received.size());
 
 		child_context.getParent().removeEventListener(listener);
 		}
@@ -105,7 +105,7 @@ public class ExecutionContextTests
 	public void getProject()
 		{
 		ProjectExecutionContext context = new ProjectExecutionContext(_project);
-		Assert.assertTrue(_project == context.getProject());
+        Assertions.assertSame(_project, context.getProject());
 
 		// TODO test for other contexts
 		}
@@ -127,23 +127,23 @@ public class ExecutionContextTests
 		test_context.setVariable(varname, "testval");
 		step_context.setVariable(varname, "stepval");
 
-		Assert.assertEquals("projectval", project_context.getVariable(varname));
-		Assert.assertEquals("suiteval", suite_context.getVariable(varname));
-		Assert.assertEquals("testval", test_context.getVariable(varname));
-		Assert.assertEquals("stepval", step_context.getVariable(varname));
+		Assertions.assertEquals("projectval", project_context.getVariable(varname));
+		Assertions.assertEquals("suiteval", suite_context.getVariable(varname));
+		Assertions.assertEquals("testval", test_context.getVariable(varname));
+		Assertions.assertEquals("stepval", step_context.getVariable(varname));
 
-		Assert.assertEquals("projectval", step_context.getVariable(varname, VariableQueryScope.Project));
-		Assert.assertEquals("suiteval", step_context.getVariable(varname, VariableQueryScope.Suite));
-		Assert.assertEquals("testval", step_context.getVariable(varname, VariableQueryScope.Execution));
-		Assert.assertEquals("stepval", step_context.getVariable(varname, VariableQueryScope.Local));
+		Assertions.assertEquals("projectval", step_context.getVariable(varname, VariableQueryScope.Project));
+		Assertions.assertEquals("suiteval", step_context.getVariable(varname, VariableQueryScope.Suite));
+		Assertions.assertEquals("testval", step_context.getVariable(varname, VariableQueryScope.Execution));
+		Assertions.assertEquals("stepval", step_context.getVariable(varname, VariableQueryScope.Local));
 		}
 
 	@Test
 	public void createVariable()
 		{
 		String varname = _context.createVariable("varprefix-", "value");
-		Assert.assertTrue(varname.startsWith("varprefix-"));
-		Assert.assertEquals("value", _context.getVariable(varname));
+		Assertions.assertTrue(varname.startsWith("varprefix-"));
+		Assertions.assertEquals("value", _context.getVariable(varname));
 		}
 
 	@Test
@@ -151,9 +151,9 @@ public class ExecutionContextTests
 		{
 		String varname1 = _context.createVariable("varprefix-", "value1");
 		String varname2 = _context.createVariable("varprefix-", "value2");
-		Assert.assertNotEquals(varname1, varname2);
-		Assert.assertEquals("value1", _context.getVariable(varname1));
-		Assert.assertEquals("value2", _context.getVariable(varname2));
+		Assertions.assertNotEquals(varname1, varname2);
+		Assertions.assertEquals("value1", _context.getVariable(varname1));
+		Assertions.assertEquals("value2", _context.getVariable(varname2));
 		}
 
 	@Test
@@ -167,18 +167,18 @@ public class ExecutionContextTests
 		// run the test
 		final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
 	    TestResult result = TestResult.find(context);
-        Assert.assertNotNull(result);
-		Assert.assertTrue(result.isPass());
+        Assertions.assertNotNull(result);
+		Assertions.assertTrue(result.isPass());
 
 		// verify the resource was created and closed
-		Assert.assertTrue("The step did not run", context.getEventLog().findEvents(event ->
-			{
-			final String description = EventTypes.DEFAULT.findType(event).getDescription(event);
-			return description != null && description.contains(EXECUTE_MESSAGE);
-			}).size() == 1);
+        Assertions.assertEquals(1, context.getEventLog().findEvents(event ->
+        {
+        final String description = EventTypes.DEFAULT.findType(event).getDescription(event);
+        return description != null && description.contains(EXECUTE_MESSAGE);
+        }).size(), "The step did not run");
 		MockShuttable shuttable = (MockShuttable) context.getVariable(MockStepCreatesShuttable.SHUTTABLE_VAR_NAME);
-		Assert.assertNotNull(shuttable);
-		Assert.assertTrue(shuttable.isShutdown());
+		Assertions.assertNotNull(shuttable);
+		Assertions.assertTrue(shuttable.isShutdown());
 		}
 
 	@Test
@@ -207,9 +207,9 @@ public class ExecutionContextTests
 		final MuseEvent event1 = MessageEventType.create("message");
 		context.raiseEvent(event1);
 
-		Assert.assertEquals(2, events.size());
-		Assert.assertTrue(event1 == events.get(0));
-		Assert.assertTrue(event2.get() == events.get(1));
+		Assertions.assertEquals(2, events.size());
+        Assertions.assertSame(event1, events.get(0));
+        Assertions.assertSame(event2.get(), events.get(1));
 		}
 
 	@Test
@@ -218,7 +218,7 @@ public class ExecutionContextTests
 		MuseTest test = new MockTest("test1");
 		TestExecutionContext context = new DefaultTestExecutionContext(_context, test);
 		String id = context.getTestExecutionId();
-		Assert.assertNotNull(id);
+		Assertions.assertNotNull(id);
 		}
 
 	@Test
@@ -230,10 +230,10 @@ public class ExecutionContextTests
 		MuseTest test = new MockTest("test1");
 		TestExecutionContext context = new DefaultTestExecutionContext(suite_context, test);
 		String id1 = context.getTestExecutionId();
-		Assert.assertNotNull(id1);
-		Assert.assertTrue(context.getTestExecutionId().length() >= test.getId().length());
+		Assertions.assertNotNull(id1);
+		Assertions.assertTrue(context.getTestExecutionId().length() >= test.getId().length());
 
-		Assert.assertNotEquals(id1, new DefaultTestExecutionContext(_context, test).getTestExecutionId()); // should be unique for each test context
+		Assertions.assertNotEquals(id1, new DefaultTestExecutionContext(_context, test).getTestExecutionId()); // should be unique for each test context
 		}
 
 	@Test
@@ -253,16 +253,16 @@ public class ExecutionContextTests
 
 		context.addPlugin(success_plugin);
 		int fail_count = context.initializePlugins();
-		Assert.assertEquals(0, fail_count);
-		Assert.assertEquals(1, context._events_raised.size());
+		Assertions.assertEquals(0, fail_count);
+		Assertions.assertEquals(1, context._events_raised.size());
 		final MuseEvent event = context._events_raised.get(0);
-		Assert.assertEquals(PluginInitializedEventType.TYPE_ID, event.getTypeId());
-		Assert.assertFalse(event.hasTag(MuseEvent.ERROR));
-		Assert.assertFalse(event.hasTag(MuseEvent.FAILURE));
-		Assert.assertTrue(event.getDescription().contains(success_plugin.getId()));
+		Assertions.assertEquals(PluginInitializedEventType.TYPE_ID, event.getTypeId());
+		Assertions.assertFalse(event.hasTag(MuseEvent.ERROR));
+		Assertions.assertFalse(event.hasTag(MuseEvent.FAILURE));
+		Assertions.assertTrue(event.getDescription().contains(success_plugin.getId()));
 
 		context.cleanup();
-		Assert.assertTrue(is_shutdown.get());
+		Assertions.assertTrue(is_shutdown.get());
 		}
 
 	@Test
@@ -288,16 +288,16 @@ public class ExecutionContextTests
 
 		context.addPlugin(fail_plugin);
 		int fail_count = context.initializePlugins();
-		Assert.assertEquals(1, fail_count);
-		Assert.assertEquals(1, context._events_raised.size());
+		Assertions.assertEquals(1, fail_count);
+		Assertions.assertEquals(1, context._events_raised.size());
 		final MuseEvent event = context._events_raised.get(0);
-		Assert.assertEquals(PluginInitializedEventType.TYPE_ID, event.getTypeId());
-		Assert.assertTrue(event.hasTag(MuseEvent.ERROR));
-		Assert.assertTrue(event.getDescription().contains(fail_plugin.getId()));
-		Assert.assertTrue(new PluginInitializedEventType().getDescription(event).contains("failed"));
+		Assertions.assertEquals(PluginInitializedEventType.TYPE_ID, event.getTypeId());
+		Assertions.assertTrue(event.hasTag(MuseEvent.ERROR));
+		Assertions.assertTrue(event.getDescription().contains(fail_plugin.getId()));
+		Assertions.assertTrue(new PluginInitializedEventType().getDescription(event).contains("failed"));
 
 		context.cleanup();
-		Assert.assertFalse(is_shutdown.get());  // failed plugins aren't shutdown()
+		Assertions.assertFalse(is_shutdown.get());  // failed plugins aren't shutdown()
 		}
 
 	@Test
@@ -327,15 +327,15 @@ public class ExecutionContextTests
 		plugin2._id = "plugin2";
 		context.addPlugin(plugin2);
 
-		Assert.assertEquals(0, context.initializePlugins());
+		Assertions.assertEquals(0, context.initializePlugins());
 
 		context.cleanup();
-		Assert.assertEquals(2, shutdown_plugin_ids.size());
-		Assert.assertEquals("plugin2", shutdown_plugin_ids.get(0));
-		Assert.assertEquals("plugin1", shutdown_plugin_ids.get(1));
+		Assertions.assertEquals(2, shutdown_plugin_ids.size());
+		Assertions.assertEquals("plugin2", shutdown_plugin_ids.get(0));
+		Assertions.assertEquals("plugin1", shutdown_plugin_ids.get(1));
 		}
 
-	@Before
+	@BeforeEach
 	public void setup()
 		{
 		_project = new SimpleProject();

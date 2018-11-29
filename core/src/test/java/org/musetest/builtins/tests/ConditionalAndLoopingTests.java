@@ -1,6 +1,6 @@
 package org.musetest.builtins.tests;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
@@ -49,23 +49,23 @@ public class ConditionalAndLoopingTests
 		main.addChild(wontrun);
 
 		TestResult result = runTest(new SteppedTest(main));
-		Assert.assertTrue(result.isPass());
+		Assertions.assertTrue(result.isPass());
 		EventLog log = _test_config.context().getEventLog();
-		Assert.assertNotNull("The conditional that should have run, did not", log.findFirstEvent(new EventDescriptionMatcher(should_run_message)));
-		Assert.assertNull("The conditional that should not have run, did run", log.findFirstEvent(new EventDescriptionMatcher(should_not_run_message)));
-		Assert.assertEquals(null, _test_config.context().getVariable("ran2"));
+		Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(should_run_message)), "The conditional that should have run, did not");
+		Assertions.assertNull(log.findFirstEvent(new EventDescriptionMatcher(should_not_run_message)), "The conditional that should not have run, did run");
+		Assertions.assertEquals(null, _test_config.context().getVariable("ran2"));
 		}
 
 	@Test
 	public void testWhileStepX3()
 		{
 		TestResult result = runTest(createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 0L));
-		Assert.assertTrue(result.isPass());
+		Assertions.assertTrue(result.isPass());
 		EventLog log = _test_config.context().getEventLog();
-		Assert.assertNotNull("first message is missing", log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)));
-		Assert.assertNotNull("second message is missing", log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)));
-		Assert.assertNotNull("third message is missing", log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)));
-		Assert.assertNull("this message shouldn't be there", log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 4)));
+		Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)), "first message is missing");
+		Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)), "second message is missing");
+		Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)), "third message is missing");
+		Assertions.assertNull(log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 4)), "this message shouldn't be there");
 		}
 
 	private SteppedTest createLoopTest(String counter_var_name, String message_prefix, Object initial_value)
@@ -102,9 +102,9 @@ public class ConditionalAndLoopingTests
 	public void testWhileStepX1()
 		{
 		TestResult result = runTest(createLoopTest(COUNTER_NAME, MESSAGE_PREFIX, 2L));
-		Assert.assertTrue(result.isPass());
-		Assert.assertNull("this should not be found", _test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)));
-		Assert.assertNotNull("first message is missing", _test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)));
+		Assertions.assertTrue(result.isPass());
+		Assertions.assertNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)), "this should not be found");
+		Assertions.assertNotNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)), "first message is missing");
 		}
 
 	@Test
@@ -114,11 +114,11 @@ public class ConditionalAndLoopingTests
 		SteppedTestExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
 		context.addPlugin(new TestResultCollectorConfiguration().createPlugin());
 		boolean finished = test.execute(context);
-		Assert.assertTrue(finished);
+		Assertions.assertTrue(finished);
 		TestResult result = TestResult.find(context);
-		Assert.assertNotNull(result);
-		Assert.assertTrue(result.isPass());
-		Assert.assertNull("this should not be found", context.getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)));
+		Assertions.assertNotNull(result);
+		Assertions.assertTrue(result.isPass());
+		Assertions.assertNull(context.getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)), "this should not be found");
 		}
 
 	private TestResult runTest(MuseTest test)

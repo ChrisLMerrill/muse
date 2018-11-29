@@ -1,6 +1,8 @@
 package org.musetest.selenium.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
@@ -27,7 +29,7 @@ public class SeleniumValueSourceTests
         BrowserStepExecutionContext.putDriver(driver, context);
         driver.get(THE_URL);
         CurrentUrlValueSource source = new CurrentUrlValueSource(null, null);
-        Assert.assertEquals(THE_URL, source.resolveValue(context));
+        Assertions.assertEquals(THE_URL, source.resolveValue(context));
         }
 
     @Test
@@ -40,7 +42,7 @@ public class SeleniumValueSourceTests
         driver.get(THE_URL);
         PageTitleValueSource source = new PageTitleValueSource(null, null);
         String value = source.resolveValue(context).toString();
-        Assert.assertTrue(value.startsWith("MuseMock") && value.endsWith("title"));
+        Assertions.assertTrue(value.startsWith("MuseMock") && value.endsWith("title"));
         }
 
     @Test
@@ -52,12 +54,12 @@ public class SeleniumValueSourceTests
         driver.addXpathElement(xpath, element1);
 
         MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(XPathElementValueSource.TYPE_ID, xpath).createSource();
-        Assert.assertTrue(source instanceof XPathElementValueSource);
+        Assertions.assertTrue(source instanceof XPathElementValueSource);
 
         StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         Object value = source.resolveValue(context);
-        Assert.assertEquals(element1, value);
+        Assertions.assertEquals(element1, value);
         }
 
     @Test
@@ -67,10 +69,10 @@ public class SeleniumValueSourceTests
         final MuseMockElement element1 = new MuseMockElement();
 
         MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(IdElementValueSource.TYPE_ID, id).createSource();
-        Assert.assertTrue(source instanceof IdElementValueSource);
+        Assertions.assertTrue(source instanceof IdElementValueSource);
 
         Object value = resolveSource(element1, id, source);
-        Assert.assertEquals(element1, value);
+        Assertions.assertEquals(element1, value);
         }
 
     @Test
@@ -82,14 +84,14 @@ public class SeleniumValueSourceTests
 
         ValueSourceConfiguration locator = ValueSourceConfiguration.forTypeWithSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id));
         MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(ElementVisibleCondition.TYPE_ID, locator).createSource();
-        Assert.assertTrue(source instanceof ElementVisibleCondition);
+        Assertions.assertTrue(source instanceof ElementVisibleCondition);
 
         Object value = resolveSource(element1, id, source);
-        Assert.assertEquals(Boolean.TRUE, value);
+        Assertions.assertEquals(Boolean.TRUE, value);
 
         element1.setDisplayed(false);
         value = resolveSource(element1, id, source);
-        Assert.assertEquals(Boolean.FALSE, value);
+        Assertions.assertEquals(Boolean.FALSE, value);
         }
 
     @Test
@@ -100,13 +102,13 @@ public class SeleniumValueSourceTests
 
         ValueSourceConfiguration locator = ValueSourceConfiguration.forTypeWithSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id));
         MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(ElementExistsCondition.TYPE_ID, locator).createSource();
-        Assert.assertTrue(source instanceof ElementExistsCondition);
+        Assertions.assertTrue(source instanceof ElementExistsCondition);
 
         Object value = resolveSource(null, null, source);
-        Assert.assertEquals(Boolean.FALSE, value);
+        Assertions.assertEquals(Boolean.FALSE, value);
 
         value = resolveSource(element1, id, source);
-        Assert.assertEquals(Boolean.TRUE, value);
+        Assertions.assertEquals(Boolean.TRUE, value);
         }
 
     @Test
@@ -118,14 +120,14 @@ public class SeleniumValueSourceTests
 
         ValueSourceConfiguration locator = ValueSourceConfiguration.forTypeWithSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id));
         MuseValueSource source  = ValueSourceConfiguration.forTypeWithSource(ElementEnabledCondition.TYPE_ID, locator).createSource();
-        Assert.assertTrue(source instanceof ElementEnabledCondition);
+        Assertions.assertTrue(source instanceof ElementEnabledCondition);
 
         Object value = resolveSource(element1, id, source);
-        Assert.assertEquals(Boolean.TRUE, value);
+        Assertions.assertEquals(Boolean.TRUE, value);
 
         element1.setEnabled(false);
         value = resolveSource(element1, id, source);
-        Assert.assertEquals(Boolean.FALSE, value);
+        Assertions.assertEquals(Boolean.FALSE, value);
         }
 
     @Test
@@ -137,14 +139,14 @@ public class SeleniumValueSourceTests
 
         ValueSourceConfiguration locator = ValueSourceConfiguration.forTypeWithSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id));
         MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(ElementSelectedCondition.TYPE_ID, locator).createSource();
-        Assert.assertTrue(source instanceof ElementSelectedCondition);
+        Assertions.assertTrue(source instanceof ElementSelectedCondition);
 
         Object value = resolveSource(element1, id, source);
-        Assert.assertEquals(Boolean.TRUE, value);
+        Assertions.assertEquals(Boolean.TRUE, value);
 
         element1.setSelected(false);
         value = resolveSource(element1, id, source);
-        Assert.assertEquals(Boolean.FALSE, value);
+        Assertions.assertEquals(Boolean.FALSE, value);
         }
 
     private Object resolveSource(WebElement element, String element_id, MuseValueSource source) throws ValueSourceResolutionError

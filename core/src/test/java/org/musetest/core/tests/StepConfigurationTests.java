@@ -1,6 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
@@ -28,21 +28,21 @@ public class StepConfigurationTests
         original.addSource("name1", ValueSourceConfiguration.forValue("value1"));
         StepConfiguration copy = Copy.withJavaSerialization(original);
 
-        Assert.assertEquals("Copy is not identical", original, copy);
+        Assertions.assertEquals(original, copy, "Copy is not identical");
         }
 
     @Test
     public void idNotLong()
         {
         StepConfiguration config = new StepConfiguration("steptype");
-        Assert.assertNull(config.getStepId());
+        Assertions.assertNull(config.getStepId());
 
         config.setMetadataField(StepConfiguration.META_ID, "anything not an integer");
-        Assert.assertNull(config.getStepId());
+        Assertions.assertNull(config.getStepId());
 
         final Long id = new Random().nextLong();
         config.setStepId(id);
-        Assert.assertEquals(id, config.getStepId());
+        Assertions.assertEquals(id, config.getStepId());
         }
 
     @Test
@@ -62,7 +62,7 @@ public class StepConfigurationTests
             });
 
         config.setType(new_type);
-        Assert.assertEquals(new_type, changed_type.get());
+        Assertions.assertEquals(new_type, changed_type.get());
         }
 
     @Test
@@ -84,7 +84,7 @@ public class StepConfigurationTests
         config.removeChangeListener(listener);
 
         config.setType(new_type);
-        Assert.assertFalse(listener_called.get());
+        Assertions.assertFalse(listener_called.get());
         }
 
     @Test
@@ -112,9 +112,9 @@ public class StepConfigurationTests
 
         config.setMetadataField(StepConfiguration.META_DESCRIPTION, description2);
 
-        Assert.assertEquals(StepConfiguration.META_DESCRIPTION, changed_name.get());
-        Assert.assertEquals(description1, changed_old_value.get());
-        Assert.assertEquals(description2, changed_new_value.get());
+        Assertions.assertEquals(StepConfiguration.META_DESCRIPTION, changed_name.get());
+        Assertions.assertEquals(description1, changed_old_value.get());
+        Assertions.assertEquals(description2, changed_new_value.get());
         }
 
     @Test
@@ -150,15 +150,15 @@ public class StepConfigurationTests
 
         config.replaceSource(LogMessage.MESSAGE_PARAM, new_source);
 
-        Assert.assertEquals(LogMessage.MESSAGE_PARAM, changed_name.get());
-        Assert.assertEquals(old_source, replaced_old_source.get());
-        Assert.assertEquals(new_source, replaced_new_source.get());
+        Assertions.assertEquals(LogMessage.MESSAGE_PARAM, changed_name.get());
+        Assertions.assertEquals(old_source, replaced_old_source.get());
+        Assertions.assertEquals(new_source, replaced_new_source.get());
 
         // remove the (new) source and ensure we get notified
         changed_name.set(null);
         config.removeSource(LogMessage.MESSAGE_PARAM);
-        Assert.assertEquals(LogMessage.MESSAGE_PARAM, changed_name.get());
-        Assert.assertEquals(new_source, removed_source.get());
+        Assertions.assertEquals(LogMessage.MESSAGE_PARAM, changed_name.get());
+        Assertions.assertEquals(new_source, removed_source.get());
         }
 
     @Test
@@ -184,21 +184,21 @@ public class StepConfigurationTests
 
         source.setValue("value1");
 
-        Assert.assertNotNull(notified_event.get());
-        Assert.assertEquals(LogMessage.MESSAGE_PARAM, notified_name.get());
-        Assert.assertEquals(source, notified_source.get());
+        Assertions.assertNotNull(notified_event.get());
+        Assertions.assertEquals(LogMessage.MESSAGE_PARAM, notified_name.get());
+        Assertions.assertEquals(source, notified_source.get());
 
         // now remove the source and ensure future notifications do not arrive
         notified_event.set(null);
         step.removeSource(LogMessage.MESSAGE_PARAM);
         source.setValue("value2");
-        Assert.assertNull(notified_event.get());
+        Assertions.assertNull(notified_event.get());
 
         // add the source back...and get notified.
         notified_event.set(null);
         step.addSource(LogMessage.MESSAGE_PARAM, source);
         source.setValue("value3");
-        Assert.assertNotNull(notified_event.get());
+        Assertions.assertNotNull(notified_event.get());
         }
 
     /**
@@ -225,7 +225,7 @@ public class StepConfigurationTests
             });
 
         source.setValue("value2");
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -247,7 +247,7 @@ public class StepConfigurationTests
             });
 
         subsource.setValue("value #2");
-        Assert.assertTrue(notified.get());
+        Assertions.assertTrue(notified.get());
         }
 
     @Test
@@ -270,8 +270,8 @@ public class StepConfigurationTests
         StepConfiguration added_step = new StepConfiguration(Verify.TYPE_ID);
         step.addChild(added_step);
 
-        Assert.assertTrue(added.get() == added_step);
-        Assert.assertEquals(0, (int) added_index.get());
+        Assertions.assertTrue(added.get() == added_step);
+        Assertions.assertEquals(0, (int) added_index.get());
         }
 
     @Test
@@ -295,8 +295,8 @@ public class StepConfigurationTests
 
         step.removeChild(step_to_remove);
 
-        Assert.assertTrue(removed.get() == step_to_remove);
-        Assert.assertEquals(0, (int) removed_index.get());
+        Assertions.assertTrue(removed.get() == step_to_remove);
+        Assertions.assertEquals(0, (int) removed_index.get());
         }
 
     @Test
@@ -312,9 +312,9 @@ public class StepConfigurationTests
         final StepConfiguration child22 = new StepConfiguration("child2.2");
         child2.addChild(child22);
 
-        Assert.assertNull(root.findParentOf(new StepConfiguration("not_in_tree")));
-        Assert.assertTrue(root == root.findParentOf(child2));
-        Assert.assertTrue(child2 == root.findParentOf(child22));
+        Assertions.assertNull(root.findParentOf(new StepConfiguration("not_in_tree")));
+        Assertions.assertTrue(root == root.findParentOf(child2));
+        Assertions.assertTrue(child2 == root.findParentOf(child22));
         }
 
     @Test
@@ -338,11 +338,11 @@ public class StepConfigurationTests
         child22.setStepId(IdGenerator.get(project).generateLongId());
         child2.addChild(child22);
 
-        Assert.assertNull(root.findByStepId(0L));
-        Assert.assertTrue(root == root.findByStepId(root.getStepId()));
-        Assert.assertTrue(child1 == root.findByStepId(child1.getStepId()));
-        Assert.assertTrue(child2 == root.findByStepId(child2.getStepId()));
-        Assert.assertTrue(child22 == root.findByStepId(child22.getStepId()));
+        Assertions.assertNull(root.findByStepId(0L));
+        Assertions.assertTrue(root == root.findByStepId(root.getStepId()));
+        Assertions.assertTrue(child1 == root.findByStepId(child1.getStepId()));
+        Assertions.assertTrue(child2 == root.findByStepId(child2.getStepId()));
+        Assertions.assertTrue(child22 == root.findByStepId(child22.getStepId()));
         }
 
     @Test
@@ -351,36 +351,36 @@ public class StepConfigurationTests
         StepConfiguration step = new StepConfiguration("step-type");
         final String tag1 = "tagname";
 
-        Assert.assertFalse("step should not initially have any tags", step.hasTag(tag1));
+        Assertions.assertFalse(step.hasTag(tag1), "step should not initially have any tags");
 
         boolean added = step.addTag(tag1);
-        Assert.assertTrue("tag was not added", added);
-        Assert.assertTrue("tag was not added", step.hasTag(tag1));
+        Assertions.assertTrue(added, "tag was not added");
+        Assertions.assertTrue(step.hasTag(tag1), "tag was not added");
 
         boolean added_dup = step.addTag(tag1);
-        Assert.assertFalse("duplicate tag was allowed", added_dup);
-        Assert.assertEquals("duplicate tag was allowed", 1, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
+        Assertions.assertFalse(added_dup, "duplicate tag was allowed");
+        Assertions.assertEquals(1, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size(), "duplicate tag was allowed");
 
         boolean removed = step.removeTag(tag1);
-        Assert.assertTrue("tag was not removed", removed);
-        Assert.assertFalse("tag was not removed", step.hasTag(tag1));
+        Assertions.assertTrue(removed, "tag was not removed");
+        Assertions.assertFalse(step.hasTag(tag1), "tag was not removed");
 
         boolean removed_again = step.removeTag(tag1);
-        Assert.assertFalse("can't remove a tag that isn't there", removed_again);
+        Assertions.assertFalse(removed_again, "can't remove a tag that isn't there");
 
         final String tag2 = "tagname2";
         step.addTag(tag1);
         step.addTag(tag2);
-        Assert.assertTrue("tag1 was not added", step.hasTag(tag1));
-        Assert.assertTrue("tag2 was not added", step.hasTag(tag2));
-        Assert.assertEquals("should be 2 entries in list", 2, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
+        Assertions.assertTrue(step.hasTag(tag1),  "tag1 was not added");
+        Assertions.assertTrue(step.hasTag(tag2), "tag2 was not added");
+        Assertions.assertEquals(2, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size(), "should be 2 entries in list");
         step.removeTag(tag1);
-        Assert.assertFalse("tag1 was not removed", step.hasTag(tag1));
-        Assert.assertTrue("tag2 was removed", step.hasTag(tag2));
-        Assert.assertEquals("should be 1 tag in list", 1, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size());
+        Assertions.assertFalse(step.hasTag(tag1), "tag1 was not removed");
+        Assertions.assertTrue(step.hasTag(tag2), "tag2 was removed");
+        Assertions.assertEquals(1, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size(), "should be 1 tag in list");
         step.removeTag(tag2);
-        Assert.assertFalse("tag2 was not removed", step.hasTag(tag2));
-        Assert.assertTrue("list should be null", step.getMetadata() == null || step.getMetadata().get(StepConfiguration.META_TAGS) == null);
+        Assertions.assertFalse(step.hasTag(tag2), "tag2 was not removed");
+        Assertions.assertTrue(step.getMetadata() == null || step.getMetadata().get(StepConfiguration.META_TAGS) == null, "list should be null");
         }
     }
 

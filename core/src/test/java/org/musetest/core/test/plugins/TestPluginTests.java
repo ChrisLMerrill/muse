@@ -1,6 +1,6 @@
 package org.musetest.core.test.plugins;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.plugins.*;
@@ -27,7 +27,7 @@ public class TestPluginTests
 		TestDefaultsInitializer initializer = new TestDefaultsInitializerConfiguration().createPlugin();
 		initializer.initialize(context);
 
-		Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
+		Assertions.assertEquals("value1", context.getVariable("var1"), "variable missing");
 		}
 
 	@Test
@@ -43,7 +43,7 @@ public class TestPluginTests
 		TestExecutionContext context = new DefaultTestExecutionContext(project, test);
 
 		// no variables will be injected, because there are no plugins
-		Assert.assertNull("variable missing", context.getVariable("var1"));
+		Assertions.assertNull(context.getVariable("var1"), "variable missing");
 		}
 
 	@Test
@@ -72,8 +72,8 @@ public class TestPluginTests
 		Plugins.setup(context);
 		context.initializePlugins();
 
-		Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
-		Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
+		Assertions.assertEquals("value2", context.getVariable("var2"), "variable missing");
+		Assertions.assertEquals(null, context.getVariable("var1"), "variable present, but should not be");
 		}
 
 	@Test
@@ -108,8 +108,8 @@ public class TestPluginTests
 		Plugins.setup(context);
 		context.initializePlugins();
 
-		Assert.assertEquals("variable missing", "value2", context.getVariable("var2"));
-		Assert.assertEquals("variable present, but should not be", null, context.getVariable("var1"));
+		Assertions.assertEquals("value2", context.getVariable("var2"), "variable missing");
+		Assertions.assertEquals(null, context.getVariable("var1"), "variable present, but should not be");
 		}
 
 	@Test
@@ -123,6 +123,6 @@ public class TestPluginTests
 		VariableMapInitializer initializer = new VariableMapInitializer(vars);
 		initializer.initialize(context);
 
-		Assert.assertEquals("variable missing", "value1", context.getVariable("var1"));
+		Assertions.assertEquals("value1", context.getVariable("var1"), "variable missing");
 		}
 	}

@@ -1,6 +1,8 @@
 package org.musetest.core.tests.utils;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.util.*;
 
 /**
@@ -13,7 +15,7 @@ public class OperatingSystemTests
         {
         System.setProperty("os.name", "Windows 10");
         OperatingSystem.detect();
-        Assert.assertEquals(OperatingSystem.Windows, OperatingSystem.get());
+        Assertions.assertEquals(OperatingSystem.Windows, OperatingSystem.get());
         }
 
     @Test
@@ -21,7 +23,7 @@ public class OperatingSystemTests
         {
         System.setProperty("os.name", "Windows 8");
         OperatingSystem.detect();
-        Assert.assertEquals(OperatingSystem.Windows, OperatingSystem.get());
+        Assertions.assertEquals(OperatingSystem.Windows, OperatingSystem.get());
         }
 
     @Test
@@ -29,7 +31,7 @@ public class OperatingSystemTests
         {
         System.setProperty("os.name", "Windows 7");
         OperatingSystem.detect();
-        Assert.assertEquals(OperatingSystem.Windows, OperatingSystem.get());
+        Assertions.assertEquals(OperatingSystem.Windows, OperatingSystem.get());
         }
 
     @Test
@@ -37,7 +39,7 @@ public class OperatingSystemTests
         {
         System.setProperty("os.name", "Mac OS X");
         OperatingSystem.detect();
-        Assert.assertEquals(OperatingSystem.macOS, OperatingSystem.get());
+        Assertions.assertEquals(OperatingSystem.macOS, OperatingSystem.get());
         }
 
     @Test
@@ -45,16 +47,16 @@ public class OperatingSystemTests
         {
         System.setProperty("os.name", "Linux");
         OperatingSystem.detect();
-        Assert.assertEquals(OperatingSystem.Linux, OperatingSystem.get());
+        Assertions.assertEquals(OperatingSystem.Linux, OperatingSystem.get());
         }
 
-    @Before
+    @BeforeEach
     public void saveOsName()
         {
         _original_os_name = System.getProperty("os.name");
         }
     private String _original_os_name;
-    @After
+    @AfterEach
     public void restoreOsName()
         {
         System.setProperty("os.name", _original_os_name);

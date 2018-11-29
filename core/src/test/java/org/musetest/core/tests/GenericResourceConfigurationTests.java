@@ -1,7 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
-import org.junit.rules.*;
+import org.junit.jupiter.api.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.resource.*;
@@ -10,6 +9,7 @@ import org.musetest.core.tests.mocks.*;
 import org.musetest.core.values.*;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 /**
@@ -28,11 +28,11 @@ public class GenericResourceConfigurationTests
 
 	    // find by ID
 		final ResourceToken found_by_id = project.getResourceStorage().findResource("testMRC1");
-		Assert.assertEquals(config, found_by_id.getResource());
+		Assertions.assertEquals(config, found_by_id.getResource());
 
 		// find by type
 		final List<ResourceToken> found_by_type = project.getResourceStorage().findResources(new ResourceQueryParameters(config.getType()));
-		Assert.assertEquals(config, found_by_type.get(0).getResource());
+		Assertions.assertEquals(config, found_by_type.get(0).getResource());
 		}
 
 	@Test
@@ -44,19 +44,29 @@ public class GenericResourceConfigurationTests
 	    config.setId("testMRC2");
 
 	    // store it to disk
-		new FolderIntoMemoryResourceStorage(_project_folder.getRoot()).addResource(config);
+		new FolderIntoMemoryResourceStorage(_project_folder).addResource(config);
 
-		MuseResource from_disk = new FolderIntoMemoryResourceStorage(_project_folder.getRoot()).findResource("testMRC2").getResource();
-		Assert.assertNotNull(from_disk);
-		Assert.assertTrue(from_disk instanceof MockResourceConfig);
+		MuseResource from_disk = new FolderIntoMemoryResourceStorage(_project_folder).findResource("testMRC2").getResource();
+		Assertions.assertNotNull(from_disk);
+		Assertions.assertTrue(from_disk instanceof MockResourceConfig);
 		MockResourceConfig restored = (MockResourceConfig) from_disk;
-		Assert.assertEquals("testMRC2", restored.getId());
-		Assert.assertEquals(2, restored.parameters().getSourceNames().size());
-		Assert.assertEquals(ValueSourceConfiguration.forValue("value1"), restored.parameters().getSource("param1"));
-		Assert.assertEquals(ValueSourceConfiguration.forValue(false), restored.parameters().getSource("paramB"));
+		Assertions.assertEquals("testMRC2", restored.getId());
+		Assertions.assertEquals(2, restored.parameters().getSourceNames().size());
+		Assertions.assertEquals(ValueSourceConfiguration.forValue("value1"), restored.parameters().getSource("param1"));
+		Assertions.assertEquals(ValueSourceConfiguration.forValue(false), restored.parameters().getSource("paramB"));
 		}
 
+    @BeforeEach
+    public void setup() throws IOException
+        {
+        _project_folder = Files.createTempDirectory("musetest").toFile();
+        }
 
-	@Rule
-	public TemporaryFolder _project_folder = new TemporaryFolder();
+    @AfterEach
+    public void teardown()
+        {
+        _project_folder.deleteOnExit();
+        }
+
+    private File _project_folder;
 	}

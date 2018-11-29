@@ -1,6 +1,6 @@
 package org.musetest.core.tests;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.events.*;
@@ -24,11 +24,11 @@ public class NamedSourceContainerTests
 		container.addChangeListener(ev_holder::set);
 		container.addSource(name, source);
 
-		Assert.assertEquals(source, container.getSource(name));
-		Assert.assertTrue(ev_holder.get() instanceof NamedSourceAddedEvent);
+		Assertions.assertEquals(source, container.getSource(name));
+		Assertions.assertTrue(ev_holder.get() instanceof NamedSourceAddedEvent);
 		NamedSourceAddedEvent event = (NamedSourceAddedEvent) ev_holder.get();
-		Assert.assertEquals(name, event.getName());
-		Assert.assertEquals(source, event.getAddedSource());
+		Assertions.assertEquals(name, event.getName());
+		Assertions.assertEquals(source, event.getAddedSource());
 		}
 
 	@Test
@@ -37,7 +37,7 @@ public class NamedSourceContainerTests
 		try
 			{
 			new NamedSourcesContainer().addSource("abc", null);
-			Assert.assertTrue("Should have thrown an exception", false);
+			Assertions.assertTrue(false, "Should have thrown an exception");
 			}
 		catch (IllegalArgumentException e)
 			{
@@ -53,7 +53,7 @@ public class NamedSourceContainerTests
 			final NamedSourcesContainer container = new NamedSourcesContainer();
 			container.addSource("abc", ValueSourceConfiguration.forValue("111"));
 			container.addSource("abc", ValueSourceConfiguration.forValue("222"));
-			Assert.assertTrue("Should have thrown an exception", false);
+			Assertions.assertTrue(false, "Should have thrown an exception");
 			}
 		catch (IllegalArgumentException e)
 			{
@@ -73,14 +73,14 @@ public class NamedSourceContainerTests
 
 		ValueSourceConfiguration removed = container.removeSource(name);
 
-		Assert.assertTrue(removed == source);  // looking for reference equality here
-		Assert.assertNull(container.getSource(name));
+		Assertions.assertTrue(removed == source);  // looking for reference equality here
+		Assertions.assertNull(container.getSource(name));
 
 		// check the event
-		Assert.assertTrue(ev_holder.get() instanceof NamedSourceRemovedEvent);
+		Assertions.assertTrue(ev_holder.get() instanceof NamedSourceRemovedEvent);
 		NamedSourceRemovedEvent event = (NamedSourceRemovedEvent) ev_holder.get();
-		Assert.assertEquals(name, event.getName());
-		Assert.assertEquals(source, event.getRemovedSource());
+		Assertions.assertEquals(name, event.getName());
+		Assertions.assertEquals(source, event.getRemovedSource());
 		}
 
 	@Test
@@ -96,15 +96,15 @@ public class NamedSourceContainerTests
 
 		boolean renamed = container.renameSource(name, new_name);
 
-		Assert.assertTrue(renamed);
-		Assert.assertNull(container.getSource(name));
-		Assert.assertTrue(source == container.getSource(new_name));  // looking for reference equality
+		Assertions.assertTrue(renamed);
+		Assertions.assertNull(container.getSource(name));
+		Assertions.assertTrue(source == container.getSource(new_name));  // looking for reference equality
 
 		// check the event
-		Assert.assertTrue(ev_holder.get() instanceof NamedSourceRenamedEvent);
+		Assertions.assertTrue(ev_holder.get() instanceof NamedSourceRenamedEvent);
 		NamedSourceRenamedEvent event = (NamedSourceRenamedEvent) ev_holder.get();
-		Assert.assertEquals(name, event.getOldName());
-		Assert.assertEquals(new_name, event.getNewName());
+		Assertions.assertEquals(name, event.getOldName());
+		Assertions.assertEquals(new_name, event.getNewName());
 		}
 
 	@Test
@@ -120,15 +120,15 @@ public class NamedSourceContainerTests
 
 		ValueSourceConfiguration replaced_source = container.replaceSource(name, new_source);
 
-		Assert.assertTrue(source == replaced_source);  // looking for reference equality
-		Assert.assertTrue(new_source == container.getSource(name));  // looking for reference equality
+		Assertions.assertTrue(source == replaced_source);  // looking for reference equality
+		Assertions.assertTrue(new_source == container.getSource(name));  // looking for reference equality
 
 		// check the event
-		Assert.assertTrue(ev_holder.get() instanceof NamedSourceReplacedEvent);
+		Assertions.assertTrue(ev_holder.get() instanceof NamedSourceReplacedEvent);
 		NamedSourceReplacedEvent event = (NamedSourceReplacedEvent) ev_holder.get();
-		Assert.assertEquals(name, event.getName());
-		Assert.assertEquals(source, event.getOldSource());
-		Assert.assertEquals(new_source, event.getNewSource());
+		Assertions.assertEquals(name, event.getName());
+		Assertions.assertEquals(source, event.getOldSource());
+		Assertions.assertEquals(new_source, event.getNewSource());
 		}
 
 	@Test
@@ -139,9 +139,9 @@ public class NamedSourceContainerTests
 		container.addSource("name2", ValueSourceConfiguration.forValue("222"));
 
 		Set<String> names = container.getSourceNames();
-		Assert.assertEquals(2, names.size());
-		Assert.assertTrue(names.contains("name1"));
-		Assert.assertTrue(names.contains("name2"));
+		Assertions.assertEquals(2, names.size());
+		Assertions.assertTrue(names.contains("name1"));
+		Assertions.assertTrue(names.contains("name2"));
 		}
 
 	@Test
@@ -157,9 +157,9 @@ public class NamedSourceContainerTests
 		source1.setValue("newval");
 
 		// check the event
-		Assert.assertTrue(ev_holder.get() instanceof ValueChangeEvent);
+		Assertions.assertTrue(ev_holder.get() instanceof ValueChangeEvent);
 		ValueChangeEvent event = (ValueChangeEvent) ev_holder.get();
-		Assert.assertEquals("111", event.getOldValue());
-		Assert.assertEquals("newval", event.getNewValue());
+		Assertions.assertEquals("111", event.getOldValue());
+		Assertions.assertEquals("newval", event.getNewValue());
 		}
 	}

@@ -1,6 +1,8 @@
 package org.musetest.core.tests.utils;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.util.*;
 
 /**
@@ -11,10 +13,10 @@ public class StringifierTests
     @Test
     public void stringifier()
         {
-        Assert.assertEquals(MockStringifier.OUTPUT, Stringifiers.find(new MockStringifier()).toString());
+        Assertions.assertEquals(MockStringifier.OUTPUT, Stringifiers.find(new MockStringifier()).toString());
 
         String unknown_thing = "this thing";
-        Assert.assertEquals(unknown_thing, Stringifiers.find(unknown_thing).toString());
+        Assertions.assertEquals(unknown_thing, Stringifiers.find(unknown_thing).toString());
         }
     }
 

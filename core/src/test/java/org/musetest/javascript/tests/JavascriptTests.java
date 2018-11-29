@@ -1,6 +1,8 @@
 package org.musetest.javascript.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.events.*;
@@ -33,7 +35,7 @@ public class JavascriptTests
 	    MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_SUCCESS; } "));
 	    test.setId("javascript-test");
 	    TestResult result = TestRunHelper.runTest(new SimpleProject(), test);
-	    Assert.assertTrue(result.isPass());
+	    Assertions.assertTrue(result.isPass());
 	    }
 
     @Test
@@ -42,7 +44,7 @@ public class JavascriptTests
         MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return \"things went badly\"; } "));
         test.setId("javascript-test");
         TestResult result = TestRunHelper.runTest(new SimpleProject(), test);
-        Assert.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
+        Assertions.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
         }
 
     @Test
@@ -53,17 +55,17 @@ public class JavascriptTests
         String script = "function not_the_right_method(test_context) { return TEST_SUCCESS; } ";
         engine.eval(script);
         List<MuseResource> resources = factory.createResources(new StringResourceOrigin("abc"), new MuseTest.TestResourceType(), engine);
-        Assert.assertEquals(0, resources.size());
+        Assertions.assertEquals(0, resources.size());
         }
 
     @Test
     public void loadJavascriptTestFromFile() throws IOException
         {
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("javascriptTest.js", this.getClass())));
-        Assert.assertEquals(1, resources.size());
-        Assert.assertTrue(resources.get(0) instanceof MuseTest);
+        Assertions.assertEquals(1, resources.size());
+        Assertions.assertTrue(resources.get(0) instanceof MuseTest);
         TestResult result = TestRunHelper.runTest(new SimpleProject(), (MuseTest) resources.get(0));
-        Assert.assertTrue(result.isPass());
+        Assertions.assertTrue(result.isPass());
         }
 
     @Test
@@ -76,17 +78,17 @@ public class JavascriptTests
         config.addSource("param1", ValueSourceConfiguration.forValue("XYZ"));
 
         MuseStep step = config.createStep(project);
-        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(new MockStepExecutionContext()).getStatus());
+        Assertions.assertEquals(StepExecutionStatus.COMPLETE, step.execute(new MockStepExecutionContext()).getStatus());
 
         StepDescriptor descriptor = project.getStepDescriptors().get(config);
-        Assert.assertNotNull(descriptor);
+        Assertions.assertNotNull(descriptor);
 
-        Assert.assertEquals("javascriptStep", descriptor.getType());
-        Assert.assertEquals("JS Example", descriptor.getName());
-        Assert.assertEquals("javascript", descriptor.getGroupName());
-        Assert.assertEquals("glyph:FontAwesome:PAW", descriptor.getIconDescriptor());
-        Assert.assertEquals("A Javascript step", descriptor.getShortDescription());
-        Assert.assertEquals("The long description of the javascript step", descriptor.getLongDescription());
+        Assertions.assertEquals("javascriptStep", descriptor.getType());
+        Assertions.assertEquals("JS Example", descriptor.getName());
+        Assertions.assertEquals("javascript", descriptor.getGroupName());
+        Assertions.assertEquals("glyph:FontAwesome:PAW", descriptor.getIconDescriptor());
+        Assertions.assertEquals("A Javascript step", descriptor.getShortDescription());
+        Assertions.assertEquals("The long description of the javascript step", descriptor.getLongDescription());
 
         // TODO this does not yet pass...need to convert the config to a JS object to pass into a function returned by the descriptor
 //        Assert.assertEquals("Do something with XYZ", descriptor.getShortDescription(config));
@@ -95,8 +97,8 @@ public class JavascriptTests
     private JavascriptStepResource loadJavascriptStepFromFileIntoProject(MuseProject project, String filename) throws IOException
         {
         List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile(filename, this.getClass())));
-        Assert.assertEquals(1, resources.size());
-        Assert.assertTrue(resources.get(0) instanceof JavascriptStepResource);
+        Assertions.assertEquals(1, resources.size());
+        Assertions.assertTrue(resources.get(0) instanceof JavascriptStepResource);
 
         JavascriptStepResource step_resource = (JavascriptStepResource) resources.get(0);
         project.getResourceStorage().addResource(step_resource);
@@ -114,8 +116,8 @@ public class JavascriptTests
         MuseStep step = config.createStep(project);
         MockStepExecutionContext context = new MockStepExecutionContext();
         context.setVariable("var_in", "input");
-        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
-        Assert.assertEquals("output", context.getVariable("var_out"));
+        Assertions.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
+        Assertions.assertEquals("output", context.getVariable("var_out"));
         }
 
     @Test
@@ -128,7 +130,7 @@ public class JavascriptTests
         config.addSource("named_source", ValueSourceConfiguration.forValue("named_value"));
         MuseStep step = config.createStep(project);
         MockStepExecutionContext context = new MockStepExecutionContext();
-        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
+        Assertions.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
         }
 
     @Test
@@ -149,9 +151,9 @@ public class JavascriptTests
                 events.add(event);
             });
 
-        Assert.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
-        Assert.assertEquals(1, events.size());
-        Assert.assertTrue(EventTypes.DEFAULT.findType(events.get(0)).getDescription(events.get(0)).contains("test message"));
+        Assertions.assertEquals(StepExecutionStatus.COMPLETE, step.execute(context).getStatus());
+        Assertions.assertEquals(1, events.size());
+        Assertions.assertTrue(EventTypes.DEFAULT.findType(events.get(0)).getDescription(events.get(0)).contains("test message"));
         }
 
     @Test
@@ -161,6 +163,6 @@ public class JavascriptTests
         SimpleProject project = new SimpleProject();
         MuseValueSource source = config.createSource(project);
         Object result = source.resolveValue(new MockStepExecutionContext(project));
-        Assert.assertEquals("abc1", result);
+        Assertions.assertEquals("abc1", result);
         }
     }

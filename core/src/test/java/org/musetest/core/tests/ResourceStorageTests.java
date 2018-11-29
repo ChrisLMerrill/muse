@@ -1,7 +1,7 @@
 package org.musetest.core.tests;
 
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.musetest.core.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
@@ -25,7 +25,7 @@ public class ResourceStorageTests
         MuseTest test = new MockTest();
         test.setId("test1");
         project.getResourceStorage().addResource(test);
-        Assert.assertNotNull(project.getResourceStorage().getResource("test1", MuseTest.class));
+        Assertions.assertNotNull(project.getResourceStorage().getResource("test1", MuseTest.class));
         }
 
     @Test
@@ -42,12 +42,12 @@ public class ResourceStorageTests
         project.getResourceStorage().addResource(test2);
 
         MuseResource resource = project.getResourceStorage().getResource("test1");
-        Assert.assertNotNull(resource);
-        Assert.assertEquals("should find the right resource", test1, resource);
+        Assertions.assertNotNull(resource);
+        Assertions.assertEquals(test1, resource, "should find the right resource");
 
         ResourceToken<MuseTest> token = project.getResourceStorage().findResource("test2");
-        Assert.assertNotNull(token);
-        Assert.assertEquals("token doesn't have the right resource", test2, token.getResource());
+        Assertions.assertNotNull(token);
+        Assertions.assertEquals(test2, token.getResource(), "token doesn't have the right resource");
         }
 
     @Test
@@ -64,9 +64,9 @@ public class ResourceStorageTests
         project.getResourceStorage().addResource(test);
 
         List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTest.TestResourceType()));
-        Assert.assertEquals("Should find 2 resources", 2, resources.size());
-        Assert.assertTrue("Should find one resource with id 'Test1'", resources.get(0).getId().equals("Test1") ^ resources.get(1).getId().equals("Test1"));
-        Assert.assertTrue("Should find one resource with id 'Test2'", resources.get(0).getId().equals("Test2") ^ resources.get(1).getId().equals("Test2"));
+        Assertions.assertEquals(2, resources.size(), "Should find 2 resources");
+        Assertions.assertTrue(resources.get(0).getId().equals("Test1") ^ resources.get(1).getId().equals("Test1"), "Should find one resource with id 'Test1'");
+        Assertions.assertTrue(resources.get(0).getId().equals("Test2") ^ resources.get(1).getId().equals("Test2"), "Should find one resource with id 'Test2'");
         }
 
     @Test
@@ -95,18 +95,18 @@ public class ResourceStorageTests
         project.addResourceListener(listener);
 
         project.getResourceStorage().addResource(test);
-        Assert.assertNotNull(resource_added.get());
-        Assert.assertEquals(test.getId(), resource_added.get().getId());
+        Assertions.assertNotNull(resource_added.get());
+        Assertions.assertEquals(test.getId(), resource_added.get().getId());
 
         project.getResourceStorage().removeResource(new InMemoryResourceToken(test));
-        Assert.assertNotNull(resource_removed.get());
-        Assert.assertEquals(test.getId(), resource_removed.get().getId());
+        Assertions.assertNotNull(resource_removed.get());
+        Assertions.assertEquals(test.getId(), resource_removed.get().getId());
 
         // ensure listener is deregistered
         resource_added.set(null);
         project.removeResourceListener(listener);
         project.getResourceStorage().addResource(test);
-        Assert.assertNull(resource_added.get());
+        Assertions.assertNull(resource_added.get());
         }
 
     @Test
@@ -122,7 +122,7 @@ public class ResourceStorageTests
         try
             {
             project.getResourceStorage().addResource(duplicate);
-            Assert.assertTrue("should have thown an exception", false);
+            Assertions.fail("should have thown an exception");
             }
         catch (IllegalArgumentException e)
             {
@@ -131,9 +131,9 @@ public class ResourceStorageTests
         }
 
     @Test
-    public void addInvalidFilename() throws IOException
+    public void addInvalidFilename()
         {
-        Assert.assertFalse("bad filename would have been accepted", new FilenameValidator().isValid("test<1>"));
+        Assertions.assertFalse(new FilenameValidator().isValid("test<1>"), "bad filename would have been accepted");
         }
     }
 

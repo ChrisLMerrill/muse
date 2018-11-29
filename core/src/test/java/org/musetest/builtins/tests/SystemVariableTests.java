@@ -1,6 +1,8 @@
 package org.musetest.builtins.tests;
 
 import org.junit.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.musetest.builtins.tests.mocks.*;
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;
@@ -28,8 +30,8 @@ public class SystemVariableTests
         EnvironmentSysvarProvider.overrideImplementation(project, environment);
 
         Object env = project.getSystemVariableProviders().resolve(EnvironmentSysvarProvider.VARNAME1, new ProjectExecutionContext(project));
-        Assert.assertTrue(env instanceof EnvironmentPropertiesProvider);
-        Assert.assertEquals(value, ((EnvironmentPropertiesProvider)env).getVars().get(var_name));
+        Assertions.assertTrue(env instanceof EnvironmentPropertiesProvider);
+        Assertions.assertEquals(value, ((EnvironmentPropertiesProvider)env).getVars().get(var_name));
         }
 
     @Test
@@ -43,8 +45,8 @@ public class SystemVariableTests
         EnvironmentSysvarProvider.overrideImplementation(project, environment);
 
         Object env = project.getSystemVariableProviders().resolve(EnvironmentSysvarProvider.VARNAME1, new ProjectExecutionContext(project));
-        Assert.assertTrue(env instanceof EnvironmentPropertiesProvider);
-        Assert.assertEquals(value, ((EnvironmentPropertiesProvider)env).getProps().get(var_name));
+        Assertions.assertTrue(env instanceof EnvironmentPropertiesProvider);
+        Assertions.assertEquals(value, ((EnvironmentPropertiesProvider)env).getProps().get(var_name));
         }
 
     @Test
@@ -57,8 +59,8 @@ public class SystemVariableTests
         EnvironmentSysvarProvider.overrideImplementation(project, environment);
 
         Object env = project.getSystemVariableProviders().resolve(EnvironmentSysvarProvider.VARNAME1, new ProjectExecutionContext(project));
-        Assert.assertTrue(env instanceof EnvironmentPropertiesProvider);
-        Assert.assertEquals(value, ((EnvironmentPropertiesProvider)env).getUsername());
+        Assertions.assertTrue(env instanceof EnvironmentPropertiesProvider);
+        Assertions.assertEquals(value, ((EnvironmentPropertiesProvider)env).getUsername());
         }
 
     @Test
@@ -70,8 +72,8 @@ public class SystemVariableTests
 
         MuseProject project = new SimpleProject();
         Object test_var = project.getSystemVariableProviders().resolve(TestVariableProvider.SYSVAR_NAME, new DefaultTestExecutionContext(project, test));
-        Assert.assertTrue(test_var instanceof TestVariableProvider.TestVariableProxy);
-        Assert.assertTrue(((TestVariableProvider.TestVariableProxy)test_var).getTags().contains(tag));
+        Assertions.assertTrue(test_var instanceof TestVariableProvider.TestVariableProxy);
+        Assertions.assertTrue(((TestVariableProvider.TestVariableProxy)test_var).getTags().contains(tag));
         }
 
     @Test
@@ -82,7 +84,7 @@ public class SystemVariableTests
         context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, id);
         ProjectVarsInitializerSysvarProvider provider = new ProjectVarsInitializerSysvarProvider();
 
-        Assert.assertEquals(id, provider.resolve(ProjectVarsInitializerSysvarProvider.SYSVAR_NAME, context));
+        Assertions.assertEquals(id, provider.resolve(ProjectVarsInitializerSysvarProvider.SYSVAR_NAME, context));
         }
 
     @Test
@@ -97,8 +99,8 @@ public class SystemVariableTests
 
         CommandLineOptionSysvarProvider provider = new CommandLineOptionSysvarProvider();
         Object resolved = provider.resolve("clo", new DefaultTestExecutionContext(project, new MockTest()));
-        Assert.assertTrue(resolved instanceof Map);
-        Assert.assertEquals(((Map) resolved).get(name), value);
+        Assertions.assertTrue(resolved instanceof Map);
+        Assertions.assertEquals(((Map) resolved).get(name), value);
         }
 
     @Test
@@ -107,6 +109,6 @@ public class SystemVariableTests
         final MuseProject project = new SimpleProject();
 	    final BaseExecutionContext context = new ProjectExecutionContext(project);
 	    String id = (String) project.getSystemVariableProviders().resolve(ExecutionIdProvider.VARNAME, context);
-        Assert.assertNotNull(id);
+        Assertions.assertNotNull(id);
         }
     }
