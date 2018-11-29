@@ -17,10 +17,10 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class WebDriverProviderTests
+class WebDriverProviderTests
     {
     @Test
-    public void mockProvider() throws IOException
+    void mockProvider() throws IOException
         {
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
@@ -34,7 +34,7 @@ public class WebDriverProviderTests
      * Ensure the serialization format remains compatible
      */
     @Test
-    public void chromeDriverProvider() throws IOException
+    void chromeDriverProvider() throws IOException
         {
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
@@ -55,7 +55,7 @@ public class WebDriverProviderTests
      * Ensure the serialization format remains compatible
      */
     @Test
-    public void firefoxMarionetteDriverProvider() throws IOException
+    void firefoxMarionetteDriverProvider() throws IOException
         {
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
@@ -76,7 +76,7 @@ public class WebDriverProviderTests
      * Ensure the serialization format remains compatible
      */
     @Test
-    public void iexploreDriverProvider() throws IOException
+    void iexploreDriverProvider() throws IOException
         {
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
@@ -97,7 +97,7 @@ public class WebDriverProviderTests
      * Ensure the serialization format remains compatible
      */
     @Test
-    public void firefoxDriverProvider() throws IOException
+    void firefoxDriverProvider() throws IOException
         {
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
@@ -115,7 +115,7 @@ public class WebDriverProviderTests
      * Ensure the serialization format remains compatible
      */
     @Test
-    public void safariDriverProvider() throws IOException
+    void safariDriverProvider() throws IOException
         {
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
@@ -133,7 +133,7 @@ public class WebDriverProviderTests
      * Ensure the serialization format remains compatible
      */
     @Test
-    public void remoteDriverProvider() throws IOException
+    void remoteDriverProvider() throws IOException
         {
         ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("remote-provider.json"), WebDriverProviderConfiguration.class);
@@ -151,7 +151,7 @@ public class WebDriverProviderTests
         }
 
     @Test
-    public void listListenerRegistrationAndAddEvents()
+    void listListenerRegistrationAndAddEvents()
         {
         WebDriverProviderList list = new WebDriverProviderList();
         class MyChangeListener implements WebDriverProviderList.ChangeListener
@@ -191,7 +191,7 @@ public class WebDriverProviderTests
         }
 
     @Test
-    public void listListenerRemoveEvents()
+    void listListenerRemoveEvents()
         {
         WebDriverProviderList list = new WebDriverProviderList();
         RemoteDriverProvider provider1 = new RemoteDriverProvider();

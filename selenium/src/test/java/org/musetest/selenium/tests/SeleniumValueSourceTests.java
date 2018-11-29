@@ -1,8 +1,6 @@
 package org.musetest.selenium.tests;
 
-import org.junit.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
@@ -18,10 +16,10 @@ import org.openqa.selenium.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class SeleniumValueSourceTests
+class SeleniumValueSourceTests
     {
     @Test
-    public void currentUrl() throws MuseInstantiationException, ValueSourceResolutionError
+    void currentUrl() throws MuseInstantiationException, ValueSourceResolutionError
         {
         final String THE_URL = "http://the.url/is/this";
         MuseMockDriver driver = new MuseMockDriver();
@@ -33,7 +31,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void pageTitle() throws MuseInstantiationException, ValueSourceResolutionError
+    void pageTitle() throws MuseInstantiationException, ValueSourceResolutionError
         {
         final String THE_URL = "http://the.url/is/this";
         MuseMockDriver driver = new MuseMockDriver();
@@ -46,7 +44,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementByXpath() throws MuseExecutionError
+    void elementByXpath() throws MuseExecutionError
         {
         MuseMockDriver driver = new MuseMockDriver();
         final String xpath = "//abc123";
@@ -63,7 +61,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementById() throws MuseExecutionError
+    void elementById() throws MuseExecutionError
         {
         final String id = "element#1";
         final MuseMockElement element1 = new MuseMockElement();
@@ -76,7 +74,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementVisible() throws MuseExecutionError
+    void elementVisible() throws MuseExecutionError
         {
         final String id = "visible";
         final MuseMockElement element1 = new MuseMockElement();
@@ -95,7 +93,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementExists() throws MuseExecutionError
+    void elementExists() throws MuseExecutionError
         {
         final String id = "exists";
         final MuseMockElement element1 = new MuseMockElement();
@@ -112,7 +110,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementEnabled() throws MuseExecutionError
+    void elementEnabled() throws MuseExecutionError
         {
         final String id = "enabled";
         final MuseMockElement element1 = new MuseMockElement();
@@ -131,7 +129,7 @@ public class SeleniumValueSourceTests
         }
 
     @Test
-    public void elementSelected() throws MuseExecutionError
+    void elementSelected() throws MuseExecutionError
         {
         final String id = "selected";
         final MuseMockElement element1 = new MuseMockElement();

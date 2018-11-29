@@ -22,10 +22,10 @@ import java.net.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class SeleniumStepTests
+class SeleniumStepTests
     {
     @Test
-    public void openBrowser() throws ValueSourceResolutionError
+    void openBrowser() throws ValueSourceResolutionError
         {
         SteppedTestExecutionContext context = runTestWithSteps(createOpenBrowserStep());
         MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
@@ -33,7 +33,7 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void openAndCloseBrowser()
+    void openAndCloseBrowser()
 	    {
 	    SteppedTestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), new StepConfiguration(CloseBrowser.TYPE_ID));
         MuseMockDriver driver;
@@ -49,7 +49,7 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void gotoUrl() throws ValueSourceResolutionError
+    void gotoUrl() throws ValueSourceResolutionError
         {
         final String URL = "thetesturl";
         StepConfiguration goto_url = new StepConfiguration(GotoUrl.TYPE_ID);
@@ -60,7 +60,7 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void clickElement() throws MuseExecutionError
+    void clickElement() throws MuseExecutionError
         {
         MuseMockDriver driver = new MuseMockDriver();
         final String id = "element#1";
@@ -79,7 +79,7 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void switchToFrame() throws MuseExecutionError
+    void switchToFrame() throws MuseExecutionError
         {
         MuseMockDriver driver = new MuseMockDriver();
         final String id = "frame#1";
@@ -102,7 +102,7 @@ public class SeleniumStepTests
      * Note that this test doesnt actually execute a script - just signals the mock driver to not fail
      */
     @Test
-    public void executeScript() throws MuseExecutionError
+    void executeScript() throws MuseExecutionError
         {
         StepExecutionResult result = executeScriptStep(new ScriptableMockDriver(), "a valid script");
         Assertions.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
@@ -112,7 +112,7 @@ public class SeleniumStepTests
      * Note that this test doesnt actually execute a script - just signals the mock browser to throw an exception so we can test that it is handled
      */
     @Test
-    public void executeScriptThrowsExeception() throws MuseExecutionError
+    void executeScriptThrowsExeception() throws MuseExecutionError
         {
         StepExecutionResult result = executeScriptStep(new ScriptableMockDriver(), ScriptableMockDriver.THROW_EXCEPTION);
         Assertions.assertEquals(StepExecutionStatus.ERROR, result.getStatus());
@@ -122,7 +122,7 @@ public class SeleniumStepTests
      * Note that this test doesnt actually execute a script - just ensures we handle the condition correctly
      */
     @Test
-    public void executeScriptOnNonscriptableBrowser() throws MuseExecutionError
+    void executeScriptOnNonscriptableBrowser() throws MuseExecutionError
         {
         StepExecutionError error = null;
         try
@@ -148,7 +148,7 @@ public class SeleniumStepTests
         }
 
     @Test
-    public void switchToUnknownType() throws MuseExecutionError
+    void switchToUnknownType() throws MuseExecutionError
         {
         MuseMockDriver driver = new MuseMockDriver();
 
