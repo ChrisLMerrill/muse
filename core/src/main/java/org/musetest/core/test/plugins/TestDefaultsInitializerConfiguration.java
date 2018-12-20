@@ -13,7 +13,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseTypeId("test-defaults-initializer")
 @MuseSubsourceDescriptor(displayName = "Apply automatically?", description = "If this source resolves to true, this plugin configuration will be automatically applied to tests", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.AUTO_APPLY_PARAM)
 @MuseSubsourceDescriptor(displayName = "Apply only if", description = "Apply only if this source this source resolves to true", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.APPLY_CONDITION_PARAM)
-@MuseSubsourceDescriptor(displayName = "Overwrite", description = "If true, overwrite variables that have already been set by other initializers (default is true)", type = SubsourceDescriptor.Type.Named, name = TestDefaultsInitializerConfiguration.OVERWRITE_PARAM, optional = true)
+@MuseSubsourceDescriptor(displayName = "Overwrite", description = "If true, overwrite variables that have already been set by other initializers (default is false)", type = SubsourceDescriptor.Type.Named, name = TestDefaultsInitializerConfiguration.OVERWRITE_PARAM, optional = true)
 @SuppressWarnings("unused")  // instantiated by reflection
 public class TestDefaultsInitializerConfiguration extends GenericResourceConfiguration implements PluginConfiguration
 	{
@@ -41,7 +41,7 @@ public class TestDefaultsInitializerConfiguration extends GenericResourceConfigu
 			final TestDefaultsInitializerConfiguration config = new TestDefaultsInitializerConfiguration();
 			config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
 			config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
-			config.parameters().addSource(OVERWRITE_PARAM, ValueSourceConfiguration.forValue(true));
+			config.parameters().addSource(OVERWRITE_PARAM, ValueSourceConfiguration.forValue(false));
 			return config;
 			}
 

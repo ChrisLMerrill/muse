@@ -10,6 +10,8 @@ import org.musetest.core.variables.*;
 
 import java.util.*;
 
+import static org.musetest.core.test.plugins.TestDefaultsInitializerConfiguration.OVERWRITE_PARAM;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -24,7 +26,7 @@ public class TestDefaultsInitializer extends GenericConfigurableTestPlugin
     public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
         boolean overwrite = true;
-        MuseValueSource overwrite_source = BaseValueSource.getValueSource(_configuration.parameters(), AUTO_APPLY_PARAM, false, context.getProject());
+        MuseValueSource overwrite_source = BaseValueSource.getValueSource(_configuration.parameters(), OVERWRITE_PARAM, false, context.getProject());
         if (overwrite_source != null)
 	        overwrite = BaseValueSource.getValue(overwrite_source, context, false, Boolean.class);
 
