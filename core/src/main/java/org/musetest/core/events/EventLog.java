@@ -110,13 +110,4 @@ public class EventLog implements TestResultData
 		}
 
 	private List<MuseEvent> _events = new ArrayList<>();
-
-	public static EventLog find(MuseExecutionContext context)
-		{
-		for (DataCollector collector : DataCollectors.list(context))
-			for (TestResultData data : collector.getData())
-				if (data instanceof EventLog)
-					return (EventLog) data;
-		return null;
-		}
 	}
