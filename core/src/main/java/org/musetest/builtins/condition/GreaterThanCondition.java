@@ -27,8 +27,8 @@ public class GreaterThanCondition extends BinaryCondition
 	@Override
 	public Boolean resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
 		{
-		Object left = _left.resolveValue(context);
-		Object right = _right.resolveValue(context);
+        Object left = getValue(_left, context, false, Object.class);
+        Object right = getValue(_right, context, false, Object.class);
 
 		boolean result;
 		if (left instanceof Long && right instanceof Long)

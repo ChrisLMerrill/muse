@@ -27,18 +27,18 @@ public class LessThanCondition extends BinaryCondition
     @Override
     public Boolean resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
-        Object value1 = _left.resolveValue(context);
-        Object value2 = _right.resolveValue(context);
+        Object left = getValue(_left, context, false, Object.class);
+        Object right = getValue(_right, context, false, Object.class);
 
         boolean result;
-        if (value1 instanceof Long && value2 instanceof Long)
-            result = (Long) value1 < (Long) value2;
-        else if (value1 instanceof String && value2 instanceof String)
-            result = ((String) value1).compareTo((String) value2) < 0;
+        if (left instanceof Long && right instanceof Long)
+      			result = (Long) left < (Long) right;
+        else if (left instanceof String && right instanceof String)
+            result = ((String) left).compareTo((String) right) < 0;
         else
-            throw new ValueSourceResolutionError("LessThanCondition can operate on 2 integers or 2 strings. Instead received: " + value1 + "(" + value1.getClass().getSimpleName() + ") > " + value2 + "(" + value2.getClass().getSimpleName() + ")");
+            throw new ValueSourceResolutionError("LessThanCondition can operate on 2 integers or 2 strings. Instead received: " + left + "(" + left.getClass().getSimpleName() + ") > " + right + "(" + right.getClass().getSimpleName() + ")");
 
-        context.raiseEvent(ConditionEvaluatedEventType.create(String.format("Condition (%s<%s) is %b", value1, value2, result)));
+        context.raiseEvent(ConditionEvaluatedEventType.create(String.format("Condition (%s<%s) is %b", left, right, result)));
         return result;
         }
 
