@@ -1,6 +1,7 @@
 package org.musetest.builtins.value.collection;
 
 import org.musetest.core.*;
+import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
@@ -52,7 +53,9 @@ public class GetItemFromCollection extends BaseValueSource
                     throw new ValueSourceResolutionError(String.format("ListItem unable to proceed: index exceeds the maximum list index: %s (maximum is %s)", index, Integer.MAX_VALUE));
                 try
                     {
-                    return ((List)collection).get((int) index);
+                    Object result = ((List) collection).get((int) index);
+                    context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), result));
+                    return result;
                     }
                 catch (IndexOutOfBoundsException e)
                     {
