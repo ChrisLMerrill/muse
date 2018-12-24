@@ -31,12 +31,12 @@ public class LessThanCondition extends BinaryCondition
         Object right = getValue(_right, context, false, Object.class);
 
         boolean result;
-        if (left instanceof Long && right instanceof Long)
-      			result = (Long) left < (Long) right;
+        if (left instanceof Number && right instanceof Number)
+            result = ((Number) left).longValue() < ((Number) right).longValue();
         else if (left instanceof String && right instanceof String)
             result = ((String) left).compareTo((String) right) < 0;
         else
-            throw new ValueSourceResolutionError("LessThanCondition can operate on 2 integers or 2 strings. Instead received: " + left + "(" + left.getClass().getSimpleName() + ") > " + right + "(" + right.getClass().getSimpleName() + ")");
+            throw new ValueSourceResolutionError("LessThanCondition can operate on 2 integers or 2 strings. Instead received: " + left + "(" + left.getClass().getSimpleName() + ") < " + right + "(" + right.getClass().getSimpleName() + ")");
 
         context.raiseEvent(ConditionEvaluatedEventType.create(String.format("Condition (%s<%s) is %b", left, right, result)));
         return result;
