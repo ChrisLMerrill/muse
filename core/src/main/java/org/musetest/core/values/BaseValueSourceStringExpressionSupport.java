@@ -1,7 +1,6 @@
 package org.musetest.core.values;
 
 import org.musetest.core.*;
-import org.musetest.core.values.strings.*;
 
 import java.util.*;
 
@@ -57,6 +56,12 @@ public abstract class BaseValueSourceStringExpressionSupport implements ValueSou
 	    {
 	    return null;
 	    }
+
+    @Override
+    public ValueSourceConfiguration fromArrayItemExpression(ValueSourceConfiguration collection, ValueSourceConfiguration selector, MuseProject project)
+        {
+        return null;
+        }
 
     @Override
     public String toString(ValueSourceConfiguration config, StringExpressionContext context)
