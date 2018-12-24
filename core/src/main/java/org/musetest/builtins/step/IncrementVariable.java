@@ -19,7 +19,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseStepIcon("glyph:FontAwesome:PLUS")
 @MuseStepTypeGroup("Variables")
 @MuseSubsourceDescriptor(displayName = "Name", description = "Name of the variable", type = SubsourceDescriptor.Type.Named, name = IncrementVariable.NAME_PARAM)
-@MuseSubsourceDescriptor(displayName = "Amount", description = "Amount to increment by (default is 1)", type = SubsourceDescriptor.Type.Named, name = IncrementVariable.AMOUNT_PARAM, optional = true)
+@MuseSubsourceDescriptor(displayName = "Amount", description = "Amount to increment by (default is 1)", type = SubsourceDescriptor.Type.Named, name = IncrementVariable.AMOUNT_PARAM, optional = true, defaultValue = "1")
 public class IncrementVariable extends BaseStep
     {
     public IncrementVariable(StepConfiguration config, MuseProject project) throws MuseInstantiationException
