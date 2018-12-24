@@ -1,4 +1,4 @@
-package org.musetest.builtins.value;
+package org.musetest.builtins.value.collection;
 
 import org.musetest.core.*;
 import org.musetest.core.events.*;
@@ -32,7 +32,7 @@ public class ListSource extends BaseValueSource
         for (ValueSourceConfiguration source : configs)
             sources.add(source.createSource(project));
 
-        _sources = sources.toArray(new MuseValueSource[sources.size()]);
+        _sources = sources.toArray(new MuseValueSource[0]);
         }
 
     @Override

@@ -5,6 +5,7 @@ import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.tests.mocks.*;
 import org.musetest.builtins.value.*;
+import org.musetest.builtins.value.collection.*;
 import org.musetest.builtins.value.property.*;
 import org.musetest.builtins.value.sysvar.*;
 import org.musetest.core.*;

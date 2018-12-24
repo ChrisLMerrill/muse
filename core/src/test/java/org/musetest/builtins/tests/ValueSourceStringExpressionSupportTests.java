@@ -3,6 +3,7 @@ package org.musetest.builtins.tests;
 import org.junit.jupiter.api.*;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
+import org.musetest.builtins.value.collection.*;
 import org.musetest.builtins.value.property.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
