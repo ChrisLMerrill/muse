@@ -8,6 +8,8 @@ import org.musetest.selenium.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -19,17 +21,36 @@ public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSourc
         {
         super(config, project);
         _locator_source = getValueSource(config, true, project);
+        _find_multiple = getValueSource(config, MULTIPLE_PARAM, false, project);
         }
 
     @Override
     public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         String locator_string = getValue(_locator_source, context, true, String.class);
+        boolean multiple = false;
+        if (_find_multiple != null)
+            {
+            Boolean fm = getValue(_find_multiple, context, true, Boolean.class);
+            if (fm != null && fm)
+                multiple = true;
+            }
         try
             {
-            WebElement element = getDriver(context).findElement(createBy(context, locator_string));
-            context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), element));
-            return element;
+            By by = createBy(context, locator_string);
+
+            if (multiple)
+                {
+                List<WebElement> elements = getDriver(context).findElements(by);
+                context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), elements.size() + " elements found"));
+                return elements;
+                }
+            else
+                {
+                WebElement element = getDriver(context).findElement(by);
+                context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), element));
+                return element;
+                }
             }
         catch (NoSuchElementException e)
             {
@@ -41,4 +62,7 @@ public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSourc
     protected abstract By createBy(MuseExecutionContext context, String locator_string) throws ValueSourceResolutionError;
 
     protected final MuseValueSource _locator_source;
+    protected final MuseValueSource _find_multiple;
+
+    public final static String MULTIPLE_PARAM = "find-multiple";
     }

@@ -16,6 +16,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ById locator.")
 @MuseStringExpressionSupportImplementation(IdElementValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Id", description = "Id of the element", type = SubsourceDescriptor.Type.Single)
+@MuseSubsourceDescriptor(displayName = "Find Multiple", description = "If true, look for 0 to many matching elements and resolve as a list. If false (default) return first match and fail if none found", type = SubsourceDescriptor.Type.Named, name = ElementByLocatorValueSource.MULTIPLE_PARAM, defaultValue = "false")
 public class IdElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
