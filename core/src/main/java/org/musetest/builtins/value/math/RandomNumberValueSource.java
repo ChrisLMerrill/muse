@@ -1,5 +1,6 @@
-package org.musetest.builtins.value;
+package org.musetest.builtins.value.math;
 
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
