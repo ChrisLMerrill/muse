@@ -1,5 +1,6 @@
-package org.musetest.builtins.value;
+package org.musetest.builtins.value.logic;
 
+import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
@@ -11,6 +12,7 @@ import org.musetest.core.values.descriptor.*;
  */
 @MuseTypeId("not")
 @MuseValueSourceName("Not")
+@MuseValueSourceTypeGroup("Logic")
 @MuseValueSourceShortDescription("Returns the boolean complement of the sub-source.")
 @MuseValueSourceLongDescription("Resolves the sub-source. If it is a boolean, return the complement. Else error.")
 @MuseStringExpressionSupportImplementation(NotValueSource.StringExpressionSupport.class)

@@ -3,6 +3,7 @@ package org.musetest.core.tests;
 import org.junit.jupiter.api.*;
 import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
+import org.musetest.builtins.value.logic.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.events.*;
