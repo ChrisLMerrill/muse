@@ -1,7 +1,6 @@
-package org.musetest.builtins.tests.value.logic;
+package org.musetest.builtins.value.logic;
 
 import org.junit.jupiter.api.*;
-import org.musetest.builtins.value.logic.*;
 import org.musetest.core.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;

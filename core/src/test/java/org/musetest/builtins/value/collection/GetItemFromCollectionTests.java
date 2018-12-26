@@ -1,8 +1,7 @@
-package org.musetest.builtins.tests.value.collection;
+package org.musetest.builtins.value.collection;
 
 import org.jetbrains.annotations.*;
 import org.junit.jupiter.api.*;
-import org.musetest.builtins.value.collection.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.project.*;
