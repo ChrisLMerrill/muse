@@ -202,22 +202,6 @@ class ValueSourceStringExpressionSupportTests
         }
 
     @Test
-    void notFromString()
-        {
-        NotValueSource.StringExpressionSupport supporter = new NotValueSource.StringExpressionSupport();
-        List<ValueSourceConfiguration> arguments = new ArrayList<>();
-        ValueSourceConfiguration subsource = ValueSourceConfiguration.forValue(true);
-        arguments.add(subsource);
-        ValueSourceConfiguration parsed = supporter.fromArgumentedExpression(supporter.getName(), arguments, TEST_PROJECT);
-
-        Assertions.assertEquals(NotValueSource.TYPE_ID, parsed.getType());
-        Assertions.assertEquals(subsource, parsed.getSource());
-
-        String stringified = supporter.toString(parsed, new RootStringExpressionContext(TEST_PROJECT));
-        Assertions.assertEquals("not(true)", stringified);
-        }
-
-    @Test
     void dateFormat()
         {
         DateFormatValueSource.StringExpressionSupport supporter = new DateFormatValueSource.StringExpressionSupport();

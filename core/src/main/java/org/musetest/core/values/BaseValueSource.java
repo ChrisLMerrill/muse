@@ -5,6 +5,8 @@ import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.strings.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -57,6 +59,32 @@ public abstract class BaseValueSource implements MuseValueSource
             }
         return source_config.createSource(project);
         }
+
+    public static MuseValueSource[] getValueSourceList(ValueSourceConfiguration config, boolean required, MuseProject project) throws MuseInstantiationException
+        {
+        List<ValueSourceConfiguration> configs = config.getSourceList();
+        if (configs == null || configs.size() == 0)
+            {
+            if (!required)
+                return null;
+            throw new MuseInstantiationException("Missing required parameter (sourceList)");
+            }
+
+        List<MuseValueSource> sources = new ArrayList<>();
+        for (ValueSourceConfiguration source : configs)
+            sources.add(source.createSource(project));
+
+        return sources.toArray(new MuseValueSource[0]);
+        }
+
+    public static List<Object> getValues(MuseExecutionContext context, MuseValueSource[] sources) throws ValueSourceResolutionError
+        {
+        List<Object> values = new ArrayList<>();
+        for (MuseValueSource source : sources)
+            values.add(source.resolveValue(context));
+        return values;
+        }
+
 
     /**
      * A convenience method to get create a value source from the single sub-source configuration

@@ -1,5 +1,6 @@
 package org.musetest.builtins.value;
 
+import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
@@ -23,24 +24,13 @@ public class AdditionSource extends BaseValueSource
     public AdditionSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
-
-        List<ValueSourceConfiguration> configs = config.getSourceList();
-        if (configs == null || configs.size() == 0)
-            throw new MuseInstantiationException("Missing required parameter (sourceList)");
-
-        List<MuseValueSource> sources = new ArrayList<>();
-        for (ValueSourceConfiguration source : configs)
-            sources.add(source.createSource(project));
-
-        _sources = sources.toArray(new MuseValueSource[sources.size()]);
+        _sources = getValueSourceList(config, true, project);
         }
 
     @Override
     public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
-        List<Object> values = new ArrayList<>();
-        for (MuseValueSource source : _sources)
-            values.add(source.resolveValue(context));
+        List<Object> values = getValues(context, _sources);
 
         boolean try_numeric = false;
         for (Object value : values)

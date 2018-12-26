@@ -184,62 +184,6 @@ class ValueSourceTests
         }
 
     @Test
-    void notTrue() throws MuseExecutionError
-        {
-        ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(true);
-        MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
-        Assertions.assertEquals(false, source.resolveValue(new MockStepExecutionContext()));
-        }
-
-    @Test
-    void notFalse() throws MuseExecutionError
-        {
-        ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(false);
-        MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
-        Assertions.assertEquals(true, source.resolveValue(new MockStepExecutionContext()));
-        }
-
-    @Test
-    void notNull() throws MuseInstantiationException
-        {
-        ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue(null);
-        MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
-        try
-            {
-            source.resolveValue(new MockStepExecutionContext());
-            Assertions.fail("an exception should have been thrown");
-            }
-        catch (MuseExecutionError e)
-            {
-            // all good!
-            }
-        catch (Throwable e)
-            {
-            Assertions.fail("wrong exception was thrown");
-            }
-        }
-
-    @Test
-    void notString() throws MuseInstantiationException
-        {
-        ValueSourceConfiguration source_value = ValueSourceConfiguration.forValue("string");
-        MuseValueSource source = ValueSourceConfiguration.forTypeWithSource(NotValueSource.TYPE_ID, source_value).createSource();
-        try
-            {
-            source.resolveValue(new MockStepExecutionContext());
-            Assertions.fail("an exception should have been thrown");
-            }
-        catch (MuseExecutionError e)
-            {
-            // all good!
-            }
-        catch (Throwable e)
-            {
-            Assertions.fail("wrong exception was thrown");
-            }
-        }
-
-    @Test
     void formatNullDateParamAndFormatParams() throws MuseExecutionError
         {
         Object result = resolveDateFormatSource(null, null, null);
