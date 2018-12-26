@@ -20,7 +20,7 @@ import org.openqa.selenium.*;
 @MuseStepLongDescription("Resolves the 'keys' source to a String and the 'element' source to a WebElement. If both succeed, then sendKeys() method of WebElement is called with the keys string. Control keys are not yet supported.")
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to send the keys to", type = SubsourceDescriptor.Type.Named, name = SendKeys.ELEMENT_PARAM)
 @MuseSubsourceDescriptor(displayName = "Keys", description = "Text string containing the keys to send to the element", type = SubsourceDescriptor.Type.Named, name = SendKeys.KEYS_PARAM)
-@MuseSubsourceDescriptor(displayName = "Clear content", description = "If true, the current content of the field should be cleared before sending the keys.", type = SubsourceDescriptor.Type.Named, name = SendKeys.CLEAR_PARAM, optional = true)
+@MuseSubsourceDescriptor(displayName = "Clear content", description = "If true, the current content of the field should be cleared before sending the keys.", type = SubsourceDescriptor.Type.Named, name = SendKeys.CLEAR_PARAM, optional = true, defaultValue = "true")
 public class SendKeys extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
