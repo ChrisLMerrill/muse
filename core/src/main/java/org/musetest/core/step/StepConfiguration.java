@@ -398,6 +398,19 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 
 	    }
 
+    public boolean contains(StepConfiguration descendent)
+        {
+        List<StepConfiguration> children = getChildren();
+        if (children == null)
+            return false;
+        if (children.contains(descendent))
+            return true;
+        for (StepConfiguration child : children)
+            if (child.contains(descendent))
+                return true;
+        return false;
+        }
+
     @Override
     public String toString()
         {
