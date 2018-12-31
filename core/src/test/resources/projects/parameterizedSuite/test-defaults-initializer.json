@@ -1,0 +1,18 @@
+{
+  "type" : "test-defaults-initializer",
+  "parameters" : {
+    "apply-condition" : {
+      "value" : true,
+      "type" : "boolean"
+    },
+    "auto-apply" : {
+      "value" : true,
+      "type" : "boolean"
+    },
+    "overwrite" : {
+      "value" : false,
+      "type" : "boolean"
+    }
+  },
+  "tags" : [ ]
+}
