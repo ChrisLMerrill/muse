@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class LogicValueSourceTests
+class LogicValueSourceTests
     {
     @Test
     void orTrueFalse() throws ValueSourceResolutionError, MuseInstantiationException
@@ -43,6 +43,39 @@ public class LogicValueSourceTests
     private Object resolveOrSource(boolean v1, boolean v2) throws MuseInstantiationException, ValueSourceResolutionError
         {
         ValueSourceConfiguration or = ValueSourceConfiguration.forType(OrValueSource.TYPE_ID);
+        or.addSource(ValueSourceConfiguration.forValue(v1));
+        or.addSource(ValueSourceConfiguration.forValue(v2));
+        MuseValueSource source = or.createSource();
+        return source.resolveValue(new MockStepExecutionContext());
+        }
+
+    @Test
+    void andTrueFalse() throws ValueSourceResolutionError, MuseInstantiationException
+        {
+        Assertions.assertEquals(false, resolveAndSource(true, false));
+        }
+
+    @Test
+    void andFalseFalse() throws ValueSourceResolutionError, MuseInstantiationException
+        {
+        Assertions.assertEquals(false, resolveAndSource(false, false));
+        }
+
+    @Test
+    void andFalseTrue() throws ValueSourceResolutionError, MuseInstantiationException
+        {
+        Assertions.assertEquals(false, resolveAndSource(false, true));
+        }
+
+    @Test
+    void andTrueTrue() throws ValueSourceResolutionError, MuseInstantiationException
+        {
+        Assertions.assertEquals(true, resolveAndSource(true, true));
+        }
+
+    private Object resolveAndSource(boolean v1, boolean v2) throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration or = ValueSourceConfiguration.forType(AndValueSource.TYPE_ID);
         or.addSource(ValueSourceConfiguration.forValue(v1));
         or.addSource(ValueSourceConfiguration.forValue(v2));
         MuseValueSource source = or.createSource();

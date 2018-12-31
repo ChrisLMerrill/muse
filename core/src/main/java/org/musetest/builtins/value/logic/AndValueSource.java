@@ -11,16 +11,16 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@MuseTypeId("or")
-@MuseValueSourceName("Or")
+@MuseTypeId("and")
+@MuseValueSourceName("And")
 @MuseValueSourceTypeGroup("Logic")
-@MuseValueSourceShortDescription("Logical OR of the sub-sources")
-@MuseValueSourceLongDescription("Resolves each operand as a boolean. Returns true if any are true.")
-@MuseStringExpressionSupportImplementation(OrValueSource.StringExpressionSupport.class)
+@MuseValueSourceShortDescription("Logical AND of the sub-sources")
+@MuseValueSourceLongDescription("Resolves each operand as a boolean. Returns true if all true.")
+@MuseStringExpressionSupportImplementation(AndValueSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Operands", description = "subsource to evaluate (expects boolean values)", type = SubsourceDescriptor.Type.List)
-public class OrValueSource extends BaseValueSource
+public class AndValueSource extends BaseValueSource
     {
-    public OrValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+    public AndValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
         _sources = getValueSourceList(config, true, project);
@@ -33,10 +33,10 @@ public class OrValueSource extends BaseValueSource
         for (Object value : values)
             if (value instanceof Boolean)
                 {
-                if ((Boolean)value)
+                if (!(Boolean)value)
                     {
-                    context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), Boolean.TRUE));
-                    return Boolean.TRUE;
+                    context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), Boolean.FALSE));
+                    return Boolean.FALSE;
                     }
                 }
             else
@@ -45,12 +45,12 @@ public class OrValueSource extends BaseValueSource
                     throw new ValueSourceResolutionError("Expected the sub-source to resolve to a boolean. Instead, it is null");
                 throw new ValueSourceResolutionError(String.format("Expected the sub-source to resolve to a boolean. Instead, got: %s (which is a %s)", value.toString(), value.getClass().getSimpleName()));
                 }
-        return Boolean.FALSE;
+        return Boolean.TRUE;
         }
 
     private MuseValueSource[] _sources;
 
-    public final static String TYPE_ID = OrValueSource.class.getAnnotation(MuseTypeId.class).value();
+    public final static String TYPE_ID = AndValueSource.class.getAnnotation(MuseTypeId.class).value();
 
     @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
     public static class StringExpressionSupport extends BaseValueSourceStringExpressionSupport
@@ -58,21 +58,21 @@ public class OrValueSource extends BaseValueSource
         @Override
         public ValueSourceConfiguration fromBooleanExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project)
             {
-            if (!"||".equals(operator))
+            if (!"&&".equals(operator))
                 return null;
 
             List<ValueSourceConfiguration> sources = new ArrayList<>();
             addSources(sources, left);
             addSources(sources, right);
 
-            ValueSourceConfiguration config = ValueSourceConfiguration.forType(OrValueSource.TYPE_ID);
+            ValueSourceConfiguration config = ValueSourceConfiguration.forType(AndValueSource.TYPE_ID);
             config.setSourceList(sources);
             return config;
             }
 
         private void addSources(List<ValueSourceConfiguration> list, ValueSourceConfiguration source)
             {
-            if (OrValueSource.TYPE_ID.equals(source.getType()))
+            if (AndValueSource.TYPE_ID.equals(source.getType()))
 	            list.addAll(source.getSourceList());
             else
                 list.add(source);
@@ -81,7 +81,7 @@ public class OrValueSource extends BaseValueSource
         @Override
         public String toString(ValueSourceConfiguration config, StringExpressionContext context, int depth)
             {
-            if (config.getType().equals(OrValueSource.TYPE_ID))
+            if (config.getType().equals(AndValueSource.TYPE_ID))
                 {
                 StringBuilder builder = new StringBuilder();
                 if (depth > 0)
@@ -90,7 +90,7 @@ public class OrValueSource extends BaseValueSource
                 for (ValueSourceConfiguration sub_source : config.getSourceList())
                     {
                     if (!first)
-                        builder.append(" || ");
+                        builder.append(" && ");
 
                     String stringified = context.getProject().getValueSourceStringExpressionSupporters().toString(sub_source, context, depth + 1);
                     if (stringified == null)

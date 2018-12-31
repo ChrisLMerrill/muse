@@ -382,6 +382,33 @@ class StepConfigurationTests
         Assertions.assertFalse(step.hasTag(tag2), "tag2 was not removed");
         Assertions.assertTrue(step.getMetadata() == null || step.getMetadata().get(StepConfiguration.META_TAGS) == null, "list should be null");
         }
+
+    @Test
+    void descendentOfEmpty()
+        {
+        StepConfiguration empty = new StepConfiguration("abc");
+        Assertions.assertFalse(empty.contains(new StepConfiguration("xyz")));
+        }
+
+    @Test
+    void descendentIsContained()
+        {
+        StepConfiguration parent = new StepConfiguration("abc");
+        StepConfiguration child = new StepConfiguration("xyz");
+        parent.addChild(child);
+
+        Assertions.assertTrue(parent.contains(child));
+        }
+
+    @Test
+    void descendentIsDeeper()
+        {
+        StepConfiguration parent = new StepConfiguration("abc");
+        StepConfiguration child = new StepConfiguration("xyz");
+        parent.addChild(child);
+        StepConfiguration grandchild = new StepConfiguration("grand");
+        child.addChild(grandchild);
+
+        Assertions.assertTrue(parent.contains(grandchild));
+        }
     }
-
-

@@ -46,6 +46,12 @@ public abstract class BaseValueSourceStringExpressionSupport implements ValueSou
         }
 
     @Override
+    public ValueSourceConfiguration fromBooleanExpression(ValueSourceConfiguration left, String operator, ValueSourceConfiguration right, MuseProject project)
+        {
+        return null;
+        }
+
+    @Override
     public ValueSourceConfiguration fromDotExpression(ValueSourceConfiguration left, ValueSourceConfiguration right, MuseProject project)
         {
         return null;
