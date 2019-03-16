@@ -74,6 +74,26 @@ public abstract class BaseStep implements MuseStep
         return result;
         }
 
+    protected <T> T getVariable(StepExecutionContext context, String varname, Class<T> type) throws MuseExecutionError
+        {
+        Object value = context.getVariable(varname);
+        if (value == null)
+            throw new MuseExecutionError(String.format("Unable to get variable '%s' from the context. A %s is required.", varname, type.getSimpleName()));
+        if (type.isAssignableFrom(value.getClass()))
+            return (T) value;
+        throw new MuseExecutionError(String.format("Variable '%s' in the context is a %s, but a %s is required.", varname, value.getClass().getSimpleName(), type.getSimpleName()));
+        }
+
+    protected <T> T getVariable(StepExecutionContext context, String varname, Class<T> type, T default_value) throws MuseExecutionError
+        {
+        Object value = context.getVariable(varname);
+        if (value == null)
+            return default_value;
+        if (type.isAssignableFrom(value.getClass()))
+            return (T) value;
+        throw new MuseExecutionError(String.format("Variable '%s' in the context is a %s, but a %s is required.", varname, value.getClass().getSimpleName(), type.getSimpleName()));
+        }
+
     private StepConfiguration _config;
     }
 
