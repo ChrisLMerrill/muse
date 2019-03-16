@@ -17,6 +17,16 @@ import java.util.*;
  */
 public class InMemoryResourceStorage implements ResourceStorage
     {
+    public InMemoryResourceStorage()
+        {
+        }
+
+    @SuppressWarnings("unused")  // public API for testing
+    public InMemoryResourceStorage(ClassLocator class_locator)
+        {
+        _class_locator = class_locator;
+        }
+
     @Override
     public ResourceToken addResource(MuseResource resource) throws IOException
         {
@@ -195,5 +205,3 @@ public class InMemoryResourceStorage implements ResourceStorage
 
     private final static Logger LOG = LoggerFactory.getLogger(InMemoryResourceStorage.class);
     }
-
-
