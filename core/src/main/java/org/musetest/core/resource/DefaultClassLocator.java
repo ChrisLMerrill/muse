@@ -24,7 +24,6 @@ public class DefaultClassLocator implements ClassLocator
         if (map == null)
             {
             map = new HashMap<>();
-            _annotation_value_to_class_map.put(annotation_class, map);
 
             Set<Class<?>> classes = _reflections.getTypesAnnotatedWith(annotation_class);
             for (Class the_class : classes)
@@ -45,6 +44,8 @@ public class DefaultClassLocator implements ClassLocator
                 else
                     LOG.error(String.format("Found duplicate annotation values %s=%s (for class %s and %s)", annotation_class.getSimpleName(), value, the_class.getSimpleName(), map.get(value).getSimpleName()));
                 }
+
+            _annotation_value_to_class_map.put(annotation_class, map);
             }
 
         return map;
@@ -120,7 +121,5 @@ public class DefaultClassLocator implements ClassLocator
     private final static Reflections DEFAULT_REFLECTIONS = new Reflections("org.musetest");
     private final static ClassLocator DEFAULT = new DefaultClassLocator();
 
-    final static Logger LOG = LoggerFactory.getLogger(DefaultClassLocator.class);
+    private final static Logger LOG = LoggerFactory.getLogger(DefaultClassLocator.class);
     }
-
-
