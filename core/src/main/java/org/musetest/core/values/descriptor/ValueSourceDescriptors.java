@@ -1,6 +1,7 @@
 package org.musetest.core.values.descriptor;
 
 import org.musetest.core.*;
+import org.musetest.core.step.descriptor.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.slf4j.*;
@@ -11,12 +12,12 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@SuppressWarnings("unchecked")
 public class ValueSourceDescriptors
     {
     public ValueSourceDescriptors(MuseProject project)
         {
         _project = project;
+        load();
         }
 
     public ValueSourceDescriptor get(ValueSourceConfiguration source)
@@ -32,66 +33,78 @@ public class ValueSourceDescriptors
     /**
      * @param allow_null Return null if no descriptor found (instead of an UnknownValueSourceDescriptor).
      */
-    public ValueSourceDescriptor get(String type_id, boolean allow_null)
+    public ValueSourceDescriptor get(String type, boolean allow_null)
         {
-        for (Class implementing_class : _project.getClassLocator().getImplementors(MuseValueSource.class))
-            {
-            MuseTypeId type_annotation = (MuseTypeId) implementing_class.getAnnotation(MuseTypeId.class);
-            if (type_annotation != null && type_id.equals(type_annotation.value()))
-                return get(implementing_class);
-            }
-
+        ValueSourceDescriptor descriptor = _descriptors_by_type.get(type);
+        if (descriptor != null)
+            return descriptor;
         if (allow_null)
             return null;
         else
-            return new UnknownValueSourceDescriptor(type_id, _project);
+            return new UnknownValueSourceDescriptor(type, _project);
         }
 
-    public ValueSourceDescriptor get(Class<? extends MuseValueSource> source_class)
+    public ValueSourceDescriptor get(Class<? extends MuseValueSource> source_implementation)
         {
-        String type_id = source_class.getAnnotation(MuseTypeId.class).value();
-
-        try
+        ValueSourceDescriptor descriptor = _descriptors_by_class.get(source_implementation);
+        if (descriptor != null)
+            return descriptor;
+        descriptor = loadByClass(source_implementation);
+        if (descriptor != null)
             {
-            MuseSourceDescriptorImplementation descriptor_annotation = source_class.getAnnotation(MuseSourceDescriptorImplementation.class);
-            if (descriptor_annotation != null)
-                {
-                try
-                    {
-                    Class descriptor_class = descriptor_annotation.value();
-                    if (ValueSourceDescriptor.class.isAssignableFrom(descriptor_class))
-                        {
-                        Constructor<ValueSourceDescriptor> constructor = descriptor_class.getConstructor(MuseProject.class);
-                        return constructor.newInstance(_project);
-                        }
-                    else
-                        LOG.error(String.format("The specified class (%s) does not implement the required interface (%s)", descriptor_class.getSimpleName(), ValueSourceDescriptor.class.getSimpleName()));
-                    }
-                catch (Exception e)
-                    {
-                    LOG.error("Unable to create the ValueSourceDescriptor based on the " + MuseSourceDescriptorImplementation.class.getSimpleName() + " annotation. Implementing class is: " + descriptor_annotation.value().getSimpleName(), e);
-                    }
-                }
-            return new AnnotatedValueSourceDescriptor(type_id, source_class, _project);
+            _descriptors_by_class.put(source_implementation, descriptor);
+            _all_descriptors.add(descriptor);
             }
-        catch (Exception e)
-            {
-            return new UnknownValueSourceDescriptor(type_id, _project);
-            }
+        return descriptor;
         }
 
     public List<ValueSourceDescriptor> findAll()
         {
-        List<ValueSourceDescriptor> descriptors = new ArrayList<>();
+        return new ArrayList<>(_all_descriptors);  // TODO change signature to Set
+        }
+
+    private void load()
+        {
         List<Class<? extends MuseValueSource>> implementors = new TypeLocator(_project).getImplementors(MuseValueSource.class);
-        for (Class<? extends MuseValueSource> source_class : implementors)
-            descriptors.add(_project.getValueSourceDescriptors().get(source_class));
-        return descriptors;
+        for (Class valuesource_class : implementors)
+            {
+            ValueSourceDescriptor descriptor = loadByClass(valuesource_class);
+            _descriptors_by_class.put(valuesource_class, descriptor);
+            _descriptors_by_type.put(descriptor.getType(), descriptor);
+            _all_descriptors.add(descriptor);
+            }
+        }
+
+    private ValueSourceDescriptor loadByClass(Class<? extends MuseValueSource> valuesource_implementation)
+        {
+        MuseTypeId type_annotation = valuesource_implementation.getAnnotation(MuseTypeId.class);
+        MuseSourceDescriptorImplementation descriptor_annotation = valuesource_implementation.getAnnotation(MuseSourceDescriptorImplementation.class);
+        if (descriptor_annotation != null)
+            {
+            Class<? extends ValueSourceDescriptor> descriptor_class = descriptor_annotation.value();
+            try
+                {
+                if (ValueSourceDescriptor.class.isAssignableFrom(descriptor_class))
+                    {
+                    Constructor<? extends ValueSourceDescriptor> constructor = descriptor_class.getConstructor(MuseProject.class);
+                    return constructor.newInstance(_project);
+                    }
+                else
+                    LOG.error(String.format("The specified class (%s) does not implement the required interface (%s)", descriptor_class.getSimpleName(), StepDescriptor.class.getSimpleName()));
+                return descriptor_class.newInstance();
+                }
+            catch (Exception e)
+                {
+                LOG.error("Unable to create the StepDescriptor based on the " + MuseStepDescriptorImplementation.class.getSimpleName() + " annotation. Implementing class is: " + descriptor_annotation.value().getSimpleName(), e);
+                }
+            }
+        return new AnnotatedValueSourceDescriptor(type_annotation.value(), valuesource_implementation, _project);
         }
 
     private MuseProject _project;
+    private Map<String, ValueSourceDescriptor> _descriptors_by_type = new HashMap<>();
+    private Map<Class, ValueSourceDescriptor> _descriptors_by_class = new HashMap<>();
+    private Set<ValueSourceDescriptor> _all_descriptors = new HashSet<>();
 
     private static Logger LOG = LoggerFactory.getLogger(ValueSourceDescriptors.class);
     }
-
-
