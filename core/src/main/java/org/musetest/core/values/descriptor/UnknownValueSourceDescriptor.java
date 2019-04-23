@@ -38,33 +38,45 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
     public String getInstanceDescription(ValueSourceConfiguration source, StringExpressionContext context)
         {
         StringBuilder builder = new StringBuilder(getName());
-        builder.append(": ");
         boolean first = true;
 
         StringExpressionContext source_context = new ValueSourceExpressionContext(context, source);
         if (source.getValue() != null)
             {
+            builder.append("(");
             builder.append(source.getValue());
             first = false;
             }
         if (source.getSource() != null)
             {
+            if (first)
+                builder.append("(");
             appendSourceDescription(builder, source.getSource(), first, source_context);
             first = false;
             }
+        boolean first_in_list = true;
         if (source.getSourceList() != null && source.getSourceList().size() > 0)
             {
             for (ValueSourceConfiguration list_source : source.getSourceList())
                 {
-                appendSourceDescription(builder, list_source, first, source_context);
+                if (first)
+                    builder.append("(");
+                appendSourceDescription(builder, list_source, first_in_list, source_context);
                 first = false;
+                first_in_list = false;
                 }
             }
+        boolean first_in_map = true;
         for (String source_name : source.getSourceNames())
             {
-            appendSourceDescription(builder, source.getSource(source_name), first, source_context);
+            if (first)
+                builder.append("(");
+            appendSourceDescription(builder, source_name, source.getSource(source_name), first_in_map, source_context);
             first = false;
+            first_in_map = false;
             }
+        if (!first)
+            builder.append(")");
         return builder.toString();
         }
 
@@ -72,6 +84,15 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
         {
         if (!first)
             builder.append(", ");
+        builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source, context));
+        }
+
+    private void appendSourceDescription(StringBuilder builder, String name, ValueSourceConfiguration source, boolean first, StringExpressionContext context)
+        {
+        if (!first)
+            builder.append(", ");
+        builder.append(name);
+        builder.append("=");
         builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source, context));
         }
 

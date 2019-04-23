@@ -44,18 +44,21 @@ public class UnknownStepDescriptor implements StepDescriptor
         StringBuilder builder = new StringBuilder(step.getType());
         if (step.getSources() != null && step.getSources().size() > 0)
             {
-            builder.append(": ");
             boolean first = true;
             for (String source_name : step.getSources().keySet())
                 {
+                if (first)
+                    builder.append("(");
                 if (!first)
-                    builder.append(", ");
+                    builder.append(",");
                 ValueSourceConfiguration source = step.getSources().get(source_name);
                 builder.append(source_name);
                 builder.append("=");
                 builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source, new StepExpressionContext(getProject(), step)));
                 first = false;
                 }
+            if (!first)
+                builder.append(")");
             }
         return builder.toString();
         }
