@@ -74,16 +74,34 @@ public abstract class BaseStep implements MuseStep
         return result;
         }
 
+    /**
+     * Convenience method to get a variable from the context as a specific type. Null return is not allowed.
+     */
     protected <T> T getVariable(StepExecutionContext context, String varname, Class<T> type) throws MuseExecutionError
+        {
+        return getVariable(context, varname, type, false);
+        }
+
+    /**
+     * Convenience method to get a variable from the context as a specific type. Null return may be allowed.
+     */
+    protected <T> T getVariable(StepExecutionContext context, String varname, Class<T> type, boolean null_allowed) throws MuseExecutionError
         {
         Object value = context.getVariable(varname);
         if (value == null)
+            {
+            if (null_allowed)
+                return null;
             throw new MuseExecutionError(String.format("Unable to get variable '%s' from the context. A %s is required.", varname, type.getSimpleName()));
+            }
         if (type.isAssignableFrom(value.getClass()))
             return (T) value;
         throw new MuseExecutionError(String.format("Variable '%s' in the context is a %s, but a %s is required.", varname, value.getClass().getSimpleName(), type.getSimpleName()));
         }
 
+    /**
+     * Convenience method to get a variable from the context as a specific type. Default value may be supplied.
+     */
     protected <T> T getVariable(StepExecutionContext context, String varname, Class<T> type, T default_value) throws MuseExecutionError
         {
         Object value = context.getVariable(varname);
