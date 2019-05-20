@@ -3,10 +3,8 @@ package org.musetest.core.tests;
 import org.junit.jupiter.api.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.*;
-import org.musetest.core.context.*;
 import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
-import org.musetest.core.project.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
@@ -23,15 +21,8 @@ class StepExecutionTests
         StepConfiguration step_a = new StepConfiguration(LogMessage.TYPE_ID);
         step_a.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message));
 
-        SteppedTest test = new SteppedTest(step_a);
-		SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
-		test_context.initializePlugins();
-
-		StepExecutor executor = new StepExecutor(test, test_context);
-        executor.executeAll();
-
-		//noinspection ConstantConditions
-        Assertions.assertNotNull(test_context.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)), "message step did not run");
+        MuseEvent message_event = new SimpleStepRunner(step_a).runOneStep().context().getEventLog().findFirstEvent(new EventDescriptionMatcher(message));
+        Assertions.assertNotNull(message_event, "message step did not run");
         }
 
     @Test
@@ -45,15 +36,8 @@ class StepExecutionTests
         child.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message));
         parent.addChild(child);
 
-        SteppedTest test = new SteppedTest(parent);
-        SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
-		test_context.initializePlugins();
-
-        StepExecutor executor = new StepExecutor(test, test_context);
-        executor.executeAll();
-
-		//noinspection ConstantConditions
-        Assertions.assertNotNull(test_context.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)), "step didn't run");
+        MuseEvent message_event = new SimpleStepRunner(parent).runAll().eventLog().findFirstEvent(new EventDescriptionMatcher(message));
+        Assertions.assertNotNull(message_event, "step didn't run");
         }
 
     @Test
@@ -72,15 +56,7 @@ class StepExecutionTests
         child2.addSource(LogMessage.MESSAGE_PARAM, ValueSourceConfiguration.forValue(message2));
         parent.addChild(child2);
 
-        SteppedTest test = new SteppedTest(parent);
-        SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
-		test_context.initializePlugins();
-
-        StepExecutor executor = new StepExecutor(test, test_context);
-        executor.executeAll();
-
-		EventLog log = test_context.getEventLog();
-		//noinspection ConstantConditions
+		EventLog log = new SimpleStepRunner(parent).runAll().eventLog();
         Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(message1)), "first step didn't run");
         Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(message2)), "second step didn't run");
         }
@@ -90,16 +66,10 @@ class StepExecutionTests
 		{
         StepConfiguration step_a = new StepConfiguration();
         step_a.setType("blahblah");
-        SteppedTest test = new SteppedTest(step_a);
-		SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
-		test_context.initializePlugins();
 
-		StepExecutor executor = new StepExecutor(test, test_context);
-        test_context.addEventListener(new TerminateOnError(executor));
-        executor.executeAll();
-
-		EventLog log = test_context.getEventLog();
-		//noinspection ConstantConditions
+        SimpleStepRunner runner = new SimpleStepRunner(step_a);
+        runner.context().addEventListener(new TerminateOnError(runner.executor()));
+        EventLog log = runner.runOneStep().eventLog();
         Assertions.assertNotNull(log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)), "step didn't start");
         Assertions.assertNotNull(log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)), "step should have failed");
         }
@@ -111,16 +81,9 @@ class StepExecutionTests
         step_a.setType("blahblah");
         step_a.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue(null));
 
-        SteppedTest test = new SteppedTest(step_a);
-		SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
-		test_context.initializePlugins();
-
-		StepExecutor executor = new StepExecutor(test, test_context);
-        test_context.addEventListener(new TerminateOnError(executor));
-        executor.executeAll();
-
-		EventLog log = test_context.getEventLog();
-		//noinspection ConstantConditions
+        SimpleStepRunner runner = new SimpleStepRunner(step_a);
+        runner.context().addEventListener(new TerminateOnError(runner.executor()));
+        EventLog log = runner.runOneStep().eventLog();
 		Assertions.assertNotNull(log.findFirstEvent(new EventTypeMatcher(StartStepEventType.TYPE_ID)), "step didn't start");
         Assertions.assertNotNull(log.findFirstEvent(new StepResultStatusMatcher(StepExecutionStatus.ERROR)), "step should have failed");
         }
