@@ -1,5 +1,7 @@
 package org.musetest.builtins.value.property;
 
+import org.slf4j.*;
+
 import java.lang.reflect.*;
 
 /**
@@ -51,9 +53,11 @@ public class FieldByReflectionResolver implements PropertyResolver
             }
         catch (Exception e)
             {
-            throw new PropertyResolutionError(String.format("caught an exception while resolving property %s in target (%s): %s", name, target.getClass().getSimpleName(), target.toString()), e);
+            String message = String.format("caught an exception while resolving property %s in target (%s): %s", name, target.getClass().getSimpleName(), target.toString());
+            LOG.error(message, e);
+            throw new PropertyResolutionError(message, e);
             }
         }
+
+    private final static Logger LOG = LoggerFactory.getLogger(FieldByReflectionResolver.class);
     }
-
-
