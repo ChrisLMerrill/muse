@@ -1,0 +1,83 @@
+package org.musetest.builtins.condition;
+
+import org.musetest.builtins.value.*;
+import org.musetest.core.*;
+import org.musetest.core.events.*;
+import org.musetest.core.resource.*;
+import org.musetest.core.values.*;
+import org.musetest.core.values.descriptor.*;
+
+import java.util.*;
+
+/**
+ * @author Christopher L Merrill (see LICENSE.txt for license details)
+ */
+@MuseTypeId("string-contains")
+@MuseValueSourceName("String Contains")
+@MuseValueSourceShortDescription("returns true if the String contains the specified value")
+@MuseValueSourceLongDescription("Evaluates the 'string' and 'target' parameters. If the former is a string and it contains the latter, this source returns true.")
+@MuseStringExpressionSupportImplementation(StringContainsSource.StringExpressionSupport.class)
+@MuseSubsourceDescriptor(displayName = "string", description = "String to search", type = SubsourceDescriptor.Type.Named, name = "string")
+@MuseSubsourceDescriptor(displayName = "target", description = "Value to look for", type = SubsourceDescriptor.Type.Named, name = "target")
+public class StringContainsSource extends BaseValueSource
+    {
+    @SuppressWarnings("unused")  // used via reflection
+    public StringContainsSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+        {
+        super(config, project);
+        _list = getValueSource(config, STRING_PARAM, true, project);
+        _target = getValueSource(config, TARGET_PARAM, true, project);
+        }
+
+    @Override
+    public Boolean resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
+        {
+        String target = getValue(_target, context, false, String.class);
+        String string = getValue(_list, context, false, String.class);
+        boolean contains = string.contains(target);
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), contains));
+        return contains;
+        }
+
+    private MuseValueSource _list;
+    private MuseValueSource _target;
+
+    public final static String STRING_PARAM = "string";
+    public final static String TARGET_PARAM = "target";
+
+    public final static String TYPE_ID = StringContainsSource.class.getAnnotation(MuseTypeId.class).value();
+
+    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
+    public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
+        {
+        @Override
+        public String getName()
+            {
+            return "stringContains";
+            }
+
+        @Override
+        protected int getNumberArguments()
+            {
+            return 2;
+            }
+
+        @Override
+        protected String[] getArgumentNames()
+            {
+            return new String[] {STRING_PARAM, TARGET_PARAM};
+            }
+
+        @Override
+        protected boolean storeArgumentsNamed()
+            {
+            return true;
+            }
+
+        @Override
+        protected String getTypeId()
+            {
+            return StringContainsSource.TYPE_ID;
+            }
+        }
+    }

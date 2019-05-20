@@ -261,25 +261,6 @@ class ValueSourceTests
         }
 
     @Test
-    void listContainsSource() throws MuseInstantiationException, ValueSourceResolutionError
-        {
-        ValueSourceConfiguration config = ValueSourceConfiguration.forType(ListContainsSource.TYPE_ID);
-        List<String> list = new ArrayList<>();
-        list.add("abc");
-        list.add("def");
-        config.addSource(ListContainsSource.LIST_PARAM, ValueSourceConfiguration.forTypeWithValue(MockValueSource.TYPE_ID, list));
-        SimpleProject project = new SimpleProject();
-
-        config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("xyz"));
-        MuseValueSource source = config.createSource(project);
-        Assertions.assertFalse((boolean) source.resolveValue(new ProjectExecutionContext(project)));
-
-        config.replaceSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("abc"));
-        source = config.createSource(project);
-        Assertions.assertTrue((boolean) source.resolveValue(new ProjectExecutionContext(project)));
-        }
-
-    @Test
     void propertySource() throws MuseInstantiationException, ValueSourceResolutionError
         {
         ValueSourceConfiguration config = ValueSourceConfiguration.forType(PropertySource.TYPE_ID);
@@ -337,40 +318,6 @@ class ValueSourceTests
             }
         }
 
-    @Test
-    void globMatchCondition() throws MuseInstantiationException, ValueSourceResolutionError
-        {
-        ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(GlobMatchCondition.TYPE_ID);
-        matcher.addSource(GlobMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a*z"));
-        matcher.addSource(GlobMatchCondition.TARGET_PARAM, ValueSourceConfiguration.forValue("a2z"));
-        MuseValueSource source = matcher.createSource();
-        Boolean result = (Boolean) source.resolveValue(new MockStepExecutionContext());
-        Assertions.assertTrue(result);
-        }
-
-    @Test
-    void regexMatchCondition() throws MuseInstantiationException, ValueSourceResolutionError
-        {
-        ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(RegexMatchCondition.TYPE_ID);
-        matcher.addSource(RegexMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a.*z"));
-        matcher.addSource(RegexMatchCondition.TARGET_PARAM, ValueSourceConfiguration.forValue("a2z"));
-        MuseValueSource source = matcher.createSource();
-        Boolean result = (Boolean) source.resolveValue(new MockStepExecutionContext());
-        Assertions.assertTrue(result);
-        }
-
-    @Test
-    void regexMatchCaseInsensitive() throws MuseInstantiationException, ValueSourceResolutionError
-        {
-        ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(RegexMatchCondition.TYPE_ID);
-        matcher.addSource(RegexMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a.*z"));
-        matcher.addSource(RegexMatchCondition.TARGET_PARAM, ValueSourceConfiguration.forValue("a2Z"));
-        matcher.addSource(RegexMatchCondition.CASE_PARAM, ValueSourceConfiguration.forValue(true));
-        MuseValueSource source = matcher.createSource();
-        Boolean result = (Boolean) source.resolveValue(new MockStepExecutionContext());
-        Assertions.assertTrue(result);
-        }
-    
     @Test
     void listSource() throws MuseInstantiationException, ValueSourceResolutionError
 	    {

@@ -1,18 +1,91 @@
-package org.musetest.builtins.tests;
+package org.musetest.builtins.condition;
 
 import org.junit.jupiter.api.*;
-import org.musetest.builtins.condition.*;
+import org.musetest.builtins.tests.mocks.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
+import org.musetest.core.project.*;
+import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
+
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 class ConditionTests
     {
+    @Test
+    void listContainsSource() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(ListContainsSource.TYPE_ID);
+        List<String> list = new ArrayList<>();
+        list.add("abc");
+        list.add("def");
+        config.addSource(ListContainsSource.LIST_PARAM, ValueSourceConfiguration.forTypeWithValue(MockValueSource.TYPE_ID, list));
+        SimpleProject project = new SimpleProject();
+
+        config.addSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("xyz"));
+        MuseValueSource source = config.createSource(project);
+        Assertions.assertFalse((boolean) source.resolveValue(new ProjectExecutionContext(project)));
+
+        config.replaceSource(ListContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("abc"));
+        source = config.createSource(project);
+        Assertions.assertTrue((boolean) source.resolveValue(new ProjectExecutionContext(project)));
+        }
+
+    @Test
+    void stringContainsSource() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(StringContainsSource.TYPE_ID);
+        config.addSource(StringContainsSource.STRING_PARAM, ValueSourceConfiguration.forValue("the little brown fox"));
+        SimpleProject project = new SimpleProject();
+
+        config.addSource(StringContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("abc"));
+        MuseValueSource source = config.createSource(project);
+        Assertions.assertFalse((boolean) source.resolveValue(new ProjectExecutionContext(project)));
+
+        config.replaceSource(StringContainsSource.TARGET_PARAM, ValueSourceConfiguration.forValue("brown"));
+        source = config.createSource(project);
+        Assertions.assertTrue((boolean) source.resolveValue(new ProjectExecutionContext(project)));
+        }
+
+    @Test
+    void globMatchCondition() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(GlobMatchCondition.TYPE_ID);
+        matcher.addSource(GlobMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a*z"));
+        matcher.addSource(GlobMatchCondition.TARGET_PARAM, ValueSourceConfiguration.forValue("a2z"));
+        MuseValueSource source = matcher.createSource();
+        Boolean result = (Boolean) source.resolveValue(new MockStepExecutionContext());
+        Assertions.assertTrue(result);
+        }
+
+    @Test
+    void regexMatchCondition() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(RegexMatchCondition.TYPE_ID);
+        matcher.addSource(RegexMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a.*z"));
+        matcher.addSource(RegexMatchCondition.TARGET_PARAM, ValueSourceConfiguration.forValue("a2z"));
+        MuseValueSource source = matcher.createSource();
+        Boolean result = (Boolean) source.resolveValue(new MockStepExecutionContext());
+        Assertions.assertTrue(result);
+        }
+
+    @Test
+    void regexMatchCaseInsensitive() throws MuseInstantiationException, ValueSourceResolutionError
+        {
+        ValueSourceConfiguration matcher = ValueSourceConfiguration.forType(RegexMatchCondition.TYPE_ID);
+        matcher.addSource(RegexMatchCondition.PATTERN_PARAM, ValueSourceConfiguration.forValue("a.*z"));
+        matcher.addSource(RegexMatchCondition.TARGET_PARAM, ValueSourceConfiguration.forValue("a2Z"));
+        matcher.addSource(RegexMatchCondition.CASE_PARAM, ValueSourceConfiguration.forValue(true));
+        MuseValueSource source = matcher.createSource();
+        Boolean result = (Boolean) source.resolveValue(new MockStepExecutionContext());
+        Assertions.assertTrue(result);
+        }
+
     @Test
     void stringEquality() throws MuseExecutionError
         {
@@ -199,6 +272,5 @@ class ConditionTests
         config.addSource(BinaryCondition.RIGHT_PARAM, right);
         return config;
         }
+
     }
-
-
