@@ -52,6 +52,7 @@ public class TestResultCollector extends GenericConfigurableTestPlugin implement
 				{
 				if (event.getTypeId().equals(StartTestEventType.TYPE_ID))
 					{
+					_result = new TestResult();
 					_result.setTestId(event.getAttributeAsString(StartTestEventType.TEST_ID));
 					_result.setName(event.getAttributeAsString(StartTestEventType.TEST_NAME));
 					}
@@ -64,8 +65,11 @@ public class TestResultCollector extends GenericConfigurableTestPlugin implement
 					_result.setSummary(summary);
 					}
 				else if (event.getTypeId().equals(InterruptedEventType.TYPE_ID) && _fail_on_interrupt)
-					_result.addFailure(new TestResult.Failure(TestResult.FailureType.Interrupted, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
-				else
+                    {
+                    _result.addFailure(new TestResult.Failure(TestResult.FailureType.Interrupted, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
+                    _result.setPass(false);
+                    }
+                else
 					{
 					if (event.hasTag(MuseEvent.FAILURE) && _fail_on_failure)
 						{
