@@ -58,8 +58,11 @@ public class CompoundPlugin extends GenericConfigurablePlugin
 				context.raiseEvent(event);
 				}
 			else if (token.getResource() instanceof PluginConfiguration)
-				((PluginConfiguration)token.getResource()).createPlugin().conditionallyAddToContext(context, false);
-			else
+                {
+                boolean added = ((PluginConfiguration) token.getResource()).createPlugin().conditionallyAddToContext(context, false);
+                context.raiseEvent(MessageEventType.create("plugin " + token.getId() + " added: " + added));
+                }
+            else
 				{
 				final MuseEvent event = MessageEventType.create(String.format("Resource %s is a %s. A PluginConfiguration is required", id, token.getResource().getType()));
 				event.addTag(MuseEvent.ERROR);
