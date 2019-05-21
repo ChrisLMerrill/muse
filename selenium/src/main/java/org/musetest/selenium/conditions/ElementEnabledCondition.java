@@ -18,7 +18,7 @@ import org.openqa.selenium.*;
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is enabled")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement and it is enabled.")
 @MuseStringExpressionSupportImplementation(ElementEnabledCondition.StringExpressionSupport.class)
-@MuseSubsourceDescriptor(displayName = "Element", description = "True if the element supplied by the sub-source is enabled (expects a page element)", type = SubsourceDescriptor.Type.Single)
+@MuseSubsourceDescriptor(displayName = "Element", description = "True if the element supplied by the sub-source is enabled", type = SubsourceDescriptor.Type.Single)
 public class ElementEnabledCondition extends BaseElementValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
@@ -39,12 +39,11 @@ public class ElementEnabledCondition extends BaseElementValueSource
     @Override
     public String getDescription()
         {
-        return "enabled(" + getElementSource().getDescription() + ")";
+        return "elementEnabled(" + getElementSource().getDescription() + ")";
         }
 
     public final static String TYPE_ID = ElementEnabledCondition.class.getAnnotation(MuseTypeId.class).value();
 
-    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
     public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
         {
         @Override
