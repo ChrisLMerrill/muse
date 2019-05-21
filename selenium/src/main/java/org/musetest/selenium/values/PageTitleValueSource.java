@@ -1,7 +1,7 @@
 package org.musetest.selenium.values;
 
 import org.musetest.core.*;
-import org.musetest.core.resource.*;
+import org.musetest.core.events.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.musetest.selenium.*;
@@ -18,7 +18,7 @@ import org.musetest.selenium.*;
 public class PageTitleValueSource extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
-    public PageTitleValueSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+    public PageTitleValueSource(ValueSourceConfiguration config, MuseProject project)
         {
         super(config, project);
         }
@@ -26,12 +26,13 @@ public class PageTitleValueSource extends BaseSeleniumValueSource
     @Override
     public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
-        return getDriver(context).getTitle();
+        String title = getDriver(context).getTitle();
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), title));
+        return title;
         }
 
     public final static String TYPE_ID = PageTitleValueSource.class.getAnnotation(MuseTypeId.class).value();
 
-    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
     public static class StringExpressionSupport extends SimpleWebdriverValueSourceStringExpressionSupport
         {
         public StringExpressionSupport()
