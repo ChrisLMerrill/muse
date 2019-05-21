@@ -44,7 +44,6 @@ public class ElementText extends BaseElementValueSource
 
     public final static String TYPE_ID = ElementText.class.getAnnotation(MuseTypeId.class).value();
 
-    @SuppressWarnings("WeakerAccess")  // needs public static access to be discovered and instantiated via reflection
     public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
         {
         @Override
