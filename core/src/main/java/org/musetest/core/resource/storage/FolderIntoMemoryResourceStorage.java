@@ -24,6 +24,15 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
         loadAllResources();
         }
 
+    @SuppressWarnings("unused")  // Allows UI to add a package for development/debugging of extensions
+    public FolderIntoMemoryResourceStorage(File folder, String package_name)
+        {
+        _folder = folder;
+        _packages.add(package_name);
+        locateClasspaths();
+        loadAllResources();
+        }
+
     @Override
     public File getBaseLocation()
         {
@@ -92,7 +101,6 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
     private void locateClasspaths()
         {
         List<File> class_locations = new ArrayList<>();
-        _packages = new ArrayList<>();
         _packages.add("org.musetest");
 
         String[] paths = {"classes", "build/classes/java/main"};
@@ -180,7 +188,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
                     {
                     LOG.error(String.format("Unable to add %s to the context classloader", file.getAbsoluteFile()), e);
                     }
-            URL[] url_array = urls.toArray(new URL[urls.size()]);
+            URL[] url_array = urls.toArray(new URL[0]);
             _class_loader = new URLClassLoader(url_array, getClass().getClassLoader());
 
             StringBuilder package_string = new StringBuilder();
