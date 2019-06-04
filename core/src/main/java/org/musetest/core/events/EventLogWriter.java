@@ -142,15 +142,14 @@ public class EventLogWriter extends GenericConfigurablePlugin implements MuseEve
 			if (_file == null)
 				{
 				File folder = null;
-				for (MusePlugin plugin : _context.getPlugins())
-					if (plugin instanceof LocalStorageLocationProvider)
-						{
-						if (_context instanceof TestExecutionContext)
-							folder = ((LocalStorageLocationProvider)plugin).getTestFolder((TestExecutionContext) _context);
-						else
-							folder = ((LocalStorageLocationProvider)plugin).getBaseFolder();
-						break;
-						}
+				LocalStorageLocationProvider provider = Plugins.findType(LocalStorageLocationProvider.class, _context);
+				if (provider != null)
+                    {
+                    if (_context instanceof TestExecutionContext)
+                        folder = provider.getTestFolder((TestExecutionContext) _context);
+                    else
+                        folder = provider.getBaseFolder();
+                    }
 
 				if (folder == null)
 					{
