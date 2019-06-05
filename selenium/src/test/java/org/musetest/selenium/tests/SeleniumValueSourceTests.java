@@ -4,7 +4,7 @@ import org.junit.jupiter.api.*;
 import org.musetest.core.*;
 import org.musetest.core.context.*;
 import org.musetest.core.mocks.*;
-import org.musetest.core.resource.*;
+import org.musetest.core.project.*;
 import org.musetest.core.values.*;
 import org.musetest.selenium.*;
 import org.musetest.selenium.conditions.*;
@@ -19,26 +19,26 @@ import org.openqa.selenium.*;
 class SeleniumValueSourceTests
     {
     @Test
-    void currentUrl() throws MuseInstantiationException, ValueSourceResolutionError
+    void currentUrl() throws ValueSourceResolutionError
         {
         final String THE_URL = "http://the.url/is/this";
         MuseMockDriver driver = new MuseMockDriver();
         StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         driver.get(THE_URL);
-        CurrentUrlValueSource source = new CurrentUrlValueSource(null, null);
+        CurrentUrlValueSource source = new CurrentUrlValueSource(ValueSourceConfiguration.forType(CurrentUrlValueSource.TYPE_ID), new SimpleProject());
         Assertions.assertEquals(THE_URL, source.resolveValue(context));
         }
 
     @Test
-    void pageTitle() throws MuseInstantiationException, ValueSourceResolutionError
+    void pageTitle() throws ValueSourceResolutionError
         {
         final String THE_URL = "http://the.url/is/this";
         MuseMockDriver driver = new MuseMockDriver();
         StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
         driver.get(THE_URL);
-        PageTitleValueSource source = new PageTitleValueSource(null, null);
+        PageTitleValueSource source = new PageTitleValueSource(ValueSourceConfiguration.forType(PageTitleValueSource.TYPE_ID), new SimpleProject());
         String value = source.resolveValue(context).toString();
         Assertions.assertTrue(value.startsWith("MuseMock") && value.endsWith("title"));
         }
