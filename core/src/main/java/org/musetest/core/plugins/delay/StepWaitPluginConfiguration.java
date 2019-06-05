@@ -10,10 +10,11 @@ import org.musetest.core.values.descriptor.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@MuseTypeId("step-delay-plugin")
+@MuseTypeId("step-wait-plugin")
 @MuseSubsourceDescriptor(displayName = "Apply automatically?", description = "If this source resolves to true, this plugin configuration will be automatically applied to tests", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.AUTO_APPLY_PARAM)
 @MuseSubsourceDescriptor(displayName = "Apply only if", description = "Apply only if this source this source resolves to true", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.APPLY_CONDITION_PARAM)
-public class StepDelayPluginConfiguration extends GenericResourceConfiguration implements PluginConfiguration
+@MuseSubsourceDescriptor(displayName = "Delay (ms)", description = "The time to wait after each step", type = SubsourceDescriptor.Type.Named, name = StepWaitPluginConfiguration.DELAY_TIME, optional = true)
+public class StepWaitPluginConfiguration extends GenericResourceConfiguration implements PluginConfiguration
     {
     @Override
     public ResourceType getType()
@@ -24,19 +25,19 @@ public class StepDelayPluginConfiguration extends GenericResourceConfiguration i
     @Override
     public MusePlugin createPlugin()
         {
-        return new StepDelayPlugin(this);
+        return new StepWaitPlugin(this);
         }
 
-    public final static String TYPE_ID = StepDelayPluginConfiguration.class.getAnnotation(MuseTypeId.class).value();
+    public final static String TYPE_ID = StepWaitPluginConfiguration.class.getAnnotation(MuseTypeId.class).value();
     public final static String DELAY_TIME = "delay_ms";
     public final static Long DEFAULT_DELAY_TIME = 1000L;
 
     public static class StepDelayPluginConfigurationType extends ResourceSubtype
    		{
    		@Override
-   		public StepDelayPluginConfiguration create()
+   		public StepWaitPluginConfiguration create()
    			{
-   			final StepDelayPluginConfiguration config = new StepDelayPluginConfiguration();
+   			final StepWaitPluginConfiguration config = new StepWaitPluginConfiguration();
    			config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
    			config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
    			config.parameters().addSource(DELAY_TIME, ValueSourceConfiguration.forValue(DEFAULT_DELAY_TIME));
@@ -46,7 +47,7 @@ public class StepDelayPluginConfiguration extends GenericResourceConfiguration i
    		@SuppressWarnings("WeakerAccess")  // instantiated by reflection
    		public StepDelayPluginConfigurationType()
    			{
-   			super(TYPE_ID, "Step Delay plugin", StepDelayPluginConfiguration.class, new PluginConfigurationResourceType());
+   			super(TYPE_ID, "Wait After Step plugin", StepWaitPluginConfiguration.class, new PluginConfigurationResourceType());
    			}
    		}
 

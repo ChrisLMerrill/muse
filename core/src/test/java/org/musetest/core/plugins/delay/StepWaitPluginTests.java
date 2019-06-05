@@ -11,25 +11,25 @@ import org.musetest.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-class StepDelayPluginTests
+class StepWaitPluginTests
     {
     @Test
     void testDefaultDelay() throws MuseExecutionError
         {
-        testDelay(new StepDelayPluginConfiguration(), 1000);
+        testDelay(new StepWaitPluginConfiguration(), 1000);
         }
 
     @Test
     void testCustomDelay() throws MuseExecutionError
         {
-        StepDelayPluginConfiguration config = new StepDelayPluginConfiguration();
-        config.parameters().addSource(StepDelayPluginConfiguration.DELAY_TIME, ValueSourceConfiguration.forValue(400));
+        StepWaitPluginConfiguration config = new StepWaitPluginConfiguration();
+        config.parameters().addSource(StepWaitPluginConfiguration.DELAY_TIME, ValueSourceConfiguration.forValue(400));
         testDelay(config, 400);
         }
 
-    private void testDelay(StepDelayPluginConfiguration config, long expected_delay) throws MuseExecutionError
+    private void testDelay(StepWaitPluginConfiguration config, long expected_delay) throws MuseExecutionError
         {
-        StepDelayPlugin plugin = new StepDelayPlugin(config);
+        StepWaitPlugin plugin = new StepWaitPlugin(config);
         SteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
         plugin.initialize(context);
 
