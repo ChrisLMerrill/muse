@@ -8,7 +8,6 @@ import org.musetest.core.plugins.*;
 import org.musetest.core.resource.generic.*;
 import org.musetest.core.values.*;
 
-import javax.annotation.*;
 import java.util.*;
 
 /**
