@@ -118,7 +118,7 @@ public class SaveTestResultsToDisk extends GenericConfigurablePlugin
 	private String createIndexedFilename(String starting_name, int index)
 		{
 		int period = starting_name.lastIndexOf('.');
-		return starting_name.substring(0, period) + index + starting_name.substring(period, starting_name.length());
+		return starting_name.substring(0, period) + index + starting_name.substring(period);
 		}
 
 	private SaveTestResultsToDiskConfiguration _configuration;
