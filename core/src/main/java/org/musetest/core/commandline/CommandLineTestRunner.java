@@ -32,7 +32,7 @@ public class CommandLineTestRunner implements MuseResourceRunner
 
         BasicTestConfiguration config = new BasicTestConfiguration(test);
         if (verbose)
-            config.addPlugin(new EventLogPrinter());
+            config.addPlugin(new EventLogWriterPlugin());
         if (output_path != null)
 	        config.addPlugin(new VariableInitializer(SaveTestResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, output_path));
 

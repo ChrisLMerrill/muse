@@ -7,7 +7,6 @@ import org.musetest.core.events.matching.*;
 
 import javax.annotation.*;
 import java.io.*;
-import java.text.*;
 import java.util.*;
 
 /**
@@ -57,20 +56,6 @@ public class EventLog implements TestResultData
 	public void add(MuseEvent event)
 		{
 		_events.add(event);
-		}
-
-	private void print(PrintStream out)
-		{
-		if (_events.size() == 0)
-			{
-			out.println("Event log: (empty)");
-			return;
-			}
-
-		out.println("Event log (started " + DateFormat.getDateTimeInstance().format(new Date(_events.get(0).getTimestamp())) + "):");
-		EventLogPrinter printer = new EventLogPrinter(out);
-		for (MuseEvent event : _events)
-			printer.print(event);
 		}
 
 	public List<MuseEvent> findEvents(EventMatcher matcher)

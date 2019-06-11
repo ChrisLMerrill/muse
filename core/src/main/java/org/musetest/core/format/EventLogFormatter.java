@@ -54,8 +54,7 @@ public class EventLogFormatter implements Reformatter
 				printstream = (PrintStream) outstream;
 			else
 				printstream = new PrintStream(outstream);
-			EventLogPrinter printer = new EventLogPrinter();
-			printer.setOutput(printstream);
+			EventLogPrinter printer = new EventLogPlainTextPrinter(printstream);
 			for (MuseEvent event : log.getEvents())
 				printer.print(event);
 			}

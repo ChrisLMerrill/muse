@@ -19,7 +19,7 @@ public class EventLogWriterConfiguration extends GenericResourceConfiguration im
 	@Override
 	public MusePlugin createPlugin()
 		{
-		return new EventLogWriter(this);
+		return new EventLogWriterPlugin(this);
 		}
 
 	@Override
