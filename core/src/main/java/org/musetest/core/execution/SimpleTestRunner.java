@@ -19,6 +19,7 @@ public class SimpleTestRunner implements TestRunner
 	    {
 	    _context = context;
 	    _config = config;
+        _config.withinContext(_context);  // it is important to initialize this context immediately, so that the context is available for suite events before the test starts (i.e. can subscribe to events immediately)
 	    }
 
     public SimpleTestRunner(TestExecutionContext context)
@@ -42,7 +43,6 @@ public class SimpleTestRunner implements TestRunner
 
     protected void startTest()
 	    {
-	    _config.withinContext(_context);
 	    _test = _config.test();
 	    _test_context = _config.context();
 	    try
