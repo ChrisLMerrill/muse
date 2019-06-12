@@ -14,7 +14,7 @@ public class AutomaticVariableCreator
 		_checker = checker;
 		}
 
-	public String createNextName(String prefix)
+	public synchronized String createNextName(String prefix)
 		{
 		Long index = _prefix_indexes.get(prefix);
 		if (index == null)

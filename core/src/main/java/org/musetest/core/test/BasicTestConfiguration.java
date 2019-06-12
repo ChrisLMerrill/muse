@@ -80,6 +80,12 @@ public class BasicTestConfiguration implements TestConfiguration
     	_plugins.add(plugin);
         }
 
+    @Override
+    public String toString()
+        {
+        return _name;
+        }
+
     // these are configurations that would be persisted
     private String _test_id;
     private String _name;
