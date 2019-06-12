@@ -102,6 +102,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
         {
         List<File> class_locations = new ArrayList<>();
         _packages.add("org.musetest");
+        addPackagesFromEnvironment(_packages);
 
         String[] paths = {"classes", "build/classes/java/main"};
         for (String path : paths)
@@ -129,6 +130,16 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
             _packages.addAll(getPackages(jar));
             }
         _class_locations = class_locations;
+        }
+
+    private void addPackagesFromEnvironment(List<String> packages)
+        {
+        String env_var = System.getenv("MuseScanPackages");
+        if (env_var != null)
+            {
+            String[] env_pkgs = env_var.split(",");
+            packages.addAll(Arrays.asList(env_pkgs));
+            }
         }
 
     private void findPackagesInFolders(List<String> packages, File folder, String base_package_name)
