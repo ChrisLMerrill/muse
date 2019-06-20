@@ -1,6 +1,5 @@
 package org.musetest.builtins.value;
 
-import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
