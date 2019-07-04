@@ -1,49 +1,54 @@
 package org.musetest.builtins.value;
 
-import kotlin.*;
-import org.musetest.core.*;
-import org.musetest.core.events.*;
-import org.musetest.core.resource.*;
-import org.musetest.core.values.*;
-import org.musetest.core.values.descriptor.*;
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@MuseTypeId("nvp")
-@MuseValueSourceName("Name/Value Pair")
-@MuseValueSourceShortDescription("Creates a name/value pair.")
-@MuseValueSourceLongDescription("Assembles a Pair from the name and value subsources")
-@MuseSourceDescriptorImplementation(NameValuePairDescriptor.class)
-@MuseSubsourceDescriptor(displayName = "Name", name = NameValuePair.NAME_PARAM, description = "The name of the pair", type = SubsourceDescriptor.Type.Named)
-@MuseSubsourceDescriptor(displayName = "Value", name = NameValuePair.VALUE_PARAM, description = "The value of the pair", type = SubsourceDescriptor.Type.Named)
-public class NameValuePair extends BaseValueSource
+public class NameValuePair
     {
-    @SuppressWarnings("unused")  // used via reflection
-    public NameValuePair(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+    public NameValuePair(String name, Object value)
         {
-        super(config, project);
+        _name = name;
+        _value = value;
+        }
 
-        _name = getValueSource(config, NAME_PARAM, false, project);
-        _value = getValueSource(config, VALUE_PARAM, false, project);
+    public String getName()
+        {
+        return _name;
+        }
+
+    public void setName(String name)
+        {
+        _name = name;
+        }
+
+    public Object getValue()
+        {
+        return _value;
+        }
+
+    public void setValue(Object value)
+        {
+        _value = value;
         }
 
     @Override
-    public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
+    public boolean equals(Object obj)
         {
-        Object name = getValue(_name, context, true);
-        Object value = getValue(_value, context, true);
-        Pair pair = new Pair(name, value);
-
-        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), String.format("(%s,%s)", name.toString(), value.toString())));
-        return pair;
+        if (!(obj instanceof NameValuePair))
+            return false;
+        NameValuePair other = (NameValuePair) obj;
+        return Objects.equals(_name, other._name)
+            && Objects.equals(_value, other._value);
         }
 
-    private MuseValueSource _name;
-    private MuseValueSource _value;
+    @Override
+    public String toString()
+        {
+        return String.format("(%s,%s)", _name, _value);
+        }
 
-    public final static String NAME_PARAM = "name";
-    public final static String VALUE_PARAM = "value";
-
-    public final static String TYPE_ID = NameValuePair.class.getAnnotation(MuseTypeId.class).value();
+    private String _name;
+    private Object _value;
     }

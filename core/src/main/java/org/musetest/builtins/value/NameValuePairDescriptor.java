@@ -11,14 +11,14 @@ public class NameValuePairDescriptor extends AnnotatedValueSourceDescriptor
     {
     public NameValuePairDescriptor(MuseProject project)
         {
-        super(NameValuePair.TYPE_ID, NameValuePair.class, project);
+        super(NameValuePairSource.TYPE_ID, NameValuePairSource.class, project);
         }
 
     @Override
     public String getInstanceDescription(ValueSourceConfiguration source, StringExpressionContext context)
         {
-        ValueSourceConfiguration name_source = source.getSource(NameValuePair.NAME_PARAM);
-        ValueSourceConfiguration value_source = source.getSource(NameValuePair.VALUE_PARAM);
+        ValueSourceConfiguration name_source = source.getSource(NameValuePairSource.NAME_PARAM);
+        ValueSourceConfiguration value_source = source.getSource(NameValuePairSource.VALUE_PARAM);
         ValueSourceDescriptors descriptors = new ValueSourceDescriptors(context.getProject());
         String name_description = null;
         if (name_source != null)
@@ -26,7 +26,7 @@ public class NameValuePairDescriptor extends AnnotatedValueSourceDescriptor
         String value_description = null;
         if (value_source != null)
             value_description = descriptors.get(value_source).getInstanceDescription(value_source, context);
-        return String.format("%s = %s", name_description, value_description);
+        return String.format("(%s,%s)", name_description, value_description);
         }
     }
 

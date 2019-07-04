@@ -1,6 +1,5 @@
 package org.musetest.builtins.tests;
 
-import kotlin.*;
 import org.junit.jupiter.api.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
@@ -14,7 +13,7 @@ import org.musetest.core.values.strings.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-class NameValuePairTests
+class NameValuePairSourceTests
     {
     @Test
     void returnValue() throws MuseInstantiationException, ValueSourceResolutionError
@@ -22,10 +21,10 @@ class NameValuePairTests
         MuseValueSource source = _config.createSource(_project);
         Object result = source.resolveValue(new ProjectExecutionContext(_project));
 
-        Assertions.assertTrue(result instanceof Pair);
-        Pair pair = (Pair) result;
-        Assertions.assertEquals("name1", pair.getFirst());
-        Assertions.assertEquals("value1", pair.getSecond());
+        Assertions.assertTrue(result instanceof NameValuePair);
+        NameValuePair pair = (NameValuePair) result;
+        Assertions.assertEquals("name1", pair.getName());
+        Assertions.assertEquals("value1", pair.getValue());
         }
 
     @Test
@@ -40,9 +39,9 @@ class NameValuePairTests
     void setup()
         {
         _project = new SimpleProject();
-        _config = ValueSourceConfiguration.forType(NameValuePair.TYPE_ID);
-        _config.addSource(NameValuePair.NAME_PARAM, ValueSourceConfiguration.forValue("name1"));
-        _config.addSource(NameValuePair.VALUE_PARAM, ValueSourceConfiguration.forValue("value1"));
+        _config = ValueSourceConfiguration.forType(NameValuePairSource.TYPE_ID);
+        _config.addSource(NameValuePairSource.NAME_PARAM, ValueSourceConfiguration.forValue("name1"));
+        _config.addSource(NameValuePairSource.VALUE_PARAM, ValueSourceConfiguration.forValue("value1"));
         }
 
     private ValueSourceConfiguration _config;
