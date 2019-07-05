@@ -18,9 +18,9 @@ import java.util.regex.*;
 @MuseStringExpressionSupportImplementation(FindNvpByRegexSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "RegEx", description = "Regular Expression to evaluate", type = SubsourceDescriptor.Type.Named, name = FindNvpByRegexSource.REGEX_PARAM)
 @MuseSubsourceDescriptor(displayName = "Target", description = "String to search", type = SubsourceDescriptor.Type.Named, name = FindNvpByRegexSource.TARGET_PARAM)
-@MuseSubsourceDescriptor(displayName = "Name Group", description = "Index of the capture group containing the name. Default is 1.", type = SubsourceDescriptor.Type.Named, name = FindNvpByRegexSource.NAME_GROUP_PARAM, defaultValue = "1")
-@MuseSubsourceDescriptor(displayName = "Value Group", description = "Index of the capture group containing the value. Default is 2.", type = SubsourceDescriptor.Type.Named, name = FindNvpByRegexSource.NAME_GROUP_PARAM, defaultValue = "2")
-@MuseSubsourceDescriptor(displayName = "Match index", description = "Index of the match to create the NVP from. Default is 1.", type = SubsourceDescriptor.Type.Named, name = FindNvpByRegexSource.MATCH_INDEX_PARAM, defaultValue = "1")
+@MuseSubsourceDescriptor(displayName = "Name Group", description = "Index of the capture group containing the name. Default is 1.", type = SubsourceDescriptor.Type.Named, name = FindNvpByRegexSource.NAME_GROUP_PARAM, defaultValue = "1", optional = true)
+@MuseSubsourceDescriptor(displayName = "Value Group", description = "Index of the capture group containing the value. Default is 2.", type = SubsourceDescriptor.Type.Named, name = FindNvpByRegexSource.VALUE_GROUP_PARAM, defaultValue = "2", optional = true)
+@MuseSubsourceDescriptor(displayName = "Match index", description = "Index of the match to create the NVP from. Default is 0.", type = SubsourceDescriptor.Type.Named, name = FindNvpByRegexSource.MATCH_INDEX_PARAM, defaultValue = "0", optional = true)
 public class FindNvpByRegexSource extends BaseValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
