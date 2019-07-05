@@ -39,6 +39,22 @@ class ValueSourceTests
         }
 
     @Test
+    void stringWithEscape() throws MuseExecutionError
+        {
+        ValueSourceConfiguration config = ValueSourceConfiguration.forValue("a\\\"a");
+        MuseValueSource source = config.createSource();
+        Assertions.assertEquals("a\"a", source.resolveValue(null).toString());
+        }
+
+    @Test
+    void unescapeStringLiteralFromParser()
+        {
+        String parsed = "\"This contains a \\\"quoted string\\\".\"";
+        String unescaped = "This contains a \"quoted string\".";
+        Assertions.assertEquals(unescaped, new StringValueSource.StringExpressionSupport().fromLiteral(parsed, new SimpleProject()).getValue());
+        }
+
+    @Test
     void integerConstantSource() throws MuseExecutionError
         {
         MuseValueSource source = ValueSourceConfiguration.forValue(456L).createSource();

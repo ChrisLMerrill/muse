@@ -6,6 +6,8 @@ import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.slf4j.*;
 
+import java.nio.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -39,12 +41,55 @@ public class StringValueSource extends BaseValueSource
     public void setValue(String value)
         {
         _value = value;
+        _value_resolved = null;
         }
 
     @Override
     public Object resolveValue(MuseExecutionContext context)
         {
-        return _value;
+        if (_value_resolved == null)
+            {
+            if (_value.contains("\\"))
+                {
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < _value.length(); i++)
+                    {
+                    char next = _value.charAt(i);
+                    if (next == '\\')
+                        {
+                        i++;
+                        char escaped = _value.charAt(i);
+                        switch (escaped)
+                            {
+                            case '\\':
+                                builder.append('\\');
+                                break;
+                            case '\"':
+                                builder.append('\"');
+                                break;
+                            case '\'':
+                                builder.append('\'');
+                                break;
+                            case 'n':
+                                builder.append('\n');
+                                break;
+                            case 't':
+                                builder.append('\t');
+                                break;
+                            default:
+                                builder.append('\\');
+                                builder.append(escaped);
+                            }
+                        }
+                    else
+                        builder.append(next);
+                    }
+                _value_resolved = builder.toString();
+                }
+            else
+                _value_resolved = _value;
+            }
+        return _value_resolved;
         }
 
     @Override
@@ -54,6 +99,7 @@ public class StringValueSource extends BaseValueSource
         }
 
     private String _value;
+    private transient String _value_resolved = null;
 
     private final static Logger LOG = LoggerFactory.getLogger(StringValueSource.class);
 
@@ -69,10 +115,16 @@ public class StringValueSource extends BaseValueSource
                 {
                 ValueSourceConfiguration config = new ValueSourceConfiguration();
                 config.setType(StringValueSource.TYPE_ID);
-                config.setValue(string.substring(1, string.length() - 1));
+                String parsed = string.substring(1, string.length() - 1);
+                config.setValue(unescape(parsed));
                 return config;
                 }
             return null;
+            }
+
+        private String unescape(String parsed)
+            {
+            return parsed.replaceAll("\\\\\"", "\"");
             }
 
         @Override
@@ -80,8 +132,12 @@ public class StringValueSource extends BaseValueSource
             {
             if (config.getType().equals(StringValueSource.TYPE_ID))
                 {
-                if (config.getValue() != null)
-                    return "\"" + config.getValue() + "\"";
+                String value = config.getValue().toString();
+                if (value != null)
+                    {
+                    value = value.replaceAll("\"", "\\\"");
+                    return "\"" + value + "\"";
+                    }
                 return "???";
                 }
             return null;
