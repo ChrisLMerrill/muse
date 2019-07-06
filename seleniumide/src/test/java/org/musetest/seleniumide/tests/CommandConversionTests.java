@@ -1,10 +1,13 @@
 package org.musetest.seleniumide.tests;
 
 import org.junit.jupiter.api.*;
+import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.step.*;
+import org.musetest.core.values.*;
 import org.musetest.selenium.locators.*;
 import org.musetest.selenium.steps.*;
+import org.musetest.selenium.values.*;
 import org.musetest.seleniumide.*;
 import org.musetest.seleniumide.steps.*;
 
@@ -27,6 +30,18 @@ class CommandConversionTests
             }
         }
 
+
+    @Test
+    void assertTitle() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", "assertTitle", "the title", null);
+        Assertions.assertEquals(Verify.TYPE_ID, step.getType(), "converted step does not have the correct type");
+        ValueSourceConfiguration condition = step.getSource(Verify.CONDITION_PARAM);
+        Assertions.assertEquals(EqualityCondition.TYPE_ID, condition.getType());
+        Assertions.assertEquals("the title", condition.getSource(EqualityCondition.RIGHT_PARAM).getValue());
+        ValueSourceConfiguration title = condition.getSource(EqualityCondition.LEFT_PARAM);
+        Assertions.assertEquals(PageTitleValueSource.TYPE_ID, title.getType());
+        }
 
     @Test
     void storeVariable() throws UnsupportedError
