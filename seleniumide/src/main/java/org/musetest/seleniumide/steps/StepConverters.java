@@ -28,7 +28,7 @@ public class StepConverters implements StepConverter
             if (step != null)
                 return step;
             }
-        return null;
+        throw new UnsupportedError(String.format("Unknown command: %s (%s, %s)", command, param1, param2));
         }
 
     private StepConverters()
