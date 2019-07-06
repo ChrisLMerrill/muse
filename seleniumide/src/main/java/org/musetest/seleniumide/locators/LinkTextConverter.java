@@ -18,7 +18,7 @@ public class LinkTextConverter implements LocatorConverter
         return null;
         }
 
-    private final static String PREFIX = "link=";
+    private final static String PREFIX = "linkText=";
     }
 
 

@@ -65,10 +65,32 @@ public class SideProject
 		this.suites = suites;
 		}
 
-	String id;
+    public String getVersion()
+        {
+        return version;
+        }
+
+    public void setVersion(String version)
+        {
+        this.version = version;
+        }
+
+    public String[] getPlugins()
+        {
+        return plugins;
+        }
+
+    public void setPlugins(String[] plugins)
+        {
+        this.plugins = plugins;
+        }
+
+    String id;
 	String name;
 	String url;
+	String version;
 	String[] urls;
+	String[] plugins;
 	SideTest[] tests;
 	SideSuite[] suites;
 	}

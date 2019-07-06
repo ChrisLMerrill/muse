@@ -35,7 +35,40 @@ public class SideSuite
 		this.tests = tests;
 		}
 
-	String id;
+    public boolean isPersistSession()
+        {
+        return persistSession;
+        }
+
+    public void setPersistSession(boolean persistSession)
+        {
+        this.persistSession = persistSession;
+        }
+
+    public boolean isParallel()
+        {
+        return parallel;
+        }
+
+    public void setParallel(boolean parallel)
+        {
+        this.parallel = parallel;
+        }
+
+    public long getTimeout()
+        {
+        return timeout;
+        }
+
+    public void setTimeout(long timeout)
+        {
+        this.timeout = timeout;
+        }
+
+    String id;
 	String name;
+	boolean persistSession;
+	boolean parallel;
+	long timeout;
 	String[] tests;
 	}

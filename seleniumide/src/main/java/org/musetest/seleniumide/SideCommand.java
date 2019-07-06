@@ -55,9 +55,20 @@ public class SideCommand
 		this.value = value;
 		}
 
-	String id;
+    public String[][] getTargets()
+        {
+        return targets;
+        }
+
+    public void setTargets(String[][] targets)
+        {
+        this.targets = targets;
+        }
+
+    String id;
 	String comment;
 	String command;
 	String target;
+	String[][] targets;
 	String value;
 	}
