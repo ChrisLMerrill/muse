@@ -13,7 +13,7 @@ import org.slf4j.*;
 @MuseStepName("Accept Dialog")
 @MuseInlineEditString("accept dialog")
 @MuseStepIcon("glyph:FontAwesome:CHECK")
-@MuseStepTypeGroup("Seleniumm.Dialog")
+@MuseStepTypeGroup("Selenium.Dialog")
 @MuseStepShortDescription("Accept a Javascript Dialog")
 @MuseStepLongDescription("Accepts the currently-open Javascript dialog, which could be an alert, confirm or prompt dialog. This is equivalent to pressing the OK button.")
 @SuppressWarnings("unused")  // instantiated via reflection

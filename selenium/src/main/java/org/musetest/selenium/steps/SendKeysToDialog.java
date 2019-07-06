@@ -15,7 +15,7 @@ import org.slf4j.*;
 @MuseStepName("Send Keys to Dialog")
 @MuseInlineEditString("Send {keys} to Dialog")
 @MuseStepIcon("glyph:FontAwesome:KEYBOARD_ALT")
-@MuseStepTypeGroup("Seleniumm.Dialog")
+@MuseStepTypeGroup("Selenium.Dialog")
 @MuseStepShortDescription("Send keys to a Javascript Prompt Dialog")
 @MuseStepLongDescription("Types the supplied keystrokes to the dialog.")
 @MuseSubsourceDescriptor(displayName = "Keys", description = "Text string containing the keys to send to the dialog", type = SubsourceDescriptor.Type.Named, name = SendKeysToDialog.KEYS_PARAM)

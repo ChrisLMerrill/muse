@@ -13,7 +13,7 @@ import org.slf4j.*;
 @MuseStepName("Cancel Dialog")
 @MuseInlineEditString("cancel dialog")
 @MuseStepIcon("glyph:FontAwesome:TIMES")
-@MuseStepTypeGroup("Seleniumm.Dialog")
+@MuseStepTypeGroup("Selenium.Dialog")
 @MuseStepShortDescription("Cancel a Javascript Dialog")
 @MuseStepLongDescription("Cancels (dismisses) the currently-open Javascript dialog, which could be an alert, confirm or prompt dialog. This is equivalent to pressing the Cancel button.")
 @SuppressWarnings("unused")  // instantiated via reflection
