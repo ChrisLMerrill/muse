@@ -39,7 +39,7 @@ class SideFormatTests
 	    }
 
 	@Test
-    void convertTests() throws IOException
+    void convertTest() throws IOException
 		{
 	    ObjectMapper mapper = new ObjectMapper();
 	    SideProject project = mapper.readValue(getClass().getResourceAsStream("/LoginLogout.side"), SideProject.class);
