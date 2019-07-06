@@ -14,12 +14,36 @@ import org.musetest.seleniumide.steps.*;
 class CommandConversionTests
     {
     @Test
+    void unsupportedCommand()
+        {
+        try
+            {
+            StepConverters.get().convertStep("", "unsupported-command", "param1", "param2");
+            Assertions.fail("exception should be thrown");
+            }
+        catch (UnsupportedError e)
+            {
+            // OK
+            }
+        }
+
+
+    @Test
     void storeVariable() throws UnsupportedError
         {
         StepConfiguration step = StepConverters.get().convertStep("", "store", "var1", "value2");
         Assertions.assertEquals(StoreVariable.TYPE_ID, step.getType(), "converted step does not have the correct type");
         Assertions.assertEquals("var1", step.getSource(StoreVariable.NAME_PARAM).getValue(), "the variable name is not set correctly");
         Assertions.assertEquals("value2", step.getSource(StoreVariable.VALUE_PARAM).getValue(), "the value is not set correctly");
+        }
+
+    @Test
+    void click() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", "click", "id=it", "");
+        Assertions.assertEquals(ClickElement.TYPE_ID, step.getType(), "converted step does not have the correct type");
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(ClickElement.ELEMENT_PARAM).getType());
+        Assertions.assertEquals("it", step.getSource(ClickElement.ELEMENT_PARAM).getSource().getValue());
         }
 
     @Test
