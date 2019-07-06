@@ -36,8 +36,7 @@ public abstract class BaseStep implements MuseStep
         }
 
     /**
-     * Called by BaseStep.execute(). Subclasses should override this instead of execute()... or else take
-     * responsibility for raising the start/end step events
+     * Called by BaseStep.execute(). Subclasses should override this instead of execute().
      *
      * @param context The context in which the step is executed
      * @throws StepExecutionError If the step cannot be executed.
