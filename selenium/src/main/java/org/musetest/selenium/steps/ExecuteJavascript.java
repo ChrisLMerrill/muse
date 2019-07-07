@@ -2,7 +2,6 @@ package org.musetest.selenium.steps;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
-import org.musetest.core.events.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
@@ -27,7 +26,7 @@ import java.util.*;
 public class ExecuteJavascript extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
-    public ExecuteJavascript(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public ExecuteJavascript(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
         _script = getValueSource(config, SCRIPT_PARAM, true, project);
