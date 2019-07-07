@@ -135,6 +135,17 @@ class ConditionConversionTests
         Assertions.assertEquals("1st value", condition.getSource(EqualityCondition.RIGHT_PARAM).getValue());
         }
 
+    @Test
+    void assertElementPresent() throws UnsupportedError
+        {
+        ConditionConverter converter = ConditionConverters.getInstance().find("ElementPresent");
+        ValueSourceConfiguration condition = converter.createConditionSource("id=thing1", "");
+        Assertions.assertEquals(ElementExistsCondition.TYPE_ID, condition.getType());
+        ValueSourceConfiguration element = condition.getSource();
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, element.getType());
+        Assertions.assertEquals("thing1", element.getSource().getValue());
+        }
+
     }
 
 
