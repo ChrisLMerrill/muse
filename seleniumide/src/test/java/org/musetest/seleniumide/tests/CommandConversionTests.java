@@ -67,6 +67,12 @@ class CommandConversionTests
         Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(SelectOptionByIndex.ELEMENT_PARAM).getType());
         Assertions.assertEquals("InputDay", step.getSource(SelectOptionByIndex.ELEMENT_PARAM).getSource().getValue());
         }
+
+    @Test
+    void echo() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", EchoConverter.ECHO, "a message", "");
+        Assertions.assertEquals(LogMessage.TYPE_ID, step.getType());
+        Assertions.assertEquals("a message", step.getSource(LogMessage.MESSAGE_PARAM).getValue());
+        }
     }
-
-
