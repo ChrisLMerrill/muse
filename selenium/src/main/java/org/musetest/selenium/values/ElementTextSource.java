@@ -17,12 +17,12 @@ import org.openqa.selenium.*;
 @MuseValueSourceTypeGroup("Element.Value")
 @MuseValueSourceShortDescription("Returns the text content of the sub-source Selenium WebElement")
 @MuseValueSourceLongDescription("Resolves the supplied element source, then returns the text content of that element (if any).")
-@MuseStringExpressionSupportImplementation(ElementText.StringExpressionSupport.class)
+@MuseStringExpressionSupportImplementation(ElementTextSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to get text from", type = SubsourceDescriptor.Type.Single)
-public class ElementText extends BaseElementValueSource
+public class ElementTextSource extends BaseElementValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
-    public ElementText(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+    public ElementTextSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
         }
@@ -42,7 +42,7 @@ public class ElementText extends BaseElementValueSource
         return "elementText(" + getElementSource().getDescription() + ")";
         }
 
-    public final static String TYPE_ID = ElementText.class.getAnnotation(MuseTypeId.class).value();
+    public final static String TYPE_ID = ElementTextSource.class.getAnnotation(MuseTypeId.class).value();
 
     public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
         {
@@ -61,7 +61,7 @@ public class ElementText extends BaseElementValueSource
         @Override
         protected String getTypeId()
             {
-            return ElementText.TYPE_ID;
+            return ElementTextSource.TYPE_ID;
             }
 
         @Override

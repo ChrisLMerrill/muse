@@ -22,7 +22,7 @@ public class StoreValueConverter implements StepConverter
         return step;
         }
 
-    private final static String STORE = "store";
+    public final static String STORE = "store";
     }
 
 

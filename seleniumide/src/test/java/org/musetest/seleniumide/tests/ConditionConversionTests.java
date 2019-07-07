@@ -19,7 +19,7 @@ class ConditionConversionTests
         ConditionConverter converter = ConditionConverters.getInstance().find("Text");
         ValueSourceConfiguration condition = converter.createConditionSource("id=123", "abc");
         Assertions.assertEquals(EqualityCondition.TYPE_ID, condition.getType());
-        Assertions.assertEquals(ElementText.TYPE_ID, condition.getSource(EqualityCondition.LEFT_PARAM).getType());
+        Assertions.assertEquals(ElementTextSource.TYPE_ID, condition.getSource(EqualityCondition.LEFT_PARAM).getType());
         Assertions.assertEquals(StringValueSource.TYPE_ID, condition.getSource(EqualityCondition.RIGHT_PARAM).getType());
         Assertions.assertEquals("abc", condition.getSource(EqualityCondition.RIGHT_PARAM).getValue());
         }

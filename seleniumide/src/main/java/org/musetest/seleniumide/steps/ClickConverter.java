@@ -23,7 +23,7 @@ public class ClickConverter implements StepConverter
         return null;
         }
 
-    private static final String CLICK = "click";
+    public static final String CLICK = "click";
     private static final String CLICK_AND_WAIT = "clickAndWait";
     private static final String CLICK_AT = "clickAt";
     }

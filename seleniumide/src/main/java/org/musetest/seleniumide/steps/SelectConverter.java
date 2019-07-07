@@ -36,7 +36,7 @@ public class SelectConverter implements StepConverter
         return null;
         }
 
-    private static final String SELECT = "select";
+    public static final String SELECT = "select";
 
     private static final String BY_LABEL = "label=";
     private static final String BY_INDEX = "index=";

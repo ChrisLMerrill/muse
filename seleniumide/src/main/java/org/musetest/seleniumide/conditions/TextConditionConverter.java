@@ -19,7 +19,7 @@ public class TextConditionConverter extends ConditionConverter
     @Override
     public ValueSourceConfiguration createConditionSource(String param1, String param2) throws UnsupportedError
         {
-        ValueSourceConfiguration text_source = ValueSourceConfiguration.forTypeWithSource(ElementText.TYPE_ID, LocatorConverters.get().convert(param1));
+        ValueSourceConfiguration text_source = ValueSourceConfiguration.forTypeWithSource(ElementTextSource.TYPE_ID, LocatorConverters.get().convert(param1));
         return createTextMatchCondition(text_source, param2);
         }
     }
