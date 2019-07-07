@@ -1,13 +1,10 @@
 package org.musetest.seleniumide.tests;
 
 import org.junit.jupiter.api.*;
-import org.musetest.builtins.condition.*;
 import org.musetest.builtins.step.*;
 import org.musetest.core.step.*;
-import org.musetest.core.values.*;
 import org.musetest.selenium.locators.*;
 import org.musetest.selenium.steps.*;
-import org.musetest.selenium.values.*;
 import org.musetest.seleniumide.*;
 import org.musetest.seleniumide.steps.*;
 
@@ -55,6 +52,15 @@ class CommandConversionTests
         Assertions.assertEquals(SubmitElement.TYPE_ID, step.getType(), "converted step does not have the correct type");
         Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(SubmitElement.ELEMENT_PARAM).getType());
         Assertions.assertEquals("the-form", step.getSource(SubmitElement.ELEMENT_PARAM).getSource().getValue());
+        }
+
+    @Test
+    void setWindowSize() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", SetWindowSizeConverter.COMMAND, "200x100", "");
+        Assertions.assertEquals(SetBrowserSize.TYPE_ID, step.getType(), "converted step does not have the correct type");
+        Assertions.assertEquals(200L, step.getSource(SetBrowserSize.WIDTH_PARAM).getValue());
+        Assertions.assertEquals(100L, step.getSource(SetBrowserSize.HEIGHT_PARAM).getValue());
         }
 
     @Test
