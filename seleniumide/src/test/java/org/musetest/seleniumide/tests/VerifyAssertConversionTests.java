@@ -55,7 +55,7 @@ class VerifyAssertConversionTests
         Assertions.assertEquals(EqualityCondition.TYPE_ID, equality.getType());
 
         ValueSourceConfiguration element_text = equality.getSource(EqualityCondition.LEFT_PARAM);
-        Assertions.assertEquals(ElementText.TYPE_ID, element_text.getType());
+        Assertions.assertEquals(ElementTextSource.TYPE_ID, element_text.getType());
 
         ValueSourceConfiguration locator = element_text.getSource();
         Assertions.assertEquals(IdElementValueSource.TYPE_ID, locator.getType());
