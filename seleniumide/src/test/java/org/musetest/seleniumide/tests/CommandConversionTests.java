@@ -30,23 +30,10 @@ class CommandConversionTests
             }
         }
 
-
-    @Test
-    void assertTitle() throws UnsupportedError
-        {
-        StepConfiguration step = StepConverters.get().convertStep("", "assertTitle", "the title", null);
-        Assertions.assertEquals(Verify.TYPE_ID, step.getType(), "converted step does not have the correct type");
-        ValueSourceConfiguration condition = step.getSource(Verify.CONDITION_PARAM);
-        Assertions.assertEquals(EqualityCondition.TYPE_ID, condition.getType());
-        Assertions.assertEquals("the title", condition.getSource(EqualityCondition.RIGHT_PARAM).getValue());
-        ValueSourceConfiguration title = condition.getSource(EqualityCondition.LEFT_PARAM);
-        Assertions.assertEquals(PageTitleValueSource.TYPE_ID, title.getType());
-        }
-
     @Test
     void storeVariable() throws UnsupportedError
         {
-        StepConfiguration step = StepConverters.get().convertStep("", "store", "var1", "value2");
+        StepConfiguration step = StepConverters.get().convertStep("", StoreValueConverter.STORE, "var1", "value2");
         Assertions.assertEquals(StoreVariable.TYPE_ID, step.getType(), "converted step does not have the correct type");
         Assertions.assertEquals("var1", step.getSource(StoreVariable.NAME_PARAM).getValue(), "the variable name is not set correctly");
         Assertions.assertEquals("value2", step.getSource(StoreVariable.VALUE_PARAM).getValue(), "the value is not set correctly");
@@ -55,7 +42,7 @@ class CommandConversionTests
     @Test
     void click() throws UnsupportedError
         {
-        StepConfiguration step = StepConverters.get().convertStep("", "click", "id=it", "");
+        StepConfiguration step = StepConverters.get().convertStep("", ClickConverter.CLICK, "id=it", "");
         Assertions.assertEquals(ClickElement.TYPE_ID, step.getType(), "converted step does not have the correct type");
         Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(ClickElement.ELEMENT_PARAM).getType());
         Assertions.assertEquals("it", step.getSource(ClickElement.ELEMENT_PARAM).getSource().getValue());
@@ -64,7 +51,7 @@ class CommandConversionTests
     @Test
     void selectByLabel() throws UnsupportedError
         {
-        StepConfiguration step = StepConverters.get().convertStep("", "select", "id=InputMonth", "label=04");
+        StepConfiguration step = StepConverters.get().convertStep("", SelectConverter.SELECT, "id=InputMonth", "label=04");
         Assertions.assertEquals(SelectOptionByText.TYPE_ID, step.getType());
         Assertions.assertEquals("04", step.getSource(SelectOptionByText.TEXT_PARAM).getValue());
         Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(SelectOptionByText.ELEMENT_PARAM).getType());
@@ -74,7 +61,7 @@ class CommandConversionTests
     @Test
     void selectByIndex() throws UnsupportedError
         {
-        StepConfiguration step = StepConverters.get().convertStep("", "select", "id=InputDay", "index=2");
+        StepConfiguration step = StepConverters.get().convertStep("", SelectConverter.SELECT, "id=InputDay", "index=2");
         Assertions.assertEquals(SelectOptionByIndex.TYPE_ID, step.getType());
         Assertions.assertEquals("2", step.getSource(SelectOptionByIndex.INDEX_PARAM).getValue());
         Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(SelectOptionByIndex.ELEMENT_PARAM).getType());
