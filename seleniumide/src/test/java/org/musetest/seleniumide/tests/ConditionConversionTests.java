@@ -6,6 +6,7 @@ import org.musetest.builtins.step.*;
 import org.musetest.builtins.value.*;
 import org.musetest.core.step.*;
 import org.musetest.core.values.*;
+import org.musetest.selenium.conditions.*;
 import org.musetest.selenium.locators.*;
 import org.musetest.selenium.values.*;
 import org.musetest.seleniumide.*;
@@ -81,6 +82,40 @@ class ConditionConversionTests
 
         Assertions.assertEquals(StringValueSource.TYPE_ID, condition.getSource(EqualityCondition.RIGHT_PARAM).getType());
         Assertions.assertEquals("target text", condition.getSource(EqualityCondition.RIGHT_PARAM).getValue());
+        }
+
+    @Test
+    void assertSelectedValue() throws UnsupportedError
+        {
+        ConditionConverter converter = ConditionConverters.getInstance().find("SelectedValue");
+        ValueSourceConfiguration condition = converter.createConditionSource("id=title", "1st value");
+        Assertions.assertEquals(EqualityCondition.TYPE_ID, condition.getType());
+
+        ValueSourceConfiguration element_text = condition.getSource(EqualityCondition.LEFT_PARAM);
+        Assertions.assertEquals(ElementValue.TYPE_ID, element_text.getType());
+        ValueSourceConfiguration element = element_text.getSource();
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, element.getType());
+        Assertions.assertEquals("title", element.getSource().getValue());
+
+        Assertions.assertEquals(StringValueSource.TYPE_ID, condition.getSource(EqualityCondition.RIGHT_PARAM).getType());
+        Assertions.assertEquals("1st value", condition.getSource(EqualityCondition.RIGHT_PARAM).getValue());
+        }
+
+    @Test
+    void assertSelectedLabel() throws UnsupportedError
+        {
+        ConditionConverter converter = ConditionConverters.getInstance().find("SelectedLabel");
+        ValueSourceConfiguration condition = converter.createConditionSource("id=title", "1st value");
+        Assertions.assertEquals(EqualityCondition.TYPE_ID, condition.getType());
+
+        ValueSourceConfiguration element_text = condition.getSource(EqualityCondition.LEFT_PARAM);
+        Assertions.assertEquals(SelectedLabel.TYPE_ID, element_text.getType());
+        ValueSourceConfiguration element = element_text.getSource();
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, element.getType());
+        Assertions.assertEquals("title", element.getSource().getValue());
+
+        Assertions.assertEquals(StringValueSource.TYPE_ID, condition.getSource(EqualityCondition.RIGHT_PARAM).getType());
+        Assertions.assertEquals("1st value", condition.getSource(EqualityCondition.RIGHT_PARAM).getValue());
         }
 
     }
