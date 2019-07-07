@@ -49,6 +49,15 @@ class CommandConversionTests
         }
 
     @Test
+    void submit() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", SubmitConverter.SUBMIT, "id=the-form", "");
+        Assertions.assertEquals(SubmitElement.TYPE_ID, step.getType(), "converted step does not have the correct type");
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(SubmitElement.ELEMENT_PARAM).getType());
+        Assertions.assertEquals("the-form", step.getSource(SubmitElement.ELEMENT_PARAM).getSource().getValue());
+        }
+
+    @Test
     void selectByLabel() throws UnsupportedError
         {
         StepConfiguration step = StepConverters.get().convertStep("", SelectConverter.SELECT, "id=InputMonth", "label=04");
