@@ -85,6 +85,23 @@ class ConditionConversionTests
         }
 
     @Test
+    void assertValue() throws UnsupportedError
+        {
+        ConditionConverter converter = ConditionConverters.getInstance().find("Value");
+        ValueSourceConfiguration condition = converter.createConditionSource("id=title", "1st value");
+        Assertions.assertEquals(EqualityCondition.TYPE_ID, condition.getType());
+
+        ValueSourceConfiguration element_text = condition.getSource(EqualityCondition.LEFT_PARAM);
+        Assertions.assertEquals(ElementValue.TYPE_ID, element_text.getType());
+        ValueSourceConfiguration element = element_text.getSource();
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, element.getType());
+        Assertions.assertEquals("title", element.getSource().getValue());
+
+        Assertions.assertEquals(StringValueSource.TYPE_ID, condition.getSource(EqualityCondition.RIGHT_PARAM).getType());
+        Assertions.assertEquals("1st value", condition.getSource(EqualityCondition.RIGHT_PARAM).getValue());
+        }
+
+    @Test
     void assertSelectedValue() throws UnsupportedError
         {
         ConditionConverter converter = ConditionConverters.getInstance().find("SelectedValue");
