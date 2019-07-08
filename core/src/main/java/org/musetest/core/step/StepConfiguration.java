@@ -531,8 +531,9 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 	    {
 	    StepConfiguration config = new StepConfiguration(descriptor.getType());
 	    for (SubsourceDescriptor source_descriptor : descriptor.getSubsourceDescriptors())
-	    	config.addSource(source_descriptor.getName(), source_descriptor.getDefault());
-	    config.setMetadataField(StepConfiguration.META_ID, IdGenerator.get(project).generateLongId());
+            if (!source_descriptor.isOptional())
+                config.addSource(source_descriptor.getName(), source_descriptor.getDefault());
+        config.setMetadataField(StepConfiguration.META_ID, IdGenerator.get(project).generateLongId());
 	    return config;
 	    }
 
