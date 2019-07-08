@@ -45,7 +45,7 @@ public class SideTestConverter
                 StepConfiguration comment = new StepConfiguration(command.getCommand());
                 comment.addSource("target", ValueSourceConfiguration.forValue(target));
                 comment.addSource("value", ValueSourceConfiguration.forValue(value));
-                comment.setMetadataField(StepConfiguration.META_DESCRIPTION, String.format("%s(%s,%s)", command, target, value));
+                comment.setMetadataField(StepConfiguration.META_DESCRIPTION, failure_message);
                 main_step.addChild(comment);
 				}
 			}
