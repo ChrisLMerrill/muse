@@ -18,18 +18,21 @@ public class SelectConverter implements StepConverter
         if (command.equals(SELECT))
             {
             StepConfiguration step;
-            if (param2.startsWith(BY_LABEL))
-                {
-                step = new StepConfiguration(SelectOptionByText.TYPE_ID);
-                step.addSource(SelectOptionByText.TEXT_PARAM, ValueSourceConfiguration.forValue(param2.substring(BY_LABEL.length())));
-                step.addSource(SelectOptionByText.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
-                return step;
-                }
-            else if (param2.startsWith(BY_INDEX))
+            if (param2.startsWith(BY_INDEX))
                 {
                 step = new StepConfiguration(SelectOptionByIndex.TYPE_ID);
                 step.addSource(SelectOptionByIndex.INDEX_PARAM, ValueSourceConfiguration.forValue(param2.substring(BY_INDEX.length())));
                 step.addSource(SelectOptionByIndex.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
+                return step;
+                }
+            else
+                {
+                String label = param2;
+                if (param2.startsWith(BY_LABEL))
+                    label = param2.substring(BY_LABEL.length());
+                step = new StepConfiguration(SelectOptionByText.TYPE_ID);
+                step.addSource(SelectOptionByText.TEXT_PARAM, ValueSourceConfiguration.forValue(label));
+                step.addSource(SelectOptionByText.ELEMENT_PARAM, LocatorConverters.get().convert(param1));
                 return step;
                 }
             }
