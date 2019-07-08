@@ -2,6 +2,7 @@ package org.musetest.selenium.steps;
 
 import org.musetest.core.*;
 import org.musetest.core.context.*;
+import org.musetest.core.events.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
@@ -21,6 +22,26 @@ public abstract class BrowserStep extends BaseStep
     protected WebDriver getDriver(StepExecutionContext context) throws ValueSourceResolutionError
         {
         return BrowserStepExecutionContext.getDriver(context);
+        }
+
+    @Override
+    public StepExecutionResult execute(StepExecutionContext context) throws MuseExecutionError
+        {
+        boolean retry = true;
+        while (retry)
+            try
+                {
+                return executeImplementation(context);
+                }
+            catch (UnhandledAlertException e)
+                {
+
+                // TODO if there is an alert handler use it and remove it
+                // TODO   e.g getDriver(context).switchTo().alert().accept();
+                // TODO else try = false;
+                }
+        context.raiseEvent(MessageEventType.create("Alert is blocking Selenium. Add the Alert Handler plugin or use the the Handle Next Alert step."));
+        return new BasicStepExecutionResult(StepExecutionStatus.ERROR, "Alert is blocking Selenium.");
         }
 
     /**
