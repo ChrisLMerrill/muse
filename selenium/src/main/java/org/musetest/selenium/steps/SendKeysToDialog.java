@@ -49,7 +49,7 @@ public class SendKeysToDialog extends BrowserStep
     private MuseValueSource _keys_source;
 
     public final static String TYPE_ID = SendKeysToDialog.class.getAnnotation(MuseTypeId.class).value();
-    final static String KEYS_PARAM = "keys";
+    public final static String KEYS_PARAM = "keys";
 
     private final static Logger LOG = LoggerFactory.getLogger(SendKeysToDialog.class);
     }

@@ -86,8 +86,47 @@ class CommandConversionTests
     @Test
     void echo() throws UnsupportedError
         {
-        StepConfiguration step = StepConverters.get().convertStep("", EchoConverter.ECHO, "a message", "");
+        String message = "a message";
+        StepConfiguration step = StepConverters.get().convertStep("", EchoConverter.ECHO, message, "");
         Assertions.assertEquals(LogMessage.TYPE_ID, step.getType());
-        Assertions.assertEquals("a message", step.getSource(LogMessage.MESSAGE_PARAM).getValue());
+        Assertions.assertEquals(message, step.getSource(LogMessage.MESSAGE_PARAM).getValue());
+        }
+
+    @Test
+    void webdriverChooseOkOnVisibleConfirmation() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", WebdriverDialogResponseConverter.OK, "", "");
+        Assertions.assertEquals(AcceptDialog.TYPE_ID, step.getType());
+        }
+
+    @Test
+    void webdriverChooseCancelOnVisibleConfirmation() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", WebdriverDialogResponseConverter.CANCEL_CONFIRM, "", "");
+        Assertions.assertEquals(CancelDialog.TYPE_ID, step.getType());
+        }
+
+    @Test
+    void webdriverAnswerOnVisiblePrompt() throws UnsupportedError
+        {
+        final String response = "yellow";
+        StepConfiguration step = StepConverters.get().convertStep("", WebdriverDialogResponseConverter.ANSWER, response, "");
+
+        Assertions.assertEquals(BasicCompoundStep.TYPE_ID, step.getType());
+        Assertions.assertEquals(2, step.getChildren().size());
+
+        StepConfiguration respond = step.getChildren().get(0);
+        Assertions.assertEquals(SendKeysToDialog.TYPE_ID, respond.getType());
+        Assertions.assertEquals(response, respond.getSource(SendKeysToDialog.KEYS_PARAM).getValue());
+
+        StepConfiguration ok = step.getChildren().get(1);
+        Assertions.assertEquals(AcceptDialog.TYPE_ID, ok.getType());
+        }
+
+    @Test
+    void webdriverChooseCancelOnVisiblePrompt() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", WebdriverDialogResponseConverter.CANCEL_PROMPT, "", "");
+        Assertions.assertEquals(CancelDialog.TYPE_ID, step.getType());
         }
     }

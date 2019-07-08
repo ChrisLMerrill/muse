@@ -146,6 +146,38 @@ class ConditionConversionTests
         Assertions.assertEquals("thing1", element.getSource().getValue());
         }
 
+    @Test
+    void assertAlert() throws UnsupportedError
+        {
+        ConditionConverter converter = ConditionConverters.getInstance().find("Alert");
+        checkEqualsDialogTextSource(converter);
+        }
+
+    private void checkEqualsDialogTextSource(ConditionConverter converter) throws UnsupportedError
+        {
+        final String prompt = "This is a warning!";
+        ValueSourceConfiguration condition = converter.createConditionSource(prompt, "");
+        Assertions.assertEquals(EqualityCondition.TYPE_ID, condition.getType());
+
+        ValueSourceConfiguration dialog_text = condition.getSource(EqualityCondition.LEFT_PARAM);
+        Assertions.assertEquals(DialogTextSource.TYPE_ID, dialog_text.getType());
+
+        ValueSourceConfiguration compare_source = condition.getSource(EqualityCondition.RIGHT_PARAM);
+        Assertions.assertEquals(StringValueSource.TYPE_ID, compare_source.getType());
+        Assertions.assertEquals(prompt, compare_source.getValue());
+        }
+
+    @Test
+    void assertConfirmation() throws UnsupportedError
+        {
+        ConditionConverter converter = ConditionConverters.getInstance().find("Confirmation");
+        checkEqualsDialogTextSource(converter);
+        }
+
+    @Test
+    void assertPrompt() throws UnsupportedError
+        {
+        ConditionConverter converter = ConditionConverters.getInstance().find("Prompt");
+        checkEqualsDialogTextSource(converter);
+        }
     }
-
-
