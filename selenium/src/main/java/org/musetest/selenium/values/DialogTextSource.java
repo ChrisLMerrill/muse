@@ -2,8 +2,6 @@ package org.musetest.selenium.values;
 
 import org.musetest.builtins.value.*;
 import org.musetest.core.*;
-import org.musetest.core.events.*;
-import org.musetest.core.resource.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
 import org.musetest.selenium.*;
@@ -22,7 +20,7 @@ import org.openqa.selenium.*;
 public class DialogTextSource extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
-    public DialogTextSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
+    public DialogTextSource(ValueSourceConfiguration config, MuseProject project)
         {
         super(config, project);
         }
