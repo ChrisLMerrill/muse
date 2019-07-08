@@ -2,7 +2,10 @@ package org.musetest.seleniumide.tests;
 
 import org.junit.jupiter.api.*;
 import org.musetest.builtins.step.*;
+import org.musetest.builtins.value.logic.*;
 import org.musetest.core.step.*;
+import org.musetest.core.values.*;
+import org.musetest.selenium.conditions.*;
 import org.musetest.selenium.locators.*;
 import org.musetest.selenium.steps.*;
 import org.musetest.seleniumide.*;
@@ -121,6 +124,51 @@ class CommandConversionTests
         Assertions.assertEquals("2", step.getSource(DeselectOptionByValue.VALUE_PARAM).getValue());
         Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(DeselectOptionByValue.ELEMENT_PARAM).getType());
         Assertions.assertEquals("InputDay", step.getSource(DeselectOptionByValue.ELEMENT_PARAM).getSource().getValue());
+        }
+
+    @Test
+    void check() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", CheckboxConverter.CHECK, "id=InputDay", "");
+        Assertions.assertEquals(IfStep.TYPE_ID, step.getType());
+
+        ValueSourceConfiguration condition_source = step.getSource(IfStep.CONDITION_PARAM);
+        Assertions.assertEquals(NotValueSource.TYPE_ID, condition_source.getType());
+
+        ValueSourceConfiguration selected_source = condition_source.getSource();
+        Assertions.assertEquals(ElementSelectedCondition.TYPE_ID, selected_source.getType());
+
+        ValueSourceConfiguration element_source = selected_source.getSource();
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, element_source.getType());
+        Assertions.assertEquals("InputDay", element_source.getSource().getValue());
+
+        checkClickForCheckSteps(step, "InputDay");
+        }
+
+    @Test
+    void uncheck() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", CheckboxConverter.UNCHECK, "id=InputDay", "");
+        Assertions.assertEquals(IfStep.TYPE_ID, step.getType());
+
+        ValueSourceConfiguration condition_source = step.getSource(IfStep.CONDITION_PARAM);
+        Assertions.assertEquals(ElementSelectedCondition.TYPE_ID, condition_source.getType());
+
+        ValueSourceConfiguration element_source = condition_source.getSource();
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, element_source.getType());
+        Assertions.assertEquals("InputDay", element_source.getSource().getValue());
+
+        checkClickForCheckSteps(step, "InputDay");
+        }
+
+    private void checkClickForCheckSteps(StepConfiguration step, String id)
+        {
+        StepConfiguration click = step.getChildren().get(0);
+        Assertions.assertEquals(ClickElement.TYPE_ID, click.getType());
+
+        ValueSourceConfiguration element_source = click.getSource(ClickElement.ELEMENT_PARAM);
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, element_source.getType());
+        Assertions.assertEquals(id, element_source.getSource().getValue());
         }
 
     @Test

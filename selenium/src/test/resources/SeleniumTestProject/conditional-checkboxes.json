@@ -1,0 +1,178 @@
+{
+  "type" : "steppedtest",
+  "defaultVariables" : { },
+  "step" : {
+    "children" : [ {
+      "sources" : {
+        "provider" : {
+          "source" : {
+            "type" : "string",
+            "value" : "local-provider"
+          },
+          "type" : "resource"
+        },
+        "browser" : {
+          "source" : {
+            "type" : "string",
+            "value" : "firefox"
+          },
+          "type" : "resource"
+        }
+      },
+      "type" : "open-browser",
+      "metadata" : {
+        "_id" : 135851674043642
+      }
+    }, {
+      "sources" : {
+        "URL" : {
+          "type" : "string",
+          "value" : "https://the-internet.herokuapp.com/checkboxes"
+        }
+      },
+      "type" : "goto-url",
+      "metadata" : {
+        "_id" : 135851674043643
+      }
+    }, {
+      "children" : [ {
+        "sources" : {
+          "element" : {
+            "source" : {
+              "type" : "string",
+              "value" : "(//input)[1]"
+            },
+            "type" : "element-xpath"
+          }
+        },
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674043645
+        }
+      } ],
+      "sources" : {
+        "condition" : {
+          "source" : {
+            "source" : {
+              "source" : {
+                "type" : "string",
+                "value" : "(//input)[1]"
+              },
+              "type" : "element-xpath"
+            },
+            "type" : "selected"
+          },
+          "type" : "not"
+        }
+      },
+      "type" : "if",
+      "metadata" : {
+        "_id" : 135851674043644
+      }
+    }, {
+      "children" : [ {
+        "sources" : {
+          "element" : {
+            "source" : {
+              "type" : "string",
+              "value" : "(//input)[1]"
+            },
+            "type" : "element-xpath"
+          }
+        },
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674043651
+        }
+      } ],
+      "sources" : {
+        "condition" : {
+          "source" : {
+            "source" : {
+              "source" : {
+                "type" : "string",
+                "value" : "(//input)[1]"
+              },
+              "type" : "element-xpath"
+            },
+            "type" : "selected"
+          },
+          "type" : "not"
+        }
+      },
+      "type" : "if",
+      "metadata" : {
+        "_id" : 135851674043647
+      }
+    }, {
+      "children" : [ {
+        "sources" : {
+          "element" : {
+            "source" : {
+              "type" : "string",
+              "value" : "(//input)[2]"
+            },
+            "type" : "element-xpath"
+          }
+        },
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674043652
+        }
+      } ],
+      "sources" : {
+        "condition" : {
+          "source" : {
+            "source" : {
+              "type" : "string",
+              "value" : "(//input)[2]"
+            },
+            "type" : "element-xpath"
+          },
+          "type" : "selected"
+        }
+      },
+      "type" : "if",
+      "metadata" : {
+        "_id" : 135851674043648
+      }
+    }, {
+      "children" : [ {
+        "sources" : {
+          "element" : {
+            "source" : {
+              "type" : "string",
+              "value" : "(//input)[2]"
+            },
+            "type" : "element-xpath"
+          }
+        },
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674043653
+        }
+      } ],
+      "sources" : {
+        "condition" : {
+          "source" : {
+            "source" : {
+              "type" : "string",
+              "value" : "(//input)[2]"
+            },
+            "type" : "element-xpath"
+          },
+          "type" : "selected"
+        }
+      },
+      "type" : "if",
+      "metadata" : {
+        "_id" : 135851674043650
+      }
+    } ],
+    "type" : "scope",
+    "metadata" : {
+      "_id" : 135851674043640
+    }
+  },
+  "tags" : [ ]
+}
