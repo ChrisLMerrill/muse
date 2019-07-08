@@ -35,14 +35,14 @@ public class DialogTextSource extends BaseSeleniumValueSource
             }
         catch (NoAlertPresentException e)
             {
-            throw new ValueSourceResolutionError("No alert is present");
+            throw new ValueSourceResolutionError("No dialog is present");
             }
         }
 
     @Override
     public String getDescription()
         {
-        return "alertText()";
+        return "dialogText()";
         }
 
     public final static String TYPE_ID = DialogTextSource.class.getAnnotation(MuseTypeId.class).value();
@@ -52,7 +52,7 @@ public class DialogTextSource extends BaseSeleniumValueSource
         @Override
         public String getName()
             {
-            return "alertText";
+            return "dialogText";
             }
 
         @Override
