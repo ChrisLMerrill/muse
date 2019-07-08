@@ -15,7 +15,7 @@ public class SelectConverter implements StepConverter
     @Override
     public StepConfiguration convertStep(String base_url, String command, String param1, String param2) throws UnsupportedError
         {
-        if (command.equals(SELECT))
+        if (command.equals(SELECT) || command.equals(ADD_SELECTION))
             {
             StepConfiguration step;
             if (param2.startsWith(BY_INDEX))
@@ -75,7 +75,8 @@ public class SelectConverter implements StepConverter
         }
 
     public static final String SELECT = "select";
-    public static final String DESELECT = "deselect";
+    public static final String ADD_SELECTION = "addSelection";
+    public static final String DESELECT = "removeSelection";
 
     private static final String BY_LABEL = "label=";
     private static final String BY_INDEX = "index=";
