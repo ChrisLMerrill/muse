@@ -25,8 +25,8 @@ public class ListSource extends BaseValueSource
         super(config, project);
 
         List<ValueSourceConfiguration> configs = config.getSourceList();
-        if (configs == null || configs.size() == 0)
-            throw new MuseInstantiationException("Missing required parameter (sourceList)");
+        if (configs == null)
+            configs = new ArrayList<>();
 
         List<MuseValueSource> sources = new ArrayList<>();
         for (ValueSourceConfiguration source : configs)
