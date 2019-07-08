@@ -1,0 +1,1211 @@
+{
+  "type" : "steppedtest",
+  "defaultVariables" : { },
+  "step" : {
+    "type" : "scope",
+    "metadata" : {
+      "_id" : 135851674042368
+    },
+    "children" : [ {
+      "type" : "open-browser",
+      "metadata" : {
+        "_id" : 135851674042370
+      },
+      "sources" : {
+        "provider" : {
+          "type" : "resource",
+          "source" : {
+            "type" : "string",
+            "value" : "local-provider"
+          }
+        },
+        "browser" : {
+          "type" : "resource",
+          "source" : {
+            "type" : "string",
+            "value" : "firefox"
+          }
+        }
+      }
+    }, {
+      "type" : "goto-url",
+      "metadata" : {
+        "_id" : 135851674042371
+      },
+      "sources" : {
+        "URL" : {
+          "type" : "string",
+          "value" : "https://the-internet.herokuapp.com/"
+        }
+      }
+    }, {
+      "type" : "compound",
+      "metadata" : {
+        "_id" : 135851674042373,
+        "_description" : "<title> and verify"
+      },
+      "children" : [ {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042372
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "page-title"
+              },
+              "right" : {
+                "type" : "string",
+                "value" : "The Internet"
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      } ]
+    }, {
+      "type" : "compound",
+      "metadata" : {
+        "_id" : 135851674042374,
+        "_description" : "elementText() and <xpath:locator>"
+      },
+      "children" : [ {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042375
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "right" : {
+                "type" : "string",
+                "value" : "Welcome to the-internet"
+              },
+              "left" : {
+                "type" : "element-text",
+                "source" : {
+                  "type" : "element-xpath",
+                  "source" : {
+                    "type" : "string",
+                    "value" : "//h1"
+                  }
+                }
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      } ]
+    }, {
+      "type" : "compound",
+      "metadata" : {
+        "_id" : 135851674042376,
+        "_description" : "echo and message"
+      },
+      "children" : [ {
+        "type" : "log-message",
+        "metadata" : {
+          "_id" : 135851674042369
+        },
+        "sources" : {
+          "message" : {
+            "type" : "string",
+            "value" : "test is running"
+          }
+        }
+      } ]
+    }, {
+      "type" : "compound",
+      "metadata" : {
+        "_id" : 135851674042377,
+        "_description" : "<id:locator>, <linktext:locator>, send keys, submit form, wait, elementExists(), back"
+      },
+      "children" : [ {
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674042378
+        },
+        "sources" : {
+          "element" : {
+            "type" : "element-linktext",
+            "source" : {
+              "type" : "string",
+              "value" : "Form Authentication"
+            },
+            "sourceMap" : {
+              "find-multiple" : {
+                "type" : "boolean",
+                "value" : false
+              }
+            }
+          }
+        }
+      }, {
+        "type" : "send-keys",
+        "metadata" : {
+          "_id" : 135851674042379
+        },
+        "sources" : {
+          "keys" : {
+            "type" : "string",
+            "value" : "tomsmith"
+          },
+          "clear" : {
+            "type" : "boolean",
+            "value" : true
+          },
+          "element" : {
+            "type" : "element-id",
+            "source" : {
+              "type" : "string",
+              "value" : "username"
+            }
+          }
+        }
+      }, {
+        "type" : "send-keys",
+        "metadata" : {
+          "_id" : 135851674042381
+        },
+        "sources" : {
+          "keys" : {
+            "type" : "string",
+            "value" : "SuperSecretPassword!"
+          },
+          "clear" : {
+            "type" : "boolean",
+            "value" : true
+          },
+          "element" : {
+            "type" : "element-id",
+            "source" : {
+              "type" : "string",
+              "value" : "password"
+            }
+          }
+        }
+      }, {
+        "type" : "submit-element",
+        "metadata" : {
+          "_id" : 135851674042382
+        },
+        "sources" : {
+          "element" : {
+            "type" : "element-id",
+            "source" : {
+              "type" : "string",
+              "value" : "login"
+            }
+          }
+        }
+      }, {
+        "type" : "wait",
+        "metadata" : {
+          "_id" : 135851674042385
+        },
+        "sources" : {
+          "duration" : {
+            "type" : "integer",
+            "value" : 30000
+          },
+          "fail" : {
+            "type" : "boolean",
+            "value" : true
+          },
+          "condition" : {
+            "type" : "exists",
+            "source" : {
+              "type" : "element-id",
+              "source" : {
+                "type" : "string",
+                "value" : "flash-messages"
+              }
+            }
+          },
+          "message" : {
+            "type" : "string",
+            "value" : "enter a message"
+          },
+          "frequency" : {
+            "type" : "integer",
+            "value" : 500
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042384
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "string-contains",
+            "sourceMap" : {
+              "string" : {
+                "type" : "element-text",
+                "source" : {
+                  "type" : "element-id",
+                  "source" : {
+                    "type" : "string",
+                    "value" : "flash"
+                  }
+                }
+              },
+              "target" : {
+                "type" : "string",
+                "value" : "You logged into"
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "back",
+        "metadata" : {
+          "_id" : 135851674042387
+        }
+      }, {
+        "type" : "back",
+        "metadata" : {
+          "_id" : 135851674042389
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042398
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "page-title"
+              },
+              "right" : {
+                "type" : "string",
+                "value" : "The Internet"
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      } ]
+    }, {
+      "type" : "compound",
+      "metadata" : {
+        "_id" : 135851674042386,
+        "_description" : "<url>, keystrokes() and elementValue()"
+      },
+      "children" : [ {
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674042391
+        },
+        "sources" : {
+          "element" : {
+            "type" : "element-linktext",
+            "source" : {
+              "type" : "string",
+              "value" : "Inputs"
+            },
+            "sourceMap" : {
+              "find-multiple" : {
+                "type" : "boolean",
+                "value" : false
+              }
+            }
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042396
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "string-contains",
+            "sourceMap" : {
+              "string" : {
+                "type" : "current-url"
+              },
+              "target" : {
+                "type" : "string",
+                "value" : "inputs"
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "send-keys",
+        "metadata" : {
+          "_id" : 135851674042392
+        },
+        "sources" : {
+          "keys" : {
+            "type" : "keystrokes",
+            "source" : {
+              "type" : "string",
+              "value" : "{UP}{UP}{UP}"
+            }
+          },
+          "clear" : {
+            "type" : "boolean",
+            "value" : true
+          },
+          "element" : {
+            "type" : "element-xpath",
+            "source" : {
+              "type" : "string",
+              "value" : "//input"
+            }
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042395
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "element-value",
+                "source" : {
+                  "type" : "element-xpath",
+                  "source" : {
+                    "type" : "string",
+                    "value" : "//input"
+                  }
+                }
+              },
+              "right" : {
+                "type" : "string",
+                "value" : "3"
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "back",
+        "metadata" : {
+          "_id" : 135851674042400
+        }
+      } ]
+    }, {
+      "type" : "compound",
+      "metadata" : {
+        "_id" : 135851674042401,
+        "_description" : "select"
+      },
+      "children" : [ {
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674042403
+        },
+        "sources" : {
+          "element" : {
+            "type" : "element-linktext",
+            "source" : {
+              "type" : "string",
+              "value" : "Dropdown"
+            },
+            "sourceMap" : {
+              "find-multiple" : {
+                "type" : "boolean",
+                "value" : false
+              }
+            }
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042405
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "element-value",
+                "source" : {
+                  "type" : "element-id",
+                  "source" : {
+                    "type" : "string",
+                    "value" : "dropdown"
+                  }
+                }
+              },
+              "right" : {
+                "type" : "string",
+                "value" : ""
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "select-index",
+        "metadata" : {
+          "_id" : 135851674042406
+        },
+        "sources" : {
+          "index" : {
+            "type" : "integer",
+            "value" : 1
+          },
+          "element" : {
+            "type" : "element-id",
+            "source" : {
+              "type" : "string",
+              "value" : "dropdown"
+            }
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042408
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "element-value",
+                "source" : {
+                  "type" : "element-id",
+                  "source" : {
+                    "type" : "string",
+                    "value" : "dropdown"
+                  }
+                }
+              },
+              "right" : {
+                "type" : "string",
+                "value" : "1"
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042416
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "element-selected-label",
+                "source" : {
+                  "type" : "element-id",
+                  "source" : {
+                    "type" : "string",
+                    "value" : "dropdown"
+                  }
+                }
+              },
+              "right" : {
+                "type" : "string",
+                "value" : "Option 1"
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "select-text",
+        "metadata" : {
+          "_id" : 135851674042411
+        },
+        "sources" : {
+          "index" : {
+            "type" : "integer",
+            "value" : 1
+          },
+          "element" : {
+            "type" : "element-id",
+            "source" : {
+              "type" : "string",
+              "value" : "dropdown"
+            }
+          },
+          "text" : {
+            "type" : "string",
+            "value" : "Option 2"
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042412
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "element-value",
+                "source" : {
+                  "type" : "element-id",
+                  "source" : {
+                    "type" : "string",
+                    "value" : "dropdown"
+                  }
+                }
+              },
+              "right" : {
+                "type" : "string",
+                "value" : "2"
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042418
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "element-selected-label",
+                "source" : {
+                  "type" : "element-id",
+                  "source" : {
+                    "type" : "string",
+                    "value" : "dropdown"
+                  }
+                }
+              },
+              "right" : {
+                "type" : "string",
+                "value" : "Option 2"
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "back",
+        "metadata" : {
+          "_id" : 135851674042420
+        }
+      } ]
+    }, {
+      "type" : "compound",
+      "metadata" : {
+        "_id" : 135851674042421,
+        "_description" : "elementExists(), not() and <css:locator>"
+      },
+      "children" : [ {
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674042423
+        },
+        "sources" : {
+          "element" : {
+            "type" : "element-linktext",
+            "source" : {
+              "type" : "string",
+              "value" : "Add/Remove Elements"
+            },
+            "sourceMap" : {
+              "find-multiple" : {
+                "type" : "boolean",
+                "value" : false
+              }
+            }
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042433
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "not",
+            "source" : {
+              "type" : "exists",
+              "source" : {
+                "type" : "css-selector",
+                "source" : {
+                  "type" : "string",
+                  "value" : ".added-manually"
+                }
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674042425
+        },
+        "sources" : {
+          "element" : {
+            "type" : "element-xpath",
+            "source" : {
+              "type" : "string",
+              "value" : "//button[text()='Add Element']"
+            },
+            "sourceMap" : {
+              "find-multiple" : {
+                "type" : "boolean",
+                "value" : false
+              }
+            }
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042427
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "exists",
+            "source" : {
+              "type" : "css-selector",
+              "source" : {
+                "type" : "string",
+                "value" : ".added-manually"
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674042429
+        },
+        "sources" : {
+          "element" : {
+            "type" : "element-xpath",
+            "source" : {
+              "type" : "string",
+              "value" : "//button[text()='Delete']"
+            }
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042431
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "not",
+            "source" : {
+              "type" : "exists",
+              "source" : {
+                "type" : "css-selector",
+                "source" : {
+                  "type" : "string",
+                  "value" : ".added-manually"
+                }
+              }
+            }
+          },
+          "terminate" : {
+            "type" : "boolean",
+            "value" : true
+          }
+        }
+      }, {
+        "type" : "back",
+        "metadata" : {
+          "_id" : 135851674042434
+        }
+      } ]
+    }, {
+      "type" : "compound",
+      "metadata" : {
+        "_id" : 135851674042454,
+        "_description" : "Javascript dialogs"
+      },
+      "children" : [ {
+        "type" : "click-element",
+        "metadata" : {
+          "_id" : 135851674042456
+        },
+        "sources" : {
+          "element" : {
+            "type" : "element-linktext",
+            "source" : {
+              "type" : "string",
+              "value" : "JavaScript Alerts"
+            },
+            "sourceMap" : {
+              "find-multiple" : {
+                "type" : "boolean",
+                "value" : false
+              }
+            }
+          }
+        }
+      }, {
+        "type" : "compound",
+        "metadata" : {
+          "_id" : 135851674042476,
+          "_description" : "Accept an alert and get alert text"
+        },
+        "children" : [ {
+          "type" : "click-element",
+          "metadata" : {
+            "_id" : 135851674042458
+          },
+          "sources" : {
+            "element" : {
+              "type" : "element-xpath",
+              "source" : {
+                "type" : "string",
+                "value" : "//button[text()='Click for JS Alert']"
+              },
+              "sourceMap" : {
+                "find-multiple" : {
+                  "type" : "boolean",
+                  "value" : false
+                }
+              }
+            }
+          }
+        }, {
+          "type" : "verify",
+          "metadata" : {
+            "_id" : 135851674042501
+          },
+          "sources" : {
+            "condition" : {
+              "type" : "equals",
+              "sourceMap" : {
+                "left" : {
+                  "type" : "dialog-text"
+                },
+                "right" : {
+                  "type" : "string",
+                  "value" : "I am a JS Alert"
+                }
+              }
+            }
+          }
+        }, {
+          "type" : "accept-dialog",
+          "metadata" : {
+            "_id" : 135851674042459
+          }
+        }, {
+          "type" : "verify",
+          "metadata" : {
+            "_id" : 135851674042460
+          },
+          "sources" : {
+            "condition" : {
+              "type" : "equals",
+              "sourceMap" : {
+                "left" : {
+                  "type" : "element-text",
+                  "source" : {
+                    "type" : "element-id",
+                    "source" : {
+                      "type" : "string",
+                      "value" : "result"
+                    }
+                  }
+                },
+                "right" : {
+                  "type" : "string",
+                  "value" : "You successfuly clicked an alert"
+                }
+              }
+            },
+            "terminate" : {
+              "type" : "boolean",
+              "value" : true
+            }
+          }
+        } ]
+      }, {
+        "type" : "compound",
+        "metadata" : {
+          "_id" : 135851674042477,
+          "_description" : "Accept a confirmation"
+        },
+        "children" : [ {
+          "type" : "click-element",
+          "metadata" : {
+            "_id" : 135851674042471
+          },
+          "sources" : {
+            "element" : {
+              "type" : "element-xpath",
+              "source" : {
+                "type" : "string",
+                "value" : "//button[text()='Click for JS Confirm']"
+              },
+              "sourceMap" : {
+                "find-multiple" : {
+                  "type" : "boolean",
+                  "value" : false
+                }
+              }
+            }
+          }
+        }, {
+          "type" : "accept-dialog",
+          "metadata" : {
+            "_id" : 135851674042472
+          }
+        }, {
+          "type" : "verify",
+          "metadata" : {
+            "_id" : 135851674042473
+          },
+          "sources" : {
+            "condition" : {
+              "type" : "equals",
+              "sourceMap" : {
+                "left" : {
+                  "type" : "element-text",
+                  "source" : {
+                    "type" : "element-id",
+                    "source" : {
+                      "type" : "string",
+                      "value" : "result"
+                    }
+                  }
+                },
+                "right" : {
+                  "type" : "string",
+                  "value" : "You clicked: Ok"
+                }
+              }
+            },
+            "terminate" : {
+              "type" : "boolean",
+              "value" : true
+            }
+          }
+        } ]
+      }, {
+        "type" : "compound",
+        "metadata" : {
+          "_id" : 135851674042478,
+          "_description" : "Cancel/dismiss a confirmation"
+        },
+        "children" : [ {
+          "type" : "click-element",
+          "metadata" : {
+            "_id" : 135851674042474
+          },
+          "sources" : {
+            "element" : {
+              "type" : "element-xpath",
+              "source" : {
+                "type" : "string",
+                "value" : "//button[text()='Click for JS Confirm']"
+              },
+              "sourceMap" : {
+                "find-multiple" : {
+                  "type" : "boolean",
+                  "value" : false
+                }
+              }
+            }
+          }
+        }, {
+          "type" : "cancel-dialog",
+          "metadata" : {
+            "_id" : 135851674042475
+          }
+        }, {
+          "type" : "verify",
+          "metadata" : {
+            "_id" : 135851674042467
+          },
+          "sources" : {
+            "condition" : {
+              "type" : "equals",
+              "sourceMap" : {
+                "left" : {
+                  "type" : "element-text",
+                  "source" : {
+                    "type" : "element-id",
+                    "source" : {
+                      "type" : "string",
+                      "value" : "result"
+                    }
+                  }
+                },
+                "right" : {
+                  "type" : "string",
+                  "value" : "You clicked: Cancel"
+                }
+              }
+            },
+            "terminate" : {
+              "type" : "boolean",
+              "value" : true
+            }
+          }
+        } ]
+      }, {
+        "type" : "compound",
+        "metadata" : {
+          "_id" : 135851674042479,
+          "_description" : "Accept a prompt (no input)"
+        },
+        "children" : [ {
+          "type" : "click-element",
+          "metadata" : {
+            "_id" : 135851674042483
+          },
+          "sources" : {
+            "element" : {
+              "type" : "element-xpath",
+              "source" : {
+                "type" : "string",
+                "value" : "//button[text()='Click for JS Prompt']"
+              },
+              "sourceMap" : {
+                "find-multiple" : {
+                  "type" : "boolean",
+                  "value" : false
+                }
+              }
+            }
+          }
+        }, {
+          "type" : "accept-dialog",
+          "metadata" : {
+            "_id" : 135851674042484
+          }
+        }, {
+          "type" : "verify",
+          "metadata" : {
+            "_id" : 135851674042485
+          },
+          "sources" : {
+            "condition" : {
+              "type" : "equals",
+              "sourceMap" : {
+                "left" : {
+                  "type" : "element-text",
+                  "source" : {
+                    "type" : "element-id",
+                    "source" : {
+                      "type" : "string",
+                      "value" : "result"
+                    }
+                  }
+                },
+                "right" : {
+                  "type" : "string",
+                  "value" : "You entered:"
+                }
+              }
+            },
+            "terminate" : {
+              "type" : "boolean",
+              "value" : true
+            }
+          }
+        } ]
+      }, {
+        "type" : "compound",
+        "metadata" : {
+          "_id" : 135851674042487,
+          "_description" : "Cancel/dismiss a prompt (no input)"
+        },
+        "children" : [ {
+          "type" : "click-element",
+          "metadata" : {
+            "_id" : 135851674042492
+          },
+          "sources" : {
+            "element" : {
+              "type" : "element-xpath",
+              "source" : {
+                "type" : "string",
+                "value" : "//button[text()='Click for JS Prompt']"
+              },
+              "sourceMap" : {
+                "find-multiple" : {
+                  "type" : "boolean",
+                  "value" : false
+                }
+              }
+            }
+          }
+        }, {
+          "type" : "cancel-dialog",
+          "metadata" : {
+            "_id" : 135851674042491
+          }
+        }, {
+          "type" : "verify",
+          "metadata" : {
+            "_id" : 135851674042494
+          },
+          "sources" : {
+            "condition" : {
+              "type" : "equals",
+              "sourceMap" : {
+                "left" : {
+                  "type" : "element-text",
+                  "source" : {
+                    "type" : "element-id",
+                    "source" : {
+                      "type" : "string",
+                      "value" : "result"
+                    }
+                  }
+                },
+                "right" : {
+                  "type" : "string",
+                  "value" : "You entered: null"
+                }
+              }
+            },
+            "terminate" : {
+              "type" : "boolean",
+              "value" : true
+            }
+          }
+        } ]
+      }, {
+        "type" : "compound",
+        "metadata" : {
+          "_id" : 135851674042489,
+          "_description" : "Answer a prompt"
+        },
+        "children" : [ {
+          "type" : "click-element",
+          "metadata" : {
+            "_id" : 135851674042495
+          },
+          "sources" : {
+            "element" : {
+              "type" : "element-xpath",
+              "source" : {
+                "type" : "string",
+                "value" : "//button[text()='Click for JS Prompt']"
+              },
+              "sourceMap" : {
+                "find-multiple" : {
+                  "type" : "boolean",
+                  "value" : false
+                }
+              }
+            }
+          }
+        }, {
+          "type" : "sendkeys-dialog",
+          "metadata" : {
+            "_id" : 135851674042500
+          },
+          "sources" : {
+            "keys" : {
+              "type" : "string",
+              "value" : "ABC"
+            }
+          }
+        }, {
+          "type" : "accept-dialog",
+          "metadata" : {
+            "_id" : 135851674042499
+          }
+        }, {
+          "type" : "verify",
+          "metadata" : {
+            "_id" : 135851674042497
+          },
+          "sources" : {
+            "condition" : {
+              "type" : "equals",
+              "sourceMap" : {
+                "left" : {
+                  "type" : "element-text",
+                  "source" : {
+                    "type" : "element-id",
+                    "source" : {
+                      "type" : "string",
+                      "value" : "result"
+                    }
+                  }
+                },
+                "right" : {
+                  "type" : "string",
+                  "value" : "You entered: ABC"
+                }
+              }
+            },
+            "terminate" : {
+              "type" : "boolean",
+              "value" : true
+            }
+          }
+        } ]
+      }, {
+        "type" : "back",
+        "metadata" : {
+          "_id" : 135851674042461
+        }
+      } ]
+    } ]
+  },
+  "tags" : [ ]
+}

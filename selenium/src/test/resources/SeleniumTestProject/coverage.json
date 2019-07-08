@@ -1,0 +1,1014 @@
+{
+  "type" : "steppedtest",
+  "defaultVariables" : { },
+  "step" : {
+    "type" : "compound",
+    "children" : [ {
+      "type" : "open-browser",
+      "metadata" : {
+        "_id" : 135851674043587
+      },
+      "sources" : {
+        "provider" : {
+          "type" : "resource",
+          "source" : {
+            "value" : "local-provider",
+            "type" : "string"
+          }
+        },
+        "browser" : {
+          "type" : "resource",
+          "source" : {
+            "value" : "firefox",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "goto-url",
+      "metadata" : {
+        "_id" : 135851674043529
+      },
+      "sources" : {
+        "URL" : {
+          "value" : "https://the-internet.herokuapp.com",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "execute-js",
+      "metadata" : {
+        "_id" : 135851674043600
+      },
+      "sources" : {
+        "arguments" : {
+          "type" : "list",
+          "sourceList" : [ {
+            "value" : "/html/body/div[2]/div/h1",
+            "type" : "string"
+          } ]
+        },
+        "script" : {
+          "value" : "return document.evaluate(arguments[0], document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent;",
+          "type" : "string"
+        },
+        "return_var" : {
+          "value" : "page_title",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "browser-size",
+      "metadata" : {
+        "_id" : 135851674043530
+      },
+      "sources" : {
+        "width" : {
+          "value" : 845,
+          "type" : "integer"
+        },
+        "height" : {
+          "value" : 794,
+          "type" : "integer"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043531
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "page-title"
+            },
+            "right" : {
+              "value" : "The Internet",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043532
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "element-text",
+              "source" : {
+                "type" : "element-xpath",
+                "source" : {
+                  "value" : "//h1",
+                  "type" : "string"
+                }
+              }
+            },
+            "right" : {
+              "value" : "Welcome to the-internet",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "log-message",
+      "metadata" : {
+        "_id" : 135851674043533
+      },
+      "sources" : {
+        "message" : {
+          "value" : "test is running",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043534
+      },
+      "sources" : {
+        "element" : {
+          "type" : "element-linktext",
+          "source" : {
+            "value" : "Form Authentication",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "send-keys",
+      "metadata" : {
+        "_id" : 135851674043535
+      },
+      "sources" : {
+        "keys" : {
+          "value" : "tomsmith",
+          "type" : "string"
+        },
+        "clear" : {
+          "value" : true,
+          "type" : "boolean"
+        },
+        "element" : {
+          "type" : "element-id",
+          "source" : {
+            "value" : "username",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "send-keys",
+      "metadata" : {
+        "_id" : 135851674043536
+      },
+      "sources" : {
+        "keys" : {
+          "value" : "SuperSecretPassword!",
+          "type" : "string"
+        },
+        "clear" : {
+          "value" : true,
+          "type" : "boolean"
+        },
+        "element" : {
+          "type" : "element-id",
+          "source" : {
+            "value" : "password",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "submit-element",
+      "metadata" : {
+        "_id" : 135851674043537
+      },
+      "sources" : {
+        "element" : {
+          "type" : "element-id",
+          "source" : {
+            "value" : "login",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "goto-url",
+      "metadata" : {
+        "_id" : 135851674043538
+      },
+      "sources" : {
+        "URL" : {
+          "value" : "https://the-internet.herokuapp.com",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043539
+      },
+      "sources" : {
+        "element" : {
+          "type" : "element-linktext",
+          "source" : {
+            "value" : "Inputs",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "send-keys",
+      "metadata" : {
+        "_id" : 135851674043540
+      },
+      "sources" : {
+        "keys" : {
+          "type" : "keystrokes",
+          "source" : {
+            "value" : "{UP}{UP}{UP}",
+            "type" : "string"
+          }
+        },
+        "element" : {
+          "type" : "css-selector",
+          "source" : {
+            "value" : "input",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043541
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "element-value",
+              "source" : {
+                "type" : "css-selector",
+                "source" : {
+                  "value" : "input",
+                  "type" : "string"
+                }
+              }
+            },
+            "right" : {
+              "value" : "3",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "goto-url",
+      "metadata" : {
+        "_id" : 135851674043542
+      },
+      "sources" : {
+        "URL" : {
+          "value" : "https://the-internet.herokuapp.com",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043543
+      },
+      "sources" : {
+        "element" : {
+          "type" : "element-linktext",
+          "source" : {
+            "value" : "Dropdown",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043544
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "element-value",
+              "source" : {
+                "type" : "element-id",
+                "source" : {
+                  "value" : "dropdown",
+                  "type" : "string"
+                }
+              }
+            },
+            "right" : {
+              "value" : "",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "select-text",
+      "metadata" : {
+        "_id" : 135851674043545
+      },
+      "sources" : {
+        "text" : {
+          "value" : "Option 1",
+          "type" : "string"
+        },
+        "element" : {
+          "type" : "element-id",
+          "source" : {
+            "value" : "dropdown",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043546
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "element-value",
+              "source" : {
+                "type" : "element-id",
+                "source" : {
+                  "value" : "dropdown",
+                  "type" : "string"
+                }
+              }
+            },
+            "right" : {
+              "value" : "1",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043547
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "element-selected-label",
+              "source" : {
+                "type" : "element-id",
+                "source" : {
+                  "value" : "dropdown",
+                  "type" : "string"
+                }
+              }
+            },
+            "right" : {
+              "value" : "Option 1",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "select-text",
+      "metadata" : {
+        "_id" : 135851674043548
+      },
+      "sources" : {
+        "text" : {
+          "value" : "Option 2",
+          "type" : "string"
+        },
+        "element" : {
+          "type" : "element-id",
+          "source" : {
+            "value" : "dropdown",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043549
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "element-value",
+              "source" : {
+                "type" : "element-id",
+                "source" : {
+                  "value" : "dropdown",
+                  "type" : "string"
+                }
+              }
+            },
+            "right" : {
+              "value" : "2",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043550
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "element-selected-label",
+              "source" : {
+                "type" : "element-id",
+                "source" : {
+                  "value" : "dropdown",
+                  "type" : "string"
+                }
+              }
+            },
+            "right" : {
+              "value" : "Option 2",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "goto-url",
+      "metadata" : {
+        "_id" : 135851674043551
+      },
+      "sources" : {
+        "URL" : {
+          "value" : "https://the-internet.herokuapp.com",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043552
+      },
+      "sources" : {
+        "element" : {
+          "type" : "element-linktext",
+          "source" : {
+            "value" : "Add/Remove Elements",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043553
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "not",
+          "source" : {
+            "type" : "exists",
+            "source" : {
+              "type" : "css-selector",
+              "source" : {
+                "value" : ".added-manually",
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043554
+      },
+      "sources" : {
+        "element" : {
+          "type" : "element-xpath",
+          "source" : {
+            "value" : "//button[text()='Add Element']",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043555
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "exists",
+          "source" : {
+            "type" : "css-selector",
+            "source" : {
+              "value" : ".added-manually",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043556
+      },
+      "sources" : {
+        "element" : {
+          "type" : "css-selector",
+          "source" : {
+            "value" : ".added-manually",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043557
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "not",
+          "source" : {
+            "type" : "exists",
+            "source" : {
+              "type" : "css-selector",
+              "source" : {
+                "value" : ".added-manually",
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "goto-url",
+      "metadata" : {
+        "_id" : 135851674043558
+      },
+      "sources" : {
+        "URL" : {
+          "value" : "https://the-internet.herokuapp.com",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043559
+      },
+      "sources" : {
+        "element" : {
+          "type" : "element-linktext",
+          "source" : {
+            "value" : "JavaScript Alerts",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043560
+      },
+      "sources" : {
+        "element" : {
+          "type" : "css-selector",
+          "source" : {
+            "value" : "li:nth-child(1) > button",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043561
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "dialog-text"
+            },
+            "right" : {
+              "value" : "I am a JS Alert",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "chooseOkOnNextConfirmation",
+      "metadata" : {
+        "_description" : "chooseOkOnNextConfirmation is not necessary in Selenium tests, because it can respond to Javascript dialogs on-demand. Use the Accept Dialog, Cancel Dialog and Send Keys to Dialog steps, instead.",
+        "_id" : 135851674043562
+      },
+      "sources" : {
+        "value" : {
+          "value" : "",
+          "type" : "string"
+        },
+        "target" : {
+          "value" : "",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043563
+      },
+      "sources" : {
+        "element" : {
+          "type" : "css-selector",
+          "source" : {
+            "value" : "li:nth-child(2) > button",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043564
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "dialog-text"
+            },
+            "right" : {
+              "value" : "I am a JS Confirm",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "accept-dialog",
+      "metadata" : {
+        "_id" : 135851674043565
+      }
+    }, {
+      "type" : "chooseCancelOnNextConfirmation",
+      "metadata" : {
+        "_description" : "chooseCancelOnNextConfirmation is not necessary in Selenium tests, because it can respond to Javascript dialogs on-demand. Use the Accept Dialog, Cancel Dialog and Send Keys to Dialog steps, instead.",
+        "_id" : 135851674043566
+      },
+      "sources" : {
+        "value" : {
+          "value" : "",
+          "type" : "string"
+        },
+        "target" : {
+          "value" : "",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043567
+      },
+      "sources" : {
+        "element" : {
+          "type" : "css-selector",
+          "source" : {
+            "value" : "li:nth-child(2) > button",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043568
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "dialog-text"
+            },
+            "right" : {
+              "value" : "I am a JS Confirm",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "cancel-dialog",
+      "metadata" : {
+        "_id" : 135851674043569
+      }
+    }, {
+      "type" : "answerOnNextPrompt",
+      "metadata" : {
+        "_description" : "answerOnNextPrompt is not necessary in Selenium tests, because it can respond to Javascript dialogs on-demand. Use the Accept Dialog, Cancel Dialog and Send Keys to Dialog steps, instead.",
+        "_id" : 135851674043570
+      },
+      "sources" : {
+        "value" : {
+          "value" : "",
+          "type" : "string"
+        },
+        "target" : {
+          "value" : "",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043571
+      },
+      "sources" : {
+        "element" : {
+          "type" : "css-selector",
+          "source" : {
+            "value" : "li:nth-child(3) > button",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043572
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "dialog-text"
+            },
+            "right" : {
+              "value" : "I am a JS prompt",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "compound",
+      "children" : [ {
+        "type" : "sendkeys-dialog",
+        "metadata" : {
+          "_id" : 135851674043574
+        },
+        "sources" : {
+          "keys" : {
+            "value" : "",
+            "type" : "string"
+          }
+        }
+      }, {
+        "type" : "accept-dialog",
+        "metadata" : {
+          "_id" : 135851674043575
+        }
+      } ],
+      "metadata" : {
+        "_description" : "respond to prompt",
+        "_id" : 135851674043573
+      }
+    }, {
+      "type" : "chooseCancelOnNextPrompt",
+      "metadata" : {
+        "_description" : "chooseCancelOnNextPrompt is not necessary in Selenium tests, because it can respond to Javascript dialogs on-demand. Use the Accept Dialog, Cancel Dialog and Send Keys to Dialog steps, instead.",
+        "_id" : 135851674043576
+      },
+      "sources" : {
+        "value" : {
+          "value" : "",
+          "type" : "string"
+        },
+        "target" : {
+          "value" : "",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043577
+      },
+      "sources" : {
+        "element" : {
+          "type" : "css-selector",
+          "source" : {
+            "value" : "li:nth-child(3) > button",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043578
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "dialog-text"
+            },
+            "right" : {
+              "value" : "I am a JS prompt",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "cancel-dialog",
+      "metadata" : {
+        "_id" : 135851674043579
+      }
+    }, {
+      "type" : "answerOnNextPrompt",
+      "metadata" : {
+        "_description" : "answerOnNextPrompt is not necessary in Selenium tests, because it can respond to Javascript dialogs on-demand. Use the Accept Dialog, Cancel Dialog and Send Keys to Dialog steps, instead.",
+        "_id" : 135851674043580
+      },
+      "sources" : {
+        "value" : {
+          "value" : "",
+          "type" : "string"
+        },
+        "target" : {
+          "value" : "ABC",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "click-element",
+      "metadata" : {
+        "_id" : 135851674043581
+      },
+      "sources" : {
+        "element" : {
+          "type" : "css-selector",
+          "source" : {
+            "value" : "li:nth-child(3) > button",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "verify",
+      "metadata" : {
+        "_id" : 135851674043582
+      },
+      "sources" : {
+        "condition" : {
+          "type" : "equals",
+          "sourceMap" : {
+            "left" : {
+              "type" : "dialog-text"
+            },
+            "right" : {
+              "value" : "I am a JS prompt",
+              "type" : "string"
+            }
+          }
+        },
+        "terminate" : {
+          "value" : true,
+          "type" : "boolean"
+        }
+      }
+    }, {
+      "type" : "compound",
+      "children" : [ {
+        "type" : "sendkeys-dialog",
+        "metadata" : {
+          "_id" : 135851674043584
+        },
+        "sources" : {
+          "keys" : {
+            "value" : "ABC",
+            "type" : "string"
+          }
+        }
+      }, {
+        "type" : "accept-dialog",
+        "metadata" : {
+          "_id" : 135851674043585
+        }
+      } ],
+      "metadata" : {
+        "_description" : "respond to prompt",
+        "_id" : 135851674043583
+      }
+    } ],
+    "metadata" : {
+      "_id" : 135851674043528
+    }
+  },
+  "tags" : [ ]
+}

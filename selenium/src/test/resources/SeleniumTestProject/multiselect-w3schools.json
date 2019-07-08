@@ -1,0 +1,166 @@
+{
+  "type" : "steppedtest",
+  "step" : {
+    "type" : "scope",
+    "children" : [ {
+      "type" : "open-browser",
+      "metadata" : {
+        "_id" : 135851674043618
+      },
+      "sources" : {
+        "provider" : {
+          "type" : "resource",
+          "source" : {
+            "value" : "local-provider",
+            "type" : "string"
+          }
+        },
+        "browser" : {
+          "type" : "resource",
+          "source" : {
+            "value" : "firefox",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "goto-url",
+      "metadata" : {
+        "_id" : 135851674043619
+      },
+      "sources" : {
+        "URL" : {
+          "value" : "https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select_multiple",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "switch-to",
+      "metadata" : {
+        "_id" : 135851674043620
+      },
+      "sources" : {
+        "target" : {
+          "type" : "element-id",
+          "source" : {
+            "value" : "iframeResult",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "select-index",
+      "metadata" : {
+        "_id" : 135851674043621
+      },
+      "sources" : {
+        "index" : {
+          "value" : 0,
+          "type" : "integer"
+        },
+        "element" : {
+          "type" : "element-name",
+          "source" : {
+            "value" : "cars",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "select-text",
+      "metadata" : {
+        "_id" : 135851674043622
+      },
+      "sources" : {
+        "text" : {
+          "value" : "Saab",
+          "type" : "string"
+        },
+        "element" : {
+          "type" : "element-name",
+          "source" : {
+            "value" : "cars",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "select-value",
+      "metadata" : {
+        "_id" : 135851674043623
+      },
+      "sources" : {
+        "value" : {
+          "value" : "opel",
+          "type" : "string"
+        },
+        "element" : {
+          "type" : "element-name",
+          "source" : {
+            "value" : "cars",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "deselect-index",
+      "metadata" : {
+        "_id" : 135851674043631
+      },
+      "sources" : {
+        "index" : {
+          "value" : 0,
+          "type" : "integer"
+        },
+        "element" : {
+          "type" : "element-name",
+          "source" : {
+            "value" : "cars",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "deselect-text",
+      "metadata" : {
+        "_id" : 135851674043633
+      },
+      "sources" : {
+        "text" : {
+          "value" : "Saab",
+          "type" : "string"
+        },
+        "element" : {
+          "type" : "element-name",
+          "source" : {
+            "value" : "cars",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "deselect-value",
+      "metadata" : {
+        "_id" : 135851674043635
+      },
+      "sources" : {
+        "value" : {
+          "value" : "opel",
+          "type" : "string"
+        },
+        "element" : {
+          "type" : "element-name",
+          "source" : {
+            "value" : "cars",
+            "type" : "string"
+          }
+        }
+      }
+    } ],
+    "metadata" : {
+      "_id" : 135851674043614
+    }
+  },
+  "defaultVariables" : { },
+  "tags" : [ ]
+}

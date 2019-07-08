@@ -1,0 +1,121 @@
+{
+  "type" : "steppedtest",
+  "step" : {
+    "type" : "scope",
+    "children" : [ {
+      "type" : "open-browser",
+      "metadata" : {
+        "_id" : 135851674042449
+      },
+      "sources" : {
+        "provider" : {
+          "type" : "resource",
+          "source" : {
+            "value" : "local-provider",
+            "type" : "string"
+          }
+        },
+        "browser" : {
+          "type" : "resource",
+          "source" : {
+            "value" : "firefox",
+            "type" : "string"
+          }
+        }
+      }
+    }, {
+      "type" : "goto-url",
+      "metadata" : {
+        "_id" : 135851674042450
+      },
+      "sources" : {
+        "URL" : {
+          "value" : "https://html.com/attributes/input-readonly/",
+          "type" : "string"
+        }
+      }
+    }, {
+      "type" : "compound",
+      "children" : [ {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042372
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "equals",
+            "sourceMap" : {
+              "left" : {
+                "type" : "element-value",
+                "source" : {
+                  "type" : "element-xpath",
+                  "source" : {
+                    "value" : "//input",
+                    "type" : "string"
+                  }
+                }
+              },
+              "right" : {
+                "value" : "Flamingo",
+                "type" : "string"
+              }
+            }
+          },
+          "terminate" : {
+            "value" : true,
+            "type" : "boolean"
+          }
+        }
+      }, {
+        "type" : "verify",
+        "metadata" : {
+          "_id" : 135851674042453
+        },
+        "sources" : {
+          "condition" : {
+            "type" : "not",
+            "source" : {
+              "type" : "editable",
+              "source" : {
+                "type" : "element-xpath",
+                "source" : {
+                  "value" : "//input",
+                  "type" : "string"
+                }
+              }
+            },
+            "sourceMap" : {
+              "left" : {
+                "type" : "element-value",
+                "source" : {
+                  "type" : "element-xpath",
+                  "source" : {
+                    "value" : "//input",
+                    "type" : "string"
+                  }
+                }
+              },
+              "right" : {
+                "value" : "Flamingo",
+                "type" : "string"
+              }
+            }
+          },
+          "terminate" : {
+            "value" : true,
+            "type" : "boolean"
+          }
+        }
+      } ],
+      "metadata" : {
+        "_id" : 135851674042451,
+        "_description" : "elementEditable()"
+      }
+    } ],
+    "metadata" : {
+      "_id" : 135851674042444
+    }
+  },
+  "defaultVariables" : { },
+  "tags" : [ ]
+}
