@@ -129,4 +129,60 @@ class CommandConversionTests
         StepConfiguration step = StepConverters.get().convertStep("", WebdriverDialogResponseConverter.CANCEL_PROMPT, "", "");
         Assertions.assertEquals(CancelDialog.TYPE_ID, step.getType());
         }
+
+    @Test
+    void chooseOkOnNextConfirmation()
+        {
+        try
+            {
+            StepConverters.get().convertStep("", NextDialogConverter.OK_NEXT_CONFIRM, "", "");
+            Assertions.fail();
+            }
+        catch (UnsupportedError e)
+            {
+            // OK
+            }
+        }
+
+    @Test
+    void chooseCancelOnNextConfirmation()
+        {
+        try
+            {
+            StepConverters.get().convertStep("", NextDialogConverter.CANCEL_NEXT_CONFIRM, "", "");
+            Assertions.fail();
+            }
+        catch (UnsupportedError e)
+            {
+            // OK
+            }
+        }
+
+    @Test
+    void answerOnNextPrompt()
+        {
+        try
+            {
+            StepConverters.get().convertStep("", NextDialogConverter.ANSWER_NEXT_PROMPT, "", "");
+            Assertions.fail();
+            }
+        catch (UnsupportedError e)
+            {
+            // OK
+            }
+        }
+
+    @Test
+    void chooseCancelOnNextPrompt()
+        {
+        try
+            {
+            StepConverters.get().convertStep("", NextDialogConverter.CANCEL_NEXT_PROMPT, "", "");
+            Assertions.fail();
+            }
+        catch (UnsupportedError e)
+            {
+            // OK
+            }
+        }
     }

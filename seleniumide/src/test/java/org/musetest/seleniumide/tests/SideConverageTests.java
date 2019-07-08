@@ -20,6 +20,6 @@ public class SideConverageTests
    	    SideTestConverter converter = new SideTestConverter();
    	    ConversionResult result = converter.convert(project.getTests()[0], project);
 
-   	    Assertions.assertEquals(0, result._errors.size());
+   	    Assertions.assertEquals(5, result._errors.size());
    	    }
     }
