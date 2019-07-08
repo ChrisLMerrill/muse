@@ -84,6 +84,46 @@ class CommandConversionTests
         }
 
     @Test
+    void selectByValue() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", SelectConverter.SELECT, "id=InputDay", "value=2");
+        Assertions.assertEquals(SelectOptionByValue.TYPE_ID, step.getType());
+        Assertions.assertEquals("2", step.getSource(SelectOptionByValue.VALUE_PARAM).getValue());
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(SelectOptionByValue.ELEMENT_PARAM).getType());
+        Assertions.assertEquals("InputDay", step.getSource(SelectOptionByValue.ELEMENT_PARAM).getSource().getValue());
+        }
+
+    @Test
+    void deselectByLabel() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", SelectConverter.DESELECT, "id=InputMonth", "label=04");
+        Assertions.assertEquals(DeselectOptionByText.TYPE_ID, step.getType());
+        Assertions.assertEquals("04", step.getSource(DeselectOptionByText.TEXT_PARAM).getValue());
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(DeselectOptionByText.ELEMENT_PARAM).getType());
+        Assertions.assertEquals("InputMonth", step.getSource(DeselectOptionByText.ELEMENT_PARAM).getSource().getValue());
+        }
+
+    @Test
+    void deselectByIndex() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", SelectConverter.DESELECT, "id=InputDay", "index=2");
+        Assertions.assertEquals(DeselectOptionByIndex.TYPE_ID, step.getType());
+        Assertions.assertEquals("2", step.getSource(DeselectOptionByIndex.INDEX_PARAM).getValue());
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(DeselectOptionByIndex.ELEMENT_PARAM).getType());
+        Assertions.assertEquals("InputDay", step.getSource(DeselectOptionByIndex.ELEMENT_PARAM).getSource().getValue());
+        }
+
+    @Test
+    void deselectByValue() throws UnsupportedError
+        {
+        StepConfiguration step = StepConverters.get().convertStep("", SelectConverter.DESELECT, "id=InputDay", "value=2");
+        Assertions.assertEquals(DeselectOptionByValue.TYPE_ID, step.getType());
+        Assertions.assertEquals("2", step.getSource(DeselectOptionByValue.VALUE_PARAM).getValue());
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, step.getSource(DeselectOptionByValue.ELEMENT_PARAM).getType());
+        Assertions.assertEquals("InputDay", step.getSource(DeselectOptionByValue.ELEMENT_PARAM).getSource().getValue());
+        }
+
+    @Test
     void echo() throws UnsupportedError
         {
         String message = "a message";
