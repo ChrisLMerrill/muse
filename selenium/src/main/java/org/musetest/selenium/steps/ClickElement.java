@@ -5,7 +5,6 @@ import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.descriptor.*;
 
 /**
@@ -22,7 +21,7 @@ import org.musetest.core.values.descriptor.*;
 public class ClickElement extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
-    public ClickElement(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public ClickElement(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
         _element_source = getValueSource(config, ELEMENT_PARAM, true, project);
