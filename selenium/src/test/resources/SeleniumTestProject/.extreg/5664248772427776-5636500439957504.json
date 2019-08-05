@@ -1,0 +1,73 @@
+{
+  "info" : {
+    "extensionDesc" : "GeckoDriver is an executable used by WebDriver to control the Mozilla Firefox browser.",
+    "authorUrl" : "https://github.com/ChrisLMerrill",
+    "extensionAuthor" : "Chris Merrill",
+    "extensionName" : "GeckoDriver",
+    "versionName" : "0.24.0",
+    "extensionId" : 5664248772427776,
+    "versionDate" : null,
+    "assets" : [ {
+      "content" : null,
+      "defaultPath" : "webdrivers/geckodriver/0.24.0/geckodriver-win64.zip",
+      "url" : "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win64.zip",
+      "installInstructions" : [ {
+        "parameters" : null,
+        "actionName" : "Download"
+      }, {
+        "parameters" : {
+          "filename" : "geckodriver_win64.exe"
+        },
+        "actionName" : "UnzipOneAs"
+      }, {
+        "parameters" : null,
+        "actionName" : "DeleteFile"
+      } ],
+      "stringContent" : null
+    }, {
+      "content" : null,
+      "defaultPath" : "webdrivers/geckodriver/0.24.0/geckodriver-win32.zip",
+      "url" : "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-win32.zip",
+      "installInstructions" : [ {
+        "parameters" : null,
+        "actionName" : "Download"
+      }, {
+        "parameters" : {
+          "filename" : "geckodriver_win32.exe"
+        },
+        "actionName" : "UnzipOneAs"
+      }, {
+        "parameters" : null,
+        "actionName" : "DeleteFile"
+      } ],
+      "stringContent" : null
+    }, {
+      "content" : null,
+      "defaultPath" : "webdrivers/geckodriver/0.24.0/geckodriver-linux64.tar.gz",
+      "url" : "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz",
+      "installInstructions" : [ {
+        "parameters" : null,
+        "actionName" : "Download"
+      }, {
+        "parameters" : {
+          "filename" : "geckodriver_linux64"
+        },
+        "actionName" : "UntargzOneAs"
+      }, {
+        "parameters" : null,
+        "actionName" : "DeleteFile"
+      } ],
+      "stringContent" : null
+    } ],
+    "versionId" : 5636500439957504,
+    "versionDescription" : "Supports Firefox 55+ and Selenium 3.5+. Released 28 Jan 2019"
+  },
+  "log" : {
+    "entry" : null,
+    "registryUpdated" : false,
+    "numberActionFailures" : 0,
+    "numberFilesInstalled" : 4,
+    "registryUpdateMessage" : null,
+    "installedFilePaths" : [ "webdrivers\\geckodriver\\0.24.0", "webdrivers\\geckodriver\\0.24.0\\geckodriver_win64.exe", "webdrivers\\geckodriver\\0.24.0\\geckodriver_win32.exe", "webdrivers\\geckodriver\\0.24.0\\geckodriver_linux64" ]
+  }
+}
