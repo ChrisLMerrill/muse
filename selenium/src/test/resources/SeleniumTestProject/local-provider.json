@@ -2,8 +2,8 @@
   "type" : "webdriver-provider-list",
   "providers" : [ {
     "type" : "firefox-marionette-provider",
-    "os" : "Windows",
-    "relativePath" : "webdrivers\\geckodriver\\0.23.0\\geckodriver_win64.exe"
+    "relativePath" : "webdrivers\\geckodriver\\0.24.0\\geckodriver_win64.exe",
+    "os" : "Windows"
   } ],
   "tags" : [ ]
 }
