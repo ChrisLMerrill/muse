@@ -39,7 +39,7 @@ public class ExecuteJavascript extends BrowserStep
     public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         String script = getValue(_script, context, false, String.class);
-        Object[] arg_list = null;
+        Object[] arg_list = new Object[0];
         if (_arguments != null)
             {
             Object args = getValue(_arguments, context, true, Object.class);
