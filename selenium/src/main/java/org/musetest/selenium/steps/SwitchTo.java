@@ -5,7 +5,6 @@ import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
-import org.musetest.core.steptest.*;
 import org.musetest.core.values.descriptor.*;
 import org.openqa.selenium.*;
 
@@ -13,17 +12,17 @@ import org.openqa.selenium.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("switch-to")
-@MuseStepName("Switch To")
+@MuseStepName("Switch To Frame")
 @MuseInlineEditString("switch to {target}")
 @MuseStepIcon("glyph:FontAwesome:EXCHANGE")
-@MuseStepTypeGroup("Selenium")
+@MuseStepTypeGroup("Selenium.Frame")
 @MuseStepShortDescription("Switch the current driver target")
-@MuseStepLongDescription("Resolves the 'target' source and calls the driver's switchTo() method with it. The parameter can be an element (name, window and alerts not yet supported).")
+@MuseStepLongDescription("Resolves the 'target' source and calls the driver's switchTo() method with it. The parameter can be an iframe element, string (name or id) or integer (index).")
 @MuseSubsourceDescriptor(displayName = "Target", description = "Locator for the element to switch to", type = SubsourceDescriptor.Type.Named, name = SwitchTo.TARTGET_PARAM)
 public class SwitchTo extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
-    public SwitchTo(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public SwitchTo(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
         _target_source = getValueSource(config, TARTGET_PARAM, true, project);
@@ -35,6 +34,10 @@ public class SwitchTo extends BrowserStep
         Object target = getValue(_target_source, context, false, Object.class);
         if (target instanceof WebElement)
             getDriver(context).switchTo().frame((WebElement)target);
+        else if (target instanceof Number)
+            getDriver(context).switchTo().frame(((Number)target).intValue());
+        else if (target instanceof String)
+            getDriver(context).switchTo().frame((String)target);
         else
             return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, String.format("Unable to switch to target because type of target is not recognized: %s = %s", target.getClass().getSimpleName(), target.toString()));
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
@@ -46,5 +49,3 @@ public class SwitchTo extends BrowserStep
 
     public final static String TYPE_ID = SwitchTo.class.getAnnotation(MuseTypeId.class).value();
     }
-
-
