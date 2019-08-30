@@ -6,3 +6,4 @@
 /seleniumide/build
 /.idea
 *.iml
+/seleniumide/out
