@@ -59,30 +59,30 @@ class ConditionalAndLoopingTests
     @Test
     void testRepeat0Times() throws MuseExecutionError
         {
-        Assertions.assertFalse(willRunRepeat(null,0));
-        Assertions.assertFalse(willRunRepeat(0L,0));
-        Assertions.assertFalse(willRunRepeat(1L,0));
+        Assertions.assertFalse(willRunRepeatN(null,0));
+        Assertions.assertFalse(willRunRepeatN(0L,0));
+        Assertions.assertFalse(willRunRepeatN(1L,0));
         }
 
     @Test
     void testRepeat1Times() throws MuseExecutionError
         {
-        Assertions.assertTrue(willRunRepeat(null,1));
-        Assertions.assertTrue(willRunRepeat(0L,1));
-        Assertions.assertFalse(willRunRepeat(1L,1));
+        Assertions.assertTrue(willRunRepeatN(null,1));
+        Assertions.assertTrue(willRunRepeatN(0L,1));
+        Assertions.assertFalse(willRunRepeatN(1L,1));
         }
 
     @Test
     void testRepeat3Times() throws MuseExecutionError
         {
-        Assertions.assertTrue(willRunRepeat(null,3));
-        Assertions.assertTrue(willRunRepeat(0L,3));
-        Assertions.assertTrue(willRunRepeat(1L,3));
-        Assertions.assertTrue(willRunRepeat(2L,3));
-        Assertions.assertFalse(willRunRepeat(3L,3));
+        Assertions.assertTrue(willRunRepeatN(null,3));
+        Assertions.assertTrue(willRunRepeatN(0L,3));
+        Assertions.assertTrue(willRunRepeatN(1L,3));
+        Assertions.assertTrue(willRunRepeatN(2L,3));
+        Assertions.assertFalse(willRunRepeatN(3L,3));
         }
 
-    private boolean willRunRepeat(Long starting_count_value, int repeat_count) throws MuseExecutionError
+    private boolean willRunRepeatN(Long starting_count_value, int repeat_count) throws MuseExecutionError
         {
         MuseProject project = new SimpleProject();
 
