@@ -36,7 +36,7 @@ class ValueSourceStringExpressionSupportTests
     @Test
     void stringSourceWithEscapedQuotes()
         {
-        String s = "string \\\" has \\\" quotes";
+        String s = "string \" has \" quotes";
         testParseFromAndToString(new StringValueSource.StringExpressionSupport(), "\"" + s + "\"", StringValueSource.TYPE_ID, s);
         }
 
