@@ -9,6 +9,7 @@ import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
+import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
@@ -96,6 +97,38 @@ class ConditionalAndLoopingTests
 
         RepeatNTimesStep repeat = (RepeatNTimesStep) loop_step.createStep(project);
         return repeat.shouldEnter(context);
+        }
+
+    @Test
+    void testRepeatUntilOnce() throws MuseExecutionError
+        {
+        MuseProject project = new SimpleProject();
+
+        StepConfiguration loop_step = new StepConfiguration(RepeatUntilStep.TYPE_ID);
+        ValueSourceConfiguration count = ValueSourceConfiguration.forValue(true);
+        loop_step.addSource(RepeatUntilStep.CONDITION_PARAM, count);
+
+        MockStepExecutionContext context = new MockStepExecutionContext(project);
+        RepeatUntilStep repeat = (RepeatUntilStep) loop_step.createStep(project);
+
+        Assertions.assertTrue(repeat.shouldEnter(context));
+        Assertions.assertFalse(repeat.shouldEnter((context)));
+        }
+
+    @Test
+    void testRepeatUntilTwice() throws MuseExecutionError
+        {
+        MuseProject project = new SimpleProject();
+
+        StepConfiguration loop_step = new StepConfiguration(RepeatUntilStep.TYPE_ID);
+        ValueSourceConfiguration condition = ValueSourceConfiguration.forValue(false);
+        loop_step.addSource(RepeatUntilStep.CONDITION_PARAM, condition);
+
+        MockStepExecutionContext context = new MockStepExecutionContext(project);
+        RepeatUntilStep repeat = (RepeatUntilStep) loop_step.createStep(project);
+
+        Assertions.assertTrue(repeat.shouldEnter(context));
+        Assertions.assertTrue(repeat.shouldEnter((context)));
         }
 
     @Test
