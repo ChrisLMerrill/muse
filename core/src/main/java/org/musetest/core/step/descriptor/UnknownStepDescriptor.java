@@ -1,6 +1,5 @@
 package org.musetest.core.step.descriptor;
 
-import javafx.scene.paint.*;
 import org.musetest.core.*;
 import org.musetest.core.step.*;
 import org.musetest.core.values.*;
@@ -12,7 +11,7 @@ import org.musetest.core.values.strings.*;
  */
 public class UnknownStepDescriptor implements StepDescriptor
     {
-    public UnknownStepDescriptor(String type, MuseProject project)
+    UnknownStepDescriptor(String type, MuseProject project)
         {
         _type = type;
         _project = project;
@@ -76,9 +75,9 @@ public class UnknownStepDescriptor implements StepDescriptor
         }
 
     @Override
-    public Color getIconColor()
+    public ColorDescriptor getIconColor()
         {
-        return Color.RED;
+        return RgbColorDescriptor.RED;
         }
 
     @Override

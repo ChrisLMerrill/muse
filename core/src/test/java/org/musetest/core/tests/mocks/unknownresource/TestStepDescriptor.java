@@ -1,6 +1,5 @@
 package org.musetest.core.tests.mocks.unknownresource;
 
-import javafx.scene.paint.*;
 import org.musetest.core.*;
 import org.musetest.core.step.*;
 import org.musetest.core.step.descriptor.*;
@@ -40,9 +39,9 @@ public class TestStepDescriptor implements StepDescriptor
         }
 
     @Override
-    public Color getIconColor()
+    public ColorDescriptor getIconColor()
         {
-        return Color.GREEN;
+        return RgbColorDescriptor.GREEN;
         }
 
     public String getShortDescription()

@@ -1,6 +1,5 @@
 package org.musetest.core.step.descriptor;
 
-import javafx.scene.paint.*;
 import org.musetest.core.*;
 import org.musetest.core.step.*;
 import org.musetest.core.values.descriptor.*;
@@ -62,9 +61,9 @@ public class DefaultStepDescriptor extends UnknownStepDescriptor
         }
 
     @Override
-    public Color getIconColor()
+    public ColorDescriptor getIconColor()
         {
-        return Color.BLACK;
+        return RgbColorDescriptor.BLACK;
         }
 
     @Override

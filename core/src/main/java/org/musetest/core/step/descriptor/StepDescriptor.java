@@ -1,6 +1,5 @@
 package org.musetest.core.step.descriptor;
 
-import javafx.scene.paint.*;
 import org.musetest.core.step.*;
 import org.musetest.core.values.descriptor.*;
 
@@ -28,7 +27,8 @@ public interface StepDescriptor
 
     String getIconDescriptor();
 
-    Color getIconColor();
+    @SuppressWarnings("unused")  // used in GUI
+    ColorDescriptor getIconColor();
 
     boolean isCompound();
 
