@@ -46,12 +46,17 @@ subprojects
     processTestResources.dependsOn copyTestResources
 
     task sourcesJar(type: Jar) {
-        classifier = 'sources'
+        archiveClassifier = 'sources'
         from sourceSets.main.allSource
         }
 
+    javadoc {
+        options.addBooleanOption('html5', true)
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+
     task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
+        archiveClassifier = 'javadoc'
         from javadoc.destinationDir
         }
 
@@ -90,14 +95,6 @@ subprojects
         }
     }
 
-if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-      tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-      }
-    }
-  }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.9'
+wrapper {
+    gradleVersion = '5.6.2'
 }
