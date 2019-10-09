@@ -12,6 +12,23 @@ public class RgbColorDescriptor extends ColorDescriptor
         _blue = blue;
         }
 
+    @Override
+    public boolean equals(Object obj)
+        {
+        if (obj instanceof RgbColorDescriptor)
+            {
+            RgbColorDescriptor other = (RgbColorDescriptor) obj;
+            return other._red == _red && other._blue == _blue && other._green == _green;
+            }
+        return false;
+        }
+
+    @Override
+    public int hashCode()
+        {
+        return ((int)(1000*_red)) * ((int)(1000*_blue)) * ((int)(1000*_green));
+        }
+
     public float _red;
     public float _green;
     public float _blue;
