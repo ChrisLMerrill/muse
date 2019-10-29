@@ -13,6 +13,7 @@ import javax.script.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("removal")
 public class JavascriptStepResource extends BaseMuseResource
     {
     JavascriptStepResource(ResourceOrigin origin, Invocable script_runner)
