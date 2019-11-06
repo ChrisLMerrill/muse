@@ -11,6 +11,11 @@ import java.io.*;
 @SuppressWarnings("unused")  // used in UI and other derivative projects
 public abstract class BaseSettingsFile implements Closeable
     {
+    protected static Object load(Class<? extends BaseSettingsFile> type, String filename, String subfolder, ObjectMapper mapper)
+        {
+        return load(type, subfolder + "/" + filename, mapper);
+        }
+
     protected static Object load(Class<? extends BaseSettingsFile> type, String filename, ObjectMapper mapper)
         {
         if (mapper == null)
@@ -58,6 +63,16 @@ public abstract class BaseSettingsFile implements Closeable
         return _filename;
         }
 
+    private void setSubfolderName(String subfolder)
+        {
+        _subfolder = subfolder;
+        }
+
+    protected String getSubfolderName()
+        {
+        return null;
+        }
+
     protected ObjectMapper getMapper()
         {
         return DEFAULT_MAPPER;
@@ -94,6 +109,7 @@ public abstract class BaseSettingsFile implements Closeable
         }
 
     private String _filename;
+    private String _subfolder;
 
     private static ObjectMapper DEFAULT_MAPPER = new ObjectMapper();
     static

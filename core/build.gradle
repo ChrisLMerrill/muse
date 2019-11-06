@@ -1,11 +1,11 @@
 //noinspection GroovyAssignabilityCheck
 dependencies
     {
-    implementation 'org.reflections:reflections:0.9.10'   // finding classes at runtime
+    api 'org.reflections:reflections:0.9.10'   // finding classes at runtime
     implementation 'org.slf4j:slf4j-api:1.7+'  // logging API used in core
     api 'io.airlift:airline:0.8+'  // command-line parsing
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.6'  // JSON de/serialization
-    implementation 'commons-io:commons-io:2.5'
+    api 'com.fasterxml.jackson.core:jackson-databind:2.9.10.1'  // JSON de/serialization
+    api 'commons-io:commons-io:2.5'
     implementation 'net.sf.opencsv:opencsv:2.3'
 
     implementation 'ch.qos.logback:logback-classic:1.1.9'
