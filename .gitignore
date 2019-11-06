@@ -1,9 +1,5 @@
 .gradle
-/build
-/commandline/build
-/core/build
-/selenium/build
-/seleniumide/build
-/.idea
+.idea
 *.iml
-/seleniumide/out
+build
+out
