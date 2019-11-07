@@ -31,14 +31,17 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 		MuseValueSource output_folder_source = BaseValueSource.getValueSource(_configuration.parameters(), LocalStorageLocationPluginConfiguration.BASE_LOCATION_PARAM_NAME, true, context.getProject());
 		String output_folder_path = BaseValueSource.getValue(output_folder_source, context, false, String.class);
 		_output_folder = new File(output_folder_path);
+        String test_folder = null;
+        if (context instanceof TestExecutionContext)
+            test_folder = getTestFolder((TestExecutionContext) context).getAbsolutePath();
 		if (!_output_folder.exists())
 			if (!_output_folder.mkdirs())
 				{
-				context.raiseEvent(LocalStorageLocationEventType.create(_output_folder.getAbsolutePath(), "Unable to create output folder. Results will not be stored."));
+				context.raiseEvent(LocalStorageLocationEventType.create(_output_folder.getAbsolutePath(), test_folder, "Unable to create output folder. Results will not be stored."));
 				_output_folder = null;
 				}
 		if (_output_folder != null)
-			context.raiseEvent(LocalStorageLocationEventType.create(_output_folder.getAbsolutePath(), null));
+			context.raiseEvent(LocalStorageLocationEventType.create(_output_folder.getAbsolutePath(), test_folder, null));
 		}
 
 	@Override
