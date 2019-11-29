@@ -73,7 +73,17 @@ public class JUnitReportData implements TestResultData
 			if (log != null)
 				{
 				writer.println("        <system-out>");
-				writer.println(HtmlEscapers.htmlEscaper().escape(log.toString()));
+				ByteArrayOutputStream eventlog_bytes = new ByteArrayOutputStream();
+				EventLogPlainTextPrinter printer = new EventLogPlainTextPrinter(new PrintStream(eventlog_bytes));
+                try
+                    {
+                    EventLogPrinter.printAll(log, printer);
+                    }
+                catch (IOException e)
+                    {
+                    eventlog_bytes.writeBytes(e.getMessage().getBytes());
+                    }
+                writer.println(HtmlEscapers.htmlEscaper().escape(new String(eventlog_bytes.toByteArray())));
 				writer.println("        </system-out>");
 				}
 
