@@ -7,7 +7,6 @@ rootProject.name = "muse"
 project(":commandline").name = "muse-commandline"
 project(":core").name = "muse-core"
 project(":selenium").name = "muse-selenium"
-project(":seleniumide").name = "muse-seleniumide"
 
 /*
 def prefixProjectName(project, prefix)
