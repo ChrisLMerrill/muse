@@ -18,14 +18,14 @@ import org.openqa.selenium.*;
 @MuseStepTypeGroup("Selenium.Frame")
 @MuseStepShortDescription("Switch the current driver target")
 @MuseStepLongDescription("Resolves the 'target' source and calls the driver's switchTo() method with it. The parameter can be an iframe element, string (name or id) or integer (index).")
-@MuseSubsourceDescriptor(displayName = "Target", description = "Locator for the element to switch to", type = SubsourceDescriptor.Type.Named, name = SwitchTo.TARTGET_PARAM)
+@MuseSubsourceDescriptor(displayName = "Target", description = "Locator for the element to switch to", type = SubsourceDescriptor.Type.Named, name = SwitchTo.TARGET_PARAM)
 public class SwitchTo extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
     public SwitchTo(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
-        _target_source = getValueSource(config, TARTGET_PARAM, true, project);
+        _target_source = getValueSource(config, TARGET_PARAM, true, project);
         }
 
     @Override
@@ -45,7 +45,7 @@ public class SwitchTo extends BrowserStep
 
     private MuseValueSource _target_source;
 
-    public final static String TARTGET_PARAM = "target";
+    public final static String TARGET_PARAM = "target";
 
     public final static String TYPE_ID = SwitchTo.class.getAnnotation(MuseTypeId.class).value();
     }
