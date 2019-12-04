@@ -90,7 +90,7 @@ class SeleniumStepTests
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration switch_to = new StepConfiguration(SwitchTo.TYPE_ID);
-        switch_to.addSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
+        switch_to.addSource(SwitchTo.TARGET_PARAM, ValueSourceConfiguration.forSource(IdElementValueSource.TYPE_ID, ValueSourceConfiguration.forValue(id)));
         MuseStep step = switch_to.createStep();
         StepExecutionResult result = step.execute(context);
         Assertions.assertEquals(StepExecutionStatus.COMPLETE, result.getStatus());
@@ -156,7 +156,7 @@ class SeleniumStepTests
         BrowserStepExecutionContext.putDriver(driver, context);
 
         StepConfiguration switch_to = new StepConfiguration(SwitchTo.TYPE_ID);
-        switch_to.addSource(SwitchTo.TARTGET_PARAM, ValueSourceConfiguration.forValue(true)); // not a valid type
+        switch_to.addSource(SwitchTo.TARGET_PARAM, ValueSourceConfiguration.forValue(true)); // not a valid type
         MuseStep step = switch_to.createStep(null);
         StepExecutionResult result = step.execute(context);
         Assertions.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
