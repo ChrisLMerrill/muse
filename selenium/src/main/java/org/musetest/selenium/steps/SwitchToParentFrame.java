@@ -10,6 +10,7 @@ import org.musetest.core.step.descriptor.*;
  */
 @MuseTypeId("switch-to-parent")
 @MuseStepName("Switch To Parent Frame")
+@MuseInlineEditString("switch to parent frame")
 @MuseStepIcon("glyph:FontAwesome:EXCHANGE")
 @MuseStepTypeGroup("Selenium.Frame")
 @MuseStepShortDescription("Switch to the parent frame")

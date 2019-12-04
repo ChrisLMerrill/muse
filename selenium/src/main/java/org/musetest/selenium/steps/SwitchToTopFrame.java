@@ -10,6 +10,7 @@ import org.musetest.core.step.descriptor.*;
  */
 @MuseTypeId("switch-to-top")
 @MuseStepName("Switch To Top Frame")
+@MuseInlineEditString("switch to top frame")
 @MuseStepIcon("glyph:FontAwesome:EXCHANGE")
 @MuseStepTypeGroup("Selenium.Frame")
 @MuseStepShortDescription("Switch to the top frame")
