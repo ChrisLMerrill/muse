@@ -79,6 +79,11 @@ subprojects
         archives javadocJar
         }
 
+        tasks.withType(JavaCompile) {
+            sourceCompatibility = '11'
+            targetCompatibility = '11'
+        }
+
     compileKotlin
         {
         kotlinOptions
