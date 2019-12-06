@@ -46,7 +46,9 @@ public class Verify extends BaseStep
             Boolean terminate_value = getValue(_terminate, context, true, Boolean.class);
             context.raiseEvent(VerifyFailureEventType.create(_config, String.format("Verify failure: %s is false", _condition.getDescription()), terminate_value != null && terminate_value));
 
-            return new BasicStepExecutionResult(StepExecutionStatus.FAILURE, "verify FAILED");
+            // Note that a verify that results in a failure event is still a step that executed successfully.
+            // Doing otherwise (status=FAILURE results in double-counting of failures, since both the VerifyFailureEvent and the StepCompletedEvent get the failure tag.
+            return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE, "verify FAILED");
             }
         }
 
