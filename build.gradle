@@ -14,7 +14,7 @@ buildscript
 
 subprojects
     {
-    version 0.19
+    version 0.20
 
     apply plugin: 'java'
     apply plugin: 'kotlin'
