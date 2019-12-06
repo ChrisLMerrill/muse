@@ -125,6 +125,12 @@ public class UnknownValueSourceDescriptor implements ValueSourceDescriptor
         return new SubsourceDescriptor[0];
         }
 
+    @Override
+    public boolean hideFromUI()
+        {
+        return false;
+        }
+
     String _type;
     protected MuseProject _project;
     }

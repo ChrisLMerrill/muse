@@ -70,6 +70,11 @@ public class AnnotatedValueSourceDescriptor extends DefaultValueSourceDescriptor
             return super.getSubsourceDescriptors();
         return descriptors;
         }
+
+    @Override
+    public boolean hideFromUI()
+        {
+        MuseValueSourceHidden hidden = (MuseValueSourceHidden) _source_class.getAnnotation(MuseValueSourceHidden.class);
+        return (hidden != null);
+        }
     }
-
-

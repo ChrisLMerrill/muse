@@ -16,6 +16,7 @@ public interface ValueSourceDescriptor
     String getGroupName();
     String getLongDescription();
     String getDocumentationDescription();
+    boolean hideFromUI();
     SubsourceDescriptor[] getSubsourceDescriptors();
     }
 
