@@ -8,6 +8,7 @@ import org.musetest.core.step.descriptor.*;
 import org.musetest.core.step.factory.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
+import org.musetest.settings.*;
 
 import java.util.*;
 
@@ -44,6 +45,7 @@ public interface MuseProject
     ValueSourceStringExpressionSupporters getValueSourceStringExpressionSupporters();
     PropertyResolvers getPropertyResolvers();
     SystemVariableProviders getSystemVariableProviders();
+    <T extends ProjectSettingsFile> T getProjectSettings(Class<T> type);
 
     @SuppressWarnings("unused") // used by project navigator in UI
     ResourceTypes getResourceTypes();

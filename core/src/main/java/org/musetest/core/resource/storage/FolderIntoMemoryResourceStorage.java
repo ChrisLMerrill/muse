@@ -71,31 +71,38 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
         {
         Runnable loader = () ->
             {
-            File[] files = _folder.listFiles();
-            if (files == null)
-                return;
-            for (File file : files)
-                {
-                if (file.isDirectory())
-                	continue;
-                FileResourceOrigin origin = new FileResourceOrigin(file);
-                try
-                    {
-                    List<MuseResource> resources = ResourceFactory.createResources(origin, getFactoryLocator(), getClassLocator());
-                    // don't do call the local add() method...that is for adding new resources.
-                    for (MuseResource resource : resources)
-                        {
-                        super.addResource(resource);
-                        _origins.put(resource, origin);
-                        }
-                    }
-                catch (IOException e)
-                    {
-                    LOG.warn("Unable to load resource from origin: " + origin.getDescription(), e);
-                    }
-                }
+            loadResoucesFromFolder(_folder);
+            for (String folder_name : ProjectStructureSettings.get(_folder).getSubfolders())
+                loadResoucesFromFolder(new File(_folder, folder_name));
             };
         ClassloaderRunner.executeWithClassloader(loader, getContextClassloader());
+        }
+
+    private void loadResoucesFromFolder(File folder)
+        {
+        File[] files = folder.listFiles();
+        if (files == null)
+            return;
+
+        for (File file : files)
+            {
+            if (file.isDirectory())
+                continue;
+            FileResourceOrigin origin = new FileResourceOrigin(file);
+            try
+                {
+                List<MuseResource> resources = ResourceFactory.createResources(origin, getFactoryLocator(), getClassLocator());
+                for (MuseResource resource : resources)
+                    {
+                    super.addResource(resource);  // don't call the local add() method...that is for adding new resources.
+                    _origins.put(resource, origin);
+                    }
+                }
+            catch (IOException e)
+                {
+                LOG.warn("Unable to load resource from origin: " + origin.getDescription(), e);
+                }
+            }
         }
 
     private void locateClasspaths()

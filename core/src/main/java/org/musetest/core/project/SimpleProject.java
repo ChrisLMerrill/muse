@@ -11,6 +11,8 @@ import org.musetest.core.step.factory.*;
 import org.musetest.core.util.*;
 import org.musetest.core.values.*;
 import org.musetest.core.values.descriptor.*;
+import org.musetest.settings.*;
+import org.slf4j.*;
 
 import java.util.*;
 
@@ -119,6 +121,21 @@ public class SimpleProject implements MuseProject
         return _sysvar_providers;
         }
 
+
+    @Override
+    public <T extends ProjectSettingsFile> T getProjectSettings(Class<T> type)
+        {
+        try
+            {
+            return type.getConstructor().newInstance();
+            }
+        catch (Exception e)
+            {
+            LOG.error(String.format("Unable to instantiate ProjectSettings File of type %s due to %s", type.getSimpleName(), e.getMessage()));
+            return null;
+            }
+        }
+
     @Override
     public void setCommandLineOptions(Map<String, String> options)
         {
@@ -158,6 +175,6 @@ public class SimpleProject implements MuseProject
     private ResourceTypes _resource_types;
     private Map<String, String> _command_line_options;
     private String _name = "unnamed project";
+
+    private final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);
     }
-
-

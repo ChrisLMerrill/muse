@@ -18,17 +18,26 @@ public abstract class BaseSettingsFile implements Closeable
 
     protected static Object load(Class<? extends BaseSettingsFile> type, String filename, ObjectMapper mapper)
         {
+        return load(type, filename, mapper, null);
+        }
+
+    protected static <T extends BaseSettingsFile> T load(Class<T> type, String filename, ObjectMapper mapper, File folder)
+        {
         if (mapper == null)
             mapper = DEFAULT_MAPPER;
 
-        File file = Settings.getPreferenceFileLocation(filename);
+        File file;
+        if (folder == null)
+            file = Settings.getPreferenceFileLocation(filename);
+        else
+            file = new File(folder, filename);
 
         if (file.exists())
             {
             try (FileInputStream instream = new FileInputStream(file))
                 {
-                BaseSettingsFile settings = mapper.readValue(instream, type);
-                settings.setFilename(filename);
+                T settings = mapper.readValue(instream, type);
+                settings.setFilename(file.getAbsolutePath());
                 settings.readComplete();
                 return settings;
                 }
@@ -40,7 +49,7 @@ public abstract class BaseSettingsFile implements Closeable
         else
             try
                 {
-                BaseSettingsFile settings = type.getDeclaredConstructor().newInstance();
+                T settings = type.getDeclaredConstructor().newInstance();
                 settings.setFilename(filename);
                 settings.save();
                 return settings;
@@ -53,7 +62,7 @@ public abstract class BaseSettingsFile implements Closeable
         return null;
         }
 
-    private void setFilename(String filename)
+    protected void setFilename(String filename)
         {
         _filename = filename;
         }
@@ -88,9 +97,9 @@ public abstract class BaseSettingsFile implements Closeable
         save();
         }
 
-    private void save()
+    protected void save()
         {
-        File file = Settings.getPreferenceFileLocation(getFilename());
+        File file = new File(getFilename());
         try
             {
             FileOutputStream outstream = new FileOutputStream(file);
