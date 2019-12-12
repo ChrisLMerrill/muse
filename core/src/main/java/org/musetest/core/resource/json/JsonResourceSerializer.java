@@ -27,7 +27,7 @@ public class JsonResourceSerializer implements ResourceSerializer
     @Override
     public String suggestFilename(MuseResource resource)
         {
-        return resource.getId() + ".json";
+        return resource.getId() + ".muse";
         }
 
     public static ObjectMapper getMapper(TypeLocator locator)

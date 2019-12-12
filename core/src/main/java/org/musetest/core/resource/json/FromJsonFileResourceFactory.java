@@ -26,7 +26,9 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory
             try
                 {
                 File file = ((FileResourceOrigin)origin).getFile();
-                if (file.getName().endsWith(".json"))
+                // TODO Remove support for reading .json resources in a few months (from Dec 2019).
+                // TODO At that time, also remove (revise?) the warning in NavigatorView (MuseIDE project)
+                if (file.getName().endsWith(".json") || file.getName().endsWith(".muse"))
                     createResources(origin, resources, type_locator);
                 }
             catch (Exception e)
