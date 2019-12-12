@@ -17,7 +17,7 @@ import java.util.*;
 public class FromJsonFileResourceFactory implements MuseResourceFactory
     {
     @Override
-    public List<MuseResource> createResources(ResourceOrigin origin, ClassLocator classes) throws IOException
+    public List<MuseResource> createResources(ResourceOrigin origin, ClassLocator classes)
         {
         TypeLocator type_locator = new TypeLocator(classes);
         List<MuseResource> resources = new ArrayList<>();
@@ -50,7 +50,7 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory
         return resources;
         }
 
-    private void createResources(ResourceOrigin origin, List<MuseResource> resources, TypeLocator type_locator) throws IOException
+    private void createResources(ResourceOrigin origin, List<MuseResource> resources, TypeLocator type_locator)
         {
         try (InputStream instream = origin.asInputStream())
             {
