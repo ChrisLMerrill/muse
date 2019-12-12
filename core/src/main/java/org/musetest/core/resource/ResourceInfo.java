@@ -33,5 +33,7 @@ public interface ResourceInfo extends Taggable
 
     @JsonIgnore
     ResourceType getType();
+
+    ContainsMetadata metadata();
     }
 

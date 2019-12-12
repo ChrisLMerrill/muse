@@ -71,14 +71,14 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
         {
         Runnable loader = () ->
             {
-            loadResoucesFromFolder(_folder);
+            loadResoucesFromFolder(_folder, "");
             for (String folder_name : ProjectStructureSettings.get(_folder).getSubfolders())
-                loadResoucesFromFolder(new File(_folder, folder_name));
+                loadResoucesFromFolder(new File(_folder, folder_name), folder_name);
             };
         ClassloaderRunner.executeWithClassloader(loader, getContextClassloader());
         }
 
-    private void loadResoucesFromFolder(File folder)
+    private void loadResoucesFromFolder(File folder, String path)
         {
         File[] files = folder.listFiles();
         if (files == null)
@@ -94,6 +94,10 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
                 List<MuseResource> resources = ResourceFactory.createResources(origin, getFactoryLocator(), getClassLocator());
                 for (MuseResource resource : resources)
                     {
+                    // These always override whatever was stored for these attributes
+                    resource.metadata().setMetadataField("path", path);
+                    resource.metadata().setMetadataField("filename", file.getName());
+
                     super.addResource(resource);  // don't call the local add() method...that is for adding new resources.
                     _origins.put(resource, origin);
                     }

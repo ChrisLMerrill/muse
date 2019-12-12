@@ -75,5 +75,3 @@ public abstract class BaseMuseResource implements MuseResource
     private Set<String> _tags = new HashSet<>();
     private MetadataContainer _metadata = new MetadataContainer();
     }
-
-

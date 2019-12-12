@@ -3,6 +3,7 @@ package org.musetest.core.resource.storage;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.types.*;
+import org.musetest.core.util.*;
 
 import java.util.*;
 
@@ -10,7 +11,6 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 
-@SuppressWarnings("WeakerAccess") // used in UI tests
 public class InMemoryResourceToken implements ResourceToken
     {
     public InMemoryResourceToken(MuseResource resource)
@@ -72,6 +72,12 @@ public class InMemoryResourceToken implements ResourceToken
     public boolean hasTag(String tag)
         {
         return _resource.hasTag(tag);
+        }
+
+    @Override
+    public ContainsMetadata metadata()
+        {
+        return _resource.metadata();
         }
 
     @Override

@@ -22,6 +22,8 @@ public class ResourceQueryParameters
         _id = id;
         }
 
+    private ResourceQueryParameters() {}
+
     public List<ResourceType> getTypes()
         {
         return _types;
@@ -34,6 +36,12 @@ public class ResourceQueryParameters
 
     protected List<ResourceType> _types = new ArrayList<>();
     protected String _id = null;
+
+    @SuppressWarnings("unused")  // public API, used in UI
+    public static ResourceQueryParameters forAllResources()
+        {
+        return new ResourceQueryParameters();
+        }
     }
 
 
