@@ -22,7 +22,7 @@ import java.net.*;
 @MuseStepTypeGroup("Files")
 @MuseStepIcon("glyph:FontAwesome:CLOUD_DOWNLOAD")
 @MuseStepShortDescription("Download a file via URL to the local filesystem")
-@MuseStepLongDescription("The 'message' source will be resolved and converted to a string. The result is added to a MessageEvent and sent to the event log for the test. It is also sent to the logging output (by default, standard out) at INFO level.")
+@MuseStepLongDescription("The 'file' and 'url' sources will be resolved and converted to strings. The URL is used to download content that will be stored in the file provided.")
 @MuseSubsourceDescriptor(displayName = "Filename", description = "The full path and name of the file where the download will be stored", type = SubsourceDescriptor.Type.Named, name = DownloadFile.FILE_PARAM, defaultValue = "/path/to/file.txt")
 @MuseSubsourceDescriptor(displayName = "URL", description = "The URL of the file to download", type = SubsourceDescriptor.Type.Named, name = DownloadFile.URL_PARAM, defaultValue = "http://")
 @SuppressWarnings("unused")
