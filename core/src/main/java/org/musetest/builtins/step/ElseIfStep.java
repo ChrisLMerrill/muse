@@ -12,17 +12,17 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@MuseTypeId("if")
-@MuseStepName("If")
-@MuseInlineEditString("if {condition}")
+@MuseTypeId("else-if")
+@MuseStepName("Else If")
+@MuseInlineEditString("else if {condition}")
 @MuseStepIcon("glyph:FontAwesome:QUESTION_CIRCLE")
 @MuseStepTypeGroup("Conditionals & Looping")
 @MuseStepShortDescription("If (condition) is true, execute the child steps")
-@MuseStepLongDescription("The 'condition' source is resolved evaluated as a boolean. If true, the child steps will be executed.")
-@MuseSubsourceDescriptor(displayName = "Condition", description = "Source to evaluate (expects a boolean)", type = SubsourceDescriptor.Type.Named, name = IfStep.CONDITION_PARAM, defaultValue = "true")
-public class IfStep extends BasicCompoundStep
+@MuseStepLongDescription("The 'condition' source is resolved evaluated as a boolean. If true (and all previous if conditions were false), the child steps will be executed.")
+@MuseSubsourceDescriptor(displayName = "Condition", description = "Source to evaluate (expects a boolean)", type = SubsourceDescriptor.Type.Named, name = ElseIfStep.CONDITION_PARAM, defaultValue = "true")
+public class ElseIfStep extends BasicCompoundStep
     {
-    public IfStep(StepConfiguration config, MuseProject project) throws MuseInstantiationException
+    public ElseIfStep(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
         _condition = getValueSource(config, CONDITION_PARAM, false, project);
@@ -33,8 +33,12 @@ public class IfStep extends BasicCompoundStep
         {
         if (super.shouldEnter(context))  // use the BasicCompoundStep's logic to only run once
             {
-            _entered = getValue(_condition, context, false, Boolean.class);
-            return _entered;
+            _previous_entered = ElseStep.isPreviousIfEntered(context);
+            if (!_previous_entered)
+                {
+                _entered = getValue(_condition, context, false, Boolean.class);
+                return _entered;
+                }
             }
         return false;
         }
@@ -43,7 +47,7 @@ public class IfStep extends BasicCompoundStep
     protected StepExecutionResult createResult(StepExecutionStatus status)
         {
         StepExecutionResult result = super.createResult(status);
-        result.metadata().setMetadataField(IF_STEP_ENTERED, _entered);
+        result.metadata().setMetadataField(IfStep.IF_STEP_ENTERED, _entered | _previous_entered);
         return result;
         }
 
@@ -52,15 +56,15 @@ public class IfStep extends BasicCompoundStep
         {
         if (!super.equals(obj))
             return false;
-        return obj instanceof IfStep && Objects.equals(_condition, ((IfStep)obj)._condition);
+        return obj instanceof ElseIfStep && Objects.equals(_condition, ((ElseIfStep)obj)._condition);
         }
 
     private MuseValueSource _condition;
-    private Boolean _entered;
+    private Boolean _previous_entered = false;
+    private Boolean _entered = false;
 
     public final static String CONDITION_PARAM = "condition";
-    public final static String IF_STEP_ENTERED = "if-entered";
-    public final static String TYPE_ID = IfStep.class.getAnnotation(MuseTypeId.class).value();
+    public final static String TYPE_ID = ElseIfStep.class.getAnnotation(MuseTypeId.class).value();
     }
 
 

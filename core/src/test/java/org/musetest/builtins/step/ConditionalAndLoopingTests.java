@@ -1,5 +1,6 @@
 package org.musetest.builtins.step;
 
+import org.jetbrains.annotations.*;
 import org.junit.jupiter.api.*;
 import org.musetest.builtins.condition.*;
 import org.musetest.builtins.value.*;
@@ -9,7 +10,6 @@ import org.musetest.core.events.*;
 import org.musetest.core.events.matching.*;
 import org.musetest.core.mocks.*;
 import org.musetest.core.project.*;
-import org.musetest.core.resource.*;
 import org.musetest.core.step.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.test.*;
@@ -22,6 +22,64 @@ import org.musetest.core.values.*;
  */
 class ConditionalAndLoopingTests
     {
+    @Test
+    void ifStepTrue() throws MuseExecutionError
+        {
+        StepConfiguration config = new StepConfiguration(IfStep.TYPE_ID);
+        config.addSource(IfStep.CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
+        IfStep step = new IfStep(config, new SimpleProject());
+        Assertions.assertTrue(step.shouldEnter(new MockStepExecutionContext()));
+        StepExecutionResult result = step.createResult(StepExecutionStatus.COMPLETE);
+        Assertions.assertEquals(Boolean.TRUE, result.metadata().getMetadataField(IfStep.IF_STEP_ENTERED));
+        }
+
+    @Test
+    void ifStepFalse() throws MuseExecutionError
+        {
+        StepConfiguration config = new StepConfiguration(IfStep.TYPE_ID);
+        config.addSource(IfStep.CONDITION_PARAM, ValueSourceConfiguration.forValue(false));
+        IfStep step = new IfStep(config, new SimpleProject());
+        Assertions.assertFalse(step.shouldEnter(new MockStepExecutionContext()));
+        StepExecutionResult result = step.createResult(StepExecutionStatus.COMPLETE);
+        Assertions.assertEquals(Boolean.FALSE, result.metadata().getMetadataField(IfStep.IF_STEP_ENTERED));
+        }
+
+    @Test
+    void elseStepEntered() throws MuseExecutionError
+        {
+        // prepare context
+        MockStepExecutionContext context = createContextWIthIfEnteredEvent(true);
+        evaluateElseEntry(context, false);
+        }
+
+    @Test
+    void elseStepSkipped() throws MuseExecutionError
+        {
+        // prepare context
+        MockStepExecutionContext context = createContextWIthIfEnteredEvent(false);
+        evaluateElseEntry(context, true);
+        }
+
+    @NotNull
+    private MockStepExecutionContext createContextWIthIfEnteredEvent(boolean b)
+        {
+        StepConfiguration if_step = new StepConfiguration(IfStep.TYPE_ID);
+        if_step.setMetadataField(StepConfiguration.META_ID, 111);
+        MockStepExecutionContext context = new MockStepExecutionContext();
+        context.getParent().getStepLocator().loadSteps(if_step);
+        MuseEvent end_if_event = EndStepEventType.create(EndStepEventType.TYPE_ID, if_step);
+        end_if_event.setAttribute(IfStep.IF_STEP_ENTERED, b);
+        context.raiseEvent(end_if_event);
+        return context;
+        }
+
+    private void evaluateElseEntry(MockStepExecutionContext context, boolean entered) throws MuseExecutionError
+        {
+        StepConfiguration config = new StepConfiguration(ElseStep.TYPE_ID);
+        ElseStep step = new ElseStep(config, context.getProject());
+        Assertions.assertEquals(entered, step.shouldEnter(context));
+        }
+
     @Test
     void testIfStep()
         {

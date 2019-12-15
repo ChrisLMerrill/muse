@@ -34,17 +34,22 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
             {
             StepExecutionContext new_context = createStepExecutionContextForChildren(context);
             if (new_context == null) // no children configured
-                return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
+                return createResult(StepExecutionStatus.COMPLETE);
             context.getExecutionStack().push(new_context);
             beforeChildrenExecuted(new_context);
 
-            return new BasicStepExecutionResult(StepExecutionStatus.INCOMPLETE);
+            return createResult(StepExecutionStatus.INCOMPLETE);
             }
         else
             {
             afterChildrenExecuted(context);
-            return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
+            return createResult(StepExecutionStatus.COMPLETE);
             }
+        }
+
+    protected StepExecutionResult createResult(StepExecutionStatus status)
+        {
+        return new BasicStepExecutionResult(status);
         }
 
     /**
@@ -102,12 +107,13 @@ public class BasicCompoundStep extends BaseStep implements CompoundStep, ListOfS
      * @param context The context of the current execution
      * @throws StepExecutionError if an configuration error or other bug prevents the step from executing
      */
+    @SuppressWarnings({"WeakerAccess", "unused", "RedundantThrows"})
     protected void afterChildrenExecuted(StepExecutionContext context) throws MuseExecutionError
         {
         }
 
     private boolean _should_enter = true;
-    private List<StepConfiguration> _child_list = null;
+    private List<StepConfiguration> _child_list;
     private StepExecutionContext _context;
 
     public final static String TYPE_ID = BasicCompoundStep.class.getAnnotation(MuseTypeId.class).value();
