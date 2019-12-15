@@ -51,6 +51,9 @@ public class EndStepEventType extends StepEventType
 			case INCOMPLETE:
 				event.addTag(StepEventType.INCOMPLETE);
 			}
+        // copy any additional attributes from the result into the event
+        for (String name : result.metadata().getMetadataFieldNames())
+            event.setAttribute(name, result.metadata().getMetadataField(name));
 		return event;
 		}
 
