@@ -77,6 +77,17 @@ public class EventLog implements TestResultData
 		return null;
 		}
 
+	public MuseEvent findLastEvent(EventMatcher matcher)
+		{
+		for (int i = _events.size() - 1; i >= 0; i--)
+            {
+            MuseEvent event = _events.get(i);
+            if (matcher.matches(event))
+                return event;
+            }
+        return null;
+		}
+
 	public List<MuseEvent> getEvents()
 		{
 		return Collections.unmodifiableList(_events);
