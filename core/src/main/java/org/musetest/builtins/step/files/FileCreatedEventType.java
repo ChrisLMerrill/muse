@@ -8,7 +8,8 @@ import org.musetest.core.events.*;
  */
 public class FileCreatedEventType extends EventType
 	{
-	private FileCreatedEventType()
+    @SuppressWarnings("WeakerAccess")  // instantiated by reflection in EventTypes
+	public FileCreatedEventType()
 		{
 		super(TYPE_ID, "File Created");
 		}

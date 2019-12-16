@@ -8,7 +8,8 @@ import org.musetest.core.events.*;
  */
 public class FileDeletedEventType extends EventType
 	{
-	private FileDeletedEventType()
+	@SuppressWarnings("WeakerAccess")  // instantiated by reflection in EventTypes
+	public FileDeletedEventType()
 		{
 		super(TYPE_ID, "File Deleted");
 		}
