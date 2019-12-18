@@ -3,12 +3,14 @@ package org.musetest.builtins.step.files;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 
+import java.io.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class FileDeletedEventType extends EventType
 	{
-	@SuppressWarnings("WeakerAccess")  // instantiated by reflection in EventTypes
+    @SuppressWarnings("WeakerAccess")  // instantiated by reflection in EventTypes
 	public FileDeletedEventType()
 		{
 		super(TYPE_ID, "File Deleted");
@@ -25,6 +27,11 @@ public class FileDeletedEventType extends EventType
     public String getDescription(MuseEvent event)
         {
         return "File deleted: " + event.getAttribute(FILEPATH);
+        }
+
+    public static File getFile(MuseEvent event)
+        {
+        return new File(event.getAttributeAsString(FILEPATH));
         }
 
     private final static String FILEPATH = "path";

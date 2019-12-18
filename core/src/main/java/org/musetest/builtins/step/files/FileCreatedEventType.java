@@ -3,6 +3,8 @@ package org.musetest.builtins.step.files;
 import org.musetest.core.*;
 import org.musetest.core.events.*;
 
+import java.io.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -27,6 +29,11 @@ public class FileCreatedEventType extends EventType
         {
         //noinspection MalformedFormatString
         return String.format("File created: %s (%d bytes)", event.getAttribute(FILEPATH), event.getAttribute(SIZE));
+        }
+
+    public static File getFile(MuseEvent event)
+        {
+        return new File(event.getAttributeAsString(FILEPATH));
         }
 
     private final static String FILEPATH = "path";
