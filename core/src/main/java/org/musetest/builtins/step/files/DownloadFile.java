@@ -25,6 +25,7 @@ import java.net.*;
 @MuseStepLongDescription("The 'file' and 'url' sources will be resolved and converted to strings. The URL is used to download content that will be stored in the file provided.")
 @MuseSubsourceDescriptor(displayName = "Filename", description = "The full path and name of the file where the download will be stored", type = SubsourceDescriptor.Type.Named, name = DownloadFile.FILE_PARAM, defaultValue = "/path/to/file.txt")
 @MuseSubsourceDescriptor(displayName = "URL", description = "The URL of the file to download", type = SubsourceDescriptor.Type.Named, name = DownloadFile.URL_PARAM, defaultValue = "http://")
+@MuseSubsourceDescriptor(displayName = "Create folder", description = "Create the folder to hold the file, if needed?", type = SubsourceDescriptor.Type.Named, name = DownloadFile.CREATE_FOLDER_PARAM, optional = true, defaultValue = "true")
 @SuppressWarnings("unused")
 public class DownloadFile extends BaseStep
     {
@@ -34,6 +35,7 @@ public class DownloadFile extends BaseStep
         super(config);
         _url = getValueSource(config, URL_PARAM, true, project);
         _file_path = getValueSource(config, FILE_PARAM, true, project);
+        _create_folder = getValueSource(config, CREATE_FOLDER_PARAM, false, project);
         }
 
     @Override
@@ -47,6 +49,30 @@ public class DownloadFile extends BaseStep
             context.raiseEvent(MessageEventType.create("File already exists: " + path));
             return new BasicStepExecutionResult(StepExecutionStatus.ERROR);
             }
+
+        File folder = file.getParentFile();
+        if (!folder.exists())
+            {
+            boolean create = true;
+            if (_create_folder != null)
+                create = getValue(_create_folder, context, Boolean.class, true);
+            if (create)
+                {
+                if (folder.mkdirs())
+                    context.raiseEvent(FileCreatedEventType.create(folder.getAbsolutePath(), 0));
+                else
+                    {
+                    context.raiseEvent(MessageEventType.create("Unable to create folder: " + folder.getAbsolutePath()));
+                    return new BasicStepExecutionResult(StepExecutionStatus.ERROR);
+                    }
+                }
+            else
+                {
+                context.raiseEvent(MessageEventType.create("Target folder does not exist and step is configured to not create it: " + folder.getAbsolutePath()));
+                return new BasicStepExecutionResult(StepExecutionStatus.ERROR);
+                }
+            }
+
         URL url;
         try
             {
@@ -90,9 +116,11 @@ public class DownloadFile extends BaseStep
 
     private MuseValueSource _file_path;
     private MuseValueSource _url;
+    private MuseValueSource _create_folder;
 
     final static String FILE_PARAM = "file";
     final static String URL_PARAM = "url";
+    final static String CREATE_FOLDER_PARAM = "create-folder";
     public final static String TYPE_ID = DownloadFile.class.getAnnotation(MuseTypeId.class).value();
 
     private final static Logger LOG = LoggerFactory.getLogger(DownloadFile.class);
