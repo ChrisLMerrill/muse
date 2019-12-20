@@ -87,10 +87,16 @@ public class DownloadFile extends BaseStep
         try (FileOutputStream outstream = new FileOutputStream(file);
              InputStream instream = url.openStream())
             {
+            context.raiseEvent(DownloadStartedEventType.create(url_string));
             byte[] chunk = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = instream.read(chunk)) > 0)
-                outstream.write(chunk, 0, bytesRead);
+            int chunk_length;
+            int bytes_read = 0;
+            while ((chunk_length = instream.read(chunk)) > 0)
+                {
+                outstream.write(chunk, 0, chunk_length);
+                bytes_read += chunk_length;
+                }
+            context.raiseEvent(DownloadCompletedEventType.create(url_string, bytes_read));
 
             if (file.length() > 0)
                 {
