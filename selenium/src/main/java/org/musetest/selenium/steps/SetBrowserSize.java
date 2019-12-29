@@ -15,7 +15,7 @@ import org.openqa.selenium.*;
 @MuseStepName("Browser Size")
 @MuseInlineEditString("Set browser size to {width}x{height}")
 @MuseStepIcon("glyph:FontAwesome:WINDOW_RESTORE")
-@MuseStepTypeGroup("Selenium")
+@MuseStepTypeGroup("Selenium.Window")
 @MuseStepShortDescription("Change browser window size")
 @MuseStepLongDescription("Change the size of the browser window as defined by the width and height parameters")
 @MuseSubsourceDescriptor(displayName = "width", description = "width of window", type = SubsourceDescriptor.Type.Named, name = SetBrowserSize.WIDTH_PARAM)
