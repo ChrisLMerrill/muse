@@ -16,7 +16,7 @@ import org.slf4j.*;
 @MuseStepName("Close Browser")
 @MuseInlineEditString("close browser")
 @MuseStepIcon("glyph:FontAwesome:GLOBE")
-@MuseStepTypeGroup("Selenium")
+@MuseStepTypeGroup("Selenium.Window")
 @MuseStepShortDescription("Close a browser and all associated windows")
 @MuseStepLongDescription("Closes the currently-selected browser by calling driver.quit(). This will close all browser windows associated with that driver and shutdown the driver.")
 public class CloseBrowser extends BrowserStep
