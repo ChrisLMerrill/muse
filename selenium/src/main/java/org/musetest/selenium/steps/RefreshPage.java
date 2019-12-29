@@ -13,7 +13,7 @@ import org.musetest.core.steptest.*;
 @MuseTypeId("refresh")
 @MuseStepName("Refresh")
 @MuseInlineEditString("Refresh")
-@MuseStepIcon("glyph:FontAwesome:REDO")
+@MuseStepIcon("glyph:FontAwesome:REFRESH")
 @MuseStepTypeGroup("Selenium.Navigate")
 @MuseStepShortDescription("Refresh the page")
 @MuseStepLongDescription("Reload the current page. Equivalent to pressing the browser refresh button.")
