@@ -56,7 +56,7 @@ public class SaveTestResultsToDisk extends GenericConfigurablePlugin
 							_context.setVariable(var_name, null);
 						}
 					else
-						LOG.error(String.format("Unable to save test result because $%s is not a TestResultData", var_name));
+						LOG.error(String.format("Unable to save test result because $%s is not a TestResultData. It is a %s", var_name, data.getClass().getSimpleName()));
 					}
 				});
 		_context = context;
