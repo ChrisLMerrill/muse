@@ -14,7 +14,7 @@ import org.musetest.core.steptest.*;
 @MuseStepName("Refresh")
 @MuseInlineEditString("Refresh")
 @MuseStepIcon("glyph:FontAwesome:REDO")
-@MuseStepTypeGroup("Selenium")
+@MuseStepTypeGroup("Selenium.Navigate")
 @MuseStepShortDescription("Refresh the page.")
 @MuseStepLongDescription("Refresh the current page by re-loading content from the server.")
 public class RefreshStep extends BrowserStep

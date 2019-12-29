@@ -14,7 +14,7 @@ import org.musetest.core.steptest.*;
 @MuseStepName("Forward")
 @MuseInlineEditString("Forward")
 @MuseStepIcon("glyph:FontAwesome:ARROW_RIGHT")
-@MuseStepTypeGroup("Selenium")
+@MuseStepTypeGroup("Selenium.Navigate")
 @MuseStepShortDescription("Go forward one page.")
 @MuseStepLongDescription("Advance the browser to the next page (i.e. press the forward button). The browser must have previously navigated to a previous page using the back step. If not, this operation will probably do nothing (the behavior is browser dependent).")
 @SuppressWarnings("WeakerAccess,unused") // invoked via reflection

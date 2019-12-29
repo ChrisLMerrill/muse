@@ -14,7 +14,7 @@ import org.musetest.core.steptest.*;
 @MuseStepName("Back")
 @MuseInlineEditString("Back")
 @MuseStepIcon("glyph:FontAwesome:ARROW_LEFT")
-@MuseStepTypeGroup("Selenium")
+@MuseStepTypeGroup("Selenium.Navigate")
 @MuseStepShortDescription("Go Back one page.")
 @MuseStepLongDescription("Navigate the browser to the previous page (i.e. press the back button). The browser must have previously navigated to a page using the Goto URL step. If not, this operation will probably do nothing (the behavior is browser dependent).")
 public class NavigateBack extends BrowserStep
