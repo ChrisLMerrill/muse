@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.*;
 @MuseStepName("Deselect by option value")
 @MuseInlineEditString("deselect choice with value {value} in {element}")
 @MuseStepIcon("glyph:FontAwesome:HAND_ALT_UP")
-@MuseStepTypeGroup("Selenium.select")
+@MuseStepTypeGroup("Selenium.Select")
 @MuseStepShortDescription("Deselect an option by visible text")
 @MuseStepLongDescription("Resolves the 'element' source to a Select WebElement and then deselects the option with value = 'value'.")
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to deselect from", type = SubsourceDescriptor.Type.Named, name = DeselectOptionByValue.ELEMENT_PARAM)

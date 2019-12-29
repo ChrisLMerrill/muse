@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.*;
 @MuseStepName("Deselect by index")
 @MuseInlineEditString("deselect choice #{index} in {element}")
 @MuseStepIcon("glyph:FontAwesome:HAND_ALT_UP")
-@MuseStepTypeGroup("Selenium.select")
+@MuseStepTypeGroup("Selenium.Select")
 @MuseStepShortDescription("Deselect an option by index")
 @MuseStepLongDescription("Resolves the 'element' source to a Select WebElement and then deselects the option with index = 'index' (zero-based).")
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to deselect from", type = SubsourceDescriptor.Type.Named, name = DeselectOptionByIndex.ELEMENT_PARAM)

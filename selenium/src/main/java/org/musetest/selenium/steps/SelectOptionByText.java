@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.*;
 @MuseStepName("Select by visible text")
 @MuseInlineEditString("select choice labeled {text} in {element}")
 @MuseStepIcon("glyph:FontAwesome:HAND_ALT_UP")
-@MuseStepTypeGroup("Selenium.select")
+@MuseStepTypeGroup("Selenium.Select")
 @MuseStepShortDescription("Select an option by visible text")
 @MuseStepLongDescription("Resolves the 'element' source to a Select WebElement and then selects the option with visible text = 'text'.")
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to select from", type = SubsourceDescriptor.Type.Named, name = SelectOptionByText.ELEMENT_PARAM)
