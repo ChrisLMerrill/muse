@@ -18,7 +18,7 @@ import java.util.*;
 @MuseStepName("Run Javascript")
 @MuseInlineEditString("Run {script}")
 @MuseStepIcon("glyph:FontAwesome:CODE")
-@MuseStepTypeGroup("Selenium")
+@MuseStepTypeGroup("Selenium.Other")
 @MuseStepShortDescription("Run a script in the browser")
 @MuseStepLongDescription("Resolve the script source to a string. Inject that into the browser and run it.")
 @MuseSubsourceDescriptor(displayName = "Script", description = "The script to execute (as a text string)", type = SubsourceDescriptor.Type.Named, name = ExecuteJavascript.SCRIPT_PARAM)

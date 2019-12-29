@@ -15,7 +15,7 @@ import org.musetest.core.values.descriptor.*;
 @MuseStepName("Clear")
 @MuseInlineEditString("clear {element}")
 @MuseStepIcon("glyph:FontAwesome:\uf12d")
-@MuseStepTypeGroup("Selenium")
+@MuseStepTypeGroup("Selenium.Other")
 @MuseStepShortDescription("Clear an element")
 @MuseStepLongDescription("Resolves the 'element' source to a WebElement and then calls the clear() method. If the element has text entry, it will clear the value.")
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to clear", type = SubsourceDescriptor.Type.Named, name = ClearElement.ELEMENT_PARAM)
