@@ -20,7 +20,7 @@ import org.musetest.core.steptest.*;
 public class NavigateBack extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
-    public NavigateBack(StepConfiguration config, MuseProject project) throws RequiredParameterMissingError, MuseInstantiationException
+    public NavigateBack(StepConfiguration config, MuseProject project)
         {
         super(config);
         }
