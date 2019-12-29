@@ -20,7 +20,7 @@ import java.util.*;
 @MuseStepName("Capture DOM")
 @MuseInlineEditString("Capture DOM from {element}")
 @MuseStepIcon("glyph:FontAwesome:FILE_CODE_ALT")
-@MuseStepTypeGroup("Selenium.diagnostic")
+@MuseStepTypeGroup("Selenium.Other")
 @MuseStepShortDescription("Capture the DOM")
 @MuseStepLongDescription("Resolves the 'element' source to a WebElement and then captures the DOM below that element, to be saved to local storage.")
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to click", type = SubsourceDescriptor.Type.Named, name = CaptureDom.ELEMENT_PARAM)
