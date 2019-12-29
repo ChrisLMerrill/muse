@@ -13,13 +13,13 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("browser-size")
 @MuseStepName("Browser Size")
-@MuseInlineEditString("Set browser size to {width}x{height}")
-@MuseStepIcon("glyph:FontAwesome:WINDOW_RESTORE")
+@MuseInlineEditString("Resize browser to {width}x{height}")
+@MuseStepIcon("glyph:FontAwesome:EXPAND")
 @MuseStepTypeGroup("Selenium.Window")
 @MuseStepShortDescription("Change browser window size")
 @MuseStepLongDescription("Change the size of the browser window as defined by the width and height parameters")
-@MuseSubsourceDescriptor(displayName = "width", description = "width of window", type = SubsourceDescriptor.Type.Named, name = SetBrowserSize.WIDTH_PARAM)
-@MuseSubsourceDescriptor(displayName = "height", description = "height of window", type = SubsourceDescriptor.Type.Named, name = SetBrowserSize.HEIGHT_PARAM)
+@MuseSubsourceDescriptor(displayName = "width", description = "width of window", type = SubsourceDescriptor.Type.Named, name = SetBrowserSize.WIDTH_PARAM, defaultValue = "400")
+@MuseSubsourceDescriptor(displayName = "height", description = "height of window", type = SubsourceDescriptor.Type.Named, name = SetBrowserSize.HEIGHT_PARAM, defaultValue = "400")
 @SuppressWarnings("unused,WeakerAccess")
 public class SetBrowserSize extends BrowserStep
     {
