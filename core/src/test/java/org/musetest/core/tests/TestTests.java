@@ -146,7 +146,7 @@ class TestTests
 			    return new BaseStep(this)
 				    {
 				    @Override
-				    protected StepExecutionResult executeImplementation(StepExecutionContext context)
+				    public StepExecutionResult executeImplementation(StepExecutionContext context)
 					    {
 					    context.raiseEvent(event);
 					    return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);

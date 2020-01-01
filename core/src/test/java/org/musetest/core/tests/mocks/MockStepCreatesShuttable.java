@@ -18,7 +18,7 @@ public class MockStepCreatesShuttable extends BaseStep
         }
 
     @Override
-    protected StepExecutionResult executeImplementation(StepExecutionContext context)
+    public StepExecutionResult executeImplementation(StepExecutionContext context)
         {
         MockShuttable shuttable = new MockShuttable();
         context.setVariable(SHUTTABLE_VAR_NAME, shuttable, ContextVariableScope.Execution);

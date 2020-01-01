@@ -338,7 +338,7 @@ class StepTests
             }
 
         @Override
-        protected StepExecutionResult executeImplementation(StepExecutionContext context)
+        public StepExecutionResult executeImplementation(StepExecutionContext context)
             {
             return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
             }
