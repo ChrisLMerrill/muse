@@ -11,7 +11,7 @@ import org.musetest.core.step.descriptor.*;
 @MuseTypeId("browser-fullscreen")
 @MuseStepName("Full-screen")
 @MuseInlineEditString("Enter full-screen mode")
-@MuseStepIcon("glyph:FontAwesome:SQUARE")
+@MuseStepIcon("glyph:FontAwesome:SQUARE_ALT")
 @MuseStepTypeGroup("Selenium.Window")
 @MuseStepShortDescription("Enter full-screen mode")
 @MuseStepLongDescription("Switch browser into full-screen mode.")
