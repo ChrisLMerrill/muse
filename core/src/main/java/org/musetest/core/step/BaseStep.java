@@ -5,6 +5,7 @@ import org.musetest.core.context.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.steptest.*;
 import org.musetest.core.values.*;
+import org.musetest.core.values.strings.*;
 
 /**
  * Abstract base step implementation with some convenience methods for using value sources.
@@ -111,7 +112,12 @@ public abstract class BaseStep implements MuseStep
         throw new MuseExecutionError(String.format("Variable '%s' in the context is a %s, but a %s is required.", varname, value.getClass().getSimpleName(), type.getSimpleName()));
         }
 
+    @SuppressWarnings("unused") // public API
+    protected String describeSource(String name, StepExecutionContext context)
+        {
+        ValueSourceConfiguration source_config = _config.getSources().get(name);
+        return context.getProject().getValueSourceDescriptors().get(source_config).getInstanceDescription(source_config, new RootStringExpressionContext(context.getProject()));
+        }
+
     private StepConfiguration _config;
     }
-
-
