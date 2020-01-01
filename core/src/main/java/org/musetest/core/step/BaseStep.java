@@ -42,13 +42,13 @@ public abstract class BaseStep implements MuseStep
      * @param context The context in which the step is executed
      * @throws StepExecutionError If the step cannot be executed.
      */
-    protected abstract StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError;
+    public abstract StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError;
 
     /**
      * A convenience method to get a specific value source from the configuration parameter list.
      * @see BaseValueSource#getValueSource
      */
-    protected MuseValueSource getValueSource(StepConfiguration config, String name, boolean required, MuseProject project) throws MuseInstantiationException
+    public MuseValueSource getValueSource(StepConfiguration config, String name, boolean required, MuseProject project) throws MuseInstantiationException
         {
         return BaseValueSource.getValueSource(config, name, required, project);
         }
@@ -66,7 +66,7 @@ public abstract class BaseStep implements MuseStep
      * A convenience method to resolve a value source to the desired type with a default value.
      * @see BaseValueSource#getValueSource
      */
-    protected <T> T getValue(MuseValueSource source, StepExecutionContext context, Class<T> type, T default_value) throws ValueSourceResolutionError
+    public <T> T getValue(MuseValueSource source, StepExecutionContext context, Class<T> type, T default_value) throws ValueSourceResolutionError
         {
         T result = BaseValueSource.getValue(source, context, true, type);
         if (result == null)
@@ -117,6 +117,12 @@ public abstract class BaseStep implements MuseStep
         {
         ValueSourceConfiguration source_config = _config.getSources().get(name);
         return context.getProject().getValueSourceDescriptors().get(source_config).getInstanceDescription(source_config, new RootStringExpressionContext(context.getProject()));
+        }
+
+    @SuppressWarnings("unused") // public API
+    public String describe(StepExecutionContext context)
+        {
+        return context.getProject().getStepDescriptors().get(_config).getShortDescription(_config);
         }
 
     private StepConfiguration _config;
