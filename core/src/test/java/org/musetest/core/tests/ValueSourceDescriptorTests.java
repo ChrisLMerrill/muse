@@ -1,10 +1,14 @@
 package org.musetest.core.tests;
 
+import com.fasterxml.jackson.databind.*;
 import org.junit.jupiter.api.*;
 import org.musetest.builtins.tests.mocks.*;
 import org.musetest.core.*;
 import org.musetest.core.project.*;
 import org.musetest.core.values.descriptor.*;
+import org.musetest.tests.utils.*;
+
+import java.io.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -59,8 +63,17 @@ class ValueSourceDescriptorTests
         Assertions.assertEquals("", sub.getName());
         Assertions.assertTrue(sub.isOptional());
         Assertions.assertEquals(String.class, sub.getResolutionType());
+        }
 
+    @Test
+    public void deserializeSubsourceDescriptors() throws IOException
+        {
+        File source = TestResources.getFile("test_files/serialized_subsource_descriptor.json", this.getClass());
+        SimpleSubsourceDescriptor descriptor = new ObjectMapper().readValue(source, SimpleSubsourceDescriptor.class);
+
+        Assertions.assertEquals("name1", descriptor.getName());
+        Assertions.assertEquals("The Name", descriptor.getDisplayName());
+        Assertions.assertEquals("Description of the attribute", descriptor.getDescription());
+        Assertions.assertEquals(SubsourceDescriptor.Type.Named, descriptor.getType());
         }
     }
-
-
