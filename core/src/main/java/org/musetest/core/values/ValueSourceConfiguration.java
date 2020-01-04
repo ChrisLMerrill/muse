@@ -475,8 +475,6 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 		    {
 		    // ok
 		    }
-	    if (string.length() == 0)
-	    	return ValueSourceConfiguration.forValue("new value");
 		return ValueSourceConfiguration.forValue(string);
 	    }
 
