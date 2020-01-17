@@ -1,5 +1,6 @@
 package org.musetest.core.resource.storage;
 
+import org.jetbrains.annotations.*;
 import org.musetest.core.*;
 import org.musetest.core.resource.*;
 import org.musetest.core.resource.origin.*;
@@ -10,6 +11,7 @@ import org.slf4j.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.atomic.*;
 import java.util.jar.*;
 
 /**
@@ -232,6 +234,26 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
     @Override
     public String saveResource(MuseResource resource)
         {
+        // Use the project classloader, so that project extensions are available in the save operation (to look up type IDs).
+        final AtomicReference<String> result = new AtomicReference<>(null);
+        Runnable save_op = () -> result.set(saveResourceInternal(resource));
+        Thread t = new Thread(save_op);
+        t.setContextClassLoader(getContextClassloader());
+        t.start();
+        try
+            {
+            t.join();
+            return result.get();
+            }
+        catch (InterruptedException e)
+            {
+            return "Operation interrupted.";
+            }
+        }
+
+    @Nullable
+    private String saveResourceInternal(MuseResource resource)
+        {
         ResourceSerializer serializer = null;
         ResourceOrigin origin = _origins.get(resource);
         if (origin != null)
@@ -278,14 +300,14 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
             }
         }
 
-/*
-    @Override
-    public ExtensionRegistry getExtensionRegistry()
-        {
-        return new ExtensionRegistry(new File(_folder, ExtensionRegistry.DEFAULT_FOLDER));
-        }
+    /*
+        @Override
+        public ExtensionRegistry getExtensionRegistry()
+            {
+            return new ExtensionRegistry(new File(_folder, ExtensionRegistry.DEFAULT_FOLDER));
+            }
 
-*/
+    */
     private File _folder;
     private List<File> _class_locations = new ArrayList<>();
     private List<String> _packages = new ArrayList<>();
