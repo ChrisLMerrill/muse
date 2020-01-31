@@ -16,7 +16,7 @@ import java.util.regex.*;
  */
 @MuseTypeId("keystrokes")
 @MuseValueSourceName("Keystrokes")
-@MuseValueSourceTypeGroup("Primitives")
+@MuseValueSourceTypeGroup("Selenium")
 @MuseValueSourceShortDescription("a string of characters containing keystroke symbols")
 @MuseValueSourceLongDescription("A value source that returns a string of characters with keystrokes translated (e.g. {ESC}, {TAB}, {CTRL-A}, etc.")
 @MuseStringExpressionSupportImplementation(KeystrokesStringSource.StringExpressionSupport.class)
@@ -76,7 +76,7 @@ public class KeystrokesStringSource extends BaseValueSource
         {
         StringBuilder formatter = new StringBuilder(format_spec);
         List<Object> values = new ArrayList<>();
-        Matcher matcher = Pattern.compile("\\{(\\w+)-([A-Z])}").matcher(format_spec);
+        Matcher matcher = Pattern.compile("\\{(\\w+)-([A-Za-z0-9])}").matcher(format_spec);    // TODO this should allow any key and more than 2 at a time (i.e. CONTROL-ALT-P)
 
         while (matcher.find())
             {
