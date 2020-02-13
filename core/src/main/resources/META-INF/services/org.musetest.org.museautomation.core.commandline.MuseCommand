@@ -1,0 +1,5 @@
+org.museautomation.core.commandline.RunCommand
+org.museautomation.core.commandline.ListCommand
+org.museautomation.core.commandline.DescribeCommand
+org.museautomation.core.commandline.CreateCommand
+org.museautomation.core.commandline.FormatCommand

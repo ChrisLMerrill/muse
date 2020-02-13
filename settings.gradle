@@ -1,7 +1,6 @@
 include "commandline"
 include "core"
 include "selenium"
-include "seleniumide"
 
 rootProject.name = "muse"
 project(":commandline").name = "muse-commandline"

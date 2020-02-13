@@ -1,5 +1,0 @@
-org.musetest.core.commandline.RunCommand
-org.musetest.core.commandline.ListCommand
-org.musetest.core.commandline.DescribeCommand
-org.musetest.core.commandline.CreateCommand
-org.musetest.core.commandline.FormatCommand

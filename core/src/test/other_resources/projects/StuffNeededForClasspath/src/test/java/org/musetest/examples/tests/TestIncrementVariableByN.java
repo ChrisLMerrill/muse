@@ -1,12 +1,12 @@
 package org.musetest.examples.tests;
 
 import org.junit.*;
-import org.musetest.core.*;
-import org.musetest.core.context.*;
-import org.musetest.core.resource.*;
-import org.musetest.core.resource.origin.*;
-import org.musetest.core.steptest.*;
-import org.musetest.core.util.*;
+import org.museautomation.core.*;
+import org.museautomation.core.context.*;
+import org.museautomation.core.resource.*;
+import org.museautomation.core.resource.origin.*;
+import org.museautomation.core.steptest.*;
+import org.museautomation.core.util.*;
 import org.musetest.examples.*;
 
 import java.io.*;
