@@ -2,7 +2,7 @@
 
 
 
-Muse is a framework for visually building and running automated tasks with the goal of maximizing productivity and maintainability while minizing coding requirements. Tasks are created as data (rather than code) that can be easily manipulated by other tools, such as the MuseIDE. It is designed to provide the flexibility, extensibility and maintainability that is frequently missing from high-level automation development tools. Automated testing of web applications (using Selenium/WebDrvier) One of the primary use-cases that the frameowkr was designed for.
+Muse is a framework for visually building and running automated tasks with the goal of maximizing productivity and maintainability while minizing coding requirements. Tasks are created as data (rather than code) that can be easily manipulated by other tools, such as the MuseIDE. It is designed to provide the flexibility, extensibility and maintainability that is frequently missing from high-level automation development tools. Automated testing of web applications (using Selenium/WebDrvier) One of the primary use-cases that the framework was designed to handle.
 
 See the Muse wiki for more documentation: https://github.com/ChrisLMerrill/muse/wiki
 
