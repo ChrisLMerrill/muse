@@ -1,4 +1,4 @@
-# Muse task framework
+# Muse automation framework
 
 
 
