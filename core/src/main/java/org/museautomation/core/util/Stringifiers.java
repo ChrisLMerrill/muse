@@ -37,7 +37,7 @@ public class Stringifiers
         }
 
     private static Set<Stringifier> STRINGIFIERS = null;
-    private final static Reflections DEFAULT_REFLECTIONS = new Reflections("org.musetest");
+    private final static Reflections DEFAULT_REFLECTIONS = new Reflections("org.museautomation");
 
     private final static Logger LOG = LoggerFactory.getLogger(Stringifiers.class);
     }

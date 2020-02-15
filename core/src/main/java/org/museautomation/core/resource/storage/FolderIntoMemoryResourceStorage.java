@@ -114,7 +114,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
     private void locateClasspaths()
         {
         List<File> class_locations = new ArrayList<>();
-        _packages.add("org.musetest");
+        _packages.add("org.museautomation");
         addPackagesFromEnvironment(_packages);
 
         String[] paths = {"classes", "build/classes/java/main"};

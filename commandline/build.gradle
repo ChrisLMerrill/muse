@@ -21,6 +21,6 @@ tasks.withType(CreateStartScripts).each
     }
 
 //noinspection GroovyUnusedAssignment
-mainClassName = 'org.musetest.commandline.Launcher'
+mainClassName = 'org.museautomation.commandline.Launcher'
 //noinspection GroovyUnusedAssignment
 applicationName = 'muse'

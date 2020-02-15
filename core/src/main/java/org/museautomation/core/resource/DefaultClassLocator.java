@@ -118,7 +118,7 @@ public class DefaultClassLocator implements ClassLocator
         return DEFAULT;
         }
 
-    private final static Reflections DEFAULT_REFLECTIONS = new Reflections("org.musetest");
+    private final static Reflections DEFAULT_REFLECTIONS = new Reflections("org.museautomation");
     private final static ClassLocator DEFAULT = new DefaultClassLocator();
 
     private final static Logger LOG = LoggerFactory.getLogger(DefaultClassLocator.class);
