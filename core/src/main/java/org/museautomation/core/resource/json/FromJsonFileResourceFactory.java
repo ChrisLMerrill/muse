@@ -1,14 +1,15 @@
 package org.museautomation.core.resource.json;
 
 import com.fasterxml.jackson.databind.*;
+import org.museautomation.builtins.plugins.init.*;
+import org.museautomation.builtins.plugins.results.*;
+import org.museautomation.builtins.plugins.suite.*;
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.generic.*;
 import org.museautomation.core.resource.origin.*;
 import org.museautomation.core.steptask.*;
 import org.museautomation.core.suite.*;
-import org.museautomation.core.suite.plugins.*;
-import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.util.*;
 import org.slf4j.*;
 

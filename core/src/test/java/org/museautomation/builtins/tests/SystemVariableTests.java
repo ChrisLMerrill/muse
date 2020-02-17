@@ -1,13 +1,13 @@
 package org.museautomation.builtins.tests;
 
 import org.junit.jupiter.api.*;
+import org.museautomation.builtins.plugins.init.*;
 import org.museautomation.builtins.tests.mocks.*;
 import org.museautomation.builtins.value.sysvar.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.mocks.*;
 import org.museautomation.core.project.*;
-import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.values.*;
 
 import java.util.*;

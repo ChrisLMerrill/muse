@@ -1,10 +1,10 @@
 package org.museautomation.core.suite;
 
+import org.museautomation.builtins.plugins.init.*;
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.types.*;
 import org.museautomation.core.task.*;
-import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.util.*;
 
 import java.util.*;

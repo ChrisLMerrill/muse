@@ -2,12 +2,12 @@ package org.museautomation.core;
 
 import org.jetbrains.annotations.*;
 import org.junit.jupiter.api.*;
+import org.museautomation.builtins.plugins.results.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.mocks.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.steptask.*;
-import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.values.*;
 
 import java.io.*;

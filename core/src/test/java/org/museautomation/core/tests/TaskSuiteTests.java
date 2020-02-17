@@ -1,6 +1,8 @@
 package org.museautomation.core.tests;
 
 import org.junit.jupiter.api.*;
+import org.museautomation.builtins.plugins.results.*;
+import org.museautomation.builtins.plugins.suite.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.mocks.*;
@@ -9,9 +11,7 @@ import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.origin.*;
 import org.museautomation.core.resource.storage.*;
 import org.museautomation.core.suite.*;
-import org.museautomation.core.suite.plugins.*;
 import org.museautomation.core.task.*;
-import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.util.*;
 import org.museautomation.core.variables.*;
 import org.museautomation.utils.*;

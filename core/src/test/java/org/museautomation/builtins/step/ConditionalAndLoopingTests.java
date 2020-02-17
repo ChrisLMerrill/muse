@@ -3,6 +3,7 @@ package org.museautomation.builtins.step;
 import org.jetbrains.annotations.*;
 import org.junit.jupiter.api.*;
 import org.museautomation.builtins.condition.*;
+import org.museautomation.builtins.plugins.results.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
@@ -13,7 +14,6 @@ import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.steptask.*;
 import org.museautomation.core.task.*;
-import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.tests.utils.*;
 import org.museautomation.core.values.*;
 

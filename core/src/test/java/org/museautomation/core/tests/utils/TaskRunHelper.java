@@ -1,11 +1,11 @@
 package org.museautomation.core.tests.utils;
 
+import org.museautomation.builtins.plugins.results.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.task.*;
-import org.museautomation.core.task.plugins.*;
 
 /**
  * Provides simple shims for running a MuseTask for unit testing.

@@ -3,7 +3,7 @@ package org.museautomation.selenium.steps;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.resource.*;
-import org.museautomation.core.resultstorage.*;
+import org.museautomation.builtins.plugins.resultstorage.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.step.descriptor.*;
 import org.museautomation.core.values.*;

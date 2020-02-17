@@ -6,7 +6,7 @@ import org.museautomation.core.context.*;
 import org.museautomation.core.datacollection.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.plugins.*;
-import org.museautomation.core.resultstorage.*;
+import org.museautomation.builtins.plugins.resultstorage.*;
 import org.museautomation.core.values.*;
 import org.museautomation.selenium.*;
 import org.museautomation.selenium.steps.*;

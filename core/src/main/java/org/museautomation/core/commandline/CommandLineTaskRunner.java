@@ -1,13 +1,13 @@
 package org.museautomation.core.commandline;
 
+import org.museautomation.builtins.plugins.events.*;
+import org.museautomation.builtins.plugins.init.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
-import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.resource.*;
-import org.museautomation.core.resultstorage.*;
+import org.museautomation.builtins.plugins.resultstorage.*;
 import org.museautomation.core.task.*;
-import org.museautomation.core.task.plugins.*;
 import org.slf4j.*;
 
 /**

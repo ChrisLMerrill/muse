@@ -1,6 +1,7 @@
 package org.museautomation.core.task.plugins;
 
 import org.junit.jupiter.api.*;
+import org.museautomation.builtins.plugins.init.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.plugins.*;

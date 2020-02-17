@@ -1,10 +1,10 @@
 package org.museautomation.core.tests;
 
 import org.junit.jupiter.api.*;
+import org.museautomation.builtins.plugins.init.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resource.storage.*;
 import org.museautomation.core.task.*;
-import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.tests.utils.*;
 import org.museautomation.utils.*;
 

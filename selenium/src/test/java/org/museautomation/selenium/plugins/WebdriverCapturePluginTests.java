@@ -7,7 +7,7 @@ import org.museautomation.core.context.*;
 import org.museautomation.core.datacollection.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.project.*;
-import org.museautomation.core.resultstorage.*;
+import org.museautomation.builtins.plugins.resultstorage.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.steptask.*;
 import org.museautomation.core.values.*;
