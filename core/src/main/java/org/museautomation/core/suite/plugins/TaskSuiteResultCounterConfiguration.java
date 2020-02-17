@@ -51,7 +51,7 @@ public class TaskSuiteResultCounterConfiguration extends GenericResourceConfigur
 		@SuppressWarnings("WeakerAccess")  // instantiated by reflection
 		public TaskSuiteResultCounterType()
 			{
-			super(TYPE_ID, "Test Suite Result Counter", TaskSuiteResultCounter.class, new PluginConfigurationResourceType());
+			super(TYPE_ID, "Task Suite Result Counter", TaskSuiteResultCounter.class, new PluginConfigurationResourceType());
 			}
 		}
 	}
