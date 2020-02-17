@@ -3,7 +3,12 @@ package org.museautomation.core.resource.json;
 import com.fasterxml.jackson.databind.*;
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
+import org.museautomation.core.resource.generic.*;
 import org.museautomation.core.resource.origin.*;
+import org.museautomation.core.steptask.*;
+import org.museautomation.core.suite.*;
+import org.museautomation.core.suite.plugins.*;
+import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.util.*;
 import org.slf4j.*;
 
@@ -55,6 +60,7 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory
         try (InputStream instream = origin.asInputStream())
             {
             MuseResource resource = _serializer.readFromStream(instream, type_locator);
+            resource = upgradeResource(resource);
             origin.setSerializer(_serializer);
 
             resources.add(resource);
@@ -64,6 +70,33 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory
             {
             LOG.error("Unable to read a resource from " + origin.getDescription() + " - " + e.getMessage());
             }
+        }
+
+    private MuseResource upgradeResource(MuseResource resource)
+        {
+        if (resource instanceof SteppedTest)
+            resource = new SteppedTask((SteppedTest)resource);  // upgrade & replace (when saved)
+        else if (resource instanceof ParameterListTestSuite)
+            {
+            ParameterListTestSuite old = (ParameterListTestSuite) resource;
+            resource = new ParameterListTaskSuite(old.getParameters(), old.getDataTableId(), old.getTestId());
+            }
+        else if (resource instanceof TestResultCollectorConfiguration)
+            resource = copyResourceAttributes((TestResultCollectorConfiguration) resource, new TaskResultCollectorConfiguration());
+        else if (resource instanceof TestDefaultsInitializerConfiguration)
+            resource = copyResourceAttributes((TestDefaultsInitializerConfiguration) resource, new TaskDefaultsInitializerConfiguration());
+        else if (resource instanceof TestSuiteResultCounterConfiguration)
+            resource = copyResourceAttributes((TestSuiteResultCounterConfiguration) resource, new TaskSuiteResultCounterConfiguration());
+        return resource;
+        }
+
+    private GenericResourceConfiguration copyResourceAttributes(GenericResourceConfiguration source, GenericResourceConfiguration target)
+        {
+        target.setId(source.getId());
+        target.setParameters(source.getParameters());
+        target.setTags(source.getTags());
+        target.setMetadata(source.getMetadata());
+        return target;
         }
 
     private ObjectMapper getMapper(TypeLocator type_locator)

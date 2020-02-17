@@ -20,9 +20,9 @@ class ValueSourceDescriptorTests
         {
         // Test that we can lookup a descriptor and get the right implementation class
         SimpleProject project = new SimpleProject();
-        ValueSourceDescriptor descriptor = project.getValueSourceDescriptors().get(TestValueSource.class.getAnnotation(MuseTypeId.class).value());
+        ValueSourceDescriptor descriptor = project.getValueSourceDescriptors().get(MockValueSource.class.getAnnotation(MuseTypeId.class).value());
         Assertions.assertNotNull(descriptor);
-        Assertions.assertEquals(TestValueSourceDescriptor.class, descriptor.getClass());
+        Assertions.assertEquals(MockValueSourceDescriptor.class, descriptor.getClass());
         }
 
     @Test

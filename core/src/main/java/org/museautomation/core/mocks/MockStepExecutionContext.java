@@ -6,8 +6,8 @@ import org.museautomation.core.events.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
-import org.museautomation.core.test.*;
+import org.museautomation.core.steptask.*;
+import org.museautomation.core.task.*;
 import org.museautomation.core.variables.*;
 
 import java.util.*;
@@ -28,29 +28,29 @@ public class MockStepExecutionContext implements StepExecutionContext
         this(new SimpleProject());
         }
 
-	public MockStepExecutionContext(SteppedTest test)
+	public MockStepExecutionContext(SteppedTask task)
 		{
-		this(new SimpleProject(), test);
+		this(new SimpleProject(), task);
 		}
 
     public MockStepExecutionContext(MuseProject project)
         {
-        this(project, new SteppedTest(new StepConfiguration("mock-step")));
+        this(project, new SteppedTask(new StepConfiguration("mock-step")));
         }
 
-	public MockStepExecutionContext(MuseProject project, SteppedTest test)
+	public MockStepExecutionContext(MuseProject project, SteppedTask task)
 		{
-		_test_context = new DefaultSteppedTestExecutionContext(project, test);
+		_test_context = new DefaultSteppedTaskExecutionContext(project, task);
 //		_test_context.addPlugin(new EventLogWriter());
 		}
 
-    public MockStepExecutionContext(SteppedTestExecutionContext test_context)
+    public MockStepExecutionContext(SteppedTaskExecutionContext task_context)
         {
 //		test_context.addPlugin(new EventLogger());
-        _test_context = test_context;
+        _test_context = task_context;
         }
 
-    final SteppedTestExecutionContext _test_context;
+    final SteppedTaskExecutionContext _test_context;
 
     @Override
     public StepConfiguration getCurrentStepConfiguration()
@@ -130,7 +130,7 @@ public class MockStepExecutionContext implements StepExecutionContext
         }
 
     @Override
-    public SteppedTestExecutionContext getParent()
+    public SteppedTaskExecutionContext getParent()
         {
         return _test_context;
         }

@@ -29,13 +29,13 @@ class ResourceFactoryTests
         {
         InMemoryResourceStorage store = new InMemoryResourceStorage();
         MuseProject project = new SimpleProject(store);
-        MockTest test = new MockTest();
-        test.setId("test1");
-        store.loadResource(new MockResourceOrigin(test));
+        MockTask task = new MockTask();
+        task.setId("task1");
+        store.loadResource(new MockResourceOrigin(task));
 
-        final List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTest.TestResourceType()));
+        final List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTask.TaskResourceType()));
         Assertions.assertEquals(1, resources.size());
-        Assertions.assertEquals("test1", resources.get(0).getId());
+        Assertions.assertEquals("task1", resources.get(0).getId());
         }
 
     @Test

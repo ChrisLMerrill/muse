@@ -8,7 +8,7 @@ import org.museautomation.core.mocks.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resource.storage.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.values.*;
 import org.museautomation.selenium.*;
 import org.museautomation.selenium.locators.*;
@@ -27,7 +27,7 @@ class SeleniumStepTests
     @Test
     void openBrowser() throws ValueSourceResolutionError
         {
-        SteppedTestExecutionContext context = runTestWithSteps(createOpenBrowserStep());
+        SteppedTaskExecutionContext context = runTestWithSteps(createOpenBrowserStep());
         MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
         Assertions.assertNotNull(driver);
         }
@@ -35,7 +35,7 @@ class SeleniumStepTests
     @Test
     void openAndCloseBrowser()
 	    {
-	    SteppedTestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), new StepConfiguration(CloseBrowser.TYPE_ID));
+	    SteppedTaskExecutionContext context = runTestWithSteps(createOpenBrowserStep(), new StepConfiguration(CloseBrowser.TYPE_ID));
         MuseMockDriver driver;
         try
             {
@@ -54,7 +54,7 @@ class SeleniumStepTests
         final String URL = "thetesturl";
         StepConfiguration goto_url = new StepConfiguration(GotoUrl.TYPE_ID);
         goto_url.addSource(GotoUrl.URL_PARAM, ValueSourceConfiguration.forValue(URL));
-        SteppedTestExecutionContext context = runTestWithSteps(createOpenBrowserStep(), goto_url);
+        SteppedTaskExecutionContext context = runTestWithSteps(createOpenBrowserStep(), goto_url);
         MuseMockDriver driver = (MuseMockDriver) BrowserStepExecutionContext.getDriver(context);
         Assertions.assertEquals(URL, driver.getCurrentUrl());
         }
@@ -162,21 +162,21 @@ class SeleniumStepTests
         Assertions.assertEquals(StepExecutionStatus.FAILURE, result.getStatus());
         }
 
-    private SteppedTestExecutionContext runTestWithSteps(StepConfiguration... steps)
+    private SteppedTaskExecutionContext runTestWithSteps(StepConfiguration... steps)
         {
         MuseProject project = createSeleniumTestProject();
-        SteppedTest test;
+        SteppedTask test;
         if (steps.length == 1)
-            test = new SteppedTest(steps[0]);
+            test = new SteppedTask(steps[0]);
         else
             {
             StepConfiguration root = new StepConfiguration(BasicCompoundStep.TYPE_ID);
             for (StepConfiguration step : steps)
                 root.addChild(step);
-            test = new SteppedTest(root);
+            test = new SteppedTask(root);
             }
 
-        SteppedTestExecutionContext context = new DefaultSteppedTestExecutionContext(project, test);
+        SteppedTaskExecutionContext context = new DefaultSteppedTaskExecutionContext(project, test);
         test.execute(context);
         return context;
         }

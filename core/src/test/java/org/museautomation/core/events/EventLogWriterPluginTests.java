@@ -9,7 +9,7 @@ import org.museautomation.core.plugins.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resultstorage.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.suite.*;
 
 import java.io.*;
@@ -23,14 +23,14 @@ class EventLogWriterPluginTests
     @Test
     void writeEventsAsTheyAreReceived() throws MuseExecutionError, IOException
         {
-        MuseExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
+        MuseExecutionContext context = new DefaultSteppedTaskExecutionContext(new SimpleProject(), new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID)));
         EventLogWriterPlugin writer = new EventLogWriterPlugin();
         context.addPlugin(writer);
         context.addPlugin(new StoragePlugin());
         context.initializePlugins();
 
         // nothing will be written until the start event is received
-        context.raiseEvent(StartTestEventType.create("test1", "Test #1"));
+        context.raiseEvent(StartTaskEventType.create("test1", "Test #1"));
         context.raiseEvent(MessageEventType.create("message1"));
 
         // check the log files were started
@@ -67,8 +67,8 @@ class EventLogWriterPluginTests
     void logTestAndSuiteEvents() throws MuseExecutionError, IOException
         {
         SimpleProject project = new SimpleProject();
-        IdListTestSuite suite = new IdListTestSuite();
-        MuseExecutionContext suite_context = new DefaultTestSuiteExecutionContext(project, suite);
+        IdListTaskSuite suite = new IdListTaskSuite();
+        MuseExecutionContext suite_context = new DefaultTaskSuiteExecutionContext(project, suite);
         suite_context.addPlugin(new EventLogWriterPlugin());
         suite_context.addPlugin(new StoragePlugin());
         suite_context.initializePlugins();
@@ -83,12 +83,12 @@ class EventLogWriterPluginTests
         Assertions.assertTrue(new String(FileUtils.readFileToByteArray(suite_json_log)).contains("suite-message1"));
         Assertions.assertTrue(new String(FileUtils.readFileToByteArray(suite_plain_log)).contains("suite-message1"));
 
-        MuseExecutionContext test_context = new DefaultSteppedTestExecutionContext(suite_context, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
+        MuseExecutionContext test_context = new DefaultSteppedTaskExecutionContext(suite_context, new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID)));
         EventLogWriterPlugin writer = new EventLogWriterPlugin();
         test_context.addPlugin(writer);
         test_context.initializePlugins();
 
-        test_context.raiseEvent(StartSuiteTestEventType.create("suite-test-var1"));
+        test_context.raiseEvent(StartSuiteTaskEventType.create("suite-test-var1"));
         test_context.raiseEvent(MessageEventType.create("test-m1"));
         File test_json_log = new File(_test_folder, EventLogWriterPlugin.PARTIAL_EVENT_FILE);
         Assertions.assertTrue(test_json_log.exists());
@@ -144,7 +144,7 @@ class EventLogWriterPluginTests
             }
 
         @Override
-        public File getTestFolder(TestExecutionContext test_context)
+        public File getTaskFolder(TaskExecutionContext task_context)
             {
             return _test_folder;
             }

@@ -35,18 +35,18 @@ class MockTestResultProducer implements DataCollector, MusePlugin
 		return "MockTestResultProducer";
 		}
 
-	MockTestResultProducer(List<TestResultData> data)
+	MockTestResultProducer(List<TaskResultData> data)
 		{
 		_data = data;
 		}
 
 	@Override
-	public List<TestResultData> getData()
+	public List<TaskResultData> getData()
 		{
 		return _data;
 		}
 
-	private final List<TestResultData> _data;
+	private final List<TaskResultData> _data;
 	}
 
 

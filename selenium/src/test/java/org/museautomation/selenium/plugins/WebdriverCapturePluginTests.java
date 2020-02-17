@@ -9,7 +9,7 @@ import org.museautomation.core.events.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resultstorage.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.values.*;
 import org.museautomation.selenium.*;
 import org.museautomation.selenium.mocks.*;
@@ -121,7 +121,7 @@ class WebdriverCapturePluginTests
     void captureOnlyLogs()
 	    {
 	    setupPlugin(true, true, false, false, true, false);
-	    MuseEvent event = EndTestEventType.create();
+	    MuseEvent event = EndTaskEventType.create();
 	    _context.raiseEvent(event);
 
 	    Assertions.assertEquals(1, _plugin.getData().size());
@@ -145,9 +145,9 @@ class WebdriverCapturePluginTests
 		{
 		boolean screenshot_found = false;
 		for (MuseEvent event : _storage_events)
-			if (event.getAttributeAsString(TestResultStoredEventType.RESULT_DESCRIPTION).toLowerCase().contains("screenshot"))
+			if (event.getAttributeAsString(TaskResultStoredEventType.RESULT_DESCRIPTION).toLowerCase().contains("screenshot"))
 				{
-				TestResultData data = (TestResultData) _context.getVariable(event.getAttributeAsString(TestResultStoredEventType.VARIABLE_NAME));
+				TaskResultData data = (TaskResultData) _context.getVariable(event.getAttributeAsString(TaskResultStoredEventType.VARIABLE_NAME));
 				Assertions.assertNotNull(data);
 				if (Arrays.equals(screenshot, getBytes(data)))
 					screenshot_found = true;
@@ -175,9 +175,9 @@ class WebdriverCapturePluginTests
     private int getHtmlFound(byte[] content, int html_found) throws IOException
         {
         for (MuseEvent event : _storage_events)
-            if (event.getAttribute(TestResultStoredEventType.RESULT_DESCRIPTION).toString().toLowerCase().contains("html"))
+            if (event.getAttribute(TaskResultStoredEventType.RESULT_DESCRIPTION).toString().toLowerCase().contains("html"))
                 {
-                TestResultData data = (TestResultData) _context.getVariable(event.getAttributeAsString(TestResultStoredEventType.VARIABLE_NAME));
+                TaskResultData data = (TaskResultData) _context.getVariable(event.getAttributeAsString(TaskResultStoredEventType.VARIABLE_NAME));
                 Assertions.assertNotNull(data);
                 if (Arrays.equals(content, getBytes(data)))
                     html_found++;
@@ -185,7 +185,7 @@ class WebdriverCapturePluginTests
         return html_found;
         }
 
-    private byte[] getBytes(TestResultData data) throws IOException
+    private byte[] getBytes(TaskResultData data) throws IOException
 		{
 		ByteArrayOutputStream outstream = new ByteArrayOutputStream();
         data.write(outstream);
@@ -214,13 +214,13 @@ class WebdriverCapturePluginTests
 		_driver.putLog(LOG_BYTES);
 		_context.addEventListener((event) ->
 			{
-			if (TestResultStoredEventType.TYPE_ID.equals(event.getTypeId()))
+			if (TaskResultStoredEventType.TYPE_ID.equals(event.getTypeId()))
 				_storage_events.add(event);
 			});
 		}
 
 	private MuseMockDriver _driver = new MuseMockDriver();
-	private SteppedTestExecutionContext _context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
+	private SteppedTaskExecutionContext _context = new DefaultSteppedTaskExecutionContext(new SimpleProject(), new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID)));
 	private WebdriverCapturePlugin _plugin;
 	private List<MuseEvent> _storage_events = new ArrayList<>();
 

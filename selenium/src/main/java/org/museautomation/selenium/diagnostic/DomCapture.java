@@ -10,7 +10,7 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class DomCapture implements TestResultData
+public class DomCapture implements TaskResultData
     {
     public DomCapture(DomElement root_element)
         {

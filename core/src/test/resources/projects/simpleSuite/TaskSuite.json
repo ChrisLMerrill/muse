@@ -1,0 +1,4 @@
+{
+"type":"suite_of_ids",
+"testIds": [ "FailedTask","SimpleTask"]
+}

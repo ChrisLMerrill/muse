@@ -17,9 +17,9 @@ class JunitReportTests
     void generateJunitXmlReport()
         {
         JUnitReportData report_data = new JUnitReportData();
-        report_data.addResult(TestResult.create("test 1", "test1", "erred", TestResult.FailureType.Error, "erred"), null);
-        report_data.addResult(TestResult.create("test 2", "test2", "failed", TestResult.FailureType.Failure, "failed"), null);
-        report_data.addResult(TestResult.create("test 3", "test3", "success"), null);
+        report_data.addResult(TaskResult.create("test 1", "test1", "erred", TaskResult.FailureType.Error, "erred"), null);
+        report_data.addResult(TaskResult.create("test 2", "test2", "failed", TaskResult.FailureType.Failure, "failed"), null);
+        report_data.addResult(TaskResult.create("test 3", "test3", "success"), null);
         report_data.setSuiteName("suite 1");
 
         ByteArrayOutputStream outstream = new ByteArrayOutputStream();

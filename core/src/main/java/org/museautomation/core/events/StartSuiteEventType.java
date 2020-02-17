@@ -19,7 +19,7 @@ public class StartSuiteEventType extends EventType
 		return "Suite Starting";
 		}
 
-	public static MuseEvent create(MuseTestSuite suite)
+	public static MuseEvent create(MuseTaskSuite suite)
 		{
 		final MuseEvent event = new MuseEvent(TYPE_ID);
 		event.setAttribute(MuseEvent.DESCRIPTION, suite.getId());

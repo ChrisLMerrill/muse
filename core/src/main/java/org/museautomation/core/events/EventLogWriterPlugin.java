@@ -6,7 +6,7 @@ import org.museautomation.core.plugins.*;
 import org.museautomation.core.resource.generic.*;
 import org.museautomation.core.resultstorage.*;
 import org.museautomation.core.suite.*;
-import org.museautomation.core.test.*;
+import org.museautomation.core.task.*;
 import org.slf4j.*;
 
 import java.io.*;
@@ -58,9 +58,9 @@ public class EventLogWriterPlugin extends GenericConfigurablePlugin
             LocalStorageLocationProvider provider = Plugins.findType(LocalStorageLocationProvider.class, _context);
             if (provider != null)
                 {
-                if (_context instanceof TestExecutionContext)
-                    folder = provider.getTestFolder((TestExecutionContext) _context);
-                else if (_context instanceof TestSuiteExecutionContext)
+                if (_context instanceof TaskExecutionContext)
+                    folder = provider.getTaskFolder((TaskExecutionContext) _context);
+                else if (_context instanceof TaskSuiteExecutionContext)
                     folder = provider.getBaseFolder();
                 else
                     {

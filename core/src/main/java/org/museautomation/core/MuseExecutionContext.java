@@ -3,7 +3,7 @@ package org.museautomation.core;
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.plugins.*;
-import org.museautomation.core.test.*;
+import org.museautomation.core.task.*;
 import org.museautomation.core.variables.*;
 
 import java.util.*;

@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implements MuseEventListener, DataCollector
+public class WebdriverCapturePlugin extends GenericConfigurableTaskPlugin implements MuseEventListener, DataCollector
 	{
 	WebdriverCapturePlugin(WebdriverCapturePluginConfiguration configuration)
 		{
@@ -30,9 +30,9 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 	@Override
 	public void initialize(MuseExecutionContext context)
 		{
-		if (context instanceof SteppedTestExecutionContext)
+		if (context instanceof SteppedTaskExecutionContext)
 			{
-			_context = (SteppedTestExecutionContext) context;
+			_context = (SteppedTaskExecutionContext) context;
 			_context.addEventListener(this);
 			_collect_on_fail = _config.isCollectOnFailure(_context);
 			_collect_on_error = _config.isCollectOnError(_context);
@@ -49,11 +49,11 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 	@Override
 	public void eventRaised(MuseEvent event)
 		{
-		if (StartStepEventType.TYPE_ID.equals(event.getTypeId()) || EndTestEventType.TYPE_ID.equals(event.getTypeId()))
+		if (StartStepEventType.TYPE_ID.equals(event.getTypeId()) || EndTaskEventType.TYPE_ID.equals(event.getTypeId()))
 			{
 			if (_logs_collected)
 				return;
-			if (EndTestEventType.TYPE_ID.equals(event.getTypeId())
+			if (EndTaskEventType.TYPE_ID.equals(event.getTypeId())
 				|| CloseBrowser.TYPE_ID.equals(_context.getStepLocator().findStep(StepEventType.getStepId(event)).getType()))
 				{
 				collectLogs();
@@ -81,9 +81,9 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 				final byte[] screenshot_bytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 				if (shouldSaveScreenshot(screenshot_bytes))
 					{
-					final TestResultData data = new ScreenshotData(screenshot_bytes);
+					final TaskResultData data = new ScreenshotData(screenshot_bytes);
 					final String varname = _context.createVariable("_captured_screenshot", data);
-					_context.raiseEvent(TestResultStoredEventType.create(varname, "screenshot"));
+					_context.raiseEvent(TaskResultStoredEventType.create(varname, "screenshot"));
 					}
 				}
 			}
@@ -96,7 +96,7 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 				{
 				final HtmlData data = new HtmlData(html_bytes);
 				final String varname = _context.createVariable("_captured_html", data);
-				_context.raiseEvent(TestResultStoredEventType.create(varname, "page HTML"));
+				_context.raiseEvent(TaskResultStoredEventType.create(varname, "page HTML"));
 				}
 			}
 		}
@@ -169,12 +169,12 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 		}
 
 	@Override
-	public List<TestResultData> getData()
+	public List<TaskResultData> getData()
 		{
 		return _data;
 		}
 
-	private SteppedTestExecutionContext _context;
+	private SteppedTaskExecutionContext _context;
 	private WebdriverCapturePluginConfiguration _config;
 	private boolean _collect_on_fail = false;
 	private boolean _collect_on_error = false;
@@ -187,7 +187,7 @@ public class WebdriverCapturePlugin extends GenericConfigurableTestPlugin implem
 	private long _last_screenshot_hash = 0L;
 	private long _last_HTML_hash = 0L;
 
-	private List<TestResultData> _data = new ArrayList<>();
+	private List<TaskResultData> _data = new ArrayList<>();
 
 	private final static Logger LOG = LoggerFactory.getLogger(WebdriverCapturePlugin.class);
 	}

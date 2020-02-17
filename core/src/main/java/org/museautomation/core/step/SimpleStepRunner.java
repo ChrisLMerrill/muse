@@ -4,7 +4,7 @@ import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.project.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -33,13 +33,13 @@ public class SimpleStepRunner
 
     private void setup() throws MuseExecutionError
         {
-        _test = new SteppedTest(_step);
+        _task = new SteppedTask(_step);
         if (_context != null)
-            _test_context = new DefaultSteppedTestExecutionContext(_context, _test);
+            _test_context = new DefaultSteppedTaskExecutionContext(_context, _task);
         else
-            _test_context = new DefaultSteppedTestExecutionContext(_project, _test);
+            _test_context = new DefaultSteppedTaskExecutionContext(_project, _task);
         _test_context.initializePlugins();
-        _executor = new StepExecutor(_test, _test_context);
+        _executor = new StepExecutor(_task, _test_context);
         }
 
     public SimpleStepRunner runOneStep()
@@ -71,8 +71,8 @@ public class SimpleStepRunner
 
     private StepConfiguration _step;
     private MuseProject _project;
-    private SteppedTest _test;
+    private SteppedTask _task;
     private MuseExecutionContext _context;
-    private SteppedTestExecutionContext _test_context;
+    private SteppedTaskExecutionContext _test_context;
     private StepExecutor _executor;
     }

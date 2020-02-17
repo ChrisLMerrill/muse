@@ -9,7 +9,7 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class HtmlData implements TestResultData
+public class HtmlData implements TaskResultData
 	{
 	HtmlData(byte[] bytes)
 		{

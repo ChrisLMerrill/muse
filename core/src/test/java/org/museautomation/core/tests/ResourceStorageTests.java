@@ -22,10 +22,10 @@ class ResourceStorageTests
         {
         MuseProject project = new SimpleProject();
 
-        MuseTest test = new MockTest();
+        MuseTask test = new MockTask();
         test.setId("test1");
         project.getResourceStorage().addResource(test);
-        Assertions.assertNotNull(project.getResourceStorage().getResource("test1", MuseTest.class));
+        Assertions.assertNotNull(project.getResourceStorage().getResource("test1", MuseTask.class));
         }
 
     @Test
@@ -33,11 +33,11 @@ class ResourceStorageTests
         {
         MuseProject project = new SimpleProject();
 
-        MuseTest test1 = new MockTest();
+        MuseTask test1 = new MockTask();
         test1.setId("test1");
         project.getResourceStorage().addResource(test1);
 
-        MuseTest test2 = new MockTest();
+        MuseTask test2 = new MockTask();
         test2.setId("test2");
         project.getResourceStorage().addResource(test2);
 
@@ -45,7 +45,7 @@ class ResourceStorageTests
         Assertions.assertNotNull(resource);
         Assertions.assertEquals(test1, resource, "should find the right resource");
 
-        ResourceToken<MuseTest> token = project.getResourceStorage().findResource("test2");
+        ResourceToken<MuseTask> token = project.getResourceStorage().findResource("test2");
         Assertions.assertNotNull(token);
         Assertions.assertEquals(test2, token.getResource(), "token doesn't have the right resource");
         }
@@ -55,15 +55,15 @@ class ResourceStorageTests
         {
         MuseProject project = new SimpleProject();
 
-        MuseTest test = new MockTest();
+        MuseTask test = new MockTask();
         test.setId("Test1");
         project.getResourceStorage().addResource(test);
 
-        test = new MockTest();
+        test = new MockTask();
         test.setId("Test2");
         project.getResourceStorage().addResource(test);
 
-        List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTest.TestResourceType()));
+        List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTask.TaskResourceType()));
         Assertions.assertEquals(2, resources.size(), "Should find 2 resources");
         Assertions.assertTrue(resources.get(0).getId().equals("Test1") ^ resources.get(1).getId().equals("Test1"), "Should find one resource with id 'Test1'");
         Assertions.assertTrue(resources.get(0).getId().equals("Test2") ^ resources.get(1).getId().equals("Test2"), "Should find one resource with id 'Test2'");
@@ -73,7 +73,7 @@ class ResourceStorageTests
     void addAndRemoveResourceEvents() throws IOException
         {
         MuseProject project = new SimpleProject();
-        MuseTest test = new MockTest();
+        MuseTask test = new MockTask();
         test.setId("Test1");
 
         AtomicReference<ResourceToken> resource_added = new AtomicReference(null);
@@ -113,11 +113,11 @@ class ResourceStorageTests
     void refuseToAddDuplicateResource() throws IOException
         {
         MuseProject project = new SimpleProject();
-        MuseTest test = new MockTest();
+        MuseTask test = new MockTask();
         test.setId("Test1");
         project.getResourceStorage().addResource(test);
 
-        MuseTest duplicate = new MockTest();
+        MuseTask duplicate = new MockTask();
         duplicate.setId("Test1");
         try
             {

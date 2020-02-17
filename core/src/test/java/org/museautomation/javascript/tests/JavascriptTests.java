@@ -11,7 +11,7 @@ import org.museautomation.core.resource.origin.*;
 import org.museautomation.core.resource.storage.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.step.descriptor.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.tests.utils.*;
 import org.museautomation.core.values.*;
 import org.museautomation.javascript.*;
@@ -30,39 +30,39 @@ class JavascriptTests
     @Test
     void javascriptTestSuccess()
 	    {
-	    MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return TEST_SUCCESS; } "));
+	    MuseTask test = new JavascriptTask(new StringResourceOrigin("function executeTest(test_context) { return TEST_SUCCESS; } "));
 	    test.setId("javascript-test");
-	    TestResult result = TestRunHelper.runTest(new SimpleProject(), test);
+	    TaskResult result = TaskRunHelper.runTask(new SimpleProject(), test);
 	    Assertions.assertTrue(result.isPass());
 	    }
 
     @Test
     void javascriptTestFailure()
         {
-        MuseTest test = new JavascriptTest(new StringResourceOrigin("function executeTest(test_context) { return \"things went badly\"; } "));
+        MuseTask test = new JavascriptTask(new StringResourceOrigin("function executeTest(test_context) { return \"things went badly\"; } "));
         test.setId("javascript-test");
-        TestResult result = TestRunHelper.runTest(new SimpleProject(), test);
-        Assertions.assertEquals(TestResult.FailureType.Failure, result.getFailures().get(0).getType());
+        TaskResult result = TaskRunHelper.runTask(new SimpleProject(), test);
+        Assertions.assertEquals(TaskResult.FailureType.Failure, result.getFailures().get(0).getType());
         }
 
     @Test
     void javascriptNotATest() throws ScriptException
         {
-        TestFromJavascriptResourceFactory factory = new TestFromJavascriptResourceFactory();
+        TaskFromJavascriptResourceFactory factory = new TaskFromJavascriptResourceFactory();
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
         String script = "function not_the_right_method(test_context) { return TEST_SUCCESS; } ";
         engine.eval(script);
-        List<MuseResource> resources = factory.createResources(new StringResourceOrigin("abc"), new MuseTest.TestResourceType(), engine);
+        List<MuseResource> resources = factory.createResources(new StringResourceOrigin("abc"), new MuseTask.TaskResourceType(), engine);
         Assertions.assertEquals(0, resources.size());
         }
 
     @Test
     void loadJavascriptTestFromFile() throws IOException
         {
-        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("javascriptTest.js", this.getClass())));
+        List<MuseResource> resources = ResourceFactory.createResources(new FileResourceOrigin(TestResources.getFile("javascriptTask.js", this.getClass())));
         Assertions.assertEquals(1, resources.size());
-        Assertions.assertTrue(resources.get(0) instanceof MuseTest);
-        TestResult result = TestRunHelper.runTest(new SimpleProject(), (MuseTest) resources.get(0));
+        Assertions.assertTrue(resources.get(0) instanceof MuseTask);
+        TaskResult result = TaskRunHelper.runTask(new SimpleProject(), (MuseTask) resources.get(0));
         Assertions.assertTrue(result.isPass());
         }
 
@@ -141,7 +141,7 @@ class JavascriptTests
         MuseStep step = config.createStep(project);
 
         final List<MuseEvent> events = new ArrayList<>();
-        SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(project, new SteppedTest(new StepConfiguration("mock-step")));
+        SteppedTaskExecutionContext test_context = new DefaultSteppedTaskExecutionContext(project, new SteppedTask(new StepConfiguration("mock-step")));
         StepExecutionContext context = new SingleStepExecutionContext(test_context, config, true);
         test_context.addEventListener(event ->
             {

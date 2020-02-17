@@ -5,7 +5,6 @@ import org.museautomation.core.context.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.step.descriptor.*;
-import org.museautomation.core.steptest.*;
 import org.slf4j.*;
 
 /**
@@ -15,7 +14,7 @@ import org.slf4j.*;
 @MuseInlineEditString("increment ${name} by {amount}")
 public class IncrementVariableByN extends BaseStep
     {
-    public IncrementVariableByN(StepConfiguration config, MuseProject project) throws StepConfigurationError
+    public IncrementVariableByN(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
     	_name = getValueSource(config, "name", true, project);
@@ -23,7 +22,7 @@ public class IncrementVariableByN extends BaseStep
     	}
         
     @Override
-    public StepExecutionResult executeImplementation(StepExecutionContext context) throws StepExecutionError
+    public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
 		String var_name = _name.resolveValue(context).toString();
 		Object var_value = context.getVariable(var_name);

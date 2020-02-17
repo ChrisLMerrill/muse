@@ -7,7 +7,7 @@ import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.mocks.*;
 import org.museautomation.core.project.*;
-import org.museautomation.core.test.plugins.*;
+import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.values.*;
 
 import java.util.*;
@@ -64,14 +64,14 @@ class SystemVariableTests
     @Test
     void testTags() throws ValueSourceResolutionError
         {
-        MuseTest test = new MockTest();
+        MuseTask test = new MockTask();
         final String tag = UUID.randomUUID().toString();
         test.addTag(tag);
 
         MuseProject project = new SimpleProject();
-        Object test_var = project.getSystemVariableProviders().resolve(TestVariableProvider.SYSVAR_NAME, new DefaultTestExecutionContext(project, test));
-        Assertions.assertTrue(test_var instanceof TestVariableProvider.TestVariableProxy);
-        Assertions.assertTrue(((TestVariableProvider.TestVariableProxy)test_var).getTags().contains(tag));
+        Object test_var = project.getSystemVariableProviders().resolve(TaskVariableProvider.SYSVAR_NAME, new DefaultTaskExecutionContext(project, test));
+        Assertions.assertTrue(test_var instanceof TaskVariableProvider.TaskVariableProxy);
+        Assertions.assertTrue(((TaskVariableProvider.TaskVariableProxy)test_var).getTags().contains(tag));
         }
 
     @Test
@@ -96,7 +96,7 @@ class SystemVariableTests
         project.setCommandLineOptions(options);
 
         CommandLineOptionSysvarProvider provider = new CommandLineOptionSysvarProvider();
-        Object resolved = provider.resolve("clo", new DefaultTestExecutionContext(project, new MockTest()));
+        Object resolved = provider.resolve("clo", new DefaultTaskExecutionContext(project, new MockTask()));
         Assertions.assertTrue(resolved instanceof Map);
         Assertions.assertEquals(((Map) resolved).get(name), value);
         }

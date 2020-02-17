@@ -1,6 +1,6 @@
 package org.museautomation.core.tests.mocks;
 
-import org.museautomation.core.test.*;
+import org.museautomation.core.task.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)

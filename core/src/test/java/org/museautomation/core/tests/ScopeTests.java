@@ -3,8 +3,8 @@ package org.museautomation.core.tests;
 import org.junit.jupiter.api.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resource.storage.*;
-import org.museautomation.core.test.*;
-import org.museautomation.core.test.plugins.*;
+import org.museautomation.core.task.*;
+import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.tests.utils.*;
 import org.museautomation.utils.*;
 
@@ -37,7 +37,7 @@ class ScopeTests
         {
         File file = TestResources.getFile("projects/scopes", getClass());
         SimpleProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(file));
-        TestConfiguration config = new BasicTestConfiguration(test_name);
-        Assertions.assertTrue(TestRunHelper.runTest(project, config, new TestDefaultsInitializerConfiguration().createPlugin()).isPass());
+        TaskConfiguration config = new BasicTaskConfiguration(test_name);
+        Assertions.assertTrue(TaskRunHelper.runTask(project, config, new TaskDefaultsInitializerConfiguration().createPlugin()).isPass());
         }
     }

@@ -8,7 +8,7 @@ repositories
 
 dependencies
     {
-	compile('org.musetest:muse-core:0.4+')
+	compile('org.museautomation:muse-core:[0.22,)')
 	compile('org.slf4j:slf4j-api:1.7+')
 
     testCompile('junit:junit:4+')

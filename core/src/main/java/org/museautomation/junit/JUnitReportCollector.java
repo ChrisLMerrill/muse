@@ -6,7 +6,7 @@ import org.museautomation.core.datacollection.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.suite.*;
-import org.museautomation.core.test.*;
+import org.museautomation.core.task.*;
 import org.slf4j.*;
 
 import javax.annotation.*;
@@ -25,12 +25,12 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
 	@Override
 	protected boolean applyToContextType(MuseExecutionContext context)
 		{
-		return context instanceof TestSuiteExecutionContext;
+		return context instanceof TaskSuiteExecutionContext;
 		}
 
 	@Nullable
 	@Override
-	public List<TestResultData> getData()
+	public List<TaskResultData> getData()
 		{
 		return Collections.singletonList(_data);
 		}
@@ -38,16 +38,16 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
 	@Override
 	public void initialize(MuseExecutionContext context)
 		{
-        if (context instanceof TestSuiteExecutionContext)
+        if (context instanceof TaskSuiteExecutionContext)
             {
-            context.addEventListener(new EventListener((TestSuiteExecutionContext)context));
-            _data.setSuiteName(((TestSuiteExecutionContext) context).getSuite().getId());
+            context.addEventListener(new EventListener((TaskSuiteExecutionContext)context));
+            _data.setSuiteName(((TaskSuiteExecutionContext) context).getSuite().getId());
             }
         }
 
 	class EventListener implements MuseEventListener
 		{
-		EventListener(TestSuiteExecutionContext context)
+		EventListener(TaskSuiteExecutionContext context)
 			{
 			_context = context;
 			}
@@ -55,11 +55,11 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
 		@Override
 		public void eventRaised(MuseEvent event)
 			{
-            if (EndSuiteTestEventType.TYPE_ID.equals(event.getTypeId()))
+            if (EndSuiteTaskEventType.TYPE_ID.equals(event.getTypeId()))
                 {
-                final String varname = EndSuiteTestEventType.getConfigVariableName(event);
+                final String varname = EndSuiteTaskEventType.getConfigVariableName(event);
                 Object test_config = _context.getVariable(varname);
-                if (!(test_config instanceof TestConfiguration))
+                if (!(test_config instanceof TaskConfiguration))
                     {
                     String message;
                     if (test_config == null)
@@ -70,7 +70,7 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
                     _context.raiseEvent(MessageEventType.create(message));
                     return;
                     }
-                TestExecutionContext context = ((TestConfiguration)test_config).context();
+                TaskExecutionContext context = ((TaskConfiguration)test_config).context();
                 if (context == null)
                     {
                     String message = "The test context is null";
@@ -78,13 +78,13 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
                     _context.raiseEvent(MessageEventType.create(message));
                     return;
                     }
-                TestResult result = TestResult.find(context);
+                TaskResult result = TaskResult.find(context);
                 if (result != null)
                     _data.addResult(result, context.getEventLog());
                 }
 			}
 
-		private TestSuiteExecutionContext _context;
+		private TaskSuiteExecutionContext _context;
 		}
 
 	private JUnitReportData _data = new JUnitReportData();

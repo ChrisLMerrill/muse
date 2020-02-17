@@ -9,7 +9,7 @@ import org.museautomation.core.values.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StepWaitPlugin extends GenericConfigurableTestPlugin
+public class StepWaitPlugin extends GenericConfigurableTaskPlugin
     {
     public StepWaitPlugin(StepWaitPluginConfiguration configuration)
         {

@@ -7,9 +7,9 @@ import org.museautomation.core.events.*;
 import org.museautomation.core.mocks.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.suite.*;
-import org.museautomation.core.test.plugins.*;
+import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.tests.mocks.*;
 import org.museautomation.core.tests.utils.*;
 import org.museautomation.core.variables.*;
@@ -33,7 +33,7 @@ class ExecutionContextTests
 	@Test
     void testContextEvents()
 		{
-		final DefaultTestExecutionContext context = new DefaultTestExecutionContext(_project, new MockTest());
+		final DefaultTaskExecutionContext context = new DefaultTaskExecutionContext(_project, new MockTask());
 
 		checkReceiveEvents(context);
 		checkParentEventPropogation(context, false);
@@ -42,7 +42,7 @@ class ExecutionContextTests
 	@Test
     void steppedTestContextEvents()
 		{
-		final DefaultSteppedTestExecutionContext context = new DefaultSteppedTestExecutionContext(_project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID)));
+		final DefaultSteppedTaskExecutionContext context = new DefaultSteppedTaskExecutionContext(_project, new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID)));
 
 		checkReceiveEvents(context);
 		checkParentEventPropogation(context, false);
@@ -52,7 +52,7 @@ class ExecutionContextTests
     void singleStepContextEvents()
 		{
 		final StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
-		StepsExecutionContext parent = new DefaultSteppedTestExecutionContext(_project, new SteppedTest(step));
+		StepsExecutionContext parent = new DefaultSteppedTaskExecutionContext(_project, new SteppedTask(step));
 		final SingleStepExecutionContext context = new SingleStepExecutionContext(parent, step, true);
 
 		checkReceiveEvents(context);
@@ -63,7 +63,7 @@ class ExecutionContextTests
     void listOfStepsContextReceivesEvents()
 		{
 		final StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
-		StepsExecutionContext parent = new DefaultSteppedTestExecutionContext(_project, new SteppedTest(step));
+		StepsExecutionContext parent = new DefaultSteppedTaskExecutionContext(_project, new SteppedTask(step));
 		List<StepConfiguration> steps = Collections.singletonList(step);
 		final ListOfStepsExecutionContext context = new ListOfStepsExecutionContext(parent, steps, true, null);
 
@@ -115,9 +115,9 @@ class ExecutionContextTests
 		{
 		// set same variable in multiple contexts to different values
 		MuseExecutionContext project_context = new ProjectExecutionContext(_project);
-		TestSuiteExecutionContext suite_context = new DefaultTestSuiteExecutionContext(project_context, new SimpleTestSuite());
+		TaskSuiteExecutionContext suite_context = new DefaultTaskSuiteExecutionContext(project_context, new SimpleTaskSuite());
 		final StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
-		SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(suite_context, new SteppedTest(step));
+		SteppedTaskExecutionContext test_context = new DefaultSteppedTaskExecutionContext(suite_context, new SteppedTask(step));
 		SingleStepExecutionContext step_context = new SingleStepExecutionContext(test_context, step, true);
 
 		// ensure the correct values are retrieved from each level
@@ -162,11 +162,11 @@ class ExecutionContextTests
 		// create a test with a step that creates a Shuttable resource
 		MuseProject project = new SimpleProject();
 		StepConfiguration step = new StepConfiguration(MockStepCreatesShuttable.TYPE_ID);
-		SteppedTest test = new SteppedTest(step);
+        SteppedTask task = new SteppedTask(step);
 
 		// run the test
-		final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
-	    TestResult result = TestResult.find(context);
+		final TaskExecutionContext context = TaskRunHelper.runTaskReturnContext(project, task);
+	    TaskResult result = TaskResult.find(context);
         Assertions.assertNotNull(result);
 		Assertions.assertTrue(result.isPass());
 
@@ -185,7 +185,7 @@ class ExecutionContextTests
     void queueNewEventsDuringProcessing()
 		{
 		final StepConfiguration step_config = new StepConfiguration(LogMessage.TYPE_ID);
-		DefaultTestExecutionContext context = new DefaultTestExecutionContext(new SimpleProject(), new SteppedTest(step_config));
+		DefaultTaskExecutionContext context = new DefaultTaskExecutionContext(new SimpleProject(), new SteppedTask(step_config));
 
 		// install an event listener that raises an event in response to another event
 		AtomicReference<MuseEvent> event2 = new AtomicReference<>(null);
@@ -215,25 +215,25 @@ class ExecutionContextTests
 	@Test
     void getTestExecutionId()
 		{
-		MuseTest test = new MockTest("test1");
-		TestExecutionContext context = new DefaultTestExecutionContext(_context, test);
-		String id = context.getTestExecutionId();
+		MuseTask test = new MockTask("test1");
+		TaskExecutionContext context = new DefaultTaskExecutionContext(_context, test);
+		String id = context.getTaskExecutionId();
 		Assertions.assertNotNull(id);
 		}
 
 	@Test
     void getTestExecutionIdInSuite()
 		{
-		MuseTestSuite suite = new SimpleTestSuite();
+		MuseTaskSuite suite = new SimpleTaskSuite();
 		suite.setId("suite1");
-		TestSuiteExecutionContext suite_context = new DefaultTestSuiteExecutionContext(_context, suite);
-		MuseTest test = new MockTest("test1");
-		TestExecutionContext context = new DefaultTestExecutionContext(suite_context, test);
-		String id1 = context.getTestExecutionId();
+		TaskSuiteExecutionContext suite_context = new DefaultTaskSuiteExecutionContext(_context, suite);
+		MuseTask test = new MockTask("test1");
+		TaskExecutionContext context = new DefaultTaskExecutionContext(suite_context, test);
+		String id1 = context.getTaskExecutionId();
 		Assertions.assertNotNull(id1);
-		Assertions.assertTrue(context.getTestExecutionId().length() >= test.getId().length());
+		Assertions.assertTrue(context.getTaskExecutionId().length() >= test.getId().length());
 
-		Assertions.assertNotEquals(id1, new DefaultTestExecutionContext(_context, test).getTestExecutionId()); // should be unique for each test context
+		Assertions.assertNotEquals(id1, new DefaultTaskExecutionContext(_context, test).getTaskExecutionId()); // should be unique for each test context
 		}
 
 	@Test

@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class JUnitReportData implements TestResultData
+public class JUnitReportData implements TaskResultData
 	{
 	@Override
 	public String getName()
@@ -42,7 +42,7 @@ public class JUnitReportData implements TestResultData
 
 		writer.println("<testsuite>");
 
-		for (TestResult result : _results)
+		for (TaskResult result : _results)
 			{
 			String suite_name = _suite_name;
 			String test_name = result.getName();
@@ -100,7 +100,7 @@ public class JUnitReportData implements TestResultData
 		throw new IOException("JUnitReportData cannot be de-serialized. The format is intended only for consumers of JUnit Report data and is write-only in Muse.");
 		}
 
-	public synchronized void addResult(@NotNull TestResult result, @Nullable EventLog log)
+	public synchronized void addResult(@NotNull TaskResult result, @Nullable EventLog log)
 		{
 		_results.add(result);
 		if (log != null)
@@ -113,8 +113,8 @@ public class JUnitReportData implements TestResultData
 		_name = "Junit Report for " + name;
 		}
 
-	private List<TestResult> _results = new ArrayList<>();
-	private Map<TestResult, EventLog> _logs = new HashMap<>();
+	private List<TaskResult> _results = new ArrayList<>();
+	private Map<TaskResult, EventLog> _logs = new HashMap<>();
 
 	private String _suite_name = null;
 	private String _name = "JUnit Report";

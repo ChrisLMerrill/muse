@@ -30,7 +30,7 @@ class StepWaitPluginTests
     private void testDelay(StepWaitPluginConfiguration config, long expected_delay) throws MuseExecutionError
         {
         StepWaitPlugin plugin = new StepWaitPlugin(config);
-        SteppedTestExecutionContext context = new MockSteppedTestExecutionContext();
+        SteppedTaskExecutionContext context = new MockSteppedTaskExecutionContext();
         plugin.initialize(context);
 
         long start = System.currentTimeMillis();

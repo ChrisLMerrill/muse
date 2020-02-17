@@ -4,7 +4,7 @@ import org.museautomation.builtins.value.*;
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.resource.*;
-import org.museautomation.core.test.*;
+import org.museautomation.core.task.*;
 import org.museautomation.core.values.*;
 import org.museautomation.core.values.descriptor.*;
 import org.museautomation.javascript.support.*;

@@ -13,7 +13,7 @@ import org.museautomation.core.project.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.storage.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.tests.utils.*;
 import org.museautomation.core.values.*;
 
@@ -148,7 +148,7 @@ class StepTests
     private void verifyMaybeFatal(boolean fatal) throws MuseExecutionError
         {
         EventLogger logger = new EventLogger();
-        SteppedTestExecutionContext test_context = new DefaultSteppedTestExecutionContext(new SimpleProject(), new SteppedTest(new StepConfiguration("mock-step")));
+        SteppedTaskExecutionContext test_context = new DefaultSteppedTaskExecutionContext(new SimpleProject(), new SteppedTask(new StepConfiguration("mock-step")));
         test_context.addEventListener(logger);
 
         StepConfiguration config = new StepConfiguration(Verify.TYPE_ID);
@@ -186,11 +186,11 @@ class StepTests
         // create a step and test that calls the macro above
         StepConfiguration call_macro = new StepConfiguration(CallMacroStep.TYPE_ID);
         call_macro.addSource(CallMacroStep.ID_PARAM, ValueSourceConfiguration.forValue(macro_id));
-        SteppedTest test = new SteppedTest(call_macro);
+        SteppedTask test = new SteppedTask(call_macro);
 
         // verify that the macro runs when the test is executed
-        final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
-        TestResult result = TestResult.find(context);
+        final TaskExecutionContext context = TaskRunHelper.runTaskReturnContext(project, test);
+        TaskResult result = TaskResult.find(context);
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isPass());
         Assertions.assertNotNull(context.getEventLog().findFirstEvent(new EventDescriptionMatcher(message)), "message step didn't run");
@@ -233,11 +233,11 @@ class StepTests
         verify_step.addSource(Verify.CONDITION_PARAM, EqualityCondition.forSources(EqualityCondition.TYPE_ID, ValueSourceConfiguration.forValue(7L), ValueSourceConfiguration.forTypeWithSource(VariableValueSource.TYPE_ID, return_var_id)));
         test_step.addChild(verify_step);
 
-        SteppedTest test = new SteppedTest(test_step);
+        SteppedTask test = new SteppedTask(test_step);
 
         // verify that the return value is correct in the context (the function should have incremented by one
-        final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
-        TestResult result = TestResult.find(context);
+        final TaskExecutionContext context = TaskRunHelper.runTaskReturnContext(project, test);
+        TaskResult result = TaskResult.find(context);
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isPass());
         }
@@ -269,10 +269,10 @@ class StepTests
         StepConfiguration call_function = new StepConfiguration(CallFunction.TYPE_ID);
         call_function.addSource(CallFunction.ID_PARAM, ValueSourceConfiguration.forValue(function_id));
         test_step.addChild(call_function);
-        SteppedTest test = new SteppedTest(test_step);
+        SteppedTask test = new SteppedTask(test_step);
 
-        final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
-        TestResult result = TestResult.find(context);
+        final TaskExecutionContext context = TaskRunHelper.runTaskReturnContext(project, test);
+        TaskResult result = TaskResult.find(context);
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isPass());
         // verify that the message step (which comes after the return) did not run
@@ -287,9 +287,9 @@ class StepTests
         step.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue("abc"));
 
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
-        SteppedTest test = new SteppedTest(step);
-        final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
-        TestResult result = TestResult.find(context);
+        SteppedTask test = new SteppedTask(step);
+        final TaskExecutionContext context = TaskRunHelper.runTaskReturnContext(project, test);
+        TaskResult result = TaskResult.find(context);
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isPass());
         }
@@ -309,9 +309,9 @@ class StepTests
         main.addChild(config);
 
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
-        SteppedTest test = new SteppedTest(main);
-        final TestExecutionContext context = TestRunHelper.runTestReturnContext(project, test);
-        TestResult result = TestResult.find(context);
+        SteppedTask test = new SteppedTask(main);
+        final TaskExecutionContext context = TaskRunHelper.runTaskReturnContext(project, test);
+        TaskResult result = TaskResult.find(context);
         Assertions.assertNotNull(result);
         Assertions.assertFalse(result.isPass());
         }

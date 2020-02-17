@@ -11,9 +11,9 @@ import org.museautomation.core.events.matching.*;
 import org.museautomation.core.mocks.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
-import org.museautomation.core.test.*;
-import org.museautomation.core.test.plugins.*;
+import org.museautomation.core.steptask.*;
+import org.museautomation.core.task.*;
+import org.museautomation.core.task.plugins.*;
 import org.museautomation.core.tests.utils.*;
 import org.museautomation.core.values.*;
 
@@ -107,7 +107,7 @@ class ConditionalAndLoopingTests
         wontrun.addChild(should_not_run_step);
         main.addChild(wontrun);
 
-        TestResult result = runTest(new SteppedTest(main));
+        TaskResult result = runTest(new SteppedTask(main));
         Assertions.assertTrue(result.isPass());
         EventLog log = _test_config.context().getEventLog();
         Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(should_run_message)), "The conditional that should have run, did not");
@@ -192,7 +192,7 @@ class ConditionalAndLoopingTests
     @Test
     void testWhileStepX3()
         {
-        TestResult result = runTest(createLoopTest(0L));
+        TaskResult result = runTest(createLoopTest(0L));
         Assertions.assertTrue(result.isPass());
         EventLog log = _test_config.context().getEventLog();
         Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)), "first message is missing");
@@ -201,7 +201,7 @@ class ConditionalAndLoopingTests
         Assertions.assertNull(log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 4)), "this message shouldn't be there");
         }
 
-    private SteppedTest createLoopTest(Object initial_value)
+    private SteppedTask createLoopTest(Object initial_value)
         {
         StepConfiguration main = new StepConfiguration("compound");
 
@@ -228,13 +228,13 @@ class ConditionalAndLoopingTests
         while_step.addChild(log_step);
 
         main.addChild(while_step);
-        return new SteppedTest(main);
+        return new SteppedTask(main);
         }
 
     @Test
     void testWhileStepX1()
         {
-        TestResult result = runTest(createLoopTest(2L));
+        TaskResult result = runTest(createLoopTest(2L));
         Assertions.assertTrue(result.isPass());
         Assertions.assertNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)), "this should not be found");
         Assertions.assertNotNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)), "first message is missing");
@@ -243,25 +243,25 @@ class ConditionalAndLoopingTests
     @Test
     void testWhileStepX0()
         {
-        SteppedTest test = createLoopTest(3L);
-        SteppedTestExecutionContext context = new DefaultSteppedTestExecutionContext(new SimpleProject(), test);
-        context.addPlugin(new TestResultCollectorConfiguration().createPlugin());
+        SteppedTask test = createLoopTest(3L);
+        SteppedTaskExecutionContext context = new DefaultSteppedTaskExecutionContext(new SimpleProject(), test);
+        context.addPlugin(new TaskResultCollectorConfiguration().createPlugin());
         boolean finished = test.execute(context);
         Assertions.assertTrue(finished);
-        TestResult result = TestResult.find(context);
+        TaskResult result = TaskResult.find(context);
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isPass());
         Assertions.assertNull(context.getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)), "this should not be found");
         }
 
-    private TestResult runTest(MuseTest test)
+    private TaskResult runTest(MuseTask test)
         {
-        _test_config = new BasicTestConfiguration(test);
-        _test_config.addPlugin(new TestResultCollectorConfiguration().createPlugin());
-        return TestRunHelper.runTest(new SimpleProject(), _test_config, null);
+        _test_config = new BasicTaskConfiguration(test);
+        _test_config.addPlugin(new TaskResultCollectorConfiguration().createPlugin());
+        return TaskRunHelper.runTask(new SimpleProject(), _test_config, null);
         }
 
-    private TestConfiguration _test_config;
+    private TaskConfiguration _test_config;
 
     private final static String COUNTER_NAME = "counter";
     private final static String MESSAGE_PREFIX = "var=";

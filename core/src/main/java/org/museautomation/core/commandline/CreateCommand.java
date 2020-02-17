@@ -29,7 +29,7 @@ public class CreateCommand extends MuseCommand
 
         ResourceType resource_type;
         if (type == null)
-            resource_type = new MuseTest.TestResourceType();
+            resource_type = new MuseTask.TaskResourceType();
         else
             resource_type = project.getResourceTypes().forIdIgnoreCase(type);
 

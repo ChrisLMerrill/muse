@@ -34,7 +34,7 @@ public class DynamicStepLoadingEventType extends EventType
 		if (step_ids == null)
 			throw new IllegalArgumentException("This event does not contain a step list.");
 
-		SteppedTestExecutionContext step_context = MuseExecutionContext.findAncestor(context, SteppedTestExecutionContext.class);
+		SteppedTaskExecutionContext step_context = MuseExecutionContext.findAncestor(context, SteppedTaskExecutionContext.class);
 		if (step_context == null)
 			throw new IllegalArgumentException("Can only do this in a SteppedTestExecutionContext");
 

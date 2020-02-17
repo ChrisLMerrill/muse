@@ -62,12 +62,12 @@ class StepDescriptorTests
     void customDescriptorImplementationLookup()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(WithCustomDescriptor.class);
-        Assertions.assertTrue(descriptor instanceof  TestStepDescriptor);
-        Assertions.assertEquals(TestStepDescriptor.TYPE, descriptor.getType());
-        Assertions.assertEquals(TestStepDescriptor.NAME, descriptor.getName());
-        Assertions.assertEquals(TestStepDescriptor.SHORT_DESCRIPTION, descriptor.getShortDescription());
-        Assertions.assertEquals(TestStepDescriptor.ICON, descriptor.getIconDescriptor());
-        Assertions.assertEquals(TestStepDescriptor.TEST_STEP, descriptor.getInlineEditString());
+        Assertions.assertTrue(descriptor instanceof MockStepDescriptor);
+        Assertions.assertEquals(MockStepDescriptor.TYPE, descriptor.getType());
+        Assertions.assertEquals(MockStepDescriptor.NAME, descriptor.getName());
+        Assertions.assertEquals(MockStepDescriptor.SHORT_DESCRIPTION, descriptor.getShortDescription());
+        Assertions.assertEquals(MockStepDescriptor.ICON, descriptor.getIconDescriptor());
+        Assertions.assertEquals(MockStepDescriptor.EDIT_STRING, descriptor.getInlineEditString());
         }
 
     @Test
@@ -109,9 +109,9 @@ class StepDescriptorTests
     void customDescriptorShortDescriptionWithConfiguration()
         {
         StepDescriptor descriptor = project.getStepDescriptors().get(WithCustomDescriptor.class);
-        StepConfiguration step_config = new StepConfiguration(TestStepDescriptor.TYPE);
+        StepConfiguration step_config = new StepConfiguration(MockStepDescriptor.TYPE);
         final String value = "xyz";
-        step_config.addSource(TestStepDescriptor.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
+        step_config.addSource(MockStepDescriptor.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
         Assertions.assertTrue(descriptor.getShortDescription(step_config).contains(value));
         }
 
@@ -123,7 +123,7 @@ class StepDescriptorTests
         final String description = "this step does something interesting";
         step_config.setMetadataField(StepConfiguration.META_DESCRIPTION, description);
         final String value = "xyz";
-        step_config.addSource(TestStepDescriptor.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
+        step_config.addSource(MockStepDescriptor.SOURCE_NAME, ValueSourceConfiguration.forValue(value));
         Assertions.assertEquals(description, descriptor.getShortDescription(step_config));
         }
 
@@ -162,7 +162,7 @@ class StepDescriptorTests
         final static String SOURCE_NAME = "source1";
         }
 
-    @MuseStepDescriptorImplementation(TestStepDescriptor.class)
+    @MuseStepDescriptorImplementation(MockStepDescriptor.class)
     private class WithCustomDescriptor implements MuseStep
         {
         public StepExecutionResult execute(StepExecutionContext context) throws MuseExecutionError

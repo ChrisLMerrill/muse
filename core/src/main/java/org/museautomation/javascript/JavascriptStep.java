@@ -4,7 +4,7 @@ import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.test.*;
+import org.museautomation.core.task.*;
 import org.museautomation.javascript.support.*;
 import org.slf4j.*;
 

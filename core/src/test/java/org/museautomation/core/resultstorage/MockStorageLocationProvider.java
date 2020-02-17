@@ -48,7 +48,7 @@ class MockStorageLocationProvider implements MusePlugin, LocalStorageLocationPro
 		}
 
 	@Override
-	public File getTestFolder(TestExecutionContext test_context)
+	public File getTaskFolder(TaskExecutionContext task_context)
 		{
 		return _test_folder;
 		}

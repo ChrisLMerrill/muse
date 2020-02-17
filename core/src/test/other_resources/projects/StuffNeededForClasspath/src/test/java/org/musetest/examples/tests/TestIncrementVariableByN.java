@@ -3,11 +3,10 @@ package org.musetest.examples.tests;
 import org.junit.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
+import org.museautomation.core.project.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.origin.*;
-import org.museautomation.core.steptest.*;
-import org.museautomation.core.util.*;
-import org.musetest.examples.*;
+import org.museautomation.core.steptask.*;
 
 import java.io.*;
 import java.util.*;
@@ -23,12 +22,11 @@ public class TestIncrementVariableByN
         List<MuseResource> resources = ResourceFactory.createResources(new StreamResourceOrigin(this.getClass().getClassLoader().getResourceAsStream("increment-variable-by-n.json")));
         Assert.assertEquals(1, resources.size());
         MuseResource resource = resources.get(0);
-        Assert.assertTrue(resource instanceof MuseTest);
+        Assert.assertTrue(resource instanceof MuseTask);
 
-        SteppedTest test = (SteppedTest) resource;
-        TestExecutionContext test_context = new DefaultTestExecutionContext();
-        MuseTestResult result = test.execute(test_context);
-        Assert.assertTrue(result.isPass());
+        SteppedTask task = (SteppedTask) resource;
+        TaskExecutionContext task_context = new DefaultTaskExecutionContext(new SimpleProject(), task);
+        Assert.assertTrue(task.execute(task_context));
         }
     }
 

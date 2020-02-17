@@ -22,7 +22,7 @@ public class LocalStorageLocationPluginConfiguration extends GenericResourceConf
 	@Override
 	public ResourceType getType()
 		{
-		return new SaveTestResultsToDiskConfigurationType();
+		return new LocalStorageLocationPluginConfigurationType();
 		}
 
 	@Override
@@ -34,7 +34,7 @@ public class LocalStorageLocationPluginConfiguration extends GenericResourceConf
 	public final static String TYPE_ID = LocalStorageLocationPluginConfiguration.class.getAnnotation(MuseTypeId.class).value();
 	public final static String BASE_LOCATION_PARAM_NAME = "base-param";
 
-	public static class SaveTestResultsToDiskConfigurationType extends ResourceSubtype
+	public static class LocalStorageLocationPluginConfigurationType extends ResourceSubtype
 		{
 		@Override
 		public LocalStorageLocationPluginConfiguration create()
@@ -42,7 +42,7 @@ public class LocalStorageLocationPluginConfiguration extends GenericResourceConf
 			final LocalStorageLocationPluginConfiguration config = new LocalStorageLocationPluginConfiguration();
 			config.parameters().addSource(GenericConfigurablePlugin.AUTO_APPLY_PARAM, ValueSourceConfiguration.forValue(true));
 			config.parameters().addSource(GenericConfigurablePlugin.APPLY_CONDITION_PARAM, ValueSourceConfiguration.forValue(true));
-			config.parameters().addSource(BASE_LOCATION_PARAM_NAME, ValueSourceConfiguration.forValue("C:\\Temp\\muse-output\\"));
+			config.parameters().addSource(BASE_LOCATION_PARAM_NAME, ValueSourceConfiguration.forValue(System.getProperty("java.io.tmpdir")));
 			return config;
 			}
 
@@ -52,7 +52,7 @@ public class LocalStorageLocationPluginConfiguration extends GenericResourceConf
 			return new DefaultResourceDescriptor(this, "Determines where execution data should be stored locally. Other plugins may use this to decide where to store their data");
 			}
 
-		public SaveTestResultsToDiskConfigurationType()
+		public LocalStorageLocationPluginConfigurationType()
 			{
 			super(TYPE_ID, "Local Storage Location", LocalStorageLocationPluginConfiguration.class, new PluginConfigurationResourceType());
 			}

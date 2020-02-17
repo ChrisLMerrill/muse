@@ -5,7 +5,7 @@ import org.museautomation.core.context.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.step.descriptor.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.values.*;
 import org.museautomation.core.values.descriptor.*;
 import org.museautomation.core.values.strings.*;

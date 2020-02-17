@@ -10,7 +10,7 @@ import java.io.*;
 public interface LocalStorageLocationProvider
 	{
 	File getBaseFolder();
-	File getTestFolder(TestExecutionContext test_context);
+	File getTaskFolder(TaskExecutionContext task_context);
 	}
 
 

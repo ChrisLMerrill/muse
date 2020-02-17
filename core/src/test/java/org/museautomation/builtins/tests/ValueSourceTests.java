@@ -15,7 +15,7 @@ import org.museautomation.core.project.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.storage.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.values.*;
 import org.museautomation.utils.*;
 
@@ -123,7 +123,7 @@ class ValueSourceTests
     void projectResourceValueSource() throws MuseExecutionError, IOException
         {
         final String test_id = "test_id";
-        MuseTest test = new MockTest(test_id);
+        MuseTask test = new MockTask(test_id);
         MuseProject project = new SimpleProject(new InMemoryResourceStorage());
         project.getResourceStorage().addResource(test);
 
@@ -298,7 +298,7 @@ class ValueSourceTests
 
         // resolve the source
         MuseValueSource source = config.createSource(project);
-        Object value = source.resolveValue(new DefaultTestExecutionContext(project, new SteppedTest(new StepConfiguration(LogMessage.TYPE_ID))));
+        Object value = source.resolveValue(new DefaultTaskExecutionContext(project, new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID))));
 
         Assertions.assertEquals(MockSystemVariable.VALUE, value);
         }

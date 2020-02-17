@@ -9,7 +9,7 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class LogData implements TestResultData
+public class LogData implements TaskResultData
 	{
 	public LogData(String type, byte[] bytes)
 		{

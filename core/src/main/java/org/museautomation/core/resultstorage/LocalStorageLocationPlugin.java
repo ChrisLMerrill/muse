@@ -13,7 +13,7 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin implements LocalStorageLocationProvider
+public class LocalStorageLocationPlugin extends GenericConfigurableTaskPlugin implements LocalStorageLocationProvider
 	{
 	LocalStorageLocationPlugin(LocalStorageLocationPluginConfiguration configuration)
 		{
@@ -32,8 +32,8 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 		String output_folder_path = BaseValueSource.getValue(output_folder_source, context, false, String.class);
 		_output_folder = new File(output_folder_path);
         String test_folder = null;
-        if (context instanceof TestExecutionContext)
-            test_folder = getTestFolder((TestExecutionContext) context).getAbsolutePath();
+        if (context instanceof TaskExecutionContext)
+            test_folder = getTaskFolder((TaskExecutionContext) context).getAbsolutePath();
 		if (!_output_folder.exists())
 			if (!_output_folder.mkdirs())
 				{
@@ -50,7 +50,7 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 		if (Plugins.findType(this.getClass(), context) != null)
 			return false;
 
-		return context instanceof TestSuiteExecutionContext || context instanceof TestExecutionContext;
+		return context instanceof TaskSuiteExecutionContext || context instanceof TaskExecutionContext;
 		}
 
 	@Override
@@ -60,9 +60,9 @@ public class LocalStorageLocationPlugin extends GenericConfigurableTestPlugin im
 		}
 
 	@Override
-	synchronized public File getTestFolder(TestExecutionContext context)
+	synchronized public File getTaskFolder(TaskExecutionContext task_context)
 		{
-		final File folder = new File(_output_folder, context.getTestExecutionId());
+		final File folder = new File(_output_folder, task_context.getTaskExecutionId());
 		if (!folder.exists())
 			if (!folder.mkdir())
 				_context.raiseEvent(MessageEventType.create(String.format("Unable to create output folder (%s). Results will not be stored.", folder.getAbsolutePath())));

@@ -56,6 +56,11 @@ public abstract class ResourceType
             }
         }
 
+    public boolean isInternalUseOnly()
+        {
+        return false;
+        }
+
     @Override
     public boolean equals(Object other)
         {

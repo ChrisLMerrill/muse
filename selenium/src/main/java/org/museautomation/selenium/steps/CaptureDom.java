@@ -43,7 +43,7 @@ public class CaptureDom extends BrowserStep
 
         // store as a variable
         final String varname = context.createVariable("__dom_capture", new DomCapture(root));
-        context.raiseEvent(TestResultStoredEventType.create(varname, "DOM capture"));
+        context.raiseEvent(TaskResultStoredEventType.create(varname, "DOM capture"));
 
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }

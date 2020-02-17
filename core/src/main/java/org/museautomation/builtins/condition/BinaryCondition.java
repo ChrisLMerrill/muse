@@ -2,7 +2,7 @@ package org.museautomation.builtins.condition;
 
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.values.*;
 
 import java.util.*;

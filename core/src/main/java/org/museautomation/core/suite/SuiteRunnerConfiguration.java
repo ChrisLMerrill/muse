@@ -17,7 +17,7 @@ public abstract class SuiteRunnerConfiguration extends GenericResourceConfigurat
 		return TYPE;
 		}
 
-	public abstract MuseTestSuiteRunner createRunner(MuseExecutionContext context) throws MuseExecutionError;
+	public abstract MuseTaskSuiteRunner createRunner(MuseExecutionContext context) throws MuseExecutionError;
 
 	/**
 	 * Used for JSON serialization. Use parameters() to get access to the sub-sources

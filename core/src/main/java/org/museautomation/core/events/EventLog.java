@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class EventLog implements TestResultData
+public class EventLog implements TaskResultData
 	{
 	public Iterator<MuseEvent> events()
 		{

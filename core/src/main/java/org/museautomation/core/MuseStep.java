@@ -2,7 +2,7 @@ package org.museautomation.core;
 
 import org.museautomation.core.context.*;
 import org.museautomation.core.step.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 
 /**
  * A step is (usually) executed within a test.

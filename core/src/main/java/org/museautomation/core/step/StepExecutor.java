@@ -4,7 +4,7 @@ import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.values.*;
 import org.slf4j.*;
 
@@ -61,17 +61,17 @@ public class StepExecutor
         catch (StepConfigurationError error)
             {
             error_message = "step error due to configuration problem: " + error.getMessage();
-            _context.raiseEvent(TestErrorEventType.create("Step configuration problem: " + error.getMessage()));
+            _context.raiseEvent(TaskErrorEventType.create("Step configuration problem: " + error.getMessage()));
             }
         catch (StepExecutionError error)
             {
             error_message = "step failed to execute: " + error.getMessage();
-            _context.raiseEvent(TestErrorEventType.create("Step execution problem: " + error.getMessage()));
+            _context.raiseEvent(TaskErrorEventType.create("Step execution problem: " + error.getMessage()));
             }
         catch (ValueSourceResolutionError error)
 	        {
 	        error_message = "unable to evalute value source: " + error.getMessage();
-            _context.raiseEvent(TestErrorEventType.create("Unable to resolve value source: " + error.getMessage()));
+            _context.raiseEvent(TaskErrorEventType.create("Unable to resolve value source: " + error.getMessage()));
 	        }
         catch (Throwable t)
             {

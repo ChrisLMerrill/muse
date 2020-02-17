@@ -9,7 +9,7 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class ScreenshotData implements TestResultData
+public class ScreenshotData implements TaskResultData
 	{
 	ScreenshotData(byte[] bytes)
 		{

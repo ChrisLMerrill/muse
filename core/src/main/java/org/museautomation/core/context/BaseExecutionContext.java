@@ -4,7 +4,7 @@ import org.museautomation.core.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.suite.*;
-import org.museautomation.core.test.*;
+import org.museautomation.core.task.*;
 import org.museautomation.core.variables.*;
 import org.slf4j.*;
 
@@ -118,8 +118,8 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	public void setVariable(String name, Object value, ContextVariableScope scope)
 		{
 		if (scope.equals(_scope)
-			|| (scope.equals(ContextVariableScope.Execution) && this instanceof TestSuiteExecutionContext)
-			|| (scope.equals(ContextVariableScope.Execution) && this instanceof TestExecutionContext && !(_parent instanceof TestSuiteExecutionContext)))
+			|| (scope.equals(ContextVariableScope.Execution) && this instanceof TaskSuiteExecutionContext)
+			|| (scope.equals(ContextVariableScope.Execution) && this instanceof TaskExecutionContext && !(_parent instanceof TaskSuiteExecutionContext)))
 			{
 			_vars.put(name, value);
 			raiseEvent(SetVariableEventType.create(name, value, scope));
@@ -229,7 +229,7 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	private AtomicBoolean _events_processing = new AtomicBoolean(false);
 	private EventLogger _logger = new EventLogger();
 
-	private final static Logger LOG = LoggerFactory.getLogger(TestExecutionContext.class);
+	private final static Logger LOG = LoggerFactory.getLogger(TaskExecutionContext.class);
 
 	public final static String EXECUTION_ID_VARNAME = "__exeuction_id__";
 	}

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resource.storage.*;
-import org.museautomation.core.steptest.*;
+import org.museautomation.core.steptask.*;
 import org.museautomation.core.variables.*;
 
 import java.io.*;
@@ -78,7 +78,7 @@ class FolderIntoMemoryResourceStorageTests
 
     private MuseResource createResource()
         {
-        MuseResource resource = new SteppedTest();
+        MuseResource resource = new SteppedTask();
         resource.setId(RESOURCE_1_ID);
         return resource;
         }
