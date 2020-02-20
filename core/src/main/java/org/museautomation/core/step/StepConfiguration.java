@@ -522,7 +522,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
     public static StepConfiguration create(MuseProject project, String step_type)
 	    {
 	    StepConfiguration config = new StepConfiguration(step_type);
-	    config.setMetadataField(StepConfiguration.META_ID, IdGenerator.get(project).generateLongId());
+	    config.setMetadataField(StepConfiguration.META_ID, StepIdGenerator.get(project).generateLongId());
 	    return config;
 	    }
 
@@ -533,7 +533,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 	    for (SubsourceDescriptor source_descriptor : descriptor.getSubsourceDescriptors())
             if (!source_descriptor.isOptional())
                 config.addSource(source_descriptor.getName(), source_descriptor.getDefault());
-        config.setMetadataField(StepConfiguration.META_ID, IdGenerator.get(project).generateLongId());
+        config.setMetadataField(StepConfiguration.META_ID, StepIdGenerator.get(project).generateLongId());
 	    return config;
 	    }
 
@@ -541,9 +541,17 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
     public static StepConfiguration copy(StepConfiguration old, MuseProject project)
 	    {
 	    StepConfiguration new_config = Copy.withJavaSerialization(old);
-	    new_config.setMetadataField(StepConfiguration.META_ID, IdGenerator.get(project).generateLongId());
+        setNewStepIds(new_config, StepIdGenerator.get(project));
 	    return new_config;
 	    }
+
+    private static void setNewStepIds(StepConfiguration step, StepIdGenerator generator)
+        {
+        step.setMetadataField(StepConfiguration.META_ID, generator.generateLongId());
+        if (step._children != null)
+            for (StepConfiguration child : step.getChildren())
+                setNewStepIds(child, generator);
+        }
 
     private static StepFactory DEFAULT = null;
 

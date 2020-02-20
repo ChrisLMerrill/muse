@@ -24,12 +24,14 @@ public class SimpleProject implements MuseProject
     public SimpleProject(ResourceStorage resources)
         {
         _resources = resources;
+        upgradeResources();
         }
 
     public SimpleProject(ResourceStorage resources, String name)
         {
         _resources = resources;
         _name = name;
+        upgradeResources();
         }
 
     public SimpleProject()
@@ -125,15 +127,13 @@ public class SimpleProject implements MuseProject
     @Override
     public <T extends ProjectSettingsFile> T getProjectSettings(Class<T> type)
         {
-        try
-            {
-            return type.getConstructor().newInstance();
-            }
-        catch (Exception e)
-            {
-            LOG.error(String.format("Unable to instantiate ProjectSettings File of type %s due to %s", type.getSimpleName(), e.getMessage()));
-            return null;
-            }
+        return (T) _settings_files.get(type);
+        }
+
+    @Override
+    public void putProjectSettings(ProjectSettingsFile settings)
+        {
+        _settings_files.put(settings.getClass(), settings);
         }
 
     @Override
@@ -165,6 +165,21 @@ public class SimpleProject implements MuseProject
         return _resources.removeResourceListener(listener);
         }
 
+    private void upgradeResources()
+        {
+        for (ResourceToken token : _resources.findResources(ResourceQueryParameters.forAllResources()))
+            {
+            if (token.getType().equals(new IdGeneratorConfiguration().getType()))
+                {
+                IdGeneratorConfiguration old_generator = (IdGeneratorConfiguration) token.getResource();
+                StepIdGenerator generator = StepIdGenerator.get(this);
+                generator.setNextId(old_generator.getNextId());
+                generator.save();
+                _resources.removeResource(token);
+                }
+            }
+        }
+
     private ResourceStorage _resources;
     private StepFactory _step_factory;
     private StepDescriptors _step_descriptors;
@@ -174,6 +189,7 @@ public class SimpleProject implements MuseProject
     private SystemVariableProviders _sysvar_providers;
     private ResourceTypes _resource_types;
     private Map<String, String> _command_line_options;
+    private Map<Class, ProjectSettingsFile> _settings_files = new HashMap<>();
     private String _name = "unnamed project";
 
     private final static Logger LOG = LoggerFactory.getLogger(SimpleProject.class);

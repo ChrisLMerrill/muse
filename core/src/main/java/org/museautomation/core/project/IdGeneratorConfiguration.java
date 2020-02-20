@@ -52,6 +52,11 @@ public class IdGeneratorConfiguration extends BaseMuseResource
 			}
 		}
 
+    public static IdGeneratorConfiguration get(MuseProject project)
+        {
+        return project.getResourceStorage().getResource("project-ids", IdGeneratorConfiguration.class);
+        }
+
 	public final static String TYPE_ID = IdGeneratorConfiguration.class.getAnnotation(MuseTypeId.class).value();
 	}
 

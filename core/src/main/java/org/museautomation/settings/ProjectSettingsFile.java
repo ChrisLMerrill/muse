@@ -18,20 +18,27 @@ public class ProjectSettingsFile extends BaseSettingsFile
         return BaseSettingsFile.load(type, filename, mapper, folder);
         }
 
-    protected static <T extends ProjectSettingsFile> T loadFromProject(Class<T> type, String filename, ObjectMapper mapper, MuseProject project)
+    protected static boolean exists(String filename, MuseProject project)
+        {
+        return getSettingsFile(filename, project).exists();
+        }
+
+    protected static File getSettingsFile(String filename, MuseProject project)
+        {
+        return new File(getSettingsFolder(project), filename);
+        }
+
+    protected static File getSettingsFolder(MuseProject project)
         {
         ResourceStorage storage = project.getResourceStorage();
         if (storage instanceof FolderIntoMemoryResourceStorage)
-            {
-            File folder = new File(((FolderIntoMemoryResourceStorage)storage).getBaseLocation(), ".muse");
-            return BaseSettingsFile.load(type, filename, mapper, folder);
-            }
+            return new File(((FolderIntoMemoryResourceStorage)storage).getBaseLocation(), ".muse");
         else
-            {
-            LOG.warn("Trying to load a project settings file, but project is not the right type: " + project.getClass().getSimpleName());
-            return null;
-            }
+            throw new UnsupportedOperationException("settings files are not supported in this type of ResourceStorage: " + storage.getClass().getSimpleName());
         }
 
-    private final static Logger LOG = LoggerFactory.getLogger(ProjectSettingsFile.class);
+    protected static <T extends ProjectSettingsFile> T loadFromProject(Class<T> type, String filename, ObjectMapper mapper, MuseProject project)
+        {
+        return BaseSettingsFile.load(type, filename, mapper, getSettingsFolder(project));
+        }
     }

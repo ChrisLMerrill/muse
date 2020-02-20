@@ -13,8 +13,8 @@ class ProjectIdGeneratorTests
 	    {
 	    SimpleProject project = new SimpleProject();
 
-	    long id1 = IdGenerator.get(project).generateLongId();
-	    long id2 = IdGenerator.get(project).generateLongId();
+	    long id1 = StepIdGenerator.get(project).generateLongId();
+	    long id2 = StepIdGenerator.get(project).generateLongId();
 
 	    Assertions.assertTrue(id1 != 0);
 	    Assertions.assertTrue(id2 != 0);

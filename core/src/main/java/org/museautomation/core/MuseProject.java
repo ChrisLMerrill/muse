@@ -46,6 +46,7 @@ public interface MuseProject
     PropertyResolvers getPropertyResolvers();
     SystemVariableProviders getSystemVariableProviders();
     <T extends ProjectSettingsFile> T getProjectSettings(Class<T> type);
+    void putProjectSettings(ProjectSettingsFile settings);
 
     @SuppressWarnings("unused") // used by project navigator in UI
     ResourceTypes getResourceTypes();

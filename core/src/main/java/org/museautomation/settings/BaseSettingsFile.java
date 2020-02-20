@@ -50,7 +50,7 @@ public abstract class BaseSettingsFile implements Closeable
             try
                 {
                 T settings = type.getDeclaredConstructor().newInstance();
-                settings.setFilename(filename);
+                settings.setFilename(file.getAbsolutePath());
                 settings.save();
                 return settings;
                 }
@@ -97,18 +97,21 @@ public abstract class BaseSettingsFile implements Closeable
         save();
         }
 
-    protected void save()
+    public void save()
         {
-        File file = new File(getFilename());
-        try
+        if (_filename != null) // else no-op
             {
-            FileOutputStream outstream = new FileOutputStream(file);
-            getMapper().writeValue(outstream, this);
-            outstream.close();
-            }
-        catch (Exception e)
-            {
-            LOG.error(String.format("Unable to save %s settings to %s", getClass().getSimpleName(), file.getPath()), e);
+            File file = new File(getFilename());
+            try
+                {
+                FileOutputStream outstream = new FileOutputStream(file);
+                getMapper().writeValue(outstream, this);
+                outstream.close();
+                }
+            catch (Exception e)
+                {
+                LOG.error(String.format("Unable to save %s settings to %s", getClass().getSimpleName(), file.getPath()), e);
+                }
             }
         }
 

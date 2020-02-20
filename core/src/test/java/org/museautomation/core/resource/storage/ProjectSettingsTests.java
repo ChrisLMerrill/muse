@@ -13,12 +13,6 @@ import java.util.*;
 public class ProjectSettingsTests
     {
     @Test
-    public void defaultProjectStructureSettings()
-        {
-        Assertions.assertNotNull(new SimpleProject().getProjectSettings(ProjectStructureSettings.class));
-        }
-
-    @Test
     public void loadProjectStructureSettings()
         {
         MuseProject project = ProjectFactory.create(new File("src/test/other_resources/projects/settings"), Collections.emptyMap());

@@ -322,20 +322,20 @@ class StepConfigurationTests
         {
         MuseProject project = new SimpleProject();
         StepConfiguration root = new StepConfiguration("root");
-        root.setStepId(IdGenerator.get(project).generateLongId());
+        root.setStepId(StepIdGenerator.get(project).generateLongId());
 
         final StepConfiguration child1 = new StepConfiguration("child1");
-        child1.setStepId(IdGenerator.get(project).generateLongId());
+        child1.setStepId(StepIdGenerator.get(project).generateLongId());
         root.addChild(child1);
 
         final StepConfiguration child2 = new StepConfiguration("child2");
-        child2.setStepId(IdGenerator.get(project).generateLongId());
+        child2.setStepId(StepIdGenerator.get(project).generateLongId());
         root.addChild(child2);
         root.addChild(new StepConfiguration("child3"));
 
         child2.addChild(new StepConfiguration("child2.1"));
         final StepConfiguration child22 = new StepConfiguration("child2.2");
-        child22.setStepId(IdGenerator.get(project).generateLongId());
+        child22.setStepId(StepIdGenerator.get(project).generateLongId());
         child2.addChild(child22);
 
         Assertions.assertNull(root.findByStepId(0L));

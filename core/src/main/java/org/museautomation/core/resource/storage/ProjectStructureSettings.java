@@ -25,7 +25,13 @@ public class ProjectStructureSettings extends ProjectSettingsFile
 
     public static ProjectStructureSettings get(MuseProject project)
         {
-        return loadFromProject(ProjectStructureSettings.class, FILENAME, null, project);
+        ProjectStructureSettings settings = project.getProjectSettings(ProjectStructureSettings.class);
+        if (settings == null)
+            {
+            settings = loadFromProject(ProjectStructureSettings.class, FILENAME, null, project);
+            project.putProjectSettings(settings);
+            }
+        return settings;
         }
 
     public static ProjectStructureSettings get(File project_folder)
