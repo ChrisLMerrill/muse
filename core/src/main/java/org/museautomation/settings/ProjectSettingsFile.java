@@ -32,7 +32,12 @@ public class ProjectSettingsFile extends BaseSettingsFile
         {
         ResourceStorage storage = project.getResourceStorage();
         if (storage instanceof FolderIntoMemoryResourceStorage)
-            return new File(((FolderIntoMemoryResourceStorage)storage).getBaseLocation(), ".muse");
+            {
+            File file = new File(((FolderIntoMemoryResourceStorage) storage).getBaseLocation(), ".muse");
+            if (!file.exists())
+                file.mkdirs();
+            return file;
+            }
         else
             throw new UnsupportedOperationException("settings files are not supported in this type of ResourceStorage: " + storage.getClass().getSimpleName());
         }

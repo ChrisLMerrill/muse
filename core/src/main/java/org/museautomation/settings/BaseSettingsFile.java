@@ -30,7 +30,11 @@ public abstract class BaseSettingsFile implements Closeable
         if (folder == null)
             file = Settings.getPreferenceFileLocation(filename);
         else
+            {
+            if (!folder.exists())
+                folder.mkdirs();
             file = new File(folder, filename);
+            }
 
         if (file.exists())
             {
