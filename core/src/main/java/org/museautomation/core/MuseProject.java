@@ -8,6 +8,7 @@ import org.museautomation.core.step.descriptor.*;
 import org.museautomation.core.step.factory.*;
 import org.museautomation.core.values.*;
 import org.museautomation.core.values.descriptor.*;
+import org.museautomation.core.valuetypes.*;
 import org.museautomation.settings.*;
 
 import java.util.*;
@@ -50,6 +51,8 @@ public interface MuseProject
 
     @SuppressWarnings("unused") // used by project navigator in UI
     ResourceTypes getResourceTypes();
+
+    MuseValueTypes getValueTypes();
 
     /**
      * Command line options

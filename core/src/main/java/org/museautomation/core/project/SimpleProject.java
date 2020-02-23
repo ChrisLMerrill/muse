@@ -11,6 +11,7 @@ import org.museautomation.core.step.factory.*;
 import org.museautomation.core.util.*;
 import org.museautomation.core.values.*;
 import org.museautomation.core.values.descriptor.*;
+import org.museautomation.core.valuetypes.*;
 import org.museautomation.settings.*;
 import org.slf4j.*;
 
@@ -61,6 +62,14 @@ public class SimpleProject implements MuseProject
         if (_resource_types == null)
             _resource_types = new ResourceTypes(getClassLocator());
         return _resource_types;
+        }
+
+    @Override
+    public MuseValueTypes getValueTypes()
+        {
+        if (_value_types == null)
+            _value_types = new MuseValueTypes();
+        return _value_types;
         }
 
     @Override
@@ -188,6 +197,7 @@ public class SimpleProject implements MuseProject
     private PropertyResolvers _resolvers;
     private SystemVariableProviders _sysvar_providers;
     private ResourceTypes _resource_types;
+    private MuseValueTypes _value_types;
     private Map<String, String> _command_line_options;
     private Map<Class, ProjectSettingsFile> _settings_files = new HashMap<>();
     private String _name = "unnamed project";

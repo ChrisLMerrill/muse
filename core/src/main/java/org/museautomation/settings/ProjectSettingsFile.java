@@ -38,8 +38,7 @@ public class ProjectSettingsFile extends BaseSettingsFile
                 file.mkdirs();
             return file;
             }
-        else
-            throw new UnsupportedOperationException("settings files are not supported in this type of ResourceStorage: " + storage.getClass().getSimpleName());
+        return null;
         }
 
     protected static <T extends ProjectSettingsFile> T loadFromProject(Class<T> type, String filename, ObjectMapper mapper, MuseProject project)

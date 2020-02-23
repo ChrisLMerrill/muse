@@ -9,6 +9,7 @@ import org.museautomation.core.variables.*;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -19,17 +20,22 @@ class FolderIntoMemoryResourceStorageTests
     @Test
     void addAndDeleteResourceFile() throws IOException
         {
-        Assertions.assertEquals(0, _folder.listFiles().length);
+        Assertions.assertEquals(0, getFiles().length);  // .muse created automatically
         MuseResource resource = createResource();
 
         // add a resource creates a file
         _project.getResourceStorage().addResource(resource);
-        Assertions.assertEquals(1, _folder.listFiles().length);
-        Assertions.assertTrue(_folder.listFiles()[0].getName().startsWith(resource.getId()));
+        Assertions.assertEquals(1, getFiles().length);
+        Assertions.assertTrue(getFiles()[0].getName().startsWith(resource.getId()));
 
         // removing resource deletes file...
         _project.getResourceStorage().removeResource(_project.getResourceStorage().findResource(resource.getId()));
-        Assertions.assertEquals(0, _folder.listFiles().length);
+        Assertions.assertEquals(0, getFiles().length);
+        }
+
+    private File[] getFiles()
+        {
+        return Arrays.stream(_folder.listFiles()).filter(x -> !x.isDirectory()).toArray(File[]::new);
         }
 
     @SuppressWarnings("ConstantConditions")
