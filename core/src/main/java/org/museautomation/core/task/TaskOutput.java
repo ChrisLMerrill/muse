@@ -27,6 +27,28 @@ public class TaskOutput
         _source = source;
         }
 
+    public boolean isRequired()
+        {
+        return _required;
+        }
+
+    public void setRequired(boolean required)
+        {
+        _required = required;
+        }
+
+    public ValueSourceConfiguration getDefault()
+        {
+        return _default;
+        }
+
+    public void setDefault(ValueSourceConfiguration value)
+        {
+        _default = value;
+        }
+
     private String _name;
     private ValueSourceConfiguration _source;
+    private boolean _required;
+    private ValueSourceConfiguration _default;
     }
