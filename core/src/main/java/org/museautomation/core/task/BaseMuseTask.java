@@ -1,11 +1,11 @@
 package org.museautomation.core.task;
 
-import com.fasterxml.jackson.annotation.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.types.*;
+import org.museautomation.core.task.state.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -57,6 +57,26 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
         _outputs = outputs;
         }
 
+    public TaskInputStates getInputStates()
+        {
+        return _in_states;
+        }
+
+    public void setInputStates(TaskInputStates in_states)
+        {
+        _in_states = in_states;
+        }
+
+    public TaskOutputStates getOutputStates()
+        {
+        return _out_states;
+        }
+
+    public void setOutputStates(TaskOutputStates out_states)
+        {
+        _out_states = out_states;
+        }
+
     @Override
     public ResourceType getType()
         {
@@ -65,4 +85,6 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
 
     private TaskInputSet _inputs = new TaskInputSet();
     private TaskOutputSet _outputs = new TaskOutputSet();
+    private TaskInputStates _in_states = new TaskInputStates();
+    private TaskOutputStates _out_states = new TaskOutputStates();
     }

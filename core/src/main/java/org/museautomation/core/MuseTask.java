@@ -6,6 +6,7 @@ import org.museautomation.core.resource.types.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.steptask.*;
 import org.museautomation.core.task.*;
+import org.museautomation.core.task.state.*;
 import org.museautomation.core.values.*;
 
 import java.util.*;
@@ -28,6 +29,8 @@ public interface MuseTask extends MuseResource
 
     TaskInputSet getInputs();
     TaskOutputSet getOutputs();
+    TaskInputStates getInputStates();
+    TaskOutputStates getOutputStates();
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     class TaskResourceType extends ResourceType
