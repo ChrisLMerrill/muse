@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class MissingTask extends BaseMuseResource implements MuseTask
+public class MissingTask extends BaseMuseTask
     {
     public MissingTask(String id)
         {
@@ -20,7 +20,7 @@ public class MissingTask extends BaseMuseResource implements MuseTask
         }
 
     @Override
-    public boolean execute(TaskExecutionContext context)
+    public boolean executeImplementation(TaskExecutionContext context)
         {
         final MuseEvent event = StartTaskEventType.create(getId(), getDescription());
         event.addTag(MuseEvent.ERROR);

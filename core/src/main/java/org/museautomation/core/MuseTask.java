@@ -5,6 +5,7 @@ import org.museautomation.core.context.*;
 import org.museautomation.core.resource.types.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.steptask.*;
+import org.museautomation.core.task.*;
 import org.museautomation.core.values.*;
 
 import java.util.*;
@@ -24,6 +25,9 @@ public interface MuseTask extends MuseResource
     Map<String, ValueSourceConfiguration> getDefaultVariables();
     void setDefaultVariables(Map<String, ValueSourceConfiguration> default_variables);
     void setDefaultVariable(String name, ValueSourceConfiguration source);
+
+    TaskInputSet getInputs();
+    TaskOutputSet getOutputs();
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     class TaskResourceType extends ResourceType

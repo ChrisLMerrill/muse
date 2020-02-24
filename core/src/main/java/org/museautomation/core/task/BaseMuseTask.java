@@ -1,5 +1,6 @@
 package org.museautomation.core.task;
 
+import com.fasterxml.jackson.annotation.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
@@ -35,8 +36,33 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
     protected abstract boolean executeImplementation(TaskExecutionContext context);
 
     @Override
+    public TaskInputSet getInputs()
+        {
+        return _inputs;
+        }
+
+    public void setInputs(TaskInputSet inputs)
+        {
+        _inputs = inputs;
+        }
+
+    @Override
+    public TaskOutputSet getOutputs()
+        {
+        return _outputs;
+        }
+
+    public void setOutputs(TaskOutputSet outputs)
+        {
+        _outputs = outputs;
+        }
+
+    @Override
     public ResourceType getType()
         {
         return new MuseTask.TaskResourceType();
         }
+
+    private TaskInputSet _inputs = new TaskInputSet();
+    private TaskOutputSet _outputs = new TaskOutputSet();
     }
