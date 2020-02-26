@@ -7,8 +7,19 @@ import org.museautomation.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StateValue
+public class StateValueDefinition
     {
+    public StateValueDefinition()
+        {
+        }
+
+    public StateValueDefinition(String name, MuseValueType type, boolean required)
+        {
+        _name = name;
+        _type = type;
+        _required = required;
+        }
+
     public String getName()
         {
         return _name;

@@ -9,4 +9,15 @@ public interface TaskExecutionContext extends MuseExecutionContext
     {
     MuseTask getTask();
     String getTaskExecutionId();
+
+    static MuseTask findTask(MuseExecutionContext context)
+        {
+        while (context != null)
+            {
+            if (context instanceof TaskExecutionContext)
+                return ((TaskExecutionContext)context).getTask();
+            context = context.getParent();
+            }
+        return null;
+        }
     }

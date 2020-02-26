@@ -197,6 +197,7 @@ public class MuseEvent
     public final static String TERMINATE = "terminate";
     public final static String ERROR = "error";
     public final static String FAILURE = "failure";
+    public final static String WARNING = "warning";
     public final static String DESCRIPTION = "description";
     public final static String ERROR_MESSAGE = "error-msg";
 

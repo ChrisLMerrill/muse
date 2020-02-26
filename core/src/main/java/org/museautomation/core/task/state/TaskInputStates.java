@@ -7,6 +7,15 @@ import java.util.*;
  */
 public class TaskInputStates
     {
+    public TaskInputStates()
+        {
+        }
+
+    public TaskInputStates(String... ids)
+        {
+        Collections.addAll(_id_list, ids);
+        }
+
     public List<String> getIdList()
         {
         return _id_list;
@@ -17,5 +26,5 @@ public class TaskInputStates
         _id_list = list;
         }
 
-    private List<String> _id_list;
+    private List<String> _id_list = new ArrayList<>();
     }

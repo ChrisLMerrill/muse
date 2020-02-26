@@ -10,24 +10,45 @@ import java.util.*;
  */
 public class MuseValueTypes
     {
-    public List<MuseValueType> getValueTypes()
+    public MuseValueTypes()
         {
-        List<MuseValueType> types = new ArrayList<>();
+        _types = new ArrayList<>();
         try
             {
             Iterator<ValueTypeProvider> iterator = _loader.iterator();
             while (iterator.hasNext())
-                types.addAll(iterator.next().getValueTypes());
-            return types;
+                _types.addAll(iterator.next().getValueTypes());
             }
         catch (Exception e)
             {
             LOG.debug("Loading of MuseValueTypes terminated prematurely due to: " + e, e);
-            return types;
             }
         }
 
-    private ServiceLoader<ValueTypeProvider> _loader = ServiceLoader.load(ValueTypeProvider.class);
+    public List<MuseValueType> getValueTypes()
+        {
+        return _types;
+        }
+
+    public MuseValueType forTypeId(String id)
+        {
+        for (MuseValueType type : _types)
+            if (id.equals(type.getId()))
+                return type;
+        return null;
+        }
+
+    public static MuseValueTypes get()  // TODO this will not work for types loaded in a custom project
+        {
+        if (INSTANCE == null)
+            INSTANCE = new MuseValueTypes();
+        return INSTANCE;
+        }
+
+    private List<MuseValueType> _types;
+
+    private static ServiceLoader<ValueTypeProvider> _loader = ServiceLoader.load(ValueTypeProvider.class);
+    private static MuseValueTypes INSTANCE = null;
 
     private final static Logger LOG = LoggerFactory.getLogger(MuseValueTypes.class);
     }

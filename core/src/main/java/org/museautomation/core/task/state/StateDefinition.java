@@ -25,12 +25,12 @@ public class StateDefinition extends BaseMuseResource
         _display_name = display_name;
         }
 
-    public List<StateValue> getValues()
+    public List<StateValueDefinition> getValues()
         {
         return _values;
         }
 
-    public void setValues(List<StateValue> values)
+    public void setValues(List<StateValueDefinition> values)
         {
         _values = values;
         }
@@ -41,15 +41,23 @@ public class StateDefinition extends BaseMuseResource
         return new StateDefinitionResourceType();
         }
 
+    public StateValueDefinition getValue(String name)
+        {
+        for (StateValueDefinition value : _values)
+            if (name.equals(value.getName()))
+                return value;
+        return null;
+        }
+
     private String _display_name;
-    private List<StateValue> _values;
+    private List<StateValueDefinition> _values;
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     static class StateDefinitionResourceType extends ResourceType
         {
         public StateDefinitionResourceType()
             {
-            super("state", "State", StateDefinition.class);
+            super("state", "State Definition", StateDefinition.class);
             }
 
         @Override

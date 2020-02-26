@@ -1,7 +1,5 @@
 package org.museautomation.core.task.state;
 
-import org.museautomation.core.resource.types.*;
-
 import java.util.*;
 
 /**
@@ -24,14 +22,14 @@ public class InterTaskState
         _values = values;
         }
 
-    public ResourceType getType()
+    public String getType()
         {
-        return _type;
+        return _type_id;
         }
 
-    public void setType(ResourceType type)
+    public void setType(String type_id)
         {
-        _type = type;
+        _type_id = type_id;
         }
 
     public String getId()
@@ -44,7 +42,16 @@ public class InterTaskState
         _id = id;
         }
 
-    private Map<String, Object> _values;
-    private ResourceType _type;
+    @Override
+    public boolean equals(Object obj)
+        {
+        if (!(obj instanceof InterTaskState))
+            return false;
+        InterTaskState other = (InterTaskState) obj;
+        return _type_id.equals(other._type_id) && _id.equals(other._id);
+        }
+
+    private Map<String, Object> _values = new HashMap<>();
+    private String _type_id;
     private String _id;
     }
