@@ -22,7 +22,7 @@ public class InjectStatePluginConfiguration extends GenericResourceConfiguration
 	@Override
 	public ResourceType getType()
 		{
-		return new LocalStorageLocationPluginConfigurationType();
+		return new InjectStatePluginConfigurationType();
 		}
 
 	@Override
@@ -33,7 +33,7 @@ public class InjectStatePluginConfiguration extends GenericResourceConfiguration
 
 	public final static String TYPE_ID = InjectStatePluginConfiguration.class.getAnnotation(MuseTypeId.class).value();
 
-	public static class LocalStorageLocationPluginConfigurationType extends ResourceSubtype
+	public static class InjectStatePluginConfigurationType extends ResourceSubtype
 		{
 		@Override
 		public InjectStatePluginConfiguration create()
@@ -50,7 +50,7 @@ public class InjectStatePluginConfiguration extends GenericResourceConfiguration
 			return new DefaultResourceDescriptor(this, "Injects the values from InterTaskState(s) into the execution context.");
 			}
 
-		public LocalStorageLocationPluginConfigurationType()
+		public InjectStatePluginConfigurationType()
 			{
 			super(TYPE_ID, "Inject State", InjectStatePluginConfiguration.class, new PluginConfigurationResourceType());
 			}
