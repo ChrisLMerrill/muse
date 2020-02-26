@@ -2,7 +2,6 @@ package org.museautomation.builtins.plugins.state;
 
 import org.museautomation.core.*;
 import org.museautomation.core.plugins.*;
-import org.museautomation.core.resource.types.*;
 import org.museautomation.core.task.state.*;
 
 import java.util.*;
