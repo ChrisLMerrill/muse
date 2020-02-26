@@ -46,6 +46,17 @@ public class Plugins
 	    	return findType(type, context.getParent());  // recursively look in ancestor contexts
 	    }
 
+    public static <T> List<T> findAll(Class<T> type, MuseExecutionContext context)
+	    {
+	    List<T> found = new ArrayList<>();
+	    for (MusePlugin plugin : context.getPlugins())
+	    	if (type.isInstance(plugin))
+	    		found.add((T) plugin);
+
+	    if (context.getParent() != null)
+            found.addAll(findAll(type, context.getParent()));
+	    return found;
+        }
 
     private final static Logger LOG = LoggerFactory.getLogger(Plugins.class);
     }
