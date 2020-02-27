@@ -10,6 +10,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("idgen")
+@Deprecated
 public class IdGeneratorConfiguration extends BaseMuseResource
 	{
 	public IdGeneratorConfiguration()
@@ -38,6 +39,7 @@ public class IdGeneratorConfiguration extends BaseMuseResource
 
 	@SuppressWarnings("unused,WeakerAccess")
 	// discovered and instantiated by reflection (see class ResourceTypes)
+    @Deprecated
 	class IdGeneratorConfigurationResourceType extends ResourceType
 		{
 		public IdGeneratorConfigurationResourceType()
