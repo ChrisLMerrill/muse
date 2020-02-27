@@ -18,7 +18,7 @@ public class ResourceTypes
             {
             try
                 {
-                Object obj = the_class.newInstance();
+                Object obj = the_class.getDeclaredConstructor().newInstance();
                 if (obj instanceof ResourceType)
                     {
                     ResourceType type = (ResourceType) obj;
