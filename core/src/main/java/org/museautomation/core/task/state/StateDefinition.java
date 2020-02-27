@@ -53,7 +53,7 @@ public class StateDefinition extends BaseMuseResource
     private List<StateValueDefinition> _values;
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
-    static class StateDefinitionResourceType extends ResourceType
+    public static class StateDefinitionResourceType extends ResourceType
         {
         public StateDefinitionResourceType()
             {
