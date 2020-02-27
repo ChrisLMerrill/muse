@@ -13,6 +13,7 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  * @see InterTaskState
  */
+@MuseTypeId("state-definition")
 public class StateDefinition extends BaseMuseResource
     {
     public String getDisplayName()
@@ -52,12 +53,14 @@ public class StateDefinition extends BaseMuseResource
     private String _display_name;
     private List<StateValueDefinition> _values;
 
+    public final static String TYPE_ID = StateDefinition.class.getAnnotation(MuseTypeId.class).value();
+
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     public static class StateDefinitionResourceType extends ResourceType
         {
         public StateDefinitionResourceType()
             {
-            super("state", "State Definition", StateDefinition.class);
+            super(TYPE_ID, "State Definition", StateDefinition.class);
             }
 
         @Override
