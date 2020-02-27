@@ -25,16 +25,12 @@ public class StateStorePlugin implements MusePlugin, StateStore
 
     public void addState(InterTaskState state)
         {
-        _states.add(state);
+        _store.addState(state);
         }
 
     public List<InterTaskState> findStates(String type_id)
         {
-        List<InterTaskState> matches = new ArrayList<>();
-        for (InterTaskState state : _states)
-            if (type_id.equals(state.getStateDefinitionId()))
-                matches.add(state);
-        return matches;
+        return _store.findStates(type_id);
         }
 
     @Override
@@ -49,5 +45,5 @@ public class StateStorePlugin implements MusePlugin, StateStore
         return "state-provider-plugin";
         }
 
-    private Set<InterTaskState> _states = new HashSet<>();
+    private SimpleStateStore _store = new SimpleStateStore();
     }
