@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StateProviderPlugin implements MusePlugin, StateProvider
+public class StateStorePlugin implements MusePlugin, StateStore
     {
     @Override
     public boolean conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
@@ -28,7 +28,7 @@ public class StateProviderPlugin implements MusePlugin, StateProvider
         _states.add(state);
         }
 
-    public List<InterTaskState> getStates(String type_id)
+    public List<InterTaskState> findStates(String type_id)
         {
         List<InterTaskState> matches = new ArrayList<>();
         for (InterTaskState state : _states)

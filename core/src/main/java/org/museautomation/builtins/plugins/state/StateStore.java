@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public interface StateProvider
+public interface StateStore
     {
-    List<InterTaskState> getStates(String type_id);
+    List<InterTaskState> findStates(String type_id);
     }

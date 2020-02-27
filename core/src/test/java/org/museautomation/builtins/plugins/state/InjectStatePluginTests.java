@@ -102,7 +102,7 @@ class InjectStatePluginTests
         _start_state = new InterTaskState();
         _start_state.setType(state_type);
 
-        StateProviderPlugin state_provider = new StateProviderPlugin();
+        StateStorePlugin state_provider = new StateStorePlugin();
         state_provider.addState(_start_state);
 
         // initialize plugin into context

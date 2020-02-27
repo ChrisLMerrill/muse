@@ -28,7 +28,7 @@ public class InjectStatePlugin extends GenericConfigurablePlugin
     @Override
     public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
-        StateProvider provider = Plugins.findType(StateProvider.class, context);
+        StateStore provider = Plugins.findType(StateStore.class, context);
         if (provider == null)
             {
             MessageEventType.raiseMessageAndThrowError(context, "No StateProvider plugin was found. InjectStatePlugin is unable to inject state into context.");
@@ -45,7 +45,7 @@ public class InjectStatePlugin extends GenericConfigurablePlugin
                 }
 
             StateDefinition state_def = (StateDefinition) resource;
-            List<InterTaskState> states = provider.getStates(state_type);
+            List<InterTaskState> states = provider.findStates(state_type);
             if (states.size() == 0)
                 MessageEventType.raiseMessageAndThrowError(context, "No states found with type " + state_type);
             if (states.size() > 1)
