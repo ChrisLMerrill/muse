@@ -1,6 +1,8 @@
 package org.museautomation.core.task.state;
 
+import com.fasterxml.jackson.annotation.*;
 import org.museautomation.*;
+import org.museautomation.core.valuetypes.*;
 
 /**
  * Represents a specific value that will (may) be present within a state.
@@ -30,14 +32,28 @@ public class StateValueDefinition
         _name = name;
         }
 
+    @JsonIgnore
     public MuseValueType getType()
         {
         return _type;
         }
 
+    @JsonIgnore
     public void setType(MuseValueType type)
         {
         _type = type;
+        }
+
+    public String getTypeId()
+        {
+        return _type.getId();
+        }
+
+    public void setTypeId(String id)
+        {
+        _type = MuseValueTypes.get().forTypeId(id);
+        if (_type == null)
+            throw new IllegalArgumentException(id + " is not a recognized ID for a MuseValueType");
         }
 
     public boolean isRequired()
