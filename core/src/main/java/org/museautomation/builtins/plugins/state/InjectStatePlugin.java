@@ -35,7 +35,7 @@ public class InjectStatePlugin extends GenericConfigurablePlugin
             return;
             }
         MuseTask task = TaskExecutionContext.findTask(context);
-        for (String state_type : task.getInputStates().getIdList())
+        for (String state_type : task.getInputStates().getTypeList())
             {
             MuseResource resource = context.getProject().getResourceStorage().findResource(state_type).getResource();
             if (!(resource instanceof StateDefinition))

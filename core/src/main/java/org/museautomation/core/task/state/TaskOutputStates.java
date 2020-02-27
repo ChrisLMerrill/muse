@@ -7,15 +7,24 @@ import java.util.*;
  */
 public class TaskOutputStates
     {
-    public List<String> getIdList()
+    public TaskOutputStates()
         {
-        return _id_list;
         }
 
-    public void setIdList(List<String> list)
+    public TaskOutputStates(String... types)
         {
-        _id_list = list;
+        Collections.addAll(_type_list, types);
         }
 
-    private List<String> _id_list;
+    public List<String> getTypeList()
+        {
+        return _type_list;
+        }
+
+    public void setTypeList(List<String> list)
+        {
+        _type_list = list;
+        }
+
+    private List<String> _type_list = new ArrayList<>();
     }

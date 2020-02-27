@@ -32,7 +32,7 @@ public class StateStorePlugin implements MusePlugin, StateStore
         {
         List<InterTaskState> matches = new ArrayList<>();
         for (InterTaskState state : _states)
-            if (type_id.equals(state.getType()))
+            if (type_id.equals(state.getStateDefinitionId()))
                 matches.add(state);
         return matches;
         }

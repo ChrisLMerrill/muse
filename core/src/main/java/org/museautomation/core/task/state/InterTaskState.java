@@ -22,12 +22,12 @@ public class InterTaskState
         _values = values;
         }
 
-    public String getType()
+    public String getStateDefinitionId()
         {
         return _type_id;
         }
 
-    public void setType(String type_id)
+    public void setStateDefinitionId(String type_id)
         {
         _type_id = type_id;
         }
@@ -35,11 +35,6 @@ public class InterTaskState
     public String getId()
         {
         return _id;
-        }
-
-    public void setId(String id)
-        {
-        _id = id;
         }
 
     @Override
@@ -51,7 +46,12 @@ public class InterTaskState
         return _type_id.equals(other._type_id) && _id.equals(other._id);
         }
 
+    public void setValue(String name, Object value)
+        {
+        _values.put(name, value);
+        }
+
     private Map<String, Object> _values = new HashMap<>();
     private String _type_id;
-    private String _id;
+    private String _id = UUID.randomUUID().toString();
     }

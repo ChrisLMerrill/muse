@@ -10,4 +10,5 @@ import java.util.*;
 public interface StateStore
     {
     List<InterTaskState> findStates(String type_id);
+    void addState(InterTaskState state);
     }

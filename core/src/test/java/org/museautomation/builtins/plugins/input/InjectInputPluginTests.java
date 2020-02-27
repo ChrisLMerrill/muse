@@ -29,8 +29,7 @@ class InjectInputPluginTests
         addValueToProvider(field1_name, field1_value);
 
         inject();
-        Assertions.assertEquals(0, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.WARNING)).size());
-        Assertions.assertEquals(0, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR)).size());
+        Assertions.assertEquals(0, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR, MuseEvent.WARNING)).size());
         Assertions.assertEquals(field1_value, _context.getVariable(field1_name));
         }
 
@@ -41,7 +40,7 @@ class InjectInputPluginTests
         addTaskInput(field1_name, new StringValueType(), true);
         addValueToProvider(field1_name, 123L);
         inject();
-        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.WARNING)).size());
+        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR, MuseEvent.WARNING)).size());
         Assertions.assertNull(_context.getVariable(field1_name));
         }
 

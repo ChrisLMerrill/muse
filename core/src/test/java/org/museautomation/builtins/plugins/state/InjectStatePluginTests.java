@@ -24,13 +24,13 @@ class InjectStatePluginTests
         {
         String field1_name = "field1";
         String field1_value = "123";
-        addTaskInput(field1_name, new StringValueType(), true);
-        addValueDefToStateDef(field1_name, new StringValueType(), true);
+        addTaskInput(field1_name, new StringValueType());
+        addValueDefToStateDef(field1_name, new StringValueType());
         addValueToStartingState(field1_name, field1_value);
 
 
         inject();
-        Assertions.assertEquals(0, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR)).size());
+        Assertions.assertEquals(0, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR, MuseEvent.WARNING)).size());
         Assertions.assertEquals(field1_value, _context.getVariable(field1_name));
         }
 
@@ -40,7 +40,7 @@ class InjectStatePluginTests
         String unexpected_field = "field2";
         addValueToStartingState(unexpected_field, 222L);
         inject();
-        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.WARNING)).size());
+        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR, MuseEvent.WARNING)).size());
         Assertions.assertNull(_context.getVariable(unexpected_field));
         }
 
@@ -49,25 +49,25 @@ class InjectStatePluginTests
         {
         String field1_name = "field1";
         String field1_value = "123";
-        addTaskInput(field1_name, new StringValueType(), true);
-        addValueDefToStateDef(field1_name, new StringValueType(), true);
+        addTaskInput(field1_name, new StringValueType());
+        addValueDefToStateDef(field1_name, new StringValueType());
         addValueToStartingState(field1_name, Long.parseLong(field1_value));
         inject();
-        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR)).size());
+        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR, MuseEvent.WARNING)).size());
         }
 
-    void addTaskInput(String name, MuseValueType type, boolean required)
+    void addTaskInput(String name, MuseValueType type)
         {
         TaskInput input = new TaskInput();
         input.setName(name);
-        input.setRequired(required);
+        input.setRequired(true);
         input.setType(type);
         _task.getInputs().getList().add(input);
         }
 
-    void addValueDefToStateDef(String name, MuseValueType type, boolean required)
+    void addValueDefToStateDef(String name, MuseValueType type)
         {
-        StateValueDefinition value = new StateValueDefinition(name, type, required);
+        StateValueDefinition value = new StateValueDefinition(name, type, true);
         _state_def.getValues().add(value);
         }
 
@@ -79,7 +79,7 @@ class InjectStatePluginTests
     @BeforeEach
     void setup() throws IOException
         {
-        _project = new SimpleProject();
+        SimpleProject project = new SimpleProject();
 
         // create State Definitions
         String state_type = "state_type1";
@@ -87,7 +87,7 @@ class InjectStatePluginTests
         List<StateValueDefinition> states = new ArrayList<>();
         _state_def.setValues(states);
         _state_def.setId(state_type);
-        _project.getResourceStorage().addResource(_state_def);
+        project.getResourceStorage().addResource(_state_def);
 
         // create Task with required input states
         _task = new SteppedTask();
@@ -96,11 +96,11 @@ class InjectStatePluginTests
         _task.setInputStates(new TaskInputStates(state_type));
 
         // create TaskExecutionContext
-        _context = new DefaultTaskExecutionContext(_project, _task);
+        _context = new DefaultTaskExecutionContext(project, _task);
 
         // create starting state
         _start_state = new InterTaskState();
-        _start_state.setType(state_type);
+        _start_state.setStateDefinitionId(state_type);
 
         StateStorePlugin state_provider = new StateStorePlugin();
         state_provider.addState(_start_state);
@@ -118,6 +118,5 @@ class InjectStatePluginTests
     private TaskExecutionContext _context;
     private SteppedTask _task;
     private InterTaskState _start_state;
-    private SimpleProject _project;
     private StateDefinition _state_def;
     }

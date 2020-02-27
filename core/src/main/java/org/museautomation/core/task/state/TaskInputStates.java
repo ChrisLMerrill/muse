@@ -11,20 +11,20 @@ public class TaskInputStates
         {
         }
 
-    public TaskInputStates(String... ids)
+    public TaskInputStates(String... types)
         {
-        Collections.addAll(_id_list, ids);
+        Collections.addAll(_type_list, types);
         }
 
-    public List<String> getIdList()
+    public List<String> getTypeList()
         {
-        return _id_list;
+        return _type_list;
         }
 
-    public void setIdList(List<String> list)
+    public void setTypeList(List<String> list)
         {
-        _id_list = list;
+        _type_list = list;
         }
 
-    private List<String> _id_list = new ArrayList<>();
+    private List<String> _type_list = new ArrayList<>();
     }

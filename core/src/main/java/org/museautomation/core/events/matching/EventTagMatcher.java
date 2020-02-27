@@ -2,23 +2,28 @@ package org.museautomation.core.events.matching;
 
 import org.museautomation.core.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class EventTagMatcher implements EventMatcher
     {
-    public EventTagMatcher(String _tag)
+    public EventTagMatcher(String... tags)
         {
-        this._tag = _tag;
+        _tags.addAll(Arrays.asList(tags));
         }
 
     @Override
     public boolean matches(MuseEvent event)
         {
-        return event.hasTag(_tag);
+        for (String tag : _tags)
+            if (event.hasTag(tag))
+                return true;
+        return false;
         }
 
-    private String _tag;
+    private Set<String> _tags = new HashSet<>();
     }
 
 
