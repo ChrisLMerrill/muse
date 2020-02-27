@@ -25,7 +25,7 @@ import org.slf4j.*;
 @MuseStepLongDescription("Opens a browser using the 'browser' and 'provider' sources. The 'browser' should resolve to a SeleniumBrowserCapabilities object. Likewise, the 'provider' should resolve to a WebDriverProviderConfiguration, which is used to instantiate a WebDriver using the supplied capabilities.")
 @MuseSubsourceDescriptor(displayName = "Browser", description = "The capabilities of browser to open (expects a project resource of type SeleniumBrowserCapabilities)", type = SubsourceDescriptor.Type.Named, name = OpenBrowser.BROWSER_PARAM)
 @MuseSubsourceDescriptor(displayName = "Provider", description = "The browser provider to use (expects a project resource of type WebDriverProviderConfiguration)", type = SubsourceDescriptor.Type.Named, name = OpenBrowser.PROVIDER_PARAM)
-@MuseSubsourceDescriptor(displayName = "Close on exit", description = "If true, the browser will automatically be closed when the task ends.", type = SubsourceDescriptor.Type.Named, name = OpenBrowser.PROVIDER_PARAM)
+@MuseSubsourceDescriptor(displayName = "Close on exit", description = "If true, the browser will automatically be closed when the task ends.", type = SubsourceDescriptor.Type.Named, name = OpenBrowser.AUTOCLOSE_PARAM)
 public class OpenBrowser extends BaseStep
     {
     @SuppressWarnings("unused") // called via reflection
@@ -92,7 +92,7 @@ public class OpenBrowser extends BaseStep
 
     public final static String BROWSER_PARAM = "browser";
     public final static String PROVIDER_PARAM = "provider";
-    private final static String AUTOCLOSE_PARAM = "autoclose";
+    final static String AUTOCLOSE_PARAM = "autoclose";
 
     public final static String TYPE_ID = OpenBrowser.class.getAnnotation(MuseTypeId.class).value();
 
