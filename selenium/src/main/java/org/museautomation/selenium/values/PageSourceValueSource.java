@@ -10,7 +10,7 @@ import org.museautomation.selenium.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("page-source")
-@MuseValueSourceName("Page Source")
+@MuseValueSourceName("Selenium.Page")
 @MuseValueSourceTypeGroup("Web Page")
 @MuseValueSourceShortDescription("Full source of the current page")
 @MuseValueSourceLongDescription("Retrieves the page source of the current browser window by calling driver.getPageSource().")

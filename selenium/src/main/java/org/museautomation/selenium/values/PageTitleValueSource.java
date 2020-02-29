@@ -11,7 +11,7 @@ import org.museautomation.selenium.*;
  */
 @MuseTypeId("page-title")
 @MuseValueSourceName("Page Title")
-@MuseValueSourceTypeGroup("Web Page")
+@MuseValueSourceTypeGroup("Selenium.Page")
 @MuseValueSourceShortDescription("Title of the current page")
 @MuseValueSourceLongDescription("Retrieves the page title of the current browser window by calling driver.getTitle().")
 @MuseStringExpressionSupportImplementation(PageTitleValueSource.StringExpressionSupport.class)

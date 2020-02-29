@@ -11,7 +11,7 @@ import org.museautomation.selenium.*;
  */
 @MuseTypeId("current-url")
 @MuseValueSourceName("Page URL")
-@MuseValueSourceTypeGroup("Web Page")
+@MuseValueSourceTypeGroup("Selenium.Page")
 @MuseValueSourceShortDescription("URL of the current page")
 @MuseValueSourceLongDescription("Retrieves the URL of the current browser window by calling driver.getCurrentUrl().")
 @MuseStringExpressionSupportImplementation(CurrentUrlValueSource.StringExpressionSupport.class)
