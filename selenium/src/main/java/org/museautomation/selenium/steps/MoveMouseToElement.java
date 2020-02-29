@@ -18,7 +18,7 @@ import org.openqa.selenium.interactions.*;
 @MuseStepIcon("glyph:FontAwesome:HAND_ALT_UP")
 @MuseStepTypeGroup("Selenium")
 @MuseStepShortDescription("Move the mouse to an element")
-@MuseStepLongDescription("Resolves the 'element' source to a WebElement and then moves the mouse to hat element.")
+@MuseStepLongDescription("Resolves the 'element' source to a WebElement and then moves the mouse to that element.")
 @MuseSubsourceDescriptor(displayName = "Element", description = "The element to move to", type = SubsourceDescriptor.Type.Named, name = MoveMouseToElement.ELEMENT_PARAM)
 public class MoveMouseToElement extends BrowserStep
     {
@@ -33,7 +33,7 @@ public class MoveMouseToElement extends BrowserStep
     public StepExecutionResult executeImplementation(StepExecutionContext context) throws MuseExecutionError
         {
         WebElement element = getElement(_element_source, context);
-        new Actions(getDriver(context)).moveToElement(element).click(element).perform();
+        new Actions(getDriver(context)).moveToElement(element).perform();
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }
 
