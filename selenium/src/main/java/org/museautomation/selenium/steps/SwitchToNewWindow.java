@@ -22,7 +22,7 @@ import java.util.*;
 @MuseStepShortDescription("Opens a new window/tab")
 @MuseStepLongDescription("Opens a new window/tab using keyboard entry")
 @MuseSubsourceDescriptor(displayName = "Window Handle", description = "Name of the variable to store the window handle into (optional).", type = SubsourceDescriptor.Type.Named, name = SwitchToNewWindow.HANDLE_PARAM, optional = true, defaultValue = SwitchToNewWindow.HANDLE_DEFAULT)
-@MuseSubsourceDescriptor(displayName = "Script", description = "The script to run", type = SubsourceDescriptor.Type.Named, name = SwitchToNewWindow.KEYS_PARAM, optional = true, defaultValue = SwitchToNewWindow.SCRIPT_DEFAULT)
+@MuseSubsourceDescriptor(displayName = "Script", description = "The script to run", type = SubsourceDescriptor.Type.Named, name = SwitchToNewWindow.SCRIPT_PARAM, optional = true, defaultValue = SwitchToNewWindow.SCRIPT_DEFAULT)
 public class SwitchToNewWindow extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
@@ -30,7 +30,7 @@ public class SwitchToNewWindow extends BrowserStep
         {
         super(config);
         _handle_source = getValueSource(config, HANDLE_PARAM, false, project);
-        _script_source = getValueSource(config, KEYS_PARAM, false, project);
+        _script_source = getValueSource(config, SCRIPT_PARAM, false, project);
         }
 
     @Override
@@ -64,7 +64,7 @@ public class SwitchToNewWindow extends BrowserStep
 
     final static String HANDLE_PARAM = "handle";
     final static String HANDLE_DEFAULT = "_window_handle";
-    final static String KEYS_PARAM = "keystroke";
+    final static String SCRIPT_PARAM = "script";
     final static String SCRIPT_DEFAULT = "window.open();";
 
     public final static String TYPE_ID = SwitchToNewWindow.class.getAnnotation(MuseTypeId.class).value();
