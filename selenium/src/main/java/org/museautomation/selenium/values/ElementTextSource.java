@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("element-text")
 @MuseValueSourceName("Element Text")
-@MuseValueSourceTypeGroup("Element.Value")
+@MuseValueSourceTypeGroup("Selenium.Element.Value")
 @MuseValueSourceShortDescription("Returns the text content of the sub-source Selenium WebElement")
 @MuseValueSourceLongDescription("Resolves the supplied element source, then returns the text content of that element (if any).")
 @MuseStringExpressionSupportImplementation(ElementTextSource.StringExpressionSupport.class)

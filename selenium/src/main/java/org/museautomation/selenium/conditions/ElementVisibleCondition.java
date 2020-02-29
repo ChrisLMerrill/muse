@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("visible")
 @MuseValueSourceName("Element is visible")
-@MuseValueSourceTypeGroup("Element.Condition")
+@MuseValueSourceTypeGroup("Selenium.Element.Condition")
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is visible")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement and it is visible.")
 @MuseStringExpressionSupportImplementation(ElementVisibleCondition.StringExpressionSupport.class)

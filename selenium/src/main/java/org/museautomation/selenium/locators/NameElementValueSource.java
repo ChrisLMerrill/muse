@@ -11,7 +11,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("element-name")
 @MuseValueSourceName("Element by Field Name")
-@MuseValueSourceTypeGroup("Element.Locate")
+@MuseValueSourceTypeGroup("Selenium.Element.Locate")
 @MuseValueSourceShortDescription("Locates an element by field name")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByName locator.")
 @MuseStringExpressionSupportImplementation(NameElementValueSource.StringExpressionSupport.class)

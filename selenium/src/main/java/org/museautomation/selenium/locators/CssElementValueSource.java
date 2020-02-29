@@ -11,7 +11,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("css-selector")
 @MuseValueSourceName("Element by CSS Selector")
-@MuseValueSourceTypeGroup("Element.Locate")
+@MuseValueSourceTypeGroup("Selenium.Element.Locate")
 @MuseValueSourceShortDescription("Locate a element by CSS Selector")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByCssSelector locator.")
 @MuseStringExpressionSupportImplementation(CssElementValueSource.StringExpressionSupport.class)

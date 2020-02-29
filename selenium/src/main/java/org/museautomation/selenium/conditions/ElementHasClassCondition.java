@@ -16,7 +16,7 @@ import java.util.*;
  */
 @MuseTypeId("has-class")
 @MuseValueSourceName("Element has class")
-@MuseValueSourceTypeGroup("Element.Condition")
+@MuseValueSourceTypeGroup("Selenium.Element.Condition")
 @MuseValueSourceShortDescription("Returns true if the element has the provided class")
 @MuseValueSourceLongDescription("Returns true if the sub-source returns a Selenium WebElement that has a class attribute containing 'class' parameter.")
 @MuseStringExpressionSupportImplementation(ElementHasClassCondition.StringExpressionSupport.class)

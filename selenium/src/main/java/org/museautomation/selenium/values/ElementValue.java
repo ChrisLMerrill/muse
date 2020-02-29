@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("element-value")
 @MuseValueSourceName("Element Value")
-@MuseValueSourceTypeGroup("Element.Value")
+@MuseValueSourceTypeGroup("Selenium.Element.Value")
 @MuseValueSourceShortDescription("Returns the value of the input element")
 @MuseValueSourceLongDescription("Resolves the supplied element source, then returns the value the input element (if any).")
 @MuseStringExpressionSupportImplementation(ElementValue.StringExpressionSupport.class)

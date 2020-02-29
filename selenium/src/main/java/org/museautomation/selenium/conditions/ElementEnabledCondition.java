@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("enabled")
 @MuseValueSourceName("Element is enabled")
-@MuseValueSourceTypeGroup("Element.Condition")
+@MuseValueSourceTypeGroup("Selenium.Element.Condition")
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is enabled")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement and it is enabled.")
 @MuseStringExpressionSupportImplementation(ElementEnabledCondition.StringExpressionSupport.class)

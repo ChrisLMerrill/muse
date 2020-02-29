@@ -11,7 +11,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("element-linktext")
 @MuseValueSourceName("Element by Link Text")
-@MuseValueSourceTypeGroup("Element.Locate")
+@MuseValueSourceTypeGroup("Selenium.Element.Locate")
 @MuseValueSourceShortDescription("Locates an element by link text")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByLinkText locator.")
 @MuseStringExpressionSupportImplementation(LinkTextElementValueSource.StringExpressionSupport.class)

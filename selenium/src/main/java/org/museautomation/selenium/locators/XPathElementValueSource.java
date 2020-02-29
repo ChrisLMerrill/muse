@@ -11,7 +11,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("element-xpath")
 @MuseValueSourceName("Element by XPath")
-@MuseValueSourceTypeGroup("Element.Locate")
+@MuseValueSourceTypeGroup("Selenium.Element.Locate")
 @MuseValueSourceShortDescription("Locate an element by XPath")
 @MuseValueSourceLongDescription("Locate a WebElement in the current browser window by calling driver.findElement() with Selenium's built-in ByXPath locator.")
 @MuseStringExpressionSupportImplementation(XPathElementValueSource.StringExpressionSupport.class)

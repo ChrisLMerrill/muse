@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("editable")
 @MuseValueSourceName("Element is editable")
-@MuseValueSourceTypeGroup("Element.Condition")
+@MuseValueSourceTypeGroup("Selenium.Element.Condition")
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is does not have the readonly attribute")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement and that does not have the readonly.")
 @MuseStringExpressionSupportImplementation(ElementEditableCondition.StringExpressionSupport.class)

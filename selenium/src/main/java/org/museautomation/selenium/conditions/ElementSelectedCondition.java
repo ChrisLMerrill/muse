@@ -14,7 +14,7 @@ import org.openqa.selenium.*;
  */
 @MuseTypeId("selected")
 @MuseValueSourceName("Element is selected")
-@MuseValueSourceTypeGroup("Element.Condition")
+@MuseValueSourceTypeGroup("Selenium.Element.Condition")
 @MuseValueSourceShortDescription("Returns true if the sub-source returns a Selenium WebElement that is selected")
 @MuseValueSourceLongDescription("Resolves the supplied element source. Returns true if it returns a Selenium WebElement and it is selected.")
 @MuseStringExpressionSupportImplementation(ElementSelectedCondition.StringExpressionSupport.class)

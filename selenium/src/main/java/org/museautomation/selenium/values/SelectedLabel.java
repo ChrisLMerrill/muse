@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.*;
  */
 @MuseTypeId("element-selected-label")
 @MuseValueSourceName("Selected Label")
-@MuseValueSourceTypeGroup("Element.Value")
+@MuseValueSourceTypeGroup("Selenium.Element.Value")
 @MuseValueSourceShortDescription("Returns the label of the selected choice in the elment")
 @MuseValueSourceLongDescription("Resolves the supplied element source, verifies that it is a select element, then returns the label of the selected choice (if any).")
 @MuseStringExpressionSupportImplementation(SelectedLabel.StringExpressionSupport.class)
