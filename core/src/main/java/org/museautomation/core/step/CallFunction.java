@@ -27,7 +27,7 @@ import java.util.*;
 @MuseStepTypeGroup("Structure")
 @MuseStepLongDescription("The 'id' source is resolved to a string and used to find the function in the project. The steps within the function are then executed as children of the call-function step, and if a value is returned, it is stored as a variable with the name provided by the 'return' source.  The steps of the function are executed within a new variable scope. Other sources of the call-function step are passed into this new variable scope and will be available to steps within the function. Other local variables that were accessible to the call-function step will not be visible in the new scope, but higher-level scope variables will be (e.g. test parameters).")
 @MuseStepDescriptorImplementation(CallFunctionDescriptor.class)
-@MuseSubsourceDescriptor(displayName = "Function id", description = "The id of the function to call", type = SubsourceDescriptor.Type.Named, name = CallFunction.ID_PARAM)
+@MuseSubsourceDescriptor(displayName = "Function id", description = "The id of the function to call", type = SubsourceDescriptor.Type.Named, name = CallFunction.ID_PARAM, defaultValue = "function-id")
 @MuseSubsourceDescriptor(displayName = "Return variable", description = "The name of the variable to store the return value in", type = SubsourceDescriptor.Type.Named, name = CallFunction.RETURN_PARAM, optional = true)
 @MuseSubsourceDescriptor(displayName = "Parameters", description = "Parameters to pass to the function", type = SubsourceDescriptor.Type.Map, optional = true)
 public class CallFunction extends CallMacroStep

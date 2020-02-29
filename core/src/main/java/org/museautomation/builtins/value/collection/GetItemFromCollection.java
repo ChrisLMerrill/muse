@@ -43,46 +43,53 @@ public class GetItemFromCollection extends BaseValueSource
         {
         Object collection = getValue(_collection, context, false, Object.class);
         Object selector = getValue(_selector, context, false);
+        Long index = null;
+        if (selector instanceof Number)
+            {
+            index = ((Number) selector).longValue();
+            if (index > (long) Integer.MAX_VALUE)
+                throw new ValueSourceResolutionError(String.format("ListItem unable to proceed: index exceeds the maximum list index: %s (maximum is %s)", index, Integer.MAX_VALUE));
+            }
 
         if (collection instanceof List)
             {
-            if (selector instanceof Number)
+            if (index != null)
                 {
-                long index = ((Number) selector).longValue();
-                if (index > (long) Integer.MAX_VALUE)
-                    throw new ValueSourceResolutionError(String.format("ListItem unable to proceed: index exceeds the maximum list index: %s (maximum is %s)", index, Integer.MAX_VALUE));
                 try
                     {
-                    Object result = ((List) collection).get((int) index);
+                    Object result = ((List) collection).get(index.intValue());
                     context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), result));
                     return result;
                     }
                 catch (IndexOutOfBoundsException e)
                     {
-                    throw new ValueSourceResolutionError("ListItem unable to proceed: index out of bounds: " + index);
+                    throw new ValueSourceResolutionError("GetItemFromCollection unable to proceed: index out of bounds: " + index);
                     }
                 }
             }
         else if (collection instanceof Map)
             {
             Map map = (Map) collection;
-            return map.get(map.keySet().iterator().next()); // TODO access something other than the first element
+            return map.get(selector);
             }
         else
             {
-            // TODO do we really need to deal with arrays?  I think not - stick with lists and maps!
             try
                 {
-                return Array.get(collection, 0); // TODO access something other than the first element
+                if (index != null)
+                    return Array.get(collection, index.intValue());
                 }
-            catch (IllegalArgumentException e)
+            catch (ArrayIndexOutOfBoundsException e1)
+                {
+                throw new ValueSourceResolutionError("GetItemFromCollection unable to proceed: index out of bounds: " + index);
+                }
+            catch (IllegalArgumentException e2)
                 {
                 // it wasn't an array :(
                 }
             }
 
-        // TODO log an error - the arguemnts were not as expected
-        return null;
+        throw new ValueSourceResolutionError(String.format("Unable to get item %s from collection %s", selector, collection));
         }
 
     private MuseValueSource _collection;

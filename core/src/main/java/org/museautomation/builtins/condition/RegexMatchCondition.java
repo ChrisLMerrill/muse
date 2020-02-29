@@ -13,7 +13,7 @@ import java.util.regex.*;
  */
 @MuseTypeId("regex-match")
 @MuseValueSourceName("RegEx match")
-@MuseValueSourceTypeGroup("Matching")
+@MuseValueSourceTypeGroup("Search & Match")
 @MuseValueSourceShortDescription("Matches a string against a RegEx pattern")
 @MuseValueSourceLongDescription("Accepts a Regular Expression pattern and matches it against the target string. Returns true on match. Supports Java-style RegEx format.")
 @MuseStringExpressionSupportImplementation(RegexMatchCondition.StringExpressionSupport.class)

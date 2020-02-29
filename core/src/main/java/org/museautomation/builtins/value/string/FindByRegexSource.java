@@ -13,6 +13,7 @@ import java.util.regex.*;
  */
 @MuseTypeId("find-regex")
 @MuseValueSourceName("Find by RegEx")
+@MuseValueSourceTypeGroup("Search & Match")
 @MuseValueSourceShortDescription("Uses a RegularExpression to find a value within a String")
 @MuseValueSourceLongDescription("Resolves the RegEx parameter to a string and uses it to search the Target parameter, which is also resolved as a string. Returns null if not found")
 @MuseStringExpressionSupportImplementation(FindByRegexSource.StringExpressionSupport.class)

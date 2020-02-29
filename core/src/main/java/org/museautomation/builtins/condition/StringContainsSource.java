@@ -12,6 +12,7 @@ import org.museautomation.core.values.descriptor.*;
  */
 @MuseTypeId("string-contains")
 @MuseValueSourceName("String Contains")
+@MuseValueSourceTypeGroup("Search & Match")
 @MuseValueSourceShortDescription("returns true if the String contains the specified value")
 @MuseValueSourceLongDescription("Evaluates the 'string' and 'target' parameters. If the former is a string and it contains the latter, this source returns true.")
 @MuseStringExpressionSupportImplementation(StringContainsSource.StringExpressionSupport.class)
