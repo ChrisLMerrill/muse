@@ -142,9 +142,7 @@ public class NamedSourcesContainer implements ContainsNamedSources, Serializable
 
 	public Map<String, ValueSourceConfiguration> getSourceMap()
 		{
-		if (_source_map == null)
-			return null;
-		return Collections.unmodifiableMap(_source_map);
+		return _source_map;
 		}
 
 	public void setSourceMap(Map<String, ValueSourceConfiguration> source_map)
