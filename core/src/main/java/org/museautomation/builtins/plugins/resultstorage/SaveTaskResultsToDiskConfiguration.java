@@ -77,7 +77,7 @@ public class SaveTaskResultsToDiskConfiguration extends GenericResourceConfigura
 
 		public SaveTaskResultsToDiskConfigurationType()
 			{
-			super(TYPE_ID, "Save Result to Disk", SaveTaskResultsToDiskConfiguration.class, new PluginConfigurationResourceType());
+			super(TYPE_ID, "Save Results to Local Storage", SaveTaskResultsToDiskConfiguration.class, new PluginConfigurationResourceType());
 			}
 		}
 
