@@ -11,11 +11,11 @@ import org.museautomation.core.values.descriptor.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("task-result-collector")
-@MuseSubsourceDescriptor(displayName = "Apply automatically?", description = "If this source resolves to true, this plugin configuration will be automatically applied to takss", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.AUTO_APPLY_PARAM)
+@MuseSubsourceDescriptor(displayName = "Apply automatically?", description = "If this source resolves to true, this plugin configuration will be automatically applied to tasks", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.AUTO_APPLY_PARAM)
 @MuseSubsourceDescriptor(displayName = "Apply only if", description = "Apply only if this source this source resolves to true", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.APPLY_CONDITION_PARAM)
-@MuseSubsourceDescriptor(displayName = "Fail on failure", description = "Task fails if any step reports failure (default is true)", type = SubsourceDescriptor.Type.Named, name = TaskResultCollectorConfiguration.FAIL_ON_FAILURE, optional = true)
-@MuseSubsourceDescriptor(displayName = "Fail on error", description = "Task fails if any step reports an error (default is true)", type = SubsourceDescriptor.Type.Named, name = TaskResultCollectorConfiguration.FAIL_ON_ERROR, optional = true)
-@MuseSubsourceDescriptor(displayName = "Fail on interrupt", description = "Task fails if the task is interrupted (default is true)", type = SubsourceDescriptor.Type.Named, name = TaskResultCollectorConfiguration.FAIL_ON_INTERRUPT, optional = true)
+@MuseSubsourceDescriptor(displayName = "Fail on failure", description = "Task fails if any step reports failure (default is true)", type = SubsourceDescriptor.Type.Named, name = TaskResultCollectorConfiguration.FAIL_ON_FAILURE, optional = true, defaultValue = "true")
+@MuseSubsourceDescriptor(displayName = "Fail on error", description = "Task fails if any step reports an error (default is true)", type = SubsourceDescriptor.Type.Named, name = TaskResultCollectorConfiguration.FAIL_ON_ERROR, optional = true, defaultValue = "true")
+@MuseSubsourceDescriptor(displayName = "Fail on interrupt", description = "Task fails if the task is interrupted (default is true)", type = SubsourceDescriptor.Type.Named, name = TaskResultCollectorConfiguration.FAIL_ON_INTERRUPT, optional = true, defaultValue = "true")
 // instantiated by reflection
 public class TaskResultCollectorConfiguration extends GenericResourceConfiguration implements PluginConfiguration
 	{
