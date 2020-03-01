@@ -28,7 +28,7 @@ public class TaskSuiteResultCounts implements TaskResultData
 	@Override
 	public String suggestFilename()
 		{
-		return "TestSuiteResultCounts.json";
+		return "TaskSuiteResultCounts.json";
 		}
 
 	public int getSuccesses()
@@ -81,7 +81,7 @@ public class TaskSuiteResultCounts implements TaskResultData
 		return _successes + _errors + _failures;
 		}
 
-	private String _name = "Test Suite Result Counters";
+	private String _name = "Task Suite Result Counters";
 
 	int _successes = 0;
 	int _errors = 0;
