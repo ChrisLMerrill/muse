@@ -13,7 +13,7 @@ import org.museautomation.core.values.descriptor.*;
 @MuseTypeId("step-wait-plugin")
 @MuseSubsourceDescriptor(displayName = "Apply automatically?", description = "If this source resolves to true, this plugin configuration will be automatically applied to tests", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.AUTO_APPLY_PARAM)
 @MuseSubsourceDescriptor(displayName = "Apply only if", description = "Apply only if this source this source resolves to true", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.APPLY_CONDITION_PARAM)
-@MuseSubsourceDescriptor(displayName = "Delay (ms)", description = "The time to wait after each step", type = SubsourceDescriptor.Type.Named, name = StepWaitPluginConfiguration.DELAY_TIME, optional = true)
+@MuseSubsourceDescriptor(displayName = "Delay", description = "The time to wait after each step (in ms)", type = SubsourceDescriptor.Type.Named, name = StepWaitPluginConfiguration.DELAY_TIME, optional = true, defaultValue = "1000")
 public class StepWaitPluginConfiguration extends GenericResourceConfiguration implements PluginConfiguration
     {
     @Override
