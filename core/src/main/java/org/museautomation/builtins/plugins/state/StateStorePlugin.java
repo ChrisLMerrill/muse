@@ -33,6 +33,16 @@ public class StateStorePlugin implements MusePlugin, StateStore
         return _store.findStates(type_id);
         }
 
+    public SimpleStateStore getStore()
+        {
+        return _store;
+        }
+
+    public void setStore(SimpleStateStore store)
+        {
+        _store = store;
+        }
+
     @Override
     public void shutdown()
         {
