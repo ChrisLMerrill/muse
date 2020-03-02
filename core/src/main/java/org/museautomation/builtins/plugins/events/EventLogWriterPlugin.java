@@ -4,7 +4,6 @@ import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.plugins.*;
-import org.museautomation.core.resource.generic.*;
 import org.museautomation.builtins.plugins.resultstorage.*;
 import org.museautomation.core.suite.*;
 import org.museautomation.core.task.*;
@@ -30,9 +29,10 @@ public class EventLogWriterPlugin extends GenericConfigurablePlugin
 		return true;
 		}
 
-	EventLogWriterPlugin(GenericResourceConfiguration configuration)
+	EventLogWriterPlugin(EventLogWriterConfiguration configuration)
 		{
 		super(configuration);
+        _config = configuration;
 		}
 
 	@Override
@@ -76,26 +76,38 @@ public class EventLogWriterPlugin extends GenericConfigurablePlugin
                 LOG.info("EventWriterBuilder did not find a LocalStorageLocationProvider. Writing files to current directory: " + folder.getAbsolutePath());
                 }
 
-            File json_file = new File(folder, PARTIAL_EVENT_FILE);
-            try
+            if (_config.isLogToJson(_context))
                 {
-                EventLogJsonPrinter printer = new EventLogJsonPrinter(new PrintStream(new FileOutputStream(json_file)));
-                new EventPrintingListener(_context, printer, json_file.getAbsolutePath());
-                }
-            catch (FileNotFoundException e)
-                {
-                LOG.error("Unable to write the JSON event log to " + json_file.getAbsolutePath(), e);
+                File json_file = new File(folder, PARTIAL_EVENT_FILE);
+                try
+                    {
+                    EventLogJsonPrinter printer = new EventLogJsonPrinter(new PrintStream(new FileOutputStream(json_file)));
+                    new EventPrintingListener(_context, printer);
+                    }
+                catch (FileNotFoundException e)
+                    {
+                    LOG.error("Unable to write the JSON event log to " + json_file.getAbsolutePath(), e);
+                    }
                 }
 
-            File text_file = new File(folder, READABLE_EVENT_FILE);
-            try
+            if (_config.isLogToText(_context))
                 {
-                EventLogPlainTextPrinter printer = new EventLogPlainTextPrinter(new PrintStream(new FileOutputStream(text_file)));
-                new EventPrintingListener(_context, printer, text_file.getAbsolutePath());
+                File text_file = new File(folder, READABLE_EVENT_FILE);
+                try
+                    {
+                    EventLogPlainTextPrinter printer = new EventLogPlainTextPrinter(new PrintStream(new FileOutputStream(text_file)));
+                    new EventPrintingListener(_context, printer);
+                    }
+                catch (FileNotFoundException e)
+                    {
+                    LOG.error("Unable to write the plain-text event log to " + text_file.getAbsolutePath(), e);
+                    }
                 }
-            catch (FileNotFoundException e)
+
+            if (_config.isLogToStdout(_context))
                 {
-                LOG.error("Unable to write the plain-text event log to " + text_file.getAbsolutePath(), e);
+                EventLogPlainTextPrinter printer = new EventLogPlainTextPrinter(System.out);
+                new EventPrintingListener(_context, printer);
                 }
 
             _context.removeEventListener(this);  // now that the EventLogPrinters are setup, this listener is no longer needed
@@ -104,15 +116,14 @@ public class EventLogWriterPlugin extends GenericConfigurablePlugin
         private MuseExecutionContext _context;
         }
 
-	class EventPrintingListener implements MuseEventListener, Shuttable
+	static class EventPrintingListener implements MuseEventListener, Shuttable
         {
-        EventPrintingListener(MuseExecutionContext context, EventLogPrinter printer, String target_description)
+        EventPrintingListener(MuseExecutionContext context, EventLogPrinter printer)
             {
             _context = context;
             _context.addEventListener(this);
             _context.registerShuttable(this);
             _printer = printer;
-            _target_description = target_description;
 
             // print all existing events, plus the supplied event
             for (MuseEvent e : context.getEventLog().getEvents())
@@ -141,8 +152,9 @@ public class EventLogWriterPlugin extends GenericConfigurablePlugin
 
         MuseExecutionContext _context;
         EventLogPrinter _printer;
-        String _target_description;
         }
+
+    private EventLogWriterConfiguration _config;
 
 	public final static String TYPE_ID = "event-logger";
 	final static String PARTIAL_EVENT_FILE = "events.json";
