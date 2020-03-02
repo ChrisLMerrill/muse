@@ -1,5 +1,7 @@
 package org.museautomation.core.task;
 
+import com.fasterxml.jackson.annotation.*;
+
 import java.util.*;
 
 /**
@@ -37,11 +39,13 @@ public class TaskInputSet
         _inputs.put(input.getName(), input);
         }
 
+    @JsonIgnore
     public Collection<TaskInput> getInputs()
         {
         return _inputs.values();
         }
 
+    @JsonIgnore
     public Set<String> getInputNames()
         {
         return _inputs.keySet();
