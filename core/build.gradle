@@ -8,8 +8,8 @@ dependencies
     api 'commons-io:commons-io:2.5'
     implementation 'net.sf.opencsv:opencsv:2.3'
 
-    implementation 'ch.qos.logback:logback-classic:1.1.9'
-    implementation 'ch.qos.logback:logback-core:1.1.9'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'ch.qos.logback:logback-core:1.2.3'
 
     // Force use of these specific versions to prevent conflicts from multiple transitive dependencies on different versions.
     implementation('com.google.guava:guava') { version { strictly '25.0-jre'} }
