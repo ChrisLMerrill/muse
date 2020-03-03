@@ -32,7 +32,7 @@ public class CommandLineTaskRunner implements MuseResourceRunner
 
         BasicTaskConfiguration config = new BasicTaskConfiguration(task);
         if (verbose)
-            config.addPlugin(new EventLogWriterPlugin());
+            config.addPlugin(new EventLogWriterPlugin(new EventLogWriterConfiguration()));
         if (output_path != null)
 	        config.addPlugin(new VariableInitializer(SaveTaskResultsToDisk.OUTPUT_FOLDER_VARIABLE_NAME, output_path));
 
