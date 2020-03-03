@@ -26,7 +26,7 @@ class EventLogWriterPluginTests
     void writeEventsAsTheyAreReceived() throws MuseExecutionError, IOException
         {
         MuseExecutionContext context = new DefaultSteppedTaskExecutionContext(new SimpleProject(), new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID)));
-        EventLogWriterPlugin writer = new EventLogWriterPlugin();
+        EventLogWriterPlugin writer = new EventLogWriterPlugin(new EventLogWriterConfiguration());
         context.addPlugin(writer);
         context.addPlugin(new StoragePlugin());
         context.initializePlugins();
@@ -71,7 +71,7 @@ class EventLogWriterPluginTests
         SimpleProject project = new SimpleProject();
         IdListTaskSuite suite = new IdListTaskSuite();
         MuseExecutionContext suite_context = new DefaultTaskSuiteExecutionContext(project, suite);
-        suite_context.addPlugin(new EventLogWriterPlugin());
+        suite_context.addPlugin(new EventLogWriterPlugin(new EventLogWriterConfiguration()));
         suite_context.addPlugin(new StoragePlugin());
         suite_context.initializePlugins();
 
@@ -86,7 +86,7 @@ class EventLogWriterPluginTests
         Assertions.assertTrue(new String(FileUtils.readFileToByteArray(suite_plain_log)).contains("suite-message1"));
 
         MuseExecutionContext test_context = new DefaultSteppedTaskExecutionContext(suite_context, new SteppedTask(new StepConfiguration(LogMessage.TYPE_ID)));
-        EventLogWriterPlugin writer = new EventLogWriterPlugin();
+        EventLogWriterPlugin writer = new EventLogWriterPlugin(new EventLogWriterConfiguration());
         test_context.addPlugin(writer);
         test_context.initializePlugins();
 

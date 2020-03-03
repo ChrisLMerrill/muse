@@ -18,18 +18,13 @@ import java.io.*;
  */
 public class EventLogWriterPlugin extends GenericConfigurablePlugin
 	{
-	public EventLogWriterPlugin()
-		{
-		super(new EventLogWriterConfiguration.EventLogWriterType().create());
-		}
-
 	@Override
 	protected boolean applyToContextType(MuseExecutionContext context)
 		{
 		return true;
 		}
 
-	EventLogWriterPlugin(EventLogWriterConfiguration configuration)
+	public EventLogWriterPlugin(EventLogWriterConfiguration configuration)
 		{
 		super(configuration);
         _config = configuration;
