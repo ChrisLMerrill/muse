@@ -23,11 +23,15 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
 	@Override
 	public List<TaskResultData> getData()
 		{
-		return Collections.singletonList(_result);
+		return Collections.singletonList(getResult());
 		}
 
 	public TaskResult getResult()
 		{
+        String summary = "Test completed successfully";
+        if (_result.getFailures().size() > 0)
+            summary = String.format("Test failed with %d failure(s) and %d error(s).", countFailures(_result, TaskResult.FailureType.Failure), countFailures(_result, TaskResult.FailureType.Error));
+        _result.setSummary(summary);
 		return _result;
 		}
 
@@ -44,45 +48,33 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
 		if (fail_on_interrupt != null)
 			_fail_on_interrupt = fail_on_interrupt;
 
-		context.addEventListener(new MuseEventListener()
-			{
-			@Override
-			public void eventRaised(MuseEvent event)
-				{
-				if (event.getTypeId().equals(StartTaskEventType.TYPE_ID))
-					{
-					_result = new TaskResult();
-					_result.setTaskId(event.getAttributeAsString(StartTaskEventType.TASK_ID));
-					_result.setName(event.getAttributeAsString(StartTaskEventType.TASK_NAME));
-					}
-				else if (event.getTypeId().equals(EndTaskEventType.TYPE_ID))
-					{
-					context.removeEventListener(this);
-					String summary = "Test completed successfully";
-					if (_result.getFailures().size() > 0)
-						summary = String.format("Test failed with %d failure(s) and %d error(s).", countFailures(_result, TaskResult.FailureType.Failure), countFailures(_result, TaskResult.FailureType.Error));
-					_result.setSummary(summary);
-					}
-				else if (event.getTypeId().equals(InterruptedEventType.TYPE_ID) && _fail_on_interrupt)
+		context.addEventListener(event ->
+            {
+            if (event.getTypeId().equals(StartTaskEventType.TYPE_ID))
+                {
+                _result = new TaskResult();
+                _result.setTaskId(event.getAttributeAsString(StartTaskEventType.TASK_ID));
+                _result.setName(event.getAttributeAsString(StartTaskEventType.TASK_NAME));
+                }
+            else if (event.getTypeId().equals(InterruptedEventType.TYPE_ID) && _fail_on_interrupt)
+                {
+                _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Interrupted, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
+                _result.setPass(false);
+                }
+            else
+                {
+                if (event.hasTag(MuseEvent.FAILURE) && _fail_on_failure)
                     {
-                    _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Interrupted, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
+                    _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Failure, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
                     _result.setPass(false);
                     }
-                else
-					{
-					if (event.hasTag(MuseEvent.FAILURE) && _fail_on_failure)
-						{
-						_result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Failure, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
-						_result.setPass(false);
-						}
-					else if (event.hasTag(MuseEvent.ERROR) && _fail_on_error)
-						{
-						_result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Error, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
-						_result.setPass(false);
-						}
-					}
-				}
-			});
+                else if (event.hasTag(MuseEvent.ERROR) && _fail_on_error)
+                    {
+                    _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Error, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
+                    _result.setPass(false);
+                    }
+                }
+            });
 		}
 
 	private int countFailures(TaskResult result, TaskResult.FailureType type)
