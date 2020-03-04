@@ -67,7 +67,7 @@ public class ExtractStatePlugin extends GenericConfigurablePlugin
                 if (value == null)
                     {
                     if (value_def.isRequired())
-                        MessageEventType.raiseError(context, String.format("The value for value %s (output state type %s), is missing but is required for the state.", value_def.getName(), state_def.getDisplayName()));
+                        MessageEventType.raiseError(context, String.format("The value for value %s is missing but is required to build the state (%s).", value_def.getName(), state_def.getId()));
                     }
                 else if (value_def.getType().isInstance(value))
                     state.setValue(value_def.getName(), value);
