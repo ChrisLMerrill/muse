@@ -1,5 +1,6 @@
 package org.museautomation.core.task.state;
 
+import javax.annotation.*;
 import java.util.*;
 
 /**
@@ -8,7 +9,7 @@ import java.util.*;
 public class BasicStateContainer implements StateContainer
     {
     @Override
-    public void addState(InterTaskState state)
+    public void addState(@Nonnull InterTaskState state)
         {
         if (!_states.contains(state))
             {
@@ -19,7 +20,7 @@ public class BasicStateContainer implements StateContainer
         }
 
     @Override
-    public void removeState(InterTaskState state)
+    public void removeState(@Nonnull InterTaskState state)
         {
         if (_states.contains(state))
             {

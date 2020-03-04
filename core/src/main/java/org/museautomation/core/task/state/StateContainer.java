@@ -1,5 +1,8 @@
 package org.museautomation.core.task.state;
 
+import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
 import java.util.*;
 
 /**
@@ -16,7 +19,7 @@ public interface StateContainer
 
     interface StateContainerChangeListener
         {
-        void stateAdded(InterTaskState state);
-        void stateRemoved(InterTaskState state);
+        void stateAdded(@Nonnull InterTaskState state);
+        void stateRemoved(@Nonnull InterTaskState state);
         }
     }

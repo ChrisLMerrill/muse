@@ -28,12 +28,13 @@ public class ExtractStatePlugin extends GenericConfigurablePlugin
     @Override
     public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
-        _states = Plugins.findType(StateContainer.class, context);
-        if (_states == null)
+        StateContainerPlugin plugin = Plugins.findType(StateContainerPlugin.class, context);
+        if (plugin == null)
             {
             MessageEventType.raiseMessageAndThrowError(context, "No StateProvider plugin was found. ExtractStatePlugin is unable to extract context into a state.");
             return;
             }
+        _states = plugin.getContainer();
 
         context.addEventListener(event ->
             {
