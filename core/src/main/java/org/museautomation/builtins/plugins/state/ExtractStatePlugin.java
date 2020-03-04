@@ -28,8 +28,8 @@ public class ExtractStatePlugin extends GenericConfigurablePlugin
     @Override
     public void initialize(MuseExecutionContext context) throws MuseExecutionError
         {
-        _store = Plugins.findType(StateStore.class, context);
-        if (_store == null)
+        _states = Plugins.findType(StateContainer.class, context);
+        if (_states == null)
             {
             MessageEventType.raiseMessageAndThrowError(context, "No StateProvider plugin was found. ExtractStatePlugin is unable to extract context into a state.");
             return;
@@ -75,10 +75,10 @@ public class ExtractStatePlugin extends GenericConfigurablePlugin
                     MessageEventType.raiseError(context, String.format("The value for value %s (output state type %s), is not the expected resource type (%s). Instead it is a %s", value_def.getName(), state_def.getDisplayName(), value_def.getType().getName(), value.getClass().getSimpleName()));
                 }
 
-            _store.addState(state);
+            _states.addState(state);
             }
         }
 
-    private StateStore _store;
+    private StateContainer _states;
     private List<StateDefinition> _state_defs = new ArrayList<>();
     }

@@ -4,13 +4,16 @@ import org.museautomation.core.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.task.state.*;
 
-import java.util.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class StateStorePlugin implements MusePlugin, StateStore
+public class StateContainerPlugin implements MusePlugin
     {
+    public StateContainerPlugin(StateContainer container)
+        {
+        _container = container;
+        }
+
     @Override
     public boolean conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
         {
@@ -25,22 +28,12 @@ public class StateStorePlugin implements MusePlugin, StateStore
 
     public void addState(InterTaskState state)
         {
-        _store.addState(state);
+        _container.addState(state);
         }
 
-    public List<InterTaskState> findStates(String type_id)
+    public StateContainer getContainer()
         {
-        return _store.findStates(type_id);
-        }
-
-    public SimpleStateStore getStore()
-        {
-        return _store;
-        }
-
-    public void setStore(SimpleStateStore store)
-        {
-        _store = store;
+        return _container;
         }
 
     @Override
@@ -52,8 +45,8 @@ public class StateStorePlugin implements MusePlugin, StateStore
     @Override
     public String getId()
         {
-        return "state-provider-plugin";
+        return "state-container-plugin";
         }
 
-    private SimpleStateStore _store = new SimpleStateStore();
+    private StateContainer _container = new BasicStateContainer();
     }

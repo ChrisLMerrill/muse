@@ -89,7 +89,7 @@ class ExtractStatePluginTests
         // create TaskExecutionContext
         _context = new DefaultTaskExecutionContext(_project, _task);
 
-        _state_store = new StateStorePlugin();
+        _state_store = new StateContainerPlugin();
 
         // initialize plugin into context
         _context.addPlugin(_state_store);
@@ -108,5 +108,5 @@ class ExtractStatePluginTests
     private SimpleProject _project;
     private StateDefinition _state_def;
     private InterTaskState _extracted_state;
-    private StateStorePlugin _state_store;
+    private StateContainerPlugin _state_store;
     }
