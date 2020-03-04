@@ -11,9 +11,9 @@ import org.museautomation.core.task.*;
 public class BlockingThreadedTaskRunner extends ThreadedTaskRunner
     {
     @SuppressWarnings("unused,WeakerAccess")  // part of public API
-    public BlockingThreadedTaskRunner(MuseExecutionContext context, TaskConfiguration test)
+    public BlockingThreadedTaskRunner(MuseExecutionContext context, TaskConfiguration task)
         {
-        super(context, test);
+        super(context, task);
         }
 
     @SuppressWarnings("unused,WeakerAccess")  // part of public API
