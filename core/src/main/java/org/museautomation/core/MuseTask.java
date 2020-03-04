@@ -27,8 +27,8 @@ public interface MuseTask extends MuseResource
     void setDefaultVariables(Map<String, ValueSourceConfiguration> default_variables);
     void setDefaultVariable(String name, ValueSourceConfiguration source);
 
-    TaskInputSet getInputs();
-    TaskOutputSet getOutputs();
+    TaskInputSet getInputSet();
+    TaskOutputSet getOutputSet();
     TaskInputStates getInputStates();
     TaskOutputStates getOutputStates();
 
@@ -49,4 +49,3 @@ public interface MuseTask extends MuseResource
             }
         }
     }
-

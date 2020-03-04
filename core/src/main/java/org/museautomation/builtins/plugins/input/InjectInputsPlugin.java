@@ -1,12 +1,10 @@
 package org.museautomation.builtins.plugins.input;
 
-import org.museautomation.builtins.plugins.state.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.resource.generic.*;
-import org.museautomation.core.task.state.*;
 
 import java.util.*;
 
@@ -40,14 +38,14 @@ public class InjectInputsPlugin extends GenericConfigurablePlugin
 //        InputProvider last_chance = null; TODO
         for (InputProvider provider : providers)
             {
-            Map<String, Object> input_values = provider.gatherInputValues(task.getInputs(), context);
+            Map<String, Object> input_values = provider.gatherInputValues(task.getInputSet(), context);
             for (String name : input_values.keySet())
                 {
                 Object value = input_values.get(name);
-                if (task.getInputs().getInput(name).getType().isInstance(value))
+                if (task.getInputSet().getInput(name).getType().isInstance(value))
                     context.setVariable(name, value);
                 else
-                    MessageEventType.raiseWarning(context, String.format("InjectInputsPlugin rejected a value of class '%s' because input '%s' expects type '%s'. The value is %s", value.getClass().getSimpleName(), name, task.getInputs().getInput(name).getType().getName(), value));
+                    MessageEventType.raiseWarning(context, String.format("InjectInputsPlugin rejected a value of class '%s' because input '%s' expects type '%s'. The value is %s", value.getClass().getSimpleName(), name, task.getInputSet().getInput(name).getType().getName(), value));
                 }
             }
         }

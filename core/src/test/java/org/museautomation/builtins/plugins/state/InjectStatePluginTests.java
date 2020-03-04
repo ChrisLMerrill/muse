@@ -62,7 +62,7 @@ class InjectStatePluginTests
         input.setName(name);
         input.setRequired(true);
         input.setType(type);
-        _task.getInputs().getList().add(input);
+        _task.getInputSet().getList().add(input);
         }
 
     void addValueDefToStateDef(String name, MuseValueType type)

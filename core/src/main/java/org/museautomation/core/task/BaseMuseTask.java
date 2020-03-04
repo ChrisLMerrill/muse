@@ -36,8 +36,10 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
     protected abstract boolean executeImplementation(TaskExecutionContext context);
 
     @Override
-    public TaskInputSet getInputs()
+    public TaskInputSet getInputSet()
         {
+        if (_inputs == null)
+            _inputs = new TaskInputSet();
         return _inputs;
         }
 
@@ -47,7 +49,7 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
         }
 
     @Override
-    public TaskOutputSet getOutputs()
+    public TaskOutputSet getOutputSet()
         {
         return _outputs;
         }

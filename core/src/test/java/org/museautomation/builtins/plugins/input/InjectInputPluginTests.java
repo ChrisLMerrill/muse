@@ -2,7 +2,6 @@ package org.museautomation.builtins.plugins.input;
 
 import org.junit.jupiter.api.*;
 import org.museautomation.*;
-import org.museautomation.builtins.plugins.state.*;
 import org.museautomation.builtins.valuetypes.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
@@ -10,10 +9,6 @@ import org.museautomation.core.events.matching.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.steptask.*;
 import org.museautomation.core.task.*;
-import org.museautomation.core.task.state.*;
-
-import java.io.*;
-import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -50,7 +45,7 @@ class InjectInputPluginTests
         input.setName(name);
         input.setRequired(required);
         input.setType(type);
-        _task.getInputs().addInput(input);
+        _task.getInputSet().addInput(input);
         }
 
     void addValueToProvider(String name, Object value)
