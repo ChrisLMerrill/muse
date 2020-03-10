@@ -12,6 +12,7 @@ import org.museautomation.core.task.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("unused")
 public class StatefulTaskRunner
     {
     public StatefulTaskRunner(MuseProject project)
@@ -23,7 +24,8 @@ public class StatefulTaskRunner
         {
         // prep run configuration and state plugins
         TaskConfiguration run_config = new BasicTaskConfiguration(task);
-        run_config.addPlugin(new InputProviderPlugin(provider));
+        if (provider != null)
+            run_config.addPlugin(new InputProviderPlugin(provider));
         run_config.addPlugin(new InjectInputsPlugin(new InjectInputsPluginConfiguration()));
         run_config.addPlugin(new InjectStatePlugin(new InjectStatePluginConfiguration()));
         run_config.addPlugin(new ExtractStatePlugin(new ExtractStatePluginConfiguration()));
@@ -37,10 +39,9 @@ public class StatefulTaskRunner
             return new StatefulTaskResult("failed - unable to find the result!");
         if (task_result.isPass())
             // TODO verify the state was extracted
-            return new StatefulTaskResult("passed");
+            return new StatefulTaskResult();
         else
             return new StatefulTaskResult("failed");
-
         }
 
     public StateContainer getStateContainer()
@@ -58,9 +59,37 @@ public class StatefulTaskRunner
 
     public static class StatefulTaskResult
         {
-        public StatefulTaskResult(String message)
+        StatefulTaskResult()
             {
+            _passed = true;
+            _message = "task completed successfully";
+            }
+
+        StatefulTaskResult(String message)
+            {
+            _passed = false;
             _message = message;
+            }
+
+        public StatefulTaskResult(boolean passed, String message)
+            {
+            _passed = passed;
+            _message = message;
+            }
+
+        public boolean passed()
+            {
+            return _passed;
+            }
+
+        public boolean failed()
+            {
+            return !_passed;
+            }
+
+        public String getMessage()
+            {
+            return _message;
             }
 
         @Override
@@ -69,6 +98,7 @@ public class StatefulTaskRunner
             return _message;
             }
 
-        private String _message;
+        private final String _message;
+        private final boolean _passed;
         }
     }
