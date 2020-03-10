@@ -5,6 +5,7 @@ import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.resource.generic.*;
+import org.museautomation.core.task.*;
 
 import java.util.*;
 
@@ -42,10 +43,13 @@ public class InjectInputsPlugin extends GenericConfigurablePlugin
             for (String name : input_values.keySet())
                 {
                 Object value = input_values.get(name);
-                if (task.getInputSet().getInput(name).getType().isInstance(value))
+                TaskInput input = task.getInputSet().getInput(name);
+                if (input == null)
+                    MessageEventType.raiseError(context, String.format("InjectInputsPlugin received input %s from an input provider, but it is not declared as a task input", name));
+                else if (input.getType().isInstance(value))
                     context.setVariable(name, value);
                 else
-                    MessageEventType.raiseWarning(context, String.format("InjectInputsPlugin rejected a value of class '%s' because input '%s' expects type '%s'. The value is %s", value.getClass().getSimpleName(), name, task.getInputSet().getInput(name).getType().getName(), value));
+                    MessageEventType.raiseWarning(context, String.format("InjectInputsPlugin rejected a value of class '%s' because input '%s' expects type '%s'. The value is %s", value.getClass().getSimpleName(), name, input.getType().getName(), value));
                 }
             }
         }
