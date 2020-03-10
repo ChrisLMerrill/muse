@@ -89,7 +89,7 @@ class ExtractStatePluginTests
         // create TaskExecutionContext
         _context = new DefaultTaskExecutionContext(_project, _task);
 
-        _state_store = new StateContainerPlugin();
+        _state_store = new StateContainerPlugin(new BasicStateContainer());
 
         // initialize plugin into context
         _context.addPlugin(_state_store);
@@ -100,7 +100,7 @@ class ExtractStatePluginTests
         {
         _context.initializePlugins();
         _context.raiseEvent(EndTaskEventType.create());
-        _extracted_state = _state_store.findStates("state_type1").get(0);
+        _extracted_state = _state_store.getContainer().findStates("state_type1").get(0);
         }
 
     private TaskExecutionContext _context;
