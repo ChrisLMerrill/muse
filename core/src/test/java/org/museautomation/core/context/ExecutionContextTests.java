@@ -126,17 +126,48 @@ class ExecutionContextTests
 		suite_context.setVariable(varname, "suiteval");
 		test_context.setVariable(varname, "testval");
 		step_context.setVariable(varname, "stepval");
+		step_context.setVariable("var2", "stepval-into-execution", ContextVariableScope.Execution);
 
 		Assertions.assertEquals("projectval", project_context.getVariable(varname));
 		Assertions.assertEquals("suiteval", suite_context.getVariable(varname));
 		Assertions.assertEquals("testval", test_context.getVariable(varname));
 		Assertions.assertEquals("stepval", step_context.getVariable(varname));
+        Assertions.assertEquals("stepval-into-execution", test_context.getVariable("var2"));
 
 		Assertions.assertEquals("projectval", step_context.getVariable(varname, VariableQueryScope.Project));
 		Assertions.assertEquals("suiteval", step_context.getVariable(varname, VariableQueryScope.Suite));
 		Assertions.assertEquals("testval", step_context.getVariable(varname, VariableQueryScope.Execution));
 		Assertions.assertEquals("stepval", step_context.getVariable(varname, VariableQueryScope.Local));
+
+        Assertions.assertNull(step_context.getVariable("var2", VariableQueryScope.Local));
+		Assertions.assertEquals("stepval-into-execution", step_context.getVariable("var2", VariableQueryScope.Execution));
 		}
+
+    /**
+     * Assures that variables set in a taks without a scoped group will be set into the execution context, rather than the local context.
+     */
+    @Test
+    void variableScopingIntoExecution()
+   		{
+   		MuseExecutionContext project_context = new ProjectExecutionContext(_project);
+   		TaskSuiteExecutionContext suite_context = new DefaultTaskSuiteExecutionContext(project_context, new SimpleTaskSuite());
+   		final StepConfiguration step = new StepConfiguration(LogMessage.TYPE_ID);
+   		SteppedTaskExecutionContext test_context = new DefaultSteppedTaskExecutionContext(suite_context, new SteppedTask(step));
+   		ListOfStepsExecutionContext steps_context = new ListOfStepsExecutionContext(test_context, List.of(step), false, null);
+   		SingleStepExecutionContext step_context = new SingleStepExecutionContext(steps_context, step, false);
+
+   		// ensure the correct values are retrieved from each level
+   		final String varname = "var1";
+   		step_context.setVariable(varname, "stepval");
+
+   		Assertions.assertNull(project_context.getVariable(varname));
+   		Assertions.assertNull(suite_context.getVariable(varname));
+   		Assertions.assertEquals("stepval", test_context.getVariable(varname));
+   		Assertions.assertEquals("stepval", step_context.getVariable(varname));
+
+        Assertions.assertEquals("stepval", test_context.getVariable(varname, VariableQueryScope.Execution));
+        Assertions.assertNull(test_context.getVariable(varname, VariableQueryScope.Local));
+   		}
 
 	@Test
     void createVariable()

@@ -18,7 +18,7 @@ public class StepExecutor
     public StepExecutor(ContainsStep step, StepsExecutionContext context)
         {
         _context = context;
-        _context.getExecutionStack().push(new SingleStepExecutionContext(_context, step.getStep(), true));
+        _context.getExecutionStack().push(new SingleStepExecutionContext(_context, step.getStep(), false));
         }
 
     public void executeAll()

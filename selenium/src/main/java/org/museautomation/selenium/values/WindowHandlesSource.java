@@ -1,7 +1,6 @@
 package org.museautomation.selenium.values;
 
 import org.museautomation.core.*;
-import org.museautomation.core.events.*;
 import org.museautomation.core.values.*;
 import org.museautomation.core.values.descriptor.*;
 import org.museautomation.selenium.*;
@@ -11,16 +10,16 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@MuseTypeId("window-handle")
-@MuseValueSourceName("Window Handle")
+@MuseTypeId("window-handles")
+@MuseValueSourceName("Window Handles")
 @MuseValueSourceTypeGroup("Selenium")
-@MuseValueSourceShortDescription("Get current window handle")
-@MuseValueSourceLongDescription("Returns the handle of the current window/tab")
-@MuseStringExpressionSupportImplementation(LastWindowHandleSource.StringExpressionSupport.class)
-public class LastWindowHandleSource extends BaseSeleniumValueSource
+@MuseValueSourceShortDescription("Get list of all window handles")
+@MuseValueSourceLongDescription("Returns a list of window handles that are currently open.")
+@MuseStringExpressionSupportImplementation(WindowHandlesSource.StringExpressionSupport.class)
+public class WindowHandlesSource extends BaseSeleniumValueSource
     {
     @SuppressWarnings("unused")  // used via reflection
-    public LastWindowHandleSource(ValueSourceConfiguration config, MuseProject project)
+    public WindowHandlesSource(ValueSourceConfiguration config, MuseProject project)
         {
         super(config, project);
         }
@@ -28,18 +27,19 @@ public class LastWindowHandleSource extends BaseSeleniumValueSource
     @Override
     public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
-        return getDriver(context).getWindowHandle();
+        Set<String> set = getDriver(context).getWindowHandles();
+        return List.copyOf(set);
         }
 
-    public final static String TYPE_ID = LastWindowHandleSource.class.getAnnotation(MuseTypeId.class).value();
+    public final static String TYPE_ID = WindowHandlesSource.class.getAnnotation(MuseTypeId.class).value();
 
     public static class StringExpressionSupport extends SimpleWebdriverValueSourceStringExpressionSupport
         {
         public StringExpressionSupport()
             {
-            super(NAME, LastWindowHandleSource.TYPE_ID);
+            super(NAME, WindowHandlesSource.TYPE_ID);
             }
 
-        public final static String NAME = "window";
+        public final static String NAME = "windows";
         }
     }
