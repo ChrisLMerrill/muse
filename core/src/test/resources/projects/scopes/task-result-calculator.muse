@@ -1,0 +1,26 @@
+{
+  "type" : "task-result-collector",
+  "parameters" : {
+    "fail-on-failure" : {
+      "value" : true,
+      "type" : "boolean"
+    },
+    "apply-condition" : {
+      "value" : true,
+      "type" : "boolean"
+    },
+    "fail-on-error" : {
+      "value" : true,
+      "type" : "boolean"
+    },
+    "auto-apply" : {
+      "value" : true,
+      "type" : "boolean"
+    },
+    "fail-on-interrupt" : {
+      "value" : true,
+      "type" : "boolean"
+    }
+  },
+  "tags" : [ ]
+}
