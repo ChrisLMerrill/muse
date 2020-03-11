@@ -43,7 +43,7 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
         return _inputs;
         }
 
-    public void setInputs(TaskInputSet inputs)
+    public void setInputSet(TaskInputSet inputs)
         {
         _inputs = inputs;
         }
@@ -54,7 +54,7 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
         return _outputs;
         }
 
-    public void setOutputs(TaskOutputSet outputs)
+    public void setOutputSet(TaskOutputSet outputs)
         {
         _outputs = outputs;
         }

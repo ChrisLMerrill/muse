@@ -83,7 +83,7 @@ class ExtractStatePluginTests
         // create Task with required input states
         _task = new SteppedTask();
         TaskOutputSet output_set = new TaskOutputSet();
-        _task.setOutputs(output_set);
+        _task.setOutputSet(output_set);
         _task.setOutputStates(new TaskOutputStates(state_type));
 
         // create TaskExecutionContext

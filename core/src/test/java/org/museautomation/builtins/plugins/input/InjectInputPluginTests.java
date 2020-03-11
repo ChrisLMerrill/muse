@@ -61,7 +61,7 @@ class InjectInputPluginTests
         // create Task with required input states
         _task = new SteppedTask();
         TaskInputSet input_set = new TaskInputSet();
-        _task.setInputs(input_set);
+        _task.setInputSet(input_set);
 
         // create TaskExecutionContext
         _context = new DefaultTaskExecutionContext(_project, _task);
