@@ -28,9 +28,9 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
 
 	public TaskResult getResult()
 		{
-        String summary = "Test completed successfully";
+        String summary = "Task completed successfully";
         if (_result.getFailures().size() > 0)
-            summary = String.format("Test failed with %d failure(s) and %d error(s).", countFailures(_result, TaskResult.FailureType.Failure), countFailures(_result, TaskResult.FailureType.Error));
+            summary = String.format("Task failed with %d failure(s) and %d error(s).", countFailures(_result, TaskResult.FailureType.Failure), countFailures(_result, TaskResult.FailureType.Error));
         _result.setSummary(summary);
 		return _result;
 		}
