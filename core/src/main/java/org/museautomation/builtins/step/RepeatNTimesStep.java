@@ -69,7 +69,7 @@ public class RepeatNTimesStep extends BasicCompoundStep
 
     public final static String COUNT_PARAM = "count";
     public final static String COUNT_VARNAME_PARAM = "counter_varname";
-    public final static String COUNT_VARNAME_DEFAULT = "repeat_count";
+    public final static String COUNT_VARNAME_DEFAULT = "_repeat_count";
     public final static String TYPE_ID = RepeatNTimesStep.class.getAnnotation(MuseTypeId.class).value();
     }
 
