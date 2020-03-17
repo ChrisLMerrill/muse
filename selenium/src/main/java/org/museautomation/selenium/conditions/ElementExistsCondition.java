@@ -39,7 +39,7 @@ public class ElementExistsCondition extends BaseElementValueSource
     @Override
     public String getDescription()
         {
-        return "exists(" + getElementSource().getDescription() + ")";
+        return "elementExists(" + getElementSource().getDescription() + ")";
         }
 
     public final static String TYPE_ID = ElementExistsCondition.class.getAnnotation(MuseTypeId.class).value();
