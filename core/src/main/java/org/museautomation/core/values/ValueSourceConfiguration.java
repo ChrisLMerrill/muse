@@ -3,6 +3,7 @@ package org.museautomation.core.values;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 import org.museautomation.builtins.value.*;
+import org.museautomation.builtins.value.collection.*;
 import org.museautomation.core.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resource.*;
@@ -450,8 +451,19 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
 	        config.setType(IntegerValueSource.TYPE_ID);
 	        value = ((Integer) value).longValue();
 	        }
+        else if (value instanceof List)
+	        {
+	        config.setType(ListSource.TYPE_ID);
+	        List list = (List) value;
+            for (int i = 0; i <list.size(); i++)
+                config.addSource(i, forValue(list.get(i)));
+	        return config;
+	        }
         else
+            {
             config.setType(StringValueSource.TYPE_ID);
+            value = value.toString();
+            }
         config.setValue(value);
         return config;
         }

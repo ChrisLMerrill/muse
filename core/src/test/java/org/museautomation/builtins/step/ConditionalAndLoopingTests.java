@@ -17,6 +17,8 @@ import org.museautomation.core.task.*;
 import org.museautomation.core.tests.utils.*;
 import org.museautomation.core.values.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -192,7 +194,7 @@ class ConditionalAndLoopingTests
     @Test
     void testWhileStepX3()
         {
-        TaskResult result = runTest(createLoopTest(0L));
+        TaskResult result = runTest(createWhileTest(0L));
         Assertions.assertTrue(result.isPass());
         EventLog log = _test_config.context().getEventLog();
         Assertions.assertNotNull(log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)), "first message is missing");
@@ -201,7 +203,7 @@ class ConditionalAndLoopingTests
         Assertions.assertNull(log.findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 4)), "this message shouldn't be there");
         }
 
-    private SteppedTask createLoopTest(Object initial_value)
+    private SteppedTask createWhileTest(Object initial_value)
         {
         StepConfiguration main = new StepConfiguration("compound");
 
@@ -234,7 +236,7 @@ class ConditionalAndLoopingTests
     @Test
     void testWhileStepX1()
         {
-        TaskResult result = runTest(createLoopTest(2L));
+        TaskResult result = runTest(createWhileTest(2L));
         Assertions.assertTrue(result.isPass());
         Assertions.assertNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)), "this should not be found");
         Assertions.assertNotNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)), "first message is missing");
@@ -243,7 +245,7 @@ class ConditionalAndLoopingTests
     @Test
     void testWhileStepX0()
         {
-        SteppedTask test = createLoopTest(3L);
+        SteppedTask test = createWhileTest(3L);
         SteppedTaskExecutionContext context = new DefaultSteppedTaskExecutionContext(new SimpleProject(), test);
         context.addPlugin(new TaskResultCollectorConfiguration().createPlugin());
         boolean finished = test.execute(context);
@@ -252,6 +254,56 @@ class ConditionalAndLoopingTests
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isPass());
         Assertions.assertNull(context.getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)), "this should not be found");
+        }
+
+    @Test
+    void testForEachX0()
+        {
+        TaskResult result = runTest(createForEachTest(Collections.emptyList()));
+        Assertions.assertTrue(result.isPass());
+        Assertions.assertNull(_test_config.context().getEventLog().findFirstEvent(new EventTypeMatcher(LogMessage.TYPE_ID)), "no messages should have been logged");
+        }
+
+    @Test
+    void testForEachX1()
+        {
+        TaskResult result = runTest(createForEachTest(Collections.singletonList(7)));
+        Assertions.assertTrue(result.isPass());
+        Assertions.assertNotNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 7)), "first (and only) message is missing");
+        }
+
+    @Test
+    void testForEachX3()
+        {
+        TaskResult result = runTest(createForEachTest(Arrays.asList(1, 2, 3)));
+        Assertions.assertTrue(result.isPass());
+        Assertions.assertNotNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 1)), "first message is missing");
+        Assertions.assertNotNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 2)), "second message is missing");
+        Assertions.assertNotNull(_test_config.context().getEventLog().findFirstEvent(new EventDescriptionMatcher(MESSAGE_PREFIX + 3)), "third message is missing");
+        }
+
+    private SteppedTask createForEachTest(List list)
+        {
+        StepConfiguration main = new StepConfiguration("compound");
+
+        StepConfiguration store_step = new StepConfiguration(StoreVariable.TYPE_ID);
+        store_step.addSource(StoreVariable.NAME_PARAM, ValueSourceConfiguration.forValue(LIST_NAME));
+        store_step.addSource(StoreVariable.VALUE_PARAM, ValueSourceConfiguration.forValue(list));
+        main.addChild(store_step);
+
+        StepConfiguration foreach_step = new StepConfiguration(ForEachStep.TYPE_ID);
+        foreach_step.addSource(ForEachStep.LIST_PARAM, ValueSourceConfiguration.forTypeWithValue(VariableValueSource.TYPE_ID, LIST_NAME));
+        foreach_step.addSource(ForEachStep.ITEM_NAME_PARAM, ValueSourceConfiguration.forValue(ITEM_NAME));
+
+        StepConfiguration log_step = new StepConfiguration(LogMessage.TYPE_ID);
+        ValueSourceConfiguration config = ValueSourceConfiguration.forType(AdditionSource.TYPE_ID);
+        config.addSource(ValueSourceConfiguration.forValue(MESSAGE_PREFIX));
+        config.addSource(ValueSourceConfiguration.forSource(VariableValueSource.TYPE_ID, ValueSourceConfiguration.forValue(ITEM_NAME)));
+        log_step.addSource(LogMessage.MESSAGE_PARAM, config);
+        foreach_step.addChild(log_step);
+
+        main.addChild(foreach_step);
+        return new SteppedTask(main);
         }
 
     private TaskResult runTest(MuseTask test)
@@ -264,5 +316,7 @@ class ConditionalAndLoopingTests
     private TaskConfiguration _test_config;
 
     private final static String COUNTER_NAME = "counter";
+    private final static String LIST_NAME = "list";
+    private final static String ITEM_NAME = "item";
     private final static String MESSAGE_PREFIX = "var=";
     }
