@@ -58,7 +58,9 @@ public class Macro extends BaseMuseResource implements ContainsStep
         public MuseResource create()
             {
             Macro macro = new Macro();
-            macro.setStep(ContainsStep.createStarterStep());
+            StepConfiguration start_step = ContainsStep.createStarterStep();
+            start_step.setType(BasicCompoundStep.TYPE_ID);  // default is a scoped group, but macros should use local scope for varaibles
+            macro.setStep(start_step);
             return macro;
             }
         }
