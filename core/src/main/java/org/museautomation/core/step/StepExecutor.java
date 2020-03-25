@@ -48,6 +48,8 @@ public class StepExecutor
 
         StepExecutionContext step_context = _context.getExecutionStack().peek();
         StepConfiguration step_config = step_context.getCurrentStepConfiguration();
+        if (step_config == null)
+            return false;
         if (!(_steps_in_progress.contains(step_config)))
             {
             _steps_in_progress.add(step_config);
