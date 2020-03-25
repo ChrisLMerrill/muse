@@ -55,14 +55,15 @@ public class ForEachStep extends BasicCompoundStep
     @Override
     protected void beforeChildrenExecuted(StepExecutionContext context) throws MuseExecutionError
         {
-        context.setVariable(_name, _iterator.next());
         super.beforeChildrenExecuted(context);
+        context.setVariable(_name, _iterator.next());
         }
 
     @Override
-    protected boolean isCreateNewVariableScope()
+    protected void afterChildrenExecuted(StepExecutionContext context) throws MuseExecutionError
         {
-        return true;
+        super.afterChildrenExecuted(context);
+        context.setVariable(_name, null);
         }
 
     private MuseValueSource _list_source;
