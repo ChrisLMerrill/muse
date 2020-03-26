@@ -29,23 +29,18 @@ public class OrValueSource extends BaseValueSource
     @Override
     public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
-        List<Object> values = getValues(context, _sources);
-        for (Object value : values)
-            if (value instanceof Boolean)
+        boolean result = false;
+        for (MuseValueSource source : _sources)
+            {
+            Boolean value = getValue(source, context, false, Boolean.class);
+            if (value)
                 {
-                if ((Boolean)value)
-                    {
-                    context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), Boolean.TRUE));
-                    return Boolean.TRUE;
-                    }
+                result = true;
+                break;
                 }
-            else
-                {
-                if (value == null)
-                    throw new ValueSourceResolutionError("Expected the sub-source to resolve to a boolean. Instead, it is null");
-                throw new ValueSourceResolutionError(String.format("Expected the sub-source to resolve to a boolean. Instead, got: %s (which is a %s)", value.toString(), value.getClass().getSimpleName()));
-                }
-        return Boolean.FALSE;
+            }
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), result));
+        return result;
         }
 
     private MuseValueSource[] _sources;
