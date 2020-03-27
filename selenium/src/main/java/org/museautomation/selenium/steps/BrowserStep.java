@@ -19,7 +19,7 @@ public abstract class BrowserStep extends BaseStep
         super(configuration);
         }
 
-    protected static WebDriver getDriver(StepExecutionContext context) throws ValueSourceResolutionError
+    public static WebDriver getDriver(StepExecutionContext context) throws ValueSourceResolutionError
         {
         return BrowserStepExecutionContext.getDriver(context);
         }
@@ -35,7 +35,7 @@ public abstract class BrowserStep extends BaseStep
      * @throws StepExecutionError If the source resolves to null or the wrong type
      */
     @SuppressWarnings("WeakerAccess")  // API available to external users
-    protected WebElement getElement(MuseValueSource locator_source, StepExecutionContext context) throws MuseExecutionError
+    protected static WebElement getElement(MuseValueSource locator_source, StepExecutionContext context) throws MuseExecutionError
         {
         Object element = locator_source.resolveValue(context);
         if (element == null)

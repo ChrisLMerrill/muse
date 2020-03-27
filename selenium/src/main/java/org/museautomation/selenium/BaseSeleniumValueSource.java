@@ -18,4 +18,9 @@ public abstract class BaseSeleniumValueSource extends BaseValueSource
         {
         return BrowserStepExecutionContext.getDriver(context);
         }
+
+    protected SearchContext getSearchContext(MuseExecutionContext context) throws ValueSourceResolutionError
+        {
+        return BrowserStepExecutionContext.getSearchContext(context);
+        }
     }

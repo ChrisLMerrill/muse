@@ -41,13 +41,13 @@ public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSourc
 
             if (multiple)
                 {
-                List<WebElement> elements = getDriver(context).findElements(by);
+                List<WebElement> elements = getSearchContext(context).findElements(by);
                 context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), elements.size() + " elements found"));
                 return elements;
                 }
             else
                 {
-                WebElement element = getDriver(context).findElement(by);
+                WebElement element = getSearchContext(context).findElement(by);
                 context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), element));
                 return element;
                 }
