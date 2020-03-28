@@ -5,7 +5,10 @@ import org.museautomation.builtins.plugins.state.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.execution.*;
+import org.museautomation.core.plugins.*;
 import org.museautomation.core.task.*;
+
+import java.util.*;
 
 /**
  * Runs tasks in the context of a StateContainer and InputProviders
@@ -24,6 +27,8 @@ public class StatefulTaskRunner
         {
         // prep run configuration and state plugins
         TaskConfiguration run_config = new BasicTaskConfiguration(task);
+        for (MusePlugin plugin : _plugins)
+            run_config.addPlugin(plugin);
         if (provider != null)
             run_config.addPlugin(new InputProviderPlugin(provider));
         run_config.addPlugin(new InjectInputsPlugin(new InjectInputsPluginConfiguration()));
@@ -54,7 +59,13 @@ public class StatefulTaskRunner
         _states = container;
         }
 
+    public void addPlugin(MusePlugin plugin)
+        {
+        _plugins.add(plugin);
+        }
+
     private MuseProject _project;
+    private List<MusePlugin> _plugins = new ArrayList<>();
     private StateContainer _states = new BasicStateContainer();
 
     public static class StatefulTaskResult
