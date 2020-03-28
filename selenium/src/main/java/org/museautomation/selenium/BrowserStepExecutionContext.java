@@ -76,6 +76,7 @@ public class BrowserStepExecutionContext
         return search;
         }
 
-    private final static String DEFAULT_DRIVER_VARIABLE_NAME = "_webdriver";
+    @SuppressWarnings("WeakerAccess")  // public API
+    public final static String DEFAULT_DRIVER_VARIABLE_NAME = "_webdriver";
     private final static String DEFAULT_SEARCH_STACK_VARIABLE_NAME = "_search_stack";
     }
