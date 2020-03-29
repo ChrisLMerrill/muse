@@ -21,7 +21,7 @@ import java.util.*;
 @MuseStepTypeGroup("Conditionals & Looping")
 @MuseStepShortDescription("For each item in the list, iterate the loop, setting a variable (name) to the item.")
 @MuseStepLongDescription("The 'condition' source is resolved evaluated as a boolean. If true, the child steps will be executed. After they are executed, the source will be evaluated again. This repeats until the 'condition' source resolves to false.")
-@MuseSubsourceDescriptor(displayName = "List", description = "List to iterate (expects List or Array)", type = SubsourceDescriptor.Type.Named, name = ForEachStep.LIST_PARAM, defaultValue = "[1, 2, 3]")
+@MuseSubsourceDescriptor(displayName = "List", description = "List to iterate (expects List or Array)", type = SubsourceDescriptor.Type.Named, name = ForEachStep.LIST_PARAM, defaultValue = "a list or arrray, such as [1, 2, 3]")
 @MuseSubsourceDescriptor(displayName = "Item Name", description = "Name of variable to set the item into.", type = SubsourceDescriptor.Type.Named, name = ForEachStep.ITEM_NAME_PARAM, defaultValue = "index")
 public class ForEachStep extends BasicCompoundStep
     {
