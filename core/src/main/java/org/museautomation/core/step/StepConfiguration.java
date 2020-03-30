@@ -3,6 +3,7 @@ package org.museautomation.core.step;
 import com.fasterxml.jackson.annotation.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.core.*;
+import org.museautomation.core.metadata.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.step.descriptor.*;
@@ -227,6 +228,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 				_children.remove(i);
 				index = i;
 				notifyListeners(new ChildRemovedEvent(this, child, i));
+				break;
 				}
 		if (_children.size() == 0)
 			_children = null;
@@ -297,72 +299,6 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 			return null;
 			}
 		return ((Number) value).longValue();
-		}
-
-	@Override
-	public boolean hasTag(String tag)
-		{
-		return getTags().contains(tag);
-		}
-
-	@JsonIgnore
-	@Override
-	public Set<String> getTags()
-		{
-		Object meta = getMetadataField(META_TAGS);
-		if (meta instanceof Set)
-			return (Set) meta;
-		else if (meta instanceof List)
-			{
-			HashSet tags = new HashSet((List) meta);
-			_metadata.setMetadataField(META_TAGS, tags);  // go direct - don't notify listeners.
-			return tags;
-			}
-		else
-			return Collections.emptySet();
-		}
-
-	@Override
-	public boolean addTag(String tag)
-		{
-		Set<String> tags = getTags();
-		if (tags.contains(tag))
-			return false;
-		if (tags.isEmpty())
-			{
-			tags = new HashSet<>();
-			tags.add(tag);
-			setMetadataField(META_TAGS, tags);
-			}
-		else
-			{
-			tags.add(tag);
-			notifyListeners(new MetadataChangeEvent(this, META_TAGS, null, tag));
-			}
-		return true;
-		}
-
-	@Override
-	public boolean removeTag(String tag)
-		{
-		Set<String> tags = getTags();
-		if (tags.contains(tag))
-			{
-			tags.remove(tag);
-			if (tags.isEmpty())
-				removeMetadataField(META_TAGS);
-			else
-				notifyListeners(new MetadataChangeEvent(this, META_TAGS, tag, null));
-			return true;
-			}
-		return false;
-		}
-
-	@JsonIgnore
-	@Override
-	public void setTags(Set<String> tags)
-		{
-		setMetadataField(META_TAGS, tags);
 		}
 
 	public StepConfiguration findParentOf(StepConfiguration target)
@@ -453,7 +389,7 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 
     private void notifyListeners(ChangeEvent event)
         {
-        for (ChangeEventListener listener : getListeners().toArray(new ChangeEventListener[getListeners().size()]))
+        for (ChangeEventListener listener : getListeners().toArray(new ChangeEventListener[0]))
             listener.changeEventRaised(event);
         }
 
@@ -467,10 +403,17 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
         return getListeners().remove(listener);
         }
 
+    @Override
+    public TagContainer tags()
+        {
+        return _tags;
+        }
+
     private String _step_type;
     private Map<String, ValueSourceConfiguration> _sources = null;
     private List<StepConfiguration> _children = null;
     private MetadataContainer _metadata = new MetadataContainer(this, this::notifyListeners);
+    private TagContainer _tags = new MetadataTagContainer(_metadata);
 
     private transient Set<ChangeEventListener> _listeners;
 

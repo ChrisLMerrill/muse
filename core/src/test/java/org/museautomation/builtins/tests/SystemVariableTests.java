@@ -66,7 +66,7 @@ class SystemVariableTests
         {
         MuseTask test = new MockTask();
         final String tag = UUID.randomUUID().toString();
-        test.addTag(tag);
+        test.tags().addTag(tag);
 
         MuseProject project = new SimpleProject();
         Object test_var = project.getSystemVariableProviders().resolve(TaskVariableProvider.SYSVAR_NAME, new DefaultTaskExecutionContext(project, test));
@@ -98,7 +98,7 @@ class SystemVariableTests
         CommandLineOptionSysvarProvider provider = new CommandLineOptionSysvarProvider();
         Object resolved = provider.resolve("clo", new DefaultTaskExecutionContext(project, new MockTask()));
         Assertions.assertTrue(resolved instanceof Map);
-        Assertions.assertEquals(((Map) resolved).get(name), value);
+        Assertions.assertEquals(((Map<String,String>) resolved).get(name), value);
         }
 
     @Test

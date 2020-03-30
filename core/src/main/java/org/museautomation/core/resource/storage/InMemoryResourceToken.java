@@ -1,17 +1,16 @@
 package org.museautomation.core.resource.storage;
 
 import org.museautomation.core.*;
+import org.museautomation.core.metadata.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.types.*;
 import org.museautomation.core.util.*;
-
-import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 
-public class InMemoryResourceToken implements ResourceToken
+public class InMemoryResourceToken implements ResourceToken<MuseResource>
     {
     public InMemoryResourceToken(MuseResource resource)
         {
@@ -45,33 +44,9 @@ public class InMemoryResourceToken implements ResourceToken
         }
 
     @Override
-    public Set<String> getTags()
+    public TagContainer tags()
         {
-        return _resource.getTags();
-        }
-
-    @Override
-    public void setTags(Set<String> tags)
-        {
-        throw new UnsupportedOperationException("Cannot modify the tags of a resource via a ResourceToken");
-        }
-
-    @Override
-    public boolean addTag(String tag)
-        {
-        throw new UnsupportedOperationException("Cannot modify the tags of a resource via a ResourceToken");
-        }
-
-    @Override
-    public boolean removeTag(String tag)
-        {
-        throw new UnsupportedOperationException("Cannot modify the tags of a resource via a ResourceToken");
-        }
-
-    @Override
-    public boolean hasTag(String tag)
-        {
-        return _resource.hasTag(tag);
+        return _resource.tags();
         }
 
     @Override
@@ -91,5 +66,3 @@ public class InMemoryResourceToken implements ResourceToken
 
     private final MuseResource _resource;
     }
-
-

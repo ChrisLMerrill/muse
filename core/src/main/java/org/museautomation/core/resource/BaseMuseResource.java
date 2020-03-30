@@ -1,6 +1,7 @@
 package org.museautomation.core.resource;
 
 import org.museautomation.core.*;
+import org.museautomation.core.metadata.*;
 import org.museautomation.core.util.*;
 
 import java.util.*;
@@ -22,37 +23,30 @@ public abstract class BaseMuseResource implements MuseResource
         _id = id;
         }
 
-    @Override
+    /**
+     * ONLY for serialization use!
+     *
+     * Exposes the underlying set for serialization purposes only. Use #tags for accessing the tags
+     */
     public Set<String> getTags()
         {
-        return Collections.unmodifiableSet(_tags);
+        return _tags.getTags();
         }
 
-    @Override
+    /**
+     * ONLY for serialization use!
+     *
+     * Exposes the underlying set for serialization purposes only. Use #tags for accessing the tags
+     */
     public void setTags(Set<String> tags)
         {
-        _tags = tags;
+        _tags = new HashSetTagContainer(tags);
         }
 
     @Override
-    public boolean addTag(String tag)
+    public TagContainer tags()
         {
-        if (_tags.contains(tag))
-            return false;
-        _tags.add(tag);
-        return true;
-        }
-
-    @Override
-    public boolean removeTag(String tag)
-        {
-        return _tags.remove(tag);
-        }
-
-    @Override
-    public boolean hasTag(String tag)
-        {
-        return _tags.contains(tag);
+        return _tags;
         }
 
     @Override
@@ -62,16 +56,20 @@ public abstract class BaseMuseResource implements MuseResource
 	    }
 
     /**
-     * Expose the underlying metadata map for serialization purposes only. Use #metadata for accessing the metadata
+     * ONLY for serialization use!
+     *
+     * Exposes the underlying metadata map for serialization purposes only. Use #metadata for accessing the metadata
      */
     public Map<String, Object> getMetadata() { return _metadata.getMap(); }
 
     /**
-     * Expose the underlying metadata map for serialization purposes only. Use #metadata for accessing the metadata
+     * ONLY for serialization use!
+     *
+     * Exposes the underlying metadata map for serialization purposes only. Use #metadata for accessing the metadata
      */
     public void setMetadata(Map<String, Object> map) { _metadata.setMap(map); }
 
     private String _id;
-    private Set<String> _tags = new HashSet<>();
     private MetadataContainer _metadata = new MetadataContainer();
+    private HashSetTagContainer _tags = new HashSetTagContainer();
     }

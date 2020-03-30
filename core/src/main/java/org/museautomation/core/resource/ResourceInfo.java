@@ -1,6 +1,7 @@
 package org.museautomation.core.resource;
 
 import com.fasterxml.jackson.annotation.*;
+import org.museautomation.core.metadata.*;
 import org.museautomation.core.resource.types.*;
 import org.museautomation.core.util.*;
 

@@ -95,9 +95,9 @@ class StepConfigurationTests
         StepConfiguration config = new StepConfiguration(LogMessage.TYPE_ID);
         config.setMetadataField(StepConfiguration.META_DESCRIPTION, description1);
 
-        AtomicReference<String> changed_name = new AtomicReference(null);
-        AtomicReference<Object> changed_old_value = new AtomicReference(null);
-        AtomicReference<Object> changed_new_value = new AtomicReference(null);
+        AtomicReference<String> changed_name = new AtomicReference<>(null);
+        AtomicReference<Object> changed_old_value = new AtomicReference<>(null);
+        AtomicReference<Object> changed_new_value = new AtomicReference<>(null);
 
         config.addChangeListener(new StepChangeObserver()
             {
@@ -125,10 +125,10 @@ class StepConfigurationTests
         final ValueSourceConfiguration new_source = ValueSourceConfiguration.forValue("new message");
         config.addSource(LogMessage.MESSAGE_PARAM, old_source);
 
-        AtomicReference<String> changed_name = new AtomicReference(null);
-        AtomicReference<ValueSourceConfiguration> replaced_old_source = new AtomicReference(null);
-        AtomicReference<ValueSourceConfiguration> replaced_new_source = new AtomicReference(null);
-        AtomicReference<ValueSourceConfiguration> removed_source = new AtomicReference(null);
+        AtomicReference<String> changed_name = new AtomicReference<>(null);
+        AtomicReference<ValueSourceConfiguration> replaced_old_source = new AtomicReference<>(null);
+        AtomicReference<ValueSourceConfiguration> replaced_new_source = new AtomicReference<>(null);
+        AtomicReference<ValueSourceConfiguration> removed_source = new AtomicReference<>(null);
 
         config.addChangeListener(new NamedSourceChangeObserver()
             {
@@ -351,35 +351,35 @@ class StepConfigurationTests
         StepConfiguration step = new StepConfiguration("step-type");
         final String tag1 = "tagname";
 
-        Assertions.assertFalse(step.hasTag(tag1), "step should not initially have any tags");
+        Assertions.assertFalse(step.tags().hasTag(tag1), "step should not initially have any tags");
 
-        boolean added = step.addTag(tag1);
+        boolean added = step.tags().addTag(tag1);
         Assertions.assertTrue(added, "tag was not added");
-        Assertions.assertTrue(step.hasTag(tag1), "tag was not added");
+        Assertions.assertTrue(step.tags().hasTag(tag1), "tag was not added");
 
-        boolean added_dup = step.addTag(tag1);
+        boolean added_dup = step.tags().addTag(tag1);
         Assertions.assertFalse(added_dup, "duplicate tag was allowed");
-        Assertions.assertEquals(1, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size(), "duplicate tag was allowed");
+        Assertions.assertEquals(1, ((Set<String>) step.getMetadata().get(StepConfiguration.META_TAGS)).size(), "duplicate tag was allowed");
 
-        boolean removed = step.removeTag(tag1);
+        boolean removed = step.tags().removeTag(tag1);
         Assertions.assertTrue(removed, "tag was not removed");
-        Assertions.assertFalse(step.hasTag(tag1), "tag was not removed");
+        Assertions.assertFalse(step.tags().hasTag(tag1), "tag was not removed");
 
-        boolean removed_again = step.removeTag(tag1);
+        boolean removed_again = step.tags().removeTag(tag1);
         Assertions.assertFalse(removed_again, "can't remove a tag that isn't there");
 
         final String tag2 = "tagname2";
-        step.addTag(tag1);
-        step.addTag(tag2);
-        Assertions.assertTrue(step.hasTag(tag1),  "tag1 was not added");
-        Assertions.assertTrue(step.hasTag(tag2), "tag2 was not added");
-        Assertions.assertEquals(2, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size(), "should be 2 entries in list");
-        step.removeTag(tag1);
-        Assertions.assertFalse(step.hasTag(tag1), "tag1 was not removed");
-        Assertions.assertTrue(step.hasTag(tag2), "tag2 was removed");
-        Assertions.assertEquals(1, ((Set) step.getMetadata().get(StepConfiguration.META_TAGS)).size(), "should be 1 tag in list");
-        step.removeTag(tag2);
-        Assertions.assertFalse(step.hasTag(tag2), "tag2 was not removed");
+        step.tags().addTag(tag1);
+        step.tags().addTag(tag2);
+        Assertions.assertTrue(step.tags().hasTag(tag1),  "tag1 was not added");
+        Assertions.assertTrue(step.tags().hasTag(tag2), "tag2 was not added");
+        Assertions.assertEquals(2, ((Set<String>) step.getMetadata().get(StepConfiguration.META_TAGS)).size(), "should be 2 entries in list");
+        step.tags().removeTag(tag1);
+        Assertions.assertFalse(step.tags().hasTag(tag1), "tag1 was not removed");
+        Assertions.assertTrue(step.tags().hasTag(tag2), "tag2 was removed");
+        Assertions.assertEquals(1, ((Set<String>) step.getMetadata().get(StepConfiguration.META_TAGS)).size(), "should be 1 tag in list");
+        step.tags().removeTag(tag2);
+        Assertions.assertFalse(step.tags().hasTag(tag2), "tag2 was not removed");
         Assertions.assertTrue(step.getMetadata() == null || step.getMetadata().get(StepConfiguration.META_TAGS) == null, "list should be null");
         }
 

@@ -46,7 +46,7 @@ public class TaskVariableProvider implements SystemVariableProvider
 
         public Set<String> getTags()
             {
-            return _task.getTags();
+            return _task.tags().getTags();
             }
 
         public String getId()
@@ -57,5 +57,3 @@ public class TaskVariableProvider implements SystemVariableProvider
         private MuseTask _task;
         }
     }
-
-
