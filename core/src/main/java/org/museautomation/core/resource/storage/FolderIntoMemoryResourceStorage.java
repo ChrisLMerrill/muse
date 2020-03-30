@@ -97,8 +97,8 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
                 for (MuseResource resource : resources)
                     {
                     // These always override whatever was stored for these attributes
-                    resource.metadata().setMetadataField("path", path);
-                    resource.metadata().setMetadataField("filename", file.getName());
+                    resource.metadata().setMetadataField(PATH_ATTRIBUTE_NAME, path);
+                    resource.metadata().setMetadataField(FILENAME_ATTRIBUTE_NAME, file.getName());
 
                     super.addResource(resource);  // don't call the local add() method...that is for adding new resources.
                     _origins.put(resource, origin);
@@ -313,6 +313,9 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
     private List<String> _packages = new ArrayList<>();
     private ClassLoader _class_loader = null;
     private Map<MuseResource, ResourceOrigin> _origins = new HashMap<>();
+
+    public final static String PATH_ATTRIBUTE_NAME = "_path";
+    public final static String FILENAME_ATTRIBUTE_NAME = "_filename";
 
     private final static Logger LOG = LoggerFactory.getLogger(FolderIntoMemoryResourceStorage.class);
     }
