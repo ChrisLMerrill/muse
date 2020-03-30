@@ -17,8 +17,8 @@ public class Plugins
 	public static List<MusePlugin> setup(MuseExecutionContext context)
 		{
 		List<MusePlugin> applied_plugins = new ArrayList<>();
-        final List<ResourceToken> resources = context.getProject().getResourceStorage().findResources(new ResourceQueryParameters(new PluginConfiguration.PluginConfigurationResourceType()));
-        for (ResourceToken resource : resources)
+        final List<ResourceToken<MuseResource>> resources = context.getProject().getResourceStorage().findResources(new ResourceQueryParameters(new PluginConfiguration.PluginConfigurationResourceType()));
+        for (ResourceToken<MuseResource> resource : resources)
 	        {
 	        final MusePlugin plugin = ((PluginConfiguration) resource.getResource()).createPlugin();
 	        try
@@ -60,5 +60,3 @@ public class Plugins
 
     private final static Logger LOG = LoggerFactory.getLogger(Plugins.class);
     }
-
-

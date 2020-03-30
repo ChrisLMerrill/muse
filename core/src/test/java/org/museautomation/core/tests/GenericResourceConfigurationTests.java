@@ -27,11 +27,11 @@ class GenericResourceConfigurationTests
 	    project.getResourceStorage().addResource(config);
 
 	    // find by ID
-		final ResourceToken found_by_id = project.getResourceStorage().findResource("testMRC1");
+		final ResourceToken<MuseResource> found_by_id = project.getResourceStorage().findResource("testMRC1");
 		Assertions.assertEquals(config, found_by_id.getResource());
 
 		// find by type
-		final List<ResourceToken> found_by_type = project.getResourceStorage().findResources(new ResourceQueryParameters(config.getType()));
+		final List<ResourceToken<MuseResource>> found_by_type = project.getResourceStorage().findResources(new ResourceQueryParameters(config.getType()));
 		Assertions.assertEquals(config, found_by_type.get(0).getResource());
 		}
 

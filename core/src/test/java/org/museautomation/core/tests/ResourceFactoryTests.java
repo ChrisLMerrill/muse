@@ -33,7 +33,7 @@ class ResourceFactoryTests
         task.setId("task1");
         store.loadResource(new MockResourceOrigin(task));
 
-        final List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTask.TaskResourceType()));
+        final List<ResourceToken<MuseResource>> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTask.TaskResourceType()));
         Assertions.assertEquals(1, resources.size());
         Assertions.assertEquals("task1", resources.get(0).getId());
         }
@@ -66,5 +66,3 @@ class ResourceFactoryTests
         Assertions.assertEquals("data2.2" , table.getDataRow(1)[1]);
         }
     }
-
-

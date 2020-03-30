@@ -15,7 +15,6 @@ import java.util.*;
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-@SuppressWarnings("unchecked")
 public class StepDescriptors
     {
     public StepDescriptors(MuseProject project)
@@ -70,7 +69,7 @@ public class StepDescriptors
     private void load()
         {
         List<Class<? extends MuseStep>> implementors = new TypeLocator(_project).getImplementors(MuseStep.class);
-        for (Class step_class : implementors)
+        for (Class<? extends MuseStep> step_class : implementors)
             {
             StepDescriptor descriptor = loadByClass(step_class);
             _descriptors_by_class.put(step_class, descriptor);
@@ -79,7 +78,7 @@ public class StepDescriptors
             }
 
         // find descriptors for scripted steps
-        List<ResourceToken> tokens = _project.getResourceStorage().findResources(new ResourceQueryParameters(new JavascriptStepResource.JavascriptStepResourceType()));
+        List<ResourceToken<MuseResource>> tokens = _project.getResourceStorage().findResources(new ResourceQueryParameters(new JavascriptStepResource.JavascriptStepResourceType()));
         List<MuseResource> scripted_steps = _project.getResourceStorage().getResources(tokens);
         for (MuseResource step : scripted_steps)
              {
@@ -125,10 +124,8 @@ public class StepDescriptors
     private MuseProject _project;
 
     private Map<String, StepDescriptor> _descriptors_by_type = new HashMap<>();
-    private Map<Class, StepDescriptor> _descriptors_by_class = new HashMap<>();
+    private Map<Class<? extends MuseStep>, StepDescriptor> _descriptors_by_class = new HashMap<>();
     private Set<StepDescriptor> _all_descriptors = new HashSet<>();
 
     private final static Logger LOG = LoggerFactory.getLogger(StepDescriptors.class);
     }
-
-

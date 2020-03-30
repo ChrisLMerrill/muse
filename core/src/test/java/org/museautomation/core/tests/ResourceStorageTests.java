@@ -45,7 +45,7 @@ class ResourceStorageTests
         Assertions.assertNotNull(resource);
         Assertions.assertEquals(test1, resource, "should find the right resource");
 
-        ResourceToken<MuseTask> token = project.getResourceStorage().findResource("test2");
+        ResourceToken<MuseResource> token = project.getResourceStorage().findResource("test2");
         Assertions.assertNotNull(token);
         Assertions.assertEquals(test2, token.getResource(), "token doesn't have the right resource");
         }
@@ -63,7 +63,7 @@ class ResourceStorageTests
         test.setId("Test2");
         project.getResourceStorage().addResource(test);
 
-        List<ResourceToken> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTask.TaskResourceType()));
+        List<ResourceToken<MuseResource>> resources = project.getResourceStorage().findResources(new ResourceQueryParameters(new MuseTask.TaskResourceType()));
         Assertions.assertEquals(2, resources.size(), "Should find 2 resources");
         Assertions.assertTrue(resources.get(0).getId().equals("Test1") ^ resources.get(1).getId().equals("Test1"), "Should find one resource with id 'Test1'");
         Assertions.assertTrue(resources.get(0).getId().equals("Test2") ^ resources.get(1).getId().equals("Test2"), "Should find one resource with id 'Test2'");
@@ -76,18 +76,18 @@ class ResourceStorageTests
         MuseTask test = new MockTask();
         test.setId("Test1");
 
-        AtomicReference<ResourceToken> resource_added = new AtomicReference(null);
-        AtomicReference<ResourceToken> resource_removed = new AtomicReference(null);
+        AtomicReference<ResourceToken<MuseResource>> resource_added = new AtomicReference<>(null);
+        AtomicReference<ResourceToken<MuseResource>> resource_removed = new AtomicReference<>(null);
         ProjectResourceListener listener = new ProjectResourceListener()
             {
             @Override
-            public void resourceAdded(ResourceToken added)
+            public void resourceAdded(ResourceToken<MuseResource> added)
                 {
                 resource_added.set(added);
                 }
 
             @Override
-            public void resourceRemoved(ResourceToken removed)
+            public void resourceRemoved(ResourceToken<MuseResource> removed)
                 {
                 resource_removed.set(removed);
                 }
@@ -136,5 +136,3 @@ class ResourceStorageTests
         Assertions.assertFalse(new FilenameValidator().isValid("test<1>"), "bad filename would have been accepted");
         }
     }
-
-
