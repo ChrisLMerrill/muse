@@ -28,7 +28,7 @@ public class InMemoryResourceStorage implements ResourceStorage
         }
 
     @Override
-    public ResourceToken addResource(MuseResource resource) throws IOException
+    public ResourceToken<MuseResource> addResource(MuseResource resource) throws IOException
         {
         if (getResource(resource.getId()) != null)
             throw new IllegalArgumentException("Resource with already exists with the same ID: " + resource.getId());
@@ -43,7 +43,7 @@ public class InMemoryResourceStorage implements ResourceStorage
         }
 
     @Override
-    public boolean removeResource(ResourceToken token)
+    public boolean removeResource(ResourceToken<MuseResource> token)
         {
         MuseResource resource = getResource(token.getId());
         if (resource == null)
@@ -74,9 +74,9 @@ public class InMemoryResourceStorage implements ResourceStorage
         }
 
     @Override
-    public List<ResourceToken> findResources(ResourceQueryParameters attributes)
+    public List<ResourceToken<MuseResource>> findResources(ResourceQueryParameters attributes)
         {
-        List<ResourceToken> matches = new ArrayList<>();
+        List<ResourceToken<MuseResource>> matches = new ArrayList<>();
         for (MuseResource resource : _resources)
             {
             if (attributes.getTypes().size() == 0 || attributes.getTypes().contains(resource.getType()) || (resource.getType().isSubtype() && attributes.getTypes().contains(((ResourceSubtype)resource.getType()).getParentType())))
@@ -89,9 +89,9 @@ public class InMemoryResourceStorage implements ResourceStorage
         }
 
     @Override
-    public ResourceToken findResource(String id)
+    public ResourceToken<MuseResource> findResource(String id)
         {
-        List<ResourceToken> tokens = findResources(new ResourceQueryParameters(id));
+        List<ResourceToken<MuseResource>> tokens = findResources(new ResourceQueryParameters(id));
         if (tokens.size() == 0)
             return null;
         else if (tokens.size() == 1)
@@ -101,10 +101,10 @@ public class InMemoryResourceStorage implements ResourceStorage
         }
 
     @Override
-    public <T extends MuseResource> List<T> getResources(List<ResourceToken> tokens, Class<T> implementing_class)
+    public <T extends MuseResource> List<T> getResources(List<ResourceToken<MuseResource>> tokens, Class<T> implementing_class)
         {
         List<T> resources = new ArrayList<>();
-        for (ResourceToken token : tokens)
+        for (ResourceToken<MuseResource> token : tokens)
             {
             MuseResource resource = getResource(token.getId());
             if (implementing_class.isInstance(resource))
@@ -145,10 +145,10 @@ public class InMemoryResourceStorage implements ResourceStorage
         }
 
     @Override
-    public List<MuseResource> getResources(List<ResourceToken> tokens)
+    public List<MuseResource> getResources(List<ResourceToken<MuseResource>> tokens)
         {
         List<MuseResource> resources = new ArrayList<>();
-        for (ResourceToken token : tokens)
+        for (ResourceToken<MuseResource> token : tokens)
             resources.add(getResource(token));
         return resources;
         }

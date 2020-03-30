@@ -45,7 +45,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
      * Add a new resource.
      */
     @Override
-    public ResourceToken addResource(MuseResource resource) throws IOException
+    public ResourceToken<MuseResource> addResource(MuseResource resource) throws IOException
         {
         if (getResource(resource.getId()) != null)
             throw new IllegalArgumentException("Resource already exists with the same ID: " + resource.getId());
@@ -57,7 +57,7 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
         }
 
     @Override
-    public boolean removeResource(ResourceToken token)
+    public boolean removeResource(ResourceToken<MuseResource> token)
         {
         if (getResource(token) != null)
             {
@@ -316,5 +316,3 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
 
     private final static Logger LOG = LoggerFactory.getLogger(FolderIntoMemoryResourceStorage.class);
     }
-
-

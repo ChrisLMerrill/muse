@@ -13,14 +13,14 @@ import java.util.*;
  */
 public interface ResourceStorage
     {
-    ResourceToken addResource(MuseResource resource) throws IOException;
+    ResourceToken<MuseResource> addResource(MuseResource resource) throws IOException;
 
-    boolean removeResource(ResourceToken token);
+    boolean removeResource(ResourceToken<MuseResource> token);
 
     /**
      * Find resources matching the attributes.
      */
-    List<ResourceToken> findResources(ResourceQueryParameters attributes);
+    List<ResourceToken<MuseResource>> findResources(ResourceQueryParameters attributes);
 
     /**
      * Get the resource with the id.
@@ -42,7 +42,8 @@ public interface ResourceStorage
      * If a resource cannot be found for any reason (i.e. it was deleted since the token was created), the
      * corresponding entry in the list will be null.
      */
-    <T extends MuseResource> List<T> getResources(List<ResourceToken> tokens, Class<T> implementing_class);
+    @SuppressWarnings("unused")
+    <T extends MuseResource> List<T> getResources(List<ResourceToken<MuseResource>> tokens, Class<T> implementing_class);
 
     /**
      * Fetch the resource corresonding to the supplied token.
@@ -53,7 +54,7 @@ public interface ResourceStorage
     /**
      * Get the token for a specfic resource.
      */
-    ResourceToken findResource(String id);
+    ResourceToken<MuseResource> findResource(String id);
 
     /**
      * Fetch all the resources for the tokens.
@@ -61,7 +62,7 @@ public interface ResourceStorage
      * If a resource cannot be found for any reason (i.e. it was deleted since the token was created), the
      * corresponding entry in the list will be null.
      */
-    List<MuseResource> getResources(List<ResourceToken> tokens);
+    List<MuseResource> getResources(List<ResourceToken<MuseResource>> tokens);
 
     ClassLoader getContextClassloader();
 
@@ -82,4 +83,3 @@ public interface ResourceStorage
 
     boolean removeResourceListener(ProjectResourceListener listener);
     }
-
