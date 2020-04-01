@@ -30,8 +30,10 @@ public class StatefulTaskRunner
         for (MusePlugin plugin : _plugins)
             run_config.addPlugin(plugin);
         if (provider != null)
+            {
             run_config.addPlugin(new InputProviderPlugin(provider));
-        run_config.addPlugin(new InjectInputsPlugin(new InjectInputsPluginConfiguration()));
+            run_config.addPlugin(new InjectInputsPlugin(new InjectInputsPluginConfiguration()));
+            }
         run_config.addPlugin(new InjectStatePlugin(new InjectStatePluginConfiguration()));
         run_config.addPlugin(new ExtractStatePlugin(new ExtractStatePluginConfiguration()));
         run_config.addPlugin(new StateContainerPlugin(_states));
