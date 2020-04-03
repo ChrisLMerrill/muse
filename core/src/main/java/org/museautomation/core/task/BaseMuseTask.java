@@ -49,14 +49,15 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
         }
 
     @Deprecated  // temporarily kept for serialization compatability
-    public TaskOutputSet getOutputs()
+    public TaskInputSet getInputs()
         {
-        return getOutputSet();
+        return null;
         }
     @Deprecated  // temporarily kept for serialization compatability
-    public void setOutputs(TaskOutputSet outputs)
+    public void setInputs(TaskInputSet inputs)
         {
-        _outputs = outputs;
+        if (inputs != null && inputs.getList().size() > 0)
+            _inputs = inputs;
         }
 
     @Override
@@ -71,14 +72,15 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
         }
 
     @Deprecated  // temporarily kept for serialization compatability
-    public TaskInputSet getInputs()
+    public TaskOutputSet getOutputs()
         {
-        return getInputSet();
+        return null;
         }
     @Deprecated  // temporarily kept for serialization compatability
-    public void setInputs(TaskInputSet inputs)
+    public void setOutputs(TaskOutputSet outputs)
         {
-        _inputs = inputs;
+        if (outputs != null && outputs.getList().size() > 0)
+            _outputs = outputs;
         }
 
     public TaskInputStates getInputStates()
