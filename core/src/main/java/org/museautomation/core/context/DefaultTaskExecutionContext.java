@@ -1,6 +1,7 @@
 package org.museautomation.core.context;
 
 import org.museautomation.core.*;
+import org.museautomation.core.output.*;
 import org.museautomation.core.suite.*;
 
 /**
@@ -8,15 +9,16 @@ import org.museautomation.core.suite.*;
  */
 public class DefaultTaskExecutionContext extends BaseExecutionContext implements TaskExecutionContext
 	{
-	public DefaultTaskExecutionContext(MuseProject project, MuseTask test)
+	public DefaultTaskExecutionContext(MuseProject project, MuseTask task)
 		{
-		this(new ProjectExecutionContext(project), test);
+		this(new ProjectExecutionContext(project), task);
 		}
 
-	public DefaultTaskExecutionContext(MuseExecutionContext parent_context, MuseTask test)
+	public DefaultTaskExecutionContext(MuseExecutionContext parent_context, MuseTask task)
 		{
 		super(parent_context, ContextVariableScope.Execution);
-		_task = test;
+		_task = task;
+		_outputs = new ExecutionOutputs();
 		}
 
 	@Override
@@ -28,17 +30,17 @@ public class DefaultTaskExecutionContext extends BaseExecutionContext implements
 	@Override
 	public String getTaskExecutionId()
 		{
-		if (_test_id == null)
+		if (_task_id == null)
 			{
 			TaskSuiteExecutionContext suite_context = MuseExecutionContext.findAncestor(this, TaskSuiteExecutionContext.class);
 			if (suite_context != null)
-				_test_id = suite_context.getTaskExecutionId(this);
+				_task_id = suite_context.getTaskExecutionId(this);
 			else
-				_test_id = Long.toString(System.currentTimeMillis());
+				_task_id = Long.toString(System.currentTimeMillis());
 			}
-		return _test_id;
+		return _task_id;
 		}
 
-	protected final MuseTask _task;
-	private String _test_id;
+    protected final MuseTask _task;
+	private String _task_id;
 	}
