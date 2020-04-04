@@ -24,7 +24,7 @@ public class MockSteppedTaskExecutionContext extends MockStepExecutionContext im
 		{
 		return getTask().getId();
 		}
-
+    
 	@Override
 	public SteppedTask getTask()
 		{

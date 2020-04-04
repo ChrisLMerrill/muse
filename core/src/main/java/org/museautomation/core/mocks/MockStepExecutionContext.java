@@ -3,6 +3,7 @@ package org.museautomation.core.mocks;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
+import org.museautomation.core.output.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.project.*;
 import org.museautomation.core.step.*;
@@ -188,6 +189,12 @@ public class MockStepExecutionContext implements StepExecutionContext
 	    }
 
     @Override
+    public ExecutionOutputs outputs()
+        {
+        return _outputs;
+        }
+
+    @Override
     public ContextVariableScope getVariableScope()
 	    {
 	    return ContextVariableScope.Execution;
@@ -195,4 +202,5 @@ public class MockStepExecutionContext implements StepExecutionContext
 
     private Map<String, Object> _variables = new HashMap<>();
     private StepLocator _locator;
+    private ExecutionOutputs _outputs = new ExecutionOutputs();
     }

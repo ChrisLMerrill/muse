@@ -2,6 +2,7 @@ package org.museautomation.core.context;
 
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
+import org.museautomation.core.output.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.suite.*;
 import org.museautomation.core.task.*;
@@ -139,7 +140,18 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 		return name;
 		}
 
-	@Override
+    @Override
+    public ExecutionOutputs outputs()
+        {
+        if (_outputs != null)
+            return _outputs;
+        if (_parent != null)
+            return _parent.outputs();
+        LOG.error("A MuseExecutionContext was asked for the outputs, but no ancestor contexts were able to provide them.");
+        return null;
+        }
+
+    @Override
 	public MuseProject getProject()
 		{
 		return _project;
@@ -228,6 +240,7 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	private Queue<MuseEvent> _event_queue = new ConcurrentLinkedQueue<>();
 	private AtomicBoolean _events_processing = new AtomicBoolean(false);
 	private EventLogger _logger = new EventLogger();
+	protected ExecutionOutputs _outputs = null;
 
 	private final static Logger LOG = LoggerFactory.getLogger(TaskExecutionContext.class);
 

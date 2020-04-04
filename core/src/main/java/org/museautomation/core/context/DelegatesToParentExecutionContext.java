@@ -2,6 +2,7 @@ package org.museautomation.core.context;
 
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
+import org.museautomation.core.output.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.task.*;
 import org.museautomation.core.variables.*;
@@ -135,7 +136,13 @@ public abstract class DelegatesToParentExecutionContext implements MuseExecution
 		return _parent.getPlugins();
 		}
 
-	@Override
+    @Override
+    public ExecutionOutputs outputs()
+        {
+        return _parent.outputs();
+        }
+
+    @Override
 	public int initializePlugins() throws MuseExecutionError
 		{
 		return _parent.initializePlugins();

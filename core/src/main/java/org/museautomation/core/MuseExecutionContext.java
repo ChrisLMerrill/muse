@@ -2,6 +2,7 @@ package org.museautomation.core;
 
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
+import org.museautomation.core.output.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.task.*;
 import org.museautomation.core.variables.*;
@@ -77,6 +78,11 @@ public interface MuseExecutionContext
      * @return Returns the name the object was store under.
      */
     String createVariable(String prefix, Object value);
+
+    /**
+     * Returns the output container for the execution.
+     */
+    ExecutionOutputs outputs();
 
     /**
      * Cleanup any test resources. E.g. Shuttable

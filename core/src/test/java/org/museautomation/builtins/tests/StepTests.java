@@ -81,6 +81,19 @@ class StepTests
         }
 
     @Test
+    void storeOutput() throws MuseExecutionError
+        {
+        StepConfiguration config = new StepConfiguration(StoreOutput.TYPE_ID);
+        config.addSource(StoreOutput.NAME_PARAM, ValueSourceConfiguration.forValue("output1"));
+        config.addSource(StoreOutput.VALUE_PARAM, ValueSourceConfiguration.forValue(111L));
+
+        MuseStep step = config.createStep();
+        StepExecutionContext context = new MockStepExecutionContext();
+        step.execute(context);
+        Assertions.assertEquals(111L, context.outputs().getOutput("output1"));
+        }
+
+    @Test
     void incrementVariableBy1() throws MuseExecutionError
         {
         StepConfiguration config = new StepConfiguration(IncrementVariable.TYPE_ID);
