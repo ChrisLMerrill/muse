@@ -35,16 +35,6 @@ class InjectStatePluginTests
         }
 
     @Test
-    void warnIfUnexpectedValueInState() throws MuseExecutionError
-        {
-        String unexpected_field = "field2";
-        addValueToStartingState(unexpected_field, 222L);
-        inject();
-        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR, MuseEvent.WARNING)).size());
-        Assertions.assertNull(_context.getVariable(unexpected_field));
-        }
-
-    @Test
     void errorIfTypesDoNotMatch() throws MuseExecutionError
         {
         String field1_name = "field1";
@@ -62,7 +52,7 @@ class InjectStatePluginTests
         input.setName(name);
         input.setRequired(true);
         input.setType(type);
-        _task.getInputSet().getList().add(input);
+        _task.getInputSet().addInput(input);
         }
 
     void addValueDefToStateDef(String name, MuseValueType type)
@@ -93,7 +83,6 @@ class InjectStatePluginTests
         _task = new SteppedTask();
         TaskInputSet input_set = new TaskInputSet();
         _task.setInputSet(input_set);
-        _task.setInputStates(new TaskInputStates(state_type));
 
         // create TaskExecutionContext
         _context = new DefaultTaskExecutionContext(project, _task);
@@ -102,12 +91,10 @@ class InjectStatePluginTests
         _start_state = new InterTaskState();
         _start_state.setStateDefinitionId(state_type);
 
-        StateContainerPlugin state_provider = new StateContainerPlugin(new BasicStateContainer());
-        state_provider.addState(_start_state);
-
         // initialize plugin into context
-        _context.addPlugin(state_provider);
-        _context.addPlugin(new InjectStatePlugin(new InjectStatePluginConfiguration()));
+        InjectStatePlugin plugin = new InjectStatePlugin(new InjectStatePluginConfiguration());
+        plugin.addState(_start_state);
+        _context.addPlugin(plugin);
         }
 
     private void inject() throws MuseExecutionError

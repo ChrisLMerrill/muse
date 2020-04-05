@@ -1,7 +1,6 @@
 package org.museautomation.builtins.plugins.state;
 
 import org.museautomation.core.*;
-import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.resource.generic.*;
@@ -41,19 +40,6 @@ public class ExtractStatePlugin extends GenericConfigurablePlugin
             if (event.getTypeId().equals(EndTaskEventType.TYPE_ID))
                 extractStates(context);
             });
-
-        MuseTask task = TaskExecutionContext.findTask(context);
-        TaskOutputStates output_states = task.getOutputStates();
-        for (String state_type : output_states.getTypeList())
-            {
-            MuseResource resource = context.getProject().getResourceStorage().findResource(state_type).getResource();
-            if (!(resource instanceof StateDefinition))
-                {
-                MessageEventType.raiseMessageAndThrowError(context, String.format("state type %s, in the task input states, is not the expected resource type (StateDefinition). Instead it is a %s", state_type, resource.getType().getName()));
-                return;
-                }
-            _state_defs.add((StateDefinition)resource);
-            }
         }
 
     private void extractStates(MuseExecutionContext context)
@@ -78,6 +64,11 @@ public class ExtractStatePlugin extends GenericConfigurablePlugin
 
             _states.addState(state);
             }
+        }
+
+    public void addState(StateDefinition state_def)
+        {
+        _state_defs.add(state_def);
         }
 
     private StateContainer _states;

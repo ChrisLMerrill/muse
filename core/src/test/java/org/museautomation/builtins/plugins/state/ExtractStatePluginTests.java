@@ -70,7 +70,7 @@ class ExtractStatePluginTests
     @BeforeEach
     void setup() throws IOException
         {
-        _project = new SimpleProject();
+        SimpleProject project = new SimpleProject();
 
         // create State Definitions
         String state_type = "state_type1";
@@ -78,22 +78,24 @@ class ExtractStatePluginTests
         List<StateValueDefinition> states = new ArrayList<>();
         _state_def.setValues(states);
         _state_def.setId(state_type);
-        _project.getResourceStorage().addResource(_state_def);
+        project.getResourceStorage().addResource(_state_def);
 
         // create Task with required input states
-        _task = new SteppedTask();
+        SteppedTask task = new SteppedTask();
         TaskOutputSet output_set = new TaskOutputSet();
-        _task.setOutputSet(output_set);
-        _task.setOutputStates(new TaskOutputStates(state_type));
+        task.setOutputSet(output_set);
+        task.setOutputStates(new TaskOutputStates(state_type));
 
         // create TaskExecutionContext
-        _context = new DefaultTaskExecutionContext(_project, _task);
+        _context = new DefaultTaskExecutionContext(project, task);
 
         _state_store = new StateContainerPlugin(new BasicStateContainer());
 
         // initialize plugin into context
         _context.addPlugin(_state_store);
-        _context.addPlugin(new ExtractStatePlugin(new ExtractStatePluginConfiguration()));
+        ExtractStatePlugin plugin = new ExtractStatePlugin(new ExtractStatePluginConfiguration());
+        plugin.addState(_state_def);
+        _context.addPlugin(plugin);
         }
 
     private void extract() throws MuseExecutionError
@@ -104,8 +106,6 @@ class ExtractStatePluginTests
         }
 
     private TaskExecutionContext _context;
-    private SteppedTask _task;
-    private SimpleProject _project;
     private StateDefinition _state_def;
     private InterTaskState _extracted_state;
     private StateContainerPlugin _state_store;

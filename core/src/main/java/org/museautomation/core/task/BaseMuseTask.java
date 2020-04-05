@@ -83,25 +83,16 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
             _outputs = outputs;
         }
 
-    public TaskInputStates getInputStates()
-        {
-        return _in_states;
-        }
-
-    public void setInputStates(TaskInputStates in_states)
-        {
-        _in_states = in_states;
-        }
-
-    public TaskOutputStates getOutputStates()
-        {
-        return _out_states;
-        }
-
-    public void setOutputStates(TaskOutputStates out_states)
-        {
-        _out_states = out_states;
-        }
+    @Deprecated
+    public TaskInputStates getInputStates() { return null; }
+    @Deprecated
+    @SuppressWarnings("unused")
+    public void setInputStates(TaskInputStates in_states) { }
+    @Deprecated
+    public TaskOutputStates getOutputStates() { return null; }
+    @Deprecated
+    @SuppressWarnings("unused")
+    public void setOutputStates(TaskOutputStates out_states) { }
 
     @Override
     public ResourceType getType()
@@ -111,6 +102,4 @@ public abstract class BaseMuseTask extends BaseMuseResource implements MuseTask
 
     private TaskInputSet _inputs = new TaskInputSet();
     private TaskOutputSet _outputs = new TaskOutputSet();
-    private TaskInputStates _in_states = new TaskInputStates();
-    private TaskOutputStates _out_states = new TaskOutputStates();
     }

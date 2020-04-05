@@ -29,7 +29,10 @@ public interface MuseTask extends MuseResource
 
     TaskInputSet getInputSet();
     TaskOutputSet getOutputSet();
+
+    @Deprecated
     TaskInputStates getInputStates();
+    @Deprecated
     TaskOutputStates getOutputStates();
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
