@@ -1,12 +1,24 @@
 package org.museautomation.core.task;
 
-import org.museautomation.core.values.*;
+import com.fasterxml.jackson.annotation.*;
+import org.museautomation.*;
+import org.museautomation.core.valuetypes.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public class TaskOutput
     {
+    public TaskOutput()
+        {
+        }
+
+    public TaskOutput(String name, String type_id)
+        {
+        _name = name;
+        _type_id = type_id;
+        }
+
     public String getName()
         {
         return _name;
@@ -17,38 +29,28 @@ public class TaskOutput
         _name = name;
         }
 
-    public ValueSourceConfiguration getSource()
+    @JsonIgnore
+    public MuseValueType getType()
         {
-        return _source;
+        return MuseValueTypes.get().forTypeId(_type_id);
         }
 
-    public void setSource(ValueSourceConfiguration source)
+    @JsonIgnore
+    public void setType(MuseValueType type)
         {
-        _source = source;
+        _type_id = type.getId();
         }
 
-    public boolean isRequired()
+    public String getTypeId()
         {
-        return _required;
+        return _type_id;
         }
 
-    public void setRequired(boolean required)
+    public void setTypeId(String type_id)
         {
-        _required = required;
-        }
-
-    public ValueSourceConfiguration getDefault()
-        {
-        return _default;
-        }
-
-    public void setDefault(ValueSourceConfiguration value)
-        {
-        _default = value;
+        _type_id = type_id;
         }
 
     private String _name;
-    private ValueSourceConfiguration _source;
-    private boolean _required;
-    private ValueSourceConfiguration _default;
+    private String _type_id;
     }

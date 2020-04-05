@@ -1,7 +1,5 @@
 package org.museautomation.core.task.state;
 
-import org.jetbrains.annotations.*;
-
 import javax.annotation.*;
 import java.util.*;
 
@@ -14,8 +12,11 @@ public interface StateContainer
     void removeState(InterTaskState state);
     Iterator<InterTaskState> states();
     List<InterTaskState> findStates(String type_id);
+    InterTaskState findState(String type_id) throws IllegalStateException;
     void addStateListener(StateContainerChangeListener listener);
     void removeStateListener(StateContainerChangeListener listener);
+    boolean contains(InterTaskState state);
+    int size();
 
     interface StateContainerChangeListener
         {

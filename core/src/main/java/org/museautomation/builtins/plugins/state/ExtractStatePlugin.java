@@ -25,16 +25,8 @@ public class ExtractStatePlugin extends GenericConfigurablePlugin
         }
 
     @Override
-    public void initialize(MuseExecutionContext context) throws MuseExecutionError
+    public void initialize(MuseExecutionContext context)
         {
-        StateContainerPlugin plugin = Plugins.findType(StateContainerPlugin.class, context);
-        if (plugin == null)
-            {
-            MessageEventType.raiseMessageAndThrowError(context, "No StateProvider plugin was found. ExtractStatePlugin is unable to extract context into a state.");
-            return;
-            }
-        _states = plugin.getContainer();
-
         context.addEventListener(event ->
             {
             if (event.getTypeId().equals(EndTaskEventType.TYPE_ID))
@@ -50,7 +42,7 @@ public class ExtractStatePlugin extends GenericConfigurablePlugin
             state.setStateDefinitionId(state_def.getId());
             for (StateValueDefinition value_def : state_def.getValues())
                 {
-                Object value = context.getVariable(value_def.getName());
+                Object value = context.outputs().getOutput(value_def.getName());
                 if (value == null)
                     {
                     if (value_def.isRequired())
@@ -62,15 +54,20 @@ public class ExtractStatePlugin extends GenericConfigurablePlugin
                     MessageEventType.raiseError(context, String.format("The value for value %s (output state type %s), is not the expected resource type (%s). Instead it is a %s", value_def.getName(), state_def.getDisplayName(), value_def.getType().getName(), value.getClass().getSimpleName()));
                 }
 
-            _states.addState(state);
+            _states.add(state);
             }
         }
 
-    public void addState(StateDefinition state_def)
+    public void addStateToExtract(StateDefinition state_def)
         {
         _state_defs.add(state_def);
         }
 
-    private StateContainer _states;
+    public List<InterTaskState> getExtractedStates()
+        {
+        return _states;
+        }
+
+    private List<InterTaskState> _states = new ArrayList<>();
     private List<StateDefinition> _state_defs = new ArrayList<>();
     }

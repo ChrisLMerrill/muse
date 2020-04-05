@@ -39,6 +39,14 @@ public class BasicStateContainer implements StateContainer
         return matches;
         }
 
+    public InterTaskState findState(String type_id)
+        {
+        List<InterTaskState> matches = findStates(type_id);
+        if (matches.size() != 1)
+            throw new IllegalStateException("Expected to find 1 state of the matching type. Instead found " + matches.size());
+        return matches.get(0);
+        }
+
     @Override
     public Iterator<InterTaskState> states()
         {
@@ -55,6 +63,18 @@ public class BasicStateContainer implements StateContainer
     public void removeStateListener(StateContainerChangeListener listener)
         {
         _listeners.remove(listener);
+        }
+
+    @Override
+    public boolean contains(InterTaskState state)
+        {
+        return _states.contains(state);
+        }
+
+    @Override
+    public int size()
+        {
+        return _states.size();
         }
 
     private List<StateContainerChangeListener> _listeners = new ArrayList<>();

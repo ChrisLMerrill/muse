@@ -17,7 +17,7 @@ import java.util.*;
  */
 public abstract class DelegatesToParentExecutionContext implements MuseExecutionContext
 	{
-	DelegatesToParentExecutionContext(MuseExecutionContext parent, ContextVariableScope scope)
+	protected DelegatesToParentExecutionContext(MuseExecutionContext parent, ContextVariableScope scope)
 		{
 		_parent = parent;
 		_scope = scope;
@@ -93,7 +93,7 @@ public abstract class DelegatesToParentExecutionContext implements MuseExecution
 				return value;
 			}
 		if (_parent != null)
-			return getParent().getVariable(name, scope.equals(VariableQueryScope.Any) && _scope.equals(ContextVariableScope.Local) ? VariableQueryScope.AnyButLocal : scope);
+			return _parent.getVariable(name, scope.equals(VariableQueryScope.Any) && ContextVariableScope.Local.equals(_scope) ? VariableQueryScope.AnyButLocal : scope);
 		return null;
 		}
 

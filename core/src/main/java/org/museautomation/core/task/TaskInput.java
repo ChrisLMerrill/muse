@@ -10,6 +10,17 @@ import org.museautomation.core.valuetypes.*;
  */
 public class TaskInput
     {
+    public TaskInput()
+        {
+        }
+
+    public TaskInput(String name, String type_id, boolean required)
+        {
+        _name = name;
+        _type_id = type_id;
+        _required = required;
+        }
+
     public String getName()
         {
         return _name;

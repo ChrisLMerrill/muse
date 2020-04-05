@@ -25,7 +25,7 @@ class ExtractStatePluginTests
         {
         String field1_name = "field1";
         String field1_value = "123";
-        addValueToContext(field1_name, field1_value);
+        addValueToOutput(field1_name, field1_value);
         addValueDefToStateDef(field1_name, new StringValueType());
 
         extract();
@@ -49,7 +49,7 @@ class ExtractStatePluginTests
         {
         String field1_name = "field1";
         Object field1_value = 555L;
-        addValueToContext(field1_name, field1_value);
+        addValueToOutput(field1_name, field1_value);
         addValueDefToStateDef(field1_name, new StringValueType());
         extract();
         Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR)).size());
@@ -62,9 +62,9 @@ class ExtractStatePluginTests
         _state_def.getValues().add(value);
         }
 
-    void addValueToContext(String name, Object value)
+    void addValueToOutput(String name, Object value)
         {
-        _context.setVariable(name, value);
+        _context.outputs().storeOutput(name, value);
         }
 
     @BeforeEach
@@ -89,24 +89,21 @@ class ExtractStatePluginTests
         // create TaskExecutionContext
         _context = new DefaultTaskExecutionContext(project, task);
 
-        _state_store = new StateContainerPlugin(new BasicStateContainer());
-
         // initialize plugin into context
-        _context.addPlugin(_state_store);
-        ExtractStatePlugin plugin = new ExtractStatePlugin(new ExtractStatePluginConfiguration());
-        plugin.addState(_state_def);
-        _context.addPlugin(plugin);
+        _plugin = new ExtractStatePlugin(new ExtractStatePluginConfiguration());
+        _plugin.addStateToExtract(_state_def);
+        _context.addPlugin(_plugin);
         }
 
     private void extract() throws MuseExecutionError
         {
         _context.initializePlugins();
         _context.raiseEvent(EndTaskEventType.create());
-        _extracted_state = _state_store.getContainer().findStates("state_type1").get(0);
+        _extracted_state = _plugin.getExtractedStates().get(0);
         }
 
     private TaskExecutionContext _context;
     private StateDefinition _state_def;
     private InterTaskState _extracted_state;
-    private StateContainerPlugin _state_store;
+    private ExtractStatePlugin _plugin;
     }
