@@ -50,8 +50,40 @@ public class StateDefinition extends BaseMuseResource
         return null;
         }
 
+    public void add(StateValueDefinition value_def)
+        {
+        _values.add(value_def);
+        }
+
+    /**
+     * Returns true if all required fields are present and all fields are of the correct data type.
+     */
+    public boolean isValid(InterTaskState output_state)
+        {
+        return getFirstIncompleteFieldName(output_state) == null;
+        }
+
+    public String getFirstIncompleteFieldName(InterTaskState output_state)
+        {
+        for (StateValueDefinition value_def : _values)
+            {
+            Object value = output_state.getValues().get(value_def.getName());
+            if (value == null)
+                {
+                if (value_def.isRequired())
+                    return value_def.getName();
+                }
+            else
+                {
+                if (!value_def.getType().isInstance(value))
+                    return value_def.getName();
+                }
+            }
+        return null;
+        }
+
     private String _display_name;
-    private List<StateValueDefinition> _values;
+    private List<StateValueDefinition> _values = new ArrayList<>();
 
     public final static String TYPE_ID = StateDefinition.class.getAnnotation(MuseTypeId.class).value();
 

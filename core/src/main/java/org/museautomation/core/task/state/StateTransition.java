@@ -36,16 +36,21 @@ public class StateTransition
 
         // setup state injector
         InjectStatePlugin inject_plugin = new InjectStatePlugin(new InjectStatePluginConfiguration());
-        inject_plugin.addState(_context.getInputState());
+        StateDefinition input_state_def = _context.getProject().getResourceStorage().getResource(config.getInputState().getStateId(), StateDefinition.class);
+        InterTaskState input_state = _context.getContainer().findState(input_state_def.getId());
+        inject_plugin.addState(input_state);
         run_config.addPlugin(inject_plugin);
 
         // setup state extractor
         ExtractStatePlugin extract_plugin = null;
-        if (config.getOutputState() != null)
+        if (config.getOutputStates().size() > 0)
             {
             extract_plugin = new ExtractStatePlugin(new ExtractStatePluginConfiguration());
-            StateDefinition output_state_def = _context.getProject().getResourceStorage().getResource(config.getOutputState().getStateId(), StateDefinition.class);
-            extract_plugin.addStateToExtract(output_state_def);
+            for (StateTransitionConfiguration.TransitionOutputState outstate_config : config.getOutputStates())
+                {
+                StateDefinition output_state_def = _context.getProject().getResourceStorage().getResource(outstate_config.getStateId(), StateDefinition.class);
+                extract_plugin.addStateToExtract(output_state_def);
+                }
             run_config.addPlugin(extract_plugin);
             }
 
@@ -68,16 +73,36 @@ public class StateTransition
             return new StateTransitionResult("Unable to find the TaskResult in the TaskExecutionContext. Is is likely an internal error.");
         if (task_result.isPass())
             {
-            InterTaskState output_state = null;
+            InterTaskState output_state;
             if (extract_plugin != null)
                 {
-                output_state = extract_plugin.getExtractedStates().get(0);
-                if (output_state == null)
-                    return new StateTransitionResult("Output state not extracted: " + config.getOutputState().getStateId());
-                _context.getContainer().addState(output_state);
-                return new StateTransitionResult(task_result, output_state);
+                for (StateTransitionConfiguration.TransitionOutputState tos : config.getOutputStates())
+                    {
+                    StateDefinition state_def = _context.getProject().getResourceStorage().getResource(tos.getStateId(), StateDefinition.class);
+                    output_state = extract_plugin.getExtractedState(state_def);
+                    if (output_state == null)
+                        {
+                        if (tos.isRequired())
+                            return new StateTransitionResult("Output state not extracted: " + state_def.getId());
+                        }
+                    else
+                        {
+                        if (state_def.isValid(output_state))
+                            {
+                            if (tos.isReplacesInput())
+                                _context.getContainer().replaceState(input_state, output_state);
+                            else
+                                _context.getContainer().addState(output_state);
+                            return new StateTransitionResult(task_result, output_state);
+                            }
+                        else if (!tos.isSkipIncomplete())
+                            return new StateTransitionResult("Output state not complete: " + state_def.getFirstIncompleteFieldName(output_state));
+                        }
+                    }
                 }
-            return new StateTransitionResult(task_result, output_state);
+            else if (config.getInputState().isTerminate())
+                _context.getContainer().removeState(input_state);
+            return new StateTransitionResult(task_result, null);
             }
         else
             return new StateTransitionResult("Task failed, due to: " + task_result.getSummary());

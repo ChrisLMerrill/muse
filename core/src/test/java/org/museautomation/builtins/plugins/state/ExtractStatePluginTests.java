@@ -34,13 +34,14 @@ class ExtractStatePluginTests
         }
 
     @Test
-    void errorIfMissingValue() throws MuseExecutionError
+    void canExtractIncomplete() throws MuseExecutionError
         {
         String field1_name = "field1";
         addValueDefToStateDef(field1_name, new StringValueType());
 
         extract();
-        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR)).size());
+        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.WARNING)).size());
+        Assertions.assertFalse(_state_def.isValid(_extracted_state));
         Assertions.assertNull(_extracted_state.getValues().get(field1_name));
         }
 
@@ -52,7 +53,8 @@ class ExtractStatePluginTests
         addValueToOutput(field1_name, field1_value);
         addValueDefToStateDef(field1_name, new StringValueType());
         extract();
-        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.ERROR)).size());
+        Assertions.assertEquals(1, _context.getEventLog().findEvents(new EventTagMatcher(MuseEvent.WARNING)).size());
+        Assertions.assertFalse(_state_def.isValid(_extracted_state));
         Assertions.assertNull(_extracted_state.getValues().get(field1_name));
         }
 

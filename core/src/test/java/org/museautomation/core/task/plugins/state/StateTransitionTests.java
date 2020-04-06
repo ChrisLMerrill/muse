@@ -24,8 +24,7 @@ public class StateTransitionTests
     @Test
     public void basicTransition()
         {
-        StateTransition transition = new StateTransition(_trans_context);
-        StateTransitionResult result = transition.execute();
+        StateTransitionResult result = _transition.execute();
 
         Assertions.assertTrue(result.transitionSuccess());
         Assertions.assertTrue(result.taskResult().isPass());
@@ -44,8 +43,7 @@ public class StateTransitionTests
         storage.removeResource(storage.findResource(_transition_config.getTaskId()));
         storage.addResource(resource);
 
-        StateTransition transition = new StateTransition(_trans_context);
-        StateTransitionResult result = transition.execute();
+        StateTransitionResult result = _transition.execute();
 
         Assertions.assertFalse(result.transitionSuccess());
         Assertions.assertNotNull(result.getFailureMessage());
@@ -55,8 +53,7 @@ public class StateTransitionTests
     public void missingTaskId()
         {
         _transition_config.setTaskId("missing-id");
-        StateTransition transition = new StateTransition(_trans_context);
-        StateTransitionResult result = transition.execute();
+        StateTransitionResult result = _transition.execute();
 
         Assertions.assertFalse(result.transitionSuccess());
         Assertions.assertNotNull(result.getFailureMessage());
@@ -66,9 +63,8 @@ public class StateTransitionTests
     @Test
     public void replaceState()  // output state replaces the input state
         {
-        StateTransition transition = new StateTransition(_trans_context);
-        // TODO _transition_config.   <-- configure output state to replace the input state, instead of adding beside it
-        StateTransitionResult result = transition.execute();
+        _transition_config.getOutputStates().get(0).setReplacesInput(true);
+        StateTransitionResult result = _transition.execute();
 
         Assertions.assertFalse(_container.contains(_input_state));
         Assertions.assertTrue(_container.contains(result.outputState()));
@@ -77,9 +73,9 @@ public class StateTransitionTests
     @Test
     public void terminateState()  // no output state, input state is terminated (removed)
         {
-        StateTransition transition = new StateTransition(_trans_context);
-        // TODO _transition_config.   <-- configure output state to replace the input state, instead of adding beside it
-        transition.execute();
+        _transition_config.setOutputStates(new ArrayList<>());
+        _transition_config.getInputState().setTerminate(true);
+        _transition.execute();
 
         Assertions.assertEquals(0, _container.size());
         }
@@ -87,15 +83,39 @@ public class StateTransitionTests
     @Test
     public void noOutputState()
         {
-        _transition_config.setOutputState(null);
-        StateTransition transition = new StateTransition(_trans_context);
-        StateTransitionResult result = transition.execute();
+        _transition_config.setOutputStates(new ArrayList<>());
+        StateTransitionResult result = _transition.execute();
 
         Assertions.assertTrue(_container.contains(_input_state));
         Assertions.assertEquals(1, _container.size());
         Assertions.assertNull(result.outputState());
         }
 
+    @Test
+    public void incompleteOutputState()  // generate an error if the output state is incomplete
+        {
+        _output_state_def.add(new StateValueDefinition("out-val2", new IntegerValueType(), true));
+        StateTransitionResult result = _transition.execute();
+        Assertions.assertFalse(result.transitionSuccess());
+        Assertions.assertTrue(result.getFailureMessage().contains("out-val2"));
+        }
+
+    @Test
+    public void resultsInFirstCompleteOutputState() throws IOException  // the first complete state becomes the output
+        {
+        _output_state_def.add(new StateValueDefinition("out-val2", new IntegerValueType(), true));
+        _transition_config.getOutputStates().get(0).setSkipIncomplete(true);
+        StateDefinition second_output_state = new StateDefinition();
+        second_output_state.setId("second_outstate");
+        second_output_state.add(new StateValueDefinition("out-val", new IntegerValueType(), true));
+        _trans_context.getProject().getResourceStorage().addResource(second_output_state);
+        _transition_config.addOutputState(new StateTransitionConfiguration.TransitionOutputState(second_output_state.getId()));
+
+        StateTransitionResult result = _transition.execute();
+        Assertions.assertTrue(result.transitionSuccess());
+        Assertions.assertEquals("second_outstate", result.outputState().getStateDefinitionId());
+        Assertions.assertEquals(6L, result.outputState().getValues().get("out-val"));
+        }
 
     @Test
     public void transitionWithPlugin() throws IOException
@@ -109,6 +129,7 @@ public class StateTransitionTests
             protected boolean executeImplementation(TaskExecutionContext context)
                 {
                 context.raiseEvent(StartTaskEventType.create(getId(), "mock"));
+                //noinspection RedundantCast
                 context.outputs().storeOutput("out-val", (Long) context.getVariable("in-val")  + (Long) context.getVariable("in-val2"));
                 context.raiseEvent(EndTaskEventType.create());
                 return true;
@@ -119,7 +140,6 @@ public class StateTransitionTests
         _task.getInputSet().addInput(new TaskInput("in-val2", new IntegerValueType().getId(), true));
         _trans_context.getProject().getResourceStorage().addResource(_task);
 
-        StateTransition transition = new StateTransition(_trans_context);
         InputProvider provider = new InputProvider()
             {
             @Override
@@ -132,27 +152,23 @@ public class StateTransitionTests
                 return map;
                 }
             };
-        transition.addPlugin(new InputProviderPlugin(provider));
-        transition.addPlugin(new InjectInputsPlugin(new InjectInputsPluginConfiguration()));
-        StateTransitionResult result = transition.execute();
+        _transition.addPlugin(new InputProviderPlugin(provider));
+        _transition.addPlugin(new InjectInputsPlugin(new InjectInputsPluginConfiguration()));
+        StateTransitionResult result = _transition.execute();
 
         Assertions.assertEquals(16L, result.outputState().getValues().get("out-val"));
         }
 
     @Test
-    public void transitionToAlternateState()
-        {
-        // TODO test a task that can transition to more than one state (e.g. depending on input)
-        Assertions.fail("ToDo");
-        }
-
-    @Test
     public void fillOutputStateFromInputState()
         {
-        // TODO carry value from the input to the output, without the task adding them to output
-        Assertions.fail("ToDo");
-        }
+        _input_state_def.add(new StateValueDefinition("other_val", new StringValueType(), true));
+        _input_state.getValues().put("other_val", "carried along");
+        _output_state_def.add(new StateValueDefinition("other_val", new StringValueType(), true));
+        StateTransitionResult result = _transition.execute();
 
+        Assertions.assertEquals("carried along", result.outputState().getValues().get("other_val"));
+        }
 
     @Test
     public void transitionWithInputProvider() throws IOException
@@ -166,6 +182,7 @@ public class StateTransitionTests
             protected boolean executeImplementation(TaskExecutionContext context)
                 {
                 context.raiseEvent(StartTaskEventType.create(getId(), "mock"));
+                //noinspection RedundantCast
                 context.outputs().storeOutput("out-val", (Long) context.getVariable("in-val")  + (Long) context.getVariable("in-val2"));
                 context.raiseEvent(EndTaskEventType.create());
                 return true;
@@ -212,9 +229,7 @@ public class StateTransitionTests
         // create output State Definitions
         String out_state_type = "out-state";
         _output_state_def = new StateDefinition();
-        List<StateValueDefinition> out_states = new ArrayList<>();
-        out_states.add(new StateValueDefinition("out-val", new IntegerValueType(), true));
-        _output_state_def.setValues(out_states);
+        _output_state_def.add(new StateValueDefinition("out-val", new IntegerValueType(), true));
         _output_state_def.setId(out_state_type);
         project.getResourceStorage().addResource(_output_state_def);
 
@@ -232,6 +247,7 @@ public class StateTransitionTests
             };
         _task.setId("task1");
         _task.getInputSet().addInput(new TaskInput("in-val", new IntegerValueType().getId(), true));
+        _task.getOutputSet().addOutput(new TaskOutput("out-val", new IntegerValueType().getId()));
         project.getResourceStorage().addResource(_task);
 
         // create starting state
@@ -242,19 +258,23 @@ public class StateTransitionTests
         // create the transition
         _transition_config = new StateTransitionConfiguration();
         _transition_config.setInputState(new StateTransitionConfiguration.TransitionInputState(_input_state_def.getId()));
-        _transition_config.setOutputState(new StateTransitionConfiguration.TransitionOutputState(_output_state_def.getId()));
+        _transition_config.addOutputState(new StateTransitionConfiguration.TransitionOutputState(_output_state_def.getId()));
         _transition_config.setTaskId(_task.getId());
 
         // create the transition context
-        _trans_context = new StateTransitionContext(_transition_config, _input_state, _container, project);
+        _trans_context = new StateTransitionContext(_transition_config, _container, project);
         _container.addState(_input_state);
+
+        // finally, create the transition
+        _transition = new StateTransition(_trans_context);
         }
 
     private MuseTask _task;
-    private InterTaskState _input_state;
     private StateDefinition _input_state_def;
     private StateDefinition _output_state_def;
+    private InterTaskState _input_state;
     private StateTransitionConfiguration _transition_config;
     private StateTransitionContext _trans_context;
     private StateContainer _container = new BasicStateContainer();
+    private StateTransition _transition;
     }

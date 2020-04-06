@@ -4,6 +4,8 @@ import org.museautomation.core.*;
 import org.museautomation.core.resource.generic.*;
 import org.museautomation.core.resource.types.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -30,19 +32,26 @@ public class StateTransitionConfiguration extends GenericResourceConfiguration
         _input_state = input_state;
         }
 
-    public TransitionOutputState getOutputState()
+    public List<TransitionOutputState> getOutputStates()
         {
-        return _output_state;
+        return _output_states;
         }
 
-    public void setOutputState(TransitionOutputState output_state)
+    public void setOutputStates(List<TransitionOutputState> output_states)
         {
-        _output_state = output_state;
+        if (output_states == null)
+            throw new IllegalArgumentException("Null value not allowed");
+        _output_states = output_states;
+        }
+
+    public void addOutputState(TransitionOutputState output_state)
+        {
+        _output_states.add(output_state);
         }
 
     private String _task_id;
     private TransitionInputState _input_state;
-    private TransitionOutputState _output_state;
+    private List<TransitionOutputState> _output_states = new ArrayList<>();
 
     @Override
     public ResourceType getType()
@@ -87,7 +96,18 @@ public class StateTransitionConfiguration extends GenericResourceConfiguration
             _state_id = state_id;
             }
 
+        public boolean isTerminate()
+            {
+            return _terminate;
+            }
+
+        public void setTerminate(boolean terminate)
+            {
+            _terminate = terminate;
+            }
+
         private String _state_id;
+        private boolean _terminate = false;
         }
 
     public static class TransitionOutputState
@@ -111,6 +131,34 @@ public class StateTransitionConfiguration extends GenericResourceConfiguration
             _state_id = state_id;
             }
 
+        public boolean isReplacesInput()
+            {
+            return _replaces_input;
+            }
+
+        public boolean isRequired()
+            {
+            return _required;
+            }
+
+        public void setReplacesInput(boolean replaces_input)
+            {
+            _replaces_input = replaces_input;
+            }
+
+        public boolean isSkipIncomplete()
+            {
+            return _skip_incomplete;
+            }
+
+        public void setSkipIncomplete(boolean skipIncomplete)
+            {
+            _skip_incomplete = skipIncomplete;
+            }
+
         private String _state_id;
+        private boolean _replaces_input = false;
+        private boolean _required = true;
+        private boolean _skip_incomplete = false;
         }
     }

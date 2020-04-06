@@ -3,11 +3,17 @@ package org.museautomation.core.task.state;
 import java.util.*;
 
 /**
- * Represents an instance of a StateDefinition that may be manually created, generated as the result of a Task completion,
- * or used as input to a Task.
+ * Represents a state in automation. States live outside of tasks...before, after and between. I.e. A state may be an
+ * input to a task (the before) or the output of a task (the after). A state that is created by one task may become
+ * the input to another task (the between).
+ *
+ * The InterTaskState contains the values described in the StateDefinition. As an example, a login task may generate a
+ * LoggedInState, whereby the browser in question is now ready to perform tasks on that site. That LoggedInState then
+ * serves as input to other tasks that require an authenticated session.
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  * @see StateDefinition
+ * @see StateTransitionConfiguration
  * @see org.museautomation.core.MuseTask
  */
 public class InterTaskState

@@ -51,5 +51,10 @@ public class InjectStatePlugin extends GenericConfigurablePlugin
         _states.add(state);
         }
 
+    public List<InterTaskState> getStates()
+        {
+        return _states;
+        }
+
     private List<InterTaskState> _states = new ArrayList<>();
     }

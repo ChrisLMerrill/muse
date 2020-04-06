@@ -30,6 +30,17 @@ public class BasicStateContainer implements StateContainer
             }
         }
 
+    @Override
+    public void replaceState(@Nonnull InterTaskState old_state, @Nonnull InterTaskState new_state)
+        {
+        if (!_states.contains(old_state))
+            throw new IllegalStateException("Cannot replace state because it is not found");
+        _states.remove(old_state);
+        _states.add(new_state);
+        for (StateContainerChangeListener listener : _listeners)
+            listener.stateReplaced(old_state, new_state);
+        }
+
     public List<InterTaskState> findStates(String type_id)
         {
         List<InterTaskState> matches = new ArrayList<>();

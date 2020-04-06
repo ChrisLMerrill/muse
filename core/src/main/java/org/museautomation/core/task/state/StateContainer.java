@@ -10,6 +10,7 @@ public interface StateContainer
     {
     void addState(InterTaskState state);
     void removeState(InterTaskState state);
+    void replaceState(InterTaskState new_state, InterTaskState old_state);
     Iterator<InterTaskState> states();
     List<InterTaskState> findStates(String type_id);
     InterTaskState findState(String type_id) throws IllegalStateException;
@@ -22,5 +23,6 @@ public interface StateContainer
         {
         void stateAdded(@Nonnull InterTaskState state);
         void stateRemoved(@Nonnull InterTaskState state);
+        void stateReplaced(@Nonnull InterTaskState old_state, @Nonnull InterTaskState new_state);
         }
     }
