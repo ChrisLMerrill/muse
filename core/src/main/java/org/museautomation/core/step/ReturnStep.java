@@ -44,7 +44,7 @@ public class ReturnStep extends BaseStep
         while (iterator.hasNext())
             {
             StepExecutionContext context = iterator.next();
-            if (context.getCurrentStepConfiguration().getType().equals(CallFunction.TYPE_ID))
+            if (context.getCurrentStep() instanceof CallFunction)
                 {
                 call_step_config = context.getCurrentStepConfiguration();
                 call_step = (CallFunction) context.getCurrentStep();
