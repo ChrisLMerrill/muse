@@ -23,6 +23,7 @@ public class StateTransition
 
     public StateTransitionResult execute()
         {
+        _context.raiseTransitionEvent(new StateTransitionEvent.StartTransitionEvent(_context));
         StateTransitionConfiguration config = _context.getConfig();
         ResourceToken<MuseResource> token = _context.getProject().getResourceStorage().findResource(config.getTaskId());
         if (token == null)
@@ -65,17 +66,22 @@ public class StateTransition
                 run_config.addPlugin(new InputProviderPlugin(provider));
             }
 
+        run_config.withinContext(_context);  // must initialize this before we can raise any events in the context.
+        _context.raiseTransitionEvent(new StateTransitionEvent.StartTransitionTaskEvent(_context, run_config.context()));
         BlockingThreadedTaskRunner runner = new BlockingThreadedTaskRunner(_context, run_config);
         runner.runTask();
-
-        TaskResult task_result = TaskResult.find(runner.getExecutionContext());
+        TaskResult task_result = TaskResult.find(run_config.context());
+        _context.raiseTransitionEvent(new StateTransitionEvent.EndTransitionTaskEvent(_context, task_result));
         if (task_result == null)
             return new StateTransitionResult("Unable to find the TaskResult in the TaskExecutionContext. Is is likely an internal error.");
+
+        StateTransitionResult result;
         if (task_result.isPass())
             {
             InterTaskState output_state;
             if (extract_plugin != null)
                 {
+                result = new StateTransitionResult("Output states were specified, but none were extracted");
                 for (StateTransitionConfiguration.TransitionOutputState tos : config.getOutputStates())
                     {
                     StateDefinition state_def = _context.getProject().getResourceStorage().getResource(tos.getStateId(), StateDefinition.class);
@@ -83,7 +89,10 @@ public class StateTransition
                     if (output_state == null)
                         {
                         if (tos.isRequired())
-                            return new StateTransitionResult("Output state not extracted: " + state_def.getId());
+                            {
+                            result = new StateTransitionResult("Required output state not extracted: " + state_def.getId());
+                            break;
+                            }
                         }
                     else
                         {
@@ -93,19 +102,30 @@ public class StateTransition
                                 _context.getContainer().replaceState(input_state, output_state);
                             else
                                 _context.getContainer().addState(output_state);
-                            return new StateTransitionResult(task_result, output_state);
+                            result = new StateTransitionResult(task_result, output_state);
+                            break;
                             }
                         else if (!tos.isSkipIncomplete())
-                            return new StateTransitionResult("Output state not complete: " + state_def.getFirstIncompleteFieldName(output_state));
+                            {
+                            result = new StateTransitionResult("Output state not valid (and not skippable): " + state_def.getFirstIncompleteFieldName(output_state));
+                            break;
+                            }
                         }
                     }
                 }
             else if (config.getInputState().isTerminate())
+                {
                 _context.getContainer().removeState(input_state);
-            return new StateTransitionResult(task_result, null);
+                result = new StateTransitionResult(task_result, null);
+                }
+            else
+                result = new StateTransitionResult(task_result, null);
             }
         else
-            return new StateTransitionResult("Task failed, due to: " + task_result.getSummary());
+            result = new StateTransitionResult("Task failed, due to: " + task_result.getSummary());
+
+        _context.raiseTransitionEvent(new StateTransitionEvent.EndTransitionEvent(_context, result));
+        return result;
         }
 
     public void addPlugin(MusePlugin plugin)

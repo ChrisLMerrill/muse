@@ -2,6 +2,7 @@ package org.museautomation.core.task.plugins.state;
 
 import org.junit.jupiter.api.*;
 import org.museautomation.builtins.plugins.input.*;
+import org.museautomation.builtins.plugins.results.*;
 import org.museautomation.builtins.valuetypes.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
@@ -15,6 +16,7 @@ import org.museautomation.core.task.state.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.atomic.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -212,10 +214,37 @@ public class StateTransitionTests
         Assertions.assertEquals(16L, result.outputState().getValues().get("out-val"));
         }
 
+    @Test
+    public void eventsReceived()
+        {
+        AtomicReference<StateTransitionEvent.StartTransitionEvent> _start_event = new AtomicReference<>();
+        AtomicReference<StateTransitionEvent.EndTransitionEvent> _end_event = new AtomicReference<>();
+        AtomicReference<StateTransitionEvent.StartTransitionTaskEvent> _start_task_event = new AtomicReference<>();
+        AtomicReference<StateTransitionEvent.EndTransitionTaskEvent> _end_task_event = new AtomicReference<>();
+        _trans_context.addTransitionListener(e ->
+            {
+            if (e instanceof StateTransitionEvent.StartTransitionEvent)
+                _start_event.set((StateTransitionEvent.StartTransitionEvent) e);
+            else if (e instanceof StateTransitionEvent.EndTransitionEvent)
+                _end_event.set((StateTransitionEvent.EndTransitionEvent) e);
+            else if (e instanceof StateTransitionEvent.StartTransitionTaskEvent)
+                _start_task_event.set((StateTransitionEvent.StartTransitionTaskEvent) e);
+            else if (e instanceof StateTransitionEvent.EndTransitionTaskEvent)
+                _end_task_event.set((StateTransitionEvent.EndTransitionTaskEvent) e);
+            });
+        StateTransitionResult result = _transition.execute();
+
+        Assertions.assertSame(_trans_context, _start_event.get().getContext());
+        Assertions.assertSame(_task, _start_task_event.get().getTaskContext().getTask());  // verify we can get the task context, by looking for the task
+        Assertions.assertNotNull(_end_task_event.get().getResult());
+        Assertions.assertSame(result, _end_event.get().getResult());
+        }
+
     @BeforeEach
     public void setup() throws IOException
         {
         SimpleProject project = new SimpleProject();
+        project.getResourceStorage().addResource(new TaskResultCollectorConfiguration.TaskResultCollectorConfigurationType().create());
 
         // create input State Definitions
         String in_state_type = "in-state";
