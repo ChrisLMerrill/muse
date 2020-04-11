@@ -2,6 +2,9 @@ package org.museautomation.core.task.state;
 
 import org.museautomation.core.context.*;
 import org.museautomation.core.project.*;
+import org.museautomation.core.task.input.*;
+
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
@@ -35,7 +38,18 @@ public class StateTransitionContext extends DelegatesToParentExecutionContext
         return _result;
         }
 
+    public List<TaskInputProvider> getInputProviders()
+        {
+        return Collections.unmodifiableList(_providers);
+        }
+
+    public void addInputProvider(TaskInputProvider provider)
+        {
+        _providers.add(provider);
+        }
+
     private final StateTransitionConfiguration _transition_config;
     private final StateContainer _container;
     private StateTransitionResult _result = null;
+    private final List<TaskInputProvider> _providers = new ArrayList<>();
     }

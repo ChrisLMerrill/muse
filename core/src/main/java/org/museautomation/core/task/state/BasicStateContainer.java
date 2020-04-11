@@ -54,7 +54,7 @@ public class BasicStateContainer implements StateContainer
         {
         List<InterTaskState> matches = findStates(type_id);
         if (matches.size() != 1)
-            throw new IllegalStateException("Expected to find 1 state of the matching type. Instead found " + matches.size());
+            return null;
         return matches.get(0);
         }
 
@@ -88,6 +88,6 @@ public class BasicStateContainer implements StateContainer
         return _states.size();
         }
 
-    private List<StateContainerChangeListener> _listeners = new ArrayList<>();
-    private Set<InterTaskState> _states = new HashSet<>();
+    private final List<StateContainerChangeListener> _listeners = new ArrayList<>();
+    private final Set<InterTaskState> _states = new HashSet<>();
     }

@@ -1,7 +1,6 @@
 package org.museautomation.core.task.plugins.state;
 
 import org.junit.jupiter.api.*;
-import org.museautomation.builtins.plugins.input.*;
 import org.museautomation.builtins.plugins.results.*;
 import org.museautomation.builtins.valuetypes.*;
 import org.museautomation.core.*;
@@ -12,6 +11,7 @@ import org.museautomation.core.project.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.step.*;
 import org.museautomation.core.task.*;
+import org.museautomation.core.task.input.*;
 import org.museautomation.core.task.state.*;
 
 import java.io.*;
@@ -99,7 +99,7 @@ public class StateTransitionTests
         _output_state_def.add(new StateValueDefinition("out-val2", new IntegerValueType(), true));
         StateTransitionResult result = _transition.execute();
         Assertions.assertFalse(result.transitionSuccess());
-        Assertions.assertTrue(result.getFailureMessage().contains("out-val2"));
+        Assertions.assertTrue(result.getFailureMessage().contains("out-state"));
         }
 
     @Test
@@ -107,6 +107,7 @@ public class StateTransitionTests
         {
         _output_state_def.add(new StateValueDefinition("out-val2", new IntegerValueType(), true));
         _transition_config.getOutputStates().get(0).setSkipIncomplete(true);
+        _transition_config.getOutputStates().get(0).setRequired(false);
         StateDefinition second_output_state = new StateDefinition();
         second_output_state.setId("second_outstate");
         second_output_state.add(new StateValueDefinition("out-val", new IntegerValueType(), true));
@@ -117,48 +118,6 @@ public class StateTransitionTests
         Assertions.assertTrue(result.transitionSuccess());
         Assertions.assertEquals("second_outstate", result.outputState().getStateDefinitionId());
         Assertions.assertEquals(6L, result.outputState().getValues().get("out-val"));
-        }
-
-    @Test
-    public void transitionWithPlugin() throws IOException
-        {
-        ResourceStorage storage = _trans_context.getProject().getResourceStorage();
-        storage.removeResource(storage.findResource(_transition_config.getTaskId()));
-        // create Task with required input and output
-        _task = new MockTask()
-            {
-            @Override
-            protected boolean executeImplementation(TaskExecutionContext context)
-                {
-                context.raiseEvent(StartTaskEventType.create(getId(), "mock"));
-                //noinspection RedundantCast
-                context.outputs().storeOutput("out-val", (Long) context.getVariable("in-val")  + (Long) context.getVariable("in-val2"));
-                context.raiseEvent(EndTaskEventType.create());
-                return true;
-                }
-            };
-        _task.setId(_transition_config.getTaskId());
-        _task.getInputSet().addInput(new TaskInput("in-val", new IntegerValueType().getId(), true));
-        _task.getInputSet().addInput(new TaskInput("in-val2", new IntegerValueType().getId(), true));
-        _trans_context.getProject().getResourceStorage().addResource(_task);
-
-        InputProvider provider = new InputProvider()
-            {
-            @Override
-            public boolean isLastChanceProvider() { return false; }
-            @Override
-            public Map<String, Object> gatherInputValues(TaskInputSet inputs, MuseExecutionContext context)
-                {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("in-val2", 13L);
-                return map;
-                }
-            };
-        _transition.addPlugin(new InputProviderPlugin(provider));
-        _transition.addPlugin(new InjectInputsPlugin(new InjectInputsPluginConfiguration()));
-        StateTransitionResult result = _transition.execute();
-
-        Assertions.assertEquals(16L, result.outputState().getValues().get("out-val"));
         }
 
     @Test
@@ -195,19 +154,23 @@ public class StateTransitionTests
         _task.getInputSet().addInput(new TaskInput("in-val2", new IntegerValueType().getId(), true));
         _trans_context.getProject().getResourceStorage().addResource(_task);
 
-        InputProvider provider = new InputProvider()
+        TaskInputProvider provider = new TaskInputProvider()
             {
             @Override
-            public boolean isLastChanceProvider() { return false; }
-            @Override
-            public Map<String, Object> gatherInputValues(TaskInputSet inputs, MuseExecutionContext context)
+            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input)
                 {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("in-val2", 13L);
-                return map;
+                if (input.getName().equals("in-val2"))
+                    return 13L;
+                return null;
+                }
+
+            @Override
+            public String getDescription()
+                {
+                return "provider";
                 }
             };
-        _transition.addInputProvider(provider);
+        _trans_context.addInputProvider(provider);
         StateTransitionResult result = _transition.execute();
 
         Assertions.assertEquals(16L, result.outputState().getValues().get("out-val"));
@@ -249,6 +212,23 @@ public class StateTransitionTests
         Assertions.assertEquals(result, _trans_context.getResult());
         Assertions.assertTrue(_trans_context.getResult().taskResult().isPass());
         }
+
+    @Test
+    public void inputStateNotFound()
+        {
+        _container.removeState(_input_state);
+        StateTransitionResult result = _transition.execute();
+        Assertions.assertFalse(result.transitionSuccess());
+        }
+
+    @Test
+    public void missingInputs()
+        {
+        _input_state.setValues(new HashMap<>());
+        StateTransitionResult result = _transition.execute();
+        Assertions.assertFalse(result.transitionSuccess());
+        }
+
 
     @BeforeEach
     public void setup() throws IOException

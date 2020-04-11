@@ -77,6 +77,8 @@ public class StateTransitionConfiguration extends GenericResourceConfiguration
 
     public static class TransitionInputState
         {
+        // required for de/serialization
+        @SuppressWarnings("unused")
         public TransitionInputState()
             {
             }
@@ -91,6 +93,8 @@ public class StateTransitionConfiguration extends GenericResourceConfiguration
             return _state_id;
             }
 
+        // required for de/serialization
+        @SuppressWarnings("unused")
         public void setStateId(String state_id)
             {
             _state_id = state_id;
@@ -112,6 +116,8 @@ public class StateTransitionConfiguration extends GenericResourceConfiguration
 
     public static class TransitionOutputState
         {
+        // required for de/serialization
+        @SuppressWarnings("unused")
         public TransitionOutputState()
             {
             }
@@ -126,6 +132,8 @@ public class StateTransitionConfiguration extends GenericResourceConfiguration
             return _state_id;
             }
 
+        // required for de/serialization
+        @SuppressWarnings("unused")
         public void setStateId(String state_id)
             {
             _state_id = state_id;
@@ -146,6 +154,8 @@ public class StateTransitionConfiguration extends GenericResourceConfiguration
             _replaces_input = replaces_input;
             }
 
+        // required for de/serialization
+        @SuppressWarnings("unused")
         public boolean isSkipIncomplete()
             {
             return _skip_incomplete;
@@ -154,6 +164,11 @@ public class StateTransitionConfiguration extends GenericResourceConfiguration
         public void setSkipIncomplete(boolean skipIncomplete)
             {
             _skip_incomplete = skipIncomplete;
+            }
+
+        public void setRequired(boolean required)
+            {
+            _required = required;
             }
 
         private String _state_id;

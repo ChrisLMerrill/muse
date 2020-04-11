@@ -59,5 +59,38 @@ public class InterTaskState
 
     private Map<String, Object> _values = new HashMap<>();
     private String _type_id;
-    private String _id = UUID.randomUUID().toString();
+    private final String _id = UUID.randomUUID().toString();
+
+    public static InterTaskState START = new InterTaskState()
+        {
+        @Override
+        public String getStateDefinitionId()
+            {
+            return "START";
+            }
+
+        @Override
+        public String getId()
+            {
+            return "START";
+            }
+
+        @Override
+        public void setValues(Map<String, Object> values)
+            {
+            throw new IllegalArgumentException("The START state is immutable. Calling this on the START state is a bug.");
+            }
+
+        @Override
+        public void setStateDefinitionId(String type_id)
+            {
+            throw new IllegalArgumentException("The START state is immutable. Calling this on the START state is a bug.");
+            }
+
+        @Override
+        public void setValue(String name, Object value)
+            {
+            throw new IllegalArgumentException("The START state is immutable. Calling this on the START state is a bug.");
+            }
+        };
     }

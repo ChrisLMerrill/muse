@@ -10,6 +10,8 @@ import org.museautomation.core.valuetypes.*;
  */
 public class TaskInput
     {
+    // required for de/serialization
+    @SuppressWarnings("unused")
     public TaskInput()
         {
         }
@@ -19,6 +21,13 @@ public class TaskInput
         _name = name;
         _type_id = type_id;
         _required = required;
+        }
+
+    public TaskInput(String name, String type_id, ValueSourceConfiguration default_val)
+        {
+        _name = name;
+        _type_id = type_id;
+        _default = default_val;
         }
 
     public String getName()
@@ -48,6 +57,8 @@ public class TaskInput
         return _type_id;
         }
 
+    // required for de/serialization
+    @SuppressWarnings("unused")
     public void setTypeId(String type_id)
         {
         _type_id = type_id;

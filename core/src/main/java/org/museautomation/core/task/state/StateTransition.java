@@ -1,14 +1,12 @@
 package org.museautomation.core.task.state;
 
-import org.museautomation.builtins.plugins.input.*;
-import org.museautomation.builtins.plugins.results.*;
-import org.museautomation.builtins.plugins.state.*;
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.task.*;
+import org.museautomation.core.task.input.*;
 
 import java.util.*;
 
@@ -35,99 +33,86 @@ public class StateTransition
 
         MuseTask task = (MuseTask) resource;
         TaskConfiguration run_config = new BasicTaskConfiguration(task);
-
-_context.raiseEvent(StartResolvingTransitionInputsEventType.create());
-// TODO resolve all inputs (from input state and providers in the context/configuration)
-        // setup state injector
-        InjectStatePlugin inject_plugin = new InjectStatePlugin(new InjectStatePluginConfiguration());
-        StateDefinition input_state_def = _context.getProject().getResourceStorage().getResource(config.getInputState().getStateId(), StateDefinition.class);
-        InterTaskState input_state = _context.getContainer().findState(input_state_def.getId());
-        inject_plugin.addState(input_state);
-        run_config.addPlugin(inject_plugin);
-
-        // setup state extractor
-        ExtractStatePlugin extract_plugin = null;
-        if (config.getOutputStates().size() > 0)
-            {
-            extract_plugin = new ExtractStatePlugin(new ExtractStatePluginConfiguration());
-            for (StateTransitionConfiguration.TransitionOutputState outstate_config : config.getOutputStates())
-                {
-                StateDefinition output_state_def = _context.getProject().getResourceStorage().getResource(outstate_config.getStateId(), StateDefinition.class);
-                extract_plugin.addStateToExtract(output_state_def);
-                }
-            run_config.addPlugin(extract_plugin);
-            }
-
-        run_config.addPlugin(new TaskResultCollector(new TaskResultCollectorConfiguration()));
         for (MusePlugin plugin : _plugins)
             run_config.addPlugin(plugin);
-
-        if (_providers.size() > 0)
-            {
-            run_config.addPlugin(new InjectInputsPlugin(new InjectInputsPluginConfiguration()));
-            for (InputProvider provider : _providers)
-                run_config.addPlugin(new InputProviderPlugin(provider));
-            }
-_context.raiseEvent(EndResolvingTransitionInputsEventType.create());
-
         run_config.withinContext(_context);  // must initialize this before we can raise any events in the context.
+
+        _context.raiseEvent(StartResolvingTransitionInputsEventType.create());
+        // get input state, if present
+        InterTaskState input_state = InterTaskState.START;
+        if (_context.getConfig().getInputState() != null)
+            input_state = _context.getContainer().findState(_context.getConfig().getInputState().getStateId());
+        if (input_state == null)
+            {
+            String message = "Required input state not found: " + _context.getConfig().getInputState().getStateId();
+            _context.raiseEvent(EndResolvingTransitionInputsEventType.createFailure(message));
+            _context.raiseEvent(EndStateTransitionEventType.create());
+            return new StateTransitionResult(message);
+            }
+
+        // resolve inputs
+        TaskInputResolution input_resolution = new TaskInputResolution(_context, run_config.context(), input_state);
+        TaskInputResolutionResults resolution_result = input_resolution.execute();
+        MuseEvent resolved_event;
+        if (!resolution_result.inputsSatisfied(task))
+            {
+            resolved_event = EndResolvingTransitionInputsEventType.createFailure(resolution_result.getUnsatisfiedInputDescription(task));
+            _context.raiseEvent(resolved_event);
+            _context.raiseEvent(EndStateTransitionEventType.create());
+            return new StateTransitionResult(new EndResolvingTransitionInputsEventType().getDescription(resolved_event));
+            }
+
+        // inject the inputs
+        for (ResolvedTaskInput resolved_input : resolution_result.getResolvedInputs())
+            run_config.context().setVariable(resolved_input.getName(), resolved_input.getValue());
+        _context.raiseEvent(EndResolvingTransitionInputsEventType.create());
+
+        // prepare the runner and execute task
         BlockingThreadedTaskRunner runner = new BlockingThreadedTaskRunner(_context, run_config);
         configureMessageRelay(runner);
-        // inject inputs
         runner.runTask();
         TaskResult task_result = TaskResult.find(run_config.context());
         if (task_result == null)
-            return new StateTransitionResult("Unable to find the TaskResult in the TaskExecutionContext. Is is likely an internal error.");
-
-        StateTransitionResult result;
-        if (task_result.isPass())
             {
-            InterTaskState output_state;
-            if (extract_plugin != null)
+            _context.raiseEvent(EndStateTransitionEventType.create());
+            return new StateTransitionResult("Unable to find the TaskResult in the TaskExecutionContext. Is is likely a configuration error (such as not having the TaskResultCollector plugin configured).");
+            }
+
+        StateExtraction extractor = new StateExtraction(_context, run_config.context(), resolution_result, input_state);
+        if (!extractor.execute())
+            {
+            _context.raiseEvent(EndStateTransitionEventType.create());
+            return new StateTransitionResult(extractor.getFailureMessage());
+            }
+        InterTaskState primary_state = null;
+        for (StateTransitionConfiguration.TransitionOutputState outstate : config.getOutputStates())
+            {
+            InterTaskState state = extractor.getState(outstate.getStateId());
+            StateDefinition state_def = _context.getProject().getResourceStorage().getResource(outstate.getStateId(), StateDefinition.class);
+            if (state_def.isValid(state))
                 {
-                result = new StateTransitionResult("Output states were specified, but none were extracted");
-                for (StateTransitionConfiguration.TransitionOutputState tos : config.getOutputStates())
-                    {
-                    StateDefinition state_def = _context.getProject().getResourceStorage().getResource(tos.getStateId(), StateDefinition.class);
-                    output_state = extract_plugin.getExtractedState(state_def);
-                    if (output_state == null)
-                        {
-                        if (tos.isRequired())
-                            {
-                            result = new StateTransitionResult("Required output state not extracted: " + state_def.getId());
-                            break;
-                            }
-                        }
-                    else
-                        {
-                        if (state_def.isValid(output_state))
-                            {
-                            if (tos.isReplacesInput())
-                                _context.getContainer().replaceState(input_state, output_state);
-                            else
-                                _context.getContainer().addState(output_state);
-                            result = new StateTransitionResult(task_result, output_state);
-                            break;
-                            }
-                        else if (!tos.isSkipIncomplete())
-                            {
-                            result = new StateTransitionResult("Output state not valid (and not skippable): " + state_def.getFirstIncompleteFieldName(output_state));
-                            break;
-                            }
-                        }
-                    }
-                }
-            else if (config.getInputState().isTerminate())
-                {
-                _context.getContainer().removeState(input_state);
-                result = new StateTransitionResult(task_result, null);
+                if (outstate.isReplacesInput() && _context.getContainer().contains(input_state))
+                    _context.getContainer().replaceState(input_state, state);
+                else
+                    _context.getContainer().addState(state);
+                if (outstate.isRequired())
+                    primary_state = state;
                 }
             else
-                result = new StateTransitionResult(task_result, null);
+                {
+                if (outstate.isRequired())
+                    {
+                    _context.raiseEvent(EndStateTransitionEventType.create());
+                    return new StateTransitionResult(String.format("The required output state %s could not be extracted.", outstate.getStateId()));
+                    }
+                }
             }
-        else
-            result = new StateTransitionResult("Task failed, due to: " + task_result.getSummary());
+        if (config.getInputState().isTerminate() && _context.getContainer().contains(input_state))
+            _context.getContainer().removeState(input_state);
 
+        if (primary_state == null && extractor.getValidStates().size() > 0)
+            primary_state = extractor.getValidStates().get(0);
+        StateTransitionResult result = new StateTransitionResult(task_result, primary_state);
         _context.setResult(result);
         _context.raiseEvent(EndStateTransitionEventType.create());
         return result;
@@ -153,12 +138,6 @@ _context.raiseEvent(EndResolvingTransitionInputsEventType.create());
         _plugins.add(plugin);
         }
 
-    public void addInputProvider(InputProvider provider)
-        {
-        _providers.add(provider);
-        }
-
     private final StateTransitionContext _context;
     private final List<MusePlugin> _plugins = new ArrayList<>();
-    private final List<InputProvider> _providers = new ArrayList<>();
     }
