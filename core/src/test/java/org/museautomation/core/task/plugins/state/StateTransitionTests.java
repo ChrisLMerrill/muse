@@ -195,7 +195,6 @@ public class StateTransitionTests
         _task.getInputSet().addInput(new TaskInput("in-val2", new IntegerValueType().getId(), true));
         _trans_context.getProject().getResourceStorage().addResource(_task);
 
-        StateTransition transition = new StateTransition(_trans_context);
         InputProvider provider = new InputProvider()
             {
             @Override
@@ -208,8 +207,8 @@ public class StateTransitionTests
                 return map;
                 }
             };
-        transition.addInputProvider(provider);
-        StateTransitionResult result = transition.execute();
+        _transition.addInputProvider(provider);
+        StateTransitionResult result = _transition.execute();
 
         Assertions.assertEquals(16L, result.outputState().getValues().get("out-val"));
         }
@@ -217,27 +216,38 @@ public class StateTransitionTests
     @Test
     public void eventsReceived()
         {
-        AtomicReference<StateTransitionEvent.StartTransitionEvent> _start_event = new AtomicReference<>();
-        AtomicReference<StateTransitionEvent.EndTransitionEvent> _end_event = new AtomicReference<>();
-        AtomicReference<StateTransitionEvent.StartTransitionTaskEvent> _start_task_event = new AtomicReference<>();
-        AtomicReference<StateTransitionEvent.EndTransitionTaskEvent> _end_task_event = new AtomicReference<>();
-        _trans_context.addTransitionListener(e ->
+        AtomicReference<MuseEvent> start_transition_event = new AtomicReference<>();
+        AtomicReference<MuseEvent> end_transition_event = new AtomicReference<>();
+        AtomicReference<MuseEvent> start_task_event = new AtomicReference<>();
+        AtomicReference<MuseEvent> end_task_event = new AtomicReference<>();
+        AtomicReference<MuseEvent> start_inputs_event = new AtomicReference<>();
+        AtomicReference<MuseEvent> end_inputs_event = new AtomicReference<>();
+        _trans_context.addEventListener(event ->
             {
-            if (e instanceof StateTransitionEvent.StartTransitionEvent)
-                _start_event.set((StateTransitionEvent.StartTransitionEvent) e);
-            else if (e instanceof StateTransitionEvent.EndTransitionEvent)
-                _end_event.set((StateTransitionEvent.EndTransitionEvent) e);
-            else if (e instanceof StateTransitionEvent.StartTransitionTaskEvent)
-                _start_task_event.set((StateTransitionEvent.StartTransitionTaskEvent) e);
-            else if (e instanceof StateTransitionEvent.EndTransitionTaskEvent)
-                _end_task_event.set((StateTransitionEvent.EndTransitionTaskEvent) e);
+            if (StartStateTransitionEventType.TYPE_ID.equals(event.getTypeId()))
+                start_transition_event.set(event);
+            else if (EndStateTransitionEventType.TYPE_ID.equals(event.getTypeId()))
+                end_transition_event.set(event);
+            else if (StartTaskEventType.TYPE_ID.equals(event.getTypeId()))
+                start_task_event.set(event);
+            else if (EndTaskEventType.TYPE_ID.equals(event.getTypeId()))
+                end_task_event.set(event);
+            else if (StartResolvingTransitionInputsEventType.TYPE_ID.equals(event.getTypeId()))
+                start_inputs_event.set(event);
+            else if (EndResolvingTransitionInputsEventType.TYPE_ID.equals(event.getTypeId()))
+                end_inputs_event.set(event);
             });
+
         StateTransitionResult result = _transition.execute();
 
-        Assertions.assertSame(_trans_context, _start_event.get().getContext());
-        Assertions.assertSame(_task, _start_task_event.get().getTaskContext().getTask());  // verify we can get the task context, by looking for the task
-        Assertions.assertNotNull(_end_task_event.get().getResult());
-        Assertions.assertSame(result, _end_event.get().getResult());
+        Assertions.assertNotNull(start_transition_event.get());
+        Assertions.assertNotNull(end_transition_event.get());
+        Assertions.assertNotNull(start_task_event.get());
+        Assertions.assertNotNull(end_task_event.get());
+        Assertions.assertNotNull(start_inputs_event.get());
+        Assertions.assertNotNull(end_inputs_event.get());
+        Assertions.assertEquals(result, _trans_context.getResult());
+        Assertions.assertTrue(_trans_context.getResult().taskResult().isPass());
         }
 
     @BeforeEach
@@ -268,9 +278,7 @@ public class StateTransitionTests
             @Override
             protected boolean executeImplementation(TaskExecutionContext context)
                 {
-                context.raiseEvent(StartTaskEventType.create(getId(), "mock"));
                 context.outputs().storeOutput("out-val", (Long) context.getVariable("in-val") * 2);
-                context.raiseEvent(EndTaskEventType.create());
                 return true;
                 }
             };
@@ -304,6 +312,6 @@ public class StateTransitionTests
     private InterTaskState _input_state;
     private StateTransitionConfiguration _transition_config;
     private StateTransitionContext _trans_context;
-    private StateContainer _container = new BasicStateContainer();
+    private final StateContainer _container = new BasicStateContainer();
     private StateTransition _transition;
     }

@@ -3,8 +3,6 @@ package org.museautomation.core.task.state;
 import org.museautomation.core.context.*;
 import org.museautomation.core.project.*;
 
-import java.util.*;
-
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -27,22 +25,17 @@ public class StateTransitionContext extends DelegatesToParentExecutionContext
         return _container;
         }
 
-    public void addTransitionListener(StateTransitionListener listener)
+    public void setResult(StateTransitionResult result)
         {
-        _listeners.add(listener);
-        }
-    public void removeTransitionListener(StateTransitionListener listener)
-        {
-        _listeners.remove(listener);
+        _result = result;
         }
 
-    public void raiseTransitionEvent(StateTransitionEvent event)
+    public StateTransitionResult getResult()
         {
-        for (StateTransitionListener listener : _listeners)
-            listener.transitionEvent(event);
+        return _result;
         }
 
     private final StateTransitionConfiguration _transition_config;
     private final StateContainer _container;
-    private final Set<StateTransitionListener> _listeners = new HashSet<>();
+    private StateTransitionResult _result = null;
     }

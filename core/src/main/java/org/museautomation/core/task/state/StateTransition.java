@@ -4,6 +4,7 @@ import org.museautomation.builtins.plugins.input.*;
 import org.museautomation.builtins.plugins.results.*;
 import org.museautomation.builtins.plugins.state.*;
 import org.museautomation.core.*;
+import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.plugins.*;
 import org.museautomation.core.resource.*;
@@ -23,7 +24,7 @@ public class StateTransition
 
     public StateTransitionResult execute()
         {
-        _context.raiseTransitionEvent(new StateTransitionEvent.StartTransitionEvent(_context));
+        _context.raiseEvent(StartStateTransitionEventType.create());
         StateTransitionConfiguration config = _context.getConfig();
         ResourceToken<MuseResource> token = _context.getProject().getResourceStorage().findResource(config.getTaskId());
         if (token == null)
@@ -35,6 +36,8 @@ public class StateTransition
         MuseTask task = (MuseTask) resource;
         TaskConfiguration run_config = new BasicTaskConfiguration(task);
 
+_context.raiseEvent(StartResolvingTransitionInputsEventType.create());
+// TODO resolve all inputs (from input state and providers in the context/configuration)
         // setup state injector
         InjectStatePlugin inject_plugin = new InjectStatePlugin(new InjectStatePluginConfiguration());
         StateDefinition input_state_def = _context.getProject().getResourceStorage().getResource(config.getInputState().getStateId(), StateDefinition.class);
@@ -65,13 +68,14 @@ public class StateTransition
             for (InputProvider provider : _providers)
                 run_config.addPlugin(new InputProviderPlugin(provider));
             }
+_context.raiseEvent(EndResolvingTransitionInputsEventType.create());
 
         run_config.withinContext(_context);  // must initialize this before we can raise any events in the context.
-        _context.raiseTransitionEvent(new StateTransitionEvent.StartTransitionTaskEvent(_context, run_config.context()));
         BlockingThreadedTaskRunner runner = new BlockingThreadedTaskRunner(_context, run_config);
+        configureMessageRelay(runner);
+        // inject inputs
         runner.runTask();
         TaskResult task_result = TaskResult.find(run_config.context());
-        _context.raiseTransitionEvent(new StateTransitionEvent.EndTransitionTaskEvent(_context, task_result));
         if (task_result == null)
             return new StateTransitionResult("Unable to find the TaskResult in the TaskExecutionContext. Is is likely an internal error.");
 
@@ -124,8 +128,24 @@ public class StateTransition
         else
             result = new StateTransitionResult("Task failed, due to: " + task_result.getSummary());
 
-        _context.raiseTransitionEvent(new StateTransitionEvent.EndTransitionEvent(_context, result));
+        _context.setResult(result);
+        _context.raiseEvent(EndStateTransitionEventType.create());
         return result;
+        }
+
+    private void configureMessageRelay(BlockingThreadedTaskRunner runner)
+        {
+        MuseExecutionContext _task_context = runner.getExecutionContext();
+        _task_context.addEventListener(event ->
+            {
+            switch (event.getTypeId())
+                {
+                case MessageEventType.TYPE_ID:
+                case StartTaskEventType.TYPE_ID:
+                case EndTaskEventType.TYPE_ID:
+                    _context.raiseEvent(event);
+                }
+            });
         }
 
     public void addPlugin(MusePlugin plugin)
@@ -138,7 +158,7 @@ public class StateTransition
         _providers.add(provider);
         }
 
-    private StateTransitionContext _context;
-    private List<MusePlugin> _plugins = new ArrayList<>();
-    private List<InputProvider> _providers = new ArrayList<>();
+    private final StateTransitionContext _context;
+    private final List<MusePlugin> _plugins = new ArrayList<>();
+    private final List<InputProvider> _providers = new ArrayList<>();
     }
