@@ -132,6 +132,36 @@ public class StateTransitionTests
         }
 
     @Test
+    public void emptyInputState()
+        {
+        _transition_config.setInputState(null);
+        _input_state = null;
+        _input_state_def = null;
+
+        TaskInputProvider provider = new TaskInputProvider()
+            {
+            @Override
+            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input)
+                {
+                if (input.getName().equals("in-val"))
+                    return 13L;
+                return null;
+                }
+
+            @Override
+            public String getDescription()
+                {
+                return "provider";
+                }
+            };
+        _trans_context.addInputProvider(provider);
+
+        StateTransitionResult result = _transition.execute();
+
+        Assertions.assertEquals(26L, result.outputState().getValues().get("out-val"));
+        }
+
+    @Test
     public void transitionWithInputProvider() throws IOException
         {
         ResourceStorage storage = _trans_context.getProject().getResourceStorage();
