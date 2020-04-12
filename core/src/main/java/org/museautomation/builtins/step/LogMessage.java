@@ -43,7 +43,7 @@ public class LogMessage extends BaseStep
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }
 
-    private MuseValueSource _message;
+    private final MuseValueSource _message;
 
     public final static String MESSAGE_PARAM = "message";
     public final static String TYPE_ID = LogMessage.class.getAnnotation(MuseTypeId.class).value();
