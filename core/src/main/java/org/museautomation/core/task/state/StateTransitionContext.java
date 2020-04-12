@@ -1,7 +1,7 @@
 package org.museautomation.core.task.state;
 
+import org.museautomation.core.*;
 import org.museautomation.core.context.*;
-import org.museautomation.core.project.*;
 import org.museautomation.core.task.input.*;
 
 import java.util.*;
@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class StateTransitionContext extends DelegatesToParentExecutionContext
     {
-    public StateTransitionContext(StateTransitionConfiguration transition_config, StateContainer container, SimpleProject project)
+    public StateTransitionContext(StateTransitionConfiguration transition_config, StateContainer container, MuseProject project)
         {
         super(new ProjectExecutionContext(project), null);
         _transition_config = transition_config;
