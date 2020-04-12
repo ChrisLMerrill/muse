@@ -107,7 +107,7 @@ public class StateTransition
                     }
                 }
             }
-        if (config.getInputState().isTerminate() && _context.getContainer().contains(input_state))
+        if (config.getInputState() != null && config.getInputState().isTerminate() && _context.getContainer().contains(input_state))
             _context.getContainer().removeState(input_state);
 
         if (primary_state == null && extractor.getValidStates().size() > 0)
