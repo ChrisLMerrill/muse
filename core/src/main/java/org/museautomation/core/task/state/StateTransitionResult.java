@@ -13,6 +13,18 @@ public class StateTransitionResult
         _failure_message = failure_message;
         }
 
+    public StateTransitionResult(TaskResult task_result)
+        {
+        _success = task_result.isPass();
+        if (!task_result.isPass())
+            {
+            if (task_result.getFailures().size() > 0)
+                _failure_message = task_result.getFailures().get(0).getDescription();
+            else
+                _failure_message = task_result.getSummary();
+            }
+        }
+
     public StateTransitionResult(TaskResult task_result, InterTaskState output_state)
         {
         _success = true;
@@ -40,7 +52,7 @@ public class StateTransitionResult
         return _failure_message;
         }
 
-    private boolean _success;
+    private final boolean _success;
     private String _failure_message;
     private TaskResult _task_result = null;
     private InterTaskState _output_state = null;
