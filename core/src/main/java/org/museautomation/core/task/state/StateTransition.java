@@ -77,6 +77,11 @@ public class StateTransition
             _context.raiseEvent(EndStateTransitionEventType.create());
             return new StateTransitionResult("Unable to find the TaskResult in the TaskExecutionContext. Is is likely a configuration error (such as not having the TaskResultCollector plugin configured).");
             }
+        if (!task_result.isPass())
+            {
+            _context.raiseEvent(EndStateTransitionEventType.create());
+            return new StateTransitionResult(task_result);
+            }
 
         StateExtraction extractor = new StateExtraction(_context, run_config.context(), resolution_result, input_state);
         if (!extractor.execute())
@@ -129,7 +134,10 @@ public class StateTransition
                 case StartTaskEventType.TYPE_ID:
                 case EndTaskEventType.TYPE_ID:
                     _context.raiseEvent(event);
+                    return;
                 }
+            if (event.hasTag("status"))
+                _context.raiseEvent(event);
             });
         }
 
