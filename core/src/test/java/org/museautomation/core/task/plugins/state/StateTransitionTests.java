@@ -162,10 +162,37 @@ public class StateTransitionTests
         }
 
     @Test
-    public void transitionWithInputProvider() throws IOException
+    public void taskFailure() throws IOException
+        {
+        _task = new MockTask()
+            {
+            @Override
+            protected boolean executeImplementation(TaskExecutionContext context)
+                {
+                context.raiseEvent(StartTaskEventType.create(getId(), "mock"));
+                context.raiseEvent(MessageEventType.createError("task failure"));
+                context.raiseEvent(EndTaskEventType.create());
+                return true;
+                }
+            };
+        replaceTask(_task);
+
+        StateTransitionResult result = _transition.execute();
+        Assertions.assertFalse(result.transitionSuccess());
+        Assertions.assertTrue(result.getFailureMessage().contains("task failure"));
+        }
+
+    private void replaceTask(MuseTask task) throws IOException
         {
         ResourceStorage storage = _trans_context.getProject().getResourceStorage();
         storage.removeResource(storage.findResource(_transition_config.getTaskId()));
+        task.setId(_transition_config.getTaskId());
+        _trans_context.getProject().getResourceStorage().addResource(task);
+        }
+
+    @Test
+    public void transitionWithInputProvider() throws IOException
+        {
         // create Task with required input and output
         _task = new MockTask()
             {
@@ -179,10 +206,9 @@ public class StateTransitionTests
                 return true;
                 }
             };
-        _task.setId(_transition_config.getTaskId());
         _task.getInputSet().addInput(new TaskInput("in-val", new IntegerValueType().getId(), true));
         _task.getInputSet().addInput(new TaskInput("in-val2", new IntegerValueType().getId(), true));
-        _trans_context.getProject().getResourceStorage().addResource(_task);
+        replaceTask(_task);
 
         TaskInputProvider provider = new TaskInputProvider()
             {
@@ -310,6 +336,7 @@ public class StateTransitionTests
 
         // create the transition context
         _trans_context = new StateTransitionContext(_transition_config, _container, project);
+        _trans_context.addPlugin(new TaskResultCollectorConfiguration().createPlugin());  // this need to be added for our test projects
         _container.addState(_input_state);
 
         // finally, create the transition
