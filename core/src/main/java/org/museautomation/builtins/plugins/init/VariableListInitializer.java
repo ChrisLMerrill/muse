@@ -29,13 +29,21 @@ public class VariableListInitializer extends GenericConfigurablePlugin
 			return;
 			}
 
+        boolean overwrite = true;
+        MuseValueSource overwrite_source = BaseValueSource.getValueSource(_configuration.parameters(), TaskDefaultsInitializerConfiguration.OVERWRITE_PARAM, false, context.getProject());
+        if (overwrite_source != null)
+	        overwrite = BaseValueSource.getValue(overwrite_source, context, false, Boolean.class);
+
 		// set the variables in the list into the context
 		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME, list_id);
 		for (String name : list.getVariables().keySet())
 			{
-			ValueSourceConfiguration config = list.getVariables().get(name);
-			Object value = config.createSource(context.getProject()).resolveValue(context);
-			context.setVariable(name, value, ContextVariableScope.Execution);
+            if (overwrite || context.getVariable(name, VariableQueryScope.Any) == null)
+                {
+                ValueSourceConfiguration config = list.getVariables().get(name);
+                Object value = config.createSource(context.getProject()).resolveValue(context);
+    			context.setVariable(name, value, ContextVariableScope.Execution);
+                }
 			}
 		context.setVariable(ProjectVarsInitializerSysvarProvider.VARIABLE_LIST_ID_VARNAME,null);
 
