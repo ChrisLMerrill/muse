@@ -1,6 +1,7 @@
 package org.museautomation.core.task.state;
 
 import org.museautomation.core.*;
+import org.museautomation.core.context.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.plugins.*;
@@ -22,6 +23,12 @@ public class StateTransition
 
     public StateTransitionResult execute()
         {
+        _result = executeImplementation();
+        return _result;
+        }
+
+    public StateTransitionResult executeImplementation()
+        {
         _context.raiseEvent(StartStateTransitionEventType.create());
         StateTransitionConfiguration config = _context.getConfig();
         ResourceToken<MuseResource> token = _context.getProject().getResourceStorage().findResource(config.getTaskId());
@@ -32,10 +39,10 @@ public class StateTransition
             return new StateTransitionResult(String.format("Cannot execute transition. The specified task id (%s) is not a task. It is a %s.", config.getTaskId(), resource.getType()));
 
         MuseTask task = (MuseTask) resource;
-        TaskConfiguration run_config = new BasicTaskConfiguration(task);
+        _run_config = new BasicTaskConfiguration(task);
         for (MusePlugin plugin : _plugins)
-            run_config.addPlugin(plugin);
-        run_config.withinContext(_context);  // must initialize this before we can raise any events in the context.
+            _run_config.addPlugin(plugin);
+        _run_config.withinContext(_context);  // must initialize this before we can raise any events in the context.
 
         _context.raiseEvent(StartResolvingTransitionInputsEventType.create());
         // get input state, if present
@@ -51,7 +58,7 @@ public class StateTransition
             }
 
         // resolve inputs
-        TaskInputResolution input_resolution = new TaskInputResolution(_context, run_config.context(), input_state);
+        TaskInputResolution input_resolution = new TaskInputResolution(_context, _run_config.context(), input_state);
         TaskInputResolutionResults resolution_result = input_resolution.execute();
         MuseEvent resolved_event;
         if (!resolution_result.inputsSatisfied(task))
@@ -64,14 +71,14 @@ public class StateTransition
 
         // inject the inputs
         for (ResolvedTaskInput resolved_input : resolution_result.getResolvedInputs())
-            run_config.context().setVariable(resolved_input.getName(), resolved_input.getValue());
+            _run_config.context().setVariable(resolved_input.getName(), resolved_input.getValue());
         _context.raiseEvent(EndResolvingTransitionInputsEventType.create());
 
         // prepare the runner and execute task
-        BlockingThreadedTaskRunner runner = new BlockingThreadedTaskRunner(_context, run_config);
+        BlockingThreadedTaskRunner runner = new BlockingThreadedTaskRunner(_context, _run_config);
         configureMessageRelay(runner);
         runner.runTask();
-        TaskResult task_result = TaskResult.find(run_config.context());
+        TaskResult task_result = TaskResult.find(_run_config.context());
         if (task_result == null)
             {
             _context.raiseEvent(EndStateTransitionEventType.create());
@@ -83,7 +90,7 @@ public class StateTransition
             return new StateTransitionResult(task_result);
             }
 
-        StateExtraction extractor = new StateExtraction(_context, run_config.context(), resolution_result, input_state);
+        StateExtraction extractor = new StateExtraction(_context, _run_config.context(), resolution_result, input_state);
         if (!extractor.execute())
             {
             _context.raiseEvent(EndStateTransitionEventType.create());
@@ -146,6 +153,24 @@ public class StateTransition
         _plugins.add(plugin);
         }
 
+    public StateTransitionResult getResult()
+        {
+        return _result;
+        }
+
+    public StateTransitionContext getContext()
+        {
+        return _context;
+        }
+
+    public TaskExecutionContext getTaskContext()
+        {
+        return _run_config.context();
+        }
+
+
     private final StateTransitionContext _context;
+    private StateTransitionResult _result;
     private final List<MusePlugin> _plugins = new ArrayList<>();
+    private TaskConfiguration _run_config;
     }
