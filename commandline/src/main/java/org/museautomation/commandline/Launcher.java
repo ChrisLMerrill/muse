@@ -3,6 +3,7 @@ package org.museautomation.commandline;
 import io.airlift.airline.*;
 import org.museautomation.core.commandline.*;
 import org.reflections.*;
+import org.slf4j.*;
 
 import java.util.*;
 
@@ -11,9 +12,10 @@ import java.util.*;
  */
 public class Launcher
     {
-    @SuppressWarnings("unchecked")
     public static void main(String[] args)
         {
+        LOG.info("Muse CLI Launcher starting with parameters " + Arrays.toString(args));
+
         // dynamically lookup the commands using Java's ServiceLoader. This looks at the META-INF/service files in jars on the classpath.
         ServiceLoader<MuseCommand> loader = ServiceLoader.load(MuseCommand.class);
         List<Class<? extends Runnable>> implementors = new ArrayList<>();
@@ -34,7 +36,7 @@ public class Launcher
             }
         catch (Exception e)
             {
-            muse_parser.parse(new String[0]).run();
+            muse_parser.parse().run();
             return;
             }
         try
@@ -48,10 +50,9 @@ public class Launcher
 			}
         }
 
+    final static Logger LOG = LoggerFactory.getLogger(Launcher.class);  // initialize logging immediately
     static
         {
         Reflections.log = null;
         }
     }
-
-
