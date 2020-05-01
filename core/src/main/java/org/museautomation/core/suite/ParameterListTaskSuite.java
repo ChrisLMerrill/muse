@@ -6,6 +6,7 @@ import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.types.*;
 import org.museautomation.core.task.*;
 import org.museautomation.core.util.*;
+import org.slf4j.*;
 
 import java.util.*;
 
@@ -37,13 +38,13 @@ public class ParameterListTaskSuite extends BaseMuseResource implements MuseTask
 		    task = new MissingTask(_taskid);
 
 	    List<TaskConfiguration> tasks = new ArrayList<>();
-	    List<Map<String, Object>> parameters;
+	    List<Map<String, Object>> parameters = Collections.emptyList();
 	    if (_parameters != null)
 		    parameters = _parameters;
 	    else if (_datatable_id != null)
 		    parameters = createParametersFromDataTable(project);
 	    else
-		    throw new IllegalStateException("ParameterListTaskSuite requires either the DataTableId or Parameters properties.");
+        LOG.error("ParameterListTaskSuite requires either the DataTableId or Parameters properties.");
 	    for (Map<String, Object> param_set : parameters)
 		    {
 		    BasicTaskConfiguration config = new BasicTaskConfiguration(_taskid);
@@ -57,9 +58,16 @@ public class ParameterListTaskSuite extends BaseMuseResource implements MuseTask
     @Override
     public Integer getTotalTaskCount(MuseProject project)
 	    {
+	    if (_datatable_id == null)
+	        return 0;
 	    if (_parameters == null)
-		    return getDataTable(project).getNumberRows();
-	    else
+            {
+            DataTable table = getDataTable(project);
+            if (table == null)
+                return 0;
+            return table.getNumberRows();
+            }
+        else
 	    	return _parameters.size();
 	    }
 
@@ -68,6 +76,8 @@ public class ParameterListTaskSuite extends BaseMuseResource implements MuseTask
         List<Map<String, Object>> param_list = new ArrayList<>();
 
         DataTable table = getDataTable(project);
+        if (table == null)
+            return param_list;
         String[] names = table.getColumnNames();
         for (int row = 0; row < table.getNumberRows(); row++)
             {
@@ -84,11 +94,17 @@ public class ParameterListTaskSuite extends BaseMuseResource implements MuseTask
 	    {
 	    ResourceToken token = project.getResourceStorage().findResource(_datatable_id);
 	    if (token == null)
-	        throw new IllegalStateException("DataTable not found in the project: " + _datatable_id);
-	    if (!(token.getResource() instanceof DataTable))
-	        throw new IllegalStateException("ParameterListTaskSuite requires the DataTableId corresponds to a DataTable resource in the project");
+            {
+            LOG.error("DataTable not found in the project: " + _datatable_id);
+            return null;
+            }
+        if (!(token.getResource() instanceof DataTable))
+            {
+            LOG.error("ParameterListTaskSuite requires the DataTableId corresponds to a DataTable resource in the project");
+            return null;
+            }
 
-	    return (DataTable) token.getResource();
+        return (DataTable) token.getResource();
 	    }
 
     @Override
@@ -174,6 +190,6 @@ public class ParameterListTaskSuite extends BaseMuseResource implements MuseTask
         }
 
     public final static String TYPE_ID = ParameterListTaskSuite.class.getAnnotation(MuseTypeId.class).value();
+
+    final static Logger LOG = LoggerFactory.getLogger(ParameterListTaskSuite.class);
     }
-
-

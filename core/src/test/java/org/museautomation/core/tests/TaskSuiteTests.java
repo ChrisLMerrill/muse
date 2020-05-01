@@ -155,6 +155,27 @@ class TaskSuiteTests
         }
 
     @Test
+    public void countTestsInParamterizedSuiteWithNoDatatable()
+        {
+        ParameterListTaskSuite suite = new ParameterListTaskSuite(null, null, "suite1");
+        Assertions.assertEquals(0, suite.getTotalTaskCount(new SimpleProject()));
+        }
+
+    @Test
+    public void countTestsInParamterizedSuiteWithMissingDatatable()
+        {
+        ParameterListTaskSuite suite = new ParameterListTaskSuite(null, "table1", "suite1");
+        Assertions.assertEquals(0, suite.getTotalTaskCount(new SimpleProject()));
+        }
+
+    @Test
+    public void getTasksInParameterizedSuiteWithNoDatatable()
+        {
+        ParameterListTaskSuite suite = new ParameterListTaskSuite(null, null, "suite1");
+        Assertions.assertFalse(suite.getTasks(new SimpleProject()).hasNext());
+        }
+
+    @Test
     void parameterizedTestSuite()
 	    {
         MuseProject project = new SimpleProject(new FolderIntoMemoryResourceStorage(TestResources.getFile("projects/parameterizedSuite", this.getClass())));
