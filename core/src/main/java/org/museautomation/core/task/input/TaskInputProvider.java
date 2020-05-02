@@ -9,6 +9,6 @@ import java.util.*;
  */
 public interface TaskInputProvider
     {
-    List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, UnresovledTaskInputs inputs);
+    List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, UnresolvedTaskInputs inputs);
     String getDescription();
     }

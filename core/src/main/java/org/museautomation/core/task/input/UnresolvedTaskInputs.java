@@ -7,9 +7,9 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class UnresovledTaskInputs
+public class UnresolvedTaskInputs
     {
-    public UnresovledTaskInputs(List<TaskInput> inputs)
+    public UnresolvedTaskInputs(List<TaskInput> inputs)
         {
         _inputs = inputs;
         }

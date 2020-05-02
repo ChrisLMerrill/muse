@@ -72,13 +72,13 @@ public class TaskInputResolutionResults
         return Collections.unmodifiableList(_resolved_inputs);
         }
 
-    public UnresovledTaskInputs getUnresolvedInputs(TaskInputSet all_inputs)
+    public UnresolvedTaskInputs getUnresolvedInputs(TaskInputSet all_inputs)
         {
         List<TaskInput> unresolved = new ArrayList<>();
         for (TaskInput input : all_inputs.getInputs())
             if (getResolvedInput(input.getName()) == null)
                 unresolved.add(input);
-        return new UnresovledTaskInputs(unresolved);
+        return new UnresolvedTaskInputs(unresolved);
         }
 
     private final List<ResolvedTaskInput> _resolved_inputs = new ArrayList<>();
