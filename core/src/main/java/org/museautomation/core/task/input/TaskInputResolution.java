@@ -7,6 +7,8 @@ import org.museautomation.core.task.*;
 import org.museautomation.core.task.state.*;
 import org.museautomation.core.values.strings.*;
 
+import java.util.*;
+
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
@@ -27,13 +29,13 @@ public class TaskInputResolution
 
         resolveFromInputState(results);
 
-        // first, try resolving from input providers
+        // first, try resolving from single input providers
         resolveFromInputProviders(results);
 
         // then, try resolving from defaults
         resolveFromDefaults(results);
 
-        // finally, try resolving from input providers again
+        // try resolving from single input providers again
         resolveFromInputProviders(results);
 
         // evalaute the results
@@ -45,13 +47,12 @@ public class TaskInputResolution
     private void resolveFromInputState(TaskInputResolutionResults results)
         {
         MuseTask task = _task_context.getTask();
-        for (TaskInput input : task.getInputSet().getInputs())
+        for (TaskInput input : results.getUnresolvedInputs(task.getInputSet()))
             {
             // if not already resolved and contained in state
-            String name = input.getName();
-            Object value = _input_state.getValues().get(name);
-            if (results.getResolvedInput(name) == null && value != null)
-                results.addResolvedInput(new ResolvedTaskInput(name, value, new ResolvedInputSource.TaskStateSource(_input_state)));
+            Object value = _input_state.getValues().get(input.getName());
+            if (value != null)
+                results.addResolvedInput(new ResolvedTaskInput(input.getName(), value, new ResolvedInputSource.TaskStateSource(_input_state)));
             }
         }
 
@@ -61,35 +62,23 @@ public class TaskInputResolution
         while (any_resolved)  // do this repeatedly until none are resolved. This allows resolving one input that is dependent on another.
             {
             any_resolved = false;
-            for (TaskInput input : _task_context.getTask().getInputSet().getInputs())
+            for (TaskInputProvider provider : _transition_context.getInputProviders())
                 {
-                // if not already resolved
-                if (results.getResolvedInput(input.getName()) == null)
+                List<ResolvedTaskInput> resolved_list = provider.resolveInput(results, results.getUnresolvedInputs(_task_context.getTask().getInputSet()));
+                for (ResolvedTaskInput resolved : resolved_list)
                     {
-                    ResolvedTaskInput resolved = resolveFromInputProviders(results, input);
-                    if (resolved != null)
+                    TaskInput input = _task_context.getTask().getInputSet().getInput(resolved.getName());
+                    // verify each resolved input is a valid type.
+                    if (input.getType().isInstance(resolved.getValue()))
                         {
-                        results.addResolvedInput(resolved);
                         any_resolved = true;
+                        results.addResolvedInput(resolved);
                         }
+                    else
+                        MessageEventType.raiseWarning(_transition_context, String.format("InputProvider (%s) provided a value with the wrong type. Expected a %s, but received a %s (%s)", provider.getDescription(), input.getType().getName(), resolved.getValue().getClass().getSimpleName(), resolved.getValue().toString()));
                     }
                 }
             }
-        }
-    private ResolvedTaskInput resolveFromInputProviders(TaskInputResolutionResults results, TaskInput input)
-        {
-        for (TaskInputProvider provider : _transition_context.getInputProviders())
-            {
-            Object value = provider.resolveInput(results, input);
-            if (value != null)
-                {
-                if (input.getType().isInstance(value))
-                    return new ResolvedTaskInput(input.getName(), value, new ResolvedInputSource.InputProviderSource(provider));
-                else
-                    MessageEventType.raiseWarning(_transition_context, String.format("InputProvider (%s) provided a value with the wrong type. Expected a %s, but received a %s (%s)", provider.getDescription(), input.getType().getName(), value.getClass().getSimpleName(), value.toString()));
-                }
-            }
-        return null;
         }
 
     private void resolveFromDefaults(TaskInputResolutionResults results)

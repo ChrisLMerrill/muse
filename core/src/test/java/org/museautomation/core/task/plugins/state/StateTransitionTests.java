@@ -138,7 +138,7 @@ public class StateTransitionTests
         _input_state = null;
         _input_state_def = null;
 
-        TaskInputProvider provider = new TaskInputProvider()
+        TaskInputProvider provider = new SingleTaskInputProvider()
             {
             @Override
             public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input)
@@ -210,7 +210,7 @@ public class StateTransitionTests
         _task.getInputSet().addInput(new TaskInput("in-val2", new IntegerValueType().getId(), true));
         replaceTask(_task);
 
-        TaskInputProvider provider = new TaskInputProvider()
+        TaskInputProvider provider = new SingleTaskInputProvider()
             {
             @Override
             public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input)

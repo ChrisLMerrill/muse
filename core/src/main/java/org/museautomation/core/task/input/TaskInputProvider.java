@@ -2,13 +2,15 @@ package org.museautomation.core.task.input;
 
 import org.museautomation.core.task.*;
 
+import java.util.*;
+
 /**
- * Can provide inputs to a task when asked.
+ * Resolve inputs for a task. 
  *
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 public interface TaskInputProvider
     {
-    Object resolveInput(TaskInputResolutionResults resolved, TaskInput input);
+    List<ResolvedTaskInput> resolveInput(TaskInputResolutionResults resolved, List<TaskInput> inputs);
     String getDescription();
     }

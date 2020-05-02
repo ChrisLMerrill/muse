@@ -45,7 +45,7 @@ public class TaskInputResolutionTests
     @Test
     public void resolveInputsFromProviders()
         {
-        TaskInputProvider input_provider = new TaskInputProvider()
+        TaskInputProvider input_provider = new SingleTaskInputProvider()
             {
             @Override
             public String getDescription()
@@ -72,7 +72,7 @@ public class TaskInputResolutionTests
     @Test
     public void rejectWrongTypeInputFromProvider()
         {
-        TaskInputProvider input_provider = new TaskInputProvider()
+        TaskInputProvider input_provider = new SingleTaskInputProvider()
             {
             @Override
             public String getDescription()
@@ -119,7 +119,7 @@ public class TaskInputResolutionTests
     @Test
     public void inputProviderResolvesAfterDefaultsResolved()
         {
-        TaskInputProvider input_provider = new TaskInputProvider()
+        TaskInputProvider input_provider = new SingleTaskInputProvider()
             {
             @Override
             public String getDescription()
