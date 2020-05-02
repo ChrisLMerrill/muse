@@ -1,7 +1,5 @@
 package org.museautomation.core.task.input;
 
-import org.museautomation.core.task.*;
-
 import java.util.*;
 
 /**
@@ -11,6 +9,6 @@ import java.util.*;
  */
 public interface TaskInputProvider
     {
-    List<ResolvedTaskInput> resolveInput(TaskInputResolutionResults resolved, List<TaskInput> inputs);
+    List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, UnresovledTaskInputs inputs);
     String getDescription();
     }

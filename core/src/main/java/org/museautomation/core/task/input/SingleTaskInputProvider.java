@@ -12,9 +12,9 @@ import java.util.*;
 public abstract class SingleTaskInputProvider implements TaskInputProvider
     {
     @Override
-    public List<ResolvedTaskInput> resolveInput(TaskInputResolutionResults resolved, List<TaskInput> inputs)
+    public List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, UnresovledTaskInputs inputs)
         {
-        for (TaskInput input : inputs)
+        for (TaskInput input : inputs.list())
             {
             Object value = resolveInput(resolved, input);
             if (value != null)
