@@ -14,7 +14,7 @@ public class UnresolvedTaskInputs
         _inputs = inputs;
         }
 
-    public boolean hasInput(String name)
+    public boolean contains(String name)
         {
         return getInput(name) != null;
         }
