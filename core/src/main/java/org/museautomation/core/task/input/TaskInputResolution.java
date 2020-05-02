@@ -29,17 +29,14 @@ public class TaskInputResolution
 
         resolveFromInputState(results);
 
-        // first, try resolving from single input providers
+        // first, try resolving from input providers
         resolveFromInputProviders(results);
 
         // then, try resolving from defaults
         resolveFromDefaults(results);
 
-        // try resolving from single input providers again
+        // try resolving from single providers again
         resolveFromInputProviders(results);
-
-        // evalaute the results
-        // TODO
 
         return results;
         }
@@ -64,7 +61,7 @@ public class TaskInputResolution
             any_resolved = false;
             for (TaskInputProvider provider : _transition_context.getInputProviders())
                 {
-                List<ResolvedTaskInput> resolved_list = provider.resolveInputs(results, results.getUnresolvedInputs(_task_context.getTask().getInputSet()));
+                List<ResolvedTaskInput> resolved_list = provider.resolveInputs(results, results.getUnresolvedInputs(_task_context.getTask().getInputSet()), _task_context);
                 for (ResolvedTaskInput resolved : resolved_list)
                     {
                     TaskInput input = _task_context.getTask().getInputSet().getInput(resolved.getName());

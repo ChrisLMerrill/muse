@@ -26,6 +26,12 @@ public class TaskInputResolutionResults
         _resolved_inputs.add(input);
         }
 
+    public void addResolvedInputs(List<ResolvedTaskInput> inputs)
+        {
+        for (ResolvedTaskInput input : inputs)
+            addResolvedInput(input);
+        }
+
     public boolean inputsSatisfied(MuseTask task)
         {
         return getUnsatisfiedInputs(task).isEmpty();

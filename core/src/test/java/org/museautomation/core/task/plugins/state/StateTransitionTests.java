@@ -141,7 +141,7 @@ public class StateTransitionTests
         TaskInputProvider provider = new SingleTaskInputProvider()
             {
             @Override
-            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input)
+            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input, MuseExecutionContext context)
                 {
                 if (input.getName().equals("in-val"))
                     return 13L;
@@ -213,7 +213,7 @@ public class StateTransitionTests
         TaskInputProvider provider = new SingleTaskInputProvider()
             {
             @Override
-            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input)
+            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input, MuseExecutionContext context)
                 {
                 if (input.getName().equals("in-val2"))
                     return 13L;

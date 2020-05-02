@@ -49,6 +49,8 @@ public class SimpleTaskRunner implements TaskRunner
 		    {
 		    for (MusePlugin plugin : _config.plugins())
 			    _task_context.addPlugin(plugin);
+		    for (MusePlugin plugin : getAdditionalPlugins(_config))
+                _task_context.addPlugin(plugin);
 		    Plugins.setup(_task_context);
 		    _task_context.initializePlugins();
 		    }
@@ -81,13 +83,18 @@ public class SimpleTaskRunner implements TaskRunner
         return _config.context();
         }
 
-    private TaskConfiguration _config;
+    protected List<MusePlugin> getAdditionalPlugins(@SuppressWarnings("unused") TaskConfiguration config)
+        {
+        return Collections.emptyList();
+        }
+
+    private final TaskConfiguration _config;
     protected MuseExecutionContext _context;
     protected TaskExecutionContext _task_context;
     protected MuseTask _task;
     protected Boolean _completed_normally;
 
-    private class TaskHolder implements TaskConfiguration
+    private static class TaskHolder implements TaskConfiguration
 	    {
 	    public TaskHolder(MuseTask task, TaskExecutionContext context)
 		    {

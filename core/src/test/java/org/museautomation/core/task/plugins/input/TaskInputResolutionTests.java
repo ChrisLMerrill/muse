@@ -54,7 +54,7 @@ public class TaskInputResolutionTests
                 }
 
             @Override
-            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input)
+            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input, MuseExecutionContext context)
                 {
                 return 3L;
                 }
@@ -81,7 +81,7 @@ public class TaskInputResolutionTests
                 }
 
             @Override
-            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input)
+            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input, MuseExecutionContext context)
                 {
                 return "some text";
                 }
@@ -128,7 +128,7 @@ public class TaskInputResolutionTests
                 }
 
             @Override
-            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input)
+            public Object resolveInput(TaskInputResolutionResults resolved, TaskInput input, MuseExecutionContext context)
                 {
                 if (resolved.getResolvedInput("dependent-val") != null)
                     return 3L;
