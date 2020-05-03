@@ -16,12 +16,13 @@ public class BuiltinValueTypes implements ValueTypeProvider
         return TYPES;
         }
 
-    private static List<MuseValueType> TYPES;
+    private static final List<MuseValueType> TYPES;
     static
         {
         TYPES = List.of(
             new AnyValueType(),
             new StringValueType(),
-            new IntegerValueType());
+            new IntegerValueType(),
+            new BooleanValueType());
         }
     }
