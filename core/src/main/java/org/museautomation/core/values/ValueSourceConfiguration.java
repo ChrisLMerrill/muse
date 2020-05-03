@@ -318,7 +318,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
             builder.append("]");
             first = false;
             }
-        if (_named_sources != null && _named_sources.getSourceNames().size() > 0)
+        if (_named_sources.getSourceNames().size() > 0)
             {
             if (!first)
                 builder.append(",");
@@ -343,8 +343,8 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
     private Object _value;
     private ValueSourceConfiguration _source;
     private String _type;
-    private NamedSourcesContainer _named_sources = new NamedSourcesContainer(this);
-    private IndexedSourcesContainer _indexed_sources = new IndexedSourcesContainer(this);
+    private final NamedSourcesContainer _named_sources = new NamedSourcesContainer(this);
+    private final IndexedSourcesContainer _indexed_sources = new IndexedSourcesContainer(this);
     private Map<String, Object> _metadata = null;
 
 
@@ -454,7 +454,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
         else if (value instanceof List)
 	        {
 	        config.setType(ListSource.TYPE_ID);
-	        List list = (List) value;
+	        List<Object> list = (List<Object>) value;
             for (int i = 0; i <list.size(); i++)
                 config.addSource(i, forValue(list.get(i)));
 	        return config;
