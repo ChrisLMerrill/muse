@@ -51,6 +51,16 @@ public abstract class ResolvedInputSource
         private final TaskInputProvider _provider;
         }
 
+    @SuppressWarnings("unused")  // used in UI
+    public static class UserInputSource extends ResolvedInputSource
+        {
+        @Override
+        public String getDescription()
+            {
+            return "from user";
+            }
+        }
+
     public static class DefaultValueSource extends ResolvedInputSource
         {
         @Override
