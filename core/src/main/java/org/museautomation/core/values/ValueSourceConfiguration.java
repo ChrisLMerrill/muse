@@ -186,7 +186,7 @@ public class ValueSourceConfiguration implements Serializable, ContainsNamedSour
             return false;
         ValueSourceConfiguration other = (ValueSourceConfiguration) obj;
 
-        if (!_type.equals(other._type))
+        if (!Objects.equals(_type, other._type))
             return false;
 
         if (!Objects.equals(_value, other._value))
