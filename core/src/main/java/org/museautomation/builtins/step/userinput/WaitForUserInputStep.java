@@ -38,9 +38,9 @@ public class WaitForUserInputStep extends BaseStep
         {
         MuseValueSource abort_message_source = getValueSource(getConfiguration(), ABORT_MESSAGE_PARAM, false, context.getProject());
 
-        List<TaskInput> inputs = new ArrayList<>();
-        inputs.add(new TaskInput(CONTINUE_INPUT_NAME, new BooleanValueType().getId(), true));
-        inputs.add(new TaskInput(MESSAGE_INPUT_NAME, new StringValueType().getId(), false));
+        TaskInputSet set = new TaskInputSet();
+        set.addInput(new TaskInput(CONTINUE_INPUT_NAME, new BooleanValueType().getId(), true));
+        set.addInput(new TaskInput(MESSAGE_INPUT_NAME, new StringValueType().getId(), false));
 
         ResolvedTaskInput continue_input = null;
         ResolvedTaskInput message_input = null;
@@ -48,7 +48,7 @@ public class WaitForUserInputStep extends BaseStep
         for (TaskInputProvider provider : providers)
             {
             TaskInputResolutionResults resolved = new TaskInputResolutionResults();
-            resolved.addResolvedInputs(provider.resolveInputs(resolved, new UnresolvedTaskInputs(inputs), context));
+            resolved.addResolvedInputs(provider.resolveInputs(resolved, set, context));
             continue_input = resolved.getResolvedInput(CONTINUE_INPUT_NAME);
             if (continue_input != null)
                 {

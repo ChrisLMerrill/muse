@@ -2,6 +2,7 @@ package org.museautomation.builtins.plugins.input;
 
 import org.museautomation.core.*;
 import org.museautomation.core.plugins.*;
+import org.museautomation.core.task.*;
 import org.museautomation.core.task.input.*;
 
 import java.util.*;
@@ -29,7 +30,7 @@ public class InputProviderPlugin implements MusePlugin, TaskInputProvider
         }
 
     @Override
-    public List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, UnresolvedTaskInputs inputs, MuseExecutionContext context)
+    public List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, TaskInputSet inputs, MuseExecutionContext context)
         {
         return _provider.resolveInputs(resolved, inputs, context);
         }

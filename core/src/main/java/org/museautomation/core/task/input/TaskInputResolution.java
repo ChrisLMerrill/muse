@@ -44,7 +44,7 @@ public class TaskInputResolution
     private void resolveFromInputState(TaskInputResolutionResults results)
         {
         MuseTask task = _task_context.getTask();
-        for (TaskInput input : results.getUnresolvedInputs(task.getInputSet()).list())
+        for (TaskInput input : results.getUnresolvedInputs(task.getInputSet()).all())
             {
             // if not already resolved and contained in state
             Object value = _input_state.getValues().get(input.getName());

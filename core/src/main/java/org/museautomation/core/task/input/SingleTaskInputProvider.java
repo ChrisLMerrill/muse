@@ -13,9 +13,9 @@ import java.util.*;
 public abstract class SingleTaskInputProvider implements TaskInputProvider
     {
     @Override
-    public List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, UnresolvedTaskInputs inputs, MuseExecutionContext context)
+    public List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, TaskInputSet inputs, MuseExecutionContext context)
         {
-        for (TaskInput input : inputs.list())
+        for (TaskInput input : inputs.all())
             {
             Object value = resolveInput(resolved, input, context);
             if (value != null)

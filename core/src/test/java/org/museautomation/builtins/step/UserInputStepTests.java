@@ -8,6 +8,7 @@ import org.museautomation.core.context.*;
 import org.museautomation.core.events.matching.*;
 import org.museautomation.core.mocks.*;
 import org.museautomation.core.step.*;
+import org.museautomation.core.task.*;
 import org.museautomation.core.task.input.*;
 
 import java.util.*;
@@ -69,7 +70,7 @@ public class UserInputStepTests
         return new TaskInputProvider()
             {
             @Override
-            public List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, UnresolvedTaskInputs inputs, MuseExecutionContext context)
+            public List<ResolvedTaskInput> resolveInputs(TaskInputResolutionResults resolved, TaskInputSet inputs, MuseExecutionContext context)
                 {
                 List<ResolvedTaskInput> result = new ArrayList<>();
                 result.add(new ResolvedTaskInput(WaitForUserInputStep.CONTINUE_INPUT_NAME, continue_or_abort, new ResolvedInputSource.InputProviderSource(this)));
