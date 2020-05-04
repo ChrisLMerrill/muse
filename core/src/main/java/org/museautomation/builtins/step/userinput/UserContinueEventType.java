@@ -25,6 +25,7 @@ public class UserContinueEventType extends EventType
         MuseEvent event = new MuseEvent(TYPE_ID);
         event.setAttribute(MuseEvent.DESCRIPTION, message);
         event.addTag(MuseEvent.TERMINATE);
+        event.addTag(MuseEvent.ERROR);
         return event;
         }
 
