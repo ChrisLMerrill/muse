@@ -54,7 +54,12 @@ public class Plugins
 	    		found.add((T) plugin);
 
 	    if (context.getParent() != null)
-            found.addAll(findAll(type, context.getParent()));
+            {
+            List<T> from_parent = findAll(type, context.getParent());
+            for (T plugin : from_parent)
+                if (!found.contains(plugin)) // remove duplicates
+                    found.add(plugin);
+            }
 	    return found;
         }
 
