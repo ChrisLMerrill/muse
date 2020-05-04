@@ -15,18 +15,18 @@ public class TaskInputSet
         }
 
     /**
-     * Intended only de/serialization support
+     * Intended only for de/serialization support
      */
-    @Deprecated // not really, but may keep it from being used directly
+    @Deprecated // not really, but this may to keep it from being used directly
     public Set<TaskInput> getList()
         {
         return new HashSet<>(_inputs.values());
         }
 
     /**
-     * Intended only de/serialization support
+     * Intended only for de/serialization support
      */
-    @Deprecated // not really, but may keep it from being used directly
+    @Deprecated // not really, but this may to keep it from being used directly
     public void setList(Set<TaskInput> inputs)
         {
         _inputs.clear();
@@ -56,5 +56,5 @@ public class TaskInputSet
         return _inputs.get(name);
         }
 
-    private Map<String, TaskInput> _inputs = new HashMap<>();
+    private Map<String, TaskInput> _inputs = new LinkedHashMap<>();  // used instead of HashMap to preserve the order
     }
