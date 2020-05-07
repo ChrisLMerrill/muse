@@ -38,6 +38,16 @@ public class GeckoDriverProvider extends BaseLocalDriverProvider
             return null;
             }
 
+        if (!(path.canExecute()))
+            {
+            boolean fixed = path.setExecutable(true);
+            if (!fixed)
+                {
+                context.raiseEvent(MessageEventType.create("The GeckoDriver executable does not have execute permission and the user does not have permission to grant it. Driver file is: " + path.getAbsolutePath()));
+                return null;
+                }
+            }
+
         synchronized (GeckoDriverProvider.class)
             {
             System.setProperty("webdriver.gecko.driver", path.getAbsolutePath());

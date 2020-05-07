@@ -40,6 +40,16 @@ public class EdgeDriverProvider extends BaseLocalDriverProvider
             return null;
             }
 
+        if (!(path.canExecute()))
+            {
+            boolean fixed = path.setExecutable(true);
+            if (!fixed)
+                {
+                context.raiseEvent(MessageEventType.create("The EdgeDriver file does not have execute permission and the user does not have permission to grant it. Driver file is: " + path.getAbsolutePath()));
+                return null;
+                }
+            }
+
         synchronized (EdgeDriverProvider.class)
             {
 

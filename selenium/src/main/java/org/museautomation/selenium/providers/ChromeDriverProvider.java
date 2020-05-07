@@ -38,6 +38,16 @@ public class ChromeDriverProvider extends BaseLocalDriverProvider
             return null;
             }
 
+        if (!(path.canExecute()))
+            {
+            boolean fixed = path.setExecutable(true);
+            if (!fixed)
+                {
+                context.raiseEvent(MessageEventType.create("The ChromeDriver executable does not have execute permission and the user does not have permission to grant it. Driver file is: " + path.getAbsolutePath()));
+                return null;
+                }
+            }
+
         synchronized (ChromeDriverProvider.class)
             {
             ChromeOptions options = new ChromeOptions();
