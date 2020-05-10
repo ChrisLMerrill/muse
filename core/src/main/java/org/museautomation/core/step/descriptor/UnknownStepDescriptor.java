@@ -53,7 +53,10 @@ public class UnknownStepDescriptor implements StepDescriptor
                 ValueSourceConfiguration source = step.getSources().get(source_name);
                 builder.append(source_name);
                 builder.append("=");
-                builder.append(_project.getValueSourceDescriptors().get(source).getInstanceDescription(source, new StepExpressionContext(getProject(), step)));
+                String desc = _project.getValueSourceDescriptors().get(source).getInstanceDescription(source, new StepExpressionContext(getProject(), step));
+                if (desc.length() > 60)
+                    desc = desc.substring(0, 40) + "...";
+                builder.append(desc);
                 first = false;
                 }
             if (!first)
