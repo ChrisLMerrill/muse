@@ -12,7 +12,7 @@ import org.museautomation.core.values.descriptor.*;
  */
 @MuseTypeId("glob-match")
 @MuseValueSourceName("Glob match")
-@MuseValueSourceTypeGroup("Search & Match")
+@MuseValueSourceTypeGroup("Text.Search & Match")
 @MuseValueSourceShortDescription("Matches a string against a glob pattern")
 @MuseValueSourceLongDescription("Accepts a Posix-style glob pattern and matches it against the target string. Returns true on match. Supports these wildcards: *, ? and [a-zA-Z0-9]")
 @MuseStringExpressionSupportImplementation(GlobMatchCondition.StringExpressionSupport.class)

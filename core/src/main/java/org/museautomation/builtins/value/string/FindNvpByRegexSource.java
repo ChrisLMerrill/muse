@@ -13,7 +13,7 @@ import java.util.regex.*;
  */
 @MuseTypeId("find-nvp-regex")
 @MuseValueSourceName("Find NVP by RegEx")
-@MuseValueSourceTypeGroup("Search & Match")
+@MuseValueSourceTypeGroup("Text.Search & Match")
 @MuseValueSourceShortDescription("Uses a RegularExpression to find an NVP within a String")
 @MuseValueSourceLongDescription("Resolves the RegEx parameter to a string and uses it to search the Target parameter, which is also resolved as a string. Selects 2 capture groups and constructs an NVP (Name Value Pair) from the values. Returns null if not found")
 @MuseStringExpressionSupportImplementation(FindNvpByRegexSource.StringExpressionSupport.class)

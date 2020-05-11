@@ -15,7 +15,7 @@ import java.net.*;
  */
 @MuseTypeId("url-encode")
 @MuseValueSourceName("URL Encode")
-@MuseValueSourceTypeGroup("Encoding")
+@MuseValueSourceTypeGroup("Text.Encoding")
 @MuseValueSourceShortDescription("Returns a URL-encoded version of the sub-source.")
 @MuseValueSourceLongDescription("Resolves the sub-source and resolve it to a string. Encode and return the result.")
 @MuseStringExpressionSupportImplementation(UrlEncoderValueSource.StringExpressionSupport.class)

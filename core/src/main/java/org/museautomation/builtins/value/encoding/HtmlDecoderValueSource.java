@@ -15,7 +15,7 @@ import java.net.*;
  */
 @MuseTypeId("html-decode")
 @MuseValueSourceName("HTML Decode")
-@MuseValueSourceTypeGroup("Encoding")
+@MuseValueSourceTypeGroup("Text.Encoding")
 @MuseValueSourceShortDescription("Returns an HTML-decoded version of the sub-source.")
 @MuseValueSourceLongDescription("Resolves the sub-source and resolve it to a string. Decode and return the result.")
 @MuseStringExpressionSupportImplementation(HtmlDecoderValueSource.StringExpressionSupport.class)
