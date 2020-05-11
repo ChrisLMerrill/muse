@@ -18,6 +18,7 @@ import java.util.*;
  */
 @MuseTypeId("get-item")
 @MuseValueSourceName("Get Item from Collection")
+@MuseValueSourceTypeGroup("Collections")
 @MuseValueSourceShortDescription("get an item from a collection (list or map)")
 @MuseValueSourceLongDescription("Evaluates the 'Selector' source to an integer or string and then looks for an item in the 'collection' source. If the collection is a list, it expects the selector to be an integer. If the collection is a map, then it will evaulate the selector as an integer or string and use that as the key to search the map.")
 @MuseStringExpressionSupportImplementation(GetItemFromCollection.StringExpressionSupport.class)

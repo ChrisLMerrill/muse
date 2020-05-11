@@ -13,6 +13,7 @@ import java.util.*;
  */
 @MuseTypeId("list")
 @MuseValueSourceName("List")
+@MuseValueSourceTypeGroup("Collections")
 @MuseValueSourceShortDescription("Creates a list of values.")
 @MuseValueSourceLongDescription("Assembles a list from the values in the sub-source list.")
 @MuseStringExpressionSupportImplementation(ListSource.StringExpressionSupport.class)

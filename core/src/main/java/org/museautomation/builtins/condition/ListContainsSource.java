@@ -14,6 +14,7 @@ import java.util.*;
  */
 @MuseTypeId("list-contains")
 @MuseValueSourceName("List Contains")
+@MuseValueSourceTypeGroup("Collections")
 @MuseValueSourceShortDescription("returns true if the list contains the specified value")
 @MuseValueSourceLongDescription("Evaluates the 'list' and 'target' parameters. If the former is a list and it contains the latter, this source returns true.")
 @MuseStringExpressionSupportImplementation(ListContainsSource.StringExpressionSupport.class)

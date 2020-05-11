@@ -11,6 +11,7 @@ import org.museautomation.core.values.descriptor.*;
  */
 @MuseTypeId("nvp")
 @MuseValueSourceName("Name/Value Pair")
+@MuseValueSourceTypeGroup("Collections")
 @MuseValueSourceShortDescription("Creates a name/value pair.")
 @MuseValueSourceLongDescription("Assembles a Pair from the name and value subsources")
 @MuseSourceDescriptorImplementation(NameValuePairDescriptor.class)
