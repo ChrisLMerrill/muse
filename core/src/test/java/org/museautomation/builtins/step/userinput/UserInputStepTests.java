@@ -1,8 +1,7 @@
-package org.museautomation.builtins.step;
+package org.museautomation.builtins.step.userinput;
 
 import org.junit.jupiter.api.*;
 import org.museautomation.builtins.plugins.input.*;
-import org.museautomation.builtins.step.userinput.*;
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.events.matching.*;
