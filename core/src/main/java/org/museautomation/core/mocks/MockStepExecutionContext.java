@@ -51,8 +51,6 @@ public class MockStepExecutionContext implements StepExecutionContext
         _test_context = task_context;
         }
 
-    final SteppedTaskExecutionContext _test_context;
-
     @Override
     public StepConfiguration getCurrentStepConfiguration()
         {
@@ -79,13 +77,19 @@ public class MockStepExecutionContext implements StepExecutionContext
     @Override
     public Object getVariable(String name)
         {
-        return _variables.get(name);
+        Object val = _variables.get(name);
+        if (val == null && _test_context != null)
+            val = _test_context.getVariable(name);
+        return val;
         }
 
     @Override
     public void setVariable(String name, Object value)
         {
-        _variables.put(name, value);
+        if (_test_context == null)
+            _variables.put(name, value);
+        else
+            _test_context.setVariable(name, value);
         }
 
     @Override
@@ -200,7 +204,8 @@ public class MockStepExecutionContext implements StepExecutionContext
 	    return ContextVariableScope.Execution;
 	    }
 
-    private Map<String, Object> _variables = new HashMap<>();
+    private final SteppedTaskExecutionContext _test_context;
+    private final Map<String, Object> _variables = new HashMap<>();
     private StepLocator _locator;
-    private ExecutionOutputs _outputs = new ExecutionOutputs();
+    private final ExecutionOutputs _outputs = new ExecutionOutputs();
     }
