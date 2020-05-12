@@ -204,7 +204,7 @@ public class MockStepExecutionContext implements StepExecutionContext
 	    return ContextVariableScope.Execution;
 	    }
 
-    private final SteppedTaskExecutionContext _test_context;
+    protected final SteppedTaskExecutionContext _test_context;
     private final Map<String, Object> _variables = new HashMap<>();
     private StepLocator _locator;
     private final ExecutionOutputs _outputs = new ExecutionOutputs();
