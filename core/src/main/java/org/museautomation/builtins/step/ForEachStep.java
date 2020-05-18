@@ -64,7 +64,7 @@ public class ForEachStep extends BasicCompoundStep
         super.beforeChildrenExecuted(context);
         context.setVariable(_name, _iterator.next());
         if (_counter_name_source != null)
-            context.setVariable(_counter, _count);
+            context.setVariable(_counter, _count++);
         }
 
     @Override
@@ -73,10 +73,7 @@ public class ForEachStep extends BasicCompoundStep
         super.afterChildrenExecuted(context);
         context.setVariable(_name, null);
         if (_counter_name_source != null)
-            {
             context.setVariable(_counter, null);
-            _count++;
-            }
         }
 
     private final MuseValueSource _list_source;
