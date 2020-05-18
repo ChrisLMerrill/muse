@@ -2,13 +2,17 @@ package org.museautomation.core.task;
 
 import com.fasterxml.jackson.annotation.*;
 import org.museautomation.*;
+import org.museautomation.core.metadata.*;
+import org.museautomation.core.util.*;
 import org.museautomation.core.values.*;
 import org.museautomation.core.valuetypes.*;
+
+import java.util.*;
 
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-public class TaskInput
+public class TaskInput implements Taggable
     {
     // required for de/serialization
     @SuppressWarnings("unused")
@@ -84,8 +88,56 @@ public class TaskInput
         _default = default_value;
         }
 
+
+    /**
+     * ONLY for serialization use!
+     *
+     * Exposes the underlying set for serialization purposes only. Use #tags for accessing the tags
+     */
+    public Set<String> getTags()
+        {
+        return _tags.getTags();
+        }
+
+    /**
+     * ONLY for serialization use!
+     *
+     * Exposes the underlying set for serialization purposes only. Use #tags for accessing the tags
+     */
+    public void setTags(Set<String> tags)
+        {
+        _tags = new HashSetTagContainer(tags);
+        }
+
+    @Override
+    public TagContainer tags()
+        {
+        return _tags;
+        }
+
+    public ContainsMetadata metadata()
+	    {
+	    return _metadata;
+	    }
+
+    /**
+     * ONLY for serialization use!
+     *
+     * Exposes the underlying metadata map for serialization purposes only. Use #metadata for accessing the metadata
+     */
+    public Map<String, Object> getMetadata() { return _metadata.getMap(); }
+
+    /**
+     * ONLY for serialization use!
+     *
+     * Exposes the underlying metadata map for serialization purposes only. Use #metadata for accessing the metadata
+     */
+    public void setMetadata(Map<String, Object> map) { _metadata.setMap(map); }
+
     private String _name;
     private String _type_id;
     private boolean _required;
     private ValueSourceConfiguration _default;
+    private final MetadataContainer _metadata = new MetadataContainer();
+    private HashSetTagContainer _tags = new HashSetTagContainer();
     }
