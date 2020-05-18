@@ -21,7 +21,7 @@ import java.io.*;
 @MuseStepTypeGroup("Files")
 @MuseStepIcon("glyph:FontAwesome:REMOVE")
 @MuseStepShortDescription("Delete a file from the local filesystem")
-@MuseStepLongDescription("The 'message' source will be resolved and converted to a string. The result is added to a MessageEvent and sent to the event log for the test. It is also sent to the logging output (by default, standard out) at INFO level.")
+@MuseStepLongDescription("The 'Filename' source will be resolved as a string and converted to a file path. If the file exists, it will be deleted.")
 @MuseSubsourceDescriptor(displayName = "Filename", description = "The full path and name of the file to delete", type = SubsourceDescriptor.Type.Named, name = DeleteFile.FILE_PARAM, defaultValue = "/path/to/file.txt")
 @SuppressWarnings("unused")
 public class DeleteFile extends BaseStep
@@ -55,7 +55,7 @@ public class DeleteFile extends BaseStep
             }
         }
 
-    private MuseValueSource _file_path;
+    private final MuseValueSource _file_path;
 
     final static String FILE_PARAM = "file";
     public final static String TYPE_ID = DeleteFile.class.getAnnotation(MuseTypeId.class).value();
