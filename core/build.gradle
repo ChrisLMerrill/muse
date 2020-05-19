@@ -6,8 +6,8 @@ dependencies
     api 'io.airlift:airline:0.8+'  // command-line parsing
     api 'com.fasterxml.jackson.core:jackson-databind:2.9.10.1'  // JSON de/serialization
     api 'commons-io:commons-io:2.5'
-    implementation 'net.sf.opencsv:opencsv:2.3'
 
+    implementation 'com.opencsv:opencsv:5.2'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'ch.qos.logback:logback-core:1.2.3'
 
