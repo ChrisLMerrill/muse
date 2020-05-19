@@ -23,7 +23,7 @@ public class CompoundPlugin extends GenericConfigurablePlugin
 		if (automatic && !applyAutomatically(context))
 			return false;
 
-		if (!applyToThisTest(context))
+		if (!applyToThisTask(context))
 			return false;
 
 		MuseValueSource source = BaseValueSource.getValueSource(_configuration.parameters(), CompoundPluginConfiguration.LISTS_PARAM, true, context.getProject());
@@ -31,10 +31,10 @@ public class CompoundPlugin extends GenericConfigurablePlugin
 		String[] id_list;
 		if (id_list_obj instanceof List)
 			{
-			final List<String> list = (List) id_list_obj;
+			final List<String> list = (List<String>) id_list_obj;
 			id_list = new String[list.size()];
 			for (int i = 0; i < list.size(); i++)
-				id_list[i] = ((List) id_list_obj).get(i).toString();
+				id_list[i] = ((List<String>) id_list_obj).get(i);
 			}
 		else if (id_list_obj.toString().contains(","))
 			{
@@ -49,7 +49,7 @@ public class CompoundPlugin extends GenericConfigurablePlugin
 
 		for (String id : id_list)
 			{
-			final ResourceToken token = context.getProject().getResourceStorage().findResource(id);
+			final ResourceToken<MuseResource> token = context.getProject().getResourceStorage().findResource(id);
 			if (token == null)
 				{
 				final MuseEvent event = MessageEventType.create("Unable to find plugin: " + id);

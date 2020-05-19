@@ -24,7 +24,7 @@ public abstract class GenericConfigurablePlugin implements MusePlugin
 			if (!applyAutomatically(context))
 				return false;
 			}
-		if (!applyToThisTest(context))
+		if (!applyToThisTask(context))
 			return false;
 
 		context.addPlugin(this);
@@ -46,7 +46,7 @@ public abstract class GenericConfigurablePlugin implements MusePlugin
 		return BaseValueSource.getValue(source, context, false, Boolean.class);
 		}
 
-	protected boolean applyToThisTest(MuseExecutionContext context) throws MuseExecutionError
+	protected boolean applyToThisTask(MuseExecutionContext context) throws MuseExecutionError
 		{
 		MuseValueSource source = BaseValueSource.getValueSource(_configuration.parameters(), APPLY_CONDITION_PARAM, true, context.getProject());
 		return BaseValueSource.getValue(source, context, false, Boolean.class);
@@ -58,7 +58,7 @@ public abstract class GenericConfigurablePlugin implements MusePlugin
 		return _configuration.getId();
 		}
 
-	protected GenericResourceConfiguration _configuration;
+	protected final GenericResourceConfiguration _configuration;
 
 	public final static String AUTO_APPLY_PARAM = "auto-apply";
 	public final static String APPLY_CONDITION_PARAM = "apply-condition";
