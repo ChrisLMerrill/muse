@@ -109,7 +109,7 @@ public class PassFailSuiteCsvOutputWriter extends GenericConfigurablePlugin impl
                 TaskResult result = TaskResult.find(context);
                 if (result == null)
                     LOG.error("No task result found. Unable to extract values.");
-                else if (result.isPass() && _collect_on_success || result.hasFailures() && _collect_on_failure)
+                else if (result.isPass() && _collect_on_success || !result.isPass() && _collect_on_failure)
                     {
                     String[] row = new String[_names.length];
                     for (int i = 0; i < _names.length; i++)
