@@ -1,6 +1,7 @@
 package org.museautomation.builtins.value.string;
 
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.json.*;
 import org.museautomation.builtins.value.*;
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
@@ -32,7 +33,7 @@ public class ParseJsonValueSource extends BaseValueSource
     public Object resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         if (MAPPER == null)
-            MAPPER = new ObjectMapper();
+            MAPPER = new JsonMapper();
         String json = getValue(_subsource, context, false, String.class);
         try
             {
