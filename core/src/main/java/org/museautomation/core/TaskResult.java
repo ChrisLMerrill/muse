@@ -56,7 +56,17 @@ public class TaskResult implements TaskResultData
 		_summary = summary;
 		}
 
-	public List<Failure> getFailures()
+    public String getStorageLocation()
+        {
+        return _storage_location;
+        }
+
+    public void setStorageLocation(String output_path)
+        {
+        _storage_location = output_path;
+        }
+
+    public List<Failure> getFailures()
 		{
 		return _failures;
 		}
@@ -154,6 +164,7 @@ public class TaskResult implements TaskResultData
 	private String _task_id;
 	private Boolean _pass = true;
 	private String _summary;
+	private String _storage_location;
 	private List<Failure> _failures = new ArrayList<>();
 
 	public enum FailureType

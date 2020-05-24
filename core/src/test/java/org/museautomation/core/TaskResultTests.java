@@ -3,6 +3,7 @@ package org.museautomation.core;
 import org.jetbrains.annotations.*;
 import org.junit.jupiter.api.*;
 import org.museautomation.builtins.plugins.results.*;
+import org.museautomation.builtins.plugins.resultstorage.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.execution.*;
 import org.museautomation.core.mocks.*;
@@ -144,6 +145,16 @@ class TaskResultTests
 		Assertions.assertEquals(1, _collector.getData().size());
 	    Assertions.assertTrue(_collector.getResult().isPass());
 	    Assertions.assertEquals(0, _collector.getResult().getFailures().size());
+	    }
+
+	@Test
+    void captureStorageLocation() throws MuseExecutionError
+		{
+	    _collector = createCollector(null, null, false);
+	    _collector.initialize(_context);
+		_context.raiseEvent(LocalStorageLocationEventType.create("path/to/files", "path/to/test/", null));
+
+	    Assertions.assertEquals("path/to/files", _collector.getResult().getStorageLocation());
 	    }
 
 	private TaskResultCollector createCollector(Boolean fail_on_error, Boolean fail_on_failure, Boolean fail_on_interrupt)

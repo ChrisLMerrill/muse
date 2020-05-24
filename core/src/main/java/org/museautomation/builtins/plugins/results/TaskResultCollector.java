@@ -1,5 +1,6 @@
 package org.museautomation.builtins.plugins.results;
 
+import org.museautomation.builtins.plugins.resultstorage.*;
 import org.museautomation.core.*;
 import org.museautomation.core.datacollection.*;
 import org.museautomation.core.events.*;
@@ -52,9 +53,12 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
             {
             if (event.getTypeId().equals(StartTaskEventType.TYPE_ID))
                 {
-                _result = new TaskResult();
                 _result.setTaskId(event.getAttributeAsString(StartTaskEventType.TASK_ID));
                 _result.setName(event.getAttributeAsString(StartTaskEventType.TASK_NAME));
+                }
+            else if (event.getTypeId().equals(LocalStorageLocationEventType.TYPE_ID))
+                {
+                _result.setStorageLocation(new LocalStorageLocationEventType().getBasePath(event));
                 }
             else if (event.getTypeId().equals(InterruptedEventType.TYPE_ID) && _fail_on_interrupt)
                 {
@@ -90,5 +94,5 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
 	private boolean _fail_on_error = true;
 	private boolean _fail_on_interrupt = true;
 
-	private TaskResult _result = new TaskResult();
+	private final TaskResult _result = new TaskResult();
 	}
