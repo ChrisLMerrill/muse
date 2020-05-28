@@ -41,8 +41,7 @@ public class SendKeys extends BrowserStep
         if (clear)
             element.clear();
 
-        CharSequence keys = getValue(_keys_source, context, false, CharSequence.class);
-        element.sendKeys(keys);
+        element.sendKeys(getValue(_keys_source, context, false, Object.class).toString());
 
         return new BasicStepExecutionResult(StepExecutionStatus.COMPLETE);
         }
