@@ -2,9 +2,7 @@ package org.museautomation.selenium.values;
 
 import org.museautomation.builtins.value.*;
 import org.museautomation.core.*;
-import org.museautomation.core.events.*;
 import org.museautomation.core.resource.*;
-import org.museautomation.core.step.*;
 import org.museautomation.core.values.*;
 import org.museautomation.core.values.descriptor.*;
 import org.museautomation.selenium.*;
