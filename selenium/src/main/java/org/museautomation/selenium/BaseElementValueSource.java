@@ -32,7 +32,7 @@ public abstract class BaseElementValueSource extends BaseSeleniumValueSource
         if (element == null)
             {
             if (required)
-                throw new ValueSourceResolutionError("Cannot determine locate the element: locator returned null");
+                throw new ValueSourceResolutionError("Cannot locate the element: locator returned null");
             else
                 return null;
             }
