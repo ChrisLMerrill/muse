@@ -22,6 +22,7 @@ import java.util.*;
 @MuseSubsourceDescriptor(displayName = "XPath id", description = "The ID of the parameterized XPath (a project resource)", type = SubsourceDescriptor.Type.Single)
 @MuseSubsourceDescriptor(displayName = "Parameter(s)", description = "Parameters to pass to the XPath. Must resolve to a String or a List of Strings.", name = ParameterizedXPathElementValueSource.PARAMS_PARAM, type = SubsourceDescriptor.Type.Named)
 @MuseSubsourceDescriptor(displayName = "Find Multiple", description = "If true, look for 0 to many matching elements and resolve as a list. If false (default) return first match and fail if none found", type = SubsourceDescriptor.Type.Named, name = ElementByLocatorValueSource.MULTIPLE_PARAM, defaultValue = "false", optional = true)
+@SuppressWarnings("unused") // instantiated via reflection
 public class ParameterizedXPathElementValueSource extends ElementByLocatorValueSource
     {
     @SuppressWarnings("unused")  // used via reflection

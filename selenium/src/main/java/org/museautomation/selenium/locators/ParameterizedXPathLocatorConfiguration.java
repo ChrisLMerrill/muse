@@ -1,7 +1,6 @@
 package org.museautomation.selenium.locators;
 
 import org.museautomation.core.*;
-import org.museautomation.core.plugins.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.generic.*;
 import org.museautomation.core.resource.types.*;
