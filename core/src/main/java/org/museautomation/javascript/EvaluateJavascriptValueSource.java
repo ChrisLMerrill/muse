@@ -41,7 +41,7 @@ public class EvaluateJavascriptValueSource extends BaseValueSource
             }
         catch (ScriptException e)
             {
-            context.raiseEvent(ScriptFailureEventType.create("Unable to evaluate Javascript", e));
+            context.raiseEvent(ScriptFailureEventType.create("Unable to evaluate Javascript: " + e.getMessage(), e));
             return null;
             }
         }
