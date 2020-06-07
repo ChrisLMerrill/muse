@@ -141,8 +141,8 @@ class SeleniumStepTests
         StepExecutionContext context = new MockStepExecutionContext();
         BrowserStepExecutionContext.putDriver(driver, context);
 
-        StepConfiguration execute = new StepConfiguration(ExecuteJavascript.TYPE_ID);
-        execute.addSource(ExecuteJavascript.SCRIPT_PARAM, ValueSourceConfiguration.forValue(script));
+        StepConfiguration execute = new StepConfiguration(ExecuteJavascriptStep.TYPE_ID);
+        execute.addSource(ExecuteJavascriptStep.SCRIPT_PARAM, ValueSourceConfiguration.forValue(script));
         MuseStep step = execute.createStep();
         return step.execute(context);
         }

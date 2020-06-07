@@ -21,13 +21,13 @@ import java.util.*;
 @MuseStepTypeGroup("Selenium.Other")
 @MuseStepShortDescription("Run a script in the browser")
 @MuseStepLongDescription("Resolve the script source to a string. Inject that into the browser and run it.")
-@MuseSubsourceDescriptor(displayName = "Script", description = "The script to execute (as a text string)", type = SubsourceDescriptor.Type.Named, name = ExecuteJavascript.SCRIPT_PARAM)
-@MuseSubsourceDescriptor(displayName = "Arguments", description = "Arguments to pass into the script (accessed as arguments[N])", type = SubsourceDescriptor.Type.List, name = ExecuteJavascript.ARGUMENTS_PARAM, optional = true)
-@MuseSubsourceDescriptor(displayName = "Return Variable", description = "Name of variable to store the returned value", type = SubsourceDescriptor.Type.Named, name = ExecuteJavascript.RETURN_VARIABLE, optional = true)
-public class ExecuteJavascript extends BrowserStep
+@MuseSubsourceDescriptor(displayName = "Script", description = "The script to execute (as a text string)", type = SubsourceDescriptor.Type.Named, name = ExecuteJavascriptStep.SCRIPT_PARAM)
+@MuseSubsourceDescriptor(displayName = "Arguments", description = "Arguments to pass into the script (accessed as arguments[N])", type = SubsourceDescriptor.Type.List, name = ExecuteJavascriptStep.ARGUMENTS_PARAM, optional = true)
+@MuseSubsourceDescriptor(displayName = "Return Variable", description = "Name of variable to store the returned value", type = SubsourceDescriptor.Type.Named, name = ExecuteJavascriptStep.RETURN_VARIABLE, optional = true)
+public class ExecuteJavascriptStep extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
-    public ExecuteJavascript(StepConfiguration config, MuseProject project) throws MuseInstantiationException
+    public ExecuteJavascriptStep(StepConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config);
         _script = getValueSource(config, SCRIPT_PARAM, true, project);
@@ -85,7 +85,7 @@ public class ExecuteJavascript extends BrowserStep
     public final static String ARGUMENTS_PARAM = "arguments";
     public final static String RETURN_VARIABLE = "return_var";
 
-    public final static String TYPE_ID = ExecuteJavascript.class.getAnnotation(MuseTypeId.class).value();
+    public final static String TYPE_ID = ExecuteJavascriptStep.class.getAnnotation(MuseTypeId.class).value();
     }
 
 
