@@ -51,12 +51,14 @@ public class SimpleTaskSuiteRunner implements MuseTaskSuiteRunner
 	    {
 	    boolean suite_success = true;
 	    final Iterator<TaskConfiguration> tasks = suite.getTasks(_project);
-	    while (tasks.hasNext())
+	    while (tasks.hasNext() && !_cancelled)
 		    {
 		    final boolean task_success = runTask(tasks.next());
 		    if (!task_success)
 			    suite_success = false;
 		    }
+        if (_cancelled)
+            suite_success = false;
 	    return suite_success;
 	    }
 
@@ -92,6 +94,11 @@ public class SimpleTaskSuiteRunner implements MuseTaskSuiteRunner
 		_context.setVariable(config_var_name, null);
 		}
 
+    public void stop()
+        {
+        _cancelled = true;
+        }
+
     @NotNull
     @SuppressWarnings("WeakerAccess")  // overridden in GUI.
     protected SimpleTaskRunner createRunner(TaskConfiguration configuration)
@@ -101,4 +108,5 @@ public class SimpleTaskSuiteRunner implements MuseTaskSuiteRunner
 
     protected MuseProject _project;
     protected TaskSuiteExecutionContext _context;
+    private boolean _cancelled = false;
     }

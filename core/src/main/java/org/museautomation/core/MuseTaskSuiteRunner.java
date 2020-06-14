@@ -11,5 +11,6 @@ public interface MuseTaskSuiteRunner
     {
     boolean execute(MuseProject project, MuseTaskSuite suite, List<MusePlugin> plugins);
     void setOutputPath(String path);
+    void stop();
     }
 
