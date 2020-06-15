@@ -274,7 +274,23 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
                 String filename = serializer.suggestFilename(resource);
                 if (!(new FilenameValidator().isValid(filename)))
                     return "not a valid resource id";
-                new_file = new File(_folder, filename);
+                File folder = _folder;
+                if (resource.metadata().getMetadataField(PATH_ATTRIBUTE_NAME) != null)
+                    {
+                    String path = resource.metadata().getMetadataField(PATH_ATTRIBUTE_NAME).toString();
+                    File subfolder = new File(_folder, path);
+                    if (subfolder.exists() || subfolder.mkdirs())
+                        {
+                        folder = subfolder;
+                        ProjectStructureSettings structure = ProjectStructureSettings.get(_folder);
+                        if (!structure.getSubfolders().contains(path))
+                            {
+                            structure.getSubfolders().add(path);
+                            structure.save();
+                            }
+                        }
+                    }
+                new_file = new File(folder, filename);
                 outstream = new FileOutputStream(new_file);
                 }
             else
