@@ -49,6 +49,10 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
 		if (fail_on_interrupt != null)
 			_fail_on_interrupt = fail_on_interrupt;
 
+        LocalStorageLocationPlugin storage = Plugins.findType(LocalStorageLocationPlugin.class, context);
+        if (storage != null)
+            _result.setStorageLocation(storage.getBaseFolder().getAbsolutePath());
+
 		context.addEventListener(event ->
             {
             if (event.getTypeId().equals(StartTaskEventType.TYPE_ID))
