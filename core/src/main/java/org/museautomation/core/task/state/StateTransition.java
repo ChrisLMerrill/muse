@@ -70,8 +70,10 @@ public class StateTransition
             }
 
         // inject the inputs
+        InjectInputs injector = new InjectInputs();
         for (ResolvedTaskInput resolved_input : resolution_result.getResolvedInputs())
-            _run_config.context().setVariable(resolved_input.getName(), resolved_input.getValue());
+            injector._values.put(resolved_input.getName(), resolved_input.getValue());
+        _run_config.addPlugin(injector);
         _context.raiseEvent(EndResolvingTransitionInputsEventType.create());
 
         // prepare the runner and execute task
@@ -173,4 +175,34 @@ public class StateTransition
     private StateTransitionResult _result;
     private final List<MusePlugin> _plugins = new ArrayList<>();
     private TaskConfiguration _run_config;
+
+    class InjectInputs implements MusePlugin
+        {
+        @Override
+        public boolean conditionallyAddToContext(MuseExecutionContext context, boolean automatic)
+            {
+            return true;
+            }
+
+        @Override
+        public void initialize(MuseExecutionContext context)
+            {
+            for (String name : _values.keySet())
+                context.setVariable(name, _values.get(name));
+            }
+
+        @Override
+        public void shutdown()
+            {
+
+            }
+
+        @Override
+        public String getId()
+            {
+            return "StateTransition.inject_inputs";
+            }
+
+        Map<String, Object> _values = new HashMap<>();
+        }
     }
