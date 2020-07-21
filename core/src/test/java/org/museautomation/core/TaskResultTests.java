@@ -152,7 +152,7 @@ class TaskResultTests
 		{
 	    _collector = createCollector(null, null, false);
 	    _collector.initialize(_context);
-		_context.raiseEvent(LocalStorageLocationEventType.create("path/to/files", "path/to/test/", null));
+		_context.raiseEvent(LocalStorageLocationEventType.create("path/to/files", null));
 
 	    Assertions.assertEquals("path/to/files", _collector.getResult().getStorageLocation());
 	    }

@@ -17,9 +17,7 @@ public class LocalStorageLocationEventType extends EventType
    	@Override
    	public String getDescription(MuseEvent event)
    		{
-   		String path = event.getAttributeAsString(TASK_PATH);
-   		if (path == null)
-   		    path = event.getAttributeAsString(BASE_PATH);
+   		String path = event.getAttributeAsString(BASE_PATH);
         if (event.hasTag(MuseEvent.ERROR))
             return String.format("ERROR: Unable to set local storage location to %s due to %s", path, event.getAttribute(MuseEvent.ERROR_MESSAGE));
         else
@@ -32,18 +30,17 @@ public class LocalStorageLocationEventType extends EventType
         return event.getAttribute(BASE_PATH).toString();
         }
 
+    @Deprecated
     @SuppressWarnings("unused")  // public API
     public String getTaskPath(MuseEvent event)
         {
-        return event.getAttribute(TASK_PATH).toString();
+        return event.getAttribute(BASE_PATH).toString();
         }
 
-   	public static MuseEvent create(String path, String test_path, String error_message)
+   	public static MuseEvent create(String path, String error_message)
    		{
    		final MuseEvent event = new MuseEvent(TYPE_ID);
    		event.setAttribute(BASE_PATH, path);
-   		if (test_path != null)
-   		    event.setAttribute(TASK_PATH, test_path);
    		if (error_message != null)
             {
             event.addTag(MuseEvent.ERROR);
@@ -54,5 +51,4 @@ public class LocalStorageLocationEventType extends EventType
 
     public final static String TYPE_ID = "local-storage-location";
     private final static String BASE_PATH = "base-path";
-    private final static String TASK_PATH = "task-path";
     }
