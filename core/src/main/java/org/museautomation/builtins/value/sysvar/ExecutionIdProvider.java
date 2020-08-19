@@ -19,7 +19,10 @@ public class ExecutionIdProvider implements SystemVariableProvider
     public Object resolve(String name, MuseExecutionContext context)
         {
         if (provides(name))
-            return context.getVariable(BaseExecutionContext.EXECUTION_ID_VARNAME, VariableQueryScope.Project);
+            if (context instanceof TaskExecutionContext)
+                return ((TaskExecutionContext) context).getTaskExecutionId();
+            else
+                return context.getVariable(BaseExecutionContext.EXECUTION_ID_VARNAME, VariableQueryScope.Project);
         return null;
         }
 
