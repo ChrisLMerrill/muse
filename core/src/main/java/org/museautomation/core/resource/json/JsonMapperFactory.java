@@ -21,6 +21,8 @@ public class JsonMapperFactory
                 mapper.registerSubtypes(new NamedType(type_locator.getClassForTypeId(type_id), type_id));
 
             mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+            mapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
 
             SimpleModule mod = new SimpleModule().addDeserializer(Object.class, new IntegerAsLongDeserializer());
             mapper.registerModule(mod);
