@@ -65,4 +65,5 @@ public abstract class ElementByLocatorValueSource extends BaseSeleniumValueSourc
     protected final MuseValueSource _find_multiple;
 
     public final static String MULTIPLE_PARAM = "find-multiple";
+    public final static String MULTIPLE_SYNTAX = "multiple";
     }

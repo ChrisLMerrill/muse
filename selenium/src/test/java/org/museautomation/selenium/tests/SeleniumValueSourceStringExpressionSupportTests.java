@@ -101,6 +101,20 @@ class SeleniumValueSourceStringExpressionSupportTests
         checkCreationFromStringExpression(new LinkTextElementValueSource.StringExpressionSupport(), LinkTextElementValueSource.StringExpressionSupport.STRING_EXPRESSION_ID, LinkTextElementValueSource.TYPE_ID);
         }
 
+    @Test
+    public void elementFindMultiple()
+        {
+        IdElementValueSource.StringExpressionSupport parser = new IdElementValueSource.StringExpressionSupport();
+        List<ValueSourceConfiguration> arguments = Arrays.asList(ValueSourceConfiguration.forValue("abc"), ValueSourceConfiguration.forValue("multiple"));
+        ValueSourceConfiguration parsed = parser.fromElementExpression("id", arguments, null);
+        Assertions.assertEquals(IdElementValueSource.TYPE_ID, parsed.getType());
+        Assertions.assertEquals("abc", parsed.getSource().getValue());
+        Assertions.assertEquals(true, parsed.getSource(ElementByLocatorValueSource.MULTIPLE_PARAM).getValue());
+
+        String rendered = parser.toString(parsed, new RootStringExpressionContext(new SimpleProject()));
+        Assertions.assertEquals("<id:\"abc\",\"multiple\">", rendered);
+        }
+
     private void checkCreationFromStringExpression(ValueSourceStringExpressionSupport parser, String expression_id, String muse_type_id)
         {
         ValueSourceConfiguration argument = ValueSourceConfiguration.forValue("qualifier");
@@ -109,6 +123,9 @@ class SeleniumValueSourceStringExpressionSupportTests
         ValueSourceConfiguration config = parser.fromElementExpression(expression_id, arguments, null);
         Assertions.assertEquals(muse_type_id, config.getType());
         Assertions.assertEquals(argument, config.getSource());
+
+        String rendered = parser.toString(config, new RootStringExpressionContext(new SimpleProject()));
+        Assertions.assertEquals(String.format("<%s:\"%s\">", expression_id, "qualifier"), rendered);
         }
 
     private final static MuseProject PROJECT = new SimpleProject();
