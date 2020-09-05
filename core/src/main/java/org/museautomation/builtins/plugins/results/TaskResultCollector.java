@@ -29,10 +29,9 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
 
 	public TaskResult getResult()
 		{
-        String summary = "Task completed successfully";
-        if (_result.getFailures().size() > 0)
-            summary = String.format("Task failed with %d failure(s) and %d error(s).", countFailures(_result, TaskResult.FailureType.Failure), countFailures(_result, TaskResult.FailureType.Error));
-        _result.setSummary(summary);
+        _result.setSummary(_summary_failure_message);
+		if (_result.getSummary() == null)
+            _result.setSummary("Task completed successfully");
 		return _result;
 		}
 
@@ -73,11 +72,13 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
                 {
                 if (event.hasTag(MuseEvent.FAILURE) && _fail_on_failure)
                     {
+                    updateSummary(TaskResult.FailureType.Failure, event.getAttributeAsString(MuseEvent.DESCRIPTION));
                     _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Failure, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
                     _result.setPass(false);
                     }
                 else if (event.hasTag(MuseEvent.ERROR) && _fail_on_error)
                     {
+                    updateSummary(TaskResult.FailureType.Error, event.getAttributeAsString(MuseEvent.DESCRIPTION));
                     _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Error, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
                     _result.setPass(false);
                     }
@@ -85,7 +86,17 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
             });
 		}
 
-	private int countFailures(TaskResult result, TaskResult.FailureType type)
+    private void updateSummary(TaskResult.FailureType type, String description)
+        {
+        if (_summary_failure_type == null ||
+            (type == TaskResult.FailureType.Failure && _summary_failure_type == TaskResult.FailureType.Error))
+            {
+            _summary_failure_type = type;
+            _summary_failure_message = description.split("\n", 2)[0];  // only first line of the message
+            }
+        }
+
+    private int countFailures(TaskResult result, TaskResult.FailureType type)
 		{
 		int count = 0;
 		for (TaskResult.Failure failure : result.getFailures())
@@ -97,6 +108,8 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
 	private boolean _fail_on_failure = true;
 	private boolean _fail_on_error = true;
 	private boolean _fail_on_interrupt = true;
+	private TaskResult.FailureType _summary_failure_type = null;
+	private String _summary_failure_message = null;
 
 	private final TaskResult _result = new TaskResult();
 	}
