@@ -66,6 +66,19 @@ public class StepConfiguration implements Serializable, ContainsNamedSources, Ta
 		_children = children;
 		}
 
+    @SuppressWarnings("unused")  // used in UI
+    public boolean isAncestorOf(StepConfiguration target)
+        {
+        if (_children == null)
+            return false;
+        if (_children.contains(target))
+            return true;
+        for (StepConfiguration child : _children)
+            if (child.isAncestorOf(target))
+                return true;
+        return false;
+        }
+
 	/**
 	 * Exists only for JSON serialization support. Should not be used for any other purpose.
 	 */
