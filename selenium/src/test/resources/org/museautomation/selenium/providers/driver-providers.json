@@ -1,0 +1,22 @@
+{
+  "type" : "webdriver-provider-list",
+  "providers" :
+          [
+            { "type" : "muse-mock-provider" },
+            { "type" : "firefox-marionette-provider", "relativePath" : "path-to\\geckodriver.exe"},
+            { "type" : "safaridriver-provider", "arguments": ["arg1"]},
+            { "type" : "chromedriver-provider", "relativePath" : "path-to\\chromedriver.exe", "arguments": ["arg1","arg2"]},
+            { "type" : "iexploredriver-provider", "relativePath" : "path-to\\iexploredriver.exe", "argumentSource":
+            {
+                "type" : "list",
+                "sourceList" : [ {
+                  "value" : "arg1",
+                  "type" : "string"
+                }, {
+                  "value" : "arg2",
+                  "type" : "string"
+                } ]
+              }
+            }
+          ]
+}

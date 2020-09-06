@@ -1,4 +1,4 @@
-package org.museautomation.selenium.tests;
+package org.museautomation.selenium.providers;
 
 import com.fasterxml.jackson.databind.*;
 import org.junit.jupiter.api.*;

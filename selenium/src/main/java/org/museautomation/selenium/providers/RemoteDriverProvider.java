@@ -1,6 +1,8 @@
 package org.museautomation.selenium.providers;
 
 import org.museautomation.core.*;
+import org.museautomation.core.resource.*;
+import org.museautomation.core.values.*;
 import org.museautomation.selenium.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.*;

@@ -10,7 +10,7 @@ import org.openqa.selenium.safari.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("safaridriver-provider")
-public class SafariDriverProvider implements WebDriverProvider
+public class SafariDriverProvider extends BaseLocalDriverProvider
     {
     @Override
     public WebDriver getDriver(SeleniumBrowserCapabilities capabilities, MuseExecutionContext context)

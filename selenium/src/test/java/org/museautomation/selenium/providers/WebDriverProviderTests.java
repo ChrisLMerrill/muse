@@ -1,4 +1,4 @@
-package org.museautomation.selenium.tests;
+package org.museautomation.selenium.providers;
 
 import com.fasterxml.jackson.databind.*;
 import org.junit.jupiter.api.*;
@@ -9,7 +9,6 @@ import org.museautomation.core.resource.json.*;
 import org.museautomation.core.util.*;
 import org.museautomation.selenium.*;
 import org.museautomation.selenium.mocks.*;
-import org.museautomation.selenium.providers.*;
 import org.openqa.selenium.*;
 
 import java.io.*;
@@ -17,7 +16,7 @@ import java.io.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
-class WebDriverProviderTests
+public class WebDriverProviderTests
     {
     @Test
     void mockProvider() throws IOException
@@ -221,5 +220,54 @@ class WebDriverProviderTests
 
         Assertions.assertEquals(1, listener._removed_index.longValue());
         Assertions.assertEquals(provider2, listener._removed_provider);
+        }
+
+    @Test
+    public void oldProviderNullArgumentsUpgraded() throws IOException, MuseExecutionError
+        {
+        MuseProject project = new SimpleProject();
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator(project));
+        WebDriverProviderList driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderList.class);
+        BaseLocalDriverProvider provider = (BaseLocalDriverProvider) driver_providers.getProviders().get(1);
+
+        Assertions.assertEquals(0, provider.resolveArguments(new ProjectExecutionContext(project)).length);
+        }
+
+    @Test
+    public void oldProviderSingleArgumentsUpgraded() throws IOException, MuseExecutionError
+        {
+        MuseProject project = new SimpleProject();
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator(project));
+        WebDriverProviderList driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderList.class);
+        BaseLocalDriverProvider provider = (BaseLocalDriverProvider) driver_providers.getProviders().get(2);
+
+        Assertions.assertEquals(1, provider.resolveArguments(new ProjectExecutionContext(project)).length);
+        Assertions.assertEquals("arg1", provider.resolveArguments(new ProjectExecutionContext(project))[0]);
+        }
+
+    @Test
+    public void oldProviderMultipleArgumentsUpgraded()throws IOException, MuseExecutionError
+        {
+        MuseProject project = new SimpleProject();
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator(project));
+        WebDriverProviderList driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderList.class);
+        BaseLocalDriverProvider provider = (BaseLocalDriverProvider) driver_providers.getProviders().get(3);
+
+        Assertions.assertEquals(2, provider.resolveArguments(new ProjectExecutionContext(project)).length);
+        Assertions.assertEquals("arg1", provider.resolveArguments(new ProjectExecutionContext(project))[0]);
+        Assertions.assertEquals("arg2", provider.resolveArguments(new ProjectExecutionContext(project))[1]);
+        }
+
+    @Test
+    public void newProvider()throws IOException, MuseExecutionError
+        {
+        MuseProject project = new SimpleProject();
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator(project));
+        WebDriverProviderList driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderList.class);
+        BaseLocalDriverProvider provider = (BaseLocalDriverProvider) driver_providers.getProviders().get(4);
+
+        Assertions.assertEquals(2, provider.resolveArguments(new ProjectExecutionContext(project)).length);
+        Assertions.assertEquals("arg1", provider.resolveArguments(new ProjectExecutionContext(project))[0]);
+        Assertions.assertEquals("arg2", provider.resolveArguments(new ProjectExecutionContext(project))[1]);
         }
     }

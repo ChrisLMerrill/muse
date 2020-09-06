@@ -58,8 +58,11 @@ public class GeckoDriverProvider extends BaseLocalDriverProvider
                 selenium_capabilities.setPlatform(Platform.fromString(capabilities.getPlatform()));
             selenium_capabilities.setCapability("marionette", true);
             FirefoxOptions options = new FirefoxOptions(selenium_capabilities);
-            if (getArguments() != null)
-                options.addArguments(getArguments());
+
+            String[] arguments = {};
+            arguments = resolveArguments(context);
+            if (arguments.length > 0)
+            	options.addArguments(arguments);
             return new FirefoxDriver(options);
             }
         }

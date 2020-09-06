@@ -51,8 +51,9 @@ public class ChromeDriverProvider extends BaseLocalDriverProvider
         synchronized (ChromeDriverProvider.class)
             {
             ChromeOptions options = new ChromeOptions();
-            if (getArguments() != null)
-            	options.addArguments(getArguments());
+            String[] arguments = resolveArguments(context);
+            if (arguments.length > 0)
+            	options.addArguments(arguments);
 
             DesiredCapabilities desired = DesiredCapabilities.chrome();
             if (capabilities.getVersion() != null && capabilities.getVersion().length() > 0)

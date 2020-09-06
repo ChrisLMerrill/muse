@@ -1,9 +1,13 @@
 package org.museautomation.selenium.providers;
 
+import com.fasterxml.jackson.annotation.*;
+import org.museautomation.builtins.value.collection.*;
 import org.museautomation.core.*;
+import org.museautomation.core.events.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.storage.*;
 import org.museautomation.core.util.*;
+import org.museautomation.core.values.*;
 import org.museautomation.selenium.*;
 import org.slf4j.*;
 
@@ -15,7 +19,7 @@ import java.util.*;
  */
 public abstract class BaseLocalDriverProvider implements WebDriverProvider
 	{
-	@SuppressWarnings("WeakerAccess")  // part of API
+    @SuppressWarnings("WeakerAccess")  // part of API
 	public OperatingSystem getOs()
 		{
 		return _os;
@@ -67,21 +71,72 @@ public abstract class BaseLocalDriverProvider implements WebDriverProvider
 	@SuppressWarnings("unused") // required for Json de/serialization
 	public void setArguments(String[] arguments)
 		{
-		String[] old_args = _arguments;
-		if (Arrays.equals(old_args, arguments))
-			return;
-		_arguments = arguments;
-		for (ChangeListener listener : _listeners)
-			listener.argumentsChanged(old_args, _arguments);
+		// upgrade old versions to use the arguments value source
+        if (arguments != null && arguments.length > 0)
+            {
+            if (arguments.length == 1)
+                _argument_source = ValueSourceConfiguration.forValue(arguments[0]);
+            else
+                {
+                List<ValueSourceConfiguration> list = new ArrayList<>();
+                for (String argument : arguments)
+                    list.add(ValueSourceConfiguration.forValue(argument));
+                ValueSourceConfiguration source = ValueSourceConfiguration.forType(ListSource.TYPE_ID);
+                source.setSourceList(list);
+                _argument_source = source;
+                }
+            }
+        else
+            _argument_source = ValueSourceConfiguration.forValue(null);
 		}
 
+    @Deprecated // replaced by arguement source
 	@SuppressWarnings("unused,WeakerAccess") // required for Json de/serialization
+    @JsonInclude(JsonInclude.Include.NON_NULL)
 	public String[] getArguments()
 		{
-		return _arguments;
+		return null;
 		}
 
-	File getDriverLocation(MuseExecutionContext context)
+    @SuppressWarnings("unused,WeakerAccess") // required for Json de/serialization
+    public ValueSourceConfiguration getArgumentSource()
+        {
+        return _argument_source;
+        }
+
+    @SuppressWarnings("unused,WeakerAccess") // required for Json de/serialization
+    public void setArgumentSource(ValueSourceConfiguration argument_source)
+        {
+        _argument_source = argument_source;
+        }
+
+    public String[] resolveArguments(MuseExecutionContext context)
+        {
+        try
+            {
+            MuseValueSource source = _argument_source.createSource(context.getProject());
+            Object value = source.resolveValue(context);
+            if (value == null)
+                return new String[0];
+            else if (value instanceof List)
+                {
+                List<Object> list = (List<Object>) value;
+                String[] args = new String[list.size()];
+                for (int i = 0; i <list.size(); i++)
+                    args[i] = list.get(i).toString();
+                return args;
+                }
+            else
+                return new String[] {value.toString()};
+            }
+        catch (Exception e)
+            {
+            context.raiseEvent(MessageEventType.create("Unable to resolve arguments from driver provider configuration: " + e.getMessage()));
+            return new String[0];
+            }
+        }
+
+    File getDriverLocation(MuseExecutionContext context)
 		{
 		if (_relative_path != null)
 			{
@@ -125,7 +180,7 @@ public abstract class BaseLocalDriverProvider implements WebDriverProvider
 	private OperatingSystem _os;
 	private String _relative_path;
 	private String _absolute_path;
-	private String[] _arguments;
+	private ValueSourceConfiguration _argument_source = ValueSourceConfiguration.forValue(null);
 
 	private transient Set<ChangeListener> _listeners = new HashSet<>();
 
@@ -135,13 +190,9 @@ public abstract class BaseLocalDriverProvider implements WebDriverProvider
 	public interface ChangeListener
 		{
 		void absolutePathChanged(String old_path, String new_path);
-
 		void relativePathChanged(String old_path, String new_path);
-
 		void osChanged(OperatingSystem old_os, OperatingSystem new_os);
-
-		void argumentsChanged(String[] old_args, String[] new_args);
+		@SuppressWarnings("unused") // used in UI
+		void argumentSourceChanged(ValueSourceConfiguration old_args, ValueSourceConfiguration new_args);
 		}
 	}
-
-

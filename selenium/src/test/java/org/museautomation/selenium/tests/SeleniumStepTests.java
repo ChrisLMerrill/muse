@@ -13,6 +13,7 @@ import org.museautomation.core.values.*;
 import org.museautomation.selenium.*;
 import org.museautomation.selenium.locators.*;
 import org.museautomation.selenium.mocks.*;
+import org.museautomation.selenium.providers.*;
 import org.museautomation.selenium.steps.*;
 import org.openqa.selenium.*;
 
@@ -188,7 +189,7 @@ class SeleniumStepTests
             File file = null;
             try
                 {
-                file = new File(SeleniumStepTests.class.getResource("driver-providers.json").toURI());
+                file = new File(WebDriverProviderTests.class.getResource("driver-providers.json").toURI());
                 }
             catch (URISyntaxException e)
                 {
