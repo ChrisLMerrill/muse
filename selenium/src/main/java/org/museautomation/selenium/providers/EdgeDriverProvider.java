@@ -61,8 +61,7 @@ public class EdgeDriverProvider extends BaseLocalDriverProvider
 
             EdgeOptions options = new EdgeOptions();
             options.merge(desired);
-            String[] arguments = {};
-            arguments = resolveArguments(context);
+            String[] arguments = resolveArguments(context);
             if (arguments.length > 0)
             	LOG.error("Unable to set arguments for EdgeDriver: arguments are not supported by EdgeDriver");
 

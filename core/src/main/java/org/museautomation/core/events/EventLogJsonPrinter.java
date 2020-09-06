@@ -42,5 +42,5 @@ public class EventLogJsonPrinter implements EventLogPrinter
 
     private PrintStream _out;
     private long _events_written = 0;
-    private ObjectWriter _writer = null;
+    private final ObjectWriter _writer;
     }

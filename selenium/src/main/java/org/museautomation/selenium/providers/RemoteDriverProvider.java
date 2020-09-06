@@ -1,8 +1,6 @@
 package org.museautomation.selenium.providers;
 
 import org.museautomation.core.*;
-import org.museautomation.core.resource.*;
-import org.museautomation.core.values.*;
 import org.museautomation.selenium.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.*;
@@ -76,7 +74,7 @@ public class RemoteDriverProvider implements WebDriverProvider
         }
 
     private String _url = DEFAULT_URL;
-    private transient Set<ChangeListener> _listeners = new HashSet<>();
+    private final transient Set<ChangeListener> _listeners = new HashSet<>();
 
     private final static Logger LOG = LoggerFactory.getLogger(RemoteDriverProvider.class);
 

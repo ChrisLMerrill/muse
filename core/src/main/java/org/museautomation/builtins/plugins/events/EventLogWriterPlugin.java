@@ -108,7 +108,7 @@ public class EventLogWriterPlugin extends GenericConfigurablePlugin
             _context.removeEventListener(this);  // now that the EventLogPrinters are setup, this listener is no longer needed
             }
 
-        private MuseExecutionContext _context;
+        private final MuseExecutionContext _context;
         }
 
 	static class EventPrintingListener implements MuseEventListener, Shuttable
@@ -149,7 +149,7 @@ public class EventLogWriterPlugin extends GenericConfigurablePlugin
         EventLogPrinter _printer;
         }
 
-    private EventLogWriterConfiguration _config;
+    private final EventLogWriterConfiguration _config;
 
 	public final static String TYPE_ID = "event-logger";
 	final static String PARTIAL_EVENT_FILE = "events.json";

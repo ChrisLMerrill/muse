@@ -60,7 +60,7 @@ public class ListSource extends BaseValueSource
         return _sources;
         }
 
-    private MuseValueSource[] _sources;
+    private final MuseValueSource[] _sources;
 
     public final static String TYPE_ID = ListSource.class.getAnnotation(MuseTypeId.class).value();
 

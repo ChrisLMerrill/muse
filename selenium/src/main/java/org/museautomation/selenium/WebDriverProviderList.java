@@ -105,7 +105,7 @@ public class WebDriverProviderList extends BaseMuseResource implements WebDriver
 
     private List<WebDriverProvider> _providers;
 
-    private transient Set<ChangeListener> _listeners = new HashSet<>();
+    private final transient Set<ChangeListener> _listeners = new HashSet<>();
 
     public final static String TYPE_ID = WebDriverProviderList.class.getAnnotation(MuseTypeId.class).value();
 

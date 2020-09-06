@@ -55,7 +55,7 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 		while (!_event_queue.isEmpty())
 			{
 			MuseEvent queued_event = _event_queue.remove();
-			for (MuseEventListener listener : _listeners.toArray(new MuseEventListener[_listeners.size()]))  // note, this is a threadsafe iteration - listeners can unsubscribe during event dispatch
+			for (MuseEventListener listener : _listeners.toArray(new MuseEventListener[0]))  // note, this is a threadsafe iteration - listeners can unsubscribe during event dispatch
 				{
 				try
 					{
@@ -232,14 +232,14 @@ public abstract class BaseExecutionContext implements MuseExecutionContext
 	private final AutomaticVariableCreator _var_creator;
 	private final ContextVariableScope _scope;
 
-	private Map<String, Object> _vars = new HashMap<>();
+	private final Map<String, Object> _vars = new HashMap<>();
 	protected List<MuseEventListener> _listeners = new ArrayList<>();
-	private List<Shuttable> _shuttables = new ArrayList<>();
-	private List<MusePlugin> _plugins = new ArrayList<>();
+	private final List<Shuttable> _shuttables = new ArrayList<>();
+	private final List<MusePlugin> _plugins = new ArrayList<>();
 	private List<MusePlugin> _initialized_plugins = null;
-	private Queue<MuseEvent> _event_queue = new ConcurrentLinkedQueue<>();
-	private AtomicBoolean _events_processing = new AtomicBoolean(false);
-	private EventLogger _logger = new EventLogger();
+	private final Queue<MuseEvent> _event_queue = new ConcurrentLinkedQueue<>();
+	private final AtomicBoolean _events_processing = new AtomicBoolean(false);
+	private final EventLogger _logger = new EventLogger();
 	protected ExecutionOutputs _outputs = null;
 
 	private final static Logger LOG = LoggerFactory.getLogger(TaskExecutionContext.class);

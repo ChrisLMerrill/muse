@@ -145,7 +145,7 @@ public class SeleniumBrowserCapabilities extends BaseMuseResource
         }
 
     private Map<String, Object> _capabilities = new HashMap<>();
-    private transient Set<ChangeListener> _listeners = new HashSet<>();
+    private final transient Set<ChangeListener> _listeners = new HashSet<>();
 
     public final static String TYPE_ID = SeleniumBrowserCapabilities.class.getAnnotation(MuseTypeId.class).value();
 

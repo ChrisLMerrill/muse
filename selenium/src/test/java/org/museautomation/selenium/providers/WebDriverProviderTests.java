@@ -223,7 +223,7 @@ public class WebDriverProviderTests
         }
 
     @Test
-    public void oldProviderNullArgumentsUpgraded() throws IOException, MuseExecutionError
+    public void oldProviderNullArgumentsUpgraded() throws IOException
         {
         MuseProject project = new SimpleProject();
         ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator(project));
@@ -234,7 +234,7 @@ public class WebDriverProviderTests
         }
 
     @Test
-    public void oldProviderSingleArgumentsUpgraded() throws IOException, MuseExecutionError
+    public void oldProviderSingleArgumentsUpgraded() throws IOException
         {
         MuseProject project = new SimpleProject();
         ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator(project));
@@ -246,7 +246,7 @@ public class WebDriverProviderTests
         }
 
     @Test
-    public void oldProviderMultipleArgumentsUpgraded()throws IOException, MuseExecutionError
+    public void oldProviderMultipleArgumentsUpgraded()throws IOException
         {
         MuseProject project = new SimpleProject();
         ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator(project));
@@ -259,7 +259,7 @@ public class WebDriverProviderTests
         }
 
     @Test
-    public void newProvider()throws IOException, MuseExecutionError
+    public void newProvider()throws IOException
         {
         MuseProject project = new SimpleProject();
         ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator(project));
