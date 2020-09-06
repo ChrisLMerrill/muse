@@ -82,12 +82,14 @@ public class SaveTaskResultsToDisk extends GenericConfigurablePlugin
 		try (FileOutputStream outstream = new FileOutputStream(data_file))
 			{
 			data.write(outstream);
-			_context.raiseEvent(MessageEventType.create(String.format("Stored %s from %s to %s", data, from_description, data_file.getAbsolutePath())));
+			_context.raiseEvent(SavedToLocalStorageEventType.create(data_file.getAbsolutePath()));
 			return true;
 			}
 		catch (IOException e)
 			{
-			_context.raiseEvent(MessageEventType.create(String.format("Unable to store %s from %s to %s because: %s", data, from_description, data_file.getAbsolutePath(), e.getMessage())));
+            MuseEvent event = MessageEventType.create(String.format("Unable to store %s from %s to %s because: %s", data, from_description, data_file.getAbsolutePath(), e.getMessage()));
+            event.addTag(MuseEvent.ERROR);
+            _context.raiseEvent(event);
 			LOG.error(String.format("Unable to store results of task in %s due to: %s", data_file.getAbsolutePath(), e.getMessage()));
 			return false;
 			}
@@ -121,7 +123,7 @@ public class SaveTaskResultsToDisk extends GenericConfigurablePlugin
 		return starting_name.substring(0, period) + index + starting_name.substring(period);
 		}
 
-	private SaveTaskResultsToDiskConfiguration _configuration;
+	private final SaveTaskResultsToDiskConfiguration _configuration;
 	private MuseExecutionContext _context;
 	private LocalStorageLocationProvider _location_provider;
 	private File _output_folder = null;

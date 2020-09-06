@@ -11,7 +11,7 @@ public class TaskResultStoredEventType extends EventType
 	@SuppressWarnings("WeakerAccess") // instantiated by reflection
 	public TaskResultStoredEventType()
 		{
-		super(TYPE_ID, "Test Result Produced");
+		super(TYPE_ID, "Task Result Produced");
 		}
 
 	@Override
