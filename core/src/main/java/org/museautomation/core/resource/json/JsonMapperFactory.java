@@ -11,29 +11,42 @@ import org.museautomation.core.util.*;
  */
 public class JsonMapperFactory
     {
+    public static ObjectMapper getDefaultMapper()
+        {
+        if (DEFAULT_MAPPER == null)
+            DEFAULT_MAPPER = createDefaultMapper();
+        return DEFAULT_MAPPER;
+        }
+
+    public static ObjectMapper createDefaultMapper()
+        {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+        mapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+        return mapper;
+        }
+
     public static ObjectMapper createMapper(TypeLocator type_locator)
         {
-        if (MAPPER.get() == null)
+        if (TYPED_MAPPER.get() == null)
             {
-            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = createDefaultMapper();
 
             for (String type_id : type_locator.getTypes())
                 mapper.registerSubtypes(new NamedType(type_locator.getClassForTypeId(type_id), type_id));
 
-            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-            mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
-            mapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
-
             SimpleModule mod = new SimpleModule().addDeserializer(Object.class, new IntegerAsLongDeserializer());
             mapper.registerModule(mod);
 
-            MAPPER.set(mapper);
+            TYPED_MAPPER.set(mapper);
             }
 
-        return MAPPER.get();
+        return TYPED_MAPPER.get();
         }
 
-    private static ThreadLocal<ObjectMapper> MAPPER = new ThreadLocal<>();
+    private static ObjectMapper DEFAULT_MAPPER = null;
+    private static ThreadLocal<ObjectMapper> TYPED_MAPPER = new ThreadLocal<>();
     }
 
 

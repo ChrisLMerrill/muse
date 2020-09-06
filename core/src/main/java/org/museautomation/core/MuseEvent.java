@@ -153,6 +153,7 @@ public class MuseEvent
      * Intended only for de/serialization.
      */
     @SuppressWarnings("unused")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Map<String, Object> getAttributes()
 	    {
 	    if (_attributes == null || _attributes.isEmpty())
@@ -173,6 +174,7 @@ public class MuseEvent
      * Intended only for de/serialization.
      */
     @SuppressWarnings("unused")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public List<String> getTags()
 	    {
 	    if (_tags == null || _tags.isEmpty())

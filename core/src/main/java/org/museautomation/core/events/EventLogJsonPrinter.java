@@ -3,6 +3,7 @@ package org.museautomation.core.events;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import org.museautomation.core.*;
+import org.museautomation.core.resource.json.*;
 
 import java.io.*;
 
@@ -16,7 +17,7 @@ public class EventLogJsonPrinter implements EventLogPrinter
         _out = out;
         _out.println('[');
 
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = JsonMapperFactory.createDefaultMapper();
         mapper.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
         _writer = mapper.writerWithDefaultPrettyPrinter();
         }

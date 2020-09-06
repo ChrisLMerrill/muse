@@ -3,6 +3,7 @@ package org.museautomation.core;
 import com.fasterxml.jackson.databind.*;
 import org.museautomation.core.context.*;
 import org.museautomation.core.datacollection.*;
+import org.museautomation.core.resource.json.*;
 
 import javax.annotation.*;
 import java.io.*;
@@ -101,8 +102,7 @@ public class TaskResult implements TaskResultData
 	@Override
 	public void write(@Nonnull OutputStream outstream) throws IOException
 		{
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.writerWithDefaultPrettyPrinter().writeValue(outstream, this);
+		JsonMapperFactory.getDefaultMapper().writerWithDefaultPrettyPrinter().writeValue(outstream, this);
 		}
 
 	@Override
