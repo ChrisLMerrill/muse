@@ -103,7 +103,7 @@ public class FromJsonFileResourceFactory implements MuseResourceFactory
     private ObjectMapper getMapper(TypeLocator type_locator)
         {
         if (_mapper == null)
-            _mapper = JsonMapperFactory.createMapper(type_locator);
+            _mapper = JsonMapperFactory.createMuseTypeMapper(type_locator);
         return _mapper;
         }
 

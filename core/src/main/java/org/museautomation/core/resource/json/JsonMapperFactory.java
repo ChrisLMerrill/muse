@@ -27,7 +27,7 @@ public class JsonMapperFactory
         return mapper;
         }
 
-    public static ObjectMapper createMapper(TypeLocator type_locator)
+    public static ObjectMapper createMuseTypeMapper(TypeLocator type_locator)
         {
         if (TYPED_MAPPER.get() == null)
             {

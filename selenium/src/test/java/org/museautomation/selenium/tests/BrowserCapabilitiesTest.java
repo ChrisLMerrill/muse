@@ -19,7 +19,7 @@ class BrowserCapabilitiesTest
     @Test
     void createCapabilities() throws IOException
         {
-        ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator((MuseProject)null));
         SeleniumBrowserCapabilities sel_caps = mapper.readValue(getClass().getResourceAsStream("capabilities1.json"), SeleniumBrowserCapabilities.class);
 
         DesiredCapabilities capabilities = sel_caps.toDesiredCapabilities();

@@ -32,7 +32,7 @@ public class JsonResourceSerializer implements ResourceSerializer
 
     public static ObjectMapper getMapper(TypeLocator locator)
         {
-        return JsonMapperFactory.createMapper(locator);
+        return JsonMapperFactory.createMuseTypeMapper(locator);
         }
     }
 

@@ -22,7 +22,7 @@ class WebDriverProviderTests
     @Test
     void mockProvider() throws IOException
         {
-        ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
         Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
@@ -36,7 +36,7 @@ class WebDriverProviderTests
     @Test
     void chromeDriverProvider() throws IOException
         {
-        ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
         Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
@@ -57,7 +57,7 @@ class WebDriverProviderTests
     @Test
     void firefoxMarionetteDriverProvider() throws IOException
         {
-        ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
         Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
@@ -78,7 +78,7 @@ class WebDriverProviderTests
     @Test
     void iexploreDriverProvider() throws IOException
         {
-        ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
         Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
@@ -99,7 +99,7 @@ class WebDriverProviderTests
     @Test
     void firefoxDriverProvider() throws IOException
         {
-        ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
         Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
@@ -117,7 +117,7 @@ class WebDriverProviderTests
     @Test
     void safariDriverProvider() throws IOException
         {
-        ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("driver-providers.json"), WebDriverProviderConfiguration.class);
 
         Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
@@ -135,7 +135,7 @@ class WebDriverProviderTests
     @Test
     void remoteDriverProvider() throws IOException
         {
-        ObjectMapper mapper = JsonMapperFactory.createMapper(new TypeLocator((MuseProject)null));
+        ObjectMapper mapper = JsonMapperFactory.createMuseTypeMapper(new TypeLocator((MuseProject)null));
         WebDriverProviderConfiguration driver_providers = mapper.readValue(getClass().getResourceAsStream("remote-provider.json"), WebDriverProviderConfiguration.class);
 
         Assertions.assertTrue(driver_providers instanceof WebDriverProviderList);
