@@ -54,6 +54,9 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
 
 		context.addEventListener(event ->
             {
+            EventType type = EventTypes.get(context.getProject()).findType(event.getTypeId());
+            String description = type.getDescription(event);
+
             if (event.getTypeId().equals(StartTaskEventType.TYPE_ID))
                 {
                 _result.setTaskId(event.getAttributeAsString(StartTaskEventType.TASK_ID));
@@ -65,34 +68,35 @@ public class TaskResultCollector extends GenericConfigurableTaskPlugin implement
                 }
             else if (event.getTypeId().equals(InterruptedEventType.TYPE_ID) && _fail_on_interrupt)
                 {
-                _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Interrupted, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
+                updateSummary(TaskResult.FailureType.Failure, description, type);
+                _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Interrupted, description));
                 _result.setPass(false);
                 }
-            else
+            else if (event.hasTag(MuseEvent.FAILURE) && _fail_on_failure)
                 {
-                if (event.hasTag(MuseEvent.FAILURE) && _fail_on_failure)
-                    {
-                    updateSummary(TaskResult.FailureType.Failure, event.getAttributeAsString(MuseEvent.DESCRIPTION));
-                    _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Failure, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
-                    _result.setPass(false);
-                    }
-                else if (event.hasTag(MuseEvent.ERROR) && _fail_on_error)
-                    {
-                    updateSummary(TaskResult.FailureType.Error, event.getAttributeAsString(MuseEvent.DESCRIPTION));
-                    _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Error, event.getAttributeAsString(MuseEvent.DESCRIPTION)));
-                    _result.setPass(false);
-                    }
+                updateSummary(TaskResult.FailureType.Failure, description, type);
+                _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Failure, description));
+                _result.setPass(false);
+                }
+            else if (event.hasTag(MuseEvent.ERROR) && _fail_on_error)
+                {
+                updateSummary(TaskResult.FailureType.Error, description, type);
+                _result.addFailure(new TaskResult.Failure(TaskResult.FailureType.Error, description));
+                _result.setPass(false);
                 }
             });
 		}
 
-    private void updateSummary(TaskResult.FailureType type, String description)
+    private void updateSummary(TaskResult.FailureType type, String description, EventType event_type)
         {
         if (_summary_failure_type == null ||
             (type == TaskResult.FailureType.Failure && _summary_failure_type == TaskResult.FailureType.Error))
             {
             _summary_failure_type = type;
-            _summary_failure_message = description.split("\n", 2)[0];  // only first line of the message
+            if (description == null)
+                _summary_failure_message = event_type.getName();
+            else
+                _summary_failure_message = description.split("\n", 2)[0];  // only first line of the message
             }
         }
 
