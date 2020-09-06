@@ -5,7 +5,6 @@ import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.types.*;
 import org.museautomation.core.task.*;
-import org.museautomation.core.util.*;
 import org.slf4j.*;
 
 import java.util.*;
@@ -45,12 +44,14 @@ public class ParameterListTaskSuite extends BaseMuseResource implements MuseTask
 		    parameters = createParametersFromDataTable(project);
 	    else
         LOG.error("ParameterListTaskSuite requires either the DataTableId or Parameters properties.");
+	    int repeat = 1;
 	    for (Map<String, Object> param_set : parameters)
 		    {
 		    BasicTaskConfiguration config = new BasicTaskConfiguration(_taskid);
 		    config.addPlugin(new VariableMapInitializer(param_set));
-		    config.setName(String.format("%s (%s)", task.getDescription(), Stringifiers.find(param_set).toString()));
+		    config.setName(String.format("%s-%d", task.getDescription(), repeat));
 		    tasks.add(config);
+		    repeat++;
 		    }
 	    return tasks.iterator();
 	    }
@@ -92,7 +93,7 @@ public class ParameterListTaskSuite extends BaseMuseResource implements MuseTask
 
     private DataTable getDataTable(MuseProject project)
 	    {
-	    ResourceToken token = project.getResourceStorage().findResource(_datatable_id);
+	    ResourceToken<? extends MuseResource> token = project.getResourceStorage().findResource(_datatable_id);
 	    if (token == null)
             {
             LOG.error("DataTable not found in the project: " + _datatable_id);
@@ -172,7 +173,7 @@ public class ParameterListTaskSuite extends BaseMuseResource implements MuseTask
     private String _datatable_id;
     private String _taskid;
 
-    private transient Set<ChangeListener> _listeners = new HashSet<>();
+    private final transient Set<ChangeListener> _listeners = new HashSet<>();
 
     public interface ChangeListener
         {

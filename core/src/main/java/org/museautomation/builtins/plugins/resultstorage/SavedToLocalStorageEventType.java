@@ -20,6 +20,11 @@ public class SavedToLocalStorageEventType extends EventType
 		return String.format("Task data stored to %s", event.getAttribute(PATH));
 		}
 
+    public static String getStoragePath(MuseEvent event)
+        {
+        return event.getAttributeAsString(PATH);
+        }
+
 	public static MuseEvent create(String path)
 		{
 		MuseEvent event = new MuseEvent(TYPE_ID);

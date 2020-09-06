@@ -15,6 +15,7 @@ import java.util.*;
 /**
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
+@SuppressWarnings("UnstableApiUsage")
 public class JUnitReportData implements TaskResultData
 	{
 	@Override
@@ -29,7 +30,12 @@ public class JUnitReportData implements TaskResultData
 		_name = name;
 		}
 
-	@Override
+    public void setOutputAttachmentLines(boolean output_attachment_lines)
+        {
+        _output_attachment_lines = output_attachment_lines;
+        }
+
+    @Override
 	public String suggestFilename()
 		{
 		return "junit-report.xml";
@@ -75,6 +81,7 @@ public class JUnitReportData implements TaskResultData
 				writer.println("        <system-out>");
 				ByteArrayOutputStream eventlog_bytes = new ByteArrayOutputStream();
 				EventLogPlainTextPrinter printer = new EventLogPlainTextPrinter(new PrintStream(eventlog_bytes));
+                printer.setOutputAttachmentLines(_output_attachment_lines);
                 try
                     {
                     EventLogPrinter.printAll(log, printer);
@@ -113,11 +120,10 @@ public class JUnitReportData implements TaskResultData
 		_name = "Junit Report for " + name;
 		}
 
-	private List<TaskResult> _results = new ArrayList<>();
-	private Map<TaskResult, EventLog> _logs = new HashMap<>();
+	private final List<TaskResult> _results = new ArrayList<>();
+	private final Map<TaskResult, EventLog> _logs = new HashMap<>();
 
 	private String _suite_name = null;
+	private boolean _output_attachment_lines = false;
 	private String _name = "JUnit Report";
 	}
-
-
