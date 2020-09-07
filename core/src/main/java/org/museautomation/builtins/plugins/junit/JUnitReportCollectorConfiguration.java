@@ -13,7 +13,7 @@ import org.museautomation.core.values.descriptor.*;
 @MuseTypeId("junit-report-plugin")
 @MuseSubsourceDescriptor(displayName = "Apply automatically?", description = "If this source resolves to true, this plugin configuration will be automatically applied to tests", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.AUTO_APPLY_PARAM)
 @MuseSubsourceDescriptor(displayName = "Apply only if", description = "Apply only if this source this source resolves to true", type = SubsourceDescriptor.Type.Named, name = GenericConfigurablePlugin.APPLY_CONDITION_PARAM)
-@MuseSubsourceDescriptor(displayName = "Create Attachment Links", description = "Generates attachment links compatible with the 'Junit Attachments' plugin for Jenkins", type = SubsourceDescriptor.Type.Named, name = JUnitReportCollectorConfiguration.ATTACHMENT_PARAM, defaultValue = "false")
+@MuseSubsourceDescriptor(displayName = "Create Attachment Links", description = "Generates attachment links compatible with the 'Junit Attachments' plugin for Jenkins", type = SubsourceDescriptor.Type.Named, name = JUnitReportCollectorConfiguration.ATTACHMENT_PARAM, defaultValue = "false", optional = true)
 @SuppressWarnings("unused") // Instantiated by reflection
 public class JUnitReportCollectorConfiguration extends GenericResourceConfiguration implements PluginConfiguration
 	{
