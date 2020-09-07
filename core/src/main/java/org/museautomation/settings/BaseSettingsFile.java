@@ -50,18 +50,18 @@ public abstract class BaseSettingsFile implements Closeable
                 LOG.error("Unable to load settings from " + file.getPath(), e);
                 }
             }
-        else
-            try
-                {
-                T settings = type.getDeclaredConstructor().newInstance();
-                settings.setFilename(file.getAbsolutePath());
-                settings.save();
-                return settings;
-                }
-            catch (Exception e)
-                {
-                LOG.error(String.format("Can't instantiate %s. Is it missing a no-args constructor?", type.getSimpleName()));
-                }
+
+        try
+            {
+            T settings = type.getDeclaredConstructor().newInstance();
+            settings.setFilename(file.getAbsolutePath());
+            settings.save();
+            return settings;
+            }
+        catch (Exception e)
+            {
+            LOG.error(String.format("Can't instantiate %s. Is it missing a no-args constructor?", type.getSimpleName()));
+            }
 
         return null;
         }
