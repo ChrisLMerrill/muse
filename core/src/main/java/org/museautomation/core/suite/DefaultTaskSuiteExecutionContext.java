@@ -2,6 +2,9 @@ package org.museautomation.core.suite;
 
 import org.museautomation.core.*;
 import org.museautomation.core.context.*;
+import org.museautomation.core.events.*;
+import org.museautomation.core.task.*;
+import org.slf4j.*;
 
 import java.util.*;
 
@@ -36,20 +39,21 @@ public class DefaultTaskSuiteExecutionContext extends BaseExecutionContext imple
 		if (execution_id != null)
 			return execution_id;
 
-		final String task_id = task_context.getTask().getId();
-		Integer suffix = _next_task_suffix.get(task_id);
-		if (suffix == null)
-			suffix = 1;
+		Object val = task_context.getVariable(StartSuiteTaskEventType.CONFIG_VAR_NAME);
+		if (!(val instanceof TaskConfiguration))
+            {
+            LOG.error(String.format("The value of the task configuration variable (%s) is not a TaskConfiguration. It is a %s, which is not allowed.", StartSuiteTaskEventType.CONFIG_VAR_NAME, val.getClass().getSimpleName()));
+            execution_id = task_context.getTask().getId() + "-" + System.currentTimeMillis();
+            }
+        else
+            execution_id = ((TaskConfiguration)val).name();
 
-		execution_id = task_id + "-" + suffix;
-		_next_task_suffix.put(task_id, ++suffix);
 		_task_execution_ids.put(hash, execution_id);
-
 		return execution_id;
 		}
 
-	private Map<Integer, String> _task_execution_ids = new HashMap<>();
-	private Map<String, Integer> _next_task_suffix = new HashMap();
+	private final Map<Integer, String> _task_execution_ids = new HashMap<>();
+	private final MuseTaskSuite _suite;
 
-	private MuseTaskSuite _suite;
+	final static Logger LOG = LoggerFactory.getLogger(DefaultTaskSuiteExecutionContext.class);
 	}

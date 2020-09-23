@@ -20,6 +20,7 @@ public class SimpleTaskRunner implements TaskRunner
 	    _context = context;
 	    _config = config;
         _config.withinContext(_context);  // it is important to initialize this context immediately, so that the context is available for suite events before the task starts (i.e. can subscribe to events immediately)
+        _config.context().setVariable(StartSuiteTaskEventType.CONFIG_VAR_NAME, config);
 	    }
 
     public SimpleTaskRunner(TaskExecutionContext context)
@@ -117,7 +118,7 @@ public class SimpleTaskRunner implements TaskRunner
 	    @Override
 	    public String name()
 		    {
-		    return _task.getDescription();
+		    return _task.getId();
 		    }
 
 	    @Override

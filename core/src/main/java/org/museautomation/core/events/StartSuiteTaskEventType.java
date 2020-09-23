@@ -33,5 +33,5 @@ public class StartSuiteTaskEventType extends EventType
 
 	public final static String TYPE_ID = "start-suite-task";
 
-	public final static String CONFIG_VAR_NAME = "config";
+	public final static String CONFIG_VAR_NAME = "_task_config";
 	}

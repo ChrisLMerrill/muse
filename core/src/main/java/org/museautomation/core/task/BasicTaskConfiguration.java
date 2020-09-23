@@ -13,32 +13,34 @@ import java.util.*;
  */
 public class BasicTaskConfiguration implements TaskConfiguration
     {
-    public BasicTaskConfiguration(String test_id)
+    public BasicTaskConfiguration(String task_id)
         {
-        _test_id = test_id;
+        _task_id = task_id;
         }
 
-    public BasicTaskConfiguration(MuseTask test)
+    public BasicTaskConfiguration(MuseTask task)
 	    {
-	    _test = test;
+	    _task = task;
 	    }
 
     public MuseTask task()
         {
-        if (_test == null && _parent_context != null)
+        if (_task == null && _parent_context != null)
 	        {
-	        _test = _parent_context.getProject().getResourceStorage().getResource(_test_id, MuseTask.class);
-	        if (_test == null)  // not found in project
-	        	_test = new MissingTask(_test_id);
+	        _task = _parent_context.getProject().getResourceStorage().getResource(_task_id, MuseTask.class);
+	        if (_task == null)  // not found in project
+	        	_task = new MissingTask(_task_id);
 	        }
-        return _test;
+        return _task;
         }
 
     public String name()
         {
         if (_name != null)
             return _name;
-        return task().getDescription();
+        if (_task_id != null)
+            return _task_id;
+        return task().getId();
         }
 
     @Override
@@ -83,16 +85,16 @@ public class BasicTaskConfiguration implements TaskConfiguration
     @Override
     public String toString()
         {
-        return _name;
+        return getName();
         }
 
     // these are configurations that would be persisted
-    private String _test_id;
+    private String _task_id;
     private String _name;
     private List<MusePlugin> _plugins;
 
     // these are set/cached for use at test execution time
     private transient MuseExecutionContext _parent_context;
-    private MuseTask _test;
+    private MuseTask _task;
     private TaskExecutionContext _context;
     }

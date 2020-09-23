@@ -36,7 +36,7 @@ public class DefaultTaskExecutionContext extends BaseExecutionContext implements
 			if (suite_context != null)
 				_task_id = suite_context.getTaskExecutionId(this);
 			else
-				_task_id = Long.toString(System.currentTimeMillis());
+				_task_id = getTask().getId() + "-" + System.currentTimeMillis();
 			}
 		return _task_id;
 		}
