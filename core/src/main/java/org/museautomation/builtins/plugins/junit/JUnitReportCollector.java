@@ -20,7 +20,6 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
 	JUnitReportCollector(JUnitReportCollectorConfiguration configuration)
 		{
 		super(configuration);
-        _config = configuration;
 		}
 
 	@Override
@@ -43,7 +42,6 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
             {
             context.addEventListener(new EventListener((TaskSuiteExecutionContext)context));
             _data.setSuiteName(((TaskSuiteExecutionContext) context).getSuite().getId());
-            _data.setOutputAttachmentLines(_config.isOutputAttachmentLines(context));
             }
         }
 
@@ -89,7 +87,6 @@ public class JUnitReportCollector extends GenericConfigurablePlugin implements D
 		private final TaskSuiteExecutionContext _context;
 		}
 
-    private final JUnitReportCollectorConfiguration _config;
 	private final JUnitReportData _data = new JUnitReportData();
 
     private final static Logger LOG = LoggerFactory.getLogger(JUnitReportCollector.class);

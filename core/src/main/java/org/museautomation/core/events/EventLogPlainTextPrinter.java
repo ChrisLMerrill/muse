@@ -1,6 +1,5 @@
 package org.museautomation.core.events;
 
-import org.museautomation.builtins.plugins.resultstorage.*;
 import org.museautomation.core.*;
 import org.museautomation.core.util.*;
 
@@ -18,11 +17,6 @@ public class EventLogPlainTextPrinter implements EventLogPrinter
 	    _out = out;
 	    _indent_stack.push(" ");
 	    }
-
-    public void setOutputAttachmentLines(boolean output_attachment_lines)
-        {
-        _output_attachment_lines = output_attachment_lines;
-        }
 
     public void print(MuseEvent event)
         {
@@ -43,12 +37,6 @@ public class EventLogPlainTextPrinter implements EventLogPrinter
         if (description == null)
 	        description = type.getName();
         _out.println(description);
-
-        if (_output_attachment_lines && SavedToLocalStorageEventType.TYPE_ID.equals(event.getTypeId()))
-            {
-            String message = String.format("[[ATTACHMENT|%s]]", SavedToLocalStorageEventType.getStoragePath(event));
-            _out.println(message);
-            }
 
         if (event.getTypeId().equals(StartStepEventType.TYPE_ID))
             _indent_stack.push(_indent_stack.peek() + "  ");
@@ -74,5 +62,4 @@ public class EventLogPlainTextPrinter implements EventLogPrinter
     private final Stack<String> _indent_stack = new Stack<>();
     private final EventTypes _types = EventTypes.DEFAULT;
     private long _first_event_timestamp = 0;
-    private boolean _output_attachment_lines = false;
     }
