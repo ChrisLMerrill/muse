@@ -24,9 +24,9 @@ public class SimpleTaskSuite extends BaseMuseResource implements MuseTaskSuite
 	    return _tasks.size();
 	    }
 
-    public void add(MuseTask test)
+    public void add(MuseTask task)
         {
-        _tasks.add(new BasicTaskConfiguration(test.getId()));
+        _tasks.add(new BasicTaskConfiguration(task.getId()));
         }
 
     @Override
@@ -35,5 +35,5 @@ public class SimpleTaskSuite extends BaseMuseResource implements MuseTaskSuite
         return new TaskSuiteResourceType();
         }
 
-    private List<TaskConfiguration> _tasks = new ArrayList<>();
+    private final List<TaskConfiguration> _tasks = new ArrayList<>();
     }
