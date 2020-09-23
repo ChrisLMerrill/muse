@@ -20,6 +20,7 @@ public interface TaskConfiguration
     void addPlugin(MusePlugin plugin);
 
     MuseTask task();
+    void setName(String name);
     String name();
     TaskExecutionContext context();
     List<MusePlugin> plugins();

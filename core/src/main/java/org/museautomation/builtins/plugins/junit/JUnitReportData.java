@@ -50,8 +50,8 @@ public class JUnitReportData implements TaskResultData
 
 		for (TaskResult result : _results)
 			{
-			String suite_name = _suite_name;
-			String test_name = result.getName();
+			String class_name = computeClassName(_suite_name, result.getName());
+			String test_name = computeTestName(result.getName());
 			String failure_type = null;
 			String failure_message = null;
 
@@ -71,7 +71,7 @@ public class JUnitReportData implements TaskResultData
 				}
 
 			// write the output
-			writer.println(String.format("    <testcase classname=\"%s\" name=\"%s\">", HtmlEscapers.htmlEscaper().escape(suite_name), HtmlEscapers.htmlEscaper().escape(test_name)));
+			writer.println(String.format("    <testcase classname=\"%s\" name=\"%s\">", HtmlEscapers.htmlEscaper().escape(class_name), HtmlEscapers.htmlEscaper().escape(test_name)));
 			if (failure_type != null)
 				writer.println(String.format("        <%s message=\"%s\"/>", failure_type, HtmlEscapers.htmlEscaper().escape(failure_message)));
 
@@ -101,7 +101,25 @@ public class JUnitReportData implements TaskResultData
 		writer.flush();
 		}
 
-	@Override
+    private String computeClassName(String suite_name, String test_name)
+        {
+        if (test_name.contains("/"))
+            {
+            String suite = test_name.substring(0, test_name.lastIndexOf("/"));
+            return suite.replaceAll("/", ".");
+            }
+        else
+            return suite_name;
+        }
+
+    private String computeTestName(String test_name)
+        {
+        if (test_name.contains("/"))
+            return test_name.substring(test_name.lastIndexOf("/") + 1);
+        else return test_name;
+        }
+
+    @Override
 	public Object read(@Nonnull InputStream instream) throws IOException
 		{
 		throw new IOException("JUnitReportData cannot be de-serialized. The format is intended only for consumers of JUnit Report data and is write-only in Muse.");

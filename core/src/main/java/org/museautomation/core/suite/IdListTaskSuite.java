@@ -19,34 +19,35 @@ public class IdListTaskSuite extends BaseMuseResource implements MuseTaskSuite
     @Override
     public Iterator<TaskConfiguration> getTasks(MuseProject project)
 	    {
-	    List<TaskConfiguration> direct_tasks = new ArrayList<>(_task_ids.size());
-	    List<Iterator<TaskConfiguration>> suite_iterators = new ArrayList<>();
+        List<TaskConfiguration> all = new ArrayList<>();
 	    for (String id : _task_ids)
 		    {
 		    MuseResource resource = project.getResourceStorage().getResource(id);
 		    if (resource instanceof MuseTask)
-			    direct_tasks.add(new BasicTaskConfiguration(id));
+			    all.add(new BasicTaskConfiguration(id));
 		    else if (resource instanceof MuseTaskSuite)
-			    suite_iterators.add(((MuseTaskSuite) resource).getTasks(project));
+                {
+                MuseTaskSuite suite = (MuseTaskSuite) resource;
+                Iterator<TaskConfiguration> iterator = suite.getTasks(project);
+                while (iterator.hasNext())
+                   all.add(iterator.next());
+                }
 		    else
 			    {
 			    LOG.error("Task with id {} was not found in the project", id);
-			    direct_tasks.add(new BasicTaskConfiguration(id));
+			    all.add(new BasicTaskConfiguration(id));
 			    }
 		    }
 
-	    CompoundTaskConfigurationIterator all = new CompoundTaskConfigurationIterator();
-	    all.add(direct_tasks.iterator());
-	    for (Iterator<TaskConfiguration> iterator : suite_iterators)
-	    	all.add(iterator);
-
-	    return all;
+        for (TaskConfiguration config : all)
+            config.setName(getId() + "/" + config.name());
+        return all.iterator();
 	    }
 
     @Override
     public Integer getTotalTaskCount(MuseProject project)
 	    {
-	    Integer total = 0;
+	    int total = 0;
 	    boolean possibly_infinite = false;
 
 	    for (String id : _task_ids)
@@ -99,10 +100,10 @@ public class IdListTaskSuite extends BaseMuseResource implements MuseTaskSuite
     @SuppressWarnings({"unused", "UnusedReturnValue"})  // public API
     public boolean addTaskId(String id)
         {
-        boolean added = _task_ids.add(id);
+        _task_ids.add(id);
         for (ChangeListener listener : _listeners)
             listener.taskIdAdded(id);
-        return added;
+        return true;
         }
 
     @SuppressWarnings("unused")  // public API
@@ -148,7 +149,7 @@ public class IdListTaskSuite extends BaseMuseResource implements MuseTaskSuite
 
     private List<String> _task_ids = new ArrayList<>();
 
-    private transient Set<ChangeListener> _listeners = new HashSet<>();
+    private final transient Set<ChangeListener> _listeners = new HashSet<>();
 
     public final static String TYPE_ID = IdListTaskSuite.class.getAnnotation(MuseTypeId.class).value();
 

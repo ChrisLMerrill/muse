@@ -101,6 +101,7 @@ public class SimpleTaskRunner implements TaskRunner
 		    {
 		    _task = task;
 		    _context = context;
+		    _name = task.getId();
 		    }
 
 	    @Override
@@ -118,8 +119,13 @@ public class SimpleTaskRunner implements TaskRunner
 	    @Override
 	    public String name()
 		    {
-		    return _task.getId();
+		    return _name;
 		    }
+
+        public void setName(String name)
+            {
+            _name = name;
+            }
 
 	    @Override
 	    public TaskExecutionContext context()
@@ -138,8 +144,9 @@ public class SimpleTaskRunner implements TaskRunner
 		    return Collections.emptyList();
 		    }
 
-	    MuseTask _task;
-	    TaskExecutionContext _context;
+	    final MuseTask _task;
+	    final TaskExecutionContext _context;
+        String _name;
 	    }
 
     private final static Logger LOG = LoggerFactory.getLogger(SimpleTaskRunner.class);

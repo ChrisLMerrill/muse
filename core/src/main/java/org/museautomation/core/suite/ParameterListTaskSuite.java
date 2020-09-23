@@ -49,7 +49,7 @@ public class ParameterListTaskSuite extends BaseMuseResource implements MuseTask
 		    {
 		    BasicTaskConfiguration config = new BasicTaskConfiguration(_taskid);
 		    config.addPlugin(new VariableMapInitializer(param_set));
-		    config.setName(String.format("%s-%d", task.getDescription(), repeat));
+		    config.setName(String.format("%s/%s-%d", getId(), task.getDescription(), repeat));
 		    tasks.add(config);
 		    repeat++;
 		    }
