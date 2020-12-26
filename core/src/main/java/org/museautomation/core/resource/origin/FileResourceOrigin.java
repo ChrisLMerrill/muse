@@ -26,7 +26,7 @@ public class FileResourceOrigin implements ResourceOrigin
         {
         String name = _file.getName();
         if (name.contains("."))
-            name = name.substring(0, name.indexOf("."));
+            name = name.substring(0, name.lastIndexOf("."));
         return name;
         }
 

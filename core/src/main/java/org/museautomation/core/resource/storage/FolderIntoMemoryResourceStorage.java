@@ -1,6 +1,5 @@
 package org.museautomation.core.resource.storage;
 
-import org.jetbrains.annotations.*;
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.origin.*;
@@ -251,7 +250,6 @@ public class FolderIntoMemoryResourceStorage extends InMemoryResourceStorage imp
             }
         }
 
-    @Nullable
     private String saveResourceInternal(MuseResource resource)
         {
         ResourceSerializer serializer = null;
