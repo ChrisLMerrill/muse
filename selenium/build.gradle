@@ -17,6 +17,7 @@ dependencies
     // package access. So until selenium is separated from muse-core and loaded as a project extension, this needs to
     // be included for the okhttp-urlconnection lib to be usable. It is a hack, but a small one (33k).
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.10.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
 
     testCompile project(':muse-core').sourceSets.test.output
     }
