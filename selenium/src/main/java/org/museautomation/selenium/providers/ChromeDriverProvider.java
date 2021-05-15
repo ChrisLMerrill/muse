@@ -1,5 +1,6 @@
 package org.museautomation.selenium.providers;
 
+import org.museautomation.builtins.network.*;
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.util.*;
@@ -60,11 +61,44 @@ public class ChromeDriverProvider extends BaseLocalDriverProvider
                 desired.setVersion(capabilities.getVersion());
             if (capabilities.getPlatform() != null && capabilities.getPlatform().length() > 0)
                 desired.setPlatform(Platform.fromString(capabilities.getPlatform()));
+            Proxy proxy = createProxy(context);
+            if (proxy != null)
+                desired.setCapability("proxy", proxy);
             options.merge(desired);
 
             System.setProperty("webdriver.chrome.driver", path.getAbsolutePath());
             return new ChromeDriver(options);
             }
+        }
+
+    private Proxy createProxy(MuseExecutionContext context)
+        {
+        NetworkProxyConfiguration config = getProxyConfigFromPlugin(context);
+        if (config == null)
+            return null;
+
+        context.raiseEvent(MessageEventType.create("Use proxy: " + config));
+
+        Proxy proxy = new Proxy();
+        switch (config.getProxyType())
+            {
+            case None:
+                proxy.setProxyType(Proxy.ProxyType.DIRECT);
+                break;
+            case System:
+                proxy.setProxyType(Proxy.ProxyType.SYSTEM);
+                break;
+            case Fixed:
+                proxy.setProxyType(Proxy.ProxyType.MANUAL);
+                proxy.setHttpProxy(String.format("%s:%d", config.getHostname(), config.getPort()));
+                proxy.setSslProxy(String.format("%s:%d", config.getHostname(), config.getPort()));
+                break;
+            case Script:
+                proxy.setProxyType(Proxy.ProxyType.PAC);
+                proxy.setProxyAutoconfigUrl(config.getPacUrl());
+                break;
+            }
+        return proxy;
         }
 
     @Override

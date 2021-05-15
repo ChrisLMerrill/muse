@@ -1,5 +1,6 @@
 package org.museautomation.selenium.providers;
 
+import org.museautomation.builtins.network.*;
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
 import org.museautomation.core.util.*;
@@ -24,6 +25,10 @@ public class GeckoDriverProvider extends BaseLocalDriverProvider
 
         if (!capabilities.getName().equals(BrowserType.FIREFOX))
             return null;
+
+        NetworkProxyConfiguration proxy_config = getProxyConfigFromPlugin(context);
+        if (proxy_config != null)
+            context.raiseEvent(MessageEventType.create("Use proxy: " + proxy_config));
 
         File path = getDriverLocation(context);
         if (path == null)
@@ -59,11 +64,42 @@ public class GeckoDriverProvider extends BaseLocalDriverProvider
             selenium_capabilities.setCapability("marionette", true);
             FirefoxOptions options = new FirefoxOptions(selenium_capabilities);
 
+            augmentOptionsWithProxyInProfile(options, proxy_config);
+
             String[] arguments = resolveArguments(context);
             if (arguments.length > 0)
             	options.addArguments(arguments);
             return new FirefoxDriver(options);
             }
+        }
+
+    private void augmentOptionsWithProxyInProfile(FirefoxOptions options, NetworkProxyConfiguration proxy_config)
+        {
+        if (proxy_config == null)
+            return;
+
+        FirefoxProfile profile = new FirefoxProfile();
+        switch (proxy_config.getProxyType())
+            {
+            case None:
+                profile.setPreference("network.proxy.type", 0);
+                break;
+            case System:
+                profile.setPreference("network.proxy.type", 5);
+                break;
+            case Fixed:
+                profile.setPreference("network.proxy.type", 1);
+                profile.setPreference("network.proxy.http", proxy_config.getHostname());
+                profile.setPreference("network.proxy.http_port", proxy_config.getPort());
+                profile.setPreference("network.proxy.ssl", proxy_config.getHostname());
+                profile.setPreference("network.proxy.ssl_port", proxy_config.getPort());
+                break;
+            case Script:
+                profile.setPreference("network.proxy.type", 2);
+                profile.setPreference("network.proxy.autoconfig_url", proxy_config.getPacUrl());
+                break;
+            }
+        options.setProfile(profile);
         }
 
     @Override

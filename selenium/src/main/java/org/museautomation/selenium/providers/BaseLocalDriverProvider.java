@@ -1,14 +1,17 @@
 package org.museautomation.selenium.providers;
 
 import com.fasterxml.jackson.annotation.*;
+import org.museautomation.builtins.network.*;
 import org.museautomation.builtins.value.collection.*;
 import org.museautomation.core.*;
 import org.museautomation.core.events.*;
+import org.museautomation.core.plugins.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.storage.*;
 import org.museautomation.core.util.*;
 import org.museautomation.core.values.*;
 import org.museautomation.selenium.*;
+import org.openqa.selenium.*;
 import org.slf4j.*;
 
 import java.io.*;
@@ -135,6 +138,41 @@ public abstract class BaseLocalDriverProvider implements WebDriverProvider
             return new String[0];
             }
         }
+
+    NetworkProxyConfiguration getProxyConfigFromPlugin(MuseExecutionContext context)
+        {
+        NetworkProxyProviderPlugin plugin = Plugins.findType(NetworkProxyProviderPlugin.class, context);
+        if (plugin == null)
+            return null;
+        return plugin.getProxy();
+        }
+
+    Proxy getProxyFromConfiguration(NetworkProxyConfiguration config)
+        {
+        Proxy proxy = new Proxy();
+
+        switch (config.getProxyType())
+            {
+            case None:
+                proxy.setProxyType(Proxy.ProxyType.DIRECT);
+                break;
+            case Fixed:
+                proxy.setProxyType(Proxy.ProxyType.MANUAL);
+                proxy.setHttpProxy(String.format("%s:%d", config.getHostname(), config.getPort()));
+                proxy.setSslProxy(String.format("%s:%d", config.getHostname(), config.getPort()));
+                break;
+            case System:
+                proxy.setProxyType(Proxy.ProxyType.SYSTEM);
+                break;
+            case Script:
+                proxy.setProxyType(Proxy.ProxyType.PAC);
+                proxy.setProxyAutoconfigUrl(config.getPacUrl());
+                break;
+            }
+
+        return proxy;
+        }
+
 
     File getDriverLocation(MuseExecutionContext context)
 		{

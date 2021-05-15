@@ -1,10 +1,8 @@
-package org.museautomation.selenium;
+package org.museautomation.builtins.network;
 
-import com.fasterxml.jackson.annotation.*;
 import org.museautomation.core.*;
 import org.museautomation.core.resource.*;
 import org.museautomation.core.resource.types.*;
-import org.openqa.selenium.*;
 
 import java.util.*;
 
@@ -12,9 +10,9 @@ import java.util.*;
  * @author Christopher L Merrill (see LICENSE.txt for license details)
  */
 @MuseTypeId("proxy-config")
-public class ProxyConfiguration extends BaseMuseResource
+public class NetworkProxyConfiguration extends BaseMuseResource
     {
-    public ProxyConfiguration()
+    public NetworkProxyConfiguration()
         {
         }
 
@@ -83,39 +81,12 @@ public class ProxyConfiguration extends BaseMuseResource
         _port = port;
         }
 
-    @JsonIgnore
-    public Proxy getProxy()
-        {
-        Proxy proxy = new Proxy();
-
-        switch (_type)
-            {
-            case None:
-                proxy.setProxyType(Proxy.ProxyType.DIRECT);
-                break;
-            case Fixed:
-                proxy.setProxyType(Proxy.ProxyType.MANUAL);
-                proxy.setHttpProxy(String.format("%s:%d", _hostname, _port));
-                proxy.setSslProxy(String.format("%s:%d", _hostname, _port));
-                break;
-            case System:
-                proxy.setProxyType(Proxy.ProxyType.SYSTEM);
-                break;
-            case Script:
-                proxy.setProxyType(Proxy.ProxyType.PAC);
-                proxy.setProxyAutoconfigUrl(_pac_url);
-                break;
-            }
-
-        return proxy;
-        }
-
     @Override
     public boolean equals(Object o)
         {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProxyConfiguration that = (ProxyConfiguration) o;
+        NetworkProxyConfiguration that = (NetworkProxyConfiguration) o;
         return _type == that._type && _pac_url.equals(that._pac_url) && _hostname.equals(that._hostname) && _port.equals(that._port);
         }
 
@@ -133,7 +104,19 @@ public class ProxyConfiguration extends BaseMuseResource
     @Override
     public String toString()
         {
-        return getProxy().toString();
+        String s = String.format("Proxy (%s)", _type.name());
+        switch (_type)
+            {
+            case None:
+                return "No Proxy";
+            case System:
+                return "Use System Proxy";
+            case Fixed:
+                return String.format("Proxy (%s:%d)", _hostname, _port);
+            case Script:
+                return String.format("Proxy (auto config from %s)", _pac_url);
+            }
+        return s;
         }
 
     @SuppressWarnings("unused")  // public API
@@ -156,14 +139,14 @@ public class ProxyConfiguration extends BaseMuseResource
         return new ProxyResourceType();
         }
 
-    public final static String TYPE_ID = ProxyConfiguration.class.getAnnotation(MuseTypeId.class).value();
+    public final static String TYPE_ID = NetworkProxyConfiguration.class.getAnnotation(MuseTypeId.class).value();
 
     @SuppressWarnings("WeakerAccess")  // discovered and instantiated by reflection (see class ResourceTypes)
     public static class ProxyResourceType extends ResourceType
         {
         public ProxyResourceType()
             {
-            super(TYPE_ID, "Proxy Configuration", ProxyConfiguration.class);
+            super(TYPE_ID, "Proxy Configuration", NetworkProxyConfiguration.class);
             }
         }
 
