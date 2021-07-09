@@ -24,7 +24,7 @@ public class StringContainsSource extends BaseValueSource
     public StringContainsSource(ValueSourceConfiguration config, MuseProject project) throws MuseInstantiationException
         {
         super(config, project);
-        _list = getValueSource(config, STRING_PARAM, true, project);
+        _string = getValueSource(config, STRING_PARAM, true, project);
         _target = getValueSource(config, TARGET_PARAM, true, project);
         }
 
@@ -32,13 +32,15 @@ public class StringContainsSource extends BaseValueSource
     public Boolean resolveValue(MuseExecutionContext context) throws ValueSourceResolutionError
         {
         String target = getValue(_target, context, false, String.class);
-        String string = getValue(_list, context, false, String.class);
-        boolean contains = string.contains(target);
+        String string = getValue(_string, context, true, String.class);
+        boolean contains = false;
+        if (string != null)
+            contains = string.contains(target);
         context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), contains));
         return contains;
         }
 
-    private MuseValueSource _list;
+    private MuseValueSource _string;
     private MuseValueSource _target;
 
     public final static String STRING_PARAM = "string";
