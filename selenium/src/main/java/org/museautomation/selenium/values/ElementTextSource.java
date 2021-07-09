@@ -44,7 +44,7 @@ public class ElementTextSource extends BaseElementValueSource
             context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), text));
             return text;
             }
-        catch (ValueSourceResolutionError e)
+        catch (Exception e)
             {
             if (null_on_failure)
                 return null;
