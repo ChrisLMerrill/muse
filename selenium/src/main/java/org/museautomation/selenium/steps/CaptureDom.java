@@ -23,7 +23,7 @@ import java.util.*;
 @MuseStepTypeGroup("Selenium.Other")
 @MuseStepShortDescription("Capture the DOM")
 @MuseStepLongDescription("Resolves the 'element' source to a WebElement and then captures the DOM below that element, to be saved to local storage.")
-@MuseSubsourceDescriptor(displayName = "Element", description = "The element to click", type = SubsourceDescriptor.Type.Named, name = CaptureDom.ELEMENT_PARAM)
+@MuseSubsourceDescriptor(displayName = "Element", description = "The element to capture", type = SubsourceDescriptor.Type.Named, name = CaptureDom.ELEMENT_PARAM)
 public class CaptureDom extends BrowserStep
     {
     @SuppressWarnings("unused") // called via reflection
