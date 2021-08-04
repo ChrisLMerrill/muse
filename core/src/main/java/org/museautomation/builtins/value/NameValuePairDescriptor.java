@@ -26,7 +26,7 @@ public class NameValuePairDescriptor extends AnnotatedValueSourceDescriptor
         String value_description = null;
         if (value_source != null)
             value_description = descriptors.get(value_source).getInstanceDescription(value_source, context);
-        return String.format("(%s,%s)", name_description, value_description);
+        return String.format("nvPair(%s,%s)", name_description, value_description);
         }
     }
 

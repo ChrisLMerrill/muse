@@ -15,6 +15,7 @@ import org.museautomation.core.values.descriptor.*;
 @MuseValueSourceShortDescription("Creates a name/value pair.")
 @MuseValueSourceLongDescription("Assembles a Pair from the name and value subsources")
 @MuseSourceDescriptorImplementation(NameValuePairDescriptor.class)
+@MuseStringExpressionSupportImplementation(NameValuePairSource.StringExpressionSupport.class)
 @MuseSubsourceDescriptor(displayName = "Name", name = NameValuePairSource.NAME_PARAM, description = "The name of the pair", type = SubsourceDescriptor.Type.Named)
 @MuseSubsourceDescriptor(displayName = "Value", name = NameValuePairSource.VALUE_PARAM, description = "The value of the pair", type = SubsourceDescriptor.Type.Named)
 public class NameValuePairSource extends BaseValueSource
@@ -35,15 +36,49 @@ public class NameValuePairSource extends BaseValueSource
         Object value = getValue(_value, context, true);
         NameValuePair pair = new NameValuePair(name.toString(), value);
 
-        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), String.format("(%s,%s)", name.toString(), value.toString())));
+        context.raiseEvent(ValueSourceResolvedEventType.create(getDescription(), String.format("(%s,%s)", name, value)));
         return pair;
         }
 
-    private MuseValueSource _name;
-    private MuseValueSource _value;
+    private final MuseValueSource _name;
+    private final MuseValueSource _value;
 
     public final static String NAME_PARAM = "name";
     public final static String VALUE_PARAM = "value";
 
     public final static String TYPE_ID = NameValuePairSource.class.getAnnotation(MuseTypeId.class).value();
+
+    public static class StringExpressionSupport extends BaseArgumentedValueSourceStringSupport
+        {
+        @Override
+        public String getName()
+            {
+            return "nvPair";
+            }
+
+        @Override
+        protected boolean storeArgumentsNamed()
+            {
+            return true;
+            }
+
+        @Override
+        protected String[] getArgumentNames()
+            {
+            return new String[] {NAME_PARAM,VALUE_PARAM};
+            }
+
+        @Override
+        protected int getNumberArguments()
+            {
+            return 2;
+            }
+
+        @Override
+        protected String getTypeId()
+            {
+            return NameValuePairSource.TYPE_ID;
+            }
+        }
+
     }
